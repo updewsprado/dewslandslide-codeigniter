@@ -10,7 +10,7 @@
                     </div>
                 </div>
                 <!-- /.row -->
-                
+
                 <!-- New Features!!! -->
                 <div class="row">
                     <div class="col-lg-12">
@@ -24,10 +24,10 @@
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                             <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> All nodes from Alert Map are now clickable!
                         </div>
-                    </div>                        
+                    </div>
                 </div>
-                <!-- /.row -->                                             
-                
+                <!-- /.row -->
+
                 <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
@@ -37,7 +37,7 @@
                         </ol>
                     </div>
                 </div>
-                <!-- /.row -->  
+                <!-- /.row -->
 
                 <div class="row">
                      <div class="col-lg-12">
@@ -49,9 +49,9 @@
                                 <div id="mini-alert-canvas" ></div>
                             </div>
                         </div>
-                    </div>                                       
+                    </div>
                 </div>
-                <!-- /.row -->   
+                <!-- /.row -->
 
                 <div class="row">
                     <div class="col-lg-12">
@@ -63,9 +63,9 @@
                                 <div id="lsb-change-canvas" ></div>
                             </div>
                         </div>
-                    </div>                                   
+                    </div>
                 </div>
-                <!-- /.row -->                             
+                <!-- /.row -->
 
                 <!-- Heading for Date Dependent Charts -->
                 <div class="row">
@@ -86,13 +86,13 @@
 								<div id="accel-1-canvas">
 									<div id="accel-1-timestamp"><b>Timestamp: </b></div>
 									<div id="accel-1"></div>
-								</div>                               	
+								</div>
                             </div>
                         </div>
-                    </div>                                     
-                </div>	
-                <!-- /.row -->	   
-                
+                    </div>
+                </div>
+                <!-- /.row -->
+
                 <div class="row">
                      <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -103,13 +103,13 @@
 								<div id="accel-2-canvas">
 									<div id="accel-2-timestamp"><b>Timestamp: </b></div>
 									<div id="accel-2"></div>
-								</div>                               	
+								</div>
                             </div>
                         </div>
-                    </div>                                     
-                </div>	
-                <!-- /.row -->	
-                
+                    </div>
+                </div>
+                <!-- /.row -->
+
                 <div class="row">
                      <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -120,13 +120,13 @@
 								<div id="accel-3-canvas">
 									<div id="accel-3-timestamp"><b>Timestamp: </b></div>
 									<div id="accel-3"></div>
-								</div>                               	
+								</div>
                             </div>
                         </div>
-                    </div>                                     
-                </div>	
-                <!-- /.row -->	 
-                
+                    </div>
+                </div>
+                <!-- /.row -->
+
                 <div class="row">
                      <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -138,19 +138,19 @@
 									<div id="accel-4-timestamp"><b>Timestamp: </b></div>
 									<div id="accel-4">
 									</div>
-								</div>                               	
+								</div>
                             </div>
                         </div>
-                    </div>                                     
-                </div>	
-                <!-- /.row -->	
-                		
+                    </div>
+                </div>
+                <!-- /.row -->
+
             </div>
             <!-- /.container-fluid -->
 
         </div>
         <!-- /#page-wrapper -->
-        
+
 <script>
 var curSite = "<?php echo $site; ?>";
 var curNode = "<?php echo $node; ?>";
@@ -176,24 +176,24 @@ function popDropDownGeneral() {
 		else {
 			el.value = opt;
 		}
-		
+
 		select.appendChild(el);
 	}
 }
 
 function renameHeader() {
 	document.getElementById("node").value = curNode;
-	
+
 	var element = document.getElementById("header-site");
 	var targetForm = document.getElementById("formGeneral");
-	element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " Node " + targetForm.node.value + ": Overview";	
+	element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " Node " + targetForm.node.value + ": Overview";
 }
 
 function initNode() {
 	if (curSite != "") {
 		$('#sitegeneral').val(curSite);
 		renameHeader();
-		
+
 		var targetForm = document.getElementById("formGeneral");
 		showNodePlots(targetForm);
 	}
@@ -202,16 +202,16 @@ function initNode() {
 window.onload = function() {
 	nodeAlertJSON = <?php echo $nodeAlerts; ?>;
 	nodeStatusJSON = <?php echo $nodeStatus; ?>;
-	maxNodesJSON = <?php echo $siteMaxNodes; ?>;		
-	
+	maxNodesJSON = <?php echo $siteMaxNodes; ?>;
+
 	//positionPlot.init_dims();
 	popDropDownGeneral();
-	
+
 	setTimeout(function(){
 		initNode();
 		initAlertPlot();
-	}, 1500); 
-}	
+	}, 1500);
+}
 
 window.onresize = function() {
 	curNode = document.getElementById("node").value;
@@ -225,7 +225,7 @@ window.onresize = function() {
 	svg.selectAll(".legend").remove();
 	svg.selectAll(".tick").remove();
 	svg.selectAll(".axislabel").remove();
-		
+
 	initAlertPlot();
 	showAccel();
 }
@@ -243,7 +243,7 @@ function redirectNodePlots (frm) {
 		toDate = document.getElementById("formDate").dateinput2.value;
 		var urlExt = "gold/node/" + curSite + "/" + curNode;
 		var urlBase = "<?php echo base_url(); ?>";
-		
+
 		window.location.href = urlBase + urlExt;
 		testVar = "activate"
 	}
@@ -255,8 +255,8 @@ function showNodePlots (frm) {
 	}
 	else {
 		var tempFrom = new Date(document.getElementById("formDate").dateinput.value);
-		var tempTo = new Date(document.getElementById("formDate").dateinput2.value);		
-		
+		var tempTo = new Date(document.getElementById("formDate").dateinput2.value);
+
 		curNode = document.getElementById("node").value;
 		fromDate = tempFrom.getFullYear() + "-" + (tempFrom.getMonth() + 1) + "-" + tempFrom.getDate();
 		toDate = tempTo.getFullYear() + "-" + (tempTo.getMonth() + 1) + "-" + tempTo.getDate();
@@ -272,13 +272,13 @@ function showAccelRelatedPlots (frm) {
 	}
 	else {
 		var tempFrom = new Date(document.getElementById("formDate").dateinput.value);
-		var tempTo = new Date(document.getElementById("formDate").dateinput2.value);		
-		
+		var tempTo = new Date(document.getElementById("formDate").dateinput2.value);
+
 		curNode = document.getElementById("node").value;
 		fromDate = tempFrom.getFullYear() + "-" + (tempFrom.getMonth() + 1) + "-" + tempFrom.getDate();
 		toDate = tempTo.getFullYear() + "-" + (tempTo.getMonth() + 1) + "-" + tempTo.getDate();
 		renameHeader();
-		
+
 		showLSBChange(frm);
 		showAccel();
 	}
@@ -291,7 +291,7 @@ function showDateNodePlots (frm) {
 	else {
 		var tempFrom = new Date(document.getElementById("formDate").dateinput.value);
 		var tempTo = new Date(document.getElementById("formDate").dateinput2.value);
-		
+
 		curNode = document.getElementById("node").value;
 		fromDate = tempFrom.getFullYear() + "-" + (tempFrom.getMonth() + 1) + "-" + tempFrom.getDate();
 		toDate = tempTo.getFullYear() + "-" + (tempTo.getMonth() + 1) + "-" + tempTo.getDate();

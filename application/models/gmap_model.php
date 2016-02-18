@@ -29,33 +29,33 @@ class Gmap_Model extends CI_Model
 	public function csvToArray($file, $delimiter)
 	{
 		$arr = array();
-		 
+
 		if (($handle = fopen($file, 'r')) !== FALSE) {
-			$i = 0; 
+			$i = 0;
 			while (($lineArray = fgetcsv($handle, 4000, $delimiter, '"')) !== FALSE) {
 				for ($j = 0; $j < count($lineArray); $j++) {
-					$arr[$i][$j] = $lineArray[$j]; 
-				} 
-				$i++; 
-			} 
-			fclose($handle); 
+					$arr[$i][$j] = $lineArray[$j];
+				}
+				$i++;
+			}
+			fclose($handle);
 		}
-		
-		return $arr; 
+
+		return $arr;
 	}
-	
+
 	public function getSitesCoord()
 	{
 		$query = $this->db->query("SELECT * FROM site_column WHERE s_id < 100");
-		
+
 		$dbreturn = array();
 		$ctr = 0;
-		
+
 		foreach ($query->result_array() as $row)
-		{		    
+		{
 			$dbreturn[$ctr]['name'] = $row['name'];
 			$dbreturn[$ctr]['lat'] = $row['lat'];
-			$dbreturn[$ctr]['long'] = $row['lon'];
+			$dbreturn[$ctr]['lon'] = $row['lon'];
 
 			if ($row['sitio']) {
 				$dbreturn[$ctr]['place_installed'] = $row['sitio'].", ".$row['barangay'].', '.$row['municipality'].', '.$row['province'];
@@ -63,10 +63,10 @@ class Gmap_Model extends CI_Model
 			else {
 				$dbreturn[$ctr]['place_installed'] = $row['barangay'].', '.$row['municipality'].', '.$row['province'];
 			}
-			
+
 			$ctr = $ctr + 1;
 		}
-		
+
 		return json_encode($dbreturn);
 		//echo json_encode($dbreturn);
 	}

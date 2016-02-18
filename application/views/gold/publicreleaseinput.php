@@ -132,7 +132,7 @@ if (base_url() == "http://localhost/") {
                     <label for="entryTimestamp">Timestamp</label>
                     <div class='input-group date' id='datetimepickerTimestamp'>
                         <input type='text' class="form-control" id="entryTimestamp" name="entryTimestamp" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" />
-                        <span class="input-group-addon">
+                            <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>        
@@ -320,12 +320,15 @@ if (base_url() == "http://localhost/") {
   window.onload = function() {
   	$('#formGeneral').hide();
   	$('#formDate').hide();
+    $('#button_right').hide();
   }	
 
   $(function () {
       $('#datetimepickerTimestamp').datetimepicker({
           format: 'YYYY-MM-DD HH:mm:ss',
-          sideBySide: true
+          sideBySide: true,
+
+
       });
 
       $('#datetimepickerRelease').datetimepicker({
@@ -459,6 +462,8 @@ if (base_url() == "http://localhost/") {
       }     
     });
   }
+
+
 </script>
 
 <script src='http://codepen.io/assets/editor/live/css_live_reload_init.js'></script>

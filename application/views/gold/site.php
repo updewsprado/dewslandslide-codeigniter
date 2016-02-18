@@ -271,15 +271,33 @@ var end_date = new Date();
 var start_date = new Date(end_date.getFullYear(), end_date.getMonth(), end_date.getDate()-10);
 
 $(function() {
-	$( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
-	$( "#datepicker" ).datepicker("setDate", start_date); 
-});
+	$( "#datepicker" ).datepicker({
+    dateFormat: "yy-mm-dd" ,
+	// 
+    defaultDate: "+1w",
+    changeMonth: true,
+    numberOfMonths: 3,
+    onClose: function( selectedDate ) {
+     $( "#datepicker2" ).datepicker( "option", "minDate", selectedDate );
+     $( "#datepicker" ).datepicker("setDate", start_date); 
+      }
+    });
 
-$(function() {
-	$( "#datepicker2" ).datepicker({ dateFormat: "yy-mm-dd" });
-	$( "#datepicker2" ).datepicker("setDate", end_date);
+// $(function() {
+	$( "#datepicker2" ).datepicker({ 
+    dateFormat: "yy-mm-dd" ,
+	// 
+    defaultDate: "+1w",
+    changeMonth: true,
+    numberOfMonths: 3,
+     onClose: function( selectedDate ) {
+        $( "#datepicker" ).datepicker( "option", "maxDate", selectedDate );
+         $( "#datepicker2" ).datepicker("setDate", end_date);
+      }
+    });
 });
-	
+	//
+ //    
 var curSite = "<?php echo $site; ?>";
 var fromDate = "" , toDate = "" , dataBase = "";
 
@@ -326,6 +344,7 @@ window.onload = function() {
 	nodeStatusJSON = <?php echo $nodeStatus; ?>;
 	maxNodesJSON = <?php echo $siteMaxNodes; ?>;
 	
+    $('#nodeGeneralname').hide();
 	$('#nodeGeneral').hide();
 	positionPlot.init_dims();
 	//initAnalysisDyna();
@@ -407,5 +426,15 @@ function showDateSitePlots (frm) {
 var slider_x, slider_y, sentnode_x, sentnode_y, sentnode_focus, sentnode_xAxis, sentnode_focusGraph, rainfall_x1, 
 	rainfall_y1, rainfall_x2, rainfall_y2, rainfall_svg1, rainfall_svg2, rainfall_area1, rainfall_area2, 
 	rainfall_xAxis1, rainfall_xAxis2;
+
+// auto expanding cols
+$(document).ready(function() {
+        
+            $('#siteG').addClass('form-group col-xs-6').removeClass(' form-group col-xs-3');
+            $('#dBase').addClass('form-group col-xs-4').removeClass('form-group col-xs-3');
+            // $('<FORM id="formDate">').ad('</br>');
+
+      
+    });
 
 </script>

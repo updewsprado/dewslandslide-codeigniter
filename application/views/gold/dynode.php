@@ -67,31 +67,27 @@
                     <div class="col-lg-12">
                         <div class="alert alert-info alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong>Bug Fixed!</strong> "No Chart Display for some 
-                            	new site columns" occurred from sudden change in msgid values. (Update: Jan 25, 2015)
+                            <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> Battery Level Plots for version 2+ sensors are available (Update: Dec 17, 2015)
                         </div>
                     </div>  
                     <div class="col-lg-12">
                         <div class="alert alert-info alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> Battery Level Plots for 
-                            	version 2+ sensors are available (Update: Dec 17, 2015)
-                        </div>
-                    </div>  
-                    <div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> You can now view 
-                            	Filtered/Purged Data using the left Navigation Bar (Update: Dec 3, 2015)
+                            <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> You can now view Filtered/Purged Data using the left Navigation Bar (Update: Dec 3, 2015)
                         </div>
                     </div> 
                     <div class="col-lg-12">
                         <div class="alert alert-info alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> You can now view the 2nd 
-                            	Accelerometer Data for version 2 sensors (Update: Nov 12, 2015)
+                            <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> You can now view the 2nd Accelerometer Data for version 2 sensors (Update: Nov 12, 2015)
                         </div>
-                    </div>                                                            
+                    </div>  
+                	<div class="col-lg-12">
+                        <div class="alert alert-info alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> LSB Change Plot available for version 2 sensors (Update: Nov 11, 2015)
+                        </div>
+                    </div>                                                           
                 </div>
                 <!-- /.row -->                                             
                 
@@ -281,6 +277,8 @@
 	}
 
 	//getAllSites();	
+
+	setDate(fromDate, toDate);
 	
 	function popDropDownGeneral() {
 		var select = document.getElementById('sitegeneral');
@@ -321,7 +319,6 @@
 	window.onload = function() {					
 		//popDropDownGeneral();
 		getAllSites();
-		setDate(fromDate, toDate);
 		initAlertPlot();
 		
 		var targetForm = getMainForm();
@@ -331,7 +328,7 @@
 
 			if ((document.getElementById("sitegeneral").value).length == 5) {
 				//$("#moisture-panel").hide();
-				$("#moisture-panel").find("b").text("Voltage Level: V Value");
+				$("#moisture-panel").find("b").text("Battery Level: V Value");
 				resetSecondSetLoaded();
 			}
 			else {

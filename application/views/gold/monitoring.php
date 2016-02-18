@@ -113,7 +113,7 @@ window.onload = function() {
 	
 	$('#formGeneral').hide();
 	$('#formDate').hide();
-	
+	$('#button_right').hide();
 	initAlertPlot();
 	dataPresencePlot();
 }	

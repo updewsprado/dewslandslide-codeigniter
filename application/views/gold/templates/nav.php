@@ -1,17 +1,21 @@
         <!-- Navigation -->
+        
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <a  class=" btn btn-dark  btn-lg toggle" id="menu-toggle"> <i class="fa fa-bars"></i> </a>
             <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <!-- <div class="navbar-header">
+                <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="<?php echo base_url() . $version; ?>/">DEWS Landslide <?php echo $version; ?></a>
-            </div>
+                </a>
+                
+            </div> -->
             <!-- Top Menu Items -->
+
             <ul class="nav navbar-right top-nav">
+                <a class="navbar-brand navbar-brand-centered" href="<?php echo base_url() . $version; ?>/">DEWS Landslide <?php echo $version; ?></a>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
                     <ul class="dropdown-menu message-dropdown">
@@ -112,10 +116,13 @@
                 </li>
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <div id="sidebar-wrapper">
+                <!-- <ul class="sidebar-nav"> -->
+                    <a id="menu-close" href="#" class="btn btn-danger pull-right hidden-md hidden-lg toggle"><i class="fa fa-times"></i></a> 
+                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                 	<li <?php echo $monitoring; ?> >
-                        <a href="<?php echo base_url() . $version; ?>/monitoring"><i class="fa fa-fw fa-th"></i> Monitoring</a>
+                     <a href="<?php echo base_url() . $version; ?>/monitoring"><i class="fa fa-fw fa-th"></i> Monitoring</a>
                     </li>
                     <li <?php echo $dropdown_chart; ?> >
                         <a href="javascript:;" data-toggle="collapse" data-target="#dropdown_chart"><i class="fa fa-fw fa-bar-chart-o"></i> Visual Charts <i class="fa fa-fw fa-caret-down"></i></a>
@@ -144,84 +151,63 @@
                     </li>
                     
                     <li></li>
-                    
-                    <FORM id="formGeneral">
-                    <li>
-	                    <div class="form-group">
-	                        <label>Site:</label>
-	                        <select class="form-control" name="sitegeneral" id="sitegeneral" onchange="<?php //echo $showplots; ?>">
-	                        </select>
-	                    </div>
-                    </li>
-                    
-                    <li>
-	                    <div id="nodeGeneral" class="form-group">
-	                        <label>Node:</label>
-	                        <input class="form-control" name="node" id="node" onchange="<?php //echo $showplots; ?>" type="number" min="1" max="41" value="" maxlength="2" size="2">
-	                    </div>
-                    </li>
-                    
-                    <li>
-                        <div class="form-group">
-                            <label>Filter:</label>
-	                        <select class="form-control" name="dbase" id="dbase">
-		                        <option value="raw">Raw</option>
-								<option value="filtered">Filtered</option>
-	                        </select>
-                        </div>						
-                    </li>
-                                   
-                    </FORM>  
-                    
-                    <FORM id="formDate">
-                        <li>	
-                        	<div class="form-group">
-                                <label>Date:</label><br />                              
-    		                    Start: <input type="text" id="datepicker" name="dateinput" onchange="<?php //echo $showdateplots; ?>" size="10"/><br />  
-    		                    End: <input type="text" id="datepicker2" name="dateinput2" onchange="<?php //echo $showdateplots; ?>" size="10"/>
-    	                    </div>	
-                        </li>
-                        
-    					<li>
-    						<input type="button" value="go" onclick="<?php echo $showplots; ?>">	
-    					</li>   
-                    </FORM>
-                    
-<!--                    
-                    <li <?php echo $home; ?> >
-                        <a href="<?php echo base_url(); ?>dashboard"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
-                    </li>                                 
-                    <li <?php echo $charts; ?> >
-                        <a href="<?php echo base_url(); ?>charts"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
-                    </li>
-                    <li <?php echo $tables?> >
-                        <a href="<?php echo base_url(); ?>tables"><i class="fa fa-fw fa-table"></i> Tables</a>
-                    </li>
-                    <li <?php echo $forms; ?> >
-                        <a href="<?php echo base_url(); ?>forms"><i class="fa fa-fw fa-edit"></i> Forms</a>
-                    </li>
-                    <li <?php echo $bselements; ?> >
-                        <a href="<?php echo base_url(); ?>bselements"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                    </li>
-                    <li <?php echo $bsgrid; ?> >
-                        <a href="<?php echo base_url(); ?>bsgrid"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-                    </li>
-                    <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="demo" class="collapse">
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li <?php echo $blank; ?> >
-                        <a href="<?php echo base_url(); ?>blank"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li>
--->                  
-                </ul>
-            </div>
+            </nav>
+            <nav>
+                    <div id="slide_right" class="slide_right_close srl_menu">
+                        <button id="button_right" class="button sbutton " data-toggle="tooltip" title="Variable Analysis"> 
+                            <span class="glyphicon glyphicon-menu-left" data-target="#collapseDiv"></span>
+
+                            <!-- <img id="bsright" src="img/menu_icon.png"/> -->
+                        </button>
+                        <ul class="list_menu">
+                            <FORM id="formGeneral">
+                               <center> <h4>Variable Analysis</h4></center><br>
+                              
+        	                    <div class="form-group  col-xs-1">
+        	                        <label>Site:</label>
+                                </div>
+                                <div class="form-group    col-xs-3 " id="siteG">
+        	                        <select class="form-control" name="sitegeneral" id="sitegeneral" onchange="<?php //echo $showplots; ?>">
+        	                        </select>
+                                </div>
+
+        	                    <div  class="form-group  col-xs-1" id="nodeGeneralname">
+                                    <label >Node:</label>
+                                </div>
+        	                    <div id="nodeGeneral" class="form-group   col-xs-3">
+        	                        <input class="form-control col-xs-4" name="node" id="node" onchange="<?php //echo $showplots; ?>" type="number" min="1" max="41" value="" maxlength="2" size="2" >
+        	                    </div>
+                                <div class="form-group  col-xs-1">
+                                    <label>Filter:</label>
+                                </div>
+                                <div class="form-group  col-xs-3 " id="dBase">
+        	                        <select class="form-control" name="dbase" id="dbase">
+        		                        <option value="raw">Raw</option>
+        								<option value="filtered">Filtered</option>
+        	                        </select><br>
+                                </div>				       
+                            </FORM>  
+                            <FORM id="formDate">
+                                       <!--  <h4>Date:</h4> -->
+                                        <div class="form-group col-xs-2" > 
+                                         
+                                            <div class="form-group col-xs-1">
+                                             <label> From: </label>
+                                             </div>
+                                         </div>   
+                                             <input type="text" id="datepicker" class="col-xs-3 " name="dateinput" onchange="" size="10"> 
+                                        <div class="form-group col-xs-1">
+                                         <label>    To:  </label>
+                                         </div>     
+            		                           <input type="text" id="datepicker2" class="col-xs-3" name="dateinput2">
+                                        <div class="form-group col-xs-1"  onchange="" size="10">
+                                         <input id="submit" type="button" value="Submit" onclick="<?php echo $showplots; ?>">  
+                                         </div>
+                                       
+
+                            </FORM>
+                          </ul>
+                     </div>             
+            
             <!-- /.navbar-collapse -->
         </nav>
