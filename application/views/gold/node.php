@@ -152,6 +152,8 @@
         <!-- /#page-wrapper -->
 
 <script>
+
+
 var curSite = "<?php echo $site; ?>";
 var curNode = "<?php echo $node; ?>";
 var fromDate = "" , toDate = "" , dataBase = "";
@@ -169,7 +171,7 @@ function popDropDownGeneral() {
 		var opt = options[i];
 		var el = document.createElement("option");
 		el.textContent = opt.toUpperCase();
-		
+
 		if(opt == "select") {
 			el.value = "none";
 		}

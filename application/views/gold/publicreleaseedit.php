@@ -28,7 +28,7 @@ if (mysqli_num_rows($result) > 0) {
 
         if ($sitio == null) {
           $address = "$barangay, $municipality, $province";
-        } 
+        }
         else {
           $address = "$sitio, $barangay, $municipality, $province";
         }
@@ -42,7 +42,7 @@ if (mysqli_num_rows($result) > 0) {
 
 mysqli_close($conn);
 
-$pubReleaseHTTP = null; 
+$pubReleaseHTTP = null;
 if (base_url() == "http://localhost/") {
     $pubReleaseHTTP = base_url() . "temp/";
 } else {
@@ -71,7 +71,7 @@ if (base_url() == "http://localhost/") {
         </div>
       </div>
       <div class="row">
-        <div class="table-responsive">          
+        <div class="table-responsive">
           <table class="table">
             <thead>
               <tr>
@@ -97,7 +97,7 @@ if (base_url() == "http://localhost/") {
       <!-- Modal for Successful Entry -->
       <div class="modal fade" id="dataUpdateStatus" role="dialog">
         <div class="modal-dialog modal-md">
-        
+
           <!-- Modal content-->
           <div class="modal-content">
             <div class="modal-header">
@@ -111,7 +111,7 @@ if (base_url() == "http://localhost/") {
               <button type="button" class="btn btn-success" data-dismiss="modal">Okay</button>
             </div>
           </div>
-          
+
         </div>
       </div>
 
@@ -119,14 +119,15 @@ if (base_url() == "http://localhost/") {
     <!-- end of container fluid -->
 
   </div>
-  <!-- /#page-wrapper -->   
+  <!-- /#page-wrapper -->
 
   <script type="text/javascript">
     window.onload = function() {
       $('#formGeneral').hide();
       $('#formDate').hide();
-    } 
-  
+      $('#button_right').hide();
+    }
+
     function emptyPublicAlertTable() {
       $('#reloadable-table-body').empty();
     }
@@ -158,7 +159,7 @@ if (base_url() == "http://localhost/") {
         case 'ND':
           rowClass = "success";
           break;
-        
+
         default:
           rowClass = "undefined";
           break;
@@ -184,7 +185,7 @@ if (base_url() == "http://localhost/") {
         }
       }
 
-      return outputArray;  
+      return outputArray;
     }
 
     //Find the index of prevValues object given the alert id
@@ -212,7 +213,7 @@ if (base_url() == "http://localhost/") {
 
       if (arrayTemp.length <= 0) {
         return "no values retrieved. will not proceed to push.";
-      } 
+      }
       else {
         prevValues.push({
                         0:arrayTemp[0],   //data timestamp
@@ -234,7 +235,7 @@ if (base_url() == "http://localhost/") {
 
       if (targetIndex < 0) {
         return "target index does not exist.";
-      } 
+      }
       else {
         return prevValues[targetIndex];
       }
@@ -246,7 +247,7 @@ if (base_url() == "http://localhost/") {
 
       if (targetIndex < 0) {
         return "target index does not exist.";
-      } 
+      }
       else {
         return prevValues.splice(targetIndex,1);
       }
@@ -258,7 +259,7 @@ if (base_url() == "http://localhost/") {
 
       if (targetIndex < 0) {
         return "target index does not exist.";
-      } 
+      }
       else {
         var targetValues = prevValues[targetIndex];
         var ctr = 0;
