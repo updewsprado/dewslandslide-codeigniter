@@ -61,6 +61,7 @@ if (base_url() == "http://localhost/") {
           <select class="form-control" id="entrySite" onchange="filteredPublicAlerts($('#entrySite').val())" >
             <option value="none">Select site...</option>
 
+
             <?php foreach($siteInfo as $singleSite): ?>
             <option value="<?php echo $singleSite['name']; ?>" >
               <?php echo $singleSite["name"] . " (" . $singleSite["address"] . ")"; ?>
@@ -91,6 +92,22 @@ if (base_url() == "http://localhost/") {
             </thead>
             <tbody id="reloadable-table-body"></tbody>
           </table>
+            <span class="spinner" id="loading">
+               <div class="sk-fading-circle">
+                  <div class="sk-circle1 sk-circle"></div>
+                  <div class="sk-circle2 sk-circle"></div>
+                  <div class="sk-circle3 sk-circle"></div>
+                  <div class="sk-circle4 sk-circle"></div>
+                  <div class="sk-circle5 sk-circle"></div>
+                  <div class="sk-circle6 sk-circle"></div>
+                  <div class="sk-circle7 sk-circle"></div>
+                  <div class="sk-circle8 sk-circle"></div>
+                  <div class="sk-circle9 sk-circle"></div>
+                  <div class="sk-circle10 sk-circle"></div>
+                  <div class="sk-circle11 sk-circle"></div>
+                  <div class="sk-circle12 sk-circle"></div>
+                </div>
+            </span>
         </div>
       </div><Br>
 
@@ -483,12 +500,21 @@ if (base_url() == "http://localhost/") {
       //create an ajax function for getting data of public alert for the chosen site
       var formData = {site: curSite};
 
+
       $.ajax({
         url: "<?php echo base_url(); ?>pubrelease/readdata",
         type: "GET",
         data : formData,
         success: function(result, textStatus, jqXHR)
         {
+          $( document ).ajaxStart(function() {
+            $( "#loading" ).show();
+         });
+
+         $( document ). ajaxComplete(function() {
+            $( "#loading" ).hide();
+         });
+         
           if (result != 0) {
             var pubAlertPerSite = $.parseJSON(result);
             test2 = pubAlertPerSite;
@@ -558,4 +584,7 @@ if (base_url() == "http://localhost/") {
         }
       });
     }
+
+
+
   </script>
