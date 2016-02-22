@@ -21,14 +21,14 @@
                 <!-- /.row -->
 
                 <!-- New Features!!! -->
-                <div class="row">
+               <!--  <div class="row">
                     <div class="col-lg-12">
                         <div class="alert alert-info alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                             <i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong> The "Dynaslope Analysis Charts" have been removed for lack of usage in monitoring [July 27, 2015]
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- /.row -->
 
                 <div class="row">
@@ -323,4 +323,9 @@ $(document).ready(function() {
 
     });
 
+</script>
+
+<script type="text/javascript">
+  $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: ' The "Dynaslope Analysis Charts" have been removed for lack of usage in monitoring [July 27, 2015]' });
+  
 </script>

@@ -1,4 +1,5 @@
 
+
         <div id="page-wrapper">
 
             <div class="container-fluid">
@@ -12,7 +13,7 @@
                 <!-- /.row -->
 
                 <!-- New Features!!! -->
-                <div class="row">
+             <!--    <div class="row">
                     <div class="col-lg-12">
                         <div class="alert alert-info alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -25,7 +26,7 @@
                             <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> All nodes from Alert Map are now clickable!
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- /.row -->
 
                 <div class="row">
@@ -302,5 +303,16 @@ function showDateNodePlots (frm) {
 		showAccel();
 	}
 }
+$(document).ready (function(){
+$(".alert-dismissable").fadeTo(2000, 500).slideUp(500, function(){
+    $(".alert-dismissable").alert('close');
+});
+}
+</script>
 
+<!-- feature updates -->
+<script type="text/javascript">
+  $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: ' Mini Alert Map for a more convenient way of mapping alerts on the node level analysis page' });
+   $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: ' All nodes from Alert Map are now clickable!' });
+  
 </script>

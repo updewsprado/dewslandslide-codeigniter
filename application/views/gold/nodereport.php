@@ -14,15 +14,15 @@
                 <!-- /.row -->
 
                 <!-- New Features!!! -->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-lg-12">
                         <div class="alert alert-info alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                             <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> Implemented the Node Status Reporting
                         </div>
-                    </div>                   	
-                </div>
-                <!-- /.row -->   
+                    </div>
+                </div> -->
+                <!-- /.row -->
 
                 <div class="row">
                     <div class="col-lg-12">
@@ -33,13 +33,13 @@
                         </ol>
                     </div>
                 </div>
-                <!-- /.row -->       
+                <!-- /.row -->
 
                 <div class="row">
                     <div class="col-lg-12">
                     	<div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Node Report Status 
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Node Report Status
                                 	<input type="button" id="alertLegend" onclick="alertLegends(this.form)" value="Show Legends" />
                                 	<button type="button" class="btn btn-sm btn-link"><a href="/ajax/csvmonitoring/lsb7days.csv">(Historical Data)</a></button>
                                 </h3>
@@ -57,7 +57,7 @@
                             </div>
                             <div class="panel-body">
 								<div id="alert-canvas">
-								</div>	
+								</div>
                             </div>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
             <div class="form-group">
               <label for="node-id" class="control-label">Node ID</label>
               <input type="text" class="form-control" name="node" id="node-id">
-            </div>          
+            </div>
             <div class="form-group">
                 <label for="date-discovered" class="control-label">Date Discovered</label>
 				<div class="input-group date">
@@ -100,7 +100,7 @@
 			<div class="form-group">
               <label for="flaggername" class="control-label">Flagger</label>
               <input type="text" class="form-control" name="flaggername" id="flagger" value="<?php echo $first_name . " " . $last_name; ?>" readonly>
-            </div>  
+            </div>
             <div class="form-group">
                 <label for="status-select" class="control-label">Status</label>
 	            <select class="form-control" name="status" id="status-select">
@@ -109,11 +109,11 @@
 					<option value="Not OK">Not OK</option>
 					<option value="Special Case">Special Case</option>
 	            </select>
-            </div>		           				            
+            </div>
             <div class="form-group">
               <label for="comment-text" class="control-label">Comment</label>
               <textarea class="form-control" name="comment" id="comment-text"></textarea>
-            </div>                 
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -126,51 +126,28 @@
       </div>
     </div>
   </div>
- 
-</form>    
-        
+
+</form>
+
 <script>
 
 window.onload = function() {
 	nodeAlertJSON = <?php echo $nodeAlerts; ?>;
 	maxNodesJSON = <?php echo $siteMaxNodes; ?>;
 	nodeStatusJSON = <?php echo $nodeStatus; ?>;
-	
+
 	$('#formGeneral').hide();
 	$('#formDate').hide();
-	
+  $('#button_right').hide();
+
 	initAlertPlot();
-}	
+}
 </script>
 
 <script src='http://codepen.io/assets/editor/live/css_live_reload_init.js'></script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- feature updates -->
+<script type="text/javascript">
+  $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: ' Implemented the Node Status Reporting' });
+   
+</script>

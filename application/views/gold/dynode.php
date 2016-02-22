@@ -63,7 +63,7 @@
                 <!-- /.row -->
                 
                 <!-- New Features!!! -->
-                <div class="row">
+             <!--    <div class="row">
                     <div class="col-lg-12">
                         <div class="alert alert-info alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -88,7 +88,7 @@
                             <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> LSB Change Plot available for version 2 sensors (Update: Nov 11, 2015)
                         </div>
                     </div>                                                           
-                </div>
+                </div> -->
                 <!-- /.row -->                                             
                 
                 <div class="row">
@@ -452,4 +452,12 @@
 			}			
 		};
 	}
+</script>
+
+<!-- feature updates -->
+<script type="text/javascript">
+  $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: '  Battery Level Plots for version 2+ sensors are available (Update: Dec 17, 2015)' });
+   $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: 'You can now view Filtered/Purged Data using the left Navigation Bar (Update: Dec 3, 2015)' });
+   $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: 'You can now view the 2nd Accelerometer Data for version 2 sensors (Update: Nov 12, 2015)' });
+   $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: 'LSB Change Plot available for version 2 sensors (Update: Nov 11, 2015)' });
 </script>

@@ -31,7 +31,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/sb-admin.css">
-    <!-- <link rel="stylesheet" href="/css/datepicker.css" /> -->
+    <link rel="stylesheet" href="/css/jquery.growl.css" />
      <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
     <!-- Morris Charts CSS -->
@@ -60,6 +60,8 @@
 
     <!-- jQuery Version 1.11.0 -->
     <script src="/js/jquery-1.11.0.js"></script>
+     <script src="/js/jquery.growl.js"></script>
+   
     
     <!-- jQuery Development Bundle -->
     <script src="/js/development-bundle/ui/jquery.ui.core.js"></script>
