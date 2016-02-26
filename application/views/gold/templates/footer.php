@@ -82,22 +82,14 @@
                 $("#button_right").click(function(){
                     $("#slide_right").toggleClass("slide_right_open");/*Opens and closes the menu*/
                     if($("#slide_right").hasClass("slide_right_open")){/*If the menu is open, then:*/
-                        $("#bpright").hasClass('glyphicon glyphicon-menu-left');/*Change the menu button icon*/
+                        $("#bpright").toggleClass('glyphicon glyphicon-menu-left').toggleClass('glyphicon glyphicon-menu-right')
                     }else{
-                        $("#bpright").hasClass('glyphicon glyphicon-menu-right');/*If the menu is closed, change to the original button icon*/
+                        $("#bpright").toggleClass('glyphicon glyphicon-menu-right').toggleClass('glyphicon glyphicon-menu-left');
                     }
-                    /*Just for presentation purposes, to appear over the Push Left Menu - you can use it if you have the two, but it's not required*/
-                    // }
                  });
 
 
     });
-
-     //hide NODE name
-
-
-
-
 
 </script>
 
