@@ -91,21 +91,11 @@ if (base_url() == "http://localhost/") {
                 <th>PDRRMC</th>
                 <th>Reporter</th>
                 <th>Action</th>
-
               </tr>
+
             </thead>
-
             <tbody id="reloadable-table-body"></tbody>
-
-
           </table>
-
-           <br>
-            <br>
-              <br>
-            <br>
-             <br>
-            <br>
             <span class="spinner" id="loading">
                <div class="sk-fading-circle">
                   <div class="sk-circle1 sk-circle"></div>
@@ -121,10 +111,11 @@ if (base_url() == "http://localhost/") {
                   <div class="sk-circle11 sk-circle"></div>
                   <div class="sk-circle12 sk-circle"></div>
                 </div>
+
             </span>
         </div>
-      </div>
-      
+      </div><Br>
+
       <!-- Modal for Successful Entry -->
       <div class="modal fade" id="dataUpdateStatus" role="dialog">
         <div class="modal-dialog modal-md">
@@ -153,13 +144,13 @@ if (base_url() == "http://localhost/") {
   <!-- /#page-wrapper -->
 
   <script type="text/javascript">
-      $('#loading').hide();
+        $('#loading').hide();
     window.onload = function() {
       $('#formGeneral').hide();
       $('#formDate').hide();
       $('#button_right').hide();
-
     }
+
     function emptyPublicAlertTable() {
       $('#reloadable-table-body').empty();
     }
@@ -425,8 +416,6 @@ if (base_url() == "http://localhost/") {
       prevValuesPush(alertId);
 
       $("#"+alertId).children().find("input").removeAttr("disabled");
-      $("#"+alertId).children().find("select").removeAttr("disabled");
-      $("#"+alertId).children().find("option").removeAttr("disabled");
 
       //hide the "Edit" and "Delete" buttons
       $("#"+alertId).children().find(".pa-edit").hide();
@@ -476,8 +465,7 @@ if (base_url() == "http://localhost/") {
       prevValuesRemove(alertId);
 
       $("#"+alertId).children().find("input").attr("disabled","");
-      $("#"+alertId).children().find("select").attr("disabled","");
-      $("#"+alertId).children().find("option").attr("disabled","");
+
       //hide "Update" and "Cancel" buttons
       $("#"+alertId).children().find(".pa-update").hide();
       $("#"+alertId).children().find(".pa-cancel").hide();
@@ -500,9 +488,6 @@ if (base_url() == "http://localhost/") {
       prevValuesRemove(alertId);
 
       $("#"+alertId).children().find("input").attr("disabled","");
-      $("#"+alertId).children().find("select").attr("disabled","");
-      $("#"+alertId).children().find("option").attr("disabled","");
-
 
       //hide "Update" and "Cancel" buttons
       $("#"+alertId).children().find(".pa-update").hide();
@@ -511,8 +496,6 @@ if (base_url() == "http://localhost/") {
       //show the "Edit" and "Delete" buttons
       $("#"+alertId).children().find(".pa-edit").show();
       $("#"+alertId).children().find(".pa-delete").show();
-
-
     }
 
     var test, test2; //, recipient, timeAck;
@@ -528,7 +511,6 @@ if (base_url() == "http://localhost/") {
         url: "<?php echo base_url(); ?>pubrelease/readdata",
         type: "GET",
         data : formData,
-       
         success: function(result, textStatus, jqXHR)
         {
           $( document ).ajaxStart(function() {
@@ -539,134 +521,88 @@ if (base_url() == "http://localhost/") {
             $( "#loading" ).hide();
          });
          
-
           if (result != 0) {
             var pubAlertPerSite = $.parseJSON(result);
             test2 = pubAlertPerSite;
 
-            for (var i=0; i < pubAlertPerSite.length + 1; i++) {
+            for (var i=0; i < pubAlertPerSite.length; i++) {
+              var rowClass = getPublicAlertRowClass(pubAlertPerSite[i].internal_alert);
 
-              if (i < pubAlertPerSite.length) {
-                var rowClass = getPublicAlertRowClass(pubAlertPerSite[i].internal_alert);
+              //Parse the community recipients and their time of acknowledgement
+              var recipient = parseStrings(pubAlertPerSite[i].recipient, ";");
+              var timeAck = parseStrings(pubAlertPerSite[i].acknowledged, ";");
 
-                //Parse the community recipients and their time of acknowledgement
-                var recipient = parseStrings(pubAlertPerSite[i].recipient, ";");
-                var timeAck = parseStrings(pubAlertPerSite[i].acknowledged, ";");
+              var commRecipients = [{lgu:"BLGU",ack:"none"},{lgu:"MLGU",ack:"none"},
+                                  {lgu:"LLMC",ack:"none"},{lgu:"MDRRMC",ack:"none"},
+                                  {lgu:"PDRRMC",ack:"none"}];
 
-                var commRecipients = [{lgu:"BLGU",ack:"none"},{lgu:"MLGU",ack:"none"},
-                                    {lgu:"LLMC",ack:"none"},{lgu:"MDRRMC",ack:"none"},
-                                    {lgu:"PDRRMC",ack:"none"}];
-
-                for (var j=0; j < recipient.length; j++) {
-                  //go through the list of commRecipients
-                  for (var k=0; k < commRecipients.length; k++) {
-                    if (recipient[j] == commRecipients[k].lgu) {
-                      commRecipients[k].ack = timeAck[j];
-                      break;
-                    }
+              for (var j=0; j < recipient.length; j++) {
+                //go through the list of commRecipients
+                for (var k=0; k < commRecipients.length; k++) {
+                  if (recipient[j] == commRecipients[k].lgu) {
+                    commRecipients[k].ack = timeAck[j];
+                    break;
                   }
                 }
-
-  //         
-                $('input.datetimepicker').datetimepicker({
-                    dayOfWeekStart : 1,
-                    lang:'en',
-                    format:'Y-m-d h:i',
-                    timespan: 5.00-16.00,
-                    step:5
-                    
-                });
-
-                  $('input.datetimepicker2').datetimepicker({
-                    datepicker:false,
-                    format:'H:i',
-                    timespan: 5.00-16.00,
-                    step:5
-                  });
-
-
-                //Create a row for the public alert entry
-                $("#reloadable-table-body").append("<tr id='"+pubAlertPerSite[i].alert_id+"' class='"+rowClass+" form-group form-group-sm'></tr>");
-                $("#"+pubAlertPerSite[i].alert_id).append("<td>"+pubAlertPerSite[i].alert_id+"</td>");
-                $("#"+pubAlertPerSite[i].alert_id).append("<td><input type='text' class='form-control datetimepicker'  placeholder='Text input' value='"+pubAlertPerSite[i].ts_data+"'></td>");
-                $("#"+pubAlertPerSite[i].alert_id).append ("<td style='width:8%'><input type='text' class=' form-control datetimepicker2' name='timepicker' placeholder='Text input' value='"+pubAlertPerSite[i].ts_post_creation+"'></td>");
-                $("#"+pubAlertPerSite[i].alert_id).append("<td>"+pubAlertPerSite[i].name+"</td>");
-                $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><select class='form-control' placeholder='Text input' value='"+pubAlertPerSite[i].internal_alert+"><option select class='form-control' placeholder='Text input' value='"+pubAlertPerSite[i].internal_alert+"'></option><option>A0</option> <option>A0-D</option><option>A0-E</option><option>A0-R</option><option>A1</option><option>A2</option><option>ND</option><option>ND-D</option> <option>ND-E</option> <option>ND-L</option><option>ND-R</option></select></td> ");
-                $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class=' form-control datetimepicker2' name='timepicker' placeholder='Text input' value='"+commRecipients[0].ack+"'></td>");
-                $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class='form-control datetimepicker2' name='timepicker' placeholder='Text input' value='"+commRecipients[1].ack+"'></td>");
-                $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text'class='form-control datetimepicker2' name='timepicker' placeholder='Text input' value='"+commRecipients[2].ack+"'></td>");
-                $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class='form-control datetimepicker2' name='timepicker' placeholder='Text input' value='"+commRecipients[3].ack+"'></td>");
-                $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text'class='form-control datetimepicker2' name='timepicker' placeholder='Text input' value='"+commRecipients[4].ack+"'></td>");
-                $("#"+pubAlertPerSite[i].alert_id).append("<td class='pa-flagger'>"+pubAlertPerSite[i].flagger+"</td>");
-                
-                $("#"+pubAlertPerSite[i].alert_id).append("<td><button type='button' class='btn btn-success pa-edit'>Edit</button><button type='button' class='btn btn-danger pa-delete'>Delete</button><button type='button' class='btn btn-info pa-update'>Update</button><button type='button' class='btn btn-warning pa-cancel'>Cancel</button></td>");
-
-
-                //Add "edit function" for "pa-edit" button
-                $("#"+pubAlertPerSite[i].alert_id).children().find(".pa-edit").attr("onclick","paEnableEdit("+pubAlertPerSite[i].alert_id+")");
-
-                //TODO: Add function for "delete"
-                $("#"+pubAlertPerSite[i].alert_id).children().find(".pa-delete").attr("onclick","paDeleteAlert("+pubAlertPerSite[i].alert_id+")");
-
-                //Add "update function" for "pa-update" button
-                $("#"+pubAlertPerSite[i].alert_id).children().find(".pa-update").attr("onclick","paUpdateEdit("+pubAlertPerSite[i].alert_id+")");
-
-                //Add "cancel edit function" for "pa-cancel" button
-                $("#"+pubAlertPerSite[i].alert_id).children().find(".pa-cancel").attr("onclick","paCancelEdit("+pubAlertPerSite[i].alert_id+")");
-
-                //hide the "Update" and "Cancel" buttons
-                $("#"+pubAlertPerSite[i].alert_id).children().find(".pa-update").hide();
-                $("#"+pubAlertPerSite[i].alert_id).children().find(".pa-cancel").hide();
-
-                //disable the form inputs for the initial display
-                $("#"+pubAlertPerSite[i].alert_id).children().find("input").attr("disabled","");
-                $("#"+pubAlertPerSite[i].alert_id).children().find("select").attr("disabled","");
-                $("#"+pubAlertPerSite[i].alert_id).children().find("option").attr("disabled","");
-              } 
-
-              else {
-               
-                 var rowClass = getPublicAlertRowClass(pubAlertPerSite[i].internal_alert);
-
-                //Parse the community recipients and their time of acknowledgement
-                var recipient = parseStrings(pubAlertPerSite[i-1].recipient, ";");
-                var timeAck = parseStrings(pubAlertPerSite[i-1].acknowledged, ";");
-
-                var commRecipients = [{lgu:"BLGU",ack:"none"},{lgu:"MLGU",ack:"none"},
-                                    {lgu:"LLMC",ack:"none"},{lgu:"MDRRMC",ack:"none"},
-                                    {lgu:"PDRRMC",ack:"none"}];
-
-                for (var j=0; j < recipient.length; j++) {
-                  //go through the list of commRecipients
-                  for (var k=0; k < commRecipients.length; k++) {
-                    if (recipient[j] == commRecipients[k].lgu) {
-                      commRecipients[k].ack = timeAck[j];
-                      break;
-                    }
-                  }
-                }
-
-  //         
-                $('input.datetimepicker').datetimepicker({
-                    dayOfWeekStart : 1,
-                    lang:'en',
-                    format:'Y-m-d h:i',
-                    timespan: 5.00-16.00,
-                    step:5
-                    
-                });
-
-                  $('input.datetimepicker2').datetimepicker({
-                    datepicker:false,
-                    format:'H:i',
-                    timespan: 5.00-16.00,
-                    step:5
-                  });
-
-                $("#reloadable-table-body").append("<tr id='"+"999"+"' class='"+rowClass+" form-group form-group-sm'></tr>");
-               
               }
+
+               $('input.datetimepicker').datetimepicker({
+                    dayOfWeekStart : 1,
+                    lang:'en',
+                    format:'Y-m-d h:i',
+                    timespan: 5.00-16.00,
+                    step:5
+                    
+                });
+
+                  $('input.datetimepicker2').datetimepicker({
+                    datepicker:false,
+                    format:'H:i',
+                    timespan: 5.00-16.00,
+                    step:5
+                  });
+
+              //Create a row for the public alert entry
+              $("#reloadable-table-body").append("<tr id='"+pubAlertPerSite[i].alert_id+"' class='"+rowClass+" form-group form-group-sm'></tr>");
+              $("#"+pubAlertPerSite[i].alert_id).append("<td>"+pubAlertPerSite[i].alert_id+"</td>");
+              $("#"+pubAlertPerSite[i].alert_id).append("<td><input type='text' class='form-control datetimepicker' placeholder='Text input' value='"+pubAlertPerSite[i].ts_data+"'></td>");
+              $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class='form-control datetimepicker2' placeholder='Text input' value='"+pubAlertPerSite[i].ts_post_creation+"'></td>");
+              $("#"+pubAlertPerSite[i].alert_id).append("<td>"+pubAlertPerSite[i].name+"</td>");
+              // AIL PART
+              $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'> <input type='text' class='form-control' placeholder='Text input' value='"+pubAlertPerSite[i].internal_alert+"' list='case' name='case'><datalist id='case'><option value='A0'></option> <option value='A0-D'></option><option valu='A0-E'></option><option value='A0-R'></option><option value='A1'></option><option value='A2'></option><option value='ND'></option><option value='ND-D'></option> <option value ='ND-E'></option> <option value='ND-L'></option><option value='ND-R'</option></datalist> </td>");
+
+
+              $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class='form-control datetimepicker2' placeholder='Text input' value='"+commRecipients[0].ack+"'></td>");
+              $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class='form-control datetimepicker2' placeholder='Text input' value='"+commRecipients[1].ack+"'></td>");
+              $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class='form-control datetimepicker2' placeholder='Text input' value='"+commRecipients[2].ack+"'></td>");
+              $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class='form-control datetimepicker2' placeholder='Text input' value='"+commRecipients[3].ack+"'></td>");
+              $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class='form-control datetimepicker2' placeholder='Text input' value='"+commRecipients[4].ack+"'></td>");
+              $("#"+pubAlertPerSite[i].alert_id).append("<td class='pa-flagger'>"+pubAlertPerSite[i].flagger+"</td>");
+              //$("#"+pubAlertPerSite[i].alert_id).append("<td><a href='#'>Edit</a>&nbsp<a href='#'>Delete</a></td>");
+              $("#"+pubAlertPerSite[i].alert_id).append("<td><button type='button' class='btn btn-success pa-edit'>Edit</button><button type='button' class='btn btn-danger pa-delete'>Delete</button><button type='button' class='btn btn-info pa-update'>Update</button><button type='button' class='btn btn-warning pa-cancel'>Cancel</button></td>");
+
+              //Add "edit function" for "pa-edit" button
+              $("#"+pubAlertPerSite[i].alert_id).children().find(".pa-edit").attr("onclick","paEnableEdit("+pubAlertPerSite[i].alert_id+")");
+
+              //TODO: Add function for "delete"
+              $("#"+pubAlertPerSite[i].alert_id).children().find(".pa-delete").attr("onclick","paDeleteAlert("+pubAlertPerSite[i].alert_id+")");
+
+              //Add "update function" for "pa-update" button
+              $("#"+pubAlertPerSite[i].alert_id).children().find(".pa-update").attr("onclick","paUpdateEdit("+pubAlertPerSite[i].alert_id+")");
+
+              //Add "cancel edit function" for "pa-cancel" button
+              $("#"+pubAlertPerSite[i].alert_id).children().find(".pa-cancel").attr("onclick","paCancelEdit("+pubAlertPerSite[i].alert_id+")");
+
+              //hide the "Update" and "Cancel" buttons
+              $("#"+pubAlertPerSite[i].alert_id).children().find(".pa-update").hide();
+              $("#"+pubAlertPerSite[i].alert_id).children().find(".pa-cancel").hide();
+
+              //disable the form inputs for the initial display
+              $("#"+pubAlertPerSite[i].alert_id).children().find("input").attr("disabled","");
+
             }
+            
+
           }
           else {
             //Create a header
@@ -676,9 +612,6 @@ if (base_url() == "http://localhost/") {
       });
     }
 
+
+
   </script>
-
-
-
-
-
