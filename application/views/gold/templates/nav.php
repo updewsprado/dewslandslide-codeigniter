@@ -147,6 +147,9 @@
                             <li>
                                 <a href="<?php echo base_url() . $version; ?>/publicreleaseedit">Edit Previous Releases</a>
                             </li>
+                             <li>
+                                <a href="http://www.dewslandslide.com/ajax/publicreleaseall2.php">Public Release All</a>
+                            </li>
                         </ul>
                     </li>
                     
