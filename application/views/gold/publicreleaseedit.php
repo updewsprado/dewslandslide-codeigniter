@@ -95,9 +95,12 @@ if (base_url() == "http://localhost/") {
 
             </thead>
             <tbody id="reloadable-table-body"></tbody>
+            <tbody id="reloadable-table-body2"></tbody>
           </table>
-            <span class="spinner" id="loading">
-               <div class="sk-fading-circle">
+            
+        </div>
+         <span class="spinner" id="loading">
+         <div class="sk-fading-circle">
                   <div class="sk-circle1 sk-circle"></div>
                   <div class="sk-circle2 sk-circle"></div>
                   <div class="sk-circle3 sk-circle"></div>
@@ -111,10 +114,8 @@ if (base_url() == "http://localhost/") {
                   <div class="sk-circle11 sk-circle"></div>
                   <div class="sk-circle12 sk-circle"></div>
                 </div>
-
-            </span>
-        </div>
-      </div><Br>
+              </span> 
+      </div><Br><Br><Br>
 
       <!-- Modal for Successful Entry -->
       <div class="modal fade" id="dataUpdateStatus" role="dialog">
@@ -144,15 +145,19 @@ if (base_url() == "http://localhost/") {
   <!-- /#page-wrapper -->
 
   <script type="text/javascript">
-        $('#loading').hide();
+      $('#loading').hide();
     window.onload = function() {
       $('#formGeneral').hide();
       $('#formDate').hide();
       $('#button_right').hide();
+
+
     }
 
     function emptyPublicAlertTable() {
       $('#reloadable-table-body').empty();
+         $('#loading').hide();
+
     }
 
     function getPublicAlertRowClass(internalAlert) {
@@ -513,11 +518,12 @@ if (base_url() == "http://localhost/") {
         data : formData,
         success: function(result, textStatus, jqXHR)
         {
-          $( document ).ajaxStart(function() {
+         $( document ).ajaxStart(function() {
             $( "#loading" ).show();
          });
 
-         $( document ). ajaxComplete(function() {
+        
+            $( document ). ajaxComplete(function() {
             $( "#loading" ).hide();
          });
          
@@ -551,7 +557,9 @@ if (base_url() == "http://localhost/") {
                     lang:'en',
                     format:'Y-m-d h:i',
                     timespan: 5.00-16.00,
-                    step:5
+                    step:5,
+                    vertical:'top',
+                  
                     
                 });
 
@@ -559,8 +567,10 @@ if (base_url() == "http://localhost/") {
                     datepicker:false,
                     format:'H:i',
                     timespan: 5.00-16.00,
-                    step:5
+                    step:5,
+                    vertical:'top',
                   });
+
 
               //Create a row for the public alert entry
               $("#reloadable-table-body").append("<tr id='"+pubAlertPerSite[i].alert_id+"' class='"+rowClass+" form-group form-group-sm'></tr>");
@@ -601,17 +611,43 @@ if (base_url() == "http://localhost/") {
               $("#"+pubAlertPerSite[i].alert_id).children().find("input").attr("disabled","");
 
             }
-            
 
+               $('input.datetimepicker').datetimepicker({
+                    dayOfWeekStart : 1,
+                    lang:'en',
+                    format:'Y-m-d h:i',
+                    timespan: 5.00-16.00,
+                    step:5,
+                   
+                    
+                });
+
+                  $('input.datetimepicker2').datetimepicker({
+                    datepicker:false,
+                    format:'H:i',
+                    timespan: 5.00-16.00,
+                    step:5,
+                   
+                  });
+
+        
+          
+              $("#reloadable-table-body").append("<p></p>");
+                
+               
           }
           else {
             //Create a header
+               $( document ).ajaxStart(function() {
+            $( "#loading" ).show();
+         });
+            $( document ). ajaxComplete(function() {
+            $( "#loading" ).hide();
+         });
             $("#reloadable-table-body").append("<p>No public alert for: "+curSite+"</p>");
           }
         }
       });
     }
-
-
 
   </script>
