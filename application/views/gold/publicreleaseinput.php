@@ -188,7 +188,63 @@ if (base_url() == "http://localhost/") {
                     <label for="publicAlertDesc">Public Alert Description</label>
                     <textarea class="form-control" rows="3" id="publicAlertDesc" name="publicAlertDesc" placeholder="Will be selected automatically..." maxlength="128" disabled></textarea>
                   </div>  
-                </div>     
+                </div>
+                
+                <!-- Div class of dependent fields that appears on both Internal and Public Alerts -->
+                <div class="row">
+                  <div class="form-group col-sm-12" id="dependentFieldForBothAlerts" hidden>
+                    <div class="col-sm-6" id="dependentFieldBothGroups">
+                      <label for="alertGroups[]">Choose group(s) involved:</label>
+                      <div class="checkbox"><label><input id="groupLGU" name="alertGroups[]" type="checkbox" value="LGU" onclick=''/>LGU</label></div>
+                      <div class="checkbox"><label><input id="groupLLMC" name="alertGroups[]" type="checkbox" value="LLMC" onclick=''/>LLMC</label></div>
+                      <div class="checkbox"><label><input id="groupCommunity" name="alertGroups[]" type="checkbox" value="Community" onclick=''/>Community</label></div>
+                    </div>
+                    <div class="form-group col-sm-6" id="dependentFieldBothReason">
+                      <label for="requestReason">Reason for request:</label>
+                      <textarea class="form-control" rows="3" id="requestReason" name="requestReason" placeholder="Enter reason for request" maxlength="128"></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Div class for dependent fields that appears only on Public Alerts -->                
+                <div class="row">
+                  <div class="form-group col-sm-12" id="dependentFieldPublicOnly" hidden>
+                    <!-- Div classes for dependent fields (Ground, Rain, Earthquake) -->
+                    <div class="form-group" id="dependentFieldSuppInfo">
+                      <div class="form-group col-sm-6 dependentFieldSuppInfoEq" hidden>
+                        <label for="">Magnitude</label>
+                        <input type="number" class="form-control" id="magnitude" name="magnitude">
+                      </div>
+                      <div class="form-group col-sm-6 dependentFieldSuppInfoEq" hidden>
+                        <label for="">Epicenter (km)</label>
+                        <input type="number" class="form-control" id="epicenter" name="epicenter">
+                      </div>
+                    </div>
+                    
+                    <div class="col-sm-12">
+                      <div class="form-group" id="">
+                        <label for="suppInfoTimestamp">Date and Time</label>
+                          <div class='input-group date' id='dependentFieldTimestamp'>
+                              <input type='text' class="form-control" id="suppInfoTimestamp" name="suppInfoTimestamp" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" />
+                              <span class="input-group-addon">
+                                  <span class="glyphicon glyphicon-calendar"></span>
+                              </span>
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 dependentFieldSuppInfoGround" hidden>
+                      <label for="">Recent Date and Time of Detected Ground Movement</label>
+                      <div class='input-group date' id='dependentFieldTimestampGround'>
+                          <input type='text' class="form-control" id="suppInfoTimestampGround" name="suppInfoTimestampGround" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" />
+                          <span class="input-group-addon">
+                              <span class="glyphicon glyphicon-calendar"></span>
+                          </span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
 
                 <div class="row">
                   <div class="form-group col-sm-6">
@@ -338,6 +394,17 @@ if (base_url() == "http://localhost/") {
       $('.entryTime').datetimepicker({
           format: 'HH:mm:ss'
       });
+
+      $('#dependentFieldTimestamp').datetimepicker({
+          format: 'YYYY-MM-DD HH:mm:ss',
+          sideBySide: true,
+      });
+
+      $('#dependentFieldTimestampGround').datetimepicker({
+          format: 'YYYY-MM-DD HH:mm:ss',
+          sideBySide: true,
+      });
+
   });
 
   var testVar;
@@ -358,9 +425,44 @@ if (base_url() == "http://localhost/") {
 
           $('#publicAlertLevel').val(data[0].public_alert_level);
           $('#internalAlertDesc').val(data[0].internal_alert_desc);
-          $('#publicAlertDesc').val(data[0].public_alert_desc);
+          $('#publicAlertDesc').val(data[0].public_alert_desc + "\n\n" + data[0].supplementary_info);
           $('#responseLlmcLgu').val(data[0].response_llmc_lgu);
           $('#responseCommunity').val(data[0].response_community);
+
+          /* Toggle Dependent Field Values */
+          switch(internalAlert) {
+            case "A0-D":
+            case "ND-D":
+                  $('#dependentFieldForBothAlerts').show();
+                  $('#dependentFieldPublicOnly').hide();
+                  break;
+            case "A0-E":
+            case "ND-E":
+                  $('#dependentFieldForBothAlerts').hide();
+                  $('#dependentFieldPublicOnly').show();
+                  $('.dependentFieldSuppInfoEq').show();
+                  $('.dependentFieldSuppInfoGround').hide(); 
+                  break;
+            case "A0-R":
+            case "ND-R":
+                  $('#dependentFieldForBothAlerts').hide();
+                  $('#dependentFieldPublicOnly').show();
+                  $('.dependentFieldSuppInfoEq').hide();
+                  $('.dependentFieldSuppInfoGround').hide();
+                  break; 
+            case "A1":
+            case "A2":
+            case "ND-L":
+                  $('#dependentFieldForBothAlerts').hide();
+                  $('#dependentFieldPublicOnly').show();
+                  $('.dependentFieldSuppInfoEq').hide();
+                  $('.dependentFieldSuppInfoGround').show();            
+                  break;
+            default:
+                  $('#dependentFieldForBothAlerts').hide();
+                  $('#dependentFieldPublicOnly').hide();
+          }
+
       }});
     }
   }
@@ -401,6 +503,21 @@ if (base_url() == "http://localhost/") {
     return {entryRecipient: recipients, entryAckTime: acktime};
   }
 
+  function alertGroupData () {
+    var checkboxes = document.getElementsByName("alertGroups[]");
+    var checkboxesChecked = [];
+    // loop over them all
+    for (var i=0; i<checkboxes.length; i++) {
+       // And stick the checked ones onto an array...
+       if (checkboxes[i].checked) {
+          checkboxesChecked.push(checkboxes[i].value);
+       }
+    }
+    // Return the array if it is non-empty, or null
+    return checkboxesChecked.length > 0 ? checkboxesChecked : null;
+
+  }
+
   function insertNewEntry () {
     var timestamp = $("#entryTimestamp").val();
     var timereleased = $("#entryRelease").val();
@@ -410,35 +527,61 @@ if (base_url() == "http://localhost/") {
     var recAck = recipientData();
     var flagger = $("#entryFlagger").val();
 
+    //Dependent fields
+    var dftimestamp = $("#suppInfoTimestamp").val();
+    var alertgroup = alertGroupData();
+    var request = $("#requestReason").val();
+    var magnitude = $("#magnitude").val();
+    var epicenter = $("#epicenter").val();
+    var dftimestampground = $("#suppInfoTimestampGround").val();
+
+    var checker = 0;
+    var failedMessage = "";
+
     if (timestamp == "") {
-      $('#entryFailedWarning').text("Please fill out 'Timestamp'");
-      $('#dataEntryFailed').modal('show');
-      return;
-    };
+      failedMessage += "Please fill out 'Timestamp'.<br>";
+      checker = 1;
+    }
 
     if (timereleased == "") {
-      $('#entryFailedWarning').text("Please fill out 'Time of Info Release'");
-      $('#dataEntryFailed').modal('show');
-      return;
-    };
+      failedMessage += "Please fill out 'Time of Info Release'.<br>";
+      checker = 1;
+    }
 
     if (site == "none") {
-      $('#entryFailedWarning').text("Please fill out 'Site Name'");
-      $('#dataEntryFailed').modal('show');
-      return;
-    };
+      failedMessage += "Please fill out 'Site Name'.<br>";
+      checker = 1;
+    }
 
     if (internalAlert == "none") {
-      $('#entryFailedWarning').text("Please fill out 'Internal Alert Level'");
-      $('#dataEntryFailed').modal('show');
-      return;
-    };
+      failedMessage += "Please fill out 'Internal Alert Level'.<br>";
+      checker = 1;
+    }
+
+    if (internalAlert == "A0-D" || internalAlert == "ND-D") {
+      if (alertgroup == null) { failedMessage += "Please select at least one 'Alert Group'.<br>"; checker = 1; }
+      if (request == "") { failedMessage += "Please fill out 'Reason for request'.<br>"; checker = 1; }
+    } else if (internalAlert == "A0-E" || internalAlert == "ND-E") {
+      if (magnitude == "") { failedMessage += "Please fill out 'Magnitude'.<br>"; checker = 1; }
+      if (epicenter == "") { failedMessage += "Please fill out 'Epicenter'.<br>"; checker = 1; }
+      if (dftimestamp == "") { failedMessage += "Please fill out 'Date and Time'.<br>"; checker = 1; }
+    } else if (internalAlert == "A0-R" || internalAlert == "ND-R") {
+      if (dftimestamp == "") { failedMessage += "Please fill out 'Date and Time'.<br>"; checker = 1; }
+    } else if (internalAlert == "A1" || internalAlert == "A2" || internalAlert == "ND-L") {
+      if (dftimestamp == "") { failedMessage += "Please fill out 'Date and Time'.<br>"; checker = 1; }
+      if (dftimestampground == "") { failedMessage += "Please fill out 'Recent Date and Time of Detected Ground Movement'.<br>"; checker = 1; }
+    }
 
     if (recAck.entryRecipient == "") {
-      $('#entryFailedWarning').text("Please select at least one 'Recipient'");
+      failedMessage += "Please select at least one 'Recipient'.<br>";
+      checker = 1;
+    }
+
+    if ( checker == 1 ) {
+      $('#entryFailedWarning').html(failedMessage);
       $('#dataEntryFailed').modal('show');
       return;
-    };
+    }
 
     var formData = {entryTimestamp: timestamp,
                     entryRelease: timereleased,
@@ -447,7 +590,13 @@ if (base_url() == "http://localhost/") {
                     comments: comments,
                     entryRecipient: recAck.entryRecipient,
                     entryAck: recAck.entryAckTime,
-                    entryFlagger: flagger};
+                    entryFlagger: flagger,
+                    entryAlertGroup: alertgroup,
+                    entryRequest: request,
+                    entryMagnitude: magnitude,
+                    entryEpicenter: epicenter,
+                    entryDfTimestamp: dftimestamp,
+                    entryDfTimestampGround: dftimestampground};
 
     $.ajax({
       //url : "publicreleaseinsert2.php",
