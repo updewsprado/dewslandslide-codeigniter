@@ -12,23 +12,6 @@
                 </div>
                 <!-- /.row -->
 
-                <!-- New Features!!! -->
-             <!--    <div class="row">
-                    <div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> Mini Alert Map for a more convenient way of mapping alerts on the node level analysis page
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> All nodes from Alert Map are now clickable!
-                        </div>
-                    </div>
-                </div> -->
-                <!-- /.row -->
-
                 <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
@@ -94,7 +77,7 @@
                 </div>
                 <!-- /.row -->
 
-                <div class="row">
+             <!--    <div class="row">
                      <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -108,9 +91,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- /.row -->
-
+<!-- 
                 <div class="row">
                      <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -125,10 +108,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- /.row -->
 
-                <div class="row">
+               <!--  <div class="row">
                      <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -143,8 +126,44 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- /.row -->
+                 <div class="row" id="moisture-panel">
+                     <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <i class="fa fa-bar-chart-o fa-fw"></i> <b>Soil Moisture: M Value accel-4</b>
+                                    <div class="btn-group switch-graph-view" data-toggle="buttons">
+                                        <label class="btn btn-info btn-ds-1 active" onclick="toggleGraphView(1)">
+                                            <input type="radio" name="options" id="option1" autocomplete="on" checked> Dataset 1
+                                        </label>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div id="accel-4" class="first-dataset"></div>      
+                            
+                            </div>
+                        </div>
+                    </div>  
+                     <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <i class="fa fa-bar-chart-o fa-fw"></i> <b>Soil Moisture: M Value accel-24</b>
+                                    <div class="btn-group switch-graph-view" data-toggle="buttons">
+                                        <label class="btn btn-info btn-ds-2" onclick="toggleGraphView(0)">
+                                            <input type="radio" name="options" id="option2" autocomplete="on"> Dataset 2
+                                        </label>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="panel-body"> 
+                                <div id="accel-24" class="second-dataset"></div>        
+                            </div>
+                        </div>                                   
+                </div>  
 
             </div>
             <!-- /.container-fluid -->

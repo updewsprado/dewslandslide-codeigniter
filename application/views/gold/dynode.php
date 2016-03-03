@@ -429,29 +429,72 @@
 		}
 
 		$(toshow).show();
-		$(tohide).hide();
+		$(tohide).show();
 	}
 
-	function toggleGraphView (setNum) {
-		if (setNum == 1) {
-			//Show the first data set
-			$(".btn-ds-1").addClass("active");
-			$(".btn-ds-2").removeClass("active");
-			$(".first-dataset").show();
-			$(".second-dataset").hide();
-		} else{
-			//Show the second data set
-			$(".btn-ds-1").removeClass("active");
-			$(".btn-ds-2").addClass("active");
-			$(".first-dataset").hide();
-			$(".second-dataset").show();
+	// function toggleGraphView (setNum) {
+	// 	if (setNum == 1) {
+	// 		//Show the first data set
+	// 		$(".btn-ds-1").addClass("active");
+	// 		$(".btn-ds-2").addClass("active");
+	// 		$(".first-dataset").show();
+	// 		$(".second-dataset").hide();
+	// 	}else{
+	// 		//Show the second data set
+	// 		$(".btn-ds-1").addClass("active");
+	// 		$(".btn-ds-2").addClass("active");
+	// 		$(".first-dataset").show();
+	// 		$(".second-dataset").show();
 
-			if (checkSecondSetLoaded() == false) {
+			// if (checkSecondSetLoaded() == false) {
+			// 	showAccelSecond(getMainForm());
+			// 	setSecondSetLoaded(true);
+			// }			
+	// 	};
+	// }
+
+$(document).ready(function(){
+    $('.btn-ds-1').click(function(){
+        if($('.first-dataset').is(':visible')) {
+            $('.first-dataset').hide();
+        }
+        else {
+       
+       		 $('.first-dataset').fadeIn();
+        }
+         $('.first-dataset').data('lastClicked', this);
+         if (checkSecondSetLoaded() == false) {
 				showAccelSecond(getMainForm());
 				setSecondSetLoaded(true);
-			}			
-		};
-	}
+			}		
+
+    });
+});
+
+$(document).ready(function(){
+	$('.btn-ds-2').click(function() {
+         if($('.second-dataset').is(':visible')) {
+            $('.second-dataset').hide();
+
+        } 
+		else {
+		
+			$('.second-dataset').fadeIn();
+		}
+        $(".second-dataset").data('lastClicked', this);
+        if (checkSecondSetLoaded() == false) {
+				showAccelSecond(getMainForm());
+				setSecondSetLoaded(true);
+			}		
+	});
+});
+
+$(document).ready(function(){
+    $('.button').click(function() {  
+        $('.button').not(this).removeClass('buttonactive');
+        $(this).toggleClass('buttonactive');
+    });
+});
 </script>
 
 <!-- feature updates -->
