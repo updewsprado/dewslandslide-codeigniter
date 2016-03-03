@@ -42,6 +42,14 @@ class Pubrelease extends CI_Controller {
 		$acknowledged = $_POST["entryAck"];
 		$flagger = $_POST["entryFlagger"];
 
+		//Dependent fields
+		$alertgroup = $_POST["entryAlertGroup"];
+		$request = $_POST["entryRequest"];
+		$magnitude = $_POST["entryMagnitude"];
+		$epicenter = $_POST["entryEpicenter"];
+		$dftimestamp = $_POST["entryDfTimestamp"];
+		$dftimestampground = $_POST["entryDfTimestampGround"];
+
 		$comments = $_POST["comments"];
 
 		//echo "Received Data: $timestamp, $site, $alert, $timeRelease, $comments, $recipient, $acknowledged, $flagger";
@@ -77,14 +85,33 @@ class Pubrelease extends CI_Controller {
 		          '$flagger')";
 
 		$result = mysqli_query($conn, $sql);
+		
+		$temp_comments = "";
+		if ($alert == "A0-D" || $alert == "ND-D") {
+			$temp_comments = implode(",", $alertgroup) . ";" . $request . ";" . $comments;
+		} else if ($alert == "A0-E" || $alert == "ND-E") {
+			$temp_comments = $magnitude . ";" . $epicenter . ";" . $dftimestamp . ";" . $comments;
+		} else if ($alert == "A0-R" || $alert == "ND-R") {
+			$temp_comments = $dftimestamp . ";" . $comments;
+		} else if ($alert == "A1" || $alert == "A2" || $alert == "ND-L") {
+			$temp_comments = $dftimestamp . ";" . $dftimestampground . ";" . $comments;
+		} else if ($alert == "A0"  && $comments != "") {
+			$temp_comments = $comments;
+		}
 
-		if ($comments != "") {
+		$sql = "INSERT INTO public_alert_extra VALUES (
+		            '$alertId',
+		            '$temp_comments')";
+		  
+		$result = mysqli_query($conn, $sql);
+
+		/*if ($comments != "") {
 		  $sql = "INSERT INTO public_alert_extra VALUES (
 		            '$alertId',
 		            '$comments')";
 		  
 		  $result = mysqli_query($conn, $sql);
-		}
+		} */
 
 		mysqli_close($conn);
 	}	

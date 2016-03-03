@@ -25,6 +25,9 @@ class Pubrelease_Model extends CI_Model
 		          lut_alerts.internal_alert_desc, 
 		          lut_alerts.public_alert_level, 
 		          lut_alerts.public_alert_desc,
+		          lut_alerts.supp_info_rain,
+                  lut_alerts.supp_info_ground,
+                  lut_alerts.supp_info_eq,
 		          lut_responses.response_llmc_lgu,
 		          lut_responses.response_community
 		        FROM 
@@ -46,6 +49,13 @@ class Pubrelease_Model extends CI_Model
 	        $alertsResponses[$numSites]["internal_alert_desc"] = $row["internal_alert_desc"];
 	        $alertsResponses[$numSites]["public_alert_level"] = $row["public_alert_level"];
 	        $alertsResponses[$numSites]["public_alert_desc"] = $row["public_alert_desc"];
+	        
+	        $temp_str = "";
+	        if (!is_null($row["supp_info_ground"])) $temp_str = $row["supp_info_ground"] . " ";
+	        if (!is_null($row["supp_info_rain"])) $temp_str = $temp_str . $row["supp_info_rain"] . " ";
+	        if (!is_null($row["supp_info_eq"])) $temp_str = $temp_str . " " . $row["supp_info_eq"];
+			$alertsResponses[$numSites]["supplementary_info"] = $temp_str;
+			
 	        $alertsResponses[$numSites]["response_llmc_lgu"] = $row["response_llmc_lgu"];
 	        $alertsResponses[$numSites++]["response_community"] = $row["response_community"];
 		}
