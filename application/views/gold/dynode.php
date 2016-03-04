@@ -60,35 +60,6 @@
                         <h1 class="page-header" id="header-site">Node Overview</h1>
                     </div>
                 </div>
-                <!-- /.row -->
-                
-                <!-- New Features!!! -->
-             <!--    <div class="row">
-                    <div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> Battery Level Plots for version 2+ sensors are available (Update: Dec 17, 2015)
-                        </div>
-                    </div>  
-                    <div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> You can now view Filtered/Purged Data using the left Navigation Bar (Update: Dec 3, 2015)
-                        </div>
-                    </div> 
-                    <div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> You can now view the 2nd Accelerometer Data for version 2 sensors (Update: Nov 12, 2015)
-                        </div>
-                    </div>  
-                	<div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> LSB Change Plot available for version 2 sensors (Update: Nov 11, 2015)
-                        </div>
-                    </div>                                                           
-                </div> -->
                 <!-- /.row -->                                             
                 
                 <div class="row">
@@ -431,27 +402,6 @@
 		$(toshow).show();
 		$(tohide).show();
 	}
-
-	// function toggleGraphView (setNum) {
-	// 	if (setNum == 1) {
-	// 		//Show the first data set
-	// 		$(".btn-ds-1").addClass("active");
-	// 		$(".btn-ds-2").addClass("active");
-	// 		$(".first-dataset").show();
-	// 		$(".second-dataset").hide();
-	// 	}else{
-	// 		//Show the second data set
-	// 		$(".btn-ds-1").addClass("active");
-	// 		$(".btn-ds-2").addClass("active");
-	// 		$(".first-dataset").show();
-	// 		$(".second-dataset").show();
-
-			// if (checkSecondSetLoaded() == false) {
-			// 	showAccelSecond(getMainForm());
-			// 	setSecondSetLoaded(true);
-			// }			
-	// 	};
-	// }
 
 $(document).ready(function(){
     $('.btn-ds-1').click(function(){
