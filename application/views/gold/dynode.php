@@ -59,9 +59,7 @@
                     <div class="col-lg-12">
                         <h1 class="page-header" id="header-site">Node Overview</h1>
                     </div>
-                </div>
-                <!-- /.row -->                                             
-                
+                </div>                                        
                 <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
@@ -445,6 +443,8 @@ $(document).ready(function(){
         $(this).toggleClass('buttonactive');
     });
 });
+
+
 </script>
 
 <!-- feature updates -->
