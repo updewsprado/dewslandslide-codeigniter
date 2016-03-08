@@ -22,7 +22,7 @@ if ($result->num_rows > 0) {
     
     }
 } else {
-    
+    echo "0 results";
 }
 
 
@@ -134,10 +134,10 @@ $conn->close();
                                 	<i class="fa fa-bar-chart-o fa-fw"></i> <b>Accelerometer: X Value</b>
 									<div class="btn-group switch-graph-view" data-toggle="buttons">
 										<label class="btn btn-info btn-ds-1 active" onclick="toggleGraphView(1)">
-											<input type="radio" name="options" id="option1" autocomplete="off" checked> Dataset 1
+											<input type="radio" name="options" id="option1" autocomplete="off" checked> <i id="demo4">Dataset 1</i>
 										</label>
 										<label class="btn btn-info btn-ds-2" onclick="toggleGraphView(0)">
-											<input type="radio" name="options" id="option2" autocomplete="off"> Dataset 2
+											<input type="radio" name="options" id="option2" autocomplete="off"> <i id="demo7">Dataset 2</i>
 										</label>
 									</div>
 	                            </h3>
@@ -159,10 +159,10 @@ $conn->close();
                                 	<i class="fa fa-bar-chart-o fa-fw"></i> <b>Accelerometer: Y Value</b>
 									<div class="btn-group switch-graph-view" data-toggle="buttons">
 										<label class="btn btn-info btn-ds-1 active" onclick="toggleGraphView(1)">
-											<input type="radio" name="options" id="option1" autocomplete="off" checked> Dataset 1
+											<input type="radio" name="options" id="option1" autocomplete="off" checked> <i id="demo3">Dataset 1</i>
 										</label>
 										<label class="btn btn-info btn-ds-2" onclick="toggleGraphView(0)">
-											<input type="radio" name="options" id="option2" autocomplete="off"> Dataset 2
+											<input type="radio" name="options" id="option2" autocomplete="off"> <i id="demo6">Dataset 2</i>
 										</label>
 									</div>
                                 </h3>
@@ -184,10 +184,10 @@ $conn->close();
                                 	<i class="fa fa-bar-chart-o fa-fw"></i> <b>Accelerometer: Z Value</b>
 									<div class="btn-group switch-graph-view" data-toggle="buttons">
 										<label class="btn btn-info btn-ds-1 active" onclick="toggleGraphView(1)">
-											<input type="radio" name="options" id="option1" autocomplete="off" checked> Dataset 1
+											<input type="radio" name="options" id="option1" autocomplete="off" checked> <i id="demo1">Dataset 1</i>
 										</label>
 										<label class="btn btn-info btn-ds-2" onclick="toggleGraphView(0)">
-											<input type="radio" name="options" id="option2" autocomplete="off"> Dataset 2
+											<input type="radio" name="options" id="option2" autocomplete="off"><i id="demo5">Dataset 2</i>
 										</label>
 									</div>
                                 </h3>
@@ -208,11 +208,11 @@ $conn->close();
                                 <h3 class="panel-title">
                                 	<i class="fa fa-bar-chart-o fa-fw"></i> <b>Soil Moisture: M Value</b>
 									<div class="btn-group switch-graph-view" data-toggle="buttons">
-										<label class="btn btn-info btn-ds-1 active" onclick="toggleGraphView(1)" id="data1">
-											<input type="radio" name="options" id="option1" autocomplete="off" checked> Dataset 1
+										<label class="btn btn-info btn-ds-1 active" onclick="toggleGraphView(1)">
+											<input type="radio" name="options" id="option1" autocomplete="off" checked> <i id="demo">Dataset 1</i>
 										</label>
-										<label class="btn btn-info btn-ds-2" onclick="toggleGraphView(0)" id="data2">
-											<input type="radio" name="options" id="option2" autocomplete="off"> Dataset 2
+										<label class="btn btn-info btn-ds-2" onclick="toggleGraphView(0)"><i id="demo2">Dataset 2</i>
+											<input type="radio" name="options" id="option2" autocomplete="off"> 
 										</label>
 									</div>
                                 </h3>
@@ -296,8 +296,34 @@ $conn->close();
 			element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " (v" + V2V + ") "+ "Node " + curNode + " Overview";			
 		}
 	}
-
 	
+	function toggleGraphView() {
+		  var text;
+		  var text2;
+		  var V2V = "<?php echo $version ?>";
+		  switch(V2V) {
+		    case "2":
+		      text = " Dataset 1 (ID 12)";
+		      text2 = "Dataset 2(ID 11)";
+		      break;
+		    case "3":
+		      text = "Dataset 1(ID 32)";
+		      text2 = "Dataset 2(ID 33)";
+		      break;	  
+		    default:
+		      text = "";
+		      text2 = "";
+		}
+		  document.getElementById("demo").innerHTML = text;
+		  document.getElementById("demo1").innerHTML = text;
+		  document.getElementById("demo3").innerHTML = text;
+		  document.getElementById("demo4").innerHTML = text;
+		  document.getElementById("demo2").innerHTML = text2;
+		  document.getElementById("demo5").innerHTML = text2;
+		  document.getElementById("demo6").innerHTML = text2;
+		  document.getElementById("demo7").innerHTML = text2;
+
+	}
 	function getMainForm() {
 		var targetForm = document.getElementById("formGeneral");
 		
@@ -308,6 +334,7 @@ $conn->close();
 		//popDropDownGeneral();
 		getAllSites();
 		initAlertPlot();
+		toggleGraphView();
 		
 		var targetForm = getMainForm();
 		
