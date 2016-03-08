@@ -1,16 +1,34 @@
-<!--
-<!doctype html>
-<html lang="en">
-<head>
+<?php
+$servername = "localhost";
+$username = "updews";
+$password = "october50sites";
+$dbname = "senslopedb";
 
-	<STYLE TYPE="text/css">
-	BODY	{
-   		font-family:sans-serif;
-   	}
-	</STYLE>
-	<meta charset="utf-8">
-	<title>View Senslope Data</title>
--->	
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+
+$sql = "SELECT * FROM senslopedb.site_column  where name = '$site'";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+    	$version =  $row["version"];
+    
+    }
+} else {
+    
+}
+
+
+$conn->close();
+?>
+
 	
 	<link href="/js/development-bundle/themes/south-street/jquery-ui.css" rel="stylesheet">
 
@@ -190,10 +208,10 @@
                                 <h3 class="panel-title">
                                 	<i class="fa fa-bar-chart-o fa-fw"></i> <b>Soil Moisture: M Value</b>
 									<div class="btn-group switch-graph-view" data-toggle="buttons">
-										<label class="btn btn-info btn-ds-1 active" onclick="toggleGraphView(1)">
+										<label class="btn btn-info btn-ds-1 active" onclick="toggleGraphView(1)" id="data1">
 											<input type="radio" name="options" id="option1" autocomplete="off" checked> Dataset 1
 										</label>
-										<label class="btn btn-info btn-ds-2" onclick="toggleGraphView(0)">
+										<label class="btn btn-info btn-ds-2" onclick="toggleGraphView(0)" id="data2">
 											<input type="radio" name="options" id="option2" autocomplete="off"> Dataset 2
 										</label>
 									</div>
@@ -272,12 +290,13 @@
 		if (curSite != "") {
 			$('#sitegeneral').val(curSite);
 			document.getElementById("node").value = curNode;
-			
 			var element = document.getElementById("header-site");
 			var targetForm = document.getElementById("formGeneral");
-			element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " Node " + curNode + " Overview";			
+			var V2V = "<?php echo $version ?>";
+			element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " (v" + V2V + ") "+ "Node " + curNode + " Overview";			
 		}
 	}
+
 	
 	function getMainForm() {
 		var targetForm = document.getElementById("formGeneral");
@@ -454,3 +473,5 @@ $(document).ready(function(){
    $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: 'You can now view the 2nd Accelerometer Data for version 2 sensors (Update: Nov 12, 2015)' });
    $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: 'LSB Change Plot available for version 2 sensors (Update: Nov 11, 2015)' });
 </script>
+
+
