@@ -20,16 +20,6 @@
                 </div>
                 <!-- /.row -->
 
-                <!-- New Features!!! -->
-               <!--  <div class="row">
-                    <div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong> The "Dynaslope Analysis Charts" have been removed for lack of usage in monitoring [July 27, 2015]
-                        </div>
-                    </div>
-                </div> -->
-                <!-- /.row -->
 
                 <div class="row">
                     <div class="col-lg-12">
@@ -75,6 +65,7 @@
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Position Plot <input type="button" id="posLegend" onclick="posLegends(this.form)" value="Show Legends" /></h3>
 							</div>
 							<div id="position-legends" style="width:130px; height:85px; visibility:hidden; display:none;"></div>
+					
 							<div class="panel-body">
 								<div id="position-canvas">
 									<FORM id="formPosition">
@@ -171,6 +162,7 @@
         <!-- /#page-wrapper -->
 
 <script>
+
 var end_date = new Date();
 var start_date = new Date(end_date.getFullYear(), end_date.getMonth(), end_date.getDate()-10);
 
@@ -186,12 +178,24 @@ $(function() {
  //
 var curSite = "<?php echo $site; ?>";
 var fromDate = "" , toDate = "" , dataBase = "";
+var curNode = "<?php echo $node; ?>";
 
-var options = ["select", "blcb", "blct", "bolb", "gamb", "gamt",
-				"humb", "humt", "labb", "labt", "lipb",
-				"lipt", "mamb", "mamt", "oslb", "oslt",
-				"plab", "plat", "pugb", "pugt", "sinb",
-				"sinu"];
+
+function getAllSites() {	
+		var baseURL = "<?php echo $_SERVER['SERVER_NAME']; ?>";
+		var URL;
+		if (baseURL == "localhost") {
+			URL = "http://localhost/temp/getSenslopeData.php?sitenames&db=senslopedb";
+		}
+		else {
+			URL = "http://www.dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
+		}
+		
+		$.getJSON(URL, function(data, status) {
+			options = data;
+			popDropDownGeneral();
+		});
+	}
 
 function popDropDownGeneral() {
 	var select = document.getElementById('sitegeneral');
@@ -212,10 +216,11 @@ function popDropDownGeneral() {
 	}
 }
 
+
 function initSite() {
 	if (curSite != "") {
 		$('#sitegeneral').val(curSite);
-
+		document.getElementById("node").value = curNode;
 		var element = document.getElementById("header-site");
 		var targetForm = document.getElementById("formGeneral");
 		element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " Site Overview";
@@ -224,17 +229,24 @@ function initSite() {
 	}
 }
 
-window.onload = function() {
+function getMainForm() {
+		var targetForm = document.getElementById("formGeneral");
+		
+		return targetForm;
+	}
 
+
+window.onload = function() {
+	var targetForm = getMainForm();
 	nodeAlertJSON = <?php echo $nodeAlerts; ?>;
 	nodeStatusJSON = <?php echo $nodeStatus; ?>;
 	maxNodesJSON = <?php echo $siteMaxNodes; ?>;
-
+	getAllSites();
     $('#nodeGeneralname').hide();
 	$('#nodeGeneral').hide();
 	positionPlot.init_dims();
 	//initAnalysisDyna();
-	popDropDownGeneral();
+	// popDropDownGeneral();
 
 	setTimeout(function(){
 		initSite();
@@ -261,12 +273,13 @@ window.onresize = function() {
 }
 
 function redirectSitePlots (frm) {
-	if(frm.sitegeneral.value == "none") {
+	if(document.getElementById("sitegeneral") == "none") {
 		//do nothing
 	}
 	else {
-		curSite = frm.sitegeneral.value;
-
+		curSite = document.getElementById("sitegeneral").value;
+		fromDate = document.getElementById("formDate").dateinput.value;
+			toDate = document.getElementById("formDate").dateinput2.value;
 		var urlExt = "gold/site/" + curSite;
 		var urlBase = "<?php echo base_url(); ?>";
 
@@ -274,12 +287,15 @@ function redirectSitePlots (frm) {
 	}
 }
 
+
+
+
 function showSitePlots (frm) {
-	if(frm.sitegeneral.value == "none") {
+	if(document.getElementById("sitegeneral") == "none") {
 		//do nothing
 	}
 	else {
-		curSite = frm.sitegeneral.value;
+		curSite = document.getElementById("sitegeneral").value;
 		fromDate = document.getElementById("formDate").dateinput.value;
 		toDate = document.getElementById("formDate").dateinput2.value;
 		dataBase = frm.dbase.value;
