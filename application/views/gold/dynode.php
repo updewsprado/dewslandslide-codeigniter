@@ -303,12 +303,12 @@ $conn->close();
 		  var V2V = "<?php echo $version ?>";
 		  switch(V2V) {
 		    case "2":
-		      text = " Dataset 1 (ID 12)";
-		      text2 = "Dataset 2(ID 11)";
+		      text = " Dataset 1 (ID 32)";
+		      text2 = "Dataset 2(ID 33)";
 		      break;
 		    case "3":
-		      text = "Dataset 1(ID 32)";
-		      text2 = "Dataset 2(ID 33)";
+		      text = "Dataset 1(ID 22)";
+		      text2 = "Dataset 2(ID 22)";
 		      break;	  
 		    default:
 		      text = "";

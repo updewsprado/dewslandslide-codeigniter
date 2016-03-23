@@ -11,18 +11,7 @@
                         </h1>
                     </div>
                 </div>
-                <!-- /.row -->
-
-                <!-- New Features!!! -->
-                <!-- <div class="row">
-                    <div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong>New Feature!</strong> Implemented the Node Status Reporting
-                        </div>
-                    </div>
-                </div> -->
-                <!-- /.row -->
+              
 
                 <div class="row">
                     <div class="col-lg-12">
@@ -55,11 +44,18 @@
                 									</svg>
                 								</div>
                             </div>
-                            <div class="panel-body">
-								<div id="alert-canvas">
-								</div>
-                            </div>
-                        </div>
+                              <div class="panel-body" id="panelbody">
+  							              	<div id="alert-canvas">	</div>
+                                <br><br><br><br>
+                                 <br><br><br><br>
+                                  <br><br><br><br>
+                                   <br><br><br><br>
+                                    <br><br><br><br>
+                                 <br><br><br><br>
+                                  <br><br><br><br>
+                                   <br><br><br><br>
+                              </div>
+                          </div>
                     </div>
                 </div>
                 <!-- /.row -->

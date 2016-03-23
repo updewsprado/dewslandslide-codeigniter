@@ -13,23 +13,6 @@
                 </div>
                 <!-- /.row -->
 
-                <!-- New Features!!! -->
-               <!--  <div class="row">
-                    <div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong> Update!</strong> Data Presence Map per Node for Sites has been updated with New Filter Algorithm [Nov 13, 2015]
-                        </div>
-                    </div>  
-                    <div class="col-lg-12">
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <i class="fa fa-info-circle"></i>  <strong> New Feature!</strong> Implemented the Initial Data Presence Map per Node for Sites [July 13, 2015]
-                        </div>
-                    </div>                   	
-                </div> -->
-                <!-- /.row -->   
-
                 <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
@@ -84,7 +67,6 @@
 
                 <div class="row">
                     <div class="col-lg-12">
-                    	<div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Data Presence Map (24 Hours) <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Click the site name or the black boxes to go to the Data Presence per Node tool for the site"></i></h3>
                             </div>
