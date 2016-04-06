@@ -265,9 +265,9 @@ window.onresize = function() {
 	//+PANB: Quick Fix for repeated drawing is to not call the
 	//	plot generator that was created by Kyle. Gotta clean
 	//	this up in the future.
-	//showCommHealthPlotGeneral();
 
 	showPositionPlotGeneral();
+	showCommHealthPlotGeneral();
 	showSentNodeTotalGeneral();
 	showRainGeneral();
 }

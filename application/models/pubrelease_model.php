@@ -20,24 +20,7 @@ class Pubrelease_Model extends CI_Model
 
 	public function getAlertResponses($internalAlertLevel = 'A0')
 	{
-		$sql = "SELECT 
-		          lut_alerts.internal_alert_level, 
-		          lut_alerts.internal_alert_desc, 
-		          lut_alerts.public_alert_level, 
-		          lut_alerts.public_alert_desc,
-		          lut_alerts.supp_info_rain,
-                  lut_alerts.supp_info_ground,
-                  lut_alerts.supp_info_eq,
-		          lut_responses.response_llmc_lgu,
-		          lut_responses.response_community
-		        FROM 
-		          lut_alerts
-		        INNER JOIN 
-		          lut_responses
-		        ON 
-		          lut_alerts.public_alert_level=lut_responses.public_alert_level
-		        WHERE
-		          internal_alert_level='$internalAlertLevel'";
+		$sql = "SELECT lut_alerts.internal_alert_level, lut_alerts.internal_alert_desc, lut_alerts.public_alert_level, lut_alerts.public_alert_desc, lut_alerts.supp_info_rain, lut_alerts.supp_info_ground, lut_alerts.supp_info_eq, lut_responses.response_llmc_lgu, lut_responses.response_community FROM lut_alerts INNER JOIN lut_responses ON lut_alerts.public_alert_level=lut_responses.public_alert_level WHERE internal_alert_level='$internalAlertLevel'";
 
 		$result = $this->db->query($sql);
 
