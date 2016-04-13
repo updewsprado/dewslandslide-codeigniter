@@ -24,9 +24,8 @@ if ($result->num_rows > 0) {
 } else {
     // echo "0 results";
 }
-
-
 $conn->close();
+
 ?>
 
 	
@@ -225,6 +224,7 @@ $conn->close();
                     </div>                                     
                 </div>	
                 <!-- /.row -->	
+                
                 		
             </div>
             <!-- /.container-fluid -->
@@ -307,8 +307,8 @@ $conn->close();
 		      text2 = "Dataset 2(ID 33)";
 		      break;
 		    case "3":
-		      text = "Dataset 1(ID 22)";
-		      text2 = "Dataset 2(ID 22)";
+		      text = "Dataset 1 (ID 12)";
+		      text2 = "Dataset 2 (ID 11)";
 		      break;	  
 		    default:
 		      text = "";
@@ -493,12 +493,6 @@ $(document).ready(function(){
 
 </script>
 
-<!-- feature updates -->
-<script type="text/javascript">
-  $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: '  Battery Level Plots for version 2+ sensors are available (Update: Dec 17, 2015)' });
-   $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: 'You can now view Filtered/Purged Data using the left Navigation Bar (Update: Dec 3, 2015)' });
-   $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: 'You can now view the 2nd Accelerometer Data for version 2 sensors (Update: Nov 12, 2015)' });
-   $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: 'LSB Change Plot available for version 2 sensors (Update: Nov 11, 2015)' });
-</script>
+
 
 

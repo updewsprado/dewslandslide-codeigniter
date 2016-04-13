@@ -67,6 +67,7 @@
 
                 <div class="row">
                     <div class="col-lg-12">
+                    	<div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Data Presence Map (24 Hours) <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Click the site name or the black boxes to go to the Data Presence per Node tool for the site"></i></h3>
                             </div>
@@ -122,8 +123,3 @@ $(document).ready(function(){
 </script>
 
 <!-- feature updates -->
-<script type="text/javascript">
-  $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: '  Data Presence Map per Node for Sites has been updated with New Filter Algorithm [Nov 13, 2015]' });
-   $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: 'Implemented the Initial Data Presence Map per Node for Sites [July 13, 2015]' });
-  
-</script>
