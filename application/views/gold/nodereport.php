@@ -143,7 +143,3 @@ window.onload = function() {
 <script src='http://codepen.io/assets/editor/live/css_live_reload_init.js'></script>
 
 <!-- feature updates -->
-<script type="text/javascript">
-  $.growl({ title: '<i class="fa fa-info-circle"></i>  <strong>Feature Update!</strong>', message: ' Implemented the Node Status Reporting' });
-   
-</script>

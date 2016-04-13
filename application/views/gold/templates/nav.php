@@ -197,14 +197,14 @@
                                        <!--  <h4>Date:</h4> -->
                                         <div class="form-group col-xs-2" > 
                                          
-                                            <div class="form-group col-xs-1">
-                                             <label> From: </label>
+                                            <div class="form-group col-xs-1" id="om">
+                                                <label > From: </label>
                                              </div>
                                          </div>   
                                              <input type="text" id="datepicker" class="col-xs-3 " name="dateinput" onchange="" size="10"> 
-                                        <div class="form-group col-xs-1">
-                                         <label>    To:  </label>
-                                         </div>     
+                                             <div class="form-group col-xs-1" id-"yow">
+                                                 <label >    To:  </label>
+                                             </div>     
             		                           <input type="text" id="datepicker2" class="col-xs-3" name="dateinput2">
                                         <div class="form-group col-xs-1"  onchange="" size="10">
                                          <input id="submit" type="button" value="Submit" onclick="<?php echo $showplots; ?>">  
