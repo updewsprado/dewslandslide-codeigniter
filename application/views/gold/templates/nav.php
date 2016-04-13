@@ -152,6 +152,9 @@
                             </li>
                         </ul>
                     </li>
+                    <li <?php echo $reportevent; ?> >
+                        <a href="<?php echo base_url() . $version; ?>/accomplishmentreport"><i class="fa fa-fw fa-list-alt"></i> File Accomplishment Report</a>
+                    </li>
                     
                     <li></li>
             </nav>
