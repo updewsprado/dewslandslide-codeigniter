@@ -126,8 +126,18 @@ class Comm_health_Model extends CI_Model
 		return;	
 	}
 
-	public function getHealthOptimized($site)
+	// Default value for msgid = 0
+	public function getHealthOptimized($site, $msgid = 0)
 	{
+		$sql_ver = $this->db->query("
+						SELECT version 
+						FROM site_column 
+						WHERE name = '$site';
+						");
+		
+		$result = $sql_ver->row();	
+		$sensor_ver = $result->version;
+
 		$sql_maxnode = $this->db->query("
 						SELECT num_nodes 
 						FROM site_column_props 
@@ -147,7 +157,7 @@ class Comm_health_Model extends CI_Model
 			$result_nodes[$ctr_nodes]['node'] = $i;
 			$result_nodes[$ctr_nodes]['week'] = 0.0;
 			$result_nodes[$ctr_nodes]['month'] = 0.0;
-			$result_nodes[$ctr_nodes]['all'] = 0.0;
+			$result_nodes[$ctr_nodes]['bimonth'] = 0.0;
 			$ctr_nodes = $ctr_nodes + 1;
 		}
 		
@@ -159,7 +169,7 @@ class Comm_health_Model extends CI_Model
 		$date_range = "";
 		
 		//$array_range = array(7,30,0);	
-		$array_range = array(7,30,365);	
+		$array_range = array(7,30,60);	
 
 		foreach ($array_range as $range) {
 
@@ -202,6 +212,11 @@ class Comm_health_Model extends CI_Model
 										WHERE xvalue IS NOT NULL 
 										AND timestamp BETWEEN $date_range AND $date_cur";
 
+			// This assumes that all sensor versions above 1 have 2 accelerometers
+			if ($sensor_ver > 1) {
+				$temp_query = $temp_query . "AND (msgid & 1) = ($msgid & 1)";
+			}
+
 			$sql_health = $this->db->query($temp_query);
 			$totalSent = $sql_health->row();
 			
@@ -219,13 +234,16 @@ class Comm_health_Model extends CI_Model
 				elseif((int)($range) === 30) {
 					$result_nodes[$i]['month'] = round($totalSent->$nodeNum / $max_report, 5);
 				}
-				else {
-					$result_nodes[$i]['all'] = round($totalSent->$nodeNum / $max_report, 5);	
+				elseif((int)($range) === 60) {
+					$result_nodes[$i]['bimonth'] = round($totalSent->$nodeNum / $max_report, 5);
 				}
+				// else {
+				// 	$result_nodes[$i]['all'] = round($totalSent->$nodeNum / $max_report, 5);	
+				// }
 			}		
 		}
 		
-			echo json_encode ( $result_nodes );			
+		echo json_encode ( $result_nodes );			
 		
 	}
 

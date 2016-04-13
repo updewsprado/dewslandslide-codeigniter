@@ -134,9 +134,9 @@ $conn->close();
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Communication Health <input type='button' id='show' onclick='showLegends(this.form)' value='Show Legends' /></h3>
 									<div width="250px" id="legends" style="visibility:hidden; display:none;">
-											<input type='button' onclick="barTransition('red')" style='background-color:red; padding-right:5px;' /><strong><font color="yellow">Past 7 Days</font> </strong><br/>
-											<input type='button' onclick="barTransition('blue')" style='background-color:blue; padding-right:5px;' /><strong><font color="yellow">Past 30 Days</font></strong><br/>
-											<input type='button' onclick="barTransition('green')" style='background-color:green; padding-right:5px;' /><strong><font color="yellow">Overall</font></strong>
+											<input type='button' onclick="barTransition('red')" style='background-color:red; padding-right:5px;' /><strong><font color="yellow">Last 7 Days</font> </strong><br/>
+											<input type='button' onclick="barTransition('blue')" style='background-color:blue; padding-right:5px;' /><strong><font color="yellow">Last 30 Days</font></strong><br/>
+											<input type='button' onclick="barTransition('green')" style='background-color:green; padding-right:5px;' /><strong><font color="yellow">Last 60 Days</font></strong>
 									</div>
 							</div>
                             <div class="panel-body">
@@ -346,9 +346,9 @@ window.onresize = function() {
 	//+PANB: Quick Fix for repeated drawing is to not call the
 	//	plot generator that was created by Kyle. Gotta clean
 	//	this up in the future.
-	//showCommHealthPlotGeneral();
 
 	showPositionPlotGeneral();
+	showCommHealthPlotGeneral();
 	showSentNodeTotalGeneral();
 	showRainGeneral();
 }
