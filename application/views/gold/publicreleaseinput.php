@@ -8,7 +8,6 @@ $dbname = "senslopedb";
 //Site Column Info
 
 $siteColumnInfo;
-$siteAlertPublic;
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -20,21 +19,6 @@ if (!$conn) {
 
 $sql = "SELECT * FROM alert_public ORDER BY timestamp DESC";
 $result = mysqli_query($conn, $sql);
-
-$numSites = 0;
-if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-    while($row = mysqli_fetch_assoc($result)) {
-        $siteAlertPublic[$numSites]["timestamp"] = $row["timestamp"];
-        $siteAlertPublic[$numSites]["time_released"] = $row["time_released"];
-        $siteAlertPublic[$numSites]["name"] = $row["site_name"];
-        $siteAlertPublic[$numSites]["alert_level"] = $row["alert_level"];
-        $siteAlertPublic[$numSites]["desc"] = $row["desc"];
-        $numSites++;
-    }
-} else {
-    echo "0 results for alert_public";
-}
 
 //$sql = "SELECT s_id, name FROM site_column ORDER BY name ASC";
 $sql = "SELECT DISTINCT LEFT(name , 3) as name, sitio, barangay, municipality, province FROM site_column ORDER BY name ASC";
@@ -75,8 +59,6 @@ if (mysqli_num_rows($result) > 0) {
 } else {
     echo "0 results for internal alert level";
 }
-
-//echo json_encode($siteAlertPublic);
 
 mysqli_close($conn);
 
