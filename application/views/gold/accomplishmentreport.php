@@ -22,7 +22,13 @@ if (base_url() == "http://localhost/") {
 
 <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
 <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
-<script type="text/javascript" src="/css/bootstrap-datetimepicker.css"></script>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap-datetimepicker.css">
+
+<?php  
+	$instructions = json_decode($instructions);
+	$sites = json_decode($sites);
+	$alerts = json_decode($alerts);
+?>
 
 <div id="page-wrapper" style="height: 100%;">
 	
@@ -67,6 +73,10 @@ if (base_url() == "http://localhost/") {
 	    	<div class="form-group col-md-6"> <!-- Overtime_type Drop-Down -->
 		        <label class="control-label" for="overtime_type">Nature of Overtime Task:</label>
 		        <select class="form-control" id="overtime_type" onchange="onChangeOvertimeType();">
+		        	<option value="None">Please select</option>
+		        	<?php for ($i=0; $i < count($instructions); $i++) { 
+		        		echo "<option value='" . $instructions[$i]->overtime_type . "'>" . $instructions[$i]->overtime_type . "</option>";
+		        	} ?>
 		        </select>
 	      	</div>
 
@@ -107,12 +117,22 @@ if (base_url() == "http://localhost/") {
 		    	<div class="form-group col-md-6">
 			        <label for="siteMonitored">Site Monitored:</label>
 			        <select class="form-control" id="siteMonitored">
+			        	<option value="None">Please select</option>
+			        	<?php for ($i=0; $i < count($sites); $i++) { 
+		        			echo "<option value='" . $sites[$i]->name . "'>" . strtoupper($sites[$i]->name) . " (" . $sites[$i]->address . ")</option>";
+		        		} ?>
+
 		        	</select>
 		      	</div>
 
 		      	<div class="form-group col-md-3">
 			        <label for="alertEndShift">Alert Status at End-of-Shift:</label>
 			        <select class="form-control" id="alertEndShift">
+			        	<option value="None">Please select</option>
+			        	<?php for ($i=0; $i < count($alerts); $i++) { 
+		        			echo "<option value='" . $alerts[$i]->alert_level . "'>" . strtoupper($alerts[$i]->alert_level) . "</option>";
+		        		} ?>
+
 		        	</select>
 		      	</div>
 
@@ -218,7 +238,6 @@ if (base_url() == "http://localhost/") {
 	$(function () {
 		$('.date').datetimepicker({
 		    format: 'YYYY-MM-DD HH:mm:ss',
-		      sideBySide: true,
 		});
 	});
 
@@ -233,7 +252,9 @@ if (base_url() == "http://localhost/") {
 		}
 	}
 
-	/*** POPULATE OVERTIME DROP-DOWN ***/
+	/**
+	 * Create copy of instructions
+	 */
 	var myData;
 
 	$.ajax ({
@@ -244,60 +265,7 @@ if (base_url() == "http://localhost/") {
 	})
 	.done( function (json) {
 			myData = json; // SAVE SITES TO MYDATA
-			               
-			var $el = $("#overtime_type");
-			$el.empty(); // remove old options
-			$el.append($("<option></option>")
-			        .attr("value", 'none').text('Please select'));
-			$.each(json, function(value, key) {
-			    $el.append($("<option></option>")
-			            .attr("value", key.overtime_type).text(key.overtime_type));
-			});	
 	});
-
-	/*** END OF POPULATE OVERTIME DROP-DOWN ***/
-
-
-	/*** POPULATE SITES AREA ***/
-	$.ajax ({
-		//async: false,
-		url: "<?php echo base_url(); ?>accomplishment/showSites",
-		type: "GET",
-		dataType: "json",
-	})
-	.done( function (json) {
-		var $el = $("#siteMonitored");
-	    $el.empty(); // remove old options
-	    $el.append($("<option></option>")
-	            .attr("value", 'none').text('Please select'));
-	    $.each(json, function(value, key) {
-	        $el.append($("<option></option>")
-	                .attr("value", key.name).text(key.name + " (" + key.address + ")"));
-	    });	
-	});
-
-	/*** END OF POPULATE SITES AREA ***/
-
-
-	/*** POPULATE ALERT STATUS AREA ***/
-	$.ajax ({
-		//async: false,
-		url: "<?php echo base_url(); ?>accomplishment/showAlerts",
-		type: "GET",
-		dataType: "json",
-	})
-	.done( function (json) {
-		var $el = $("#alertEndShift");
-	    $el.empty(); // remove old options
-	    $el.append($("<option></option>")
-	            .attr("value", 'none').text('Please select'));
-	    $.each(json, function(value, key) {
-	        $el.append($("<option></option>")
-	                .attr("value", key.alert_level).text(key.alert_level));
-	    });	
-	});
-
-	/*** END OF ALERT STATUS AREA ***/
 
 
 	function onChangeOvertimeType() 
@@ -321,7 +289,7 @@ if (base_url() == "http://localhost/") {
 								toggleFormFields( [1, 0, 0, 1, 1] );
 								fillDiv(7);
 								break;
-				case "none": 	$("#instruction").text("");
+				case "None": 	$("#instruction").text("");
 								toggleFormFields( [0, 0, 0, 0, 0] );
 								fillDiv(25);
 								break;
@@ -426,7 +394,7 @@ if (base_url() == "http://localhost/") {
 	**/
 	function isInputAvailable(id) 
 	{
-		if ( $(id).val() == "none" ||  !($.trim($(id).val())) )
+		if ( $(id).val() == "None" ||  !($.trim($(id).val())) )
 		{
 			return false;
 		}
@@ -541,19 +509,21 @@ if (base_url() == "http://localhost/") {
 				    break;
 		}
 
-		console.log(formData);
+		//console.log(formData);
 
 	    $.ajax({
 	      	url: "<?php echo base_url(); ?>accomplishment/insertData",
 	    	type: "POST",
 	    	data : formData,
-	    	success: function(result, textStatus, jqXHR)
+	    	success: function(id, textStatus, jqXHR)
 	      	{
+	      		console.log(id);
 	      		$('#modalTitle').html("Entry Insertion Notice");
 				$('#modalBody').html('<p class="text-success"><b>Accomplishment report successfully submitted!</b></p>');
-				/*$('#modalFooter').html('<a href="#" class="btn btn-info" role="button">View Entry</a>');*/
-				$('#modalFooter').html('<a href="<?php echo base_url() . $version; ?>" class="btn btn-success" role="button">Okay</a>');
-		    	$('#dataEntry').modal('show');
+				$('#modalFooter').html('<a href="<?php echo base_url(); ?>gold/accomplishmentreport_individual/' + id + '" class="btn btn-info" role="button">View Entry</a>');
+				$('#modalFooter').append('<a href="<?php echo base_url(); ?>gold" class="btn btn-success" role="button">Home</a>');
+
+		    	$('#dataEntry').modal({backdrop: "static"});
 	    	},
 	    	error: function(xhr, status, error) {
 				var err = eval("(" + xhr.responseText + ")");

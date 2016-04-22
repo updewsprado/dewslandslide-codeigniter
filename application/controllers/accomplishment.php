@@ -48,7 +48,7 @@
 		}
 
 		public function insertData()
-		 {
+		{
 		 	$data  = array (
 
 		 		'shift_start' => $_POST['shift_start'],
@@ -58,7 +58,7 @@
 		 	);
 
 		 	$type = $_POST['overtime_type'];
-		 	$sites = $_POST['siteMonitoredList'];
+		 	if(isset($_POST['siteMonitoredList'])) $sites = $_POST['siteMonitoredList'];
 
 		 	$id = $this->accomplishment_model->insert('accomplishment_report', $data);
     		//echo "$id";
@@ -101,7 +101,8 @@
     			$this->accomplishment_model->insert('accomplishment_report_extra', $data3);
     		}
 
-		 } 
+    		echo "$id";
+		} 
 
 	}
 

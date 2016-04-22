@@ -64,6 +64,7 @@ $route['gold/node/(:any)/(:num)'] = "gold/view/node/$1/$2";
 $route['gold/site/(:any)/(:num)'] = "gold/view/node/$1/$2";
 $route['gold/site/(:any)'] = "gold/view/site/$1";
 $route['gold/(:any)'] = "gold/view/$1";
+$route['gold/(:any)/(:num)'] = "gold/view/$1/$2";
 
 //Beta
 $route['beta'] = "beta/view";

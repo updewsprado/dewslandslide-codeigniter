@@ -209,6 +209,49 @@ class Gold extends CI_Controller {
 			case 'blank':
 				$data['blank'] = 'class="active"';
 				break;
+
+			case 'accomplishmentreport':
+				$this->load->model('accomplishment_model');
+				$data['instructions'] = $this->accomplishment_model->getInstructions();
+				$data['sites'] = $this->accomplishment_model->getSites();
+				$data['alerts'] = $this->accomplishment_model->getAlerts();
+				break;
+
+			case 'accomplishmentreport_individual':
+				$this->load->model('accomplishment_model');
+				$id = $this->uri->segment(3);
+				$data['id'] = $id;
+				$report = $this->accomplishment_model->getReport($id);
+				$data['report'] = $report;
+				if( $report == null ) {
+					show_404();
+					break;
+				}
+				$temp = json_decode($report);
+				$data['markers'] = $this->accomplishment_model->getMarkers($temp->sitesWithAlerts);
+				break;
+
+			case 'sitemaintenancereport':
+				$this->load->model('sitemaintenance_model');
+				$data['site'] = $this->sitemaintenance_model->getSites();
+				$data['staff'] = $this->sitemaintenance_model->getStaff();
+				$data['activity'] = $this->sitemaintenance_model->getActivity();
+				break;
+
+			case 'sitemaintenancereport_individual':
+				$this->load->model('sitemaintenance_model');
+				$id = $this->uri->segment(3);
+				$data['id'] = $id;
+				$report = $this->sitemaintenance_model->getReport($id);
+				$data['report'] = $report;
+				if( $report == null ) {
+					show_404();
+					break;
+				}
+				$temp = json_decode($report);
+				$data['map'] = $this->sitemaintenance_model->getMap($temp->site);
+
+				break;
 			
 			default:
 				break;
