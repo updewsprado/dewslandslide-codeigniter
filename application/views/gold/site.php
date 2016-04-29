@@ -192,22 +192,6 @@ mysqli_close($conn);
                                 <h3 class="panel-title">
                               
 									<div class="btn-group switch-graph-view" data-toggle="buttons">
-										
-								    	 <label class="btn btn-info btn-ds-1 " id="arqRain" onclick="toggleGraphView(1)"> Rain ARQ
-											<input type="radio" name="options"   autocomplete="off"> 
-										</label>
-										<label class="btn btn-info btn-ds-2 " id="senRain" onclick="toggleGraphView(2)"> Rain senslope
-											<input type="radio" name="options"   autocomplete="off"> 
-										</label>
-										 <label class="btn btn-info btn-ds-3 " id="noah1Rain" onclick="toggleGraphView(3)">
-											<input type="radio" name="options"  autocomplete="off" > Rain Noah
-										</label>
-										<label class="btn btn-info btn-ds-4 " id="noah2Rain" onclick="toggleGraphView(4)"> Rain Noah 2
-											<input type="radio" name="options"   autocomplete="off"> 
-										</label>
-										 <label class="btn btn-info btn-ds-5 " id="noah3Rain" onclick="toggleGraphView(5)">
-											<input type="radio" name="options"  autocomplete="off" > Rain Noah 3
-										</label>
 										<select id="mySelect" class="form-control" onchange="displayRainGraphs()">
 											<?php
 									            $ctr = 0 ;
@@ -223,11 +207,11 @@ mysqli_close($conn);
                                 </h3>
                             </div>
                             <div class="panel-body">
-                            	<div id="rainGraphARQ" class="ARQdataset" style="width:auto; height:400px;"></div>
-                            	<div id="rainGraphSenslope" class="SENdataset" style="width:auto; height:400px;"></div>
-                            	<div id="rainGraphNoah" class="NOAHdataset" style="width:auto; height:400px;"></div>
-								<div id="rainGraphNoah2" class="NOAHdataset2" style="width:auto; height:400px;"></div>
-								<div id="rainGraphNoah3" class="NOAHdataset3" style="width:auto; height:400px;"></div>
+                            	<div id="rainGraphARQ" class="ARQdataset" style="width:auto; height:250px;"></div>
+                            	<div id="rainGraphSenslope" class="SENdataset" style="width:auto; height:250px;"></div>
+                            	<div id="rainGraphNoah" class="NOAHdataset" style="width:auto; height:250px;"></div>
+								<div id="rainGraphNoah2" class="NOAHdataset2" style="width:auto; height:250px;"></div>
+								<div id="rainGraphNoah3" class="NOAHdataset3" style="width:auto; height:250px;"></div>
 								
 								
 								
@@ -260,8 +244,7 @@ $(function() {
 var curSite = "<?php echo $site; ?>";
 var fromDate = "" , toDate = "" , dataBase = "";
 var curNode = "<?php echo $node; ?>";
-// var isSecondSetLoaded = false;
-// var isThirdSetLoaded = false;
+
 
 function getAllSites() {	
 		var baseURL = "<?php echo $_SERVER['SERVER_NAME']; ?>";
@@ -330,10 +313,10 @@ window.onload = function() {
 	$('#mySelect').hide();
     $('#nodeGeneralname').hide();
 	$('#nodeGeneral').hide();
-	positionPlot.init_dims();
-	//initAnalysisDyna();
-	// popDropDownGeneral();
 	displayRainGraphs();
+	positionPlot.init_dims();
+
+	
 	
 	setTimeout(function(){
 		initSite();
@@ -349,24 +332,18 @@ window.onresize = function() {
 	d3.select("#svg-alertmini").remove();
 	initAlertPlot();
 
-	//+PANB: Quick Fix for repeated drawing is to not call the
-	//	plot generator that was created by Kyle. Gotta clean
-	//	this up in the future.
+
 
 	showPositionPlotGeneral();
 	showCommHealthPlotGeneral();
 	showSentNodeTotalGeneral();
 	displayRainGraphs();
-	// showRainGeneral();
-	// showRainGeneral2();
+
 }
 
 function redirectSitePlots (frm) {
 	if(document.getElementById("sitegeneral") == "none") {
-		// $(".NOAHdataset").show();
-		// $(".ARQdataset").hide();
-		// $(".SENdataset").hide();
-		// showRainGeneral(getMainForm());
+		
 		//do nothing
 	}
 	else {
@@ -413,6 +390,7 @@ function showDateSitePlots (frm) {
 		fromDate = document.getElementById("formDate").dateinput.value;
 		toDate = document.getElementById("formDate").dateinput2.value;
 		showSentNodeTotalGeneral();
+		displayRainGraphs();
 		
 	}
 }
@@ -430,211 +408,6 @@ $(document).ready(function() {
 
 
     });
-
-// function checkSecondSetLoaded() {
-// 		return isSecondSetLoaded;	
-// 	}
-
-// function setSecondSetLoaded(val) {
-// 	isSecondSetLoaded = val;	
-// 	}
-
-// function resetSecondSetLoaded() {
-// 	isSecondSetLoaded = false;
-// 	}
-// function checkThirdSetLoaded() {
-// 	return isThirdSetLoaded;	
-// 	}
-
-// function setThirdSetLoaded(val) {
-// 	isThirdSetLoaded = val;	
-// 	}
-
-// function resetThirdSetLoaded() {
-// 	isThirdSetLoaded = false;
-// 	}
-// function checkThirdSetLoaded() {
-// 	return isThirdSetLoaded;	
-// 	}
-
-// function set4thSetLoaded(val) {
-// 	isThirdSetLoaded = val;	
-// 	}
-
-// function reset4thSetLoaded() {
-// 	isThirdSetLoaded = false;
-// 	}
-// function check4thSetLoaded() {
-// 	return isThirdSetLoaded;	
-// 	}
-
-// function set5thSetLoaded(val) {
-// 	isThirdSetLoaded = val;	
-// 	}
-
-// function reset5thSetLoaded() {
-// 	isThirdSetLoaded = false;
-// 	}
-
-
-function toggleGraphView (setNum) {
-		if (setNum == 1) {
-			//arq
-			$(".btn-ds-1").addClass("active");
-			$(".btn-ds-2").removeClass("active");
-			$(".btn-ds-3").removeClass("active");
-			$(".btn-ds-4").removeClass("active");
-			$(".btn-ds-5").removeClass("active");
-			$(".NOAHdataset").hide();
-			$(".NOAHdataset2").hide();
-			$(".NOAHdataset3").hide();
-			$(".ARQdataset").show();
-			$(".SENdataset").hide();
-			//  if (checkSecondSetLoaded() == false) {
-			// 	getRainfallData(getMainForm());
-			// 	setSecondSetLoaded(true);
-			// }		
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH(getMainForm());
-			// 	setThirdSetLoaded(true);
-			// }	
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH2(getMainForm());
-			// 	set4thSetLoaded(true);
-			// }	
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH3(getMainForm());
-			// 	set5thSetLoaded(true);
-			// }	
-		} else if(setNum == 2){
-			//senslope
-			$(".btn-ds-1").removeClass("active");
-			$(".btn-ds-2").addClass("active");
-			$(".btn-ds-3").removeClass("active");
-			$(".btn-ds-4").removeClass("active");
-			$(".btn-ds-5").removeClass("active");
-			$(".NOAHdataset").hide();
-			$(".NOAHdataset2").hide();
-			$(".NOAHdataset3").hide();
-			$(".ARQdataset").hide();
-			$(".SENdataset").show();
-			//  if (checkSecondSetLoaded() == false) {
-			// 	getRainfallData(getMainForm());
-			// 	setSecondSetLoaded(true);
-			// }		
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH(getMainForm());
-			// 	setThirdSetLoaded(true);
-			// }	
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH2(getMainForm());
-			// 	set4thSetLoaded(true);
-			// }	
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH3(getMainForm());
-			// 	set5thSetLoaded(true);
-			// }	
-				
-			
-		} else if(setNum == 3){
-			//noah
-			$(".btn-ds-1").removeClass("active");
-			$(".btn-ds-2").removeClass("active");
-			$(".btn-ds-3").addClass("active");
-			$(".btn-ds-4").removeClass("active");
-			$(".btn-ds-5").removeClass("active");
-			$(".NOAHdataset").show();
-			$(".NOAHdataset2").hide();
-			$(".NOAHdataset3").hide();
-			$(".ARQdataset").hide();
-			$(".SENdataset").hide();
-			// 	 if (checkSecondSetLoaded() == false) {
-			// 	getRainfallData(getMainForm());
-			// 	setSecondSetLoaded(true);
-			// }		
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH(getMainForm());
-			// 	setThirdSetLoaded(true);
-			// }	
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH2(getMainForm());
-			// 	set4thSetLoaded(true);
-			// }	
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH3(getMainForm());
-			// 	set5thSetLoaded(true);
-			// }	
-				
-
-		} else if(setNum == 4){
-			//moah2
-			$(".btn-ds-1").removeClass("active")
-			$(".btn-ds-2").removeClass("active");
-			$(".btn-ds-3").removeClass("active");
-			$(".btn-ds-4").addClass("active");;
-			$(".btn-ds-5").removeClass("active");
-			$(".NOAHdataset").hide();
-			$(".NOAHdataset2").show();
-			$(".NOAHdataset3").hide();
-			$(".ARQdataset").hide();
-			$(".SENdataset").hide();
-			// 	 if (checkSecondSetLoaded() == false) {
-			// 	getRainfallData(getMainForm());
-			// 	setSecondSetLoaded(true);
-			// }		
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH(getMainForm());
-			// 	setThirdSetLoaded(true);
-			// }	
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH2(getMainForm());
-			// 	set4thSetLoaded(true);
-			// }	
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH3(getMainForm());
-			// 	set5thSetLoaded(true);
-			// }	
-		
-		} else if(setNum == 5){
-			//Noah3
-			$(".btn-ds-1").removeClass("active");
-			$(".btn-ds-2").removeClass("active");
-			$(".btn-ds-3").removeClass("active");
-			$(".btn-ds-4").removeClass("active");
-			$(".btn-ds-5").addClass("active");
-			$(".NOAHdataset").hide();
-			$(".NOAHdataset2").hide();
-			$(".NOAHdataset3").show();
-			$(".ARQdataset").hide();
-			$(".SENdataset").hide();
-			// 	 if (checkSecondSetLoaded() == false) {
-			// 	getRainfallData(getMainForm());
-			// 	setSecondSetLoaded(true);
-			// }		
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH(getMainForm());
-			// 	setThirdSetLoaded(true);
-			// }	
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH2(getMainForm());
-			// 	set4thSetLoaded(true);
-			// }	
-			//  if (checkThirdSetLoaded() == false) {
-			// 	getRainfallDataNOAH3(getMainForm());
-			// 	set5thSetLoaded(true);
-			// }	
-				
-		}else{
-			$(".NOAHdataset").hide();
-			$(".ARQdataset").hide();
-			$(".SENdataset").hide();
-			$(".NOAHdataset").hide();
-			$(".NOAHdataset2").hide();
-			$(".NOAHdataset3").hide();
-		};
-	}
-
-
 
 </script>
 
@@ -801,10 +574,7 @@ function getRainfallData(str) {
         return;
     } else {
       $.ajax({url: "/ajax/rainfallNewGetData.php?rsite="+ str +"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-        /*
-        testConsumption = JSON.parse(result);
-        pcTarget = parseInt(testConsumption.targetmonthlyconsumption);
-        */
+
 		var target = document.getElementById('rainGraphSenslope');
 		var spinner = new Spinner(opts).spin();
 		target.appendChild(spinner.el);
@@ -829,7 +599,7 @@ function getRainfallData(str) {
               document.getElementById("rainGraphSenslope"), 
               data, 
               {
-                  title: 'Rainfall Data from Senslope' + str ,
+                  title: 'Rainfall Data from Senslope ' + str ,
                   stackedGraph: isStacked,
                   labels: ['timestamp','72h', 'cumm', 'rain'],
                   visibility: isVisible,
@@ -839,7 +609,7 @@ function getRainfallData(str) {
                   //errorBars: true,
 
                   highlightCircleSize: 2,
-                  strokeWidth: 1,
+                  strokeWidth: 2,
                   strokeBorderWidth: isStacked ? null : 1,
                   connectSeparatedPoints: true,
                   underlayCallback: function(canvas, area, g2) {
@@ -865,7 +635,7 @@ function getRainfallData(str) {
                   },
                             
                   highlightSeriesOpts: {
-                      strokeWidth: 1,
+                      strokeWidth: 4,
                       strokeBorderWidth: 1,
                       highlightCircleSize: 3
                   }
@@ -888,10 +658,6 @@ function getRainfallARQ(str) {
         return;
     } else {
       $.ajax({url: "/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-        /*
-        testConsumption = JSON.parse(result);
-        pcTarget = parseInt(testConsumption.targetmonthlyconsumption);
-        */
 		var target = document.getElementById('rainGraphARQ');
 		var spinner = new Spinner(opts).spin();
 		target.appendChild(spinner.el);
@@ -926,7 +692,7 @@ function getRainfallARQ(str) {
                   //errorBars: true,
 
                   highlightCircleSize: 2,
-                  strokeWidth: 1,
+                  strokeWidth: 2,
                   strokeBorderWidth: isStacked ? null : 1,
                   connectSeparatedPoints: true,
                   underlayCallback: function(canvas, area, g2) {
@@ -948,11 +714,11 @@ function getRainfallARQ(str) {
                     axis : { }
                   },
                   S : {
-                    axis : 'cumm'
+                    axis : 'rain'
                   },
                             
                   highlightSeriesOpts: {
-                      strokeWidth: 1,
+                      strokeWidth: 4,
                       strokeBorderWidth: 1,
                       highlightCircleSize: 3
                   }
@@ -976,10 +742,7 @@ function getRainfallDataNOAH(str) {
         return;
     } else {
       $.ajax({url: "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-        /*
-        testConsumption = JSON.parse(result);
-        pcTarget = parseInt(testConsumption.targetmonthlyconsumption);
-        */
+ 
 		var target = document.getElementById('rainGraphNoah');
 		var spinner = new Spinner(opts).spin();
 		target.appendChild(spinner.el);
@@ -1002,7 +765,7 @@ function getRainfallDataNOAH(str) {
               document.getElementById("rainGraphNoah"), 
               data, 
               {
-                  title: 'Rainfall Data from Noah ' + str,
+                  title: 'Rainfall Data from Noah1 ' + str,
                   stackedGraph: isStacked,
                   labels: ['timestamp', '72h','cumm', 'rain'],
                   visibility: isVisible,
@@ -1011,7 +774,7 @@ function getRainfallDataNOAH(str) {
                   //errorBars: true,
 
                   highlightCircleSize: 2,
-                  strokeWidth: 1,
+                  strokeWidth: 2,
                   strokeBorderWidth: isStacked ? null : 1,
                   connectSeparatedPoints: true,
                    underlayCallback: function(canvas, area, g2) {
@@ -1034,11 +797,11 @@ function getRainfallDataNOAH(str) {
                     axis : { }
                   },
                   S : {
-                    axis : 'cumm'
+                    axis : 'rain'
                   },                
                             
                   highlightSeriesOpts: {
-                      strokeWidth: 1,
+                      strokeWidth: 4,
                       strokeBorderWidth: 1,
                       highlightCircleSize: 3
                   }
@@ -1061,10 +824,7 @@ function getRainfallDataNOAH2(str) {
         return;
     } else {
       $.ajax({url: "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-        /*
-        testConsumption = JSON.parse(result);
-        pcTarget = parseInt(testConsumption.targetmonthlyconsumption);
-        */
+
 		var target = document.getElementById('rainGraphNoah2');
 		var spinner = new Spinner(opts).spin();
 		target.appendChild(spinner.el);   
@@ -1088,7 +848,7 @@ function getRainfallDataNOAH2(str) {
               document.getElementById("rainGraphNoah2"), 
               data, 
               {
-                  title: 'Rainfall Data from Noah ' + str,
+                  title: 'Rainfall Data from Noah2 ' + str,
                   stackedGraph: isStacked,
                   labels: ['timestamp', '72h','cumm', 'rain'],
                   visibility: isVisible,
@@ -1097,7 +857,7 @@ function getRainfallDataNOAH2(str) {
                   //errorBars: true,
 
                   highlightCircleSize: 2,
-                  strokeWidth: 1,
+                  strokeWidth: 2,
                   strokeBorderWidth: isStacked ? null : 1,
                   connectSeparatedPoints: true,
                    underlayCallback: function(canvas, area, g2) {
@@ -1120,11 +880,11 @@ function getRainfallDataNOAH2(str) {
                     axis : { }
                   },
                   S : {
-                    axis : 'cumm'
+                    axis : 'rain'
                   },                
                             
                   highlightSeriesOpts: {
-                      strokeWidth: 1,
+                      strokeWidth: 4,
                       strokeBorderWidth: 1,
                       highlightCircleSize: 3
                   }
@@ -1147,10 +907,6 @@ function getRainfallDataNOAH3(str) {
         return;
     } else {
       $.ajax({url: "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-        /*
-        testConsumption = JSON.parse(result);
-        pcTarget = parseInt(testConsumption.targetmonthlyconsumption);
-        */
 
 		var target = document.getElementById('rainGraphNoah3');
 		var spinner = new Spinner(opts).spin();
@@ -1175,16 +931,16 @@ function getRainfallDataNOAH3(str) {
               document.getElementById("rainGraphNoah3"), 
               data, 
               {
-                  title: 'Rainfall Data from Noah ' + str,
+                  title: 'Rainfall Data from Noah3 ' + str,
                   stackedGraph: isStacked,
                   labels: ['timestamp', '72h','cumm', 'rain'],
                   visibility: isVisible,
-                  rollPeriod: 1,
+                  rollPeriod: 2,
                   showRoller: true,
                   //errorBars: true,
 
                   highlightCircleSize: 2,
-                  strokeWidth: 1,
+                  strokeWidth: 2,
                   strokeBorderWidth: isStacked ? null : 1,
                   connectSeparatedPoints: true,
                    underlayCallback: function(canvas, area, g2) {
@@ -1207,11 +963,11 @@ function getRainfallDataNOAH3(str) {
                     axis : { }
                   },
                   S : {
-                    axis : 'cumm'
+                    axis : 'rain'
                   },                
                             
                   highlightSeriesOpts: {
-                      strokeWidth: 1,
+                      strokeWidth: 4,
                       strokeBorderWidth: 1,
                       highlightCircleSize: 3
                   }
