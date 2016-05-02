@@ -164,30 +164,26 @@ if (base_url() == "http://localhost/") {
       var rowClass;
 
       switch (internalAlert) {
+        case 'a2':
         case 'A2':
-          rowClass = "danger";
+          rowClass = "alert_01";
           break;
-
+        case 'a1':
         case 'A1':
-        case 'ND-L':
-          rowClass = "warning";
+           rowClass = "alert_02";
           break;
-
-        case 'A0+':
-        case 'A0-R':
-        case 'A0-E':
-        case 'A0-D':
-        case 'ND-R':
-        case 'ND-E':
-        case 'ND-D':
-          rowClass = "info";
+        case 'a3':
+        case 'A3':
+           rowClass = "alert_00";
           break;
-
+        case 'a0':
         case 'A0':
-        case 'ND':
-          rowClass = "success";
+          rowClass = "alert_03";
           break;
-
+        case 'nd':
+        case 'ND':
+          rowClass = "alert_nd";
+          break;
         default:
           rowClass = "undefined";
           break;
@@ -579,7 +575,7 @@ if (base_url() == "http://localhost/") {
               $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class='form-control datetimepicker2' placeholder='Text input' value='"+pubAlertPerSite[i].ts_post_creation+"'></td>");
               $("#"+pubAlertPerSite[i].alert_id).append("<td>"+pubAlertPerSite[i].name+"</td>");
               // AIL PART
-              $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'> <input type='text' class='form-control' placeholder='Text input' value='"+pubAlertPerSite[i].internal_alert+"' list='case' name='case'><datalist id='case'><option value='A0'></option> <option value='A0-D'></option><option valu='A0-E'></option><option value='A0-R'></option><option value='A1'></option><option value='A2'></option><option value='ND'></option><option value='ND-D'></option> <option value ='ND-E'></option> <option value='ND-L'></option><option value='ND-R'</option></datalist> </td>");
+              $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'> <input type='text' class='form-control' placeholder='Text input' value='"+pubAlertPerSite[i].internal_alert+"' list='case' name='case'><datalist id='case'><option value='A0'></option><option value='A1'></option><option value='A2'></option><option value='A3'></option><option value='ND'></option></td>");
 
 
               $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class='form-control datetimepicker2' placeholder='Text input' value='"+commRecipients[0].ack+"'></td>");

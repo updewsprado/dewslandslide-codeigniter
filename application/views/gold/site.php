@@ -1,39 +1,56 @@
-<?php
+	<?php
+// Database login information
 $servername = "localhost";
 $username = "updews";
 $password = "october50sites";
 $dbname = "senslopedb";
 
+//Weather Stations
+$weatherStationsFull;
+$weatherStations;
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+$newSite = substr($site, 0, 3);
+// echo $newSite;
 
-$sql = "SELECT * FROM senslopedb.site_column  where name = '$site'";
-$result = $conn->query($sql);
+$sql = "SELECT DISTINCT
+          LEFT(name,3) as name, 
+          rain_noah,
+          rain_noah2, 
+          rain_noah3, 
+          rain_senslope,
+          rain_arq,
+          max_rain_2year
+        FROM senslopedb.site_rain_props  where LEFT(name,3) = '$newSite'";
+$result = mysqli_query($conn, $sql);
 
-if ($result->num_rows > 0) {
+$numSites = 0;
+if (mysqli_num_rows($result) > 0) {
     // output data of each row
-    while($row = $result->fetch_assoc()) {
-    	$version =  $row["version"];
-    
+    while($row = mysqli_fetch_assoc($result)) {
+        //echo "id: " . $row["s_id"]. " - Name: " . $row["name"]. ", " . $row["rain_noah"]. ", " . $row["rain_senslope"] . "<br>";
+        $weatherStationsFull[$numSites]["name"] = $row["name"];
+        $weatherStationsFull[$numSites]["rain_noah"] = $row["rain_noah"];
+        $weatherStationsFull[$numSites]["rain_noah2"] = $row["rain_noah2"];
+        $weatherStationsFull[$numSites]["rain_noah3"] = $row["rain_noah3"];
+        $weatherStationsFull[$numSites]["rain_senslope"] = $row["rain_senslope"];
+        $weatherStationsFull[$numSites]["rain_arq"] = $row["rain_arq"];
+        $weatherStationsFull[$numSites++]["max_rain_2year"] = $row["max_rain_2year"];
+
     }
 } else {
-    // echo "0 results";
+
 }
 
-
-$conn->close();
-
-
-
+//echo json_encode($weatherStationsFull);
+mysqli_close($conn);
 ?>
-
-
-
 	<link href="/js/development-bundle/themes/south-street/jquery-ui.css" rel="stylesheet">
 
 	<script type="text/javascript" src="/js/jquery-ui-1.10.4.custom.js"></script>
@@ -42,7 +59,6 @@ $conn->close();
 	<script type="text/javascript" src="/js/development-bundle/ui/jquery.ui.datepicker.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.0/dygraph-combined.js"></script>
 	<script type="text/javascript" src="http://fgnass.github.io/spin.js/spin.min.js"></script>
-<!-- 	<script type="text/javascript" src="/goldF/js/dewslandslide/dewsrainprops-dy.js"></script>   -->
 
 
         <div id="page-wrapper">
@@ -159,90 +175,76 @@ $conn->close();
                     </div>
                 </div>
                 <!-- /.row -->
-				<div class="row">
+                <div class="row">
                     <div class="col-lg-12">
+                        <ol class="breadcrumb">
+                            <li class="active">
+                              <i class="fa fa-bar-chart-o fa-fw"></i> Rainfall Data 
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+                  <div class="row" id="moisture-panel">
+                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Rainfall Data</h3>
-                            </div>
-        
-                        </div>
-					</div>
-                </div>
-     
-                <!-- /.row -->
-
-				<div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading" name="rainController">
-                            	<select id="rainSelect"></select>
-								<input type=button id=arqRain value='Rain ARQ' >
-								<input type=button id=senRain value='Rain Senslope'>
+                                <h3 class="panel-title">
+                              
+									<div class="btn-group switch-graph-view" data-toggle="buttons">
+										<select id="mySelect" class="form-control" onchange="displayRainGraphs()">
+											<?php
+									            $ctr = 0 ;
+									            foreach ($weatherStationsFull as $singleSite) {
+									              $curSite = $singleSite["name"];
+									              echo "<option value=\"$ctr\">$curSite</option>";
+									              ;
+									            }
+									          ?>
+										</select> 
+										 
+									</div>
+                                </h3>
                             </div>
                             <div class="panel-body">
-								<div id="rainfall-canvas">
-									<div id="graphdiv5" style="width:auto; height:400px; "></div>
-									<div id="graphdiv3" style="width:auto; height:400px; "></div>
-									<div id="graphdiv4" style="width:auto; height:400px;  "></div>
-									</div>
-								</div>
+                            	<div id="rainGraphARQ" class="ARQdataset" style="width:auto; height:250px;"></div>
+                            	<div id="rainGraphSenslope" class="SENdataset" style="width:auto; height:250px;"></div>
+                            	<div id="rainGraphNoah" class="NOAHdataset" style="width:auto; height:250px;"></div>
+								<div id="rainGraphNoah2" class="NOAHdataset2" style="width:auto; height:250px;"></div>
+								<div id="rainGraphNoah3" class="NOAHdataset3" style="width:auto; height:250px;"></div>
+								
+								
+								
                             </div>
                         </div>
-					</div>
+                    </div>                                     
+                </div>	
+                <!-- /.row -->
                 
-                <!-- /.row -->	   
-
-            </div>
             <!-- /.container-fluid -->
 
         </div>
         <!-- /#page-wrapper -->
+
 <script>
-
-
-
 
 var end_date = new Date();
 var start_date = new Date(end_date.getFullYear(), end_date.getMonth(), end_date.getDate()-30);
 
-function setDate(fromDate, toDate) {
-	    var end_date;
-	    var start_date;
+$(function() {
+            $( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
+            $( "#datepicker" ).datepicker("setDate", start_date);
+        });
 
-		if(toDate == "") {
-			end_date = new Date();
-		}
-		else {
-			end_date = new Date(toDate);
-		}
-
-		if(fromDate == "") {
-			if (end_date.getMonth() == 0) {
-				start_date = new Date(12 + '-' + end_date.getDate() + '-' + (end_date.getFullYear() - 1));
-			}
-			else{
-				start_date = new Date((end_date.getMonth()) + '-' + end_date.getDate() + '-' + end_date.getFullYear());
-			};
-		}
-		else {
-			start_date = new Date(fromDate);
-		}
-
-		$(function() {
-	    	$( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
-	        $( "#datepicker" ).datepicker("setDate", start_date);
-		});
-
-	    $(function() {
-	    	$( "#datepicker2" ).datepicker({ dateFormat: "yy-mm-dd" });
-	        $( "#datepicker2" ).datepicker("setDate", end_date);
-		});
-	}
+        $(function() {
+            $( "#datepicker2" ).datepicker({ dateFormat: "yy-mm-dd" });
+            $( "#datepicker2" ).datepicker("setDate", end_date);
+        });
+ //
 var curSite = "<?php echo $site; ?>";
-
 var fromDate = "" , toDate = "" , dataBase = "";
 var curNode = "<?php echo $node; ?>";
+
 
 function getAllSites() {	
 		var baseURL = "<?php echo $_SERVER['SERVER_NAME']; ?>";
@@ -260,13 +262,15 @@ function getAllSites() {
 		});
 	}
 
-	
 function popDropDownGeneral() {
 	var select = document.getElementById('sitegeneral');
+	
 	var i;
 	for (i = 0; i < options.length; i++) {
 		var opt = options[i];
+
 		var el = document.createElement("option");
+		
 		el.textContent = opt.toUpperCase();
 
 		if(opt == "select") {
@@ -280,32 +284,17 @@ function popDropDownGeneral() {
 	}
 }
 
-
-	
-// function initSite() {
-// 	if (curSite != "") {
-// 		$('#sitegeneral').val(curSite);
-// 		document.getElementById("node").value = curNode;
-// 		var element = document.getElementById("header-site");
-// 		var targetForm = document.getElementById("formGeneral");
-// 		var V2V = "<?php echo $version ?>";
-// 		element.innerHTML = targetForm.sitegeneral.value.toUpperCase()  + " (v" + V2V + ") " + " Site Overview";
-
-// 		showSitePlots(targetForm);
-// 	}
-// }
-
 function initSite() {
-		if (curSite != "") {
-			$('#sitegeneral').val(curSite);
-			document.getElementById("node").value = curNode;
-			var element = document.getElementById("header-site");
-			var targetForm = document.getElementById("formGeneral");
-			var V2V = "<?php echo $version ?>";
-			element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " (v" + V2V + ") "+ " Site Overview";	
-			// showSitePlots(targetForm);		
-		}
+	if (curSite != "") {
+		$('#sitegeneral').val(curSite);
+		document.getElementById("node").value = curNode;
+		var element = document.getElementById("header-site");
+		var targetForm = document.getElementById("formGeneral");
+		element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " Site Overview";
+
+		showSitePlots(targetForm);
 	}
+}
 
 function getMainForm() {
 		var targetForm = document.getElementById("formGeneral");
@@ -320,14 +309,15 @@ window.onload = function() {
 	nodeStatusJSON = <?php echo $nodeStatus; ?>;
 	maxNodesJSON = <?php echo $siteMaxNodes; ?>;
 	getAllSites();
+	
+	$('#mySelect').hide();
     $('#nodeGeneralname').hide();
 	$('#nodeGeneral').hide();
-	// $('#yow').hide();
-	// $('#om').hide();
+	displayRainGraphs();
 	positionPlot.init_dims();
-	//initAnalysisDyna();
-	// popDropDownGeneral();
 
+	
+	
 	setTimeout(function(){
 		initSite();
 	}, 500);
@@ -335,26 +325,25 @@ window.onload = function() {
 	setTimeout(function(){
 		initAlertPlot();
 	}, 1000);
-
 }
 
-	setDate(fromDate, toDate);
+
 window.onresize = function() {
 	d3.select("#svg-alertmini").remove();
 	initAlertPlot();
 
-	//+PANB: Quick Fix for repeated drawing is to not call the
-	//	plot generator that was created by Kyle. Gotta clean
-	//	this up in the future.
+
 
 	showPositionPlotGeneral();
 	showCommHealthPlotGeneral();
 	showSentNodeTotalGeneral();
-	showRainGeneral();
+	displayRainGraphs();
+
 }
 
 function redirectSitePlots (frm) {
 	if(document.getElementById("sitegeneral") == "none") {
+		
 		//do nothing
 	}
 	else {
@@ -369,8 +358,6 @@ function redirectSitePlots (frm) {
 }
 
 
-
-
 function showSitePlots (frm) {
 	if(document.getElementById("sitegeneral") == "none") {
 		//do nothing
@@ -380,6 +367,8 @@ function showSitePlots (frm) {
 		fromDate = document.getElementById("formDate").dateinput.value;
 		toDate = document.getElementById("formDate").dateinput2.value;
 		dataBase = frm.dbase.value;
+		
+	
 
 		var element = document.getElementById("header-site");
 		element.innerHTML = frm.sitegeneral.value.toUpperCase() + " Site Overview";
@@ -387,8 +376,8 @@ function showSitePlots (frm) {
 		showPositionPlotGeneral();
 		showAnalysisDynaGeneral(frm);
 		showSentNodeTotalGeneral();
-        showRainGeneral();
 		showCommHealthPlotGeneral();
+		displayRainGraphs();
 		//showBrush();
 	}
 }
@@ -401,8 +390,8 @@ function showDateSitePlots (frm) {
 		fromDate = document.getElementById("formDate").dateinput.value;
 		toDate = document.getElementById("formDate").dateinput2.value;
 		showSentNodeTotalGeneral();
-		showRainGeneral();
-		//showBrush();
+		displayRainGraphs();
+		
 	}
 }
 
@@ -415,229 +404,583 @@ $(document).ready(function() {
 
             $('#siteG').addClass('form-group col-xs-6').removeClass(' form-group col-xs-3');
             $('#dBase').addClass('form-group col-xs-4').removeClass('form-group col-xs-3');
-            // document.getElementById("datepicker").style.visibility = "hidden";
-            // document.getElementById("datepicker2").style.visibility = "hidden";
+           
 
-            // $('<FORM id="formDate">').ad('</br>');
 
     });
 
-$(function() {
-$('#graphdiv3').show().delay(0).fadeOut();
-$('#graphdiv4').show().delay(0).fadeOut();
-    $('#rainSelect').click(function(){
-    $('#graphdiv5').fadeIn();
-    $('#rainSelect').show();
-    $('#graphdiv3').hide();
-    $('#graphdiv4').hide();
-    })
-    $('#arqRain').click(function(){
-    $('#graphdiv5').hide();
-    $('#rainSelect').show();
-    $('#graphdiv4').fadeIn();
-    $('#graphdiv3').hide();
-    })
-    $('#senRain').click(function(){
-    $('#graphdiv5').hide();
-    $('#rainSelect').show();
-    $('#graphdiv4').hide();
-    $('#graphdiv3').fadeIn();
-    })
+</script>
 
-})
+<script>
 
-// rainfall data dygraph for site.php only this code here is not permanent:
-
-var site = curSite.toUpperCase();
+var allWS = <?php echo json_encode($weatherStationsFull); ?>;
+var prevWS = null;
+var prevWSnoah = null;
+var rainData = [];
+var rainDataNoah = [];
+var isVisible = [true, true, true, true];
+var opts = {
+    lines: 11, // The number of lines to draw
+    length: 6, // The length of each line
+    width: 3, // The line thickness
+    radius: 8, // The radius of the inner circle
+    corners: 1, // Corner roundness (0..1)
+    rotate: 0, // The rotation offset
+    direction: 1, // 1: clockwise, -1: counterclockwise
+    color: '#000', // #rgb or #rrggbb or array of colors
+    speed: 1.1, // Rounds per second
+    trail: 58, // Afterglow percentage
+    shadow: false, // Whether to render a shadow
+    hwaccel: false, // Whether to use hardware acceleration
+    className: 'spinner', // The CSS class to assign to the spinner
+    zIndex: 2e9, // The z-index (defaults to 2000000000)
+    top: '50%', // Top position relative to parent
+    left: '50%' // Left position relative to parent
+};
 var frmdate = $.datepicker.formatDate('yy-mm-dd', start_date);
 var todate = $.datepicker.formatDate('yy-mm-dd', end_date);
-var g3;
-var g5;
-var g4;
-console.log( frmdate , todate);
+  
+  function JSON2CSV(objArray) {
+    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
 
-       $('#senRain').hide();
-                        var rainAPI = "/temp/getSenslopeData.php/?rainsenslope&site="+site+"&start_date="+frmdate+"&end_date="+todate;
-                        $.getJSON( rainAPI )
-                            .done(function( jsonWmaxrain ) {
-                                $('#senRain').show();
-                                console.log(jsonWmaxrain);
-                                var json = jsonWmaxrain.rain_senslope;
-                                var rainSeriesDyGraph = [];
-                                $.each( json, function( arrayIndex, rainsenslope ) {
-                                    var timestamp = new Date(rainsenslope.timestamp);
-                                        rainSeriesDyGraph.push([
-                                            timestamp ,
-                                            parseFloat(rainsenslope.rain),
-                                            parseFloat(rainsenslope.rain),
-                                        ]);
-                                });
-                             if ( rainSeriesDyGraph.length != 0 ) {
-                                     g3 = new Dygraph(
-                                        document.getElementById("graphdiv3"),
-                                        rainSeriesDyGraph,
-                                        {
-                                            rollPeriod: 50,
-                                            showRoller: true,
-                                            labels: [ "timestamp", "24 hours" , "Shorttime Interval "],
-                                            fillGraph: true,
-                                            strokeWidth: 2,
-                                            title: site +' Rain Senslope',
-                                             underlayCallback: function(canvas, area, g2) {
+    var str = '';
+    var line = '';
 
-                                                            var c0 = g2.toDomCoords(g2.getValue(0,0), 0);
+    if ($("#labels").is(':checked')) {
+      var head = array[0];
+      if ($("#quote").is(':checked')) {
+        for (var index in array[0]) {
+          var value = index + "";
+          line += '"' + value.replace(/"/g, '""') + '",';
+        }
+      } else {
+        for (var index in array[0]) {
+          line += index + ',';
+        }
+      }
 
-                                                            canvas.fillStyle = '#ffb3b3';
-                                                            canvas.fillRect(area.x, area.y, area.w, area.h);
+      line = line.slice(0, -1);
+      str += line + '\r\n';
+    }
 
-                                                            var c1 = g2.toDomCoords(g2.getValue(0,0), jsonWmaxrain.max_rain_2year);
-                                                            canvas.fillStyle = '#FFFFCC';
-                                                            canvas.fillRect(area.x, c1[1], area.w, 5*(c0[1]-c1[1]));
+    for (var i = 0; i < array.length; i++) {
+      var line = '';
 
-                                                            var c2 = g2.toDomCoords(g2.getValue(0,0), jsonWmaxrain.max_rain_2year/2);
-                                                            canvas.fillStyle = '#D1FFD1';
-                                                            canvas.fillRect(area.x, c2[1], area.w, 10*(c0[1]-c2[1]));
-                                                      }
-                                        }
-                                    );
-                                }else{
-                               
-                                    $('#graphdiv3').append('<p>rain_senslope is empty!</p>');
+      if ($("#quote").is(':checked')) {
+        for (var index in array[i]) {
+          var value = array[i][index] + "";
+          line += '"' + value.replace(/"/g, '""') + '",';
+        }
+      } else {
+        for (var index in array[i]) {
+          line += array[i][index] + ',';
+        }
+      }
 
-                                      // $('#senRain').hide();
+      line = line.slice(0, -1);
+      str += line + '\r\n';
+    }
+    return str;
+  }
 
-                                }
-                            })
-                            .fail(function( jqxhr, textStatus, error ) {
-                                var err = textStatus + ", " + error;
-                                console.log( "Request Failed: " + err );
-                            });
+function displayRainGraphs() {
+    var x = document.getElementById("mySelect").value;
 
+    if (x != "default") {
+        var rainSenslope = allWS[x]["rain_senslope"];
+        var rainNOAH = allWS[x]["rain_noah"];
+        var rainNOAH2 = allWS[x]["rain_noah2"];
+        var rainNOAH3 = allWS[x]["rain_noah3"];
+        var rainARQ = allWS[x]["rain_arq"];
+        var max = allWS[x]["max_rain_2year"];
+        console.log(x +"ito un")
+        if(rainSenslope) {
+            if (rainSenslope != prevWS) {
+                getRainfallData(rainSenslope);
+                prevWS = rainSenslope;
+              
 
-                        $('#arqRain').hide();
-                        var rainAPI = "/temp/getSenslopeData.php/?rainarq&site="+site+"&start_date="+frmdate+"&end_date="+todate;
-                        $.getJSON( rainAPI )
-                            .done(function( jsonWmaxrain ) {
-                                $('#arqRain').show();
-                                console.log(jsonWmaxrain);
-                                var json = jsonWmaxrain.rain_arq;
-                                var rainSeriesDyGraph = [];
-                                $.each( json, function( arrayIndex, rainarq ) {
-                                    var timestamp = new Date(rainarq.timestamp);
-                                        rainSeriesDyGraph.push([
-                                            timestamp ,
-                                            parseFloat(rainarq.r15m),
-                                            parseFloat(rainarq.r24h),
-                                        ]);
-                                });
-                             if ( rainSeriesDyGraph.length != 0 ) {
-                                     g4 = new Dygraph(
-                                        document.getElementById("graphdiv4"),
-                                        rainSeriesDyGraph,
-                                        {
-                                            rollPeriod: 50,
-                                            showRoller: true,
-                                            labels: [ "timestamp", "24 hours" , "Shorttime Interval "],
-                                            fillGraph: true,
-                                            strokeWidth: 2,
-                                            title: site +' Rain ARQ',
-                                             underlayCallback: function(canvas, area, g2) {
+              
+            }            
+        }
+        else {
+            document.getElementById("rainGraphSenslope").innerHTML = null;
+            $(".SENdataset").hide();
+            $(".btn-ds-2").hide();
+        }
 
-                                                            var c0 = g2.toDomCoords(g2.getValue(0,0), 0);
+        if(rainARQ) {
+          if (rainARQ != prevWS) {
+              getRainfallARQ(rainARQ);
+              prevWS = rainARQ;
+             
+             
+          }            
+        }
+        else {
+          document.getElementById("rainGraphARQ").innerHTML = null;
+          $(".ARQdataset").hide();
+          $(".btn-ds-1").hide();
+        }
 
-                                                            canvas.fillStyle = '#ffb3b3';
-                                                            canvas.fillRect(area.x, area.y, area.w, area.h);
+         if(rainNOAH) {
+            if (rainNOAH != prevWSnoah) {
+                getRainfallDataNOAH(rainNOAH);
+                prevWSnoah = rainNOAH;
+			
+            }            
+        }
+        else {
+            document.getElementById("rainGraphNoah").innerHTML = null;
+            $(".NOAHdataset").hide();
+            $(".btn-ds-3").hide();
+        }
 
-                                                            var c1 = g2.toDomCoords(g2.getValue(0,0), jsonWmaxrain.max_rain_2year);
-                                                            canvas.fillStyle = '#FFFFCC';
-                                                            canvas.fillRect(area.x, c1[1], area.w, 5*(c0[1]-c1[1]));
-
-                                                            var c2 = g2.toDomCoords(g2.getValue(0,0), jsonWmaxrain.max_rain_2year/2);
-                                                            canvas.fillStyle = '#D1FFD1';
-                                                            canvas.fillRect(area.x, c2[1], area.w, 10*(c0[1]-c2[1]));
-                                                      }
-                                        }
-                                    );
-                                }else{
-                                    $('#graphdiv4').append('<p>rainarq is empty!</p>');
-                                      // $('#arqRain').hide();
-                                }
-                            })
-                            .fail(function( jqxhr, textStatus, error ) {
-                                var err = textStatus + ", " + error;
-                                console.log( "Request Failed: " + err );
-                            });
+         if(rainNOAH2) {
+            if (rainNOAH2 != prevWSnoah) {
+                getRainfallDataNOAH2(rainNOAH2);
+                prevWSnoah = rainNOAH2;
+			
+            }            
+        }
+        else {
+            document.getElementById("rainGraphNoah2").innerHTML = null;
+             $(".NOAHdataset2").hide();
+             $(".btn-ds-4").hide();
+        }
 
 
-                        $('#rainSelect').hide();
-                        var rainAPI =  "/temp/getSenslopeData.php/?rainnoah&site="+site+"&start_date="+frmdate+"&end_date="+todate;
-                        var APIarray = [];
-                        var max_rain_2year;
-                        $.getJSON( rainAPI )
-                            .done(function( json ) {
-                                $('#rainSelect').show();
-                                var rainIndex = 0;
-                                console.log(json);
-                                $.each(json, function( rain, data){
-                                    if ($.isArray(data)) {
-                                        var dataArray = [];
-                                        $.each(data, function(index, rainData){
-                                            dataArray.push([
-                                                new Date(rainData.timestamp),
-                                                (parseFloat(rainData.cumm) > 0) ? parseFloat(rainData.cumm): 0,
-                                                (parseFloat(rainData.rval) > 0) ? parseFloat(rainData.rval): 0
-                                            ]);
-                                        });
-                                        APIarray.push(dataArray);
-                                        if (dataArray.length != 0){
-                                            $('#rainSelect').append('<option value="' + rainIndex+ '">' + rain + '</option>');
-                                        }
-                                        rainIndex++;
-                                    }
-                                    if (rain = 'max_rain_2year') {
-                                        max_rain_2year = data;
-                                    }
-                                });
-                                console.log(APIarray);
-                                var rainGraph = $('#rainSelect').val();
+         if(rainNOAH3) {
+            if (rainNOAH3 != prevWSnoah) {
+                getRainfallDataNOAH3(rainNOAH3);
+                prevWSnoah = rainNOAH3;
+				
+            }            
+        }
+        else {
+            document.getElementById("rainGraphNoah3").innerHTML = null;
+             $(".NOAHdataset3").hide();
+             $(".btn-ds-5").hide();
+        }
+        
+       
+    };
+}
 
-                                if (rainGraph != null) {
-                                    g5 = new Dygraph(
-                                        document.getElementById("graphdiv5"),
-                                        APIarray[$('#rainSelect').val()],
-                                        {
-                                            rollPeriod: 50,
-                                            showRoller: true,
-                                            labels: [ "timestamp", "24 hours" , "Shorttime Interval "],
-                                            fillGraph: true,
-                                            strokeWidth: 2,
-                                             title: site + ' Rain Noah' ,
-                                             underlayCallback: function(canvas, area, g2) {
+var testResult;
+function getRainfallData(str) {
+    if (str.length == 0) { 
+        document.getElementById("rainGraphSenslope").innerHTML = "";
+        return;
+    } else {
+      $.ajax({url: "/ajax/rainfallNewGetData.php?rsite="+ str +"&fdate="+frmdate+"&tdate="+todate, success: function(result){
 
-                                                            var c0 = g2.toDomCoords(g2.getValue(0,0), 0);
+		var target = document.getElementById('rainGraphSenslope');
+		var spinner = new Spinner(opts).spin();
+		target.appendChild(spinner.el);
+        testResult = result;
+        var x = document.getElementById("mySelect").value;
+        var max = allWS[x]["max_rain_2year"];
+       
+        if ((result == "[]") || (result == "")) {
+          document.getElementById("rainGraphSenslope").innerHTML = "";
+          return;
+        };
 
-                                                            canvas.fillStyle = '#ffb3b3';
-                                                            canvas.fillRect(area.x, area.y, area.w, area.h);
+        var jsonData = JSON.parse(result);
+        console.log(jsonData);
+        if(jsonData) {
+          var data = JSON2CSV(jsonData);
+          var isStacked = false;
+          
+          spinner.stop();
+        
+          g = new Dygraph(
+              document.getElementById("rainGraphSenslope"), 
+              data, 
+              {
+                  title: 'Rainfall Data from Senslope ' + str ,
+                  stackedGraph: isStacked,
+                  labels: ['timestamp','72h', 'cumm', 'rain'],
+                  visibility: isVisible,
+                  rollPeriod: 1,
+                  showRoller: true,
 
-                                                            var c1 = g2.toDomCoords(g2.getValue(0,0), max_rain_2year);
-                                                            canvas.fillStyle = '#FFFFCC';
-                                                            canvas.fillRect(area.x, c1[1], area.w, 5*(c0[1]-c1[1]));
+                  //errorBars: true,
 
-                                                            var c2 = g2.toDomCoords(g2.getValue(0,0), max_rain_2year/2);
-                                                            canvas.fillStyle = '#D1FFD1';
-                                                            canvas.fillRect(area.x, c2[1], area.w, 10*(c0[1]-c2[1]));
-                                                      }
-                                        }
-                                    );
-                                }
-                            })
-                            .fail(function( jqxhr, textStatus, error ) {
-                                var err = textStatus + ", " + error;
-                                console.log( "Request Failed: " + err );
-                            });
-                            $('#rainSelect').change(function(){
-                                g5.updateOptions( { 'file': APIarray[$('#rainSelect').val()] } );
+                  highlightCircleSize: 2,
+                  strokeWidth: 2,
+                  strokeBorderWidth: isStacked ? null : 1,
+                  connectSeparatedPoints: true,
+                  underlayCallback: function(canvas, area, g2) {
 
-                            });
+                                  var c0 = g2.toDomCoords(g2.getValue(0,0), 0);
+
+                                  canvas.fillStyle = '#ffb3b3';
+                                  canvas.fillRect(area.x, area.y, area.w, area.h);
+
+                                  var c1 = g2.toDomCoords(g2.getValue(0,0), max);
+                                  canvas.fillStyle = '#FFFFCC';
+                                  canvas.fillRect(area.x, c1[1], area.w, 5*(c0[1]-c1[1]));
+
+                                  var c2 = g2.toDomCoords(g2.getValue(0,0), max/2);
+                                  canvas.fillStyle = '#D1FFD1';
+                                  canvas.fillRect(area.x, c2[1], area.w, 10*(c0[1]-c2[1]));
+                  },
+                  cumm : {
+                    axis : { }
+                  },
+                  S : {
+                    axis : 'cumm'
+                  },
+                            
+                  highlightSeriesOpts: {
+                      strokeWidth: 4,
+                      strokeBorderWidth: 1,
+                      highlightCircleSize: 3
+                  }
+
+                  
+              }
+          );  
+        }
+        else {
+            document.getElementById("rainGraphSenslope").innerHTML = "";
+            return;
+        }        
+      }});
+    }
+}
+
+function getRainfallARQ(str) {
+    if (str.length == 0) { 
+        document.getElementById("rainGraphARQ").innerHTML = "";
+        return;
+    } else {
+      $.ajax({url: "/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
+		var target = document.getElementById('rainGraphARQ');
+		var spinner = new Spinner(opts).spin();
+		target.appendChild(spinner.el);
+        testResult = result;
+        var x = document.getElementById("mySelect").value;
+        var max = allWS[x]["max_rain_2year"];
+        console.log("arq " + str);
+        if ((result == "[]") || (result == "")) {
+          document.getElementById("rainGraphARQ").innerHTML = "";
+          return;
+        };
+
+        var jsonData = JSON.parse(result);
+        console.log(jsonData);
+        if(jsonData) {
+          var data = JSON2CSV(jsonData);
+          var isStacked = false;
+          
+          spinner.stop();
+        
+          g = new Dygraph(
+              document.getElementById("rainGraphARQ"), 
+              data, 
+              {
+                  title: 'Rainfall Data from ARQ ' + str ,
+                  stackedGraph: isStacked,
+                  labels: ['timestamp','72h', 'cumm', 'rain'],
+                  visibility: isVisible,
+                  rollPeriod: 1,
+                  showRoller: true,
+
+                  //errorBars: true,
+
+                  highlightCircleSize: 2,
+                  strokeWidth: 2,
+                  strokeBorderWidth: isStacked ? null : 1,
+                  connectSeparatedPoints: true,
+                  underlayCallback: function(canvas, area, g2) {
+
+                                  var c0 = g2.toDomCoords(g2.getValue(0,0), 0);
+
+                                  canvas.fillStyle = '#ffb3b3';
+                                  canvas.fillRect(area.x, area.y, area.w, area.h);
+
+                                  var c1 = g2.toDomCoords(g2.getValue(0,0), max);
+                                  canvas.fillStyle = '#FFFFCC';
+                                  canvas.fillRect(area.x, c1[1], area.w, 5*(c0[1]-c1[1]));
+
+                                  var c2 = g2.toDomCoords(g2.getValue(0,0), max/2);
+                                  canvas.fillStyle = '#D1FFD1';
+                                  canvas.fillRect(area.x, c2[1], area.w, 10*(c0[1]-c2[1]));
+                  },
+                  cumm : {
+                    axis : { }
+                  },
+                  S : {
+                    axis : 'rain'
+                  },
+                            
+                  highlightSeriesOpts: {
+                      strokeWidth: 4,
+                      strokeBorderWidth: 1,
+                      highlightCircleSize: 3
+                  }
+
+                  
+              }
+          );  
+        }
+        else {
+            document.getElementById("rainGraphARQ").innerHTML = "";
+            return;
+        }        
+      }});
+    }
+}
+
+
+function getRainfallDataNOAH(str) {
+    if (str.length == 0) { 
+        document.getElementById("rainGraphNoah").innerHTML = "";
+        return;
+    } else {
+      $.ajax({url: "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
+ 
+		var target = document.getElementById('rainGraphNoah');
+		var spinner = new Spinner(opts).spin();
+		target.appendChild(spinner.el);
+        if ((result == "[]") || (result == "")) {
+          document.getElementById("rainGraphNoah").innerHTML = "";
+          return;
+        };
+
+        var jsonData = JSON.parse(result);
+        var x = document.getElementById("mySelect").value;
+        var max = allWS[x]["max_rain_2year"];
+        console.log("NOAH1  " + str);
+        if(jsonData) {
+          var data = JSON2CSV(jsonData);
+          var isStacked = false;
+          
+          spinner.stop();
+          
+          g = new Dygraph(
+              document.getElementById("rainGraphNoah"), 
+              data, 
+              {
+                  title: 'Rainfall Data from Noah1 ' + str,
+                  stackedGraph: isStacked,
+                  labels: ['timestamp', '72h','cumm', 'rain'],
+                  visibility: isVisible,
+                  rollPeriod: 1,
+                  showRoller: true,
+                  //errorBars: true,
+
+                  highlightCircleSize: 2,
+                  strokeWidth: 2,
+                  strokeBorderWidth: isStacked ? null : 1,
+                  connectSeparatedPoints: true,
+                   underlayCallback: function(canvas, area, g2) {
+
+                                  var c0 = g2.toDomCoords(g2.getValue(0,0), 0);
+
+                                  canvas.fillStyle = '#ffb3b3';
+                                  canvas.fillRect(area.x, area.y, area.w, area.h);
+
+                                  var c1 = g2.toDomCoords(g2.getValue(0,0), max);
+                                  canvas.fillStyle = '#FFFFCC';
+                                  canvas.fillRect(area.x, c1[1], area.w, 5*(c0[1]-c1[1]));
+
+                                  var c2 = g2.toDomCoords(g2.getValue(0,0), max/2);
+                                  canvas.fillStyle = '#D1FFD1';
+                                  canvas.fillRect(area.x, c2[1], area.w, 10*(c0[1]-c2[1]));
+                  },
+
+                  cumm : {
+                    axis : { }
+                  },
+                  S : {
+                    axis : 'rain'
+                  },                
+                            
+                  highlightSeriesOpts: {
+                      strokeWidth: 4,
+                      strokeBorderWidth: 1,
+                      highlightCircleSize: 3
+                  }
+
+              }
+          );  
+        }
+        else {
+            document.getElementById("rainGraphNoah").innerHTML = "";
+            return;
+        }        
+      }});
+    }
+}
+
+
+function getRainfallDataNOAH2(str) {
+    if (str.length == 0) { 
+        document.getElementById("rainGraphNoah2").innerHTML = "";
+        return;
+    } else {
+      $.ajax({url: "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
+
+		var target = document.getElementById('rainGraphNoah2');
+		var spinner = new Spinner(opts).spin();
+		target.appendChild(spinner.el);   
+        if ((result == "[]") || (result == "")) {
+          document.getElementById("rainGraphNoah2").innerHTML = "";
+          return;
+        };
+
+        var jsonData = JSON.parse(result);
+        var x = document.getElementById("mySelect").value;
+        var max = allWS[x]["max_rain_2year"];
+        console.log("NOAH2 " + str);
+
+        if(jsonData) {
+          var data = JSON2CSV(jsonData);
+          var isStacked = false;
+          
+          spinner.stop();
+          
+          g = new Dygraph(
+              document.getElementById("rainGraphNoah2"), 
+              data, 
+              {
+                  title: 'Rainfall Data from Noah2 ' + str,
+                  stackedGraph: isStacked,
+                  labels: ['timestamp', '72h','cumm', 'rain'],
+                  visibility: isVisible,
+                  rollPeriod: 1,
+                  showRoller: true,
+                  //errorBars: true,
+
+                  highlightCircleSize: 2,
+                  strokeWidth: 2,
+                  strokeBorderWidth: isStacked ? null : 1,
+                  connectSeparatedPoints: true,
+                   underlayCallback: function(canvas, area, g2) {
+
+                                  var c0 = g2.toDomCoords(g2.getValue(0,0), 0);
+
+                                  canvas.fillStyle = '#ffb3b3';
+                                  canvas.fillRect(area.x, area.y, area.w, area.h);
+
+                                  var c1 = g2.toDomCoords(g2.getValue(0,0), max);
+                                  canvas.fillStyle = '#FFFFCC';
+                                  canvas.fillRect(area.x, c1[1], area.w, 5*(c0[1]-c1[1]));
+
+                                  var c2 = g2.toDomCoords(g2.getValue(0,0), max/2);
+                                  canvas.fillStyle = '#D1FFD1';
+                                  canvas.fillRect(area.x, c2[1], area.w, 10*(c0[1]-c2[1]));
+                  },
+
+                  cumm : {
+                    axis : { }
+                  },
+                  S : {
+                    axis : 'rain'
+                  },                
+                            
+                  highlightSeriesOpts: {
+                      strokeWidth: 4,
+                      strokeBorderWidth: 1,
+                      highlightCircleSize: 3
+                  }
+
+              }
+          );  
+        }
+        else {
+            document.getElementById("rainGraphNoah2").innerHTML = "";
+            return;
+        }        
+      }});
+    }
+}
+
+
+function getRainfallDataNOAH3(str) {
+    if (str.length == 0) { 
+        document.getElementById("rainGraphNoah3").innerHTML = "";
+        return;
+    } else {
+      $.ajax({url: "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
+
+		var target = document.getElementById('rainGraphNoah3');
+		var spinner = new Spinner(opts).spin();
+		target.appendChild(spinner.el);  
+        if ((result == "[]") || (result == "")) {
+          document.getElementById("rainGraphNoah3").innerHTML = "";
+          return;
+        };
+
+        var jsonData = JSON.parse(result);
+        var x = document.getElementById("mySelect").value;
+        var max = allWS[x]["max_rain_2year"];
+         console.log("NOAH3 " + str);
+
+        if(jsonData) {
+          var data = JSON2CSV(jsonData);
+          var isStacked = false;
+          
+          spinner.stop();
+          
+          g = new Dygraph(
+              document.getElementById("rainGraphNoah3"), 
+              data, 
+              {
+                  title: 'Rainfall Data from Noah3 ' + str,
+                  stackedGraph: isStacked,
+                  labels: ['timestamp', '72h','cumm', 'rain'],
+                  visibility: isVisible,
+                  rollPeriod: 2,
+                  showRoller: true,
+                  //errorBars: true,
+
+                  highlightCircleSize: 2,
+                  strokeWidth: 2,
+                  strokeBorderWidth: isStacked ? null : 1,
+                  connectSeparatedPoints: true,
+                   underlayCallback: function(canvas, area, g2) {
+
+                                  var c0 = g2.toDomCoords(g2.getValue(0,0), 0);
+
+                                  canvas.fillStyle = '#ffb3b3';
+                                  canvas.fillRect(area.x, area.y, area.w, area.h);
+
+                                  var c1 = g2.toDomCoords(g2.getValue(0,0), max);
+                                  canvas.fillStyle = '#FFFFCC';
+                                  canvas.fillRect(area.x, c1[1], area.w, 5*(c0[1]-c1[1]));
+
+                                  var c2 = g2.toDomCoords(g2.getValue(0,0), max/2);
+                                  canvas.fillStyle = '#D1FFD1';
+                                  canvas.fillRect(area.x, c2[1], area.w, 10*(c0[1]-c2[1]));
+                  },
+
+                  cumm : {
+                    axis : { }
+                  },
+                  S : {
+                    axis : 'rain'
+                  },                
+                            
+                  highlightSeriesOpts: {
+                      strokeWidth: 4,
+                      strokeBorderWidth: 1,
+                      highlightCircleSize: 3
+                  }
+
+              }
+          );  
+        }
+        else {
+            document.getElementById("rainGraphNoah3").innerHTML = "";
+            return;
+        }        
+      }});
+    }
+}
 
 </script>
