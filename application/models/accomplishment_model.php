@@ -71,9 +71,24 @@
         	return $id;
     	}
 
+
+
+    	/**
+    	 * Gets info from database to be viewed on
+    	 * accomlishmentreport_individual and _all
+    	 * 
+    	 * $id = 0 means get all (used in _all)
+    	 * else if $id > 0, get specific row id (used in _individual)
+    	 * 
+    	 **/
     	public function getReport($id)
 		{
-			$sql = "SELECT * FROM accomplishment_report WHERE ar_id = '$id'";
+			if ($id == 0) 
+			{
+				$sql = "SELECT * FROM accomplishment_report";
+			} else {
+				$sql = "SELECT * FROM accomplishment_report WHERE ar_id = '$id'";
+			}
 			
 			$query = $this->db->query($sql);
 
@@ -83,13 +98,21 @@
 			}
 
 			$result;
+			if($id == 0) { $resultlist; $i = 0; };
+
 			foreach ($query->result() as $row) {
 				$result["ar_id"] = $row->ar_id;
 				$result["shift_start"] = $row->shift_start;
 				$result["shift_end"] = $row->shift_end;
 				$result["overtime_type"] = $row->overtime_type;
 				$result["on_duty"] = $row->on_duty;
+				if($id == 0)
+				{
+					$resultlist[$i] = $result; $i += 1;
+				}
 			}
+
+			if($id == 0) return json_encode($resultlist);
 
 			$sql = "SELECT site, alert_status, continue_monitoring FROM accomplishment_report_sites WHERE ar_id = '$id'";
 			$query = $this->db->query($sql);

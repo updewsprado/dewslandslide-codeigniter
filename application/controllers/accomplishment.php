@@ -47,6 +47,16 @@
 			else echo "$result";
 		}
 
+		public function showReports()
+		{
+			$result = $this->accomplishment_model->getReport(0);
+			//$this->load->view('gold/accomplishmentreport', $result);
+			
+			if ($result == "[]") echo "Variable is empty<Br><Br>";
+			else echo "$result";
+		}
+
+
 		public function insertData()
 		{
 		 	$data  = array (

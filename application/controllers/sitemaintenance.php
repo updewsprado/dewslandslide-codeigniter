@@ -40,8 +40,7 @@
 		 	$data  = array (
 		 		'start_date' => $_POST['start_date'],
 		 		'end_date' => $_POST['end_date'],
-		 		'site' => $_POST['site'],
-		 		'remarks' => $_POST['remarks']
+		 		'site' => $_POST['site']
 		 	);
 
 		 	$staff = $_POST['staff'];
@@ -64,7 +63,8 @@
     			$data3 = array(
     				'sm_id' => $id,
     				'activity' => $activitiesAndObjects[$i]['activity'],
-    				'object' => $activitiesAndObjects[$i]['object']
+    				'object' => $activitiesAndObjects[$i]['object'],
+    				'remarks' => $activitiesAndObjects[$i]['remarks']
     			);
     			$this->sitemaintenance_model->insert('maintenance_report_extra', $data3);
     		}

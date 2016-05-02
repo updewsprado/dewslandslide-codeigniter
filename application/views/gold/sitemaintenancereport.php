@@ -35,7 +35,7 @@ if (base_url() == "http://localhost/") {
 
 			<!-- Page Heading -->
 	        <div class="row">
-	            <div class="col-lg-12">
+	            <div class="col-md-12">
 	                <h1 class="page-header">
 	                	Site Maintenance Report <small>Filing Form (Beta)</small>
 	                </h1>
@@ -46,7 +46,7 @@ if (base_url() == "http://localhost/") {
 	        <!-- First Row Div [TIMESTAMPS] -->
 			<div class="row"> 
 				<div class="form-group col-md-4">
-	            	<label class="control-label" for="site">Site:</label>
+	            	<label class="control-label" for="site">Site</label>
 	            	<select class="form-control chosen-select" id="site" name="site" onchange="">
 	            		<option value="">Please select site</option>
 	            		<?php foreach (json_decode($site) as $row) {
@@ -55,25 +55,33 @@ if (base_url() == "http://localhost/") {
 		        	</select>
 	            </div>
 	        	<div class="form-group col-md-4">
-		            <label class="control-label" for="fieldWorkStart">Start of Field:</label>
+		            <label class="control-label" for="fieldWorkStart">Start of Field</label>
 	            	<input type='text' class="form-control" id="fieldWorkStart" name="fieldWorkStart" placeholder="Enter Start Date" />   
 	          	</div>
 
 	        	<div class="form-group col-md-4">
-		            <label class="control-label" for="fieldWorkEnd">End of Field:</label>
+		            <label class="control-label" for="fieldWorkEnd">End of Field</label>
 		            <input type='text' class="form-control" id="fieldWorkEnd" name="fieldWorkEnd" placeholder="Enter End Date" />
 	          	</div>      
 	        </div> <!-- End of First Row Div [TIMESTAMPS] -->
 
 	        <hr>
 
+	        <div class="row">
+	        	<div class="col-md-12">
+	    	    	<h5 class="text-center"><i id="description"></i></h5>
+	    	    </div>  
+	        </div>
+			
+			<hr id="descriptionline" hidden>
+
 	        <!-- Second Row Div -->
 			<div class="row">
 				<!-- First Column Div -->
-	        	<div class="col-md-6">
+	        	<div class="col-md-12">
 		            <div class="row">
-		            	<div class="form-group col-md-4">
- 			            	<label class="control-label" for="activity">Activity Done:</label>
+		            	<div class="form-group col-md-2">
+ 			            	<label class="control-label" for="activity">Activity Done</label>
  			            	<select class="form-control" id="activity" name="activity" onchange="">
 		            			<option value="">Please select </option>
 		            			<?php foreach (json_decode($activity) as $row) {
@@ -82,8 +90,8 @@ if (base_url() == "http://localhost/") {
 			        		</select>
  			            </div>
  
- 			            <div class="form-group col-md-6">
- 			            	<label class="control-label" for="object">Object(s):</label>
+ 			            <div class="form-group col-md-4">
+ 			            	<label class="control-label" for="object">Object(s)</label>
  		            		<div class="input-group">
 						    	<input type="text" class="form-control" id="object" name="object" readonly>
 						    	<!-- <span class="help-inline">Please correct the error</span> -->
@@ -96,7 +104,12 @@ if (base_url() == "http://localhost/") {
 						    </div><!-- /input-group -->
  			            </div>
 
- 			            <div class="col-md-2">
+ 			            <div class="col-md-5">
+			        		<label for="remarks">Remarks (Optional) </label>
+							<textarea class="form-control" rows="1" id="remarks" name="remarks" placeholder="Enter remarks..." maxlength="64"></textarea>
+						</div>
+
+ 			            <div class="col-md-1">
  			            	<div class="form-group">
  			            		<button type="button" class="cancel btn btn-info btn-sm" id="addRow" style="margin-top: 20px;" disabled>Add Row</button>
  			            	</div>
@@ -104,38 +117,32 @@ if (base_url() == "http://localhost/") {
 
  		          	</div> <!-- End of Row 1 -->
 
- 		          	<div class="row">
- 		          		<div class="col-md-12">
-			    	    	<h5 class="text-center"><i id="description"></i></h5>
-			    	    </div>
- 		          	</div>
+ 		          	
+ 		          	
  		        </div> <!-- End of First Column Div -->
-	          	
-	          	<!-- Second Column Div -->
-	          	<div class="col-md-6">
-	          		<div class="table-responsive col-md-12">
-						<table class="table table-condensed table-striped" id="activityTable">
-						    <thead>
-						      <tr>
-						        <th class="col-md-3" style="text-align: center;">Activity</th>
-						        <th class="col-md-7" style="text-align: center;">Object(s)</th>
-						        <th class="col-md-2" style="text-align: center;">Action</th>
-						      </tr>
-						    </thead>
-						    <tbody>
-						    	
-						    </tbody>
-						</table>
-					</div>
-	          	</div> <!--	End of Second Column Div -->
 	        </div> <!-- End of Second Row Div -->
 
 	        <hr>
+			
+			<!-- Row 2 -->
+          	<div class="row">
+	    	    <div class="table-responsive col-md-6">
+					<table class="table table-condensed table-striped" id="activityTable">
+					    <thead>
+					      <tr>
+					        <th class="col-md-2" style="text-align: center;">Activity</th>
+					        <th class="col-md-4" style="text-align: center;">Object(s)</th>
+					        <th class="col-md-4" style="text-align: center;">Remarks</th>
+					        <th class="col-md-2" style="text-align: center;">Action</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					    	
+					    </tbody>
+					</table>
+				</div>
 
-	        <!-- Third Row Div -->
-	        <div class="row">
-	        	<!-- First Column Div -->
-	        	<div class="col-md-6">
+				<div class="col-md-6">
 	        		<div class="table-responsive col-md-9">
 						<table class="table table-condensed table-striped" id="monitoringTable">
 						    <thead>
@@ -150,28 +157,18 @@ if (base_url() == "http://localhost/") {
 						 </table>
 					</div>
 					<div class="form-group col-md-3">
-		   				<button type="button" class="cancel btn btn-info btn-sm" style="margin-top: 33px;" id="addData" >Add More Staff</button>
+		   				<button type="button" class="cancel btn btn-info btn-sm pull-right" style="margin-top: 33px;" id="addData" >Add More Staff</button>
 		   			</div>
-	        	</div> <!-- End of First Column Div -->
+	        	</div>
+          	</div>
+	        
+	        <hr>
 
-	        	<!-- Second Column Div -->
-	        	<div class="col-md-6">
-	        		<div class="row">
-	        			<div class="form-group col-md-12">
-			        		<label for="remarks">Remarks (Optional): </label>
-							<textarea class="form-control" rows="3" id="remarks" name="remarks" placeholder="Enter remarks..." maxlength="250"></textarea>
-						</div>
-					</div>
-
-					<hr>
-
-					<div class="row">
-			    		<div class="form-group col-md-12">
-			   				<button type="submit" class="btn btn-info btn-md pull-right" id="submitForm">Submit form</button>
-			   			</div>
-			    	</div>
-	        	</div> <!-- End of Second Column Div -->
-
+	        <!-- Third Row Div -->
+	        <div class="row">
+	    		<div class="form-group col-md-12">
+	   				<button type="submit" class="btn btn-info btn-md pull-right" id="submitForm">Submit form</button>
+	   			</div>
 	        </div>  <!-- End of Third Row Div -->
 
 	        <!-- MODAL AREA -->
@@ -212,7 +209,7 @@ if (base_url() == "http://localhost/") {
 		$('#formGeneral').hide();
 	  	$('#formDate').hide();
 	    $('#button_right').hide();
-	    fillDiv(9);
+	    fillDiv(7);
 
 	    //$("#site").chosen();
 	}
@@ -266,8 +263,14 @@ if (base_url() == "http://localhost/") {
 	$("#activity").on("change", function () {
 		value = $(this).val();
 		for(i = 0; i < activityList.length; i++) {
-			if(activityList[i].activity === value ) {
+			if ( value === "") {
+				$("#description").html("");
+				$("#descriptionline").prop("hidden", true);
+		    	return i;
+			}
+			else if (activityList[i].activity === value ) {
 				$("#description").html(activityList[i].description);
+				$("#descriptionline").prop("hidden", false);
 		    	return i;
 			}
 		}
@@ -313,8 +316,8 @@ if (base_url() == "http://localhost/") {
 				$("#object").focus();
 				$("#object")[0].setSelectionRange(strLength, strLength);
 				$("#object").after('<em class="help-block ignore" style="margin-top:40px; margin-bottom:0;">Observe proper spacing (space after comma) and capitalization.</em>');
-	    		$("#object").siblings(".input-group-btn").css("bottom", "17px");
-	    		setTimeout( function() { $inp.prop( 'checked', true ) }, 0);	
+	    		$("#object").siblings(".input-group-btn").css("bottom", "10px");
+	    		setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
 	    	} else if (val == "Others (Type/Append on text field)" && $inp.is(':checked')) {
 	    		$("#object").val('');
 	    		$("#object").prop("readonly", true);
@@ -336,6 +339,7 @@ if (base_url() == "http://localhost/") {
 		str = str.replaceAll("," , ", ")
 	   	$("#object").val(str);
 	   	validate();
+	  	$("#object").focusout(validate);
 	   	return false;
 	});
 
@@ -344,14 +348,15 @@ if (base_url() == "http://localhost/") {
 	 * Activity - Objects Table
 	**/
 
-	function Entry(activity, object) 
+	function Entry(activity, object, remarks) 
 	{
 	    this.activity = activity;
 	    this.object = object;
+	    this.remarks = remarks;
 	}
 
 
-	var entry = new Entry("-", "-", "-");
+	var entry = new Entry("-", "-", "-", "-");
 	var rowList = [];
 	alterTable(entry, 0);
 	$("#addRow").click(checkData);
@@ -363,11 +368,14 @@ if (base_url() == "http://localhost/") {
 
 		newEntry.activity = $("#activity").val();
 		newEntry.object = $("#object").val();
+		if ($("#remarks").val() != "") newEntry.remarks = $("#remarks").val();
+		else newEntry.remarks = "No remarks";
 
 		for (var i = 0; i < rowList.length; i++) {
 			if( newEntry.activity == rowList[i].activity )
 			{
 				rowList[i].object = newEntry.object;
+				rowList[i].remarks = newEntry.remarks;
 				buildTable();
 				return;
 			}
@@ -395,6 +403,7 @@ if (base_url() == "http://localhost/") {
 			.append( "<tr row=" + i +">" +
 				("<td>" + obj.activity + "</td>") +
 				("<td>" + obj.object + "</td>") +
+				("<td>" + obj.remarks + "</td>") +
 				('<td><span class="glyphicon glyphicon-trash" onclick="deleteRow(' + i + ')"></span></td>') +
 				"</tr>");
 		if(obj.activity == "-") 
@@ -436,7 +445,7 @@ if (base_url() == "http://localhost/") {
 
 	function isInputAvailable(id) 
 	{
-		if ( $(id).val() == "none" ||  !($.trim($(id).val())) )
+		if ( $(id).val() == "" || $(id).val() == "None" ||  !($.trim($(id).val())) )
 		{
 			return false;
 		}
@@ -599,6 +608,8 @@ if (base_url() == "http://localhost/") {
 				var newEntry = new Entry();
 				newEntry.activity = $("#activity").val();
 				newEntry.object = $("#object").val();
+				if ($("#remarks").val() != "") newEntry.remarks = $("#remarks").val();
+				else newEntry.remarks = "No remarks";
 				rowList.push(newEntry);
 			}
 
@@ -607,10 +618,11 @@ if (base_url() == "http://localhost/") {
 		    	start_date: $("#fieldWorkStart").val(),
 		    	end_date: $("#fieldWorkEnd").val(),
 		    	site: $("#site").val(),
-		    	remarks: $("#remarks").val(),
 		    	staff: staffList,
 		    	activitiesAndObjects: rowList
         	};
+
+        	console.log(formData);
 
         	$("#myModal").modal({backdrop: "static"});
 
@@ -620,9 +632,10 @@ if (base_url() == "http://localhost/") {
 		    	data : formData,
 		    	success: function(id, textStatus, jqXHR)
 		      	{
-		      		$("#viewEntry").attr("href", "<?php echo base_url(); ?>gold/sitemaintenancereport_individual/" + id);
+		      		$("#viewEntry").attr("href", "<?php echo base_url(); ?>gold/sitemaintenancereport/individual/" + id);
 		      		$("#returnHome").attr("href", "<?php echo base_url(); ?>gold");
 		      		$("#myModal").modal({backdrop: "static"});
+		      		console.log(id);
 		    	},
 		    	error: function(xhr, status, error) {
 					var err = eval("(" + xhr.responseText + ")");

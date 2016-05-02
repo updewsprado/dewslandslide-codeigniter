@@ -5,7 +5,7 @@
      A view for individual site maintenance reports
      located at /application/views/gold/
      
-     Linked at [host]/gold/sitemaintenancereport_individual
+     Linked at [host]/gold/accomplishmentreport_individual
      
  -->
 
@@ -90,7 +90,7 @@ if (base_url() == "http://localhost/") {
 	<div class="container-fluid">
 		<!-- Page Heading -->
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-md-12">
                 <h1 class="page-header">
                 	Accomplishment Report <small>Individual Report View (Beta)</small>
                 </h1>
@@ -98,15 +98,15 @@ if (base_url() == "http://localhost/") {
         </div>
         <!-- /.row -->
         <div class="row">
-        	<div class="col-lg-4">
+        	<div class="col-md-4">
 		    	<div id="map-canvas" >
 		      		<p>MAP CANVASS</p>
 		     	</div>
 		    </div>
-        	<div class="col-lg-8">
+        	<div class="col-md-8">
         		<!-- <div class="row"> -->
 				<div class="row">
-					<div class="col-lg-3">
+					<div class="col-md-3">
 						<h5><b>Report ID: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $id; ?></li>
@@ -114,7 +114,7 @@ if (base_url() == "http://localhost/") {
 						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $id; ?></p> -->
 					</div>
 
-					<div class="col-lg-4">
+					<div class="col-md-4">
 						<h5><b>Overtime Type: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $report->overtime_type; ?></li>
@@ -122,7 +122,7 @@ if (base_url() == "http://localhost/") {
 						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $report->overtime_type; ?></p> -->
 					</div>
 
-					<div class="col-lg-4">
+					<div class="col-md-4">
 						<h5><b>Personnel On-Duty: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $report->on_duty; ?></li>
@@ -133,7 +133,7 @@ if (base_url() == "http://localhost/") {
 				</div>
 
 				<div class="row">
-					<div class="col-lg-4">
+					<div class="col-md-4">
 						<h5><b>Start of Shift: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $report->shift_start; ?></li>
@@ -141,7 +141,7 @@ if (base_url() == "http://localhost/") {
 						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $report->shift_start; ?></p> -->
 					</div>
 
-					<div class="col-lg-4">
+					<div class="col-md-4">
 						<h5><b>End of Shift: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $report->shift_end; ?></li>
@@ -156,18 +156,18 @@ if (base_url() == "http://localhost/") {
 				<hr>
 
 				<div class="row">
-					<div class="col-lg-3" id="totalSites" hidden>
+					<div class="col-md-3" id="totalSites" hidden>
 						<h5><b>Total Sites Monitored: </b></h5>
 						<ul class="list-group">
 							<li class="list-group-item list-group-item-info"><?php echo $totalSitesMonitored; ?></li>
 						</ul>
 					</div>
 
-		        	<div class="col-lg-5">
+		        	<div class="col-md-5">
 		        		<h5><b>Site Alerts: </b></h5>
 		        		<blockquote id="siteBlockquote" hidden>No sites with heightened alerts.</blockquote>
 
-		        		<div class="table-responsive col-lg-12" id="siteTable" hidden>
+		        		<div class="table-responsive col-md-12" id="siteTable" hidden>
 							<table class="table table-condensed table-bordered table-striped">
 							    <thead>
 							     	<tr>
@@ -199,8 +199,8 @@ if (base_url() == "http://localhost/") {
 						    				}
 
 						    				echo "<td>" . strtoupper($report->sitesWithAlerts[$i]->site) ."</td>";
-						    				echo "<td class='col-lg-4'>" . $report->sitesWithAlerts[$i]->alert_status ."</td>";
-						    				echo "<td class='col-lg-6'>" . strtoupper($report->sitesWithAlerts[$i]->continue_monitoring) ."</td>";
+						    				echo "<td class='col-md-4'>" . $report->sitesWithAlerts[$i]->alert_status ."</td>";
+						    				echo "<td class='col-md-6'>" . strtoupper($report->sitesWithAlerts[$i]->continue_monitoring) ."</td>";
 						    				echo "</tr>";
 						    			}
 						    		?>
@@ -209,7 +209,7 @@ if (base_url() == "http://localhost/") {
 						</div>
 		        	</div>
 
-		        	<div class="col-lg-4" id="summary" hidden>
+		        	<div class="col-md-4" id="summary" hidden>
 		        		<h5><b>Summary:</b></h5>
 		        		<blockquote><?php 
 		        			echo $report->info;
@@ -255,6 +255,7 @@ if (base_url() == "http://localhost/") {
 	$(".list-group-item").each(function() {
 		$(this).html('<span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;' + $(this).text());
 	});
+	$("#back").attr("href", "<?php echo base_url(); ?>gold/accomplishmentreport/all");
 	$("#home").attr("href", "<?php echo base_url(); ?>gold");
 	
 	var check = <?php echo $check; ?> ;

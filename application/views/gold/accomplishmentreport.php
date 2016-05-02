@@ -24,6 +24,16 @@ if (base_url() == "http://localhost/") {
 <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/bootstrap-datetimepicker.css">
 
+<style type="text/css">
+	
+	.well {
+		font-size: 12px;
+		font-weight: bold;
+	}
+
+</style>
+
+
 <?php  
 	$instructions = json_decode($instructions);
 	$sites = json_decode($sites);
@@ -44,10 +54,14 @@ if (base_url() == "http://localhost/") {
         </div>
         <!-- /.row -->
 
+        <div class="well well-sm"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;For the list of all Accomplishment Reports, click <a href="<?php echo base_url(); ?>gold/accomplishmentreport/all">here.</a></div>
+
+        <hr>
+
         <!-- First Row Div [TIMESTAMPS] -->
 		<div class="row"> 
         	<div class="form-group col-sm-6">
-	            <label class="control-label" for="startOfShift">Start of Shift:</label>
+	            <label class="control-label" for="startOfShift">Start of Shift</label>
 	            <div class='input-group date' id='datetimepickerTimestamp'>
 	                <input type='text' class="form-control" id="startOfShift" name="startOfShift" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" />
 	                <span class="input-group-addon">
@@ -57,7 +71,7 @@ if (base_url() == "http://localhost/") {
           	</div>
 
         	<div class="form-group col-sm-6">
-	            <label class="control-label" for="endOfShift">End of Shift:</label>
+	            <label class="control-label" for="endOfShift">End of Shift</label>
 	            <div class='input-group date' id='datetimepickerRelease'>
 	                <input type='text' class="form-control" id="endOfShift" name="endOfShift" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" />
 	                <span class="input-group-addon">
@@ -71,7 +85,7 @@ if (base_url() == "http://localhost/") {
         <!-- Second Row Div [NATURE OF WORK AND PERSON]-->
         <div class="row"> 
 	    	<div class="form-group col-md-6"> <!-- Overtime_type Drop-Down -->
-		        <label class="control-label" for="overtime_type">Nature of Overtime Task:</label>
+		        <label class="control-label" for="overtime_type">Nature of Overtime Task</label>
 		        <select class="form-control" id="overtime_type" onchange="onChangeOvertimeType();">
 		        	<option value="None">Please select</option>
 		        	<?php for ($i=0; $i < count($instructions); $i++) { 
@@ -81,7 +95,7 @@ if (base_url() == "http://localhost/") {
 	      	</div>
 
 	      	<div class="col-md-6">
-		      	<label class="control-label" for="on_duty">Person On-Duty:</label>
+		      	<label class="control-label" for="on_duty">Person On-Duty</label>
 		      	<input type="text" class="form-control" id="on_duty" name="on_duty" value="<?php echo $first_name . " " . $last_name; ?>" disabled>
 	      	</div>
 	    </div> <!-- End of Second Row Div [NATURE OF WORK AND PERSON]-->
@@ -105,7 +119,7 @@ if (base_url() == "http://localhost/") {
 			<div id="routineField" hidden>
 				<div class="row" >
 		    	    <div class="col-md-3">
-		    	    	<label for="routineSitesMonitored">Total Number of Sites Monitored:</label>
+		    	    	<label for="routineSitesMonitored">Total Number of Sites Monitored</label>
 				        <input type="number" class="form-control" id="routineSitesMonitored" name="routineSitesMonitored" min="0" placeholder="Enter number">
 		    	    </div>
 		    	</div>
@@ -115,7 +129,7 @@ if (base_url() == "http://localhost/") {
 			<!-- Fourth Row Div [MONITORING FIELD] -->
 		    <div class="row"> 
 		    	<div class="form-group col-md-6">
-			        <label for="siteMonitored">Site Monitored:</label>
+			        <label for="siteMonitored">Site Monitored</label>
 			        <select class="form-control" id="siteMonitored">
 			        	<option value="None">Please select</option>
 			        	<?php for ($i=0; $i < count($sites); $i++) { 
@@ -126,7 +140,7 @@ if (base_url() == "http://localhost/") {
 		      	</div>
 
 		      	<div class="form-group col-md-3">
-			        <label for="alertEndShift">Alert Status at End-of-Shift:</label>
+			        <label for="alertEndShift">Alert Status at End-of-Shift</label>
 			        <select class="form-control" id="alertEndShift">
 			        	<option value="None">Please select</option>
 			        	<?php for ($i=0; $i < count($alerts); $i++) { 
@@ -137,7 +151,7 @@ if (base_url() == "http://localhost/") {
 		      	</div>
 
 		      	<div class="form-group col-md-3">
-			        <label for="continueMonitoring">Continue Monitoring:</label>
+			        <label for="continueMonitoring">Continue Monitoring</label>
 			        <select class="form-control" id="continueMonitoring">
 			        	<option value="none">Please select</option>
 			        	<option value="yes">Yes</option>
@@ -160,17 +174,17 @@ if (base_url() == "http://localhost/") {
 	   		<!-- Fifth Row Div [SITES MONITORED TABLE] -->
 	   		<div class="row">
 	   			<div class="table-responsive col-md-12">
-				  <table class="table table-bordered table-condensed table-striped" id="monitoringTable">
-				    <thead>
-				      <tr>
-				        <th>Site Monitored</th>
-				        <th>Alert Status at End-of-Shift</th>
-				        <th>Continue Monitoring?</th>
-				        <th>Action</th>
-				      </tr>
-				    </thead>
-				    <tbody>
-				    </tbody>
+				 	<table class="table table-bordered table-condensed table-striped" id="monitoringTable">
+				    	<thead>
+				      		<tr>
+				        		<th>Site Monitored</th>
+				        		<th>Alert Status at End-of-Shift</th>
+				        		<th>Continue Monitoring?</th>
+				        		<th>Action</th>
+				      		</tr>
+				    	</thead>
+				    	<tbody>
+				    	</tbody>
 				  </table>
 				</div>	
 	   		</div> <!-- End of Fifth Row Div [SITES MONITORED TABLE] -->
@@ -520,7 +534,7 @@ if (base_url() == "http://localhost/") {
 	      		console.log(id);
 	      		$('#modalTitle').html("Entry Insertion Notice");
 				$('#modalBody').html('<p class="text-success"><b>Accomplishment report successfully submitted!</b></p>');
-				$('#modalFooter').html('<a href="<?php echo base_url(); ?>gold/accomplishmentreport_individual/' + id + '" class="btn btn-info" role="button">View Entry</a>');
+				$('#modalFooter').html('<a href="<?php echo base_url(); ?>gold/accomplishmentreport/individual/' + id + '" class="btn btn-info" role="button">View Entry</a>');
 				$('#modalFooter').append('<a href="<?php echo base_url(); ?>gold" class="btn btn-success" role="button">Home</a>');
 
 		    	$('#dataEntry').modal({backdrop: "static"});

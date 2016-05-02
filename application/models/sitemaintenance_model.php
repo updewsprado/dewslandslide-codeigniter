@@ -89,7 +89,6 @@
 				$result["start_date"] = $row->start_date;
 				$result["end_date"] = $row->end_date;
 				$result["site"] = $row->site;
-				$result["remarks"] = $row->remarks;
 			}
 
 			$sql = "SELECT staff_name FROM maintenance_report_staff WHERE sm_id = '$id'";
@@ -103,7 +102,7 @@
 			}
 			$result["staff_name"] = $staff_name;
 
-			$sql = "SELECT activity, object FROM maintenance_report_extra WHERE sm_id = '$id'";
+			$sql = "SELECT activity, object, remarks FROM maintenance_report_extra WHERE sm_id = '$id'";
 
 			$query = $this->db->query($sql);
 			$activity_object = [];
@@ -111,6 +110,7 @@
 			foreach ($query->result() as $row) {
 				$activity_object[$i]["activity"] = $row->activity;
 				$activity_object[$i]["object"] = $row->object;
+				$activity_object[$i]["remarks"] = $row->remarks;
 				$i = $i + 1;
 			}
 			$result["activity_object"] = $activity_object;

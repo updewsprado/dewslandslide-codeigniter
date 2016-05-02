@@ -63,9 +63,14 @@ $route['gold/node/(:any)/(:num)/(:num)'] = "gold/view/node/$1/$2/$3";
 $route['gold/node/(:any)/(:num)'] = "gold/view/node/$1/$2";
 $route['gold/site/(:any)/(:num)'] = "gold/view/node/$1/$2";
 $route['gold/site/(:any)'] = "gold/view/site/$1";
+
+$route['gold/sitemaintenancereport/individual/(:num)'] = "gold/view/sitemaintenancereport_individual/$1";
+$route['gold/accomplishmentreport/individual/(:num)'] = "gold/view/accomplishmentreport_individual/$1";
+$route['gold/accomplishmentreport/all'] = "gold/view/accomplishmentreport_all";
+
 $route['gold/(:any)'] = "gold/view/$1";
-$route['gold/sitemaintenancereport_individual/(:num)'] = "gold/view/$1";
-$route['gold/accomplishmentreport_individual/(:num)'] = "gold/view/$1";
+
+
 
 //Beta
 $route['beta'] = "beta/view";

@@ -96,18 +96,7 @@ if (base_url() == "http://localhost/") {
                         </ol>
                     </div>
                 </div>
-                <!-- /.row -->  
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <ol class="breadcrumb">
-                            <li class="active">
-                                <i class="fa fa-dashboard"></i> Public Announcement Input Page
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-                <!-- /.row -->       
+                <!-- /.row -->     
 
                 <div class="row">
                   <div class="form-group col-sm-6">
@@ -205,7 +194,7 @@ if (base_url() == "http://localhost/") {
                     
                     <div class="col-sm-12">
                       <div class="form-group" id="">
-                        <label for="suppInfoTimestamp">Date and Time</label>
+                        <label for="suppInfoTimestamp">Date and Time of Initial Ground Movement Trigger</label>
                           <div class='input-group date' id='dependentFieldTimestamp'>
                               <input type='text' class="form-control" id="suppInfoTimestamp" name="suppInfoTimestamp" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" />
                               <span class="input-group-addon">
@@ -216,7 +205,7 @@ if (base_url() == "http://localhost/") {
                     </div>
 
                     <div class="form-group col-sm-12 dependentFieldSuppInfoGround" hidden>
-                      <label for="">Recent Date and Time of Detected Ground Movement</label>
+                      <label for="">Date and Time of Significant/Critical Ground Movements Following Initial Ground Movement Trigger</label>
                       <div class='input-group date' id='dependentFieldTimestampGround'>
                           <input type='text' class="form-control" id="suppInfoTimestampGround" name="suppInfoTimestampGround" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" />
                           <span class="input-group-addon">
@@ -413,30 +402,33 @@ if (base_url() == "http://localhost/") {
 
           /* Toggle Dependent Field Values */
           switch(internalAlert) {
-            case "A0-D":
+            case "A1-D":
             case "ND-D":
                   $('#dependentFieldForBothAlerts').show();
                   $('#dependentFieldPublicOnly').hide();
                   break;
-            case "A0-E":
+            case "A1-E":
             case "ND-E":
                   $('#dependentFieldForBothAlerts').hide();
                   $('#dependentFieldPublicOnly').show();
+                  $("label[for='suppInfoTimestamp']").html("Date and Time of Occurence")
                   $('.dependentFieldSuppInfoEq').show();
                   $('.dependentFieldSuppInfoGround').hide(); 
                   break;
-            case "A0-R":
+            case "A1-R":
             case "ND-R":
                   $('#dependentFieldForBothAlerts').hide();
                   $('#dependentFieldPublicOnly').show();
+                  $("label[for='suppInfoTimestamp']").html("Date and Time of Occurence")
                   $('.dependentFieldSuppInfoEq').hide();
                   $('.dependentFieldSuppInfoGround').hide();
                   break; 
-            case "A1":
             case "A2":
+            case "A3":
             case "ND-L":
                   $('#dependentFieldForBothAlerts').hide();
                   $('#dependentFieldPublicOnly').show();
+                  $("label[for='suppInfoTimestamp']").html("Date and Time of Initial Ground Movement Trigger")
                   $('.dependentFieldSuppInfoEq').hide();
                   $('.dependentFieldSuppInfoGround').show();            
                   break;
@@ -540,18 +532,17 @@ if (base_url() == "http://localhost/") {
       checker = 1;
     }
 
-    if (internalAlert == "A0-D" || internalAlert == "ND-D") {
+    if (internalAlert == "A1-D" || internalAlert == "ND-D") {
       if (alertgroup == null) { failedMessage += "Please select at least one 'Alert Group'.<br>"; checker = 1; }
       if (request == "") { failedMessage += "Please fill out 'Reason for request'.<br>"; checker = 1; }
-    } else if (internalAlert == "A0-E" || internalAlert == "ND-E") {
+    } else if (internalAlert == "A1-E" || internalAlert == "ND-E") {
       if (magnitude == "") { failedMessage += "Please fill out 'Magnitude'.<br>"; checker = 1; }
       if (epicenter == "") { failedMessage += "Please fill out 'Epicenter'.<br>"; checker = 1; }
-      if (dftimestamp == "") { failedMessage += "Please fill out 'Date and Time'.<br>"; checker = 1; }
-    } else if (internalAlert == "A0-R" || internalAlert == "ND-R") {
-      if (dftimestamp == "") { failedMessage += "Please fill out 'Date and Time'.<br>"; checker = 1; }
-    } else if (internalAlert == "A1" || internalAlert == "A2" || internalAlert == "ND-L") {
-      if (dftimestamp == "") { failedMessage += "Please fill out 'Date and Time'.<br>"; checker = 1; }
-      if (dftimestampground == "") { failedMessage += "Please fill out 'Recent Date and Time of Detected Ground Movement'.<br>"; checker = 1; }
+      if (dftimestamp == "") { failedMessage += "Please fill out 'Date and Time of Occurence'.<br>"; checker = 1; }
+    } else if (internalAlert == "A1-R" || internalAlert == "ND-R") {
+      if (dftimestamp == "") { failedMessage += "Please fill out 'Date and Time of Occurence'.<br>"; checker = 1; }
+    } else if (internalAlert == "A2" || internalAlert == "A3" || internalAlert == "ND-L") {
+      if (dftimestamp == "") { failedMessage += "Please fill out 'Date and Time of Initial Ground Movement Trigger'.<br>"; checker = 1; }
     }
 
     if (recAck.entryRecipient == "") {

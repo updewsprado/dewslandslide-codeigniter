@@ -70,7 +70,7 @@ if (base_url() == "http://localhost/") {
 	<div class="container-fluid">
 		<!-- Page Heading -->
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-md-12">
                 <h1 class="page-header">
                 	Site Maintenance Report <small>Individual Report View (Beta)</small>
                 </h1>
@@ -78,15 +78,15 @@ if (base_url() == "http://localhost/") {
         </div>
         <!-- /.row -->
         <div class="row">
-        	<div class="col-lg-4">
+        	<div class="col-md-4">
 		    	<div id="map-canvas" >
 		      		<p>MAP CANVASS</p>
 		     	</div>
 		    </div>
-        	<div class="col-lg-8">
+        	<div class="col-md-8">
         		<!-- <div class="row"> -->
 				<div class="row">
-					<div class="col-lg-3">
+					<div class="col-md-3">
 						<h5><b>Report ID: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $id; ?></li>
@@ -94,7 +94,7 @@ if (base_url() == "http://localhost/") {
 						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $id; ?></p> -->
 					</div>
 
-					<div class="col-lg-3">
+					<div class="col-md-3">
 						<h5><b>Site: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo strtoupper($report->site); ?></li>
@@ -102,7 +102,7 @@ if (base_url() == "http://localhost/") {
 						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo strtoupper($report->site); ?></p> -->
 					</div>
 
-					<div class="col-lg-6">
+					<div class="col-md-6">
 						<h5><b>Address: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $map->address; ?></li>
@@ -113,7 +113,7 @@ if (base_url() == "http://localhost/") {
 				</div>
 
 				<div class="row">
-					<div class="col-lg-3">
+					<div class="col-md-3">
 						<h5><b>Start of Field Work: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $report->start_date; ?></li>
@@ -121,7 +121,7 @@ if (base_url() == "http://localhost/") {
 						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $report->start_date; ?></p> -->
 					</div>
 
-					<div class="col-lg-3">
+					<div class="col-md-3">
 						<h5><b>End of Field Work: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $report->end_date; ?></li>
@@ -136,7 +136,7 @@ if (base_url() == "http://localhost/") {
 				<hr>
 
 				<div class="row">
-					<div class="col-lg-4">
+					<div class="col-md-4">
 						<h5><b>Staff Involved: </b></h5>
 						<ul class="list-group">
 							<?php for ($i=0; $i < count($report->staff_name); $i++) { 
@@ -145,13 +145,14 @@ if (base_url() == "http://localhost/") {
 						</ul>
 					</div>
 
-		        	<div class="col-lg-4">
-		        		<div class="table-responsive col-lg-12">
+		        	<div class="col-md-8">
+		        		<div class="table-responsive col-md-12">
 							<table class="table table-condensed table-bordered table-striped">
 							    <thead>
 							     	<tr>
 							        	<th>Activity</th>
 							        	<th>Object(s)</th>
+							        	<th>Remarks</th>
 							     	</tr>
 							    </thead>
 							    <tbody>
@@ -168,9 +169,12 @@ if (base_url() == "http://localhost/") {
 
 						    			$count = count($objects);
 
+						    			if($report->activity_object[$i]->remarks == '') $remarks = "No remarks.";
+
 						    			echo "<tr>";
 						    			echo "<td rowspan='" . $count . "'>" . $report->activity_object[$i]->activity . "</td>";
 						    			echo "<td>" . $objects[0] . "</td>";
+						    			echo "<td rowspan='" . $count . "'>" . $remarks . "</td>";
 						    			echo "</tr>";
 
 						    			if( $count > 1 )
@@ -186,14 +190,6 @@ if (base_url() == "http://localhost/") {
 							    </tbody>
 							</table>
 						</div>
-		        	</div>
-
-		        	<div class="col-lg-4">
-		        		<h5><b>Remarks:</b></h5>
-		        		<blockquote><?php 
-		        			if (is_null($report->remarks)) echo "No remarks.";
-		        			else echo $report->remarks;
-		        		 ?></blockquote>
 		        	</div>
 		        </div>
 

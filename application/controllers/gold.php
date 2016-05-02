@@ -219,7 +219,7 @@ class Gold extends CI_Controller {
 
 			case 'accomplishmentreport_individual':
 				$this->load->model('accomplishment_model');
-				$id = $this->uri->segment(3);
+				$id = $this->uri->segment(4);
 				$data['id'] = $id;
 				$report = $this->accomplishment_model->getReport($id);
 				$data['report'] = $report;
@@ -231,6 +231,11 @@ class Gold extends CI_Controller {
 				$data['markers'] = $this->accomplishment_model->getMarkers($temp->sitesWithAlerts);
 				break;
 
+			case 'accomplishmentreport_all':
+				$this->load->model('accomplishment_model');
+				$data['report'] = $this->accomplishment_model->getReport(0);
+				break;
+
 			case 'sitemaintenancereport':
 				$this->load->model('sitemaintenance_model');
 				$data['site'] = $this->sitemaintenance_model->getSites();
@@ -240,7 +245,7 @@ class Gold extends CI_Controller {
 
 			case 'sitemaintenancereport_individual':
 				$this->load->model('sitemaintenance_model');
-				$id = $this->uri->segment(3);
+				$id = $this->uri->segment(4);
 				$data['id'] = $id;
 				$report = $this->sitemaintenance_model->getReport($id);
 				$data['report'] = $report;
