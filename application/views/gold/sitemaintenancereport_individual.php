@@ -170,6 +170,7 @@ if (base_url() == "http://localhost/") {
 						    			$count = count($objects);
 
 						    			if($report->activity_object[$i]->remarks == '') $remarks = "No remarks.";
+						    			else remarks = $report->activity_object[$i]->remarks;
 
 						    			echo "<tr>";
 						    			echo "<td rowspan='" . $count . "'>" . $report->activity_object[$i]->activity . "</td>";
