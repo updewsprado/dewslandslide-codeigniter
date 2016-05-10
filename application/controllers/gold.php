@@ -97,7 +97,7 @@ class Gold extends CI_Controller {
 				//Data for Google Map Site Coordinates
 				$data['sitesCoord'] = $this->Gmap_model->getSitesCoord();
 				
-				$data['showplots'] = 'showSitePlots(this.form)';
+				// $data['showplots'] = 'showSitePlots(this.form)';
 				$data['showplots'] = 'redirectSitePlots(this.form)';
 				$data['showdateplots'] = "showDateSitePlots(document.getElementById('formGeneral'))";
 				
