@@ -1,4 +1,4 @@
-
+<script type="text/javascript"><?php echo $rainfall; ?></script>
         <div id="page-wrapper">
 
             <div class="container-fluid">

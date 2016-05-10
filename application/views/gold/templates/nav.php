@@ -133,6 +133,9 @@
                             <li>
                                 <a href="<?php echo base_url() . $version; ?>/node">Node Level</a>
                             </li>
+                            <li>
+                                 <a href="<?php echo base_url() . $version; ?>/GroundMeas"> Ground Measurement</a>
+                            </li>
                         </ul>
                     </li>
                     <li <?php echo $reportevent; ?> >
@@ -155,6 +158,7 @@
  <!--                    <li <?php echo $reportevent; ?> >
                         <a href="<?php echo base_url() . $version; ?>/accomplishmentreport"><i class="fa fa-fw fa-list-alt"></i> File Accomplishment Report</a>
                     </li> -->
+
                     <li <?php echo $reportevent; ?> >
                         <a href="javascript:;" data-toggle="collapse" data-target="#dropdown_report_forms"><i class="fa fa-fw fa-list-alt"></i> Report Forms <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="dropdown_report_forms" class="collapse">
@@ -166,7 +170,7 @@
                             </li>
                         </ul>
                     </li>
-                    
+
                     <li></li>
             </nav>
             <nav>
