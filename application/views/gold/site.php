@@ -53,7 +53,7 @@ mysqli_close($conn);
 ?>
 	<link href="/js/development-bundle/themes/south-street/jquery-ui.css" rel="stylesheet">
      <script type="text/javascript" src="file.js"></script>
-    
+  
 	<script type="text/javascript" src="/js/jquery-ui-1.10.4.custom.js"></script>
 	<script type="text/javascript" src="/js/development-bundle/ui/jquery.ui.core.js"></script>
 	<script type="text/javascript" src="/js/development-bundle/ui/jquery.ui.widget.js"></script>
@@ -418,24 +418,7 @@ var prevWSnoah = null;
 var rainData = [];
 var rainDataNoah = [];
 var isVisible = [true, true, true, true];
-var opts = {
-    lines: 11, // The number of lines to draw
-    length: 6, // The length of each line
-    width: 3, // The line thickness
-    radius: 8, // The radius of the inner circle
-    corners: 1, // Corner roundness (0..1)
-    rotate: 0, // The rotation offset
-    direction: 1, // 1: clockwise, -1: counterclockwise
-    color: '#000', // #rgb or #rrggbb or array of colors
-    speed: 1.1, // Rounds per second
-    trail: 58, // Afterglow percentage
-    shadow: false, // Whether to render a shadow
-    hwaccel: false, // Whether to use hardware acceleration
-    className: 'spinner', // The CSS class to assign to the spinner
-    zIndex: 2e9, // The z-index (defaults to 2000000000)
-    top: '50%', // Top position relative to parent
-    left: '50%' // Left position relative to parent
-};
+
 var frmdate = $.datepicker.formatDate('yy-mm-dd', start_date);
 var todate = $.datepicker.formatDate('yy-mm-dd', end_date);
   
@@ -484,6 +467,7 @@ var todate = $.datepicker.formatDate('yy-mm-dd', end_date);
 
 function displayRainGraphs() {
     var x = document.getElementById("mySelect").value;
+
 
     if (x != "default") {
         var rainSenslope = allWS[x]["rain_senslope"];
@@ -573,11 +557,7 @@ function getRainfallData(str) {
         return;
     } else {
       $.ajax({url: "/ajax/rainfallNewGetData.php?rsite="+ str +"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-
-        var target = document.getElementById('rainGraphSenslope');
-        var spinner = new Spinner(opts).spin();
-        target.appendChild(spinner.el);
-        testResult = result;
+           
         var x = document.getElementById("mySelect").value;
         var max = allWS[x]["max_rain_2year"];
        
@@ -657,9 +637,7 @@ function getRainfallARQ(str) {
         return;
     } else {
       $.ajax({url: "/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-        var target = document.getElementById('rainGraphARQ');
-        var spinner = new Spinner(opts).spin();
-        target.appendChild(spinner.el);
+ 
         testResult = result;
         var x = document.getElementById("mySelect").value;
         var max = allWS[x]["max_rain_2year"];

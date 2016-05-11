@@ -59,6 +59,8 @@
                             <div class="panel-body">
 								<div id="alert-canvas">
 								</div>	
+                                <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+                                <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
                             </div>
                         </div>
                     </div>
