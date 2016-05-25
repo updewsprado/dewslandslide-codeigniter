@@ -44,17 +44,25 @@ if (base_url() == "http://localhost/") {
 		text-indent: 0.3em;
 	}
 
+	.panel-heading {
+    	font-weight: bold;
+    }
+
+    .panel-body {
+    	font-size: 14px;
+    	font-weight: bold;
+    	text-align: center;
+    	vertical-align: middle;
+    	color: black;
+    }
+
 	p {
 		font-size: 14px;
 		text-indent: 1em;
 		margin-bottom: 1.2em;
 	}
 
-	.glyphicon-asterisk {
-		font-size: 0.7em;
-	}
-
-	.table > tbody > tr > td {
+	.table > tbody > tr > td, .table > thead > tr > th {
 		vertical-align: middle;
 	}
 
@@ -106,47 +114,66 @@ if (base_url() == "http://localhost/") {
         	<div class="col-md-8">
         		<!-- <div class="row"> -->
 				<div class="row">
-					<div class="col-md-3">
-						<h5><b>Report ID: </b></h5>
+					<div class="col-md-4">
+						<!-- <h5><b>Report ID: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $id; ?></li>
-						</ul>
-						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $id; ?></p> -->
+						</ul> -->
+
+						<div class="panel panel-default">
+					      	<div class="panel-heading"><b>Report ID</b></div>
+					      	<div class="panel-body"><?php echo $id; ?></div>
+					    </div>
 					</div>
 
 					<div class="col-md-4">
-						<h5><b>Overtime Type: </b></h5>
+						<!-- <h5><b>Overtime Type: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $report->overtime_type; ?></li>
-						</ul>
-						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $report->overtime_type; ?></p> -->
+						</ul> -->
+
+						<div class="panel panel-default">
+					      	<div class="panel-heading"><b>Overtime Type </b></div>
+					      	<div class="panel-body"><?php echo $report->overtime_type; ?></div>
+					    </div>
 					</div>
 
 					<div class="col-md-4">
-						<h5><b>Personnel On-Duty: </b></h5>
+						<!-- <h5><b>Personnel On-Duty: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $report->on_duty; ?></li>
-						</ul>
-						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $report->on_duty; ?></p> -->
+						</ul> -->
+						
+						<div class="panel panel-default">
+					      	<div class="panel-heading"><b>Personnel On-Duty </b></div>
+					      	<div class="panel-body"><?php echo $report->on_duty; ?></div>
+					    </div>
 					</div>
 
 				</div>
 
 				<div class="row">
 					<div class="col-md-4">
-						<h5><b>Start of Shift: </b></h5>
+						<!-- <h5><b>Start of Shift: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $report->shift_start; ?></li>
-						</ul>
-						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $report->shift_start; ?></p> -->
+						</ul> -->
+						
+						<div class="panel panel-default">
+					      	<div class="panel-heading"><b>Start of Shift </b></div>
+					      	<div class="panel-body"><?php echo date("j F Y, h:i A" , strtotime($report->shift_start)); ?></div>
+					    </div>
 					</div>
 
 					<div class="col-md-4">
-						<h5><b>End of Shift: </b></h5>
+						<!-- <h5><b>End of Shift: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $report->shift_end; ?></li>
-						</ul>
-						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $report->shift_end; ?></p> -->
+						</ul> -->
+						<div class="panel panel-default">
+					      	<div class="panel-heading"><b>End of Shift </b></div>
+					      	<div class="panel-body"><?php echo date("j F Y, h:i A" , strtotime($report->shift_end)); ?></div>
+					    </div>
 					</div>
 	        		
 	        	</div>
@@ -156,16 +183,26 @@ if (base_url() == "http://localhost/") {
 				<hr>
 
 				<div class="row">
-					<div class="col-md-3" id="totalSites" hidden>
-						<h5><b>Total Sites Monitored: </b></h5>
+					<div class="col-md-4" id="totalSites" hidden>
+						<!-- <h5><b>Total Sites Monitored: </b></h5>
 						<ul class="list-group">
 							<li class="list-group-item list-group-item-info"><?php echo $totalSitesMonitored; ?></li>
-						</ul>
+						</ul> -->
+
+						<div class="panel panel-default">
+					      	<div class="panel-heading"><b>Total Number of Sites Monitored </b></div>
+					      	<div class="panel-body"><?php echo $totalSitesMonitored; ?></div>
+					    </div>
 					</div>
 
-		        	<div class="col-md-5">
-		        		<h5><b>Site Alerts: </b></h5>
-		        		<blockquote id="siteBlockquote" hidden>No sites with heightened alerts.</blockquote>
+		        	<div class="col-md-6">
+		        		<!-- <h5><b>Site Alerts: </b></h5>
+		        		<blockquote id="siteBlockquote" hidden>No sites with heightened alerts.</blockquote> -->
+
+		        		<div class="panel panel-default" id="sitePanel" hidden>
+					      	<div class="panel-heading"><b>Site Alerts </b></div>
+					      	<div class="panel-body">No sites with heightened alerts.</div>
+					    </div>
 
 		        		<div class="table-responsive col-md-12" id="siteTable" hidden>
 							<table class="table table-condensed table-bordered table-striped">
@@ -209,11 +246,16 @@ if (base_url() == "http://localhost/") {
 						</div>
 		        	</div>
 
-		        	<div class="col-md-4" id="summary" hidden>
-		        		<h5><b>Summary:</b></h5>
+		        	<div class="col-md-6" id="summary" hidden>
+		        		<!-- <h5><b>Summary:</b></h5>
 		        		<blockquote><?php 
 		        			echo $report->info;
-		        		 ?></blockquote>
+		        		 ?></blockquote> -->
+
+						<div class="panel panel-default">
+					      	<div class="panel-heading"><b>Summary </b></div>
+					      	<div class="panel-body"><?php echo $report->info; ?></div>
+					    </div>		        		 
 		        	</div>
 		        </div>
 
@@ -252,16 +294,13 @@ if (base_url() == "http://localhost/") {
 		$(this).html("<b>" + $(this).text() + "</b>");
 	});
 	$("th, td").addClass("text-center");
-	$(".list-group-item").each(function() {
-		$(this).html('<span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;' + $(this).text());
-	});
 	$("#back").attr("href", "<?php echo base_url(); ?>gold/accomplishmentreport/all");
 	$("#home").attr("href", "<?php echo base_url(); ?>gold");
 	
 	var check = <?php echo $check; ?> ;
 
 	if (check == 1) $("#siteTable").show();
-	else $("#siteBlockquote").show();
+	else $("#sitePanel").show();
 
 	var gmapJSON;
 	function initialize_map() 

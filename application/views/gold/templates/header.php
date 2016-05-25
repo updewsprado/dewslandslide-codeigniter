@@ -60,13 +60,13 @@
 
     <!-- jQuery Version 1.11.0 -->
     <script src="/js/jquery-1.11.0.js"></script>
-     <script src="/js/jquery.growl.js"></script>
+    <script src="/js/jquery.growl.js"></script>
    
     
     <!-- jQuery Development Bundle -->
     <script src="/js/development-bundle/ui/jquery.ui.core.js"></script>
-	<script src="/js/development-bundle/ui/jquery.ui.widget.js"></script>
-	<script src="/js/development-bundle/ui/jquery.ui.datepicker.js"></script>
+    <script src="/js/development-bundle/ui/jquery.ui.widget.js"></script>
+    <script src="/js/development-bundle/ui/jquery.ui.datepicker.js"></script>
 
 	<!-- Bootstrap JS -->
 	<script src="/js/bootstrap-datepicker.js"></script>

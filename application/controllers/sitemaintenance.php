@@ -71,7 +71,15 @@
 
     		echo "$id";
 
-		 } 
+		 }
+
+		public function showAllReports()
+		{
+			$result = $this->sitemaintenance_model->getAllReports();
+			
+			if ($result == "[]") echo "Variable is empty<Br><Br>";
+			else echo "$result";
+		}
 
 	}
 

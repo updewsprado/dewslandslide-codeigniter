@@ -87,16 +87,7 @@ if (base_url() == "http://localhost/") {
                 </div>
                 <!-- /.row -->
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <ol class="breadcrumb">
-                            <li class="active">
-                                <i class="fa fa-dashboard"></i> <a href="<?php echo $pubReleaseHTTP; ?>publicreleaseall2.php">Click this to Visit All Public Announcements</a>
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-                <!-- /.row -->     
+                <div class="well well-sm"><b><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;For the list of all Public Releases, click <a href="<?php echo base_url(); ?>gold/publicrelease/all">here.</a></b></div>  
 
                 <div class="row">
                   <div class="form-group col-sm-6">
@@ -285,9 +276,17 @@ if (base_url() == "http://localhost/") {
 
                 <div class="row">
                   <div class="form-group col-sm-6">
-                    <label for="entryFlagger">Reporter</label>
+                    <label for="entryFlagger">Entry Reporter</label>
                     <input type="text" class="form-control" id="entryFlagger" name="entryFlagger" value="<?php echo $first_name . " " . $last_name; ?>" placeholder="Enter Flagger" disabled>
                   </div>
+                  <div class="form-group col-sm-6">
+                    <label for="counterReporter">CT/MT Counterpart Reporter</label>
+                    <select class="form-control" id="counterReporter" name="counterReporter" onchange="">
+                      <option value="none">Select reporter</option>
+                        
+                    </select>
+                  </div>
+
                 </div>
 
                 <button type="submit" class="btn btn-info" onclick="insertNewEntry()">Submit</button>
@@ -348,6 +347,21 @@ if (base_url() == "http://localhost/") {
   	$('#formGeneral').hide();
   	$('#formDate').hide();
     $('#button_right').hide();
+
+    $.ajax ({
+      //async: false,
+      url: "<?php echo base_url(); ?>pubrelease/showStaff",
+      type: "GET",
+      dataType: "json",
+    })
+    .done( function (json) {
+        var myData = json; // SAVE SITES TO MYDATA
+        console.log(myData);
+        myData.forEach(function (row) {
+          $("#counterReporter").append("<option value='" + row.first_name + " " + row.last_name + "'>" + row.last_name + ", " + row.first_name + "</option>");
+        });
+    });
+
   }	
 
   $(function () {
@@ -497,9 +511,13 @@ if (base_url() == "http://localhost/") {
     var timereleased = $("#entryRelease").val();
     var site = $("#entrySite").val();
     var internalAlert = $("#entryAlert").val();
+    
     var comments = $("#comments").val();
+    if (comments == '') comments = null;
+
     var recAck = recipientData();
     var flagger = $("#entryFlagger").val();
+    var counterReporter = $("#counterReporter").val();
 
     //Dependent fields
     var dftimestamp = $("#suppInfoTimestamp").val();
@@ -529,6 +547,11 @@ if (base_url() == "http://localhost/") {
 
     if (internalAlert == "none") {
       failedMessage += "Please fill out 'Internal Alert Level'.<br>";
+      checker = 1;
+    }
+
+    if (counterReporter == "none") {
+      failedMessage += "Please fill out 'CT/MT Counterpart Reporter'.<br>";
       checker = 1;
     }
 
@@ -564,6 +587,7 @@ if (base_url() == "http://localhost/") {
                     entryRecipient: recAck.entryRecipient,
                     entryAck: recAck.entryAckTime,
                     entryFlagger: flagger,
+                    counterReporter: counterReporter,
                     entryAlertGroup: alertgroup,
                     entryRequest: request,
                     entryMagnitude: magnitude,
@@ -579,7 +603,7 @@ if (base_url() == "http://localhost/") {
       success: function(result, textStatus, jqXHR)
       {
           testVar = result;
-          $("#viewRecentEntry").attr("href", "<?php echo $pubReleaseHTTP; ?>publicrelease2.php?alertid="+result);
+          $("#viewRecentEntry").attr("href", "<?php echo base_url(); ?>gold/publicrelease/individual/" + result);
           $('#dataEntrySuccessful').modal('show');
       }     
     });

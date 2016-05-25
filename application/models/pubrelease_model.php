@@ -69,6 +69,13 @@ class Pubrelease_Model extends CI_Model
 		return json_encode( $siteAlertPublic );
 	}
 
+	public function insert($table, $data)
+	{
+        $this->db->insert($table, $data);
+        $id = $this->db->insert_id();
+        return $id;
+    }
+
 	public function updatePublicAlerts($dataSet)
 	{
 		$alertid = $dataSet['alertid'];
@@ -116,6 +123,138 @@ class Pubrelease_Model extends CI_Model
 		else {
 		    return "Delete Failed....";
 		}
+	}
+
+	/**
+	 * Gets all staff
+	 *
+	 * @author Kevin Dhale dela Cruz
+	 **/
+	public function getStaff()
+	{
+		$sql = "SELECT first_name, last_name FROM membership ORDER BY last_name ASC";
+		
+		$query = $this->db->query($sql);
+		$result = [];
+		$i = 0;
+		foreach ($query->result() as $row) {
+			$result[$i]["first_name"] = $row->first_name;
+			$result[$i]["last_name"] = $row->last_name;
+			$i = $i + 1;
+		}
+
+		return json_encode($result);
+	}
+
+
+	/**
+	 * Gets public releases
+	 * 
+	 * @author Kevin Dhale dela Cruz
+	 **/
+	public function getAllPublicReleases()
+	{
+		$sql = "SELECT DISTINCT
+	          public_alert.public_alert_id,
+	          public_alert.entry_timestamp,
+	          public_alert.site,
+	          public_alert.internal_alert_level,
+	          site_column.barangay,
+	          site_column.municipality,
+	          site_column.province,
+	          site_column.region,
+	          lut_alerts.public_alert_level,
+	          lut_alerts.public_alert_desc,
+	          public_alert_extra.comments
+	        FROM
+	        	public_alert
+	        INNER JOIN site_column 
+	        	ON ( LEFT(public_alert.site, 3) = LEFT(site_column.name, 3) )
+	        INNER JOIN lut_alerts 
+	        	ON public_alert.internal_alert_level = lut_alerts.internal_alert_level
+	       	LEFT JOIN public_alert_extra 
+	        	ON public_alert.public_alert_id = public_alert_extra.public_alert_id
+	        WHERE
+	        	public_alert.public_alert_id IN 
+	          	(
+	            	SELECT DISTINCT
+	              		max(public_alert.public_alert_id) as public_alert_id
+	            	FROM
+	              		public_alert
+	            	INNER JOIN site_column 
+	              		ON LEFT(public_alert.site, 3) = LEFT(site_column.name, 3)
+	            	GROUP BY site
+	          	)
+	        GROUP BY site
+	        ORDER BY entry_timestamp DESC, barangay ASC";
+
+		$query = $this->db->query($sql);
+
+		$i = 0;
+	    foreach ($query->result_array() as $row)
+	    {
+	        $data[$i]["alert_id"] = $row["public_alert_id"];
+	        $data[$i]["timestamp"] = $row["entry_timestamp"];
+	        $data[$i]["name"] = $row["site"];
+	        $data[$i]["internal_alert"] = $row["internal_alert_level"];
+	        $data[$i]["barangay"] = $row["barangay"];
+	        $data[$i]["municipality"] = $row["municipality"];
+	        $data[$i]["province"] = $row["province"];
+	        $data[$i]["region"] = $row["region"];
+	        $data[$i]["public_alert"] = $row["public_alert_level"];
+	        $data[$i]["public_alert_desc"] = $row["public_alert_desc"];
+	        $data[$i]["comments"] = $row["comments"];
+
+	        $i++;
+	    }
+
+	    return json_encode($data);
+
+	}
+
+	public function getSinglePublicRelease($id)
+	{
+		$sql = "SELECT 
+					public_alert.*,
+					lut_alerts.*,
+					lut_responses.*,
+					site_column.*,
+					public_alert_extra.*
+				FROM public_alert
+				INNER JOIN lut_alerts ON public_alert.internal_alert_level = lut_alerts.internal_alert_level
+				INNER JOIN lut_responses ON lut_responses.public_alert_level = lut_alerts.public_alert_level
+				INNER JOIN site_column ON ( public_alert.site = LEFT(site_column.name, 3) )
+				LEFT JOIN public_alert_extra ON public_alert.public_alert_id = public_alert_extra.public_alert_id
+				WHERE public_alert.public_alert_id = $id
+				ORDER BY site_column.s_id DESC LIMIT 1";
+		$query = $this->db->query($sql);
+
+		$result = $query->result_object();
+		$data = $result;
+
+		return json_encode($data);
+	}
+
+	public function getAlertHistory($site)
+	{
+		$sql = "SELECT 
+            		public_alert.public_alert_id,
+            		public_alert.entry_timestamp,
+            		lut_alerts.public_alert_level
+            	FROM 
+                	public_alert 
+            	INNER JOIN 
+                	lut_alerts
+              	ON 
+                	public_alert.internal_alert_level = lut_alerts.internal_alert_level
+              	WHERE 
+                	site = '$site' ORDER BY entry_timestamp DESC";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_object();
+		$data = $result;
+
+		return json_encode($data);
 	}
 
 }
