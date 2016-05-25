@@ -145,7 +145,7 @@ if (base_url() == "http://localhost/") {
   <!-- /#page-wrapper -->
 
   <script type="text/javascript">
-      $('#loading').hide();
+     $('#loading').hide();
     window.onload = function() {
       $('#formGeneral').hide();
       $('#formDate').hide();
@@ -156,7 +156,7 @@ if (base_url() == "http://localhost/") {
 
     function emptyPublicAlertTable() {
       $('#reloadable-table-body').empty();
-         $('#loading').hide();
+      $('#loading').show();   
 
     }
 
@@ -503,7 +503,9 @@ if (base_url() == "http://localhost/") {
     function filteredPublicAlerts(siteName) {
       emptyPublicAlertTable();
       var curSite = $('#entrySite').val();
-
+            $( document ). ajaxComplete(function() {
+            $( "#loading" ).hide();
+         });
       //create an ajax function for getting data of public alert for the chosen site
       var formData = {site: curSite};
 

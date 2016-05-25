@@ -1,4 +1,4 @@
-	<?php
+<?php
 // Database login information
 $servername = "localhost";
 $username = "updews";
@@ -52,7 +52,8 @@ if (mysqli_num_rows($result) > 0) {
 mysqli_close($conn);
 ?>
 	<link href="/js/development-bundle/themes/south-street/jquery-ui.css" rel="stylesheet">
-
+     <script type="text/javascript" src="file.js"></script>
+  
 	<script type="text/javascript" src="/js/jquery-ui-1.10.4.custom.js"></script>
 	<script type="text/javascript" src="/js/development-bundle/ui/jquery.ui.core.js"></script>
 	<script type="text/javascript" src="/js/development-bundle/ui/jquery.ui.widget.js"></script>
@@ -408,9 +409,7 @@ $(document).ready(function() {
 
 
     });
-
 </script>
-
 <script>
 
 var allWS = <?php echo json_encode($weatherStationsFull); ?>;
@@ -419,24 +418,7 @@ var prevWSnoah = null;
 var rainData = [];
 var rainDataNoah = [];
 var isVisible = [true, true, true, true];
-var opts = {
-    lines: 11, // The number of lines to draw
-    length: 6, // The length of each line
-    width: 3, // The line thickness
-    radius: 8, // The radius of the inner circle
-    corners: 1, // Corner roundness (0..1)
-    rotate: 0, // The rotation offset
-    direction: 1, // 1: clockwise, -1: counterclockwise
-    color: '#000', // #rgb or #rrggbb or array of colors
-    speed: 1.1, // Rounds per second
-    trail: 58, // Afterglow percentage
-    shadow: false, // Whether to render a shadow
-    hwaccel: false, // Whether to use hardware acceleration
-    className: 'spinner', // The CSS class to assign to the spinner
-    zIndex: 2e9, // The z-index (defaults to 2000000000)
-    top: '50%', // Top position relative to parent
-    left: '50%' // Left position relative to parent
-};
+
 var frmdate = $.datepicker.formatDate('yy-mm-dd', start_date);
 var todate = $.datepicker.formatDate('yy-mm-dd', end_date);
   
@@ -486,6 +468,7 @@ var todate = $.datepicker.formatDate('yy-mm-dd', end_date);
 function displayRainGraphs() {
     var x = document.getElementById("mySelect").value;
 
+
     if (x != "default") {
         var rainSenslope = allWS[x]["rain_senslope"];
         var rainNOAH = allWS[x]["rain_noah"];
@@ -493,7 +476,7 @@ function displayRainGraphs() {
         var rainNOAH3 = allWS[x]["rain_noah3"];
         var rainARQ = allWS[x]["rain_arq"];
         var max = allWS[x]["max_rain_2year"];
-        console.log(x +"ito un")
+        // console.log(x +"ito un")
         if(rainSenslope) {
             if (rainSenslope != prevWS) {
                 getRainfallData(rainSenslope);
@@ -527,7 +510,7 @@ function displayRainGraphs() {
             if (rainNOAH != prevWSnoah) {
                 getRainfallDataNOAH(rainNOAH);
                 prevWSnoah = rainNOAH;
-			
+            
             }            
         }
         else {
@@ -540,7 +523,7 @@ function displayRainGraphs() {
             if (rainNOAH2 != prevWSnoah) {
                 getRainfallDataNOAH2(rainNOAH2);
                 prevWSnoah = rainNOAH2;
-			
+            
             }            
         }
         else {
@@ -554,7 +537,7 @@ function displayRainGraphs() {
             if (rainNOAH3 != prevWSnoah) {
                 getRainfallDataNOAH3(rainNOAH3);
                 prevWSnoah = rainNOAH3;
-				
+                
             }            
         }
         else {
@@ -574,11 +557,7 @@ function getRainfallData(str) {
         return;
     } else {
       $.ajax({url: "/ajax/rainfallNewGetData.php?rsite="+ str +"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-
-		var target = document.getElementById('rainGraphSenslope');
-		var spinner = new Spinner(opts).spin();
-		target.appendChild(spinner.el);
-        testResult = result;
+           
         var x = document.getElementById("mySelect").value;
         var max = allWS[x]["max_rain_2year"];
        
@@ -588,7 +567,7 @@ function getRainfallData(str) {
         };
 
         var jsonData = JSON.parse(result);
-        console.log(jsonData);
+        // console.log(jsonData);
         if(jsonData) {
           var data = JSON2CSV(jsonData);
           var isStacked = false;
@@ -658,20 +637,18 @@ function getRainfallARQ(str) {
         return;
     } else {
       $.ajax({url: "/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-		var target = document.getElementById('rainGraphARQ');
-		var spinner = new Spinner(opts).spin();
-		target.appendChild(spinner.el);
+ 
         testResult = result;
         var x = document.getElementById("mySelect").value;
         var max = allWS[x]["max_rain_2year"];
-        console.log("arq " + str);
+        // console.log("arq " + str);
         if ((result == "[]") || (result == "")) {
           document.getElementById("rainGraphARQ").innerHTML = "";
           return;
         };
 
         var jsonData = JSON.parse(result);
-        console.log(jsonData);
+        // console.log(jsonData);
         if(jsonData) {
           var data = JSON2CSV(jsonData);
           var isStacked = false;
@@ -743,9 +720,9 @@ function getRainfallDataNOAH(str) {
     } else {
       $.ajax({url: "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
  
-		var target = document.getElementById('rainGraphNoah');
-		var spinner = new Spinner(opts).spin();
-		target.appendChild(spinner.el);
+        var target = document.getElementById('rainGraphNoah');
+        var spinner = new Spinner(opts).spin();
+        target.appendChild(spinner.el);
         if ((result == "[]") || (result == "")) {
           document.getElementById("rainGraphNoah").innerHTML = "";
           return;
@@ -754,7 +731,7 @@ function getRainfallDataNOAH(str) {
         var jsonData = JSON.parse(result);
         var x = document.getElementById("mySelect").value;
         var max = allWS[x]["max_rain_2year"];
-        console.log("NOAH1  " + str);
+        // console.log("NOAH1  " + str);
         if(jsonData) {
           var data = JSON2CSV(jsonData);
           var isStacked = false;
@@ -825,9 +802,9 @@ function getRainfallDataNOAH2(str) {
     } else {
       $.ajax({url: "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
 
-		var target = document.getElementById('rainGraphNoah2');
-		var spinner = new Spinner(opts).spin();
-		target.appendChild(spinner.el);   
+        var target = document.getElementById('rainGraphNoah2');
+        var spinner = new Spinner(opts).spin();
+        target.appendChild(spinner.el);   
         if ((result == "[]") || (result == "")) {
           document.getElementById("rainGraphNoah2").innerHTML = "";
           return;
@@ -836,7 +813,7 @@ function getRainfallDataNOAH2(str) {
         var jsonData = JSON.parse(result);
         var x = document.getElementById("mySelect").value;
         var max = allWS[x]["max_rain_2year"];
-        console.log("NOAH2 " + str);
+        // console.log("NOAH2 " + str);
 
         if(jsonData) {
           var data = JSON2CSV(jsonData);
@@ -908,9 +885,9 @@ function getRainfallDataNOAH3(str) {
     } else {
       $.ajax({url: "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
 
-		var target = document.getElementById('rainGraphNoah3');
-		var spinner = new Spinner(opts).spin();
-		target.appendChild(spinner.el);  
+        var target = document.getElementById('rainGraphNoah3');
+        var spinner = new Spinner(opts).spin();
+        target.appendChild(spinner.el);  
         if ((result == "[]") || (result == "")) {
           document.getElementById("rainGraphNoah3").innerHTML = "";
           return;
@@ -919,7 +896,7 @@ function getRainfallDataNOAH3(str) {
         var jsonData = JSON.parse(result);
         var x = document.getElementById("mySelect").value;
         var max = allWS[x]["max_rain_2year"];
-         console.log("NOAH3 " + str);
+         // console.log("NOAH3 " + str);
 
         if(jsonData) {
           var data = JSON2CSV(jsonData);
@@ -982,5 +959,6 @@ function getRainfallDataNOAH3(str) {
       }});
     }
 }
-
+        
 </script>
+

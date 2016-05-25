@@ -97,7 +97,7 @@ class Gold extends CI_Controller {
 				//Data for Google Map Site Coordinates
 				$data['sitesCoord'] = $this->Gmap_model->getSitesCoord();
 				
-				//$data['showplots'] = 'showSitePlots(this.form)';
+				// $data['showplots'] = 'showSitePlots(this.form)';
 				$data['showplots'] = 'redirectSitePlots(this.form)';
 				$data['showdateplots'] = "showDateSitePlots(document.getElementById('formGeneral'))";
 				
@@ -110,7 +110,7 @@ class Gold extends CI_Controller {
 				$data['commhealth'] = '<script src="/' . $data['folder'] . '/js/dewslandslide/dewscommhealth-d3.js"></script>';
 				$data['analysisdyna'] = '<script src="/' . $data['folder'] . '/js/dewslandslide/dewsanalysisdyna.js"></script>';
 				$data['sentnodetotal'] = '<script src="/' . $data['folder'] . '/js/dewslandslide/dewssentnodetotal-d3.js"></script>';
-				$data['rainfall'] = '<script src="/' . $data['folder'] . '/js/dewslandslide/dewsrainfall-dy.js"></script>';
+				$data['rainfall'] = '<script  src="/' . $data['folder'] . '/js/dewslandslide/dewsrainfall-d3.js"></script>';
 				$data['ismap'] = true;
 				break;
 				
@@ -278,6 +278,34 @@ class Gold extends CI_Controller {
 				//$data['report'] = $this->sitemaintenance_model->getReport(0);
 				break;
 			
+			case 'GroundMeas':
+					$this->load->model('Alert_model');	
+			
+				$data['site'] = $site;
+				$data['node'] = $node;
+				$data['datefrom'] = $datefrom;
+				$data['dateto'] = $dateto;
+
+				//Data for Alert Map
+				if ($site) {
+					$data['nodeAlerts'] = $this->Alert_model->getSingleAlert($site);
+					$data['siteMaxNodes'] = $this->Alert_model->getSingleMaxNode($site);
+					$data['nodeStatus'] = $this->Alert_model->getSingleNodeStatus($site);						
+				}
+				else {
+					$data['nodeAlerts'] = 0;
+					$data['siteMaxNodes'] = 0;
+					$data['nodeStatus'] = 0;						
+				}				
+				
+				$data['showplots'] = 'redirectGndPlots(this.form)';
+				$data['showdateplots'] = "showAccel(getMainForm())";
+				
+				$data['dropdown_chart'] = 'class="active"';
+				$page = 'GroundMeas';
+				
+				break;
+
 			default:
 				break;
 		}
