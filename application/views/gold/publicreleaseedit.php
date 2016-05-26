@@ -42,8 +42,24 @@ if (mysqli_num_rows($result) > 0) {
 } else {
     echo "0 results for site name";
 }
+$sql = "SELECT internal_alert_level FROM lut_alerts";
+$result = mysqli_query($conn, $sql);
+
+$numSites = 0;
+if (mysqli_num_rows($result) > 0) {
+    // output data of each row
+    while($row = mysqli_fetch_assoc($result)) {
+        $internalAlerts[$numSites++]["internal_alert_level"] = $row["internal_alert_level"];
+    }
+} else {
+    echo "0 results for internal alert level";
+}
 
 mysqli_close($conn);
+
+
+                             
+                      
 
 $pubReleaseHTTP = null;
 if (base_url() == "http://localhost/") {
@@ -168,7 +184,13 @@ if (base_url() == "http://localhost/") {
         case 'A2':
           rowClass = "alert_01";
           break;
-        case 'a1':
+        case 'ND-D':
+        case 'ND-E':
+        case 'ND-L':
+        case 'ND-R':
+        case 'A1-D':
+        case 'A1-E':
+        case 'A1-R':
         case 'A1':
            rowClass = "alert_02";
           break;
@@ -176,12 +198,8 @@ if (base_url() == "http://localhost/") {
         case 'A3':
            rowClass = "alert_00";
           break;
-        case 'a0':
-        case 'A0':
-          rowClass = "alert_03";
-          break;
-        case 'nd':
         case 'ND':
+        case 'A0':
           rowClass = "alert_nd";
           break;
         default:
@@ -577,9 +595,7 @@ if (base_url() == "http://localhost/") {
               $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class='form-control datetimepicker2' placeholder='Text input' value='"+pubAlertPerSite[i].ts_post_creation+"'></td>");
               $("#"+pubAlertPerSite[i].alert_id).append("<td>"+pubAlertPerSite[i].name+"</td>");
               // AIL PART
-              $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'> <input type='text' class='form-control' placeholder='Text input' value='"+pubAlertPerSite[i].internal_alert+"' list='case' name='case'><datalist id='case'><option value='A0'></option><option value='A1'></option><option value='A2'></option><option value='A3'></option><option value='ND'></option></td>");
-
-
+              $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'> <input type='text' class='form-control' placeholder='Text input' value='"+pubAlertPerSite[i].internal_alert+"' list='case' name='case'><datalist id='case'><select class='form-control' id='entryAlert'><option value='"+pubAlertPerSite[i].internal_alert+"'>Select internal alert level...</option><?php foreach($internalAlerts as $singleAlert): ?> <option><?php echo $singleAlert['internal_alert_level']; ?></option><?php endforeach; ?> </select>  </td>");
               $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class='form-control datetimepicker2' placeholder='Text input' value='"+commRecipients[0].ack+"'></td>");
               $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class='form-control datetimepicker2' placeholder='Text input' value='"+commRecipients[1].ack+"'></td>");
               $("#"+pubAlertPerSite[i].alert_id).append("<td style='width:8%'><input type='text' class='form-control datetimepicker2' placeholder='Text input' value='"+commRecipients[2].ack+"'></td>");

@@ -1,4 +1,4 @@
-<?php
+    <?php
 // Database login information
 $servername = "localhost";
 $username = "updews";
@@ -51,15 +51,14 @@ if (mysqli_num_rows($result) > 0) {
 //echo json_encode($weatherStationsFull);
 mysqli_close($conn);
 ?>
-	<link href="/js/development-bundle/themes/south-street/jquery-ui.css" rel="stylesheet">
-     <script type="text/javascript" src="file.js"></script>
-  
-	<script type="text/javascript" src="/js/jquery-ui-1.10.4.custom.js"></script>
-	<script type="text/javascript" src="/js/development-bundle/ui/jquery.ui.core.js"></script>
-	<script type="text/javascript" src="/js/development-bundle/ui/jquery.ui.widget.js"></script>
-	<script type="text/javascript" src="/js/development-bundle/ui/jquery.ui.datepicker.js"></script>
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.0/dygraph-combined.js"></script>
-	<script type="text/javascript" src="http://fgnass.github.io/spin.js/spin.min.js"></script>
+    <link href="/js/development-bundle/themes/south-street/jquery-ui.css" rel="stylesheet">
+
+    <script type="text/javascript" src="/js/jquery-ui-1.10.4.custom.js"></script>
+    <script type="text/javascript" src="/js/development-bundle/ui/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="/js/development-bundle/ui/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="/js/development-bundle/ui/jquery.ui.datepicker.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.0/dygraph-combined.js"></script>
+    <script type="text/javascript" src="http://fgnass.github.io/spin.js/spin.min.js"></script>
 
 
         <div id="page-wrapper">
@@ -93,8 +92,8 @@ mysqli_close($conn);
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Mini Alert Map</h3>
                             </div>
                             <div class="panel-body">
-								<div id="mini-alert-canvas">
-								</div>
+                                <div id="mini-alert-canvas">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -114,35 +113,35 @@ mysqli_close($conn);
                     </div>
 
                     <div class="col-lg-8">
-                    	<div class="panel panel-default">
+                        <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Position Plot <input type="button" id="posLegend" onclick="posLegends(this.form)" value="Show Legends" /></h3>
-							</div>
-							<div id="position-legends" style="width:130px; height:85px; visibility:hidden; display:none;"></div>
-					
-							<div class="panel-body">
-								<div id="position-canvas">
-									<FORM id="formPosition">
-										<p>
-											Day Intervals: <select name="interval" onchange="showPositionPlotGeneral()">
-											<option value="10">10</option>
-											<option value="9">9</option>
-											<option value="8">8</option>
-											<option value="7">7</option>
-											<option value="6">6</option>
-											<option value="5">5</option>
-											<option value="4">4</option>
-											<option value="3">3</option>
-											<option value="2">2</option>
-											<option value="1">1</option>
-											</select>
-										</p>
-									</FORM>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+                            </div>
+                            <div id="position-legends" style="width:130px; height:85px; visibility:hidden; display:none;"></div>
+                    
+                            <div class="panel-body">
+                                <div id="position-canvas">
+                                    <FORM id="formPosition">
+                                        <p>
+                                            Day Intervals: <select name="interval" onchange="showPositionPlotGeneral()">
+                                            <option value="10">10</option>
+                                            <option value="9">9</option>
+                                            <option value="8">8</option>
+                                            <option value="7">7</option>
+                                            <option value="6">6</option>
+                                            <option value="5">5</option>
+                                            <option value="4">4</option>
+                                            <option value="3">3</option>
+                                            <option value="2">2</option>
+                                            <option value="1">1</option>
+                                            </select>
+                                        </p>
+                                    </FORM>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- /.row -->
 
                 <div class="row">
@@ -150,12 +149,12 @@ mysqli_close($conn);
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Communication Health <input type='button' id='show' onclick='showLegends(this.form)' value='Show Legends' /></h3>
-									<div width="250px" id="legends" style="visibility:hidden; display:none;">
-											<input type='button' onclick="barTransition('red')" style='background-color:red; padding-right:5px;' /><strong><font color="yellow">Last 7 Days</font> </strong><br/>
-											<input type='button' onclick="barTransition('blue')" style='background-color:blue; padding-right:5px;' /><strong><font color="yellow">Last 30 Days</font></strong><br/>
-											<input type='button' onclick="barTransition('green')" style='background-color:green; padding-right:5px;' /><strong><font color="yellow">Last 60 Days</font></strong>
-									</div>
-							</div>
+                                    <div width="250px" id="legends" style="visibility:hidden; display:none;">
+                                            <input type='button' onclick="barTransition('red')" style='background-color:red; padding-right:5px;' /><strong><font color="yellow">Last 7 Days</font> </strong><br/>
+                                            <input type='button' onclick="barTransition('blue')" style='background-color:blue; padding-right:5px;' /><strong><font color="yellow">Last 30 Days</font></strong><br/>
+                                            <input type='button' onclick="barTransition('green')" style='background-color:green; padding-right:5px;' /><strong><font color="yellow">Last 60 Days</font></strong>
+                                    </div>
+                            </div>
                             <div class="panel-body">
                                 <div id="healthbars-canvas"></div>
                             </div>
@@ -168,11 +167,11 @@ mysqli_close($conn);
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Sent Node Data</h3>
                             </div>
                             <div class="panel-body">
-								<div id="sentnode_timestamp"><b>Data Sent: </b></div>
-								<div id="sent-node-canvas">
-								</div>
-							</div>
-						</div>
+                                <div id="sentnode_timestamp"><b>Data Sent: </b></div>
+                                <div id="sent-node-canvas">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- /.row -->
@@ -192,34 +191,34 @@ mysqli_close($conn);
                             <div class="panel-heading">
                                 <h3 class="panel-title">
                               
-									<div class="btn-group switch-graph-view" data-toggle="buttons">
-										<select id="mySelect" class="form-control" onchange="displayRainGraphs()">
-											<?php
-									            $ctr = 0 ;
-									            foreach ($weatherStationsFull as $singleSite) {
-									              $curSite = $singleSite["name"];
-									              echo "<option value=\"$ctr\">$curSite</option>";
-									              ;
-									            }
-									          ?>
-										</select> 
-										 
-									</div>
+                                    <div class="btn-group switch-graph-view" data-toggle="buttons">
+                                        <select id="mySelect" class="form-control" onchange="displayRainGraphs()">
+                                            <?php
+                                                $ctr = 0 ;
+                                                foreach ($weatherStationsFull as $singleSite) {
+                                                  $curSite = $singleSite["name"];
+                                                  echo "<option value=\"$ctr\">$curSite</option>";
+                                                  ;
+                                                }
+                                              ?>
+                                        </select> 
+                                         
+                                    </div>
                                 </h3>
                             </div>
                             <div class="panel-body">
-                            	<div id="rainGraphARQ" class="ARQdataset" style="width:auto; height:250px;"></div>
-                            	<div id="rainGraphSenslope" class="SENdataset" style="width:auto; height:250px;"></div>
-                            	<div id="rainGraphNoah" class="NOAHdataset" style="width:auto; height:250px;"></div>
-								<div id="rainGraphNoah2" class="NOAHdataset2" style="width:auto; height:250px;"></div>
-								<div id="rainGraphNoah3" class="NOAHdataset3" style="width:auto; height:250px;"></div>
-								
-								
-								
+                                <div id="rainGraphARQ" class="ARQdataset" style="width:auto; height:250px;"></div>
+                                <div id="rainGraphSenslope" class="SENdataset" style="width:auto; height:250px;"></div>
+                                <div id="rainGraphNoah" class="NOAHdataset" style="width:auto; height:250px;"></div>
+                                <div id="rainGraphNoah2" class="NOAHdataset2" style="width:auto; height:250px;"></div>
+                                <div id="rainGraphNoah3" class="NOAHdataset3" style="width:auto; height:250px;"></div>
+                                
+                                
+                                
                             </div>
                         </div>
                     </div>                                     
-                </div>	
+                </div>  
                 <!-- /.row -->
                 
             <!-- /.container-fluid -->
@@ -231,7 +230,7 @@ mysqli_close($conn);
 
 var end_date = new Date();
 var start_date = new Date(end_date.getFullYear(), end_date.getMonth(), end_date.getDate()-30);
-
+var newdate = new Date(end_date.getFullYear(), end_date.getMonth()-1, end_date.getDate()+31);
 $(function() {
             $( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
             $( "#datepicker" ).datepicker("setDate", start_date);
@@ -239,7 +238,7 @@ $(function() {
 
         $(function() {
             $( "#datepicker2" ).datepicker({ dateFormat: "yy-mm-dd" });
-            $( "#datepicker2" ).datepicker("setDate", end_date);
+            $( "#datepicker2" ).datepicker("setDate", newdate );
         });
  //
 var curSite = "<?php echo $site; ?>";
@@ -247,158 +246,158 @@ var fromDate = "" , toDate = "" , dataBase = "";
 var curNode = "<?php echo $node; ?>";
 
 
-function getAllSites() {	
-		var baseURL = "<?php echo $_SERVER['SERVER_NAME']; ?>";
-		var URL;
-		if (baseURL == "localhost") {
-			URL = "http://localhost/temp/getSenslopeData.php?sitenames&db=senslopedb";
-		}
-		else {
-			URL = "http://www.dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
-		}
-		
-		$.getJSON(URL, function(data, status) {
-			options = data;
-			popDropDownGeneral();
-		});
-	}
+function getAllSites() {    
+        var baseURL = "<?php echo $_SERVER['SERVER_NAME']; ?>";
+        var URL;
+        if (baseURL == "localhost") {
+            URL = "http://localhost/temp/getSenslopeData.php?sitenames&db=senslopedb";
+        }
+        else {
+            URL = "http://www.dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
+        }
+        
+        $.getJSON(URL, function(data, status) {
+            options = data;
+            popDropDownGeneral();
+        });
+    }
 
 function popDropDownGeneral() {
-	var select = document.getElementById('sitegeneral');
-	
-	var i;
-	for (i = 0; i < options.length; i++) {
-		var opt = options[i];
+    var select = document.getElementById('sitegeneral');
+    
+    var i;
+    for (i = 0; i < options.length; i++) {
+        var opt = options[i];
 
-		var el = document.createElement("option");
-		
-		el.textContent = opt.toUpperCase();
+        var el = document.createElement("option");
+        
+        el.textContent = opt.toUpperCase();
 
-		if(opt == "select") {
-			el.value = "none";
-		}
-		else {
-			el.value = opt;
-		}
+        if(opt == "select") {
+            el.value = "none";
+        }
+        else {
+            el.value = opt;
+        }
 
-		select.appendChild(el);
-	}
+        select.appendChild(el);
+    }
 }
 
 function initSite() {
-	if (curSite != "") {
-		$('#sitegeneral').val(curSite);
-		document.getElementById("node").value = curNode;
-		var element = document.getElementById("header-site");
-		var targetForm = document.getElementById("formGeneral");
-		element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " Site Overview";
+    if (curSite != "") {
+        $('#sitegeneral').val(curSite);
+        document.getElementById("node").value = curNode;
+        var element = document.getElementById("header-site");
+        var targetForm = document.getElementById("formGeneral");
+        element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " Site Overview";
 
-		showSitePlots(targetForm);
-	}
+        showSitePlots(targetForm);
+    }
 }
 
 function getMainForm() {
-		var targetForm = document.getElementById("formGeneral");
-		
-		return targetForm;
-	}
+        var targetForm = document.getElementById("formGeneral");
+        
+        return targetForm;
+    }
 
 
 window.onload = function() {
-	var targetForm = getMainForm();
-	nodeAlertJSON = <?php echo $nodeAlerts; ?>;
-	nodeStatusJSON = <?php echo $nodeStatus; ?>;
-	maxNodesJSON = <?php echo $siteMaxNodes; ?>;
-	getAllSites();
-	
-	$('#mySelect').hide();
+    var targetForm = getMainForm();
+    nodeAlertJSON = <?php echo $nodeAlerts; ?>;
+    nodeStatusJSON = <?php echo $nodeStatus; ?>;
+    maxNodesJSON = <?php echo $siteMaxNodes; ?>;
+    getAllSites();
+    
+    $('#mySelect').hide();
     $('#nodeGeneralname').hide();
-	$('#nodeGeneral').hide();
-	displayRainGraphs();
-	positionPlot.init_dims();
+    $('#nodeGeneral').hide();
+    displayRainGraphs();
+    positionPlot.init_dims();
 
-	
-	
-	setTimeout(function(){
-		initSite();
-	}, 500);
+    
+    
+    setTimeout(function(){
+        initSite();
+    }, 500);
 
-	setTimeout(function(){
-		initAlertPlot();
-	}, 1000);
+    setTimeout(function(){
+        initAlertPlot();
+    }, 1000);
 }
 
 
 window.onresize = function() {
-	d3.select("#svg-alertmini").remove();
-	initAlertPlot();
+    d3.select("#svg-alertmini").remove();
+    initAlertPlot();
 
 
 
-	showPositionPlotGeneral();
-	showCommHealthPlotGeneral();
-	showSentNodeTotalGeneral();
-	displayRainGraphs();
+    showPositionPlotGeneral();
+    showCommHealthPlotGeneral();
+    showSentNodeTotalGeneral();
+    displayRainGraphs();
 
 }
 
 function redirectSitePlots (frm) {
-	if(document.getElementById("sitegeneral") == "none") {
-		
-		//do nothing
-	}
-	else {
-		curSite = document.getElementById("sitegeneral").value;
-		fromDate = document.getElementById("formDate").dateinput.value;
-		toDate = document.getElementById("formDate").dateinput2.value;
-		var urlExt = "gold/site/" + curSite;
-		var urlBase = "<?php echo base_url(); ?>";
+    if(document.getElementById("sitegeneral") == "none") {
+        
+        //do nothing
+    }
+    else {
+        curSite = document.getElementById("sitegeneral").value;
+        fromDate = document.getElementById("formDate").dateinput.value;
+        toDate = document.getElementById("formDate").dateinput2.value;
+        var urlExt = "gold/site/" + curSite;
+        var urlBase = "<?php echo base_url(); ?>";
 
-		window.location.href = urlBase + urlExt;
-	}
+        window.location.href = urlBase + urlExt;
+    }
 }
 
 
 function showSitePlots (frm) {
-	if(document.getElementById("sitegeneral") == "none") {
-		//do nothing
-	}
-	else {
-		curSite = document.getElementById("sitegeneral").value;
-		fromDate = document.getElementById("formDate").dateinput.value;
-		toDate = document.getElementById("formDate").dateinput2.value;
-		dataBase = frm.dbase.value;
-		
-	
+    if(document.getElementById("sitegeneral") == "none") {
+        //do nothing
+    }
+    else {
+        curSite = document.getElementById("sitegeneral").value;
+        fromDate = document.getElementById("formDate").dateinput.value;
+        toDate = document.getElementById("formDate").dateinput2.value;
+        dataBase = frm.dbase.value;
+        
+    
 
-		var element = document.getElementById("header-site");
-		element.innerHTML = frm.sitegeneral.value.toUpperCase() + " Site Overview";
+        var element = document.getElementById("header-site");
+        element.innerHTML = frm.sitegeneral.value.toUpperCase() + " Site Overview";
 
-		showPositionPlotGeneral();
-		showAnalysisDynaGeneral(frm);
-		showSentNodeTotalGeneral();
-		showCommHealthPlotGeneral();
-		displayRainGraphs();
-		//showBrush();
-	}
+        showPositionPlotGeneral();
+        showAnalysisDynaGeneral(frm);
+        showSentNodeTotalGeneral();
+        showCommHealthPlotGeneral();
+        displayRainGraphs();
+        //showBrush();
+    }
 }
 
 function showDateSitePlots (frm) {
-	if(frm.sitegeneral.value == "none") {
-		//do nothing
-	}
-	else {
-		fromDate = document.getElementById("formDate").dateinput.value;
-		toDate = document.getElementById("formDate").dateinput2.value;
-		showSentNodeTotalGeneral();
-		displayRainGraphs();
-		
-	}
+    if(frm.sitegeneral.value == "none") {
+        //do nothing
+    }
+    else {
+        fromDate = document.getElementById("formDate").dateinput.value;
+        toDate = document.getElementById("formDate").dateinput2.value;
+        showSentNodeTotalGeneral();
+        displayRainGraphs();
+        
+    }
 }
 
 var slider_x, slider_y, sentnode_x, sentnode_y, sentnode_focus, sentnode_xAxis, sentnode_focusGraph, rainfall_x1,
-	rainfall_y1, rainfall_x2, rainfall_y2, rainfall_svg1, rainfall_svg2, rainfall_area1, rainfall_area2,
-	rainfall_xAxis1, rainfall_xAxis2;
+    rainfall_y1, rainfall_x2, rainfall_y2, rainfall_svg1, rainfall_svg2, rainfall_area1, rainfall_area2,
+    rainfall_xAxis1, rainfall_xAxis2;
 
 // auto expanding cols
 $(document).ready(function() {
@@ -409,7 +408,9 @@ $(document).ready(function() {
 
 
     });
+
 </script>
+
 <script>
 
 var allWS = <?php echo json_encode($weatherStationsFull); ?>;
@@ -418,10 +419,27 @@ var prevWSnoah = null;
 var rainData = [];
 var rainDataNoah = [];
 var isVisible = [true, true, true, true];
-
+var opts = {
+    lines: 11, // The number of lines to draw
+    length: 6, // The length of each line
+    width: 3, // The line thickness
+    radius: 8, // The radius of the inner circle
+    corners: 1, // Corner roundness (0..1)
+    rotate: 0, // The rotation offset
+    direction: 1, // 1: clockwise, -1: counterclockwise
+    color: '#000', // #rgb or #rrggbb or array of colors
+    speed: 1.1, // Rounds per second
+    trail: 58, // Afterglow percentage
+    shadow: false, // Whether to render a shadow
+    hwaccel: false, // Whether to use hardware acceleration
+    className: 'spinner', // The CSS class to assign to the spinner
+    zIndex: 2e9, // The z-index (defaults to 2000000000)
+    top: '50%', // Top position relative to parent
+    left: '50%' // Left position relative to parent
+};
 var frmdate = $.datepicker.formatDate('yy-mm-dd', start_date);
-var todate = $.datepicker.formatDate('yy-mm-dd', end_date);
-  
+var todate = $.datepicker.formatDate('yy-mm-dd', newdate );
+  // alert(todate);
   function JSON2CSV(objArray) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
 
@@ -467,7 +485,6 @@ var todate = $.datepicker.formatDate('yy-mm-dd', end_date);
 
 function displayRainGraphs() {
     var x = document.getElementById("mySelect").value;
-
 
     if (x != "default") {
         var rainSenslope = allWS[x]["rain_senslope"];
@@ -556,8 +573,12 @@ function getRainfallData(str) {
         document.getElementById("rainGraphSenslope").innerHTML = "";
         return;
     } else {
-      $.ajax({url: "/ajax/rainfallNewGetData.php?rsite="+ str +"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-           
+      $.ajax({url: "/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
+
+        var target = document.getElementById('rainGraphSenslope');
+        var spinner = new Spinner(opts).spin();
+        target.appendChild(spinner.el);
+        testResult = result;
         var x = document.getElementById("mySelect").value;
         var max = allWS[x]["max_rain_2year"];
        
@@ -637,7 +658,9 @@ function getRainfallARQ(str) {
         return;
     } else {
       $.ajax({url: "/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
- 
+        var target = document.getElementById('rainGraphARQ');
+        var spinner = new Spinner(opts).spin();
+        target.appendChild(spinner.el);
         testResult = result;
         var x = document.getElementById("mySelect").value;
         var max = allWS[x]["max_rain_2year"];
@@ -959,6 +982,5 @@ function getRainfallDataNOAH3(str) {
       }});
     }
 }
-        
-</script>
 
+</script>
