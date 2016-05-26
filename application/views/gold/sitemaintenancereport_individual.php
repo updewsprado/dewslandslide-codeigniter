@@ -22,10 +22,6 @@ if (base_url() == "http://localhost/") {
 
 <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
 <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
-<script type="text/javascript" src="/js/jquery.validate.js"></script>
-<script type="text/javascript" src="/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="/js/chosen.jquery.js" ></script>
-<script type="text/javascript" src="/js/chosen.jquery.min.js" ></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
 
 <style type="text/css">
@@ -35,8 +31,9 @@ if (base_url() == "http://localhost/") {
 	}
 
 	#map-canvas {
+
 		max-height: 500px;
-		max-width: 400px;
+		width: auto;
 	}
 
 	.list-group-item {
@@ -44,14 +41,16 @@ if (base_url() == "http://localhost/") {
 		text-indent: 0.3em;
 	}
 
+	.panel-body {
+		font-size: 14px;
+		text-align: center;
+		font-weight: bold;
+	}
+
 	p {
 		font-size: 14px;
 		text-indent: 1em;
 		margin-bottom: 1.2em;
-	}
-
-	.glyphicon-asterisk {
-		font-size: 0.7em;
 	}
 
 	.table > tbody > tr > td {
@@ -78,54 +77,84 @@ if (base_url() == "http://localhost/") {
         </div>
         <!-- /.row -->
         <div class="row">
-        	<div class="col-md-4">
+        	<div class="col-sm-4">
 		    	<div id="map-canvas" >
 		      		<p>MAP CANVASS</p>
 		     	</div>
 		    </div>
-        	<div class="col-md-8">
+        	<div class="col-sm-8">
         		<!-- <div class="row"> -->
 				<div class="row">
-					<div class="col-md-3">
-						<h5><b>Report ID: </b></h5>
+					<div class="col-md-4">
+						<!-- <h5><b>Report ID: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $id; ?></li>
-						</ul>
+						</ul> -->
+
+						<div class="panel panel-default">
+					      	<div class="panel-heading"><b>Report ID </b></div>
+					      	<div class="panel-body"><?php echo $id; ?></div>
+					    </div>
+
 						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $id; ?></p> -->
 					</div>
 
-					<div class="col-md-3">
-						<h5><b>Site: </b></h5>
+					<div class="col-md-4">
+						<!-- <h5><b>Site: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo strtoupper($report->site); ?></li>
-						</ul>
+						</ul> -->
+
+						<div class="panel panel-default">
+					      	<div class="panel-heading"><b>Site </b></div>
+					      	<div class="panel-body"><?php echo strtoupper($report->site); ?></div>
+					    </div>
+
 						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo strtoupper($report->site); ?></p> -->
 					</div>
 
-					<div class="col-md-6">
-						<h5><b>Address: </b></h5>
+					<div class="col-md-4">
+						<!-- <h5><b>Address: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $map->address; ?></li>
-						</ul>
+						</ul> -->
+
+						<div class="panel panel-default">
+					      	<div class="panel-heading"><b>Address </b></div>
+					      	<div class="panel-body"><?php echo $map->address; ?></div>
+					    </div>
+
 						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $map->address; ?></p> -->
 					</div>
 					
 				</div>
 
 				<div class="row">
-					<div class="col-md-3">
-						<h5><b>Start of Field Work: </b></h5>
+					<div class="col-md-4">
+						<!-- <h5><b>Start of Field Work: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $report->start_date; ?></li>
-						</ul>
+						</ul> -->
+
+						<div class="panel panel-default">
+					      	<div class="panel-heading"><b>Start of Field Work</b></div>
+					      	<div class="panel-body"><?php echo $report->start_date; ?></div>
+					    </div>
+
 						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $report->start_date; ?></p> -->
 					</div>
 
-					<div class="col-md-3">
-						<h5><b>End of Field Work: </b></h5>
+					<div class="col-md-4">
+						<!-- <h5><b>End of Field Work: </b></h5>
 						<ul class="list-group">
 							<li class='list-group-item list-group-item-info'><?php echo $report->end_date; ?></li>
-						</ul>
+						</ul> -->
+
+						<div class="panel panel-default">
+					      	<div class="panel-heading"><b>End of Field Work</b></div>
+					      	<div class="panel-body"><?php echo $report->end_date; ?></div>
+					    </div>
+
 						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $report->end_date; ?></p> -->
 					</div>
 	        		
@@ -137,12 +166,24 @@ if (base_url() == "http://localhost/") {
 
 				<div class="row">
 					<div class="col-md-4">
-						<h5><b>Staff Involved: </b></h5>
+						<!-- <h5><b>Staff Involved: </b></h5>
 						<ul class="list-group">
 							<?php for ($i=0; $i < count($report->staff_name); $i++) { 
 				    			echo "<li class='list-group-item list-group-item-info'>" . $report->staff_name[$i] . "</li>";
 				    		} ?>
-						</ul>
+						</ul> -->
+
+						<div class="panel panel-default">
+					      	<div class="panel-heading"><b>Staff Involved</b></div>
+					      	<div class="panel-body">
+					      	<?php for ($i=0; $i < count($report->staff_name); $i++) { 
+				    			/*echo '<div class="panel-body">'. $report->staff_name[$i] . "</div>";*/
+				    			echo $report->staff_name[$i];
+				    			if ($i < count($report->staff_name) - 1) echo "<br>";
+				    		} ?>
+				    		</div>
+					    </div>
+
 					</div>
 
 		        	<div class="col-md-8">
@@ -170,7 +211,7 @@ if (base_url() == "http://localhost/") {
 						    			$count = count($objects);
 
 						    			if($report->activity_object[$i]->remarks == '') $remarks = "No remarks.";
-						    			else remarks = $report->activity_object[$i]->remarks;
+						    			else $remarks = $report->activity_object[$i]->remarks;
 
 						    			echo "<tr>";
 						    			echo "<td rowspan='" . $count . "'>" . $report->activity_object[$i]->activity . "</td>";
@@ -229,9 +270,9 @@ if (base_url() == "http://localhost/") {
 		$(this).html("<b>" + $(this).text() + "</b>");
 	});
 	$("th, td").addClass("text-center");
-	$(".list-group-item-info").each(function() {
+	/*$(".list-group-item-info").each(function() {
 		$(this).html('<span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;' + $(this).text());
-	});
+	});*/
 	$("#home").attr("href", "<?php echo base_url(); ?>gold");
 	
 

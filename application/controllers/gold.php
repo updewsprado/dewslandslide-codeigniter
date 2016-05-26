@@ -210,6 +210,22 @@ class Gold extends CI_Controller {
 				$data['blank'] = 'class="active"';
 				break;
 
+			case 'publicrelease_all':
+				$this->load->model('pubrelease_model');
+				$data['releases'] = $this->pubrelease_model->getAllPublicReleases();
+				break;
+
+			case 'publicrelease_individual':
+				$this->load->model('pubrelease_model');
+				$id = $this->uri->segment(4);
+				$data['release'] = $temp = $this->pubrelease_model->getSinglePublicRelease($id);
+
+				$temp = json_decode($temp);
+				$site = $temp[0]->site;
+				$data['alert_history'] = $this->pubrelease_model->getAlertHistory($site);
+
+				break;
+
 			case 'accomplishmentreport':
 				$this->load->model('accomplishment_model');
 				$data['instructions'] = $this->accomplishment_model->getInstructions();
@@ -255,7 +271,11 @@ class Gold extends CI_Controller {
 				}
 				$temp = json_decode($report);
 				$data['map'] = $this->sitemaintenance_model->getMap($temp->site);
+				break;
 
+			case 'sitemaintenancereport_all':
+				$this->load->model('sitemaintenance_model');
+				//$data['report'] = $this->sitemaintenance_model->getReport(0);
 				break;
 			
 			case 'GroundMeas':

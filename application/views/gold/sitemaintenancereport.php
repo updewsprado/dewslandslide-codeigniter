@@ -24,10 +24,6 @@ if (base_url() == "http://localhost/") {
 <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript" src="/js/jquery.validate.js"></script>
 <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="/js/chosen.jquery.js" ></script>
-<script type="text/javascript" src="/js/chosen.jquery.min.js" ></script>
-<link rel="stylesheet" type="text/css" href="/css/chosen.css">
-
 
 <div id="page-wrapper" style="height: 100%;">
 	<div class="container-fluid">
@@ -42,6 +38,10 @@ if (base_url() == "http://localhost/") {
 	            </div>
 	        </div>
 	        <!-- /.row -->
+
+	        <div class="well well-sm"><span class="glyphicon glyphicon-list-alt"></span><b>&nbsp;&nbsp;For the list of all Site Maintenance Reports, click <a href="<?php echo base_url(); ?>gold/sitemaintenancereport/all">here.</a></b></div>
+
+        	<hr>
 
 	        <!-- First Row Div [TIMESTAMPS] -->
 			<div class="row"> 
@@ -316,7 +316,7 @@ if (base_url() == "http://localhost/") {
 				$("#object").focus();
 				$("#object")[0].setSelectionRange(strLength, strLength);
 				$("#object").after('<em class="help-block ignore" style="margin-top:40px; margin-bottom:0;">Observe proper spacing (space after comma) and capitalization.</em>');
-	    		$("#object").siblings(".input-group-btn").css("bottom", "10px");
+	    		$("#object").siblings(".input-group-btn").css("bottom", "17px");
 	    		setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
 	    	} else if (val == "Others (Type/Append on text field)" && $inp.is(':checked')) {
 	    		$("#object").val('');

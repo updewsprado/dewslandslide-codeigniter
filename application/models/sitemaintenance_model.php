@@ -138,6 +138,54 @@
 			return json_encode($result);
 		}
 
+		public function getAllReports()
+		{
+			$sql = "SELECT 
+						maintenance_report.*,
+						site_column.sitio,
+						site_column.barangay,
+						site_column.municipality,
+						site_column.province,
+						maintenance_report_extra.activity
+					FROM maintenance_report
+					LEFT JOIN site_column ON maintenance_report.site = site_column.name
+					LEFT JOIN maintenance_report_extra ON maintenance_report.sm_id = maintenance_report_extra.sm_id
+					ORDER BY maintenance_report.sm_id";
+			
+			$query = $this->db->query($sql);
+			$result;
+			$i = 0;
+			foreach ($query->result() as $row) 
+			{
+				if (is_null($row->sitio)) $address = "$row->barangay, $row->municipality, $row->province";
+				else $address = "$row->sitio, $row->barangay, $row->municipality, $row->province";
+
+				$result[$i]["id"] = $row->sm_id;
+				$result[$i]["start_date"] = $row->start_date;
+				$result[$i]["end_date"] = $row->end_date;
+				$result[$i]["site"] = $row->site;
+				$result[$i]["address"] = $address;
+				$result[$i]["activity"] = $row->activity;
+				$i++;
+			}
+
+			/*$sql = "SELECT * FROM maintenance_report_extra";
+
+			$query = $this->db->query($sql);
+			$activity_object = [];
+			$i = 0;
+			foreach ($query->result() as $row) {
+				$activity_object[$i]["id"] = $row->sm_id;
+				$activity_object[$i]["activity"] = $row->activity;
+				$activity_object[$i]["object"] = $row->object;
+				$activity_object[$i]["remarks"] = $row->remarks;
+				$i = $i + 1;
+			}
+			$result["activity_object"] = $activity_object;*/
+
+			return json_encode($result);
+		}
+
 	}
 
 ?>

@@ -62,7 +62,7 @@ if (base_url() == "http://localhost/") {
 		<div class="row"> 
         	<div class="form-group col-sm-6">
 	            <label class="control-label" for="startOfShift">Start of Shift</label>
-	            <div class='input-group date' id='datetimepickerTimestamp'>
+	            <div class='input-group date startOfShift' id='datetimepickerTimestamp'>
 	                <input type='text' class="form-control" id="startOfShift" name="startOfShift" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" />
 	                <span class="input-group-addon">
 	                    <span class="glyphicon glyphicon-calendar"></span>
@@ -72,7 +72,7 @@ if (base_url() == "http://localhost/") {
 
         	<div class="form-group col-sm-6">
 	            <label class="control-label" for="endOfShift">End of Shift</label>
-	            <div class='input-group date' id='datetimepickerRelease'>
+	            <div class='input-group date endOfShift' id='datetimepickerRelease'>
 	                <input type='text' class="form-control" id="endOfShift" name="endOfShift" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" />
 	                <span class="input-group-addon">
 	                    <span class="glyphicon glyphicon-calendar"></span>
@@ -153,7 +153,7 @@ if (base_url() == "http://localhost/") {
 		      	<div class="form-group col-md-3">
 			        <label for="continueMonitoring">Continue Monitoring</label>
 			        <select class="form-control" id="continueMonitoring">
-			        	<option value="none">Please select</option>
+			        	<option value="">Please select</option>
 			        	<option value="yes">Yes</option>
 			        	<option value="no">No</option>
 		        	</select>
@@ -197,7 +197,7 @@ if (base_url() == "http://localhost/") {
 	    	<div class="row"> 
 	    		<div class="col-md-12">
 					<label for="summary">Summary of Task</label>
-					<textarea class="form-control" rows="3" id="summary" name="summary" placeholder="Enter summary of task..." maxlength="500"></textarea>
+					<textarea class="form-control" rows="3" id="summary" name="summary" placeholder="Enter summary of task (min. 20 characters)" maxlength="500"></textarea>
                 </div>
 	    	</div> <!-- End of Sixth Row Div [SUMMARY AREA] -->
 
@@ -250,9 +250,27 @@ if (base_url() == "http://localhost/") {
 
 	/*** Initialize Date/Time Input Fields ***/
 	$(function () {
-		$('.date').datetimepicker({
+		$('.startOfShift').datetimepicker({
 		    format: 'YYYY-MM-DD HH:mm:ss',
+		    allowInputToggle: true,
+		    widgetPositioning: {
+		    	horizontal: 'right'
+		    }
 		});
+		$('.endOfShift').datetimepicker({
+			format: 'YYYY-MM-DD HH:mm:ss',
+			allowInputToggle: true,
+			widgetPositioning: {
+		    	horizontal: 'right'
+		    },
+            useCurrent: false //Important! See issue #1075
+        });
+        $(".startOfShift").on("dp.change", function (e) {
+            $('.endOfShift').data("DateTimePicker").minDate(e.date);
+        });
+        $(".endOfShift").on("dp.change", function (e) {
+            $('.startOfShift').data("DateTimePicker").maxDate(e.date);
+        });
 	});
 
 	/**
