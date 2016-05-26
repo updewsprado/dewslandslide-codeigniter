@@ -42,16 +42,21 @@
                                 case 'A2':
                                     $tableRowClass= "alert_01";
                                     break;
+                                case 'ND-D':
+                                case 'ND-E':
+                                case 'ND-L':
+                                case 'ND-R':
+                                case 'A1-D':
+                                case 'A1-E':
+                                case 'A1-R':
                                 case 'A1':
                                     $tableRowClass = "alert_02";
                                     break;
                                 case 'A3':
                                     $tableRowClass = "alert_00";
                                     break;
-                                case 'A0':
-                                    $tableRowClass = "alert_03";
-                                    break;
                                 case 'ND':
+                                case 'A0':
                                     $tableRowClass = "alert_nd";
                                     break;
                                 default:
