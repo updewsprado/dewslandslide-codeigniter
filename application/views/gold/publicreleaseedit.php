@@ -194,7 +194,6 @@ if (base_url() == "http://localhost/") {
         case 'A1':
            rowClass = "alert_02";
           break;
-        case 'a3':
         case 'A3':
            rowClass = "alert_00";
           break;
