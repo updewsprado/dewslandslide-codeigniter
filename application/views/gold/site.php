@@ -1,4 +1,4 @@
-    <?php
+<?php
 // Database login information
 $servername = "localhost";
 $username = "updews";
