@@ -183,10 +183,10 @@ class Pubrelease_Model extends CI_Model
 	              		public_alert
 	            	INNER JOIN site_column 
 	              		ON LEFT(public_alert.site, 3) = LEFT(site_column.name, 3)
-	            	GROUP BY site
+	            	GROUP BY public_alert.site
 	          	)
-	        GROUP BY site
-	        ORDER BY entry_timestamp DESC, barangay ASC";
+	        GROUP BY public_alert.site
+	        ORDER BY public_alert.entry_timestamp DESC, site_column.barangay ASC";
 
 		$query = $this->db->query($sql);
 

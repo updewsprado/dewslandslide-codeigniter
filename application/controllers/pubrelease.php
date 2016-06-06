@@ -46,7 +46,7 @@ class Pubrelease extends CI_Controller {
 		$data['recipient'] = $_POST["entryRecipient"];
 		$data['acknowledged'] = $_POST["entryAck"];
 		$data['flagger'] = $_POST["entryFlagger"];
-		$data['counter_reporter'] = $_POST["counter_reporter"];
+		$data['counter_reporter'] = $_POST["counterReporter"];
 
 		//echo "Received Data: $timestamp, $site, $alert, $timeRelease, $comments, $recipient, $acknowledged, $flagger";
 
@@ -68,9 +68,9 @@ class Pubrelease extends CI_Controller {
 		if ($alert == "A1-D" || $alert == "ND-D") {
 			$data2['comments'] = implode(",", $alertgroup) . ";" . $request . ";" . $comments;
 		} else if ($alert == "A1-E" || $alert == "ND-E") {
-			$data2['comments'] = $magnitude . ";" . $epicenter . ";" . $dftimestamp . ";" . $comments;
+			$data2['comments'] = $magnitude . ";" . $epicenter . ";" . $dftimestamp . ";" . $comments . ";" . $dftimestampground;
 		} else if ($alert == "A1-R" || $alert == "ND-R") {
-			$data2['comments'] = $dftimestamp . ";" . $comments;
+			$data2['comments'] = $dftimestamp . ";" . $comments . ";" . $dftimestampground;
 		} else if ($alert == "A2" || $alert == "A3" || $alert == "ND-L") {
 			$data2['comments'] = $dftimestamp . ";" . $dftimestampground . ";" . $comments;
 		} else if ($alert == "A0"  && $comments != "") {

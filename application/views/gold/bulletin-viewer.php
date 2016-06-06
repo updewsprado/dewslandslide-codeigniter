@@ -45,14 +45,48 @@ fclose($pdf);*/
 echo $command;
 $response = exec( $command );*/
 
-$file = "bulletin.pdf";
+/*switch ($id) {
+	case 'A0':
+		$file = "bulletin-A0.pdf";
+		$filename = 'bulletin-A0.pdf';
+		break;
+	case 'A1-D':
+	case 'ND-D':
+		$file = "bulletin-A1D.pdf";
+		$filename = 'bulletin-A1D.pdf';
+		break;
+	case 'A1-R':
+	case 'ND-R':
+		$file = "bulletin-A1R.pdf";
+		$filename = 'bulletin-A1R.pdf';
+		break;
+	case 'A1-E':
+	case 'ND-E':
+		$file = "bulletin-A1E.pdf";
+		$filename = 'bulletin-A1E.pdf';
+		break;
+	case 'A2':
+		$file = "bulletin-A2.pdf";
+		$filename = 'bulletin-A2.pdf';
+		break;
+	case 'A3':
+		$file = "bulletin-A3.pdf";
+		$filename = 'bulletin-A3.pdf';
+		break;
+	default:
+		# code...
+		break;
+}*/
+
+$file = $_SERVER['DOCUMENT_ROOT'] . "/bulletin.pdf";
 $filename = 'bulletin.pdf';
-header('Content-type: application/pdf');
+header('HTTP/1.0 200 OK');  
+header('Content-Type: application/pdf');
 header('Content-Disposition: inline; filename="' . $filename . '"');
 header('Content-Transfer-Encoding: binary');
 header('Accept-Ranges: bytes');
-//@readfile($file);
-echo file_get_contents($file);
+readfile($file);
+//echo file_get_contents($file);
 
 //unlink($file);
 

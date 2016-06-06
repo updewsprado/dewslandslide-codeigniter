@@ -5,7 +5,7 @@
      The page the creates the PDF report look;
      called by and screenshot by PhantomJS
      
-     Linked at [host]/gold/bulletin/$id
+     Linked at [host]/gold/bulletin-builder/$id
      
  -->
 
@@ -14,6 +14,45 @@
 	$data = json_decode($data);
 	$data = array_pop($data);
 
+	//echo var_dump($edits);
+
+	$bulletinTracker = $edits[0];
+	$validity = $edits[1];
+	$next_reporting = $edits[2];
+	$next_bulletin = $edits[3];
+	$households = $edits[4];
+	$reason = $edits[5];
+	$llmc_lgu = $eq = $rain = $ground = "";
+
+	$llmc_lgu = ltrim($edits[6], "LLMC ");
+	$i = 7;
+	while (strpos($edits[$i], 'EQ') === false) 
+	{
+		$llmc_lgu = $llmc_lgu . "<br/>" . $edits[$i];
+		$i++;
+	}
+
+	$eq = ltrim($edits[$i++], "EQ ");
+	while (strpos($edits[$i], 'RAIN') === false) 
+	{
+		$eq = $eq . "<br/>" . $edits[$i];
+		$i++;
+	}
+
+	$rain = ltrim($edits[$i++], "RAIN ");
+	while (strpos($edits[$i], 'GROUND') === false) 
+	{
+		$rain = $rain . "<br/>" . $edits[$i];
+		$i++;
+	}
+
+	$ground = ltrim($edits[$i++], "GROUND ");
+	while ($i < count($edits)) 
+	{
+		$ground = $ground . "<br/>" . $edits[$i];
+		$i++;
+	}
+
 	$data->entry_timestamp = strtotime($data->entry_timestamp);
 
 ?>
@@ -21,19 +60,51 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
+<?php  
+
+	$host = '';
+	
+?>
+
 <style type="text/css">
+
+	/* FOR LINUX/UBUNTU */
+	body {
+		zoom: 0.75;
+	}
 
 	@media print {
 		color: #000;
 	}
 
 	@font-face {
-		font-family: ArialRegular;
-		src: local("Arial");
+		font-family: 'Arial';
+		src:	url('<?php echo $host ?>/fonts/Arial/arial.ttf'),
+				url('<?php echo $host ?>/fonts/Arial/ArialMT.otf'),
+				url('<?php echo $host ?>/fonts/Arial/ArialMT.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+	}
+
+	@font-face {
+		font-family: 'Arial';
+		src: 	url('<?php echo $host ?>/fonts/Arial/arialbd.ttf'),
+				url('<?php echo $host ?>/fonts/Arial/Arial-BoldMT.otf'),
+				url('<?php echo $host ?>/fonts/Arial/Arial-BoldMT.woff') format('woff');
+		font-weight: bold;
+		font-style: normal;
+	}
+
+	@font-face {
+		font-family: 'Arial';
+		src: 	url('<?php echo $host ?>/fonts/Arial/ariali.ttf'),
+				url('<?php echo $host ?>/fonts/Arial/Arial-ItalicMT.otf'),
+				url('<?php echo $host ?>/fonts/Arial/Arial-ItalicMT.woff') format('woff');
+		font-style: italic;
 	}
 
 	body {
-		font-family: ArialRegular, sans-serif !important;
+		font-family: 'Arial', sans-serif;
 		color: #000;
 	}
 
@@ -157,7 +228,7 @@
 
         <div class="row">
 
-        	<div class="col-md-12 center-text"><h2 id="title"><b>DEWS-L PROGRAM LANDSLIDE ALERT LEVEL INFORMATION: <?php echo strtoupper($data->site) . "-" . date('Y', $data->entry_timestamp); ?></b></h2></div>
+        	<div class="col-md-12 center-text"><h2 id="title"><b>DEWS-L PROGRAM LANDSLIDE ALERT LEVEL INFORMATION: <?php echo strtoupper($data->site) . "-" . date('Y', $data->entry_timestamp) . "-" . $bulletinTracker; ?></b></h2></div>
 
         </div>
 
@@ -190,7 +261,7 @@
 							<div class="col-md-8">
 							<?php
 
-								$validity = "";
+								/*$validity = "";
 								switch ($data->public_alert_level) 
 								{
 									case 'A0':
@@ -207,7 +278,12 @@
 										break;
 								}
 
-								echo $data->public_alert_level . " (" . rtrim($data->internal_alert_desc, '.') . ")" . $validity; 
+								if ($data->internal_alert_level == "A1-D" || $data->internal_alert_level == "ND-D")
+								{
+									$data->internal_alert_desc = parser($data->internal_alert_level, $data->internal_alert_desc, $data->comments, 0);
+								}*/
+
+								echo $data->public_alert_level . " (" . rtrim($data->internal_alert_desc, '.') . "), valid until " . $validity; 
 							?>	
 							</div>
 						</div>
@@ -244,24 +320,28 @@
 							switch ($data->internal_alert_level) {
 								case 'A0':
 								case 'ND':
-									boilerPlate('RAINFALL', $data->supp_info_rain);
-									boilerPlate('EARTHQUAKE', $data->supp_info_eq);
+									boilerPlate('RAINFALL', $rain);
+									boilerPlate('EARTHQUAKE', $eq);
+									break;
+								case 'A1-D':
+								case 'ND-D':
+									boilerPlate('GROUND MOVEMENT', $ground);
 									break;
 								case 'A1-E':
 								case 'ND-E':
-									boilerPlate('EARTHQUAKE', parser($data->internal_alert_level, str_replace(";", ".", $data->supp_info_eq), $data->comments, 0));
-									boilerPlate('GROUND MOVEMENT', $data->supp_info_ground);
+									boilerPlate('EARTHQUAKE', $eq);
+									boilerPlate('GROUND MOVEMENT', $ground);
 									break;
 								case 'A1-R':
 								case 'ND-R':
-									boilerPlate('RAINFALL', parser($data->internal_alert_level, str_replace(";", ".", $data->supp_info_rain), $data->comments, 0));
-									boilerPlate('GROUND MOVEMENT', $data->supp_info_ground);
+									boilerPlate('RAINFALL', $rain);
+									boilerPlate('GROUND MOVEMENT', $ground);
 									break;
 								case 'A2':
-									boilerPlate('GROUND MOVEMENT', parser($data->internal_alert_level, str_replace(";", ".", $data->supp_info_ground), $data->comments, 0));
+									boilerPlate('GROUND MOVEMENT', $ground);
 									break;
 								case 'A3':
-									boilerPlate('GROUND MOVEMENT', parser($data->internal_alert_level, str_replace(";", ".",$data->supp_info_ground), $data->comments, 0));
+									boilerPlate('GROUND MOVEMENT', $ground);
 									break;
 							}
 
@@ -274,11 +354,13 @@
 						<div class="row rowIndent">
 							<div class="col-md-12" id="household">
 							<?php
-								if (!is_null($data->affected_households)) {
+								/*if (!is_null($data->affected_households)) {
 									echo "At least $data->affected_households identified households";
 								} else {
 									echo "Number of affected households currently undefined";
-								}
+								}*/
+
+								echo $households;
 							?>
 							</div>
 						</div>
@@ -289,7 +371,7 @@
 
 						<?php
 
-							$llmc_lgu = "";
+							/*$llmc_lgu = "";
 							$temp = date("j F Y, h:i A" , $data->entry_timestamp + (3.5 * 3600));
 							$time = date("h:i A" , $data->entry_timestamp + (3.5 * 3600));
 							
@@ -308,26 +390,26 @@
 								
 							} else {
 								$datetime = $temp;
-							}
+							}*/
 
-							switch ($data->public_alert_level) 
+							/*switch ($data->public_alert_level) 
 							{
 								case 'A0':
 									$llmc_lgu = $data->response_llmc_lgu;
 									break;
 								case 'A1':
 									$llmc_lgu = $data->response_llmc_lgu;
-									$llmc_lgu = str_replace("[date and time of next reporting]", $datetime, $llmc_lgu);
+									$llmc_lgu = str_replace("[date and time of next reporting]", $next_reporting, $llmc_lgu);
 									break;
 								case 'A2':
 									$llmc_lgu = $data->response_llmc_lgu;
-									$llmc_lgu = str_replace("[date and time of next reporting]", $datetime, $llmc_lgu);
+									$llmc_lgu = str_replace("[date and time of next reporting]", $next_reporting, $llmc_lgu);
 									break;
 								case 'A3':
 									$llmc_lgu = $data->response_llmc_lgu;
-									$llmc_lgu = str_replace("[end of A3 validity period]", date("j F Y, h:i A" , strtotime("+2 days", strtotime($datetime))), $llmc_lgu);
+									$llmc_lgu = str_replace("[end of A3 validity period]", date("j F Y, h:i A" , strtotime("+2 days", strtotime($next_reporting))), $llmc_lgu);
 									break;
-							}
+							}*/
 
 						?>
 
@@ -359,7 +441,7 @@
 		        <?php 
 		        	if( $data->public_alert_level != 'A0')
 		        	{
-						echo '<div class="row">Next bulletin on: ' . date("j F Y, h:i A" , $data->entry_timestamp + 4 * 3600) . '</div>';
+						echo '<div class="row">Next bulletin on: ' . $next_bulletin . '</div>';
 		        	}
 		        ?>
 	        	<div class="row">Prepared by: 

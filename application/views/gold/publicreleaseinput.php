@@ -196,7 +196,7 @@ if (base_url() == "http://localhost/") {
                     </div>
 
                     <div class="form-group col-sm-12 dependentFieldSuppInfoGround" hidden>
-                      <label for="">Date and Time of Significant/Critical Ground Movements Following Initial Ground Movement Trigger</label>
+                      <label for="suppInfoTimestampGround">Date and Time of Significant/Critical Ground Movement Retrigger</label>
                       <div class='input-group date' id='dependentFieldTimestampGround'>
                           <input type='text' class="form-control" id="suppInfoTimestampGround" name="suppInfoTimestampGround" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" />
                           <span class="input-group-addon">
@@ -425,25 +425,28 @@ if (base_url() == "http://localhost/") {
             case "ND-E":
                   $('#dependentFieldForBothAlerts').hide();
                   $('#dependentFieldPublicOnly').show();
-                  $("label[for='suppInfoTimestamp']").html("Date and Time of Occurence")
+                  $("label[for='suppInfoTimestamp']").html("Date and Time of Initial Earthquake Trigger");
                   $('.dependentFieldSuppInfoEq').show();
-                  $('.dependentFieldSuppInfoGround').hide(); 
+                  $("label[for='suppInfoTimestampGround']").html("Date and Time of Significant/Critical Earthquake Retrigger");
+                  $('.dependentFieldSuppInfoGround').show(); 
                   break;
             case "A1-R":
             case "ND-R":
                   $('#dependentFieldForBothAlerts').hide();
                   $('#dependentFieldPublicOnly').show();
-                  $("label[for='suppInfoTimestamp']").html("Date and Time of Occurence")
+                  $("label[for='suppInfoTimestamp']").html("Date and Time of Initial Rainfall Trigger");
                   $('.dependentFieldSuppInfoEq').hide();
-                  $('.dependentFieldSuppInfoGround').hide();
+                  $("label[for='suppInfoTimestampGround']").html("Date and Time of Significant/Critical Rainfall Retrigger");
+                  $('.dependentFieldSuppInfoGround').show();
                   break; 
             case "A2":
             case "A3":
             case "ND-L":
                   $('#dependentFieldForBothAlerts').hide();
                   $('#dependentFieldPublicOnly').show();
-                  $("label[for='suppInfoTimestamp']").html("Date and Time of Initial Ground Movement Trigger")
+                  $("label[for='suppInfoTimestamp']").html("Date and Time of Initial Ground Movement Trigger");
                   $('.dependentFieldSuppInfoEq').hide();
+                  $("label[for='suppInfoTimestampGround']").html("Date and Time of Significant/Critical Ground Movement Retrigger");
                   $('.dependentFieldSuppInfoGround').show();            
                   break;
             default:

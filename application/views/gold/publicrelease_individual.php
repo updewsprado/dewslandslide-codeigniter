@@ -67,8 +67,16 @@
 		      		<p>MAP CANVASS</p>
 		     	</div>
 		     	<div class="panel panel-default">
-			    	<div class="panel-heading">Reporter </div>
-			    	<div class="panel-body"><?php echo $release[0]->flagger; ?></div>
+			    	<div class="panel-heading">Reporter/s</div>
+			    	<div class="panel-body">
+			    	<?php  
+			    			if (!is_null($release[0]->counter_reporter)) {
+			    				echo $release[0]->flagger . ", " . $release[0]->counter_reporter;
+			    			} else {
+			    				echo $release[0]->flagger;
+			    			}
+			    	?>	
+			    	</div>
 			    </div>
 			    <div class="row">
 			    	<div class="form-group col-md-6">
@@ -92,7 +100,7 @@
 		        		<!-- <span class="helper" data-toggle="tooltip" title="Here I am!">
 		        			<a type="submit" class="btn btn-danger btn-md pull-right" id="download" value="Download PDF Report" disabled="disabled">Download PDF Report</a>
 		        		</span> -->
-		        		<button href="#" id="download" class="btn btn-sm btn-danger disabled">Download Bulletin PDF</button>
+		        		<button href="#" id="download" class="btn btn-sm btn-info">Download Bulletin PDF</button>
 		   			</div>
 			    </div>
 		    </div>
@@ -346,43 +354,7 @@
 	$("#back").attr("href", "<?php echo base_url(); ?>gold/publicrelease/all");
 	$("#home").attr("href", "<?php echo base_url(); ?>gold");
 	$("#download").click(function () {
-		window.open("<?php echo base_url(); ?>gold/bulletin", "", "menubar=no, resizable=yes");
-	});
-
-	$(document).ready( function() {
-
-		var address = '<?php echo base_url(); ?>bulletin/run_script/<?php echo $release[0]->public_alert_id; ?>';
-        //$('#extra').load(address);
-
-		$.ajax ({
-			//async: false,
-			url: address,
-			type: "GET",
-		})
-		.done( function (response) {
-			console.log(response);
-			if (response == "Success.") {
-				$("#download").removeClass("btn-danger").addClass("btn-info").removeClass("disabled");
-			} else {
-				$('.helper').tooltip({'placement': 'right'});
-				/*$("#tooltip").attr({
-					"data-toggle":"tooltip",
-					"data-placement":"right",
-					"title":"Tooltip on right"
-				});*/
-
-				//$('#tooltip').tooltip();
-			}
-		})
-		.fail(function () {
-			/*$("#tooltip").attr({
-				"data-toggle":"tooltip",
-				"data-placement":"right",
-				"title":"Tooltip on right"
-			});*/
-
-			//$('#tooltip').tooltip();
-		});
+		window.open("<?php echo base_url(); ?>gold/bulletin-editor/<?php echo $release[0]->public_alert_id; ?>", "_blank");
 	});
 
 	function initialize_map() 
