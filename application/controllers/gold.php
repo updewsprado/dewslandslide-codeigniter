@@ -110,7 +110,7 @@ class Gold extends CI_Controller {
 				$data['commhealth'] = '<script src="/' . $data['folder'] . '/js/dewslandslide/dewscommhealth-d3.js"></script>';
 				$data['analysisdyna'] = '<script src="/' . $data['folder'] . '/js/dewslandslide/dewsanalysisdyna.js"></script>';
 				$data['sentnodetotal'] = '<script src="/' . $data['folder'] . '/js/dewslandslide/dewssentnodetotal-d3.js"></script>';
-				$data['rainfall'] = '<script  src="/' . $data['folder'] . '/js/dewslandslide/dewsrainfall-d3.js"></script>';
+				// $data['rainfall'] = '<script  src="/' . $data['folder'] . '/js/dewslandslide/dewsrainfall-d3.js"></script>';
 				$data['ismap'] = true;
 				break;
 				

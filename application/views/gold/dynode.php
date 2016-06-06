@@ -199,7 +199,38 @@ $conn->close();
                     </div>                                     
                 </div>	
                 <!-- /.row -->	 
-                
+                <div class="row" id="somsFull">
+                     <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                	<i class="fa fa-bar-chart-o fa-fw"></i> <b>Soil Moisture: Raw Value</b>
+									</div>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+								<div id="accel-v1" class="first-dataset" style="width:auto; height:150px; "></div>        
+
+                            </div>
+                        </div>
+                    </div>                                     
+                </div>	
+                 <!-- /.row -->	 
+                <div class="row" id="somsFull2">
+                     <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                	<i class="fa fa-bar-chart-o fa-fw"></i> <b>Soil Moisture: Cal Value </b>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+								<div id="accel-v11" class="first-dataset" style="width:auto; height:150px; "></div>      
+                            </div>
+                        </div>
+                    </div>                                     
+                </div>	
+                <!-- /.row -->
                 <div class="row" id="moisture-panel">
                      <div class="col-lg-12">
                         <div class="panel panel-default">
@@ -218,20 +249,23 @@ $conn->close();
                             </div>
                             <div class="panel-body">
 								<div id="accel-4" class="first-dataset"></div>      
-								<div id="accel-24" class="second-dataset"></div>    	
+								<div id="accel-24" class="second-dataset"></div>  
+
                             </div>
                         </div>
                     </div>                                     
                 </div>	
-                <!-- /.row -->	
-                
-                		
+                <!-- /.row -->	  
+             
+               
+                <!-- /.row -->	  
             </div>
             <!-- /.container-fluid -->
 
         </div>
-        <!-- /#page-wrapper -->
 
+                     
+                        
 <script>
 	var toDate = "<?php echo $dateto; ?>";
 	var fromDate = "<?php echo $datefrom; ?>";
@@ -266,7 +300,7 @@ $conn->close();
 	//getAllSites();	
 
 	setDate(fromDate, toDate);
-	
+	// console.log(curSite);
 	function popDropDownGeneral() {
 		var select = document.getElementById('sitegeneral');
 		var i;
@@ -293,35 +327,42 @@ $conn->close();
 			var element = document.getElementById("header-site");
 			var targetForm = document.getElementById("formGeneral");
 			var V2V = "<?php echo $version ?>";
-			element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " (v" + V2V + ") "+ "Node " + curNode + " Overview";			
+			element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " (v" + V2V + ") "+ "Node " + curNode + " Overview";
+				
 		}
 	}
 	
 	function toggleGraphView() {
 		  var text;
 		  var text2;
+		  var texts1;
+		  var texts2
 		  var V2V = "<?php echo $version ?>";
 		  switch(V2V) {
 		    case "2":
 		      text = " Dataset 1 (ID 32)";
 		      text2 = "Dataset 2(ID 33)";
+		      texts1 = "Dataset 1(ID 111 )"
+		      texts2 = "Dataset 2(ID 113)"
 		      break;
 		    case "3":
 		      text = "Dataset 1 (ID 12)";
 		      text2 = "Dataset 2 (ID 11)";
+		      texts1 = "Dataset 1(ID 110)"
+		      texts2 = "Dataset 2(ID 112)"
 		      break;	  
 		    default:
 		      text = "";
 		      text2 = "";
 		}
-		  document.getElementById("demo").innerHTML = text;
+		  
 		  document.getElementById("demo1").innerHTML = text;
 		  document.getElementById("demo3").innerHTML = text;
 		  document.getElementById("demo4").innerHTML = text;
-		  document.getElementById("demo2").innerHTML = text2;
 		  document.getElementById("demo5").innerHTML = text2;
 		  document.getElementById("demo6").innerHTML = text2;
 		  document.getElementById("demo7").innerHTML = text2;
+		
 
 	}
 	function getMainForm() {
@@ -349,7 +390,17 @@ $conn->close();
 			else {
 				$("#moisture-panel").find("b").text("Soil Moisture: M Value");
 				$(".switch-graph-view").hide();
+				$("#somsFull").hide();
+				$("#somsFull2").hide();
 			}
+
+			if (curSite.indexOf("s") == 3) {
+			
+			} 
+			else{
+				$("#somsFull").hide();
+				$("#somsFull2").hide();
+			};
 
 			if (document.getElementById("dbase").value == "filtered") {
 				$("#moisture-panel").hide();
@@ -361,6 +412,8 @@ $conn->close();
 			$(".first-dataset").show();
 			$(".second-dataset").hide();
 			showAccel(getMainForm());
+			showSoms(getMainForm());
+			showSoms2(getMainForm());
 		}, 1000); 
 		
 		setTimeout(function(){
@@ -393,6 +446,8 @@ $conn->close();
 			$(".first-dataset").show();
 			$(".second-dataset").hide();
 			showAccel(getMainForm());
+			showSoms(getMainForm());
+			showSoms2(getMainForm());
 			showLSBChange(getMainForm());
 		}
 		else {
@@ -408,7 +463,7 @@ $conn->close();
 	}	
 
 	function checkIfSecondSet(elemid) {
-		var JSON = ["#accel-21","#accel-22","#accel-23","#accel-24"];	
+		var JSON = ["#accel-21","#accel-22","#accel-23","#accel-24","#accel-32","#accel-42"];	
 		var hasMatch = false;
 
 		for (var index = 0; index < JSON.length; ++index) {
@@ -491,8 +546,8 @@ $(document).ready(function(){
 });
 
 
+                           
+
 </script>
-
-
 
 

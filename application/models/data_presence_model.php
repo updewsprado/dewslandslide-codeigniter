@@ -240,7 +240,8 @@ class Data_presence_Model extends CI_Model
 			if ($tableExists) {
 				$sql = $dbSelected->query("SELECT FROM_UNIXTIME( CEILING(UNIX_TIMESTAMP(`timestamp`)/$accum ) * $accum ) 
 								AS timeslice
-								FROM (SELECT * FROM $site WHERE timestamp > $date_from and xvalue IS NOT NULL) AS site
+								FROM (SELECT * FROM $site WHERE timestamp >= $date_from AND timestamp <= $date_cur
+								and xvalue IS NOT NULL) AS site
 								GROUP BY timeslice DESC LIMIT 48");							
 
 				foreach ($sql->result_array() as $row)

@@ -14,7 +14,7 @@
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js">
     <link rel="stylesheet" type="text/css" href="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/v4.0.0/build/css/bootstrap-datetimepicker.css">
-    <script type="text/javascript" src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/v4.0.0/src/js/bootstrap-datetimepicker.js"></script>
+    <!-- <script type="text/javascript" src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/v4.0.0/src/js/bootstrap-datetimepicker.js"></script> -->
 	<link href="/css/bootstrap.css" rel="stylesheet"> 
 
     
@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script> -->
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/sb-admin.css">
