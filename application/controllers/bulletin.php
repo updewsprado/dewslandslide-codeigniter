@@ -114,6 +114,7 @@
 		{
 			$file = fopen($_SERVER['DOCUMENT_ROOT'] . "/bulletin-edits.txt", "wb");
 			fwrite($file, $_POST['bulletinTracker'] . PHP_EOL);
+			fwrite($file, $_POST['release'] . PHP_EOL);
 			fwrite($file, $_POST['validity'] . PHP_EOL);
 			fwrite($file, $_POST['next_reporting'] . PHP_EOL);
 			fwrite($file, $_POST['next_bulletin'] . PHP_EOL);

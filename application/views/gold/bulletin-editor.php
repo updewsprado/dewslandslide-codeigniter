@@ -18,6 +18,7 @@
 	$data = array_pop($data);
 
 	$data->entry_timestamp = strtotime($data->entry_timestamp);
+	$data->time_released = strtotime($data->time_released);
 
 	/*** Check re-trigger value ***/
 	$x = $data->internal_alert_level;
@@ -44,24 +45,50 @@
 	if (!isset($validity)) $validity = $data->entry_timestamp;
 
 	//echo date("j F Y, h:i A" ,$validity);
-
 	$validity = roundTime($validity);
 	$timestamp_copy = roundTime($data->entry_timestamp);
+	
+	$release = date("j F Y", $data->entry_timestamp) . ", " . date("h:i A", $data->time_released);
+	//echo date("j F Y, h:i A", strtotime($release));
+	if(isInstantaneous($data->entry_timestamp))
+		$release = strtotime($release);
+	else
+		$release = roundTime(strtotime($release), 1);
+	
 
-	function roundTime($timestamp)
+	function roundTime($timestamp, $release = 0)
 	{
 		/*** Adjust timestamp to nearest hour if minutes are not 00 ***/
-		$minutes = date('i', $timestamp);
-		$timestamp = $timestamp + (60 - (60 -(int) $minutes))*60;
+		$minutes = (int)(date('i', $timestamp));
+		if ($minutes == 0) $minutes = 60;
+		else $minutes = $minutes;
+		$timestamp = $timestamp + (60 - $minutes)*60;
 
 		/*** Round the time value to the nearest interval (4, 8, 12) ***/
 		$hours = date('h', $timestamp);
 		if ((int)$hours % 4 == 0)  $hours = 4;
 		else $hours = (int) $hours % 4;
-		$timestamp = $timestamp + (4 - $hours)*3600;
 
+		if ($release == 1)
+		{
+			if($minutes == 60) $timestamp = $timestamp;
+			else $timestamp = $timestamp - 3600;
+		}
+		else
+			$timestamp = $timestamp + (4 - $hours)*3600;
 		return $timestamp;
 	}
+
+	function isInstantaneous($entry)
+	{
+		if( ((int)(date('h', $entry) % 4 == 3)) && ((int)(date('i', $entry) == 30)) )
+			return false;
+		else
+			return true;
+	}
+
+
+
 ?>
 
 <style type="text/css">
@@ -193,9 +220,26 @@
 </style>
 
 <div id="page-wrapper" style="height: 100%;">
-	
+
+	<div class="container-fluid">
+		<div class="row">
+            <div class="col-md-12">
+                <h1 class="page-header">
+                	Bulletin PDF Editor <small>Rendering Page (Beta)</small>
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Check each field carefully and edit the contents accordingly before rendering the bulletin PDF.</h4>
+            </div>
+        </div>
+
+        <hr>
+	</div>
+
 	<div class="container">
-		
+
 		<form role="form" id="editor" method="get">
 		<div class="text-area">
         <div class="row">
@@ -250,7 +294,7 @@
 
 						<div class="row">
 							<div class="col-sm-4">Date/Time</div>
-							<div class="col-sm-8"><?php echo date("j F Y, h:i A" , $data->entry_timestamp); ?></div>
+							<div class="col-sm-8"><?php echo '<input type="text" class="form-control" name="release" id="release" style="width: 70%;" value="' . date("j F Y, h:i A" , $release) . '"/>'; ?></div>
 						</div>
 
 						<div class="row">
@@ -444,9 +488,15 @@
 		        	}
 		        ?>
 	        	<div class="row" style="margin-top: 5px;"><b>Prepared by: </b>
-	        	<?php 
-					echo $data->flagger; 
-	        		if (!is_null($data->counter_reporter)) echo ", " . $data->counter_reporter;
+	        	<?php
+					preg_match_all('#([A-Z]+)#', $data->flagger, $matches);
+					foreach ($matches[0] as $key) echo $key;
+	        		if (!is_null($data->counter_reporter)) 
+	        		{
+	        			echo ", ";
+	        			preg_match_all('#([A-Z]+)#', $data->counter_reporter, $matches);
+						foreach ($matches[0] as $key) echo $key;
+	        		}
 	        	?>
 	        	</div>
         	</div>
@@ -535,6 +585,7 @@
 		ignore: ".ignore",
 		rules: {
 			bulletinTracker: "required",
+			release: "required",
 			validity: "required",
 			next_reporting: "required",
 			next_bulletin: "required",
@@ -548,6 +599,7 @@
 			var formData = 
 	    	{
 		    	bulletinTracker: (($("#bulletinTracker").val() == null) ? "NULL" : $("#bulletinTracker").val()),
+		    	release: (($("#release").val() == null) ? "NULL" : $("#release").val()),
 		    	validity: (($("#validity").val() == null) ? "NULL" : $("#validity").val()),
 		    	next_reporting: (($("#next_reporting").val() == null) ? "NULL" : $("#next_reporting").val()),
 		    	next_bulletin: (($("#next_bulletin").val() == null) ? "NULL" : $("#next_bulletin").val()),

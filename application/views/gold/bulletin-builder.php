@@ -17,36 +17,37 @@
 	//echo var_dump($edits);
 
 	$bulletinTracker = $edits[0];
-	$validity = $edits[1];
-	$next_reporting = $edits[2];
-	$next_bulletin = $edits[3];
-	$households = $edits[4];
-	$reason = $edits[5];
+	$release = $edits[1];
+	$validity = $edits[2];
+	$next_reporting = $edits[3];
+	$next_bulletin = $edits[4];
+	$households = $edits[5];
+	$reason = $edits[6];
 	$llmc_lgu = $eq = $rain = $ground = "";
 
-	$llmc_lgu = ltrim($edits[6], "LLMC ");
-	$i = 7;
+	$llmc_lgu = ltrim($edits[7], "LLMC ");
+	$i = 8;
 	while (strpos($edits[$i], 'EQ') === false) 
 	{
 		$llmc_lgu = $llmc_lgu . "<br/>" . $edits[$i];
 		$i++;
 	}
 
-	$eq = ltrim($edits[$i++], "EQ ");
+	$eq = ltrim($edits[$i++], "EQ");
 	while (strpos($edits[$i], 'RAIN') === false) 
 	{
 		$eq = $eq . "<br/>" . $edits[$i];
 		$i++;
 	}
 
-	$rain = ltrim($edits[$i++], "RAIN ");
+	$rain = ltrim($edits[$i++], "RAIN");
 	while (strpos($edits[$i], 'GROUND') === false) 
 	{
 		$rain = $rain . "<br/>" . $edits[$i];
 		$i++;
 	}
 
-	$ground = ltrim($edits[$i++], "GROUND ");
+	$ground = ltrim($edits[$i++], "GROUND");
 	while ($i < count($edits)) 
 	{
 		$ground = $ground . "<br/>" . $edits[$i];
@@ -253,7 +254,10 @@
 
 						<div class="row">
 							<div class="col-md-4">Date/Time</div>
-							<div class="col-md-8"><?php echo date("j F Y, h:i A" , $data->entry_timestamp); ?></div>
+							<div class="col-md-8"><?php 
+								//echo date("j F Y, h:i A" , $data->entry_timestamp); 
+								echo $release;
+							?></div>
 						</div>
 
 						<div class="row">
@@ -261,29 +265,24 @@
 							<div class="col-md-8">
 							<?php
 
-								/*$validity = "";
 								switch ($data->public_alert_level) 
 								{
 									case 'A0':
 										$validity = '';
 										break;
 									case 'A1':
-										$validity = ", valid until " . date("j F Y, h:i A" , $data->entry_timestamp + 24 * 3600);
-										break;
 									case 'A2':
-										$validity = ", valid until " . date("j F Y, h:i A" , $data->entry_timestamp + 24 * 3600);
-										break;
 									case 'A3':
-										$validity = ", valid until " . date("j F Y, h:i A" , $data->entry_timestamp + 48 * 3600);
+										$validity = ", valid until " . $validity;
 										break;
 								}
 
-								if ($data->internal_alert_level == "A1-D" || $data->internal_alert_level == "ND-D")
+								/*if ($data->internal_alert_level == "A1-D" || $data->internal_alert_level == "ND-D")
 								{
 									$data->internal_alert_desc = parser($data->internal_alert_level, $data->internal_alert_desc, $data->comments, 0);
 								}*/
 
-								echo $data->public_alert_level . " (" . rtrim($data->internal_alert_desc, '.') . "), valid until " . $validity; 
+								echo $data->public_alert_level . " (" . rtrim($data->internal_alert_desc, '.') . ")" . $validity; 
 							?>	
 							</div>
 						</div>
@@ -446,8 +445,14 @@
 		        ?>
 	        	<div class="row">Prepared by: 
 	        	<?php 
-					echo $data->flagger; 
-	        		if (!is_null($data->counter_reporter)) echo ", " . $data->counter_reporter;
+					preg_match_all('#([A-Z]+)#', $data->flagger, $matches);
+					foreach ($matches[0] as $key) echo $key;
+	        		if (!is_null($data->counter_reporter)) 
+	        		{
+	        			echo ", ";
+	        			preg_match_all('#([A-Z]+)#', $data->counter_reporter, $matches);
+						foreach ($matches[0] as $key) echo $key;
+	        		}
 	        	?>
 	        	</div>
         	</div>
