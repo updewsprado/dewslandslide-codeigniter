@@ -25,7 +25,6 @@ class Test extends CI_Controller {
 		$this->load->model('Pubrelease_Model');
 
 		$os = PHP_OS;
-		//echo "Operating System: $os <Br>";
 
 		if (strpos($os,'WIN') !== false) {
 		    echo "Running on a windows server. Not using memcached </Br>";
@@ -37,16 +36,19 @@ class Test extends CI_Controller {
 			$mem = new Memcached();
 			$mem->addServer("127.0.0.1", 11211);
 
-			$result = $mem->get("cachedpubreleaseall");
+			//cachedprall - Cached Public Release All
+			$result = $mem->get("cachedprall");
+			//cachedpralldirty - Cached Public Release All Dirty (data has been modified)
+			$dirty = $mem->get("cachedpralldirty");
 
-			if ($result) {
-			    //echo $result;
+			if ($result && ($dirty == false) ) {
 			    $data['pubrelease'] = $result;
 			} 
 			else {
-			    echo "No matching key found. I'll add that now!";
+			    echo "No matching key found or dirty cache flag has been raised. I'll add that now!";
 			    $data['pubrelease'] = $this->Pubrelease_Model->getAllPublicReleases();
-			    $mem->set("cachedpubreleaseall", $data['pubrelease']) or die("couldn't save anything");
+			    $mem->set("cachedprall", $data['pubrelease']) or die("couldn't save pubreleaseall");
+			    $mem->set("cachedpralldirty", false) or die ("couldn't save dirty flag");
 			}
 		}
 		else {
@@ -56,6 +58,28 @@ class Test extends CI_Controller {
 		
 		//$data['pubrelease'] = $this->Pubrelease_Model->getAllPublicReleasesWithCache();
 		echo $data['pubrelease'];
+	}
+
+	//Mark the dirty cache flag as True
+	public function publicreleasedirty()
+	{
+		$os = PHP_OS;
+
+		if (strpos($os,'WIN') !== false) {
+		    echo "Running on a windows server. Not using memcached </Br>";
+		}
+		elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+			echo "Running on a Linux server. Will use memcached </Br>";
+
+			$mem = new Memcached();
+			$mem->addServer("127.0.0.1", 11211);
+
+			echo "Set the dirty cache flag for publicreleaseall as True";
+			$mem->set("cachedpralldirty", true) or die ("couldn't save dirty flag");
+		}
+		else {
+			echo "Unknown OS for execution... Script discontinued";
+		}
 	}
 
 	public function publicreleasequery($internalAlertLevel = 'A0')
