@@ -79,6 +79,9 @@ class Pubrelease extends CI_Controller {
 
 		$this->pubrelease_model->insert('public_alert_extra', $data2);
 
+		//Set the public release all cache to dirty
+		$this->setPublicReleaseAllDirty();
+
 		echo "$id";
 
 	}	
@@ -172,6 +175,10 @@ class Pubrelease extends CI_Controller {
 		}
 
 		$updatePublicAlerts = $this->pubrelease_model->updatePublicAlerts($dataSet);
+
+		//Set the public release all cache to dirty
+		$this->setPublicReleaseAllDirty();
+
 		echo "$updatePublicAlerts";
 	}
 
@@ -188,6 +195,10 @@ class Pubrelease extends CI_Controller {
 		}
 
 		$deletePublicAlerts = $this->pubrelease_model->deletePublicAlerts($alertid);
+
+		//Set the public release all cache to dirty
+		$this->setPublicReleaseAllDirty();
+
 		echo "$deletePublicAlerts";
 	}
 
@@ -198,12 +209,68 @@ class Pubrelease extends CI_Controller {
 		echo "$allRelease";
 	}
 
+	//Cache Test: Prado Arturo Bognot
+	public function testAllReleasesCached()
+	{
+		$os = PHP_OS;
+
+		if (strpos($os,'WIN') !== false) {
+		    //echo "Running on a windows server. Not using memcached </Br>";
+		    $allRelease = $this->pubrelease_model->getAllPublicReleases();
+		}
+		elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+			//echo "Running on a Linux server. Will use memcached </Br>";
+
+			$mem = new Memcached();
+			$mem->addServer("127.0.0.1", 11211);
+
+			//cachedprall - Cached Public Release All
+			$result = $mem->get("cachedprall");
+			//cachedpralldirty - Cached Public Release All Dirty (data has been modified)
+			$dirty = $mem->get("cachedpralldirty");
+
+			if ($result && (($dirty == false) && !($dirty)) ) {
+			    $allRelease = $result;
+			} 
+			else {
+			    //echo "No matching key found or dirty cache flag has been raised. I'll add that now!";
+			    $allRelease = $this->pubrelease_model->getAllPublicReleases();
+			    $mem->set("cachedprall", $allRelease) or die("couldn't save pubreleaseall");
+			    $mem->set("cachedpralldirty", false) or die ("couldn't save dirty flag");
+			}
+		}
+		else {
+			//echo "Unknown OS for execution... Script discontinued";
+			$allRelease = $this->pubrelease_model->getAllPublicReleases();
+		}
+		
+		return "$allRelease";
+	}
+
 	public function testSingleRelease()
 	{
 		$id = $this->uri->segment(3);
 		$allRelease = $this->pubrelease_model->getSinglePublicRelease($id);
 
 		echo "$allRelease";
+	}
+
+	public function setPublicReleaseAllDirty()
+	{
+		$os = PHP_OS;
+
+		if ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+			//echo "Running on a Linux server. Will use memcached </Br>";
+
+			$mem = new Memcached();
+			$mem->addServer("127.0.0.1", 11211);
+
+			//cachedpralldirty - Cached Public Release All Dirty (data has been modified)
+			$dirty = $mem->get("cachedpralldirty");
+
+			//echo "Set the dirty cache flag for publicreleaseall as True";
+			$mem->set("cachedpralldirty", true) or die ("couldn't save dirty flag");
+		}
 	}
 
 }

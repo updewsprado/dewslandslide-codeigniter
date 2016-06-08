@@ -27,11 +27,11 @@ class Test extends CI_Controller {
 		$os = PHP_OS;
 
 		if (strpos($os,'WIN') !== false) {
-		    echo "Running on a windows server. Not using memcached </Br>";
+		    //echo "Running on a windows server. Not using memcached </Br>";
 		    $data['pubrelease'] = $this->Pubrelease_Model->getAllPublicReleases();
 		}
 		elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-			echo "Running on a Linux server. Will use memcached </Br>";
+			//echo "Running on a Linux server. Will use memcached </Br>";
 
 			$mem = new Memcached();
 			$mem->addServer("127.0.0.1", 11211);
@@ -41,23 +41,52 @@ class Test extends CI_Controller {
 			//cachedpralldirty - Cached Public Release All Dirty (data has been modified)
 			$dirty = $mem->get("cachedpralldirty");
 
-			if ($result && ($dirty == false) ) {
+			if ($result && (($dirty == false) && !($dirty)) ) {
 			    $data['pubrelease'] = $result;
 			} 
 			else {
-			    echo "No matching key found or dirty cache flag has been raised. I'll add that now!";
+			    //echo "No matching key found or dirty cache flag has been raised. I'll add that now!";
 			    $data['pubrelease'] = $this->Pubrelease_Model->getAllPublicReleases();
 			    $mem->set("cachedprall", $data['pubrelease']) or die("couldn't save pubreleaseall");
 			    $mem->set("cachedpralldirty", false) or die ("couldn't save dirty flag");
 			}
 		}
 		else {
-			echo "Unknown OS for execution... Script discontinued";
+			//echo "Unknown OS for execution... Script discontinued";
 			$data['pubrelease'] = $this->Pubrelease_Model->getAllPublicReleases();
 		}
 		
 		//$data['pubrelease'] = $this->Pubrelease_Model->getAllPublicReleasesWithCache();
 		echo $data['pubrelease'];
+	}
+
+	//View the dirty cache flag
+	public function getpublicreleasedirty()
+	{
+		$os = PHP_OS;
+
+		if (strpos($os,'WIN') !== false) {
+		    echo "Running on a windows server. Not using memcached </Br>";
+		}
+		elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+			echo "Running on a Linux server. Will use memcached </Br>";
+
+			$mem = new Memcached();
+			$mem->addServer("127.0.0.1", 11211);
+
+			//cachedpralldirty - Cached Public Release All Dirty (data has been modified)
+			$dirty = $mem->get("cachedpralldirty");
+
+			if ($dirty == true) {
+			    echo "Value for dirty bit is true</Br>";
+			} 
+			elseif ($dirty == false) {
+				echo "Value for dirty bit is false</Br>";
+			}
+		}
+		else {
+			echo "Unknown OS for execution... Script discontinued";
+		}
 	}
 
 	//Mark the dirty cache flag as True
@@ -73,6 +102,16 @@ class Test extends CI_Controller {
 
 			$mem = new Memcached();
 			$mem->addServer("127.0.0.1", 11211);
+
+			//cachedpralldirty - Cached Public Release All Dirty (data has been modified)
+			$dirty = $mem->get("cachedpralldirty");
+
+			if ($dirty == true) {
+			    echo "Value for dirty bit is true</Br>";
+			} 
+			elseif ($dirty == false) {
+				echo "Value for dirty bit is false</Br>";
+			}
 
 			echo "Set the dirty cache flag for publicreleaseall as True";
 			$mem->set("cachedpralldirty", true) or die ("couldn't save dirty flag");
