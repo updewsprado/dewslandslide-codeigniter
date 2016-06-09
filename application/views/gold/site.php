@@ -230,7 +230,7 @@ mysqli_close($conn);
 
 var end_date = new Date();
 var start_date = new Date(end_date.getFullYear(), end_date.getMonth(), end_date.getDate()-30);
-var newdate = new Date(end_date.getFullYear(), end_date.getMonth()-1, end_date.getDate()+31);
+var newdate = new Date(end_date.getFullYear(), end_date.getMonth()-1, end_date.getDate()+32);
 $(function() {
             $( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
             $( "#datepicker" ).datepicker("setDate", start_date);
@@ -439,7 +439,7 @@ var opts = {
 };
 var frmdate = $.datepicker.formatDate('yy-mm-dd', start_date);
 var todate = $.datepicker.formatDate('yy-mm-dd', newdate );
-  // alert(todate);
+
   function JSON2CSV(objArray) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
 
@@ -574,7 +574,7 @@ function getRainfallData(str) {
         return;
     } else {
       $.ajax({url: "/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-
+          alert(url);
         var target = document.getElementById('rainGraphSenslope');
         var spinner = new Spinner(opts).spin();
         target.appendChild(spinner.el);
