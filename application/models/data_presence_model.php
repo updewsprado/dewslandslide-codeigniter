@@ -222,7 +222,9 @@ class Data_presence_Model extends CI_Model
 
 		//Set time to limit DB query
 		date_default_timezone_set("Asia/Manila");
-		$date_cur = "'" . date('Y-m-d H:i:s') . "'";
+		$date_offset = "+1 hours";
+		$date_cur =  "'" . date('Y-m-d H:i:s',strtotime($date_offset)) . "'";
+		//$date_cur = "'" . date('Y-m-d H:i:s') . "'";
 		
 		$date_string = "-$days days";
 		$date_from =  "'" . date('Y-m-d H:i:s',strtotime($date_string)) . "'";
