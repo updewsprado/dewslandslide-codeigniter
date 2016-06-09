@@ -56,11 +56,10 @@
 									</svg>
 								</div>
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body" style="height:1250px;">
 								<div id="alert-canvas">
 								</div>	
-                                <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-                                <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+                                
                             </div>
                         </div>
                     </div>
@@ -73,9 +72,10 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Data Presence Map (24 Hours) <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="right" title="Click the site name or the black boxes to go to the Data Presence per Node tool for the site"></i></h3>
                             </div>
-                            <div class="panel-body">
-								<div id="presence-map-canvas">
-								</div>
+                            <div class="panel-body" id="panel-body" >
+                            <div id="presence-map-canvas">
+                                </div>  
+                            </div>
                             </div>
                         </div>
                     </div>                    
