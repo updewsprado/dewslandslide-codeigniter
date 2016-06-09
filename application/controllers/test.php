@@ -18,6 +18,109 @@ class Test extends CI_Controller {
 		//$this->load->view('graphs/alertPlot', $data);
 	}
 
+	//Cache Test: Prado Arturo Bognot
+	public function publicreleaseall()
+	{
+		$this->load->helper('url');
+		$this->load->model('Pubrelease_Model');
+
+		$os = PHP_OS;
+
+		if (strpos($os,'WIN') !== false) {
+		    //echo "Running on a windows server. Not using memcached </Br>";
+		    $data['pubrelease'] = $this->Pubrelease_Model->getAllPublicReleases();
+		}
+		elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+			//echo "Running on a Linux server. Will use memcached </Br>";
+
+			$mem = new Memcached();
+			$mem->addServer("127.0.0.1", 11211);
+
+			//cachedprall - Cached Public Release All
+			$result = $mem->get("cachedprall");
+			//cachedpralldirty - Cached Public Release All Dirty (data has been modified)
+			$dirty = $mem->get("cachedpralldirty");
+
+			if ($result && (($dirty == false) && !($dirty)) ) {
+			    $data['pubrelease'] = $result;
+			} 
+			else {
+			    //echo "No matching key found or dirty cache flag has been raised. I'll add that now!";
+			    $data['pubrelease'] = $this->Pubrelease_Model->getAllPublicReleases();
+			    $mem->set("cachedprall", $data['pubrelease']) or die("couldn't save pubreleaseall");
+			    $mem->set("cachedpralldirty", false) or die ("couldn't save dirty flag");
+			}
+		}
+		else {
+			//echo "Unknown OS for execution... Script discontinued";
+			$data['pubrelease'] = $this->Pubrelease_Model->getAllPublicReleases();
+		}
+		
+		//$data['pubrelease'] = $this->Pubrelease_Model->getAllPublicReleasesWithCache();
+		echo $data['pubrelease'];
+	}
+
+	//View the dirty cache flag
+	public function getpublicreleasedirty()
+	{
+		$os = PHP_OS;
+
+		if (strpos($os,'WIN') !== false) {
+		    echo "Running on a windows server. Not using memcached </Br>";
+		}
+		elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+			echo "Running on a Linux server. Will use memcached </Br>";
+
+			$mem = new Memcached();
+			$mem->addServer("127.0.0.1", 11211);
+
+			//cachedpralldirty - Cached Public Release All Dirty (data has been modified)
+			$dirty = $mem->get("cachedpralldirty");
+
+			if ($dirty == true) {
+			    echo "Value for dirty bit is true</Br>";
+			} 
+			elseif ($dirty == false) {
+				echo "Value for dirty bit is false</Br>";
+			}
+		}
+		else {
+			echo "Unknown OS for execution... Script discontinued";
+		}
+	}
+
+	//Mark the dirty cache flag as True
+	public function publicreleasedirty()
+	{
+		$os = PHP_OS;
+
+		if (strpos($os,'WIN') !== false) {
+		    echo "Running on a windows server. Not using memcached </Br>";
+		}
+		elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+			echo "Running on a Linux server. Will use memcached </Br>";
+
+			$mem = new Memcached();
+			$mem->addServer("127.0.0.1", 11211);
+
+			//cachedpralldirty - Cached Public Release All Dirty (data has been modified)
+			$dirty = $mem->get("cachedpralldirty");
+
+			if ($dirty == true) {
+			    echo "Value for dirty bit is true</Br>";
+			} 
+			elseif ($dirty == false) {
+				echo "Value for dirty bit is false</Br>";
+			}
+
+			echo "Set the dirty cache flag for publicreleaseall as True";
+			$mem->set("cachedpralldirty", true) or die ("couldn't save dirty flag");
+		}
+		else {
+			echo "Unknown OS for execution... Script discontinued";
+		}
+	}
+
 	public function publicreleasequery($internalAlertLevel = 'A0')
 	{
 		// Database login information
@@ -432,7 +535,7 @@ class Test extends CI_Controller {
 		
 		$data['dataPresence'] = $this->Data_presence_Model->getNodeDataPresence('default', $site, $date, $interval);
 		echo $data['dataPresence'];
-	}	
+	}
 	
 	//Site Data Presence per node Map
 	public function dpsitemap( $site = 'blcb', $date = null, $interval = 1 )

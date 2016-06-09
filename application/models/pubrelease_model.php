@@ -18,32 +18,75 @@ class Pubrelease_Model extends CI_Model
 		$this->load->database();
 	}
 
-	public function getAlertResponses($internalAlertLevel = 'A0')
+	public function getSites()
 	{
-		$sql = "SELECT lut_alerts.internal_alert_level, lut_alerts.internal_alert_desc, lut_alerts.public_alert_level, lut_alerts.public_alert_desc, lut_alerts.supp_info_rain, lut_alerts.supp_info_ground, lut_alerts.supp_info_eq, lut_responses.response_llmc_lgu, lut_responses.response_community FROM lut_alerts INNER JOIN lut_responses ON lut_alerts.public_alert_level=lut_responses.public_alert_level WHERE internal_alert_level='$internalAlertLevel'";
+		$sql = "SELECT DISTINCT 
+					LEFT(name , 3) as name, sitio, barangay, municipality, province 
+				FROM site_column 
+				ORDER BY name ASC";
+
+		$query = $this->db->query($sql);
+
+		$i = 0;
+	    foreach ($query->result_array() as $row)
+	    {
+	    	$sitio = $row["sitio"];
+	        $barangay = $row["barangay"];
+	        $municipality = $row["municipality"];
+	        $province = $row["province"];
+
+	        if ($sitio == null) {
+	          $address = "$barangay, $municipality, $province";
+	        } 
+	        else {
+	          $address = "$sitio, $barangay, $municipality, $province";
+	        }
+
+	        $site[$i]["name"] = $row["name"];
+	        $site[$i++]["address"] = $address;
+	    }
+
+	    	return json_encode($site);
+	}
+	
+	public function getAlerts()
+	{
+		$sql = "SELECT
+					lut_alerts.internal_alert_level, 
+					lut_alerts.internal_alert_desc, 
+					lut_alerts.public_alert_level, 
+					lut_alerts.public_alert_desc, 
+					lut_alerts.supp_info_rain, 
+					lut_alerts.supp_info_ground, 
+					lut_alerts.supp_info_eq, 
+					lut_responses.response_llmc_lgu, 
+					lut_responses.response_community 
+				FROM lut_alerts 
+				INNER JOIN lut_responses 
+				ON lut_alerts.public_alert_level=lut_responses.public_alert_level
+				ORDER BY lut_alerts.internal_alert_level ASC";
 
 		$result = $this->db->query($sql);
 
-		$alertsResponses = [];
-		$numSites = 0;
+		$i = 0;
 		foreach ($result->result_array() as $row)
 		{
-	        $alertsResponses[$numSites]["internal_alert_level"] = $row["internal_alert_level"];
-	        $alertsResponses[$numSites]["internal_alert_desc"] = $row["internal_alert_desc"];
-	        $alertsResponses[$numSites]["public_alert_level"] = $row["public_alert_level"];
-	        $alertsResponses[$numSites]["public_alert_desc"] = $row["public_alert_desc"];
+	        $alert_level[$i]["internal_alert_level"] = $row["internal_alert_level"];
+	        $alert_level[$i]["internal_alert_desc"] = $row["internal_alert_desc"];
+	        $alert_level[$i]["public_alert_level"] = $row["public_alert_level"];
+	        $alert_level[$i]["public_alert_desc"] = $row["public_alert_desc"];
 	        
 	        $temp_str = "";
 	        if (!is_null($row["supp_info_ground"])) $temp_str = $row["supp_info_ground"] . " ";
 	        if (!is_null($row["supp_info_rain"])) $temp_str = $temp_str . $row["supp_info_rain"] . " ";
 	        if (!is_null($row["supp_info_eq"])) $temp_str = $temp_str . " " . $row["supp_info_eq"];
-			$alertsResponses[$numSites]["supplementary_info"] = $temp_str;
+			$alert_level[$i]["supplementary_info"] = $temp_str;
 			
-	        $alertsResponses[$numSites]["response_llmc_lgu"] = $row["response_llmc_lgu"];
-	        $alertsResponses[$numSites++]["response_community"] = $row["response_community"];
+	        $alert_level[$i]["response_llmc_lgu"] = $row["response_llmc_lgu"];
+	        $alert_level[$i++]["response_community"] = $row["response_community"];
 		}
 		
-		return json_encode( $alertsResponses );
+		return json_encode( $alert_level );
 	}
 
 	public function getPublicAlerts($site)
@@ -154,7 +197,7 @@ class Pubrelease_Model extends CI_Model
 	 **/
 	public function getAllPublicReleases()
 	{
-		$sql = "SELECT DISTINCT
+		/*$sql = "SELECT DISTINCT
 	          public_alert.public_alert_id,
 	          public_alert.entry_timestamp,
 	          public_alert.site,
@@ -183,10 +226,41 @@ class Pubrelease_Model extends CI_Model
 	              		public_alert
 	            	INNER JOIN site_column 
 	              		ON LEFT(public_alert.site, 3) = LEFT(site_column.name, 3)
-	            	GROUP BY site
+	            	GROUP BY public_alert.site
 	          	)
-	        GROUP BY site
-	        ORDER BY entry_timestamp DESC, barangay ASC";
+	        GROUP BY public_alert.site
+	        ORDER BY public_alert.entry_timestamp DESC, site_column.barangay ASC";*/
+
+	    $sql = "SELECT
+					t.public_alert_id,
+					t.entry_timestamp,
+					t.site,
+					t.internal_alert_level,
+					s.barangay,
+					s.municipality,
+					s.province,
+					s.region,
+					l.public_alert_level,
+					l.public_alert_desc,
+					x.comments
+				FROM public_alert t
+				INNER JOIN 
+				(
+					SELECT 
+						site, MAX( entry_timestamp ) AS MaxDateTime
+					FROM public_alert
+					GROUP BY site
+				) maxed 
+					ON t.site = maxed.site
+					AND t.entry_timestamp = maxed.MaxDateTime
+				INNER JOIN site_column s
+					ON ( LEFT(t.site, 3) = LEFT(s.name, 3) )
+				INNER JOIN lut_alerts l 
+					ON t.internal_alert_level = l.internal_alert_level
+				LEFT JOIN public_alert_extra x
+					ON t.public_alert_id = x.public_alert_id
+				GROUP BY t.site
+				ORDER BY t.entry_timestamp DESC";
 
 		$query = $this->db->query($sql);
 

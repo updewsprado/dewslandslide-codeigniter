@@ -210,9 +210,20 @@ class Gold extends CI_Controller {
 				$data['blank'] = 'class="active"';
 				break;
 
-			case 'publicrelease_all':
+			case 'publicrelease':
 				$this->load->model('pubrelease_model');
-				$data['releases'] = $this->pubrelease_model->getAllPublicReleases();
+				$data['sites'] = $this->pubrelease_model->getSites();
+				$data['staff'] = $this->pubrelease_model->getStaff();
+				break;
+
+			case 'publicrelease_all':
+				//$this->load->model('pubrelease_model');
+				//$data['releases'] = $this->pubrelease_model->getAllPublicReleases();
+
+				//Load the pubrelease.php controller
+				$this->load->library('../controllers/pubrelease');
+				$data['releases'] = $this->pubrelease->testAllReleasesCached();
+
 				break;
 
 			case 'publicrelease_individual':

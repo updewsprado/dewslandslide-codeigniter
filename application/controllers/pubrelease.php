@@ -13,15 +13,15 @@ class Pubrelease extends CI_Controller {
 		echo "Index of Pubrelease";
 	}
 
-	public function alertquery($internalAlertLevel = 'A0')
+	public function showAlerts()
 	{
-		$alertJoins = $this->pubrelease_model->getAlertResponses($internalAlertLevel);
+		$alerts = $this->pubrelease_model->getAlerts();
 
-		if ($alertJoins == "[]") {
+		if ($alerts == "[]") {
 			echo "Variable is empty<Br><Br>";
 		}
 		else {
-			echo "$alertJoins";
+			echo "$alerts";
 		}
 	}
 
@@ -37,15 +37,16 @@ class Pubrelease extends CI_Controller {
 	}
 
 	// Insert Data to Public Alerts Table
-	public function insertdata()
+	public function insertData()
 	{
-		$data['entry_timestamp'] = $_POST["entryTimestamp"];
-		$data['site'] = $_POST["entrySite"];
-		$data['internal_alert_level'] = $_POST["entryAlert"];
-		$data['time_released'] = $_POST["entryRelease"];
-		$data['recipient'] = $_POST["entryRecipient"];
-		$data['acknowledged'] = $_POST["entryAck"];
-		$data['flagger'] = $_POST["entryFlagger"];
+
+		$data['entry_timestamp'] = $_POST["timestamp_entry"];
+		$data['site'] = $_POST["site"];
+		$data['internal_alert_level'] = $_POST["internal_alert_level"];
+		$data['time_released'] = $_POST["time_released"];
+		$data['recipient'] = $_POST["acknowledgement_recipient"];
+		$data['acknowledged'] = $_POST["acknowledgement_time"];
+		$data['flagger'] = $_POST["flagger"];
 		$data['counter_reporter'] = $_POST["counter_reporter"];
 
 		//echo "Received Data: $timestamp, $site, $alert, $timeRelease, $comments, $recipient, $acknowledged, $flagger";
@@ -54,30 +55,33 @@ class Pubrelease extends CI_Controller {
 		$data2['public_alert_id'] = $id;
 
 		//Dependent fields
-		$alertgroup = $_POST["entryAlertGroup"];
-		$request = $_POST["entryRequest"];
-		$magnitude = $_POST["entryMagnitude"];
-		$epicenter = $_POST["entryEpicenter"];
-		$dftimestamp = $_POST["entryDfTimestamp"];
-		$dftimestampground = $_POST["entryDfTimestampGround"];
+		$alertgroup = $_POST["alert_group"];
+		$request = $_POST["request_reason"];
+		$magnitude = $_POST["magnitude"];
+		$epicenter = $_POST["epicenter"];
+		$timestamp_initial_trigger = $_POST["timestamp_initial_trigger"];
+		$timestamp_retrigger = $_POST["timestamp_retrigger"];
 
 		$comments = $_POST["comments"];
 		
-		$alert = $_POST["entryAlert"];
+		$alert = $_POST["internal_alert_level"];
 
 		if ($alert == "A1-D" || $alert == "ND-D") {
 			$data2['comments'] = implode(",", $alertgroup) . ";" . $request . ";" . $comments;
 		} else if ($alert == "A1-E" || $alert == "ND-E") {
-			$data2['comments'] = $magnitude . ";" . $epicenter . ";" . $dftimestamp . ";" . $comments;
+			$data2['comments'] = $magnitude . ";" . $epicenter . ";" . $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger;
 		} else if ($alert == "A1-R" || $alert == "ND-R") {
-			$data2['comments'] = $dftimestamp . ";" . $comments;
+			$data2['comments'] = $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger;
 		} else if ($alert == "A2" || $alert == "A3" || $alert == "ND-L") {
-			$data2['comments'] = $dftimestamp . ";" . $dftimestampground . ";" . $comments;
+			$data2['comments'] = $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $comments;
 		} else if ($alert == "A0"  && $comments != "") {
 			$data2['comments'] = $comments;
 		}
 
 		$this->pubrelease_model->insert('public_alert_extra', $data2);
+
+		//Set the public release all cache to dirty
+		$this->setPublicReleaseAllDirty();
 
 		echo "$id";
 
@@ -172,6 +176,10 @@ class Pubrelease extends CI_Controller {
 		}
 
 		$updatePublicAlerts = $this->pubrelease_model->updatePublicAlerts($dataSet);
+
+		//Set the public release all cache to dirty
+		$this->setPublicReleaseAllDirty();
+
 		echo "$updatePublicAlerts";
 	}
 
@@ -188,14 +196,55 @@ class Pubrelease extends CI_Controller {
 		}
 
 		$deletePublicAlerts = $this->pubrelease_model->deletePublicAlerts($alertid);
+
+		//Set the public release all cache to dirty
+		$this->setPublicReleaseAllDirty();
+
 		echo "$deletePublicAlerts";
 	}
 
 	public function testAllReleases()
 	{
 		$allRelease = $this->pubrelease_model->getAllPublicReleases();
-
 		echo "$allRelease";
+	}
+
+	//Cache Test: Prado Arturo Bognot
+	public function testAllReleasesCached()
+	{
+		$os = PHP_OS;
+
+		if (strpos($os,'WIN') !== false) {
+		    //echo "Running on a windows server. Not using memcached </Br>";
+		    $allRelease = $this->pubrelease_model->getAllPublicReleases();
+		}
+		elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+			//echo "Running on a Linux server. Will use memcached </Br>";
+
+			$mem = new Memcached();
+			$mem->addServer("127.0.0.1", 11211);
+
+			//cachedprall - Cached Public Release All
+			$result = $mem->get("cachedprall");
+			//cachedpralldirty - Cached Public Release All Dirty (data has been modified)
+			$dirty = $mem->get("cachedpralldirty");
+
+			if ($result && (($dirty == false) && !($dirty)) ) {
+			    $allRelease = $result;
+			} 
+			else {
+			    //echo "No matching key found or dirty cache flag has been raised. I'll add that now!";
+			    $allRelease = $this->pubrelease_model->getAllPublicReleases();
+			    $mem->set("cachedprall", $allRelease) or die("couldn't save pubreleaseall");
+			    $mem->set("cachedpralldirty", false) or die ("couldn't save dirty flag");
+			}
+		}
+		else {
+			//echo "Unknown OS for execution... Script discontinued";
+			$allRelease = $this->pubrelease_model->getAllPublicReleases();
+		}
+		
+		return "$allRelease";
 	}
 
 	public function testSingleRelease()
@@ -204,6 +253,24 @@ class Pubrelease extends CI_Controller {
 		$allRelease = $this->pubrelease_model->getSinglePublicRelease($id);
 
 		echo "$allRelease";
+	}
+
+	public function setPublicReleaseAllDirty()
+	{
+		$os = PHP_OS;
+
+		if ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+			//echo "Running on a Linux server. Will use memcached </Br>";
+
+			$mem = new Memcached();
+			$mem->addServer("127.0.0.1", 11211);
+
+			//cachedpralldirty - Cached Public Release All Dirty (data has been modified)
+			$dirty = $mem->get("cachedpralldirty");
+
+			//echo "Set the dirty cache flag for publicreleaseall as True";
+			$mem->set("cachedpralldirty", true) or die ("couldn't save dirty flag");
+		}
 	}
 
 }
