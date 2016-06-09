@@ -204,17 +204,16 @@ $conn->close();
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">
-                                	<i class="fa fa-bar-chart-o fa-fw"></i> <b>Soil Moisture: Raw Value</b>
-									</div>
+                                	<i class="fa fa-bar-chart-o fa-fw"></i> <b>Soil Moisture: Raw Value </b>
                                 </h3>
                             </div>
                             <div class="panel-body">
-								<div id="accel-v1" class="first-dataset" style="width:auto; height:150px; "></div>        
-
+								<div id="accel-v1" class="first-dataset" style="width:auto; height:120px; "></div>      
                             </div>
                         </div>
                     </div>                                     
                 </div>	
+                
                  <!-- /.row -->	 
                 <div class="row" id="somsFull2">
                      <div class="col-lg-12">
@@ -225,7 +224,7 @@ $conn->close();
                                 </h3>
                             </div>
                             <div class="panel-body">
-								<div id="accel-v11" class="first-dataset" style="width:auto; height:150px; "></div>      
+								<div id="accel-v11" class="first-dataset" style="width:auto; height:120px; "></div>      
                             </div>
                         </div>
                     </div>                                     
