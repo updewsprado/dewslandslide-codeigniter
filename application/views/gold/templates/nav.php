@@ -141,11 +141,11 @@
                     <li <?php echo $reportevent; ?> >
                         <a href="<?php echo base_url() . $version; ?>/nodereport"><i class="fa fa-fw fa-list-alt"></i> Report Node Status</a>
                     </li>
-                    <li <?php echo $dropdown_chart; ?> >
+                    <li <?php echo $reportevent; ?> >
                         <a href="javascript:;" data-toggle="collapse" data-target="#dropdown_public_release"><i class="fa fa-fw fa-bar-chart-o"></i> Public Release <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="dropdown_public_release" class="collapse">
                             <li>
-                                <a href="<?php echo base_url() . $version; ?>/publicreleaseinput">Report Public Release</a>
+                                <a href="<?php echo base_url() . $version; ?>/publicrelease">Report Public Release</a>
                             </li>
                             <li>
                                 <a href="<?php echo base_url() . $version; ?>/publicreleaseedit">Edit Previous Releases</a>
@@ -158,15 +158,25 @@
  <!--                    <li <?php echo $reportevent; ?> >
                         <a href="<?php echo base_url() . $version; ?>/accomplishmentreport"><i class="fa fa-fw fa-list-alt"></i> File Accomplishment Report</a>
                     </li> -->
-
                     <li <?php echo $reportevent; ?> >
-                        <a href="javascript:;" data-toggle="collapse" data-target="#dropdown_report_forms"><i class="fa fa-fw fa-list-alt"></i> Report Forms <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="dropdown_report_forms" class="collapse">
+                        <a href="javascript:;" data-toggle="collapse" data-target="#dropdown_accomplishment"><i class="fa fa-fw fa-bar-chart-o"></i> Accomplishment Report <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="dropdown_accomplishment" class="collapse">
                             <li>
                                 <a href="<?php echo base_url() . $version; ?>/accomplishmentreport">File Accomplishment Report</a>
                             </li>
+                             <li>
+                                <a href="<?php echo base_url() . $version; ?>/accomplishmentreport/all">View All Accomplishment Reports</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li <?php echo $reportevent; ?> >
+                        <a href="javascript:;" data-toggle="collapse" data-target="#dropdown_site_maintenance"><i class="fa fa-fw fa-bar-chart-o"></i> Site Maintenance Report <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="dropdown_site_maintenance" class="collapse">
                             <li>
                                 <a href="<?php echo base_url() . $version; ?>/sitemaintenancereport">File Site Maintenance Report</a>
+                            </li>
+                             <li>
+                                <a href="<?php echo base_url() . $version; ?>/sitemaintenancereport/all">View All Site Maintenance Reports</a>
                             </li>
                         </ul>
                     </li>

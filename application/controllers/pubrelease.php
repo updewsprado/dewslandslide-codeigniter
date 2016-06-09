@@ -13,15 +13,15 @@ class Pubrelease extends CI_Controller {
 		echo "Index of Pubrelease";
 	}
 
-	public function alertquery($internalAlertLevel = 'A0')
+	public function showAlerts()
 	{
-		$alertJoins = $this->pubrelease_model->getAlertResponses($internalAlertLevel);
+		$alerts = $this->pubrelease_model->getAlerts();
 
-		if ($alertJoins == "[]") {
+		if ($alerts == "[]") {
 			echo "Variable is empty<Br><Br>";
 		}
 		else {
-			echo "$alertJoins";
+			echo "$alerts";
 		}
 	}
 
@@ -37,16 +37,17 @@ class Pubrelease extends CI_Controller {
 	}
 
 	// Insert Data to Public Alerts Table
-	public function insertdata()
+	public function insertData()
 	{
-		$data['entry_timestamp'] = $_POST["entryTimestamp"];
-		$data['site'] = $_POST["entrySite"];
-		$data['internal_alert_level'] = $_POST["entryAlert"];
-		$data['time_released'] = $_POST["entryRelease"];
-		$data['recipient'] = $_POST["entryRecipient"];
-		$data['acknowledged'] = $_POST["entryAck"];
-		$data['flagger'] = $_POST["entryFlagger"];
-		$data['counter_reporter'] = $_POST["counterReporter"];
+
+		$data['entry_timestamp'] = $_POST["timestamp_entry"];
+		$data['site'] = $_POST["site"];
+		$data['internal_alert_level'] = $_POST["internal_alert_level"];
+		$data['time_released'] = $_POST["time_released"];
+		$data['recipient'] = $_POST["acknowledgement_recipient"];
+		$data['acknowledged'] = $_POST["acknowledgement_time"];
+		$data['flagger'] = $_POST["flagger"];
+		$data['counter_reporter'] = $_POST["counter_reporter"];
 
 		//echo "Received Data: $timestamp, $site, $alert, $timeRelease, $comments, $recipient, $acknowledged, $flagger";
 
@@ -54,25 +55,25 @@ class Pubrelease extends CI_Controller {
 		$data2['public_alert_id'] = $id;
 
 		//Dependent fields
-		$alertgroup = $_POST["entryAlertGroup"];
-		$request = $_POST["entryRequest"];
-		$magnitude = $_POST["entryMagnitude"];
-		$epicenter = $_POST["entryEpicenter"];
-		$dftimestamp = $_POST["entryDfTimestamp"];
-		$dftimestampground = $_POST["entryDfTimestampGround"];
+		$alertgroup = $_POST["alert_group"];
+		$request = $_POST["request_reason"];
+		$magnitude = $_POST["magnitude"];
+		$epicenter = $_POST["epicenter"];
+		$timestamp_initial_trigger = $_POST["timestamp_initial_trigger"];
+		$timestamp_retrigger = $_POST["timestamp_retrigger"];
 
 		$comments = $_POST["comments"];
 		
-		$alert = $_POST["entryAlert"];
+		$alert = $_POST["internal_alert_level"];
 
 		if ($alert == "A1-D" || $alert == "ND-D") {
 			$data2['comments'] = implode(",", $alertgroup) . ";" . $request . ";" . $comments;
 		} else if ($alert == "A1-E" || $alert == "ND-E") {
-			$data2['comments'] = $magnitude . ";" . $epicenter . ";" . $dftimestamp . ";" . $comments . ";" . $dftimestampground;
+			$data2['comments'] = $magnitude . ";" . $epicenter . ";" . $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger;
 		} else if ($alert == "A1-R" || $alert == "ND-R") {
-			$data2['comments'] = $dftimestamp . ";" . $comments . ";" . $dftimestampground;
+			$data2['comments'] = $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger;
 		} else if ($alert == "A2" || $alert == "A3" || $alert == "ND-L") {
-			$data2['comments'] = $dftimestamp . ";" . $dftimestampground . ";" . $comments;
+			$data2['comments'] = $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $comments;
 		} else if ($alert == "A0"  && $comments != "") {
 			$data2['comments'] = $comments;
 		}
@@ -194,7 +195,6 @@ class Pubrelease extends CI_Controller {
 	public function testAllReleases()
 	{
 		$allRelease = $this->pubrelease_model->getAllPublicReleases();
-
 		echo "$allRelease";
 	}
 
