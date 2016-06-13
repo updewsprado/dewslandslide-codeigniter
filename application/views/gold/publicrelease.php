@@ -17,7 +17,7 @@
 
 <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
 <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
-<script type="text/javascript" src="/css/bootstrap-datetimepicker.css"></script>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap-datetimepicker.css">
 <script type="text/javascript" src="/js/jquery.validate.js"></script>
 <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
 
@@ -45,7 +45,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    Public Announcement Report <small>Release Form</small>
+                    Public Alert Announcement <small>Release Form</small>
                 </h1>
             </div>
         </div>
@@ -435,29 +435,29 @@
             },
             'alertGroups[]': {
                 required: {
-                    function () {
-                        var temp = $("internal_alert_level").val();
+                    depends: function () {
+                        var temp = $("#internal_alert_level").val();
                         return (temp === "A1-D" || temp === "ND-D");
                 }}
             },
             timestamp_initial_trigger: {
                 required: {
-                    function () {
-                        var temp = $("internal_alert_level").val();
+                    depends: function () {
+                        var temp = $("#internal_alert_level").val();
                         return (temp === "A2" || temp === "A3" || temp === "A1-R" || temp === "A1-E" || temp === "ND-R" || temp === "ND-E" || temp === "ND-L");
                 }}
             },
             magnitude: {
                 required: {
-                    function () {
-                        var temp = $("internal_alert_level").val();
+                    depends: function () {
+                        var temp = $("#internal_alert_level").val();
                         return (temp === "A1-E" || temp === "ND-E");
                 }}
             },
             epicenter: {
                 required: {
-                    function () {
-                        var temp = $("internal_alert_level").val();
+                    depends: function () {
+                        var temp = $("#internal_alert_level").val();
                         return (temp === "A1-E" || temp === "ND-E");
                 }}
             }

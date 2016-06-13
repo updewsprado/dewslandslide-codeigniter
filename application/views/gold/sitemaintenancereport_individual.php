@@ -44,7 +44,6 @@ if (base_url() == "http://localhost/") {
 	.panel-body {
 		font-size: 14px;
 		text-align: center;
-		font-weight: bold;
 	}
 
 	p {
@@ -66,7 +65,7 @@ if (base_url() == "http://localhost/") {
 
 
 <div id="page-wrapper" style="height: 100%;">
-	<div class="container-fluid">
+	<div class="container">
 		<!-- Page Heading -->
         <div class="row">
             <div class="col-md-12">
@@ -273,6 +272,7 @@ if (base_url() == "http://localhost/") {
 	/*$(".list-group-item-info").each(function() {
 		$(this).html('<span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;' + $(this).text());
 	});*/
+	$("#back").attr("href", "<?php echo base_url(); ?>gold/sitemaintenancereport/all");
 	$("#home").attr("href", "<?php echo base_url(); ?>gold");
 	
 

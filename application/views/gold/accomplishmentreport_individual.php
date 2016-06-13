@@ -50,7 +50,6 @@ if (base_url() == "http://localhost/") {
 
     .panel-body {
     	font-size: 14px;
-    	font-weight: bold;
     	text-align: center;
     	vertical-align: middle;
     	color: black;
@@ -95,7 +94,7 @@ if (base_url() == "http://localhost/") {
 
 
 <div id="page-wrapper" style="height: 100%;">
-	<div class="container-fluid">
+	<div class="container">
 		<!-- Page Heading -->
         <div class="row">
             <div class="col-md-12">

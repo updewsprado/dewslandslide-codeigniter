@@ -22,11 +22,12 @@ if (base_url() == "http://localhost/") {
 
 <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
 <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap-datetimepicker.css">
 <script type="text/javascript" src="/js/jquery.validate.js"></script>
 <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
 
 <div id="page-wrapper" style="height: 100%;">
-	<div class="container-fluid">
+	<div class="container">
 		<form role="form" id="maintenanceForm" method="get">
 
 			<!-- Page Heading -->
@@ -54,15 +55,34 @@ if (base_url() == "http://localhost/") {
 	            		} ?>
 		        	</select>
 	            </div>
-	        	<div class="form-group col-md-4">
+
+	            <div class="form-group col-sm-4">
+	                <label class="control-label" for="fieldWorkStart">Start of Field</label>
+	                <div class='input-group date datetime fieldWorkStart'>
+	                    <input type='text' class="form-control" id="fieldWorkStart" name="fieldWorkStart" placeholder="Enter Start Date" />
+	                    <span class="input-group-addon">
+	                        <span class="glyphicon glyphicon-calendar"></span>
+	                    </span>
+	                </div>        
+	            </div>
+	        	<!-- <div class="form-group col-md-4">
 		            <label class="control-label" for="fieldWorkStart">Start of Field</label>
 	            	<input type='text' class="form-control" id="fieldWorkStart" name="fieldWorkStart" placeholder="Enter Start Date" />   
-	          	</div>
+	          	</div> -->
 
-	        	<div class="form-group col-md-4">
+	          	<div class="form-group col-sm-4">
+	                <label class="control-label" for="fieldWorkEnd">End of Field</label>
+	                <div class='input-group date datetime fieldWorkEnd'>
+	                    <input type='text' class="form-control" id="fieldWorkEnd" name="fieldWorkEnd" placeholder="Enter End Date" />
+	                    <span class="input-group-addon">
+	                        <span class="glyphicon glyphicon-calendar"></span>
+	                    </span>
+	                </div>        
+	            </div>
+	        	<!-- <div class="form-group col-md-4">
 		            <label class="control-label" for="fieldWorkEnd">End of Field</label>
 		            <input type='text' class="form-control" id="fieldWorkEnd" name="fieldWorkEnd" placeholder="Enter End Date" />
-	          	</div>      
+	          	</div> -->      
 	        </div> <!-- End of First Row Div [TIMESTAMPS] -->
 
 	        <hr>
@@ -216,14 +236,14 @@ if (base_url() == "http://localhost/") {
 
 	/*** Initialize Date/Time Input Fields ***/
 	$(function () {
-		$('#fieldWorkStart').datetimepicker({
+		$('.fieldWorkStart').datetimepicker({
 		    format: 'YYYY-MM-DD',
 		    allowInputToggle: true,
 		    widgetPositioning: {
 		    	horizontal: 'right'
 		    }
 		});
-		$('#fieldWorkEnd').datetimepicker({
+		$('.fieldWorkEnd').datetimepicker({
 			format: 'YYYY-MM-DD',
 			allowInputToggle: true,
 			widgetPositioning: {
@@ -574,7 +594,7 @@ if (base_url() == "http://localhost/") {
 			// Add the span element, if doesn't exists, and apply the icon classes to it.
 			if ( !element.next( "span" )[ 0 ] ) { 
 				$( "<span class='glyphicon glyphicon-remove form-control-feedback' style='top:19px; right:15px;'></span>" ).insertAfter( element );
-				if(element[0].id == "fieldWorkStart" || element[0].id == "fieldWorkEnd" ) element.next("span").css("right", "15px");
+				if(element.parent().is(".datetime") || element.parent().is(".datetime")) element.next("span").css("right", "15px");
 				if(element[0].id == "site" || element[0].id == "activity" ) element.next("span").css("right", "21px");
 				if(element[0].id == "object" ) element.next("span").css({"top": 0, "right": "30px"});
 				if(element[0].id == "staff" ) element.next("span").css({"top": "5px", "right": "10px"});
@@ -589,12 +609,18 @@ if (base_url() == "http://localhost/") {
 		},
 		highlight: function ( element, errorClass, validClass ) {
 			$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
-			if($(element)[0].id == "fieldWorkStart" || $(element)[0].id == "fieldWorkEnd") $( element ).nextAll( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+			if($(element).parent().is(".datetime") || $(element).parent().is(".time")) {
+                $( element ).nextAll( "span.glyphicon" ).remove();
+                $( "<span class='glyphicon glyphicon-remove form-control-feedback' style='top:0px; right:37px;'></span>" ).insertAfter( $( element ) );
+            }
 			else $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
 		},
 		unhighlight: function ( element, errorClass, validClass ) {
 			$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
-			if($(element)[0].id == "fieldWorkStart" || $(element)[0].id == "fieldWorkEnd") $( element ).nextAll( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+			if($(element).parent().is(".datetime") || $(element).parent().is(".time")) {
+                $( element ).nextAll( "span.glyphicon" ).remove();
+                $( "<span class='glyphicon glyphicon-ok form-control-feedback' style='top:0px; right:37px;'></span>" ).insertAfter( $( element ) );
+            }
 			else $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
 		},
 		submitHandler: function (form) {

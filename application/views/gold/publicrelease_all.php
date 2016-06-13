@@ -24,7 +24,7 @@
 </style>
 
 <div id="page-wrapper" style="height: 100%;">
-    <div class="container-fluid">
+    <div class="container">
         <div class="page-header">
             <h1>DEWS-Landslide Latest Announcements
             </h1>

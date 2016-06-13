@@ -23,6 +23,8 @@ if (base_url() == "http://localhost/") {
 <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
 <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/bootstrap-datetimepicker.css">
+<script type="text/javascript" src="/js/jquery.validate.js"></script>
+<script type="text/javascript" src="/js/jquery.validate.min.js"></script>
 
 <style type="text/css">
 	
@@ -42,8 +44,8 @@ if (base_url() == "http://localhost/") {
 
 <div id="page-wrapper" style="height: 100%;">
 	
-	<div class="container-fluid">
-		
+	<div class="container">
+	<form role="form" id="accomplishmentForm" method="get">
 		<!-- Page Heading -->
         <div class="row">
             <div class="col-lg-12">
@@ -62,7 +64,7 @@ if (base_url() == "http://localhost/") {
 		<div class="row"> 
         	<div class="form-group col-sm-6">
 	            <label class="control-label" for="startOfShift">Start of Shift</label>
-	            <div class='input-group date startOfShift' id='datetimepickerTimestamp'>
+	            <div class='input-group date datetime startOfShift'>
 	                <input type='text' class="form-control" id="startOfShift" name="startOfShift" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" />
 	                <span class="input-group-addon">
 	                    <span class="glyphicon glyphicon-calendar"></span>
@@ -72,7 +74,7 @@ if (base_url() == "http://localhost/") {
 
         	<div class="form-group col-sm-6">
 	            <label class="control-label" for="endOfShift">End of Shift</label>
-	            <div class='input-group date endOfShift' id='datetimepickerRelease'>
+	            <div class='input-group date datetime endOfShift'>
 	                <input type='text' class="form-control" id="endOfShift" name="endOfShift" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" />
 	                <span class="input-group-addon">
 	                    <span class="glyphicon glyphicon-calendar"></span>
@@ -86,8 +88,8 @@ if (base_url() == "http://localhost/") {
         <div class="row"> 
 	    	<div class="form-group col-md-6"> <!-- Overtime_type Drop-Down -->
 		        <label class="control-label" for="overtime_type">Nature of Overtime Task</label>
-		        <select class="form-control" id="overtime_type" onchange="onChangeOvertimeType();">
-		        	<option value="None">Please select</option>
+		        <select class="form-control" id="overtime_type" name="overtime_type" onchange="onChangeOvertimeType();">
+		        	<option value="">Please select</option>
 		        	<?php for ($i=0; $i < count($instructions); $i++) { 
 		        		echo "<option value='" . $instructions[$i]->overtime_type . "'>" . $instructions[$i]->overtime_type . "</option>";
 		        	} ?>
@@ -118,7 +120,7 @@ if (base_url() == "http://localhost/") {
 			<!-- Fourth Row Div [TOTAL NUMBER OF SITES MONITORED ] -->
 			<div id="routineField" hidden>
 				<div class="row" >
-		    	    <div class="col-md-3">
+		    	    <div class="form-group col-md-3">
 		    	    	<label for="routineSitesMonitored">Total Number of Sites Monitored</label>
 				        <input type="number" class="form-control" id="routineSitesMonitored" name="routineSitesMonitored" min="0" placeholder="Enter number">
 		    	    </div>
@@ -127,11 +129,11 @@ if (base_url() == "http://localhost/") {
 	    	</div> <!-- End of Fourth Row Div [TOTAL NUMBER OF SITES MONITORED ] -->
 
 			<!-- Fourth Row Div [MONITORING FIELD] -->
-		    <div class="row"> 
+		    <div class="row" id="monitoringField" hidden> 
 		    	<div class="form-group col-md-6">
 			        <label for="siteMonitored">Site Monitored</label>
-			        <select class="form-control" id="siteMonitored">
-			        	<option value="None">Please select</option>
+			        <select class="form-control" id="siteMonitored" name="siteMonitored">
+			        	<option value="">Please select</option>
 			        	<?php for ($i=0; $i < count($sites); $i++) { 
 		        			echo "<option value='" . $sites[$i]->name . "'>" . strtoupper($sites[$i]->name) . " (" . $sites[$i]->address . ")</option>";
 		        		} ?>
@@ -141,8 +143,8 @@ if (base_url() == "http://localhost/") {
 
 		      	<div class="form-group col-md-3">
 			        <label for="alertEndShift">Alert Status at End-of-Shift</label>
-			        <select class="form-control" id="alertEndShift">
-			        	<option value="None">Please select</option>
+			        <select class="form-control" id="alertEndShift" name="alertEndShift">
+			        	<option value="">Please select</option>
 			        	<?php for ($i=0; $i < count($alerts); $i++) { 
 		        			echo "<option value='" . $alerts[$i]->alert_level . "'>" . strtoupper($alerts[$i]->alert_level) . "</option>";
 		        		} ?>
@@ -152,7 +154,7 @@ if (base_url() == "http://localhost/") {
 
 		      	<div class="form-group col-md-3">
 			        <label for="continueMonitoring">Continue Monitoring</label>
-			        <select class="form-control" id="continueMonitoring">
+			        <select class="form-control" id="continueMonitoring" name="continueMonitoring">
 			        	<option value="">Please select</option>
 			        	<option value="yes">Yes</option>
 			        	<option value="no">No</option>
@@ -195,7 +197,7 @@ if (base_url() == "http://localhost/") {
 	    <div id="othersField" hidden>
 	    	<!-- Sixth Row Div [SUMMARY AREA] -->
 	    	<div class="row"> 
-	    		<div class="col-md-12">
+	    		<div class="form-group col-md-12">
 					<label for="summary">Summary of Task</label>
 					<textarea class="form-control" rows="3" id="summary" name="summary" placeholder="Enter summary of task (min. 20 characters)" maxlength="500"></textarea>
                 </div>
@@ -204,11 +206,10 @@ if (base_url() == "http://localhost/") {
 	    </div> <!-- End of Others Field Group -->
 
 	    <!-- Submit Field Group -->
-	    <div id="submitField" hidden>
-	    	<hr>
+	    <div id="submitField">
 	    	<div class="row">
 	    		<div class="form-group col-md-12">
-	   				<button type="submit" class="btn btn-info btn-md pull-right" onclick="submitForm()" disabled id="submitForm">Submit form</button>
+	   				<button type="submit" class="btn btn-info btn-md pull-right" id="submitForm">Submit form</button>
 	   			</div>
 	    	</div>
 	    </div> <!-- End of Submit Field Group -->
@@ -231,6 +232,7 @@ if (base_url() == "http://localhost/") {
           	</div>
         </div> <!-- End of MODAL AREA -->
 
+    </form>
 	</div> <!-- End of div container-fluid -->
 
 	<div class="fill"></div>
@@ -310,18 +312,18 @@ if (base_url() == "http://localhost/") {
 			switch(select) 
 			{
 				case "Event-Based Monitoring": 	$("#instruction").text(myData[0].instruction);
-								toggleFormFields( [1, 1, 0, 0, 1] );
+								toggleFormFields( [1, 1, 1, 0, 0] );
 								fillDiv(0);
 								break;
 				case "Routine Monitoring Extension": $("#instruction").text(myData[1].instruction);
-								toggleFormFields( [1, 1, 1, 0, 1] );
+								toggleFormFields( [1, 1, 1, 1, 0] );
 								fillDiv(0);
 								break;
 				case "Others": 	$("#instruction").text(myData[2].instruction);
-								toggleFormFields( [1, 0, 0, 1, 1] );
+								toggleFormFields( [1, 0, 0, 0, 1] );
 								fillDiv(7);
 								break;
-				case "None": 	$("#instruction").text("");
+				default: 	$("#instruction").text("");
 								toggleFormFields( [0, 0, 0, 0, 0] );
 								fillDiv(25);
 								break;
@@ -331,7 +333,7 @@ if (base_url() == "http://localhost/") {
 
 	function toggleFormFields(array) 
 	{
-		var fields = ["#instructionGroup", "#siteAreaField", "#routineField", "#othersField", "#submitField"];
+		var fields = ["#instructionGroup", "#siteAreaField", "#monitoringField", "#routineField", "#othersField"];
 
 		for (var i = 0; i < array.length; i++) {
 			if (array[i] == 0) $(fields[i]).hide();
@@ -349,7 +351,6 @@ if (base_url() == "http://localhost/") {
 	    this.alert = alert;
 	    this.continueStatus = continueStatus;
 	}
-
 
 	var entry = new Entry("-", "-", "-");
 	var siteMonitoredList = [];
@@ -394,7 +395,6 @@ if (base_url() == "http://localhost/") {
 			alterTable(siteMonitoredList[i], i);
 		}
 	}
-
 
 	function alterTable(obj, i) 
 	{
@@ -453,7 +453,7 @@ if (base_url() == "http://localhost/") {
 			changeButton("#addData", "rgba(255,0,0,0.4)", true);
 		}
 
-		var flag = 0;
+		/*var flag = 0;
 		var select = $("#overtime_type option:selected").val();
 		switch(select) 
 		{
@@ -484,7 +484,7 @@ if (base_url() == "http://localhost/") {
 		}
 
 		if (flag == 0) changeButton("#submitForm", "#2aabd2", false);
-		else changeButton("#submitForm", "rgba(255,0,0,0.4)", true);
+		else changeButton("#submitForm", "rgba(255,0,0,0.4)", true);*/
 
 	}
 
@@ -495,74 +495,139 @@ if (base_url() == "http://localhost/") {
 		$(element).prop("disabled", disabledStatus);
 	}
 
-	function submitForm()
+	/**
+	 * VALIDATION AREA
+	**/
+
+	function checkOvertimeType(type) 
 	{
-		var checker = 0;
-		var failedMessage = "";
-		if (!isInputAvailable("#startOfShift")) {
-			failedMessage += "Please enter date and time on 'Start of Shift'.<br>";
-      		checker = 1;
-		}
-
-		if (!isInputAvailable("#endOfShift")) {
-			failedMessage += "Please enter date and time on 'End of Shift'.<br>";
-      		checker = 1;
-		}
-
-		if ( checker == 1 ) {
-			$('#modalTitle').html("Entry Insertion Notice");
-			$('#modalBody').html('<p>Insertion of Data Failed</p><p class="text-danger"><b>' + failedMessage + '</b></p>');
-			$('#modalFooter').html('<button type="button" class="btn btn-danger" data-dismiss="modal">Okay</button>');
-	    	$('#dataEntry').modal('show');
-	     	return;
-	    }
-
-	    var formData = 
-	    {
-	    	shift_start: $("#startOfShift").val(),
-	    	shift_end: $("#endOfShift").val(),
-	    	overtime_type: $("#overtime_type").val(),
-	    	on_duty: $("#on_duty").val()
-        };
-
-        var select = $("#overtime_type option:selected").val();
-		switch(select) 
-		{
-			default: 	
-			case "Event-Based Monitoring": 	
-					formData["siteMonitoredList"] = siteMonitoredList;
-					break;
-			case "Routine Monitoring Extension":
-					formData["routineSitesMonitored"] = $("#routineSitesMonitored").val();
-					formData["siteMonitoredList"] = siteMonitoredList;
-					break;
-			case "Others":
-					formData["summary"] = $("#summary").val();
-				    break;
-		}
-
-		//console.log(formData);
-
-	    $.ajax({
-	      	url: "<?php echo base_url(); ?>accomplishment/insertData",
-	    	type: "POST",
-	    	data : formData,
-	    	success: function(id, textStatus, jqXHR)
-	      	{
-	      		console.log(id);
-	      		$('#modalTitle').html("Entry Insertion Notice");
-				$('#modalBody').html('<p class="text-success"><b>Accomplishment report successfully submitted!</b></p>');
-				$('#modalFooter').html('<a href="<?php echo base_url(); ?>gold/accomplishmentreport/individual/' + id + '" class="btn btn-info" role="button">View Entry</a>');
-				$('#modalFooter').append('<a href="<?php echo base_url(); ?>gold" class="btn btn-success" role="button">Home</a>');
-
-		    	$('#dataEntry').modal({backdrop: "static"});
-	    	},
-	    	error: function(xhr, status, error) {
-				var err = eval("(" + xhr.responseText + ")");
-				alert(err.Message);
-			}     
-		});
+		var temp = $("#overtime_type").val();
+        return (temp === type);
 	}
 
+	$("#accomplishmentForm").validate(
+	{
+		debug: true,
+		rules: {
+			startOfShift: "required",
+			endOfShift: "required",
+			overtime_type: {
+				required: true
+			},
+			siteMonitored: {
+                required: { depends: function () { return checkOvertimeType("Event-Based Monitoring") }}
+            },
+            alertEndShift: {
+                required: { depends: function () { return checkOvertimeType("Event-Based Monitoring") }}
+            },
+            continueMonitoring: {
+                required: { depends: function () { return checkOvertimeType("Event-Based Monitoring") }}
+            },
+            routineSitesMonitored: {
+                required: { depends: function () { return checkOvertimeType("Routine Monitoring Extension") }}
+            },
+            summary: {
+                required: { depends: function () { return checkOvertimeType("Others") }}
+            },
+		},
+		/*messages: {
+			fieldWorkStart: "Please enter 'Start Date and Time'.",
+			fieldWorkEnd: "Please enter 'End Date and Time'.",
+		},
+		errorElement: "em",*/
+		errorPlacement: function ( error, element ) {
+            /*// Add the `help-block` class to the error element
+            error.addClass( "help-block" );
+
+            if ( element.prop( "type" ) === "checkbox" ) {
+                error.insertAfter( element.parent( "label" ) );
+            } else {
+                error.insertAfter( element );
+            }*/
+
+            // Add `has-feedback` class to the parent div.form-group
+            // in order to add icons to inputs
+            element.parents( ".form-group" ).addClass( "has-feedback" );
+
+            // Add the span element, if doesn't exists, and apply the icon classes to it.
+            if ( !element.next( "span" )[ 0 ] ) { 
+                $( "<span class='glyphicon glyphicon-remove form-control-feedback' style='top:18px; right:22px;'></span>" ).insertAfter( element );
+                //if(element[0].id == "timestamp_entry" || element[0].id == "time_released" || element[0].id == "timestamp_initial_trigger" || element[0].id == "timestamp_retrigger") element.next("span").css("right", "15px");
+                if(element.parent().is(".datetime") || element.parent().is(".datetime")) element.next("span").css("right", "15px");
+                if(element.is("select")) element.next("span").css({"top": "18px", "right": "30px"});
+            }
+        },
+        success: function ( label, element ) {
+            // Add the span element, if doesn't exists, and apply the icon classes to it.
+            if ( !$( element ).next( "span" )) {
+                $( "<span class='glyphicon glyphicon-ok form-control-feedback' style='top:0px; right:37px;'></span>" ).insertAfter( $( element ) );
+            }
+        },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+            if($(element).parent().is(".datetime") || $(element).parent().is(".time")) {
+                $( element ).nextAll( "span.glyphicon" ).remove();
+                $( "<span class='glyphicon glyphicon-remove form-control-feedback' style='top:0px; right:37px;'></span>" ).insertAfter( $( element ) );
+            }
+            else $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+        },
+        unhighlight: function ( element, errorClass, validClass ) {
+            $( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+            if($(element).parent().is(".datetime") || $(element).parent().is(".time")) {
+                $( element ).nextAll( "span.glyphicon" ).remove();
+                $( "<span class='glyphicon glyphicon-ok form-control-feedback' style='top:0px; right:37px;'></span>" ).insertAfter( $( element ) );
+            }
+            else $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+        },
+		submitHandler: function (form) {
+
+			var formData = 
+		    {
+		    	shift_start: $("#startOfShift").val(),
+		    	shift_end: $("#endOfShift").val(),
+		    	overtime_type: $("#overtime_type").val(),
+		    	on_duty: $("#on_duty").val()
+	        };
+
+	        var select = $("#overtime_type option:selected").val();
+			switch(select) 
+			{
+				default: 	
+				case "Event-Based Monitoring": 	
+						formData["siteMonitoredList"] = siteMonitoredList;
+						break;
+				case "Routine Monitoring Extension":
+						formData["routineSitesMonitored"] = $("#routineSitesMonitored").val();
+						formData["siteMonitoredList"] = siteMonitoredList;
+						break;
+				case "Others":
+						formData["summary"] = $("#summary").val();
+					    break;
+			}
+
+			//console.log(formData);
+
+		    $.ajax({
+		      	url: "<?php echo base_url(); ?>accomplishment/insertData",
+		    	type: "POST",
+		    	data : formData,
+		    	success: function(id, textStatus, jqXHR)
+		      	{
+		      		console.log(id);
+		      		$('#modalTitle').html("Entry Insertion Notice");
+					$('#modalBody').html('<p class="text-success"><b>Accomplishment report successfully submitted!</b></p>');
+					$('#modalFooter').html('<a href="<?php echo base_url(); ?>gold/accomplishmentreport/individual/' + id + '" class="btn btn-info" role="button">View Entry</a>');
+					$('#modalFooter').append('<a href="<?php echo base_url(); ?>gold" class="btn btn-success" role="button">Home</a>');
+
+			    	$('#dataEntry').modal({backdrop: "static"});
+		    	},
+		    	error: function(xhr, status, error) {
+					var err = eval("(" + xhr.responseText + ")");
+					alert(err.Message);
+				}     
+			});
+
+		}
+	});
 
 </script>

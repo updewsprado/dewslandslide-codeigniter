@@ -27,7 +27,7 @@
 </style>
 
 <div id="page-wrapper" style="height: 100%;">
-	<div class="container-fluid">
+	<div class="container">
 		<!-- Page Heading -->
         <div class="row">
             <div class="col-md-12">
@@ -89,7 +89,7 @@
 	    $('#button_right').hide();
 	}
 
-	var result;
+	var result, table;
 	$.ajax ({
 		//async: false,
 		url: "<?php echo base_url(); ?>accomplishment/showReports",
@@ -99,7 +99,7 @@
 	.done( function (json) {
 		result = json; // SAVE SITES TO MYDATA
 		console.log(result);
-		buildTable(result);
+		table = buildTable(result);
 	});
 
 	/*buildTable();*/

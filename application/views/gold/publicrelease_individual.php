@@ -25,7 +25,6 @@
 
     .panel-body {
     	font-size: 14px;
-    	font-weight: bold;
     	text-align: center;
     	vertical-align: middle;
     	color: black;
@@ -51,7 +50,7 @@
 ?>
 
 <div id="page-wrapper" style="height: 100%;">
-	<div class="container-fluid">
+	<div class="container">
 		<!-- Page Heading -->
         <div class="row">
             <div class="col-md-12">
@@ -97,10 +96,7 @@
         				</div>
 		        	</div>
 		        	<div class="form-group col-md-6">
-		        		<!-- <span class="helper" data-toggle="tooltip" title="Here I am!">
-		        			<a type="submit" class="btn btn-danger btn-md pull-right" id="download" value="Download PDF Report" disabled="disabled">Download PDF Report</a>
-		        		</span> -->
-		        		<button href="#" id="download" class="btn btn-sm btn-info">Download Bulletin PDF</button>
+		        		<button href="#" id="download" class="btn btn-sm btn-info pull-right">Download Bulletin PDF</button>
 		   			</div>
 			    </div>
 		    </div>
