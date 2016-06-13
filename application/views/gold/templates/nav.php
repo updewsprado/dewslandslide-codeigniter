@@ -3,15 +3,14 @@
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <a  class=" btn btn-dark  btn-lg toggle" id="menu-toggle"> <i class="fa fa-bars"></i> </a>
             <!-- Brand and toggle get grouped for better mobile display -->
-            <!-- <div class="navbar-header">
-                <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      
+                <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse" style="position:fixed;left:7px">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
                 
-            </div> -->
             <!-- Top Menu Items -->
 
             <ul class="nav navbar-right top-nav">
@@ -118,7 +117,7 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div id="sidebar-wrapper">
                 <!-- <ul class="sidebar-nav"> -->
-                    <a id="menu-close" href="#" class="btn btn-danger pull-right hidden-md hidden-lg toggle"><i class="fa fa-times"></i></a> 
+     
                  <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                 	<li <?php echo $monitoring; ?> >
@@ -183,6 +182,7 @@
 
                     <li></li>
             </nav>
+            
             <nav>
                     <div id="slide_right" class="slide_right_close srl_menu">
                         <button id="button_right" class="button sbutton " data-toggle="tooltip" title="Variable Analysis"> 
