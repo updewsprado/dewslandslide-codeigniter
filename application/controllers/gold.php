@@ -317,6 +317,35 @@ class Gold extends CI_Controller {
 				
 				break;
 
+			case 'crackform':
+					$this->load->model('Alert_model');	
+			
+				$data['site'] = $site;
+				$data['node'] = $node;
+				$data['datefrom'] = $datefrom;
+				$data['dateto'] = $dateto;
+
+				//Data for Alert Map
+				if ($site) {
+					$data['nodeAlerts'] = $this->Alert_model->getSingleAlert($site);
+					$data['siteMaxNodes'] = $this->Alert_model->getSingleMaxNode($site);
+					$data['nodeStatus'] = $this->Alert_model->getSingleNodeStatus($site);
+											
+				}
+				else {
+					$data['nodeAlerts'] = 0;
+					$data['siteMaxNodes'] = 0;
+					$data['nodeStatus'] = 0;						
+				}				
+				
+				$data['showplots'] = 'redirectcrackPlots(this.form)';
+				$data['showdateplots'] = "showAccel(getMainForm())";
+				
+				$data['dropdown_chart'] = 'class="active"';
+				$page = 'crackform';
+				
+				break;
+
 			default:
 				break;
 		}
