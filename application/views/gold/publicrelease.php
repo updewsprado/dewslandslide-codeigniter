@@ -17,7 +17,7 @@
 
 <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
 <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
-<link rel="stylesheet" type="text/css" href="/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap-datetimepicker.css"/>
 <script type="text/javascript" src="/js/jquery.validate.js"></script>
 <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
 
@@ -45,7 +45,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    Public Alert Announcement <small>Release Form</small>
+                    DEWS-Landslide Public Alert Announcement <small>Release Form</small>
                 </h1>
             </div>
         </div>
@@ -434,6 +434,13 @@
                 required: true
             },
             'alertGroups[]': {
+                required: {
+                    depends: function () {
+                        var temp = $("#internal_alert_level").val();
+                        return (temp === "A1-D" || temp === "ND-D");
+                }}
+            },
+            request_reason: {
                 required: {
                     depends: function () {
                         var temp = $("#internal_alert_level").val();

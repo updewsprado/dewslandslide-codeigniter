@@ -137,7 +137,7 @@ if (base_url() == "http://localhost/") {
 
 						<div class="panel panel-default">
 					      	<div class="panel-heading"><b>Start of Field Work</b></div>
-					      	<div class="panel-body"><?php echo $report->start_date; ?></div>
+					      	<div class="panel-body"><?php echo date("j F Y" , strtotime($report->start_date)); ?></div>
 					    </div>
 
 						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $report->start_date; ?></p> -->
@@ -151,7 +151,7 @@ if (base_url() == "http://localhost/") {
 
 						<div class="panel panel-default">
 					      	<div class="panel-heading"><b>End of Field Work</b></div>
-					      	<div class="panel-body"><?php echo $report->end_date; ?></div>
+					      	<div class="panel-body"><?php echo date("j F Y" , strtotime($report->end_date)); ?></div>
 					    </div>
 
 						<!-- <p><span class="glyphicon glyphicon-asterisk"></span>&nbsp;&nbsp;&nbsp;<?php echo $report->end_date; ?></p> -->

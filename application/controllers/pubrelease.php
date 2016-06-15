@@ -37,7 +37,7 @@ class Pubrelease extends CI_Controller {
 	}
 
 	// Insert Data to Public Alerts Table
-	public function insertData()
+	public function insertData($bool = 0, $id = 0)
 	{
 
 		$data['entry_timestamp'] = $_POST["timestamp_entry"];
@@ -51,7 +51,11 @@ class Pubrelease extends CI_Controller {
 
 		//echo "Received Data: $timestamp, $site, $alert, $timeRelease, $comments, $recipient, $acknowledged, $flagger";
 
-		$id = $this->pubrelease_model->insert('public_alert', $data);
+		if ($bool == 0) //Insert Data
+			$id = $this->pubrelease_model->insert('public_alert', $data);
+		else
+			$data['public_alert_id'] = $id;
+		
 		$data2['public_alert_id'] = $id;
 
 		//Dependent fields
@@ -78,8 +82,14 @@ class Pubrelease extends CI_Controller {
 			$data2['comments'] = $comments;
 		}
 
-		$this->pubrelease_model->insert('public_alert_extra', $data2);
-
+		if ($bool == 0) //Insert Data
+			$this->pubrelease_model->insert('public_alert_extra', $data2);
+		else //Prepare Only Data for Update
+		{
+			$this->updatedata($data, $data2);
+			return;
+		}
+		     
 		//Set the public release all cache to dirty
 		$this->setPublicReleaseAllDirty();
 
@@ -93,6 +103,9 @@ class Pubrelease extends CI_Controller {
 		//get site data
 		if(isset($_GET['site'])) {
 		    $site = $_GET["site"];
+		}
+		else if ($site = $this->uri->segment(3) != ''){
+			$site = $this->uri->segment(3);
 		}
 		else {
 		    echo "Error: No Site selected<Br>";
@@ -110,92 +123,27 @@ class Pubrelease extends CI_Controller {
 	}
 
 	// Update data in public alerts table
-	public function updatedata()
+	public function updatedata($data, $data2)
 	{
-		//get alert id
-		if(isset($_GET['alertid'])) {
-		    $dataSet['alertid'] = $alertid = $_GET["alertid"];
-		}
-		else {
-		    echo "Error: No Entry for Alert ID input<Br>";
-		    return;
-		}
+		//echo var_dump($data);
+		//echo var_dump($data2);
 
-		//get entry timestamp data
-		if(isset($_GET['entryts'])) {
-		    $dataSet['entryts'] = $entryts = $_GET["entryts"];
-		}
-		else {
-		    echo "Error: No Entry for Timestamp input<Br>";
-		    return;
-		}
+		$updatePublicAlerts1 = $this->pubrelease_model->updatePublicAlerts("public_alert", $data, "public_alert_id", $data['public_alert_id']);
+		$updatePublicAlerts2 = $this->pubrelease_model->updatePublicAlerts("public_alert_extra", $data2, "public_alert_id", $data2['public_alert_id']);
 
-		//Get time of post
-		if(isset($_GET['time_post'])) {
-		    $dataSet['time_post'] = $time_post = $_GET["time_post"];
-		}
-		else {
-		    echo "Error: No Entry for Time of Post input<Br>";
-		    return;
-		}
-
-		//Get internal alert level
-		if(isset($_GET['ial'])) {
-		    $dataSet['ial'] = $ial = $_GET["ial"];
-		}
-		else {
-		    echo "Error: No Entry for Internal Alert Level input<Br>";
-		    return;
-		}
-
-		//Get recipients
-		if(isset($_GET['recipient'])) {
-		    $dataSet['recipient'] = $recipient = $_GET["recipient"];
-		}
-		else {
-		    echo "Error: No Entry for recipient input<Br>";
-		    return;
-		}
-
-		//Get time of acknowledgment from recipients
-		if(isset($_GET['acknowledged'])) {
-		    $dataSet['acknowledged'] = $acknowledged = $_GET["acknowledged"];
-		}
-		else {
-		    echo "Error: No Entry for time of acknowledgment input<Br>";
-		    return;
-		}
-
-		//Get name of flagger
-		if(isset($_GET['flagger'])) {
-		    $dataSet['flagger'] = $flagger = $_GET["flagger"];
-		}
-		else {
-		    echo "Error: No Entry for flagger input<Br>";
-		    return;
-		}
-
-		$updatePublicAlerts = $this->pubrelease_model->updatePublicAlerts($dataSet);
+		if($updatePublicAlerts1 == "Successfully updated entry!" || $updatePublicAlerts2 == "Successfully updated entry!")
+			echo json_encode(array_merge($data, $data2));
+		else echo "Failed!";
 
 		//Set the public release all cache to dirty
 		$this->setPublicReleaseAllDirty();
-
-		echo "$updatePublicAlerts";
 	}
 
 	// Delete data in public alerts table
-	public function deletedata()
+	public function deletedata($id)
 	{
-		//get alert id
-		if(isset($_GET['alertid'])) {
-		    $alertid = $_GET["alertid"];
-		}
-		else {
-		    echo "Error: No Entry for Alert ID input<Br>";
-		    return;
-		}
-
-		$deletePublicAlerts = $this->pubrelease_model->deletePublicAlerts($alertid);
+		$deletePublicAlerts = $this->pubrelease_model->deletePublicAlerts("public_alert", "public_alert_id", $id);
+		$deletePublicAlerts = $this->pubrelease_model->deletePublicAlerts("public_alert_extra", "public_alert_id", $id);
 
 		//Set the public release all cache to dirty
 		$this->setPublicReleaseAllDirty();

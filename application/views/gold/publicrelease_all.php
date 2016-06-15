@@ -26,7 +26,7 @@
 <div id="page-wrapper" style="height: 100%;">
     <div class="container">
         <div class="page-header">
-            <h1>DEWS-Landslide Latest Announcements
+            <h1>DEWS-Landslide Latest Announcements <small>All Reports View</small>
             </h1>
         </div>
         

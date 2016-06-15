@@ -147,7 +147,7 @@
                                 <a href="<?php echo base_url() . $version; ?>/publicrelease">Report Public Release</a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url() . $version; ?>/publicreleaseedit">Edit Previous Releases</a>
+                                <a href="<?php echo base_url() . $version; ?>/publicrelease/edit">Edit Previous Releases</a>
                             </li>
                              <li>
                                 <a href="<?php echo base_url() . $version; ?>/publicrelease/all">Public Release All</a>

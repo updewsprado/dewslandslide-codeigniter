@@ -216,6 +216,12 @@ class Gold extends CI_Controller {
 				$data['staff'] = $this->pubrelease_model->getStaff();
 				break;
 
+			case 'publicrelease_edit':
+				$this->load->model('pubrelease_model');
+				$data['sites'] = $this->pubrelease_model->getSites();
+				$data['alerts'] = $this->pubrelease_model->getAlerts();
+				break;
+
 			case 'publicrelease_all':
 				//$this->load->model('pubrelease_model');
 				//$data['releases'] = $this->pubrelease_model->getAllPublicReleases();

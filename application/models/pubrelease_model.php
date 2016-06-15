@@ -91,25 +91,32 @@ class Pubrelease_Model extends CI_Model
 
 	public function getPublicAlerts($site)
 	{
-		$sql = "SELECT * FROM public_alert WHERE site = '$site' ORDER BY entry_timestamp DESC";
-
+		$sql = "SELECT 
+					p.public_alert_id,
+					p.entry_timestamp,
+					p.time_released,
+					p.internal_alert_level,
+					p.site,
+					p.flagger,
+					p.counter_reporter,
+					p.acknowledged,
+					p.recipient,
+					x.comments
+				FROM public_alert p 
+				LEFT JOIN public_alert_extra x 
+				ON p.public_alert_id = x.public_alert_id
+				#WHERE p.site = '$site'
+				#ORDER BY p.entry_timestamp DESC
+				ORDER BY p.public_alert_id DESC";
 		$result = $this->db->query($sql);
 
-		$ctr = 0;
-		$siteAlertPublic = [];
+		$i = 0;
 		foreach ($result->result_array() as $row)
 		{
-	        $siteAlertPublic[$ctr]["alert_id"] = $row["public_alert_id"];
-	        $siteAlertPublic[$ctr]["ts_data"] = $row["entry_timestamp"];
-	        $siteAlertPublic[$ctr]["name"] = $row["site"];
-	        $siteAlertPublic[$ctr]["internal_alert"] = $row["internal_alert_level"];
-	        $siteAlertPublic[$ctr]["ts_post_creation"] = $row["time_released"];
-	        $siteAlertPublic[$ctr]["recipient"] = $row["recipient"];
-	        $siteAlertPublic[$ctr]["acknowledged"] = $row["acknowledged"];
-	        $siteAlertPublic[$ctr++]["flagger"] = $row["flagger"];
+	        $data[$i++] = $row;
 		}
 		
-		return json_encode( $siteAlertPublic );
+		return json_encode( $data );
 	}
 
 	public function insert($table, $data)
@@ -119,9 +126,9 @@ class Pubrelease_Model extends CI_Model
         return $id;
     }
 
-	public function updatePublicAlerts($dataSet)
+	public function updatePublicAlerts($table, $data, $search, $id)
 	{
-		$alertid = $dataSet['alertid'];
+		/*$alertid = $dataSet['alertid'];
 		$entryts = $dataSet['entryts'];
 		$time_post = $dataSet['time_post'];
 		$ial = $dataSet['ial'];
@@ -141,30 +148,34 @@ class Pubrelease_Model extends CI_Model
 		        WHERE 
 		            public_alert_id = $alertid";
 
-		$result = $this->db->query($sql);
+		$result = $this->db->query($sql);*/
+
+		$this->db->where($search, $id);
+		$this->db->update($table, $data);
 		
-		if ($this->db->affected_rows() > 0) {
-		    return "Successfully updated entry! (alert id: $alertid)";
-		}
-		else {
-		    return "Update Failed....";
-		}
+		if ($this->db->affected_rows() > 0)
+		    return "Successfully updated entry!";
+		else
+		    return "Update failed.";
 	}
 
-	public function deletePublicAlerts($alertid)
+	public function deletePublicAlerts($table, $search, $id)
 	{
-		$sql = "DELETE FROM
+		/*$sql = "DELETE FROM
 		            public_alert
 		        WHERE 
 		            public_alert_id = $alertid";
 
-		$result = $this->db->query($sql);
+		$result = $this->db->query($sql);*/
+
+		$this->db->where($search, $id);
+		$this->db->delete($table);
 		
 		if ($this->db->affected_rows() > 0) {
-		    return "Successfully deleted entry! (alert id: $alertid)";
+		    return "Successfully deleted entry!";
 		}
 		else {
-		    return "Delete Failed....";
+		    return "Delete failed.";
 		}
 	}
 

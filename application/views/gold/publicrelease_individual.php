@@ -55,7 +55,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1 class="page-header">
-                	DEWS-Landslide Latest Announcement for <?php echo strtoupper($release[0]->site); ?> <small><?php echo $release[0]->entry_timestamp; ?></small>
+                	DEWS-Landslide Latest Announcement for <?php echo strtoupper($release[0]->site); ?> <small><?php echo date("Y/m/d H:i:s", strtotime($release[0]->entry_timestamp)); ?></small>
                 </h1>
             </div>
         </div>

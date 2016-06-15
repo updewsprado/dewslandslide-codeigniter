@@ -66,6 +66,7 @@ $route['gold/site/(:any)'] = "gold/view/site/$1";
 
 $route['gold/publicrelease/individual/(:num)'] = "gold/view/publicrelease_individual/$1";
 $route['gold/publicrelease/all'] = "gold/view/publicrelease_all";
+$route['gold/publicrelease/edit'] = "gold/view/publicrelease_edit";
 
 $route['gold/sitemaintenancereport/individual/(:num)'] = "gold/view/sitemaintenancereport_individual/$1";
 $route['gold/sitemaintenancereport/all'] = "gold/view/sitemaintenancereport_all";
