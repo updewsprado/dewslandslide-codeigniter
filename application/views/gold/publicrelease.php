@@ -56,7 +56,7 @@
         <div class="row">
             <div class="form-group col-sm-6">
                 <label class="control-label" for="timestamp_entry">Data Timestamp</label>
-                <div class='input-group date datetime'>
+                <div class='input-group date datetime' id="entry">
                     <input type='text' class="form-control" id="timestamp_entry" name="timestamp_entry" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
@@ -90,7 +90,7 @@
           
             <div class="form-group col-sm-4">
                 <label for="internal_alert_level">Internal Alert Level</label>
-                <select class="form-control" id="internal_alert_level" name="internal_alert_level" onchange="alertInfo();">
+                <select class="form-control" id="internal_alert_level" name="internal_alert_level">
                     <option value="">Select internal alert level</option>
                 </select>        
             </div>
@@ -159,6 +159,17 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="suggestions" hidden>
+            <div class="col-sm-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading"><b>Site Information</b></div>
+                    <div class="panel-body">
+                        <h5 class="col-sm-12" id="initial">This site is under continuous monitoring for being under <b>Alert Level [ALERT]</b>, with initial trigger timestamp of <b>[INITIAL]</b>. [RETRIGGER]</h5>
+                    </div>
                 </div>
             </div>
         </div>
@@ -319,25 +330,242 @@
             }
         });
 
-    });
 
-    var alerts;
-    $.ajax ({
-        //async: false,
-        url: "<?php echo base_url(); ?>pubrelease/showAlerts",
-        type: "GET",
-        dataType: "json",
-    })
-    .done( function (json) {
-        var myData = json; // SAVE SITES TO MYDATA
-        alerts = myData;
-        myData.forEach(function (row) {
-            $("#internal_alert_level").append("<option value='" + row.internal_alert_level + "'>" + row.internal_alert_level + "</option>");
+        var alerts;
+        getAlertInfo(function (data) {
+            alerts = data;
         });
+
+        $("#internal_alert_level").change(function () {
+            $("#suggestions").hide();
+            alertInfo(alerts);
+        });
+
+        var retriggerList = null, validity_global = null;
+        $('#site, .datetime#entry').bind('change dp.change', function () 
+        {
+            //console.log("Fired!");
+            $("#suggestions").hide();
+            var site = $("#site").val();
+            var entry = $("#timestamp_entry").val();
+            var result;
+            if(site != '' && entry != '')
+            {
+                getRecentRelease(site, function (result) 
+                {
+                    //console.log(result);
+                    var suggestions = suggestInput(result);
+                    console.log(suggestions, result.public_alert_level, result.site);
+
+                    if( suggestions != null ) // Check if recent site has heightened alert
+                    {
+                        var initial = suggestions.timestamp_initial_trigger;
+                        var retrigger = null; //Initialize null as status quo
+                        retriggerList = null; 
+                        if(suggestions.timestamp_retrigger != null)
+                        {
+                            retriggerList = suggestions.timestamp_retrigger.split(",");
+                            retrigger = retriggerList[retriggerList.length - 1];
+                        }
+
+                        // Get the validity of the recent alert for the site
+                        var validity = getValidity(initial, retrigger, result.public_alert_level);
+                        console.log(validity.format("M/D/YYYY hh:mm A"));
+
+                        var start = retrigger != null ? retrigger : initial;
+                        // Check if entry timestamp is before or equal the validity
+                        // AND entry timestamp is after the start of validity
+                        if( moment(entry).isSameOrBefore(validity) && moment(entry).isAfter(start) )
+                        {
+                            $("#timestamp_initial_trigger").val(initial);
+                            $("#internal_alert_level").val(result.internal_alert_level).trigger("change");
+
+                            var str = "This site is under continuous monitoring for being under <b>Alert Level [ALERT]</b>, with initial trigger timestamp of <b>[INITIAL]</b>. [RETRIGGER]";
+                            str = str.replace("[ALERT]", result.internal_alert_level)
+                                    .replace("[INITIAL]", moment(initial).format("DD MMMM Y, hh:mm A"));
+
+                            if(retriggerList == null)
+                                str = str.replace("[RETRIGGER]", "There are no retriggering of the alert at the moment.");
+                            else
+                            {
+                                validity_global = validity;
+                                var list = retriggerList.slice(); 
+                                var temp = "There is/are also alert retrigger/s detected last ";
+                                for (var i = 0; i < list.length; i++) {
+                                    list[i] = "<b>" + moment(list[i]).format("DD MMMM Y, hh:mm A") + "</b>";
+                                }
+                                temp = temp + list.join(", ") + ".";
+                                str = str.replace("[RETRIGGER]", temp);
+                            }
+
+                            $("#initial").html(str);
+                            $("#suggestions").show();
+                        }
+                    }
+                    
+                });
+            }
+        });
+
+        jQuery.validator.addMethod("TimestampTest", function(value, element) 
+        {   
+            var x = $("#timestamp_initial_trigger").val();
+            if (value == "") return true;
+            else if(validity_global != null) return (moment(value).isAfter(x) && moment(value).isBefore(validity_global));
+            else return (moment(value).isAfter(x)); 
+        }, "");
+
+        /*** 
+         * Validate Form Entries 
+        ***/
+        $("#publicReleaseForm").validate(
+        {
+            rules: {
+                internal_alert_level: {
+                    required: true,
+                },
+                timestamp_entry: "required",
+                time_released: "required",
+                site: {
+                    required: true
+                },
+                counter_reporter: {
+                    required: true
+                },
+                'alertGroups[]': {
+                    required: {
+                        depends: function () {
+                            var temp = $("#internal_alert_level").val();
+                            return (temp === "A1-D" || temp === "ND-D");
+                    }}
+                },
+                request_reason: {
+                    required: {
+                        depends: function () {
+                            var temp = $("#internal_alert_level").val();
+                            return (temp === "A1-D" || temp === "ND-D");
+                    }}
+                },
+                timestamp_initial_trigger: {
+                    required: {
+                        depends: function () {
+                            var temp = $("#internal_alert_level").val();
+                            return (temp === "A2" || temp === "A3" || temp === "A1-R" || temp === "A1-E" || temp === "ND-R" || temp === "ND-E" || temp === "ND-L");
+                    }}
+                },
+                timestamp_retrigger: {
+                    "TimestampTest": true
+                },
+                magnitude: {
+                    required: {
+                        depends: function () {
+                            var temp = $("#internal_alert_level").val();
+                            return (temp === "A1-E" || temp === "ND-E");
+                    }}
+                },
+                epicenter: {
+                    required: {
+                        depends: function () {
+                            var temp = $("#internal_alert_level").val();
+                            return (temp === "A1-E" || temp === "ND-E");
+                    }}
+                }
+            },
+            errorPlacement: function ( error, element ) {
+
+                element.parents( ".form-group" ).addClass( "has-feedback" );
+
+                // Add the span element, if doesn't exists, and apply the icon classes to it.
+                if ( !element.next( "span" )[ 0 ] ) { 
+                    $( "<span class='glyphicon glyphicon-remove form-control-feedback' style='top:18px; right:22px;'></span>" ).insertAfter( element );
+                    if(element.parent().is(".datetime") || element.parent().is(".datetime")) element.next("span").css("right", "15px");
+                    if(element.is("select")) element.next("span").css({"top": "18px", "right": "30px"});
+                }
+            },
+            success: function ( label, element ) {
+                // Add the span element, if doesn't exists, and apply the icon classes to it.
+                if ( !$( element ).next( "span" )) {
+                    $( "<span class='glyphicon glyphicon-ok form-control-feedback' style='top:0px; right:37px;'></span>" ).insertAfter( $( element ) );
+                }
+            },
+            highlight: function ( element, errorClass, validClass ) {
+                $( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+                if($(element).parent().is(".datetime") || $(element).parent().is(".time")) {
+                    $( element ).nextAll( "span.glyphicon" ).remove();
+                    $( "<span class='glyphicon glyphicon-remove form-control-feedback' style='top:0px; right:37px;'></span>" ).insertAfter( $( element ) );
+                }
+                else $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+            },
+            unhighlight: function ( element, errorClass, validClass ) {
+                $( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+                if($(element).parent().is(".datetime") || $(element).parent().is(".time")) {
+                    $( element ).nextAll( "span.glyphicon" ).remove();
+                    $( "<span class='glyphicon glyphicon-ok form-control-feedback' style='top:0px; right:37px;'></span>" ).insertAfter( $( element ) );
+                }
+                else $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+            },
+            submitHandler: function (form) {
+
+                var timestamp_entry = $("#timestamp_entry").val();
+                var time_released = $("#time_released").val();
+                var site = $("#site").val();
+                var internal_alert_level = $("#internal_alert_level").val();
+                
+                var comments = (($("#comments").val() == '') ? null : $("#comments").val());
+
+                var acknowledgements = recipientData();
+                var flagger = $("#flagger").val();
+                var counter_reporter = $("#counter_reporter").val();
+
+                //Dependent fields
+                var timestamp_initial_trigger = $("#timestamp_initial_trigger").val();
+                var timestamp_retrigger = $("#timestamp_retrigger").val();
+                var alert_group = alertGroupData();
+                var request_reason = $("#request_reason").val();
+                var magnitude = $("#magnitude").val();
+                var epicenter = $("#epicenter").val();
+
+                if(retriggerList != null) 
+                    timestamp_retrigger = retriggerList.join(",") + "," + timestamp_retrigger;
+
+                var formData = {
+                    timestamp_entry: timestamp_entry,
+                    time_released: time_released,
+                    site: site,
+                    internal_alert_level: internal_alert_level,
+                    comments: comments,
+                    acknowledgement_recipient: acknowledgements.entryRecipient,
+                    acknowledgement_time: acknowledgements.entryAckTime,
+                    flagger: flagger,
+                    counter_reporter: counter_reporter,
+                    alert_group: alert_group,
+                    request_reason: request_reason,
+                    magnitude: magnitude,
+                    epicenter: epicenter,
+                    timestamp_initial_trigger: timestamp_initial_trigger,
+                    timestamp_retrigger: timestamp_retrigger
+                };
+
+                //console.log(formData);
+
+                $.ajax({
+                    url: "<?php echo base_url(); ?>pubrelease/insertData",
+                    type: "POST",
+                    data : formData,
+                    success: function(result, textStatus, jqXHR)
+                    {
+                        testVar = result;
+                        $("#viewRecentEntry").attr("href", "<?php echo base_url(); ?>gold/publicrelease/individual/" + result);
+                        $('#dataEntrySuccessful').modal('show');
+                    }     
+                });
+            }
+        });
+
     });
 
-    function alertInfo() {
-
+    function alertInfo(alerts) 
+    {
         var internal_alert_level = $("#internal_alert_level").val();
 
         if (internal_alert_level == "") {
@@ -404,6 +632,89 @@
         }
     }
 
+    function getAlertInfo(callback) {
+        $.ajax ({
+            //async: false,
+            url: "<?php echo base_url(); ?>pubrelease/showAlerts",
+            type: "GET",
+            dataType: "json",
+        })
+        .done( function (json) {
+            json.forEach(function (row) {
+                $("#internal_alert_level").append("<option value='" + row.internal_alert_level + "'>" + row.internal_alert_level + "</option>");
+            });
+            callback(json);
+        });
+    }
+
+    function getRecentRelease(site, callback) 
+    {
+        $.ajax ({
+            url: "<?php echo base_url(); ?>pubrelease/showRecentRelease/" + site,
+            type: "GET",
+            dataType: "json",
+        })
+        .done( function (result) {
+            callback(result);
+        });
+    }
+
+    function suggestInput(result)
+    {
+        var commentsLookUp = [
+            ["alertGroups", "request_reason", "comments"],
+            ["magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger"],
+            ["timestamp_initial_trigger", "comments", "timestamp_retrigger"],
+            ["timestamp_initial_trigger", "timestamp_retrigger", "comments" ]
+        ];
+
+        var suggestions = null;
+        switch(result.internal_alert_level)
+        {
+            case "A1-E": case "ND-E": suggestions = parser(commentsLookUp[1], result.comments); break;
+            case "A1-R": case "ND-R": suggestions = parser(commentsLookUp[2], result.comments); break;
+            case "A2": case "A3": suggestions = parser(commentsLookUp[3], result.comments); break;
+        }
+
+        return suggestions;
+    }
+
+    function parser(lookup, temp)
+    {
+        var x = lookup.indexOf("timestamp_initial_trigger");
+        var y = lookup.indexOf("timestamp_retrigger");
+        var str = temp.split(";");
+
+        var timestamps = {
+            "timestamp_initial_trigger" : (str[x] == "" ? null : str[x]),
+            "timestamp_retrigger" : (str[y] == "" ? null : str[y])
+        }
+        return timestamps;
+    }
+
+    function getValidity(initial, retrigger, alert_level) 
+    {
+        var validity = retrigger != null ? retrigger : initial;
+
+        validity = moment(validity);
+        switch (alert_level)
+        {
+            case 'A1': 
+            case 'A2': validity.add(1, "days"); break;
+            case 'A3': validity.add(2, "days"); break;
+        }
+
+        if( validity.hour() % 4 != 0 )
+        {
+            remainder = Math.abs((validity.hour() % 4) - 4);
+            validity.add(remainder, "hours");
+        }
+
+        validity.set('minutes', 0);
+        
+        return validity;
+    }
+
     function recipientChecker (recipientID, timeID) {
         if($(recipientID).is(':checked')) {
             $(timeID).prop("disabled", false);
@@ -414,159 +725,6 @@
             return false; //You can NOT get the time data
         }
     }
-
-
-    /*** 
-     * Validate Form Entries 
-    ***/
-    $("#publicReleaseForm").validate(
-    {
-        rules: {
-            internal_alert_level: {
-                required: true,
-            },
-            timestamp_entry: "required",
-            time_released: "required",
-            site: {
-                required: true
-            },
-            counter_reporter: {
-                required: true
-            },
-            'alertGroups[]': {
-                required: {
-                    depends: function () {
-                        var temp = $("#internal_alert_level").val();
-                        return (temp === "A1-D" || temp === "ND-D");
-                }}
-            },
-            request_reason: {
-                required: {
-                    depends: function () {
-                        var temp = $("#internal_alert_level").val();
-                        return (temp === "A1-D" || temp === "ND-D");
-                }}
-            },
-            timestamp_initial_trigger: {
-                required: {
-                    depends: function () {
-                        var temp = $("#internal_alert_level").val();
-                        return (temp === "A2" || temp === "A3" || temp === "A1-R" || temp === "A1-E" || temp === "ND-R" || temp === "ND-E" || temp === "ND-L");
-                }}
-            },
-            magnitude: {
-                required: {
-                    depends: function () {
-                        var temp = $("#internal_alert_level").val();
-                        return (temp === "A1-E" || temp === "ND-E");
-                }}
-            },
-            epicenter: {
-                required: {
-                    depends: function () {
-                        var temp = $("#internal_alert_level").val();
-                        return (temp === "A1-E" || temp === "ND-E");
-                }}
-            }
-        },
-        errorPlacement: function ( error, element ) {
-            /*// Add the `help-block` class to the error element
-            error.addClass( "help-block" );
-
-            if ( element.prop( "type" ) === "checkbox" ) {
-                error.insertAfter( element.parent( "label" ) );
-            } else {
-                error.insertAfter( element );
-            }*/
-
-            // Add `has-feedback` class to the parent div.form-group
-            // in order to add icons to inputs
-            element.parents( ".form-group" ).addClass( "has-feedback" );
-
-            // Add the span element, if doesn't exists, and apply the icon classes to it.
-            if ( !element.next( "span" )[ 0 ] ) { 
-                $( "<span class='glyphicon glyphicon-remove form-control-feedback' style='top:18px; right:22px;'></span>" ).insertAfter( element );
-                //if(element[0].id == "timestamp_entry" || element[0].id == "time_released" || element[0].id == "timestamp_initial_trigger" || element[0].id == "timestamp_retrigger") element.next("span").css("right", "15px");
-                if(element.parent().is(".datetime") || element.parent().is(".datetime")) element.next("span").css("right", "15px");
-                if(element.is("select")) element.next("span").css({"top": "18px", "right": "30px"});
-            }
-        },
-        success: function ( label, element ) {
-            // Add the span element, if doesn't exists, and apply the icon classes to it.
-            if ( !$( element ).next( "span" )) {
-                $( "<span class='glyphicon glyphicon-ok form-control-feedback' style='top:0px; right:37px;'></span>" ).insertAfter( $( element ) );
-            }
-        },
-        highlight: function ( element, errorClass, validClass ) {
-            $( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
-            if($(element).parent().is(".datetime") || $(element).parent().is(".time")) {
-                $( element ).nextAll( "span.glyphicon" ).remove();
-                $( "<span class='glyphicon glyphicon-remove form-control-feedback' style='top:0px; right:37px;'></span>" ).insertAfter( $( element ) );
-            }
-            else $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
-        },
-        unhighlight: function ( element, errorClass, validClass ) {
-            $( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
-            if($(element).parent().is(".datetime") || $(element).parent().is(".time")) {
-                $( element ).nextAll( "span.glyphicon" ).remove();
-                $( "<span class='glyphicon glyphicon-ok form-control-feedback' style='top:0px; right:37px;'></span>" ).insertAfter( $( element ) );
-            }
-            else $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
-        },
-        submitHandler: function (form) {
-
-            var timestamp_entry = $("#timestamp_entry").val();
-            var time_released = $("#time_released").val();
-            var site = $("#site").val();
-            var internal_alert_level = $("#internal_alert_level").val();
-            
-            var comments = (($("#comments").val() == '') ? null : $("#comments").val());
-
-            var acknowledgements = recipientData();
-            var flagger = $("#flagger").val();
-            var counter_reporter = $("#counter_reporter").val();
-
-            //Dependent fields
-            var timestamp_initial_trigger = $("#timestamp_initial_trigger").val();
-            var timestamp_retrigger = $("#timestamp_retrigger").val();
-            var alert_group = alertGroupData();
-            var request_reason = $("#request_reason").val();
-            var magnitude = $("#magnitude").val();
-            var epicenter = $("#epicenter").val();
-
-            var formData = {
-                timestamp_entry: timestamp_entry,
-                time_released: time_released,
-                site: site,
-                internal_alert_level: internal_alert_level,
-                comments: comments,
-                acknowledgement_recipient: acknowledgements.entryRecipient,
-                acknowledgement_time: acknowledgements.entryAckTime,
-                flagger: flagger,
-                counter_reporter: counter_reporter,
-                alert_group: alert_group,
-                request_reason: request_reason,
-                magnitude: magnitude,
-                epicenter: epicenter,
-                timestamp_initial_trigger: timestamp_initial_trigger,
-                timestamp_retrigger: timestamp_retrigger
-            };
-
-            console.log(formData);
-
-            $.ajax({
-                url: "<?php echo base_url(); ?>pubrelease/insertData",
-                type: "POST",
-                data : formData,
-                success: function(result, textStatus, jqXHR)
-                {
-                    testVar = result;
-                    $("#viewRecentEntry").attr("href", "<?php echo base_url(); ?>gold/publicrelease/individual/" + result);
-                    $('#dataEntrySuccessful').modal('show');
-                }     
-            });
-        }
-    });
 
 
     function recipientData ()

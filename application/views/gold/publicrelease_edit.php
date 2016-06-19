@@ -423,7 +423,6 @@
             //console.log(objectFound);
             
             buildModal(objectFound, commentsLookUp);
-
             $("#modalForm input").prop("disabled", true);
             $("#modalForm select").prop("disabled", true);
             $("#modalForm textarea").prop("disabled", true);

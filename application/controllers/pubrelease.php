@@ -151,6 +151,18 @@ class Pubrelease extends CI_Controller {
 		echo "$deletePublicAlerts";
 	}
 
+
+	/**
+	 * Controller function for AJAX query getRecentRelease
+	 *
+	 * @author Kevin Dhale dela Cruz
+	 **/
+	public function showRecentRelease($site)
+	{
+		$data = $this->pubrelease_model->getRecentRelease($site);
+		echo "$data";
+	}
+
 	public function testAllReleases()
 	{
 		$allRelease = $this->pubrelease_model->getAllPublicReleases();

@@ -297,6 +297,45 @@ class Pubrelease_Model extends CI_Model
 
 	}
 
+	/**
+	 * Gets most recent public release per site
+	 * 
+	 * @author Kevin Dhale dela Cruz
+	 **/
+	public function getRecentRelease($site)
+	{
+		$sql = "SELECT 
+					t.*, x.comments, l.public_alert_level
+				FROM (
+					SELECT * 
+					FROM public_alert 
+					WHERE site = '$site'
+				) t 
+				LEFT JOIN 
+					public_alert_extra x 
+				ON t.public_alert_id = x.public_alert_id
+				INNER JOIN 
+					lut_alerts l 
+				ON t.internal_alert_level = l.internal_alert_level 
+				ORDER BY t.entry_timestamp DESC 
+				LIMIT 1";
+
+		$query = $this->db->query($sql);
+
+	    foreach ($query->result_array() as $row)
+	    {
+	        $data["public_alert_id"] = $row["public_alert_id"];
+	        $data["entry_timestamp"] = $row["entry_timestamp"];
+	        $data["site"] = $row["site"];
+	        $data["internal_alert_level"] = $row["internal_alert_level"];
+	        $data["public_alert_level"] = $row["public_alert_level"];
+	        $data["comments"] = $row["comments"];
+	    }
+
+	    return json_encode($data);
+
+	}
+
 	public function getSinglePublicRelease($id)
 	{
 		$sql = "SELECT 
