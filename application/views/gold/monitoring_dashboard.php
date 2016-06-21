@@ -99,7 +99,7 @@
 			case 'A1-R':
 			case 'ND-R':
 				$timestamp['initial'] = (isset($list[0])) ? $list[0] : null;
-				$timestamp['retrigger'] = (isset($list[4]) && $list[4] != "") ? retriggers($list[2]) : null;
+				$timestamp['retrigger'] = (isset($list[2]) && $list[2] != "") ? retriggers($list[2]) : null;
 				break;
 			case 'A2':
 			case 'ND-L':
@@ -238,6 +238,18 @@
 
 	</div> <!-- End of Container -->
 </div> <!-- End of Page Wrapper -->
+
+<?php
+
+	function amPmConverter($date)
+	{
+		$temp = strtotime($date);
+		$hour = date("G", $temp);
+		if( $hour == 0 ) return date("j F Y, h:i \M\N", $temp);
+		elseif ($hour == 12) return date("j F Y, h:i \N\N", $temp);
+		else return date("j F Y, h:i A", $temp);
+	}
+?>
 
 <script>
 
