@@ -231,13 +231,28 @@
 
 		<div class="row" style="margin-right:0;">
 			<a type="submit" class="btn btn-danger btn-md pull-right" id="back">Release Public Alert</a>
-	    	<a type="submit" class="btn btn-info btn-md pull-right" id="home">Home</a>
+	    	<!-- <a type="submit" class="btn btn-info btn-md pull-right" id="home">Home</a> -->
 	    </div>
+
+	    <div class="fill"></div>
 
 	</div> <!-- End of Container -->
 </div> <!-- End of Page Wrapper -->
 
 <script>
+
+	/**
+	 *	Fill the remaining empty space with <br>
+	**/
+	function fillDiv(number) 
+	{
+		$(".fill").html("");
+		for (var i = 0; i < number; i++) {
+			$(".fill").append("<br>");
+		}
+	}
+
+	fillDiv(30);
 
 	$("#back").attr("href", "<?php echo base_url(); ?>gold/publicrelease");
 	$("#home").attr("href", "<?php echo base_url(); ?>gold");
