@@ -163,10 +163,11 @@
             </div>
         </div>
 
+        <!-- SUggestions Field for Continuous and Retriggers -->
         <div class="row" id="suggestions" hidden>
             <div class="col-sm-12">
                 <div class="panel panel-info">
-                    <div class="panel-heading"><b>Site Information</b></div>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-info-sign" style="top:2px;"></span>&nbsp;&nbsp;<b>Site Information</b></div>
                     <div class="panel-body">
                         <h5 class="col-sm-12" id="initial">This site is under continuous monitoring for being under <b>Alert Level [ALERT]</b>, with initial trigger timestamp of <b>[INITIAL]</b>. [RETRIGGER]</h5>
                     </div>
@@ -330,7 +331,6 @@
             }
         });
 
-
         var alerts;
         getAlertInfo(function (data) {
             alerts = data;
@@ -341,6 +341,11 @@
             alertInfo(alerts);
         });
 
+        /**
+         * Check for Continuous Alerts and Retriggers
+         *
+         * @type       {<type>}
+         */
         var retriggerList = null, validity_global = null;
         $('#site, .datetime#entry').bind('change dp.change', function () 
         {
@@ -380,12 +385,12 @@
                             $("#timestamp_initial_trigger").val(initial);
                             $("#internal_alert_level").val(result.internal_alert_level).trigger("change");
 
-                            var str = "This site is under continuous monitoring for being under <b>Alert Level [ALERT]</b>, with initial trigger timestamp of <b>[INITIAL]</b>. [RETRIGGER]";
+                            var str = "This site is under continuous monitoring for being under <b>Alert Level [ALERT]</b>, with initial trigger timestamp of <b>[INITIAL]</b>. [RETRIGGER]. The alert is valid until <b>[VALIDITY]</b>.";
                             str = str.replace("[ALERT]", result.internal_alert_level)
-                                    .replace("[INITIAL]", moment(initial).format("DD MMMM Y, hh:mm A"));
+                                    .replace("[INITIAL]", moment(initial).format("DD MMMM Y, hh:mm A")).replace("[VALIDITY]", moment(validity).format("DD MMMM Y, hh:mm A"));
 
                             if(retriggerList == null)
-                                str = str.replace("[RETRIGGER]", "There are no retriggering of the alert at the moment.");
+                                str = str.replace("[RETRIGGER]", "There are no retriggering of the alert at the moment");
                             else
                             {
                                 validity_global = validity;
@@ -394,12 +399,13 @@
                                 for (var i = 0; i < list.length; i++) {
                                     list[i] = "<b>" + moment(list[i]).format("DD MMMM Y, hh:mm A") + "</b>";
                                 }
-                                temp = temp + list.join(", ") + ".";
+                                temp = temp + list.join(", ");
                                 str = str.replace("[RETRIGGER]", temp);
                             }
 
                             $("#initial").html(str);
                             $("#suggestions").show();
+                            $("#suggestions .panel").attr("tabindex",-1).focus();
                         }
                     }
                     
@@ -708,6 +714,8 @@
         {
             remainder = Math.abs((validity.hour() % 4) - 4);
             validity.add(remainder, "hours");
+        } else {
+            validity.add(4, "hours");
         }
 
         validity.set('minutes', 0);

@@ -26,30 +26,35 @@
 	{
 		$temp = explode(";", $data->comments);
 		if (($x == "A2" || $x == "A3" || $x == "ND-L") && $temp[1] != "")
-			$validity = strtotime($temp[1]);
+			$validity = $temp[1];
 		else if (($x == "A1-R" || $x == "ND-R") && $temp[2] != "")
-			$validity = strtotime($temp[2]);
+			$validity = $temp[2];
 		else if (($x == "A1-E" || $x == "ND-E") && $temp[4] != "")
-			$validity = strtotime($temp[4]);
+			$validity = $temp[4];
 		else 
 		{
 			if ($x == "A2" || $x == "A3" || $x == "ND-L")
-				$validity = strtotime($temp[0]);
+				$validity = $temp[0];
 			else if ($x == "A1-R" || $x == "ND-R")
-				$validity = strtotime($temp[0]);
+				$validity = $temp[0];
 			else if ($x == "A1-E" || $x == "ND-E")
-				$validity = strtotime($temp[3]);
+				$validity = $temp[3];
 		}
+
+		$validity = explode(",", $validity);
+		$validity = strtotime($validity[count($validity) - 1]);
 	}
 
 	if (!isset($validity)) $validity = $data->entry_timestamp;
 
-	//echo date("j F Y, h:i A" ,$validity);
 	$validity = roundTime($validity);
 	$timestamp_copy = roundTime($data->entry_timestamp);
 	
 	$release = date("j F Y", $data->entry_timestamp) . ", " . date("h:i A", $data->time_released);
-	//echo date("j F Y, h:i A", strtotime($release));
+
+	if(date('G', strtotime($release)) == 0)
+		$release = date("j F Y, h:i A", strtotime($release) + (3600*24));
+
 	if(isInstantaneous($data->entry_timestamp))
 		$release = strtotime($release);
 	else
@@ -301,7 +306,6 @@
 							<div class="col-sm-4">Alert Level Released:</div>
 							<div class="col-sm-8">
 							<?php
-
 								switch ($data->public_alert_level) 
 								{
 									case 'A0':
@@ -514,6 +518,7 @@
 			<div class="modal-dialog">
    				<div class="modal-content">
 	   				<div class="modal-header" hidden>
+	   					<button type="button" class="close" data-dismiss="modal" hidden>&times;</button>
 						<h4 class="modal-title">Bulletin PDF Rendering Complete</h4>
 					</div>
     				<div class="modal-body">
@@ -537,43 +542,62 @@
 
 <?php  
 	
-	function parser($internal_alert_level, $suppInfoDesc, $suppInfo, $infoOrComment) 
+	function parser($internal_alert_level, $desc, $info, $infoOrComment) 
 	{
+
 		$comment;
-		if($internal_alert_level == "A1-D" || $internal_alert_level == "ND-D") {
-	    	$list = explode(";", $suppInfo);
-	    	$groups = str_replace(",", "/", $list[0]);
-	    	if (isset($list[2])) $comment = $list[2]; else $comment = null;
-	    	$suppInfoDesc = str_replace("[LGU/LLMC/Community]", $groups, $suppInfoDesc);
-	    	$suppInfoDesc = str_replace("[reason for request]", $list[1], $suppInfoDesc);
-	  	} elseif ($internal_alert_level == "A1-E" || $internal_alert_level == "ND-E") {
-	    	$list = explode(";", $suppInfo);
-	    	if (isset($list[3])) $comment = $list[3]; else $comment = null;
-	    	$suppInfoDesc = str_replace("[M]", $list[0], $suppInfoDesc);
-	    	$suppInfoDesc = str_replace("[d]", $list[1], $suppInfoDesc);
-	    	$suppInfoDesc = str_replace("[date, time]", date("j F Y, h:i A", strtotime($list[2])), $suppInfoDesc);
-	  	} elseif ($internal_alert_level == "A1-R" || $internal_alert_level == "ND-R") {
-	    	$list = explode(";", $suppInfo);
-	    	if (isset($list[1])) $comment = $list[1]; else $comment = null;
-	    	$suppInfoDesc = str_replace("[date, time (round up to the nearest next hour) of last threshold exceedence]", date("j F Y, h:i A", strtotime($list[0])), $suppInfoDesc);
-	  	} elseif ($internal_alert_level == "A2" || $internal_alert_level == "ND-L") {
-	    	$list = explode(";", $suppInfo);
-	    	if (isset($list[2])) $comment = $list[2]; else $comment = null;
-	    	$suppInfoDesc = str_replace("[date, time (round up to nearest next hour) of original L1-triggering measurement]", date("j F Y, h:i A", strtotime($list[0])), $suppInfoDesc);
-	    	if($list[1] != "") $suppInfoDesc = str_replace("[list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements]", date("j F Y, h:i A", strtotime($list[1])), $suppInfoDesc);
-	    	else $suppInfoDesc = str_replace("Additional ground movement/s detected last: [list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements].", '' , $suppInfoDesc);
-	  	} elseif ($internal_alert_level == "A3") {
-	    	$list = explode(";", $suppInfo);
-	    	if (isset($list[2])) $comment = $list[2]; else $comment = null;
-	    	$suppInfoDesc = str_replace("[date, time (round up to nearest next hour) of original L2-triggering measurement]", date("j F Y, h:i A", strtotime($list[0])), $suppInfoDesc);
-	    	if($list[1] != "") $suppInfoDesc = str_replace("[list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements]", date("j F Y, h:i A", strtotime($list[1])), $suppInfoDesc);
-	    	else $suppInfoDesc = str_replace("Additional ground movement/s detected last: [list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements].", '', $suppInfoDesc);
-		} else {
-	    	if (isset($suppInfo)) $comment = $suppInfo; else $comment = null;
+		$list = explode(";", $info);
+
+		switch ($internal_alert_level) {
+			case 'A1-D':
+			case 'ND-D':
+				$groups = str_replace(",", "/", $list[0]);
+				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
+				$desc = str_replace("[LGU/LLMC/Community]", $groups, $desc);
+	    		$desc = str_replace("[reason for request]", $list[1], $desc);
+				break;
+			case 'A1-E':
+			case 'ND-E':
+				$comment = ($list[3] != "" && isset($list[3])) ? $list[3] : null;
+				$desc = str_replace("[M]", $list[0], $desc);
+	    		$desc = str_replace("[d]", $list[1], $desc);
+	    		$desc = str_replace("[date, time]", date("j F Y, h:i A" , strtotime($list[2])), $desc);
+	    		$desc = ($list[4] != "" && isset($list[4])) ? str_replace("[retriggers]", retriggers($list[4]), $desc) : str_replace("\nAdditional alert re-trigger/s detected on [retriggers].", "", $desc);
+				break;
+			case 'A1-R':
+			case 'ND-R':
+				$comment = ($list[1] != "" && isset($list[1])) ? $list[1] : null;
+				$desc = str_replace("[date, time (round up to the nearest next hour) of last threshold exceedence]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
+				$desc = ($list[2] != "" && isset($list[2])) ? str_replace("[retriggers]", retriggers($list[2]), $desc) : str_replace("\nAdditional alert re-trigger/s detected on [retriggers].", "", $desc);
+				break;
+			case 'A2':
+			case 'ND-L':
+				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
+				$desc = str_replace("[date, time (round up to nearest next hour) of original L1-triggering measurement]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
+				$desc = ($list[1] != "" && isset($list[1])) ? str_replace("[list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements]", retriggers($list[1]), $desc) : str_replace("\nAdditional ground movement/s detected on [list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements].", "", $desc);
+				break;
+			case 'A3':
+				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
+				$desc = str_replace("[date, time (round up to nearest next hour) of original L2-triggering measurement]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
+	    		$desc = $desc = ($list[1] != "" && isset($list[1])) ? str_replace("[list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements]", retriggers($list[1]), $desc) : str_replace("\nAdditional ground movement/s detected on [list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements].", "", $desc);
+				break;
+			default:
+				$comment = isset($info) ? $info : null;
+				break;
 		}
 
-		if ($infoOrComment == 1) return $comment;
-		else return $suppInfoDesc;
+		return $infoOrComment == 1 ? $comment : $desc;
+
+	}
+
+	function retriggers($list)
+	{
+		$list = explode(",", $list);
+		for ($i=0; $i < count($list); $i++) 
+		{ 
+			$list[$i] = date("j F Y, h:i A" , strtotime($list[$i]));
+		}
+		return implode(", ", $list);
 	}
 
 ?>
@@ -630,6 +654,7 @@
 
 			var $modal = $('.js-loading-bar'),
 		    $bar = $modal.find('.progress-bar');
+		    $(".modal-header button").hide();
 
 		    // Reposition when a modal is shown
 		    $('.js-loading-bar').on('show.bs.modal', reposition);
@@ -677,6 +702,7 @@
 			$(".modal-content span").prop("hidden", false);
 			$(".modal-footer").prop("hidden", false);
 			$(".progress.progress-popup").prop("hidden", true);
+			$(".modal-header button").show();
 		    $('.js-loading-bar').modal('show');
 		});
 	}
