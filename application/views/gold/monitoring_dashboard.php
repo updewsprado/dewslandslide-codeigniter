@@ -230,7 +230,7 @@
 		</div>
 
 		<div class="row" style="margin-right:0;">
-			<a type="submit" class="btn btn-danger btn-md pull-right" id="back">Release Alert</a>
+			<a type="submit" class="btn btn-danger btn-md pull-right" id="back">Release Public Alert</a>
 	    	<a type="submit" class="btn btn-info btn-md pull-right" id="home">Home</a>
 	    </div>
 
