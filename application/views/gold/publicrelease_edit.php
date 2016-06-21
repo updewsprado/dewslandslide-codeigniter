@@ -376,6 +376,8 @@
             var elementPos = result.map(function(x) {return x.public_alert_id; }).indexOf(id);
             var objectFound = result[elementPos];
             //console.log(objectFound);
+            
+            $("#modalForm")[0].reset();
 
             buildModal(objectFound, commentsLookUp);
             $(".modal-title").text("Public Alert Release Entry");
@@ -399,6 +401,8 @@
             var elementPos = result.map(function(x) {return x.public_alert_id; }).indexOf(id);
             var objectFound = result[elementPos];
             //console.log(objectFound);
+            
+            $("#modalForm")[0].reset();
 
             buildModal(objectFound, commentsLookUp);
             $(".modal-title").text("Edit Public Alert Release Entry");
@@ -421,7 +425,7 @@
             var elementPos = result.map(function(x) {return x.public_alert_id; }).indexOf(id);
             var objectFound = result[elementPos];
             //console.log(objectFound);
-            
+
             buildModal(objectFound, commentsLookUp);
             $("#modalForm input").prop("disabled", true);
             $("#modalForm select").prop("disabled", true);
