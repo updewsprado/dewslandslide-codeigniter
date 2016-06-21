@@ -299,7 +299,7 @@
 
 						<div class="row">
 							<div class="col-sm-4">Date/Time</div>
-							<div class="col-sm-8"><?php echo '<input type="text" class="form-control" name="release" id="release" style="width: 70%;" value="' . date("j F Y, h:i A" , $release) . '"/>'; ?></div>
+							<div class="col-sm-8"><?php echo '<input type="text" class="form-control" name="release" id="release" style="width: 70%;" value="' . amPmConverter(date("j F Y, h:i A" , $release)) . '"/>'; ?></div>
 						</div>
 
 						<div class="row">
@@ -313,10 +313,10 @@
 										break;
 									case 'A1':
 									case 'A2':
-										$validity = ", valid until " . date("j F Y, h:i A" , $validity + 24 * 3600);
+										$validity = ", valid until " . amPmConverter(date("j F Y, h:i A" , $validity + 24 * 3600));
 										break;
 									case 'A3':
-										$validity = ", valid until " . date("j F Y, h:i A" , $validity + 48 * 3600);
+										$validity = ", valid until " . amPmConverter(date("j F Y, h:i A" , $validity + 48 * 3600));
 										break;
 								}
 
@@ -488,7 +488,7 @@
 		        <?php 
 		        	if( $data->public_alert_level != 'A0')
 		        	{
-						echo '<div class="row"><b>Next bulletin on: </b><input type="text" class="form-control" name="next_bulletin" id="next_bulletin" style="width: 20%;" value="' . date("j F Y, h:i A" , $timestamp_copy + 4 * 3600) . '"></div>';
+						echo '<div class="row"><b>Next bulletin on: </b><input type="text" class="form-control" name="next_bulletin" id="next_bulletin" style="width: 20%;" value="' . amPmConverter(date("j F Y, h:i A" , $timestamp_copy + 4 * 3600)) . '"></div>';
 		        	}
 		        ?>
 	        	<div class="row" style="margin-top: 5px;"><b>Prepared by: </b>
@@ -561,24 +561,24 @@
 				$comment = ($list[3] != "" && isset($list[3])) ? $list[3] : null;
 				$desc = str_replace("[M]", $list[0], $desc);
 	    		$desc = str_replace("[d]", $list[1], $desc);
-	    		$desc = str_replace("[date, time]", date("j F Y, h:i A" , strtotime($list[2])), $desc);
+	    		$desc = str_replace("[date, time]", amPmConverter(date("j F Y, h:i A" , strtotime($list[2]))), $desc);
 	    		$desc = ($list[4] != "" && isset($list[4])) ? str_replace("[retriggers]", retriggers($list[4]), $desc) : str_replace("\nAdditional alert re-trigger/s detected on [retriggers].", "", $desc);
 				break;
 			case 'A1-R':
 			case 'ND-R':
 				$comment = ($list[1] != "" && isset($list[1])) ? $list[1] : null;
-				$desc = str_replace("[date, time (round up to the nearest next hour) of last threshold exceedence]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
+				$desc = str_replace("[date, time (round up to the nearest next hour) of last threshold exceedence]", amPmConverter(date("j F Y, h:i A" , strtotime($list[0]))), $desc);
 				$desc = ($list[2] != "" && isset($list[2])) ? str_replace("[retriggers]", retriggers($list[2]), $desc) : str_replace("\nAdditional alert re-trigger/s detected on [retriggers].", "", $desc);
 				break;
 			case 'A2':
 			case 'ND-L':
 				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
-				$desc = str_replace("[date, time (round up to nearest next hour) of original L1-triggering measurement]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
+				$desc = str_replace("[date, time (round up to nearest next hour) of original L1-triggering measurement]", amPmConverter(date("j F Y, h:i A" , strtotime($list[0]))), $desc);
 				$desc = ($list[1] != "" && isset($list[1])) ? str_replace("[list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements]", retriggers($list[1]), $desc) : str_replace("\nAdditional ground movement/s detected on [list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements].", "", $desc);
 				break;
 			case 'A3':
 				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
-				$desc = str_replace("[date, time (round up to nearest next hour) of original L2-triggering measurement]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
+				$desc = str_replace("[date, time (round up to nearest next hour) of original L2-triggering measurement]", amPmConverter(date("j F Y, h:i A" , strtotime($list[0]))), $desc);
 	    		$desc = $desc = ($list[1] != "" && isset($list[1])) ? str_replace("[list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements]", retriggers($list[1]), $desc) : str_replace("\nAdditional ground movement/s detected on [list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements].", "", $desc);
 				break;
 			default:
@@ -595,9 +595,18 @@
 		$list = explode(",", $list);
 		for ($i=0; $i < count($list); $i++) 
 		{ 
-			$list[$i] = date("j F Y, h:i A" , strtotime($list[$i]));
+			$list[$i] = amPmConverter(date("j F Y, h:i A" , strtotime($list[$i])));
 		}
 		return implode(", ", $list);
+	}
+
+	function amPmConverter($date)
+	{
+		$temp = strtotime($date);
+		$hour = date("G", $temp);
+		if( $hour == 0 ) return date("j F Y, h:i \M\N", $temp);
+		elseif ($hour == 12) return date("j F Y, h:i \N\N", $temp);
+		else return date("j F Y, h:i A", $temp);
 	}
 
 ?>
