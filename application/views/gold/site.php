@@ -574,7 +574,7 @@ function getRainfallData(str) {
         return;
     } else {
       $.ajax({url: "/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-          alert(url);
+          // alert(url);
         var target = document.getElementById('rainGraphSenslope');
         var spinner = new Spinner(opts).spin();
         target.appendChild(spinner.el);
