@@ -104,7 +104,7 @@
 			$start = strtotime('tomorrow noon', $timestamp);
 			$end = strtotime('+3 days', $start);
 
-			if (($start <= strtotime('now')) && (strtotime('now') <= $end))
+			if (strtotime('now') <= $end)
 			{
 				$release->validity = getValidity(strtotime($release->entry_timestamp), null, $release->public_alert);
 				$release->start = $start;
