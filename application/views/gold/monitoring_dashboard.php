@@ -224,13 +224,13 @@
 						                   		echo "<tr class='". $tableRowClass ."'>";
 						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/individual/" . $row->alert_id . "'>"
 						                            . $row->barangay."</a></td>";
-						                        echo "<td>". date("j F Y\<\b\\r\>g:i:s" , strtotime($row->initial)) ."</td>";
+						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->initial)) ."</td>";
 						                        if($row->retrigger == null)
 						                        	echo "<td>No record</td>";
-						                        else echo "<td>". date("j F Y\<\b\\r\>g:i:s" , strtotime($row->retrigger))."</td>";
+						                        else echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->retrigger))."</td>";
 						                        echo "<td>".$row->internal_alert."</td>";
-						                        echo "<td>". date("j F Y\<\b\\r\>g:i:s" , $row->validity) ."</td>";
-						                        echo "<td>". date("j F Y\<\b\\r\>g:i:s" , $row->time_released) ."</td>";
+						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , $row->validity) ."</td>";
+						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , $row->time_released) ."</td>";
 						                        echo "</tr>";  
 
 						                        //date("j F Y, h:i A" , strtotime($row->timestamp))     
@@ -296,13 +296,13 @@
 						                   		echo "<tr class='". $tableRowClass ."'>";
 						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/individual/" . $row->alert_id . "'>"
 						                            . $row->barangay."</a></td>";
-						                        echo "<td>". date("j F Y\<\b\\r\>G:i:s" , strtotime($row->initial)) ."</td>";
+						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->initial)) ."</td>";
 						                        if($row->retrigger == null)
 						                        	echo "<td>No record</td>";
-						                        else echo "<td>". date("j F Y\<\b\\r\>G:i:s" , strtotime($row->retrigger))."</td>";
+						                        else echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->retrigger))."</td>";
 						                        echo "<td>".$row->internal_alert."</td>";
-						                        echo "<td>". date("j F Y\<\b\\r\>G:i:s" , $row->validity) ."</td>";
-						                        echo "<td>". date("j F Y\<\b\\r\>G:i:s" , $row->time_released) ."</td>";
+						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , $row->validity) ."</td>";
+						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , $row->time_released) ."</td>";
 						                        echo "</tr>";  
 
 						                        //date("j F Y, h:i A" , strtotime($row->timestamp))     
