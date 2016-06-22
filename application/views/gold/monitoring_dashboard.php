@@ -30,7 +30,7 @@
     	text-align: left;
     }
 
-    #table th, #overdue th {
+    #table th, #extended th, #overdue th {
     	font-size: 11px;
     }
 
@@ -58,10 +58,12 @@
 	$releases = json_decode($releases);
 	
 	$latest = null; $i = 0;
+	$extended = null; $k = 0;
 	$overdue = null; $j = 0;
 	$markers = null;
 	foreach ($releases as $release) 
 	{
+		/* Get all non-A0 alerts for evaluation of validity */
 		if($release->internal_alert != "A0")
 		{
 			$timestamp = parser($release->internal_alert, $release->comments);
@@ -72,6 +74,7 @@
 			if(date('G', $temp) == 0)
 				$temp = $temp + (3600 * 24);
 
+			/* Get alerts that under validity of their alerts */
 			if(($timestamp['initial'] != NULL) && ($release->validity > strtotime('now')))
 			{
 				$release->initial = $timestamp['initial'];
@@ -83,12 +86,32 @@
 				$address = "$release->barangay, $release->municipality, $release->province";
 				$markers[$i]['address'] = is_null($release->sitio) ? $address : $release->sitio . ", " . $address;
 				$latest[$i++] = $release;
-			} else {
+			} 
+			/* Else get them as overdue alerts */
+			else 
+			{
 				$release->initial = $timestamp['initial'];
 				$release->retrigger = $timestamp['retrigger'];
 				$release->time_released = $temp;
 				$overdue[$j++] = $release;
 			}
+		}
+		/* Get Recent A0 alerts for evaluation for 3-day extended monitoring */
+		else 
+		{
+			$timestamp = $release->entry_timestamp;
+			$timestamp = strtotime($timestamp);
+			$start = strtotime('tomorrow noon', $timestamp);
+			$end = strtotime('+3 days', $start);
+
+			if (($start <= strtotime('now')) && (strtotime('now') <= $end))
+			{
+				$release->validity = getValidity(strtotime($release->entry_timestamp), null, $release->public_alert);
+				$release->start = $start;
+				$release->end = $end;
+				$extended[$k++] = $release;
+			}
+			
 		}
 	}
 
@@ -231,6 +254,46 @@
 						                        echo "<td>".$row->internal_alert."</td>";
 						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , $row->validity) ."</td>";
 						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , $row->time_released) ."</td>";
+						                        echo "</tr>";  
+
+						                        //date("j F Y, h:i A" , strtotime($row->timestamp))     
+						                    }
+						                }
+					                ?>
+				                    </tbody>
+				              </table>
+							</div></div>
+				    	</div>
+					</div>
+				</div>
+
+				<div class="row">
+			    	<div class="panel panel-default">
+						<div class="panel-heading">Sites Under 3-Day Extended Monitoring</div>
+						<div class="panel-body clearfix">
+							<div class="col-md-12"><div class="table-responsive">
+				                <table class="table table-striped" id="extended">
+				                    <thead>
+				                        <tr>
+				                            <th>Site Name</th>
+				                            <th>End of Previous Alert Validity</th>
+				                            <th>Monitoring Start</th>
+				                            <th>Monitoring End</th>
+				                        </tr>
+				                    </thead>
+				                    <tbody>
+				                    <?php
+				                    	if($extended != NULL)
+				                    	{
+						                    foreach ($extended as $row) 
+						                    {
+
+						                   		echo "<tr'>";
+						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/individual/" . $row->alert_id . "'>"
+						                            . $row->barangay."</a></td>";
+						                        echo "<td>". date("j F Y, H:i:s" , $row->validity) ."</td>";
+						                        echo "<td>". date("j F Y, H:i:s" , $row->start) ."</td>";
+						                        echo "<td>". date("j F Y, H:i:s" , $row->end) ."</td>";
 						                        echo "</tr>";  
 
 						                        //date("j F Y, h:i A" , strtotime($row->timestamp))     
@@ -387,6 +450,22 @@
 	    }
     });
 
+    $('#extended').DataTable({
+		"columnDefs": [
+			{ className: "text-left", "targets": [ 0 ] },
+	 		{ className: "text-right", "targets": [ 1, 2, 3 ] }
+		],
+    	"order" : [[3, "asc"]],
+    	"processing": true,
+    	"filter": false,
+    	"info": false,
+    	"paginate": false,
+    	"language": 
+    	{
+	        "emptyTable": "There are no sites under 3-day extended monitoring."
+	    }
+    });
+
     $('#overdue').DataTable({
 		"columnDefs": [
 			{ className: "text-left", "targets": [ 0, 3 ] },
@@ -407,6 +486,12 @@
     {
         $("#table .dataTables_empty").css({"font-size": "20px", "padding": "40px"})
         $("#table thead").remove();
+    }
+
+    if ($("#extended").dataTable().fnSettings().aoData.length == 0)
+    {
+        $("#extended .dataTables_empty").css({"font-size": "20px", "padding": "40px"})
+        $("#extended thead").remove();
     }
 
     if ($("#overdue").dataTable().fnSettings().aoData.length == 0)
