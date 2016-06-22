@@ -614,7 +614,7 @@
                       $('#dependent_fields_a1e').show();
                       $('.dependentFieldSuppInfoGround').show(); 
                       $("label[for='timestamp_initial_trigger']").html("Timestamp of Initial Earthquake Trigger");
-                      $("label[for='timestamp_retrigger']").html("Timestamp of Significant/Critical Earthquake Retrigger");
+                      $("label[for='timestamp_retrigger']").html("Timestamp of New Significant/Critical Earthquake Retrigger (if any)");
                       break;
                 case "A1-R":
                 case "ND-R":
@@ -623,7 +623,7 @@
                       $('#dependent_fields_a1e').hide();
                       $('.dependentFieldSuppInfoGround').show();
                       $("label[for='timestamp_initial_trigger']").html("Timestamp of Initial Rainfall Trigger");
-                      $("label[for='timestamp_retrigger']").html("Timestamp of Significant/Critical Rainfall Retrigger");
+                      $("label[for='timestamp_retrigger']").html("Timestamp of New Significant/Critical Rainfall Retrigger (if any)");
                       break; 
                 case "A2":
                 case "A3":
@@ -633,7 +633,7 @@
                       $('#dependent_fields_a1e').hide();
                       $('.dependentFieldSuppInfoGround').show();
                       $("label[for='timestamp_initial_trigger']").html("Timestamp of Initial Ground Movement Trigger");
-                      $("label[for='timestamp_retrigger']").html("Timestamp of Significant/Critical Ground Movement Retrigger");
+                      $("label[for='timestamp_retrigger']").html("Timestamp of New Significant/Critical Ground Movement Retrigger (if any)");
                       break;
                 default:
                       $('#dependent_fields_a1d').hide();
