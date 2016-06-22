@@ -531,8 +531,12 @@
                 var magnitude = $("#magnitude").val();
                 var epicenter = $("#epicenter").val();
 
-                if(retriggerList != null) 
-                    timestamp_retrigger = retriggerList.join(",") + "," + timestamp_retrigger;
+                if(retriggerList != null)
+                {
+                    if( timestamp_retrigger != "")
+                        timestamp_retrigger = retriggerList.join(",") + "," + timestamp_retrigger;
+                    else timestamp_retrigger = retriggerList.join(",")
+                }
 
                 var formData = {
                     timestamp_entry: timestamp_entry,
