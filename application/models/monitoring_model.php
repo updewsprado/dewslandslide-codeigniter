@@ -18,6 +18,7 @@ class Monitoring_Model extends CI_Model
 	    $sql = "SELECT
 					t.public_alert_id,
 					t.entry_timestamp,
+					t.time_released,
 					t.site,
 					t.internal_alert_level,
 					s.sitio,
@@ -55,7 +56,8 @@ class Monitoring_Model extends CI_Model
 	    foreach ($query->result_array() as $row)
 	    {
 	        $data[$i]["alert_id"] = $row["public_alert_id"];
-	        $data[$i]["timestamp"] = $row["entry_timestamp"];
+	        $data[$i]["entry_timestamp"] = $row["entry_timestamp"];
+	        $data[$i]["time_released"] = $row["time_released"];
 	        $data[$i]["name"] = $row["site"];
 	        $data[$i]["internal_alert"] = $row["internal_alert_level"];
 	        $data[$i]["lat"] = $row["lat"];

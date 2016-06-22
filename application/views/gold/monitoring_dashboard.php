@@ -30,7 +30,7 @@
     	text-align: left;
     }
 
-    #table th {
+    #table th, #overdue th {
     	font-size: 11px;
     }
 
@@ -58,6 +58,7 @@
 	$releases = json_decode($releases);
 	
 	$latest = null; $i = 0;
+	$overdue = null; $j = 0;
 	$markers = null;
 	foreach ($releases as $release) 
 	{
@@ -66,16 +67,27 @@
 			$timestamp = parser($release->internal_alert, $release->comments);
 			$release->validity = getValidity($timestamp['initial'], $timestamp['retrigger'], $release->public_alert);
 
+			$temp = date("j F Y", strtotime($release->entry_timestamp)) . ", " . date("h:i A", strtotime($release->time_released));
+			$temp = strtotime($temp);
+			if(date('G', $temp) == 0)
+				$temp = $temp + (3600 * 24);
+
 			if(($timestamp['initial'] != NULL) && ($release->validity > strtotime('now')))
 			{
 				$release->initial = $timestamp['initial'];
 				$release->retrigger = $timestamp['retrigger'];
+				$release->time_released = $temp;
 				$markers[$i]['lat'] = $release->lat;
 				$markers[$i]['lon'] = $release->lon;
 				$markers[$i]['name'] = $release->name;
 				$address = "$release->barangay, $release->municipality, $release->province";
 				$markers[$i]['address'] = is_null($release->sitio) ? $address : $release->sitio . ", " . $address;
 				$latest[$i++] = $release;
+			} else {
+				$release->initial = $timestamp['initial'];
+				$release->retrigger = $timestamp['retrigger'];
+				$release->time_released = $temp;
+				$overdue[$j++] = $release;
 			}
 		}
 	}
@@ -165,74 +177,146 @@
 		    </div>
 
 		    <div class="col-sm-9">
-		    	<div class="panel panel-default">
-					<div class="panel-heading">Latest Site Alerts</div>
-					<div class="panel-body clearfix">
-						<div class="col-md-12"><div class="table-responsive">
-			                <table class="table" id="table">
-			                    <thead>
-			                        <tr>
-			                            <th>Site Name</th>
-			                            <th>Alert Level</th>
-			                            <th>Initial Trigger Timestamp</th>
-			                            <th>Latest Re-trigger Timestamp</th>
-			                            <th>Validity</th>
-			                        </tr>
-			                    </thead>
-			                    <tbody>
-			                    <?php
-			                    	if($latest != NULL)
-			                    	{
-					                    foreach ($latest as $row) 
-					                    {
-					                        switch (strtoupper($row->public_alert))
-					                        {
-					                            case 'A2':
-					                                $tableRowClass= "alert_01";
-					                                break;
-					                            case 'ND-D':case 'ND-E':
-					                            case 'ND-L':case 'ND-R':
-					                            case 'A1-D':case 'A1-E':
-					                            case 'A1-R':case 'A1':
-					                                $tableRowClass = "alert_02";
-					                                break;
-					                            case 'A3':
-					                                $tableRowClass = "alert_00";
-					                                break;
-					                            case 'ND':case 'A0':
-					                                $tableRowClass = "alert_nd";
-					                                break;
-					                            default:
-					                                $tableRowClass = "undefined";
-					                                break;
-					                        }
+		    	<div class="row">
+			    	<div class="panel panel-default">
+						<div class="panel-heading">Latest Site Alerts</div>
+						<div class="panel-body clearfix">
+							<div class="col-md-12"><div class="table-responsive">
+				                <table class="table" id="table">
+				                    <thead>
+				                        <tr>
+				                            <th class="col-sm-1">Site Name</th>
+				                            <th class="col-sm-2">Initial Trigger Timestamp</th>
+				                            <th class="col-sm-2">Latest Re-trigger Timestamp</th>
+				                            <th class="col-sm-1">Internal Alert</th>
+				                            <th class="col-sm-2">Validity</th>
+				                            <th class="col-sm-2">Last Alert Release</th>
+				                        </tr>
+				                    </thead>
+				                    <tbody>
+				                    <?php
+				                    	if($latest != NULL)
+				                    	{
+						                    foreach ($latest as $row) 
+						                    {
+						                        switch (strtoupper($row->public_alert))
+						                        {
+						                            case 'A2':
+						                                $tableRowClass= "alert_01";
+						                                break;
+						                            case 'ND-D':case 'ND-E':
+						                            case 'ND-L':case 'ND-R':
+						                            case 'A1-D':case 'A1-E':
+						                            case 'A1-R':case 'A1':
+						                                $tableRowClass = "alert_02";
+						                                break;
+						                            case 'A3':
+						                                $tableRowClass = "alert_00";
+						                                break;
+						                            case 'ND':case 'A0':
+						                                $tableRowClass = "alert_nd";
+						                                break;
+						                            default:
+						                                $tableRowClass = "undefined";
+						                                break;
+						                        }
 
-					                       echo "<tr class='". $tableRowClass ."'>";
-					                       echo "<td><a href='" . base_url() . "gold/publicrelease/individual/" . $row->alert_id . "'>"
-					                            . $row->barangay."</a></td>";
-					                        echo "<td>".$row->internal_alert."</td>";
-					                        echo "<td>". date("j F Y, h:i A" , strtotime($row->initial)) ."</td>";
-					                        if($row->retrigger == null)
-					                        	echo "<td>No record</td>";
-					                        else echo "<td>". date("j F Y, h:i A" , strtotime($row->retrigger))."</td>";
-					                        echo "<td>". date("j F Y, h:i A" , $row->validity) ."</td>";
-					                        echo "</tr>";  
+						                   		echo "<tr class='". $tableRowClass ."'>";
+						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/individual/" . $row->alert_id . "'>"
+						                            . $row->barangay."</a></td>";
+						                        echo "<td>". date("j F Y\<\b\\r\>g:i:s" , strtotime($row->initial)) ."</td>";
+						                        if($row->retrigger == null)
+						                        	echo "<td>No record</td>";
+						                        else echo "<td>". date("j F Y\<\b\\r\>g:i:s" , strtotime($row->retrigger))."</td>";
+						                        echo "<td>".$row->internal_alert."</td>";
+						                        echo "<td>". date("j F Y\<\b\\r\>g:i:s" , $row->validity) ."</td>";
+						                        echo "<td>". date("j F Y\<\b\\r\>g:i:s" , $row->time_released) ."</td>";
+						                        echo "</tr>";  
 
-					                        //date("j F Y, h:i A" , strtotime($row->timestamp))     
-					                    }
-					                }
-				                ?>
-			                    </tbody>
-			              </table>
+						                        //date("j F Y, h:i A" , strtotime($row->timestamp))     
+						                    }
+						                }
+					                ?>
+				                    </tbody>
+				              </table>
+							</div></div>
+				    	</div>
 					</div>
 				</div>
-		    </div>
-		</div>
 
-		<div class="row" style="margin-right:0;">
-			<a type="submit" class="btn btn-danger btn-md pull-right" id="back">Release Public Alert</a>
-	    	<!-- <a type="submit" class="btn btn-info btn-md pull-right" id="home">Home</a> -->
-	    </div>
+				<div class="row" style="margin:0 0 15px 0;">
+					<a type="submit" class="btn btn-danger btn-md pull-right" id="back">Release Public Alert</a>
+			    	<!-- <a type="submit" class="btn btn-info btn-md pull-right" id="home">Home</a> -->
+			    </div>
+
+			    <div class="row">
+			    	<div class="panel panel-default">
+						<div class="panel-heading">Sites with Due Alerts</div>
+						<div class="panel-body clearfix">
+							<div class="col-md-12"><div class="table-responsive">
+				                <table class="table" id="overdue">
+				                    <thead>
+				                        <tr>
+				                            <th class="col-sm-1">Site Name</th>
+				                            <th class="col-sm-2">Initial Trigger Timestamp</th>
+				                            <th class="col-sm-2">Latest Re-trigger Timestamp</th>
+				                            <th class="col-sm-1">Internal Alert</th>
+				                            <th class="col-sm-2">Validity</th>
+				                            <th class="col-sm-2">Last Alert Release</th>
+				                        </tr>
+				                    </thead>
+				                    <tbody>
+				                    <?php
+				                    	if($overdue != NULL)
+				                    	{
+						                    foreach ($overdue as $row) 
+						                    {
+						                        switch (strtoupper($row->public_alert))
+						                        {
+						                            case 'A2':
+						                                $tableRowClass= "alert_01";
+						                                break;
+						                            case 'ND-D':case 'ND-E':
+						                            case 'ND-L':case 'ND-R':
+						                            case 'A1-D':case 'A1-E':
+						                            case 'A1-R':case 'A1':
+						                                $tableRowClass = "alert_02";
+						                                break;
+						                            case 'A3':
+						                                $tableRowClass = "alert_00";
+						                                break;
+						                            case 'ND':case 'A0':
+						                                $tableRowClass = "alert_nd";
+						                                break;
+						                            default:
+						                                $tableRowClass = "undefined";
+						                                break;
+						                        }
+
+						                   		echo "<tr class='". $tableRowClass ."'>";
+						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/individual/" . $row->alert_id . "'>"
+						                            . $row->barangay."</a></td>";
+						                        echo "<td>". date("j F Y\<\b\\r\>g:i:s" , strtotime($row->initial)) ."</td>";
+						                        if($row->retrigger == null)
+						                        	echo "<td>No record</td>";
+						                        else echo "<td>". date("j F Y\<\b\\r\>g:i:s" , strtotime($row->retrigger))."</td>";
+						                        echo "<td>".$row->internal_alert."</td>";
+						                        echo "<td>". date("j F Y\<\b\\r\>g:i:s" , $row->validity) ."</td>";
+						                        echo "<td>". date("j F Y\<\b\\r\>g:i:s" , $row->time_released) ."</td>";
+						                        echo "</tr>";  
+
+						                        //date("j F Y, h:i A" , strtotime($row->timestamp))     
+						                    }
+						                }
+					                ?>
+				                    </tbody>
+				              </table>
+							</div></div>
+				    	</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 	    <div class="fill"></div>
 
@@ -264,15 +348,15 @@
 		}
 	}
 
-	fillDiv(30);
+	fillDiv(20);
 
 	$("#back").attr("href", "<?php echo base_url(); ?>gold/publicrelease");
 	$("#home").attr("href", "<?php echo base_url(); ?>gold");
 
 	$('#table').DataTable({
 		"columnDefs": [
-			{ className: "text-left", "targets": [ 0, 1 ] },
-	 		{ className: "text-right", "targets": [ 2, 3, 4 ] }
+			{ className: "text-left", "targets": [ 0, 3 ] },
+	 		{ className: "text-right", "targets": [ 1, 2, 4, 5 ] }
 		],
     	"order" : [[4, "asc"]],
     	"processing": true,
@@ -285,11 +369,34 @@
 	    }
     });
 
+    $('#overdue').DataTable({
+		"columnDefs": [
+			{ className: "text-left", "targets": [ 0, 3 ] },
+	 		{ className: "text-right", "targets": [ 1, 2, 4, 5 ] }
+		],
+    	"order" : [[4, "asc"]],
+    	"processing": true,
+    	"filter": false,
+    	"info": false,
+    	"paginate": false,
+    	"language": 
+    	{
+	        "emptyTable": "There are no sites with overdue alerts."
+	    }
+    });
+
     if ($("#table").dataTable().fnSettings().aoData.length == 0)
     {
-        $(".dataTables_empty").css({"font-size": "40px", "padding": "100px"})
-        $("thead").remove();
+        $("#table .dataTables_empty").css({"font-size": "20px", "padding": "40px"})
+        $("#table thead").remove();
     }
+
+    if ($("#overdue").dataTable().fnSettings().aoData.length == 0)
+    {
+        $("#overdue .dataTables_empty").css({"font-size": "20px", "padding": "40px"})
+        $("#overdue thead").remove();
+    }
+
 
 	function initialize_map() 
 	{
