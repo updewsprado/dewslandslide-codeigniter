@@ -413,10 +413,10 @@
 	    if(new Date().getTime() - time >= 60000) 
 	        window.location.reload(true);
 	    else 
-	        setTimeout(refresh, 300000);
+	        setTimeout(refresh, 1.8e+6);
 	}
 
-	setTimeout(refresh, 300000);
+	setTimeout(refresh, 1.8e+6);
 
 	/**
 	 *	Fill the remaining empty space with <br>
