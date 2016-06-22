@@ -23,7 +23,7 @@
 	
 	#map-canvas { 
     	width: auto;
-    	max-height: 500px;
+    	/*max-height: 1000px;*/
     }
 
     table {
@@ -307,11 +307,6 @@
 					</div>
 				</div>
 
-				<div class="row" style="margin:0 0 15px 0;">
-					<a type="submit" class="btn btn-danger btn-md pull-right" id="back">Release Public Alert</a>
-			    	<!-- <a type="submit" class="btn btn-info btn-md pull-right" id="home">Home</a> -->
-			    </div>
-
 			    <div class="row">
 			    	<div class="panel panel-default">
 						<div class="panel-heading">Sites with Due Alerts</div>
@@ -378,6 +373,12 @@
 				    	</div>
 					</div>
 				</div>
+
+				<div class="row">
+					<a type="submit" class="btn btn-danger btn-md pull-right" id="back">Release Public Alert</a>
+			    	<!-- <a type="submit" class="btn btn-info btn-md pull-right" id="home">Home</a> -->
+			    </div>
+
 			</div>
 		</div>
 
