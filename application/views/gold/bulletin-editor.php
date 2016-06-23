@@ -48,7 +48,6 @@
 	if (!isset($validity)) $validity = $data->entry_timestamp;
 
 	$validity = roundTime($validity);
-	$timestamp_copy = roundTime($data->entry_timestamp);
 	
 	$release = date("j F Y", $data->entry_timestamp) . ", " . date("h:i A", $data->time_released);
 
@@ -56,9 +55,15 @@
 		$release = date("j F Y, h:i A", strtotime($release) + (3600*24));
 
 	if(isInstantaneous($data->entry_timestamp))
+	{
 		$release = strtotime($release);
+		$timestamp_copy = roundTime($data->entry_timestamp) - (4 * 3600);
+	}
 	else
+	{
 		$release = roundTime(strtotime($release), 1);
+		$timestamp_copy = roundTime($data->entry_timestamp);
+	}
 	
 
 	function roundTime($timestamp, $release = 0)
@@ -80,7 +85,10 @@
 			else $timestamp = $timestamp - 3600;
 		}
 		else
+		{
 			$timestamp = $timestamp + (4 - $hours)*3600;
+		}
+
 		return $timestamp;
 	}
 
