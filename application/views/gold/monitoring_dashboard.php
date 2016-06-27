@@ -102,7 +102,7 @@
 			$timestamp = $release->entry_timestamp;
 			$timestamp = strtotime($timestamp);
 			$start = strtotime('tomorrow noon', $timestamp);
-			$end = strtotime('+3 days', $start);
+			$end = strtotime('+2 days', $start);
 
 			if (strtotime('now') <= $end)
 			{
