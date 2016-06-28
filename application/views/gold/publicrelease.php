@@ -346,7 +346,7 @@
          *
          * @type       {<type>}
          */
-        var retriggerList = null, validity_global = null;
+        var suggestions = null, retriggerList = null, validity_global = null;
         $('#site, .datetime#entry').bind('change dp.change', function () 
         {
             //console.log("Fired!");
@@ -359,7 +359,7 @@
                 getRecentRelease(site, function (result) 
                 {
                     //console.log(result);
-                    var suggestions = suggestInput(result);
+                    suggestions = suggestInput(result);
                     console.log(suggestions, result.public_alert_level, result.site);
 
                     if( suggestions != null ) // Check if recent site has heightened alert
@@ -375,6 +375,7 @@
 
                         // Get the validity of the recent alert for the site
                         var validity = getValidity(initial, retrigger, result.public_alert_level);
+                        validity_global = validity.format("YYYY-MM-DD HH:ss:mm");
                         console.log(validity.format("M/D/YYYY hh:mm A"));
 
                         var start = retrigger != null ? retrigger : initial;
@@ -393,7 +394,7 @@
                                 str = str.replace("[RETRIGGER]", "There are no retriggering of the alert at the moment");
                             else
                             {
-                                validity_global = validity;
+                                validity_global = validity.format("YYYY-MM-DD HH:ss:mm");
                                 var list = retriggerList.slice(); 
                                 var temp = "There is/are also alert retrigger/s detected last ";
                                 for (var i = 0; i < list.length; i++) {
@@ -538,6 +539,16 @@
                     else timestamp_retrigger = retriggerList.join(",")
                 }
 
+                var validity = "", previous_alert = "";
+                if(internal_alert_level == "A0" && suggestions != null )
+                {
+
+                    timestamp_initial_trigger = suggestions.timestamp_initial_trigger;
+                    timestamp_retrigger = suggestions.timestamp_retrigger;
+                    previous_alert = suggestions.previous_alert;
+                    validity = validity_global;
+                }
+
                 var formData = {
                     timestamp_entry: timestamp_entry,
                     time_released: time_released,
@@ -553,10 +564,12 @@
                     magnitude: magnitude,
                     epicenter: epicenter,
                     timestamp_initial_trigger: timestamp_initial_trigger,
-                    timestamp_retrigger: timestamp_retrigger
+                    timestamp_retrigger: timestamp_retrigger,
+                    validity: validity,
+                    previous_alert: previous_alert
                 };
 
-                //console.log(formData);
+                console.log(formData);
 
                 $.ajax({
                     url: "<?php echo base_url(); ?>pubrelease/insertData",
@@ -681,15 +694,15 @@
         var suggestions = null;
         switch(result.internal_alert_level)
         {
-            case "A1-E": case "ND-E": suggestions = parser(commentsLookUp[1], result.comments); break;
-            case "A1-R": case "ND-R": suggestions = parser(commentsLookUp[2], result.comments); break;
-            case "A2": case "A3": suggestions = parser(commentsLookUp[3], result.comments); break;
+            case "A1-E": case "ND-E": suggestions = parser(commentsLookUp[1], result.comments, result.internal_alert_level); break;
+            case "A1-R": case "ND-R": suggestions = parser(commentsLookUp[2], result.comments, result.internal_alert_level); break;
+            case "A2": case "A3": case "ND-L": suggestions = parser(commentsLookUp[3], result.comments, result.internal_alert_level); break;
         }
 
         return suggestions;
     }
 
-    function parser(lookup, temp)
+    function parser(lookup, temp, alert_level)
     {
         var x = lookup.indexOf("timestamp_initial_trigger");
         var y = lookup.indexOf("timestamp_retrigger");
@@ -697,7 +710,8 @@
 
         var timestamps = {
             "timestamp_initial_trigger" : (str[x] == "" ? null : str[x]),
-            "timestamp_retrigger" : (str[y] == "" ? null : str[y])
+            "timestamp_retrigger" : (str[y] == "" ? null : str[y]),
+            "previous_alert" : alert_level
         }
         return timestamps;
     }

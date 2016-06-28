@@ -6,6 +6,7 @@ class Pubrelease extends CI_Controller {
 		parent::__construct();
 		$this->load->helper('url');
 		$this->load->model('pubrelease_model');
+		$this->load->library('../controllers/monitoring');
 	}
 
 	public function index()
@@ -79,7 +80,7 @@ class Pubrelease extends CI_Controller {
 		} else if ($alert == "A2" || $alert == "A3" || $alert == "ND-L") {
 			$data2['comments'] = $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $comments;
 		} else if ($alert == "A0"  && $comments != "") {
-			$data2['comments'] = $comments;
+			$data2['comments'] = $comments . ";" . $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $_POST["validity"] . ";" . $_POST["previous_alert"];
 		}
 
 		if ($bool == 0) //Insert Data

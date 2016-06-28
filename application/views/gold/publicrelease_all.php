@@ -1,3 +1,15 @@
+<!--
+    
+     Refined by: Kevin Dhale dela Cruz
+     
+     A view form for all public release reports
+     located at /application/views/gold/
+     
+     Linked at [host]/gold/publicrelease/all
+     
+ -->
+
+
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/u/bs/dt-1.10.12,b-1.2.0,fh-3.1.2,r-2.1.0/datatables.min.css"/>
 
@@ -11,6 +23,15 @@
 <?php 
     
     $releases = json_decode($releases);
+
+    function amPmConverter($date)
+    {
+        $temp = strtotime($date);
+        $hour = date("G", $temp);
+        if( $hour == 0 ) return date("j F Y, h:i \M\N", $temp);
+        elseif ($hour == 12) return date("j F Y, h:i \N\N", $temp);
+        else return date("j F Y, h:i A", $temp);
+    }
 
 ?>
 

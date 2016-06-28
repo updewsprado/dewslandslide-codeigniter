@@ -236,6 +236,12 @@
 
 					$llmc_lgu = "";
 					$str_entry_timestamp = strtotime($release[0]->entry_timestamp);
+
+					if(isInstantaneous($str_entry_timestamp))
+						$str_entry_timestamp = roundTime($str_entry_timestamp) - (4 * 3600);
+					else
+						$str_entry_timestamp = roundTime($str_entry_timestamp);
+
 					$temp = date("j F Y, h:i A" , $str_entry_timestamp + (3.5 * 3600));
 					$time = date("h:i A" , $str_entry_timestamp + (3.5 * 3600));
 					$time = date_create_from_format('h:i A', $time);
@@ -362,6 +368,40 @@
 			$list[$i] = date("j F Y, h:i A" , strtotime($list[$i]));
 		}
 		return implode(", ", $list);
+	}
+
+	function roundTime($timestamp, $release = 0)
+	{
+		/*** Adjust timestamp to nearest hour if minutes are not 00 ***/
+		$minutes = (int)(date('i', $timestamp));
+		if ($minutes == 0) $minutes = 60;
+		else $minutes = $minutes;
+		$timestamp = $timestamp + (60 - $minutes)*60;
+
+		/*** Round the time value to the nearest interval (4, 8, 12) ***/
+		$hours = date('h', $timestamp);
+		if ((int)$hours % 4 == 0)  $hours = 4;
+		else $hours = (int) $hours % 4;
+
+		if ($release == 1)
+		{
+			if($minutes == 60) $timestamp = $timestamp;
+			else $timestamp = $timestamp - 3600;
+		}
+		else
+		{
+			$timestamp = $timestamp + (4 - $hours)*3600;
+		}
+
+		return $timestamp;
+	}
+
+	function isInstantaneous($entry)
+	{
+		if( ((int)(date('h', $entry) % 4 == 3)) && ((int)(date('i', $entry) == 30)) )
+			return false;
+		else
+			return true;
 	}
 
 ?>
