@@ -79,7 +79,7 @@ class Pubrelease extends CI_Controller {
 			$data2['comments'] = $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger;
 		} else if ($alert == "A2" || $alert == "A3" || $alert == "ND-L") {
 			$data2['comments'] = $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $comments;
-		} else if ($alert == "A0"  && $comments != "") {
+		} else if ($alert == "A0") {
 			$data2['comments'] = $comments . ";" . $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $_POST["validity"] . ";" . $_POST["previous_alert"];
 		}
 
