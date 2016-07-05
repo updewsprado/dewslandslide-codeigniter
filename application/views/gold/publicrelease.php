@@ -358,11 +358,11 @@
             {
                 getRecentRelease(site, function (result) 
                 {
-                    //console.log(result);
+                    console.log(result);
                     suggestions = suggestInput(result);
                     console.log(suggestions, result.public_alert_level, result.site);
 
-                    if( suggestions != null ) // Check if recent site has heightened alert
+                    if( suggestions.previous_alert != "A0" && suggestions.previous_alert != "ND" ) // Check if recent site has heightened alert
                     {
                         var initial = suggestions.timestamp_initial_trigger;
                         var retrigger = null; //Initialize null as status quo
@@ -539,14 +539,12 @@
                     else timestamp_retrigger = retriggerList.join(",")
                 }
 
-                var validity = "", previous_alert = "";
                 if(internal_alert_level == "A0" && suggestions != null )
                 {
-
                     timestamp_initial_trigger = suggestions.timestamp_initial_trigger;
                     timestamp_retrigger = suggestions.timestamp_retrigger;
                     previous_alert = suggestions.previous_alert;
-                    validity = validity_global;
+                    validity = suggestions.validity;
                 }
 
                 var formData = {
@@ -684,19 +682,35 @@
 
     function suggestInput(result)
     {
+        // var commentsLookUp = [
+        //     ["alertGroups", "request_reason", "comments"],
+        //     ["magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger"],
+        //     ["timestamp_initial_trigger", "comments", "timestamp_retrigger"],
+        //     ["timestamp_initial_trigger", "timestamp_retrigger", "comments" ]
+        // ];
+
         var commentsLookUp = [
+            ["comments", "timestamp_initial_trigger", "timestamp_retrigger", "validity", "previous_alert"],
             ["alertGroups", "request_reason", "comments"],
             ["magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger"],
             ["timestamp_initial_trigger", "comments", "timestamp_retrigger"],
             ["timestamp_initial_trigger", "timestamp_retrigger", "comments" ]
         ];
 
-        var suggestions = null;
+        var suggestions = {};
         switch(result.internal_alert_level)
         {
-            case "A1-E": case "ND-E": suggestions = parser(commentsLookUp[1], result.comments, result.internal_alert_level); break;
-            case "A1-R": case "ND-R": suggestions = parser(commentsLookUp[2], result.comments, result.internal_alert_level); break;
-            case "A2": case "A3": case "ND-L": suggestions = parser(commentsLookUp[3], result.comments, result.internal_alert_level); break;
+            case "A0": case "ND": 
+                //if comments is ;;;;; ROUTINE else if ;x;x;x;x; EXTENDED
+                // if (typeof temp[4] != 'undefined')
+                // {
+                //     suggestions = parser(commentsLookUp[0], result.comments, result.internal_alert_level); break;
+                // }
+                suggestions = parser(commentsLookUp[0], result.comments, result.internal_alert_level); break;
+                break;
+            case "A1-E": case "ND-E": suggestions = parser(commentsLookUp[2], result.comments, result.internal_alert_level); break;
+            case "A1-R": case "ND-R": suggestions = parser(commentsLookUp[3], result.comments, result.internal_alert_level); break;
+            case "A2": case "A3": case "ND-L": suggestions = parser(commentsLookUp[4], result.comments, result.internal_alert_level); break;
         }
 
         return suggestions;
@@ -704,17 +718,33 @@
 
     function parser(lookup, temp, alert_level)
     {
-        var x = lookup.indexOf("timestamp_initial_trigger");
-        var y = lookup.indexOf("timestamp_retrigger");
-        var str = temp.split(";");
+        var str = [];
+        if (temp != null) str = temp.split(";");
+        var timestamps = [];
 
-        var timestamps = {
-            "timestamp_initial_trigger" : (str[x] == "" ? null : str[x]),
-            "timestamp_retrigger" : (str[y] == "" ? null : str[y]),
-            "previous_alert" : alert_level
-        }
+        lookup.forEach(function (item, index, array) 
+        {
+            timestamps[item] = ((str[index] == "" || typeof str[index] == 'undefined') ? null : str[index]);
+        });
+
+        timestamps.previous_alert = alert_level;
+    
         return timestamps;
     }
+
+    // function parser(lookup, temp, alert_level)
+    // {
+    //     var x = lookup.indexOf("timestamp_initial_trigger");
+    //     var y = lookup.indexOf("timestamp_retrigger");
+    //     var str = temp.split(";");
+
+    //     var timestamps = {
+    //         "timestamp_initial_trigger" : (str[x] == "" ? null : str[x]),
+    //         "timestamp_retrigger" : (str[y] == "" ? null : str[y]),
+    //         "previous_alert" : alert_level
+    //     }
+    //     return timestamps;
+    // }
 
     function getValidity(initial, retrigger, alert_level) 
     {

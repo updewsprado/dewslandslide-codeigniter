@@ -64,7 +64,7 @@
 	foreach ($releases as $release) 
 	{
 		/* Get all non-A0 alerts for evaluation of validity */
-		if($release->internal_alert != "A0")
+		if($release->internal_alert != "A0" && $release->internal_alert != "ND")
 		{
 			$timestamp = parser($release->internal_alert, $release->comments);
 			$release->validity = getValidity($timestamp['initial'], $timestamp['retrigger'], $release->public_alert);
@@ -96,20 +96,26 @@
 				$overdue[$j++] = $release;
 			}
 		}
-		/* Get Recent A0 alerts for evaluation for 3-day extended monitoring */
+		/* Get Recent A0/ND alerts for evaluation for 3-day extended monitoring */
 		else 
 		{
-			$timestamp = $release->entry_timestamp;
-			$timestamp = strtotime($timestamp);
-			$start = strtotime('tomorrow noon', $timestamp);
-			$end = strtotime('+2 days', $start);
+			
+			$temp = explode(';', $release->comments);
 
-			if (strtotime('now') <= $end)
+			if( isset($temp[3]) ) // If validity is isset
 			{
-				$release->validity = getValidity(strtotime($release->entry_timestamp), null, $release->public_alert);
-				$release->start = $start;
-				$release->end = $end;
-				$extended[$k++] = $release;
+				$timestamp = $temp[3]; // Get validity
+				$timestamp = strtotime($timestamp);
+				$start = strtotime('tomorrow noon', $timestamp);
+				$end = strtotime('+2 days', $start);
+
+				if (strtotime('now') <= $end)
+				{
+					$release->validity = $timestamp;
+					$release->start = $start;
+					$release->end = $end;
+					$extended[$k++] = $release;
+				}
 			}
 			
 		}

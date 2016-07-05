@@ -703,7 +703,7 @@
                 {
                     "data": "public_alert_id", 
                     "render": function (data, type, full) {
-                        return "<a href='<?php echo base_url(); ?>gold/sitemaintenancereport/individual/" + full.public_alert_id + "'>" + full.public_alert_id + "</a>";
+                        return "<a href='<?php echo base_url(); ?>gold/publicrelease/individual/" + full.public_alert_id + "'>" + full.public_alert_id + "</a>";
                     },
                     "name": 'public_alert_id',
                     className: "text-center"
