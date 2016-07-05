@@ -539,6 +539,7 @@
                     else timestamp_retrigger = retriggerList.join(",")
                 }
 
+                var validity = "", previous_alert = "";
                 if(internal_alert_level == "A0" && suggestions != null )
                 {
                     timestamp_initial_trigger = suggestions.timestamp_initial_trigger;
