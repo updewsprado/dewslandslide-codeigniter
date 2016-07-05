@@ -99,10 +99,8 @@
 		/* Get Recent A0/ND alerts for evaluation for 3-day extended monitoring */
 		else 
 		{
-			
 			$temp = explode(';', $release->comments);
-
-			if( isset($temp[3]) ) // If validity is isset
+			if( isset($temp[3]) && $temp[3] != '' ) // If validity is isset
 			{
 				$timestamp = $temp[3]; // Get validity
 				$timestamp = strtotime($timestamp);
