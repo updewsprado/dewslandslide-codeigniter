@@ -67,7 +67,11 @@
 		if($release->internal_alert != "A0" && $release->internal_alert != "ND")
 		{
 			$timestamp = parser($release->internal_alert, $release->comments);
-			$release->validity = getValidity($timestamp['initial'], $timestamp['retrigger'], $release->public_alert);
+
+			if($timestamp['validity'] != null)
+				$release->validity = strtotime($timestamp['validity']);
+			else
+				$release->validity = getValidity($timestamp['initial'], $timestamp['retrigger'], $release->public_alert);
 
 			$temp = date("j F Y", strtotime($release->entry_timestamp)) . ", " . date("h:i A", strtotime($release->time_released));
 			$temp = strtotime($temp);
@@ -119,37 +123,51 @@
 		}
 	}
 
+	/*function parser(lookup, temp, alert_level)
+    {
+        var str = [];
+        if (temp != null) str = temp.split(";");
+        var timestamps = [];
+
+        lookup.forEach(function (item, index, array) 
+        {
+            timestamps[item] = ((str[index] == "" || typeof str[index] == 'undefined') ? null : str[index]);
+        });
+
+        timestamps.previous_alert = alert_level;
+    
+        return timestamps;
+    }*/
+
 	function parser($internal_alert_level, $info) 
 	{
+		$commentsLookUp = [
+	        ["comments", "initial", "retrigger", "validity", "previous_alert"],
+	        ["alertGroups", "request_reason", "comments", "validity"],
+	        ["magnitude", "epicenter", "initial", "comments", "retrigger", "validity"],
+	        ["initial", "comments", "retrigger", "validity"],
+	        ["initial", "retrigger", "comments", "validity"]
+	    ];
+
 		$list = explode(";", $info);
 		$timestamp;
 
-		switch ($internal_alert_level) {
-			case 'A1-D':
-			case 'ND-D':
-				$timestamp['initial'] = null;
-	    		$timestamp['retrigger'] = null;
-				break;
-			case 'A1-E':
-			case 'ND-E':
-	    		$timestamp['initial'] = (isset($list[2])) ? $list[2] : null;
-	    		$timestamp['retrigger'] = (isset($list[4]) && $list[4] != "") ? retriggers($list[4]) : null;
-				break;
-			case 'A1-R':
-			case 'ND-R':
-				$timestamp['initial'] = (isset($list[0])) ? $list[0] : null;
-				$timestamp['retrigger'] = (isset($list[2]) && $list[2] != "") ? retriggers($list[2]) : null;
-				break;
-			case 'A2':
-			case 'ND-L':
-				$timestamp['initial'] = (isset($list[0])) ? $list[0] : null;
-	    		$timestamp['retrigger'] = (isset($list[1]) && $list[1] != "") ? retriggers($list[1]) : null;
-				break;
-			case 'A3':
-				$timestamp['initial'] = (isset($list[0])) ? $list[0] : null;
-	    		$timestamp['retrigger'] = (isset($list[1]) && $list[1] != "") ? retriggers($list[1]) : null;
-				break;
+		$x = 0;
+		switch ($internal_alert_level) 
+		{
+			case 'A1-D': case 'ND-D': $x = 1; break;
+			case 'A1-E': case 'ND-E': $x = 2; break;
+			case 'A1-R': case 'ND-R': $x = 3; break;
+			case 'A2': case 'ND-L':
+			case 'A3':	$x = 4; break;
 		}
+
+		$elem = $commentsLookUp[$x];
+		for ($i=0; $i < count($elem) ; $i++) 
+			$timestamp[$elem[$i]] = (isset($list[$i])) ? $list[$i] : null;
+
+		if( $internal_alert_level != "A1-D" && $internal_alert_level != "ND-D" )
+			$timestamp['retrigger'] = ($timestamp['retrigger'] != null) ? retriggers($timestamp['retrigger']) : null;
 
 		return $timestamp;
 	}

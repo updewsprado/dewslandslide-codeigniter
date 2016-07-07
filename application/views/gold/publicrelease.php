@@ -27,6 +27,14 @@
         bottom: 6px;
     }
 
+    #suggestions .panel-body {
+        background-color: rgba(235, 204, 204, 0.5);
+    }
+
+    .highlight {
+        color: red;
+    }
+
     .checkbox.a1d {
         padding-left: 80px;
     }
@@ -97,7 +105,7 @@
 
             <div class="form-group col-sm-4">
                 <label for="public_alert_level">Public Alert Level</label>
-                <input type="text" class="form-control" id="public_alert_level" name="public_alert_level" placeholder="Select an internal alert level" disabled>     
+                <input type="text" class="form-control" id="public_alert_level" name="public_alert_level" placeholder="Select an internal alert level" readonly="true">     
             </div>
         </div>   
         
@@ -166,7 +174,7 @@
         <!-- SUggestions Field for Continuous and Retriggers -->
         <div class="row" id="suggestions" hidden>
             <div class="col-sm-12">
-                <div class="panel panel-info">
+                <div class="panel panel-danger">
                     <div class="panel-heading"><span class="glyphicon glyphicon-info-sign" style="top:2px;"></span>&nbsp;&nbsp;<b>Site Information</b></div>
                     <div class="panel-body">
                         <h5 class="col-sm-12" id="initial">This site is under continuous monitoring for being under <b>Alert Level [ALERT]</b>, with initial trigger timestamp of <b>[INITIAL]</b>. [RETRIGGER]</h5>
@@ -346,7 +354,10 @@
          *
          * @type       {<type>}
          */
-        var suggestions = null, retriggerList = null, validity_global = null;
+        var suggestions = null, 
+            retriggerList = null, 
+            validity_global = null,
+            computed_validity =  null;
         $('#site, .datetime#entry').bind('change dp.change', function () 
         {
             //console.log("Fired!");
@@ -374,9 +385,15 @@
                         }
 
                         // Get the validity of the recent alert for the site
-                        var validity = getValidity(initial, retrigger, result.public_alert_level);
-                        validity_global = validity.format("YYYY-MM-DD HH:ss:mm");
-                        console.log(validity.format("M/D/YYYY hh:mm A"));
+                        var validity = "";
+                        computed_validity = getValidity(initial, retrigger, result.public_alert_level);
+                        if(suggestions.validity != null && suggestions.validity != "" && moment(suggestions.validity).isSameOrAfter(computed_validity) )
+                            validity = suggestions.validity
+                        else
+                            validity = computed_validity;
+
+                        validity_global = moment(validity).format("YYYY-MM-DD HH:ss:mm");
+                        console.log(moment(validity).format("M/D/YYYY hh:mm A"));
 
                         var start = retrigger != null ? retrigger : initial;
                         // Check if entry timestamp is before or equal the validity
@@ -386,15 +403,14 @@
                             $("#timestamp_initial_trigger").val(initial);
                             $("#internal_alert_level").val(result.internal_alert_level).trigger("change");
 
-                            var str = "This site is under continuous monitoring for being under <b>Alert Level [ALERT]</b>, with initial trigger timestamp of <b>[INITIAL]</b>. [RETRIGGER]. The alert is valid until <b>[VALIDITY]</b>.";
+                            var str = "This site is under continuous monitoring for being under <b>Alert Level [ALERT]</b>, with initial trigger timestamp of <b>[INITIAL]</b>. [RETRIGGER]. [ND]. The alert is valid until <b>[VALIDITY]</b>.";
                             str = str.replace("[ALERT]", result.internal_alert_level)
-                                    .replace("[INITIAL]", moment(initial).format("DD MMMM Y, hh:mm A")).replace("[VALIDITY]", moment(validity).format("DD MMMM Y, hh:mm A"));
+                                    .replace("[INITIAL]", moment(initial).format("DD MMMM Y, hh:mm A"));
 
                             if(retriggerList == null)
                                 str = str.replace("[RETRIGGER]", "There are no retriggering of the alert at the moment");
                             else
                             {
-                                validity_global = validity.format("YYYY-MM-DD HH:ss:mm");
                                 var list = retriggerList.slice(); 
                                 var temp = "There is/are also alert retrigger/s detected last ";
                                 for (var i = 0; i < list.length; i++) {
@@ -403,6 +419,31 @@
                                 temp = temp + list.join(", ");
                                 str = str.replace("[RETRIGGER]", temp);
                             }
+
+                            // Replacing the ND-E/L/R part on suggestions
+                            switch(result.internal_alert_level)
+                            {
+                                case "ND-E": case "ND-R":
+                                case "ND-R":
+                                    // If the saved validity from the release is greater // than the computed validity, there is extension
+                                    // through ND-(X)
+                                    if( moment(validity).isAfter(computed_validity) )
+                                    {
+                                        var duration = moment.duration(moment(validity).diff(computed_validity));
+                                        var hours = duration.asHours();
+                                        console.log("Hour difference: ", hours);
+                                        hours = hours/4;
+                                        str = str.replace("[ND]", "The original validity of the alert is <b>" + moment(computed_validity).format("DD MMMM Y, hh:mm A") + "</b> and extended in the past <b>" + hours + " release/s</b> due to unavailability of sensor and ground data");
+                                    } else
+                                    {
+                                        str = str.replace("[ND]. ", "");
+                                    }
+                                    break;
+                                default:
+                                    str = str.replace("[ND]. ", ""); break;
+                            }
+
+                            str = str.replace("[VALIDITY]", moment(validity).format("DD MMMM Y, hh:mm A"));
 
                             $("#initial").html(str);
                             $("#suggestions").show();
@@ -531,6 +572,14 @@
                 var request_reason = $("#request_reason").val();
                 var magnitude = $("#magnitude").val();
                 var epicenter = $("#epicenter").val();
+                var previous_alert = "";
+
+                // Adjust the validity to be saved if re-trigger exists;
+                // Also a safeguard for unlowered A0 release
+                var public_alert = $("#public_alert_level").val();
+                var temp1 = timestamp_retrigger == "" ? null : timestamp_retrigger;
+                var temp = getValidity(timestamp_initial_trigger, temp1, public_alert).format("YYYY-MM-DD HH:ss:mm");
+                var validity = moment(validity_global).isSameOrAfter(temp) ? validity_global : temp;
 
                 if(retriggerList != null)
                 {
@@ -539,13 +588,18 @@
                     else timestamp_retrigger = retriggerList.join(",")
                 }
 
-                var validity = "", previous_alert = "";
                 if(internal_alert_level == "A0" && suggestions != null )
                 {
                     timestamp_initial_trigger = suggestions.timestamp_initial_trigger;
                     timestamp_retrigger = suggestions.timestamp_retrigger;
                     previous_alert = suggestions.previous_alert;
                     validity = suggestions.validity;
+                }
+                // ADD FOUR HOURS IF ND-(X) AND END OR MORE OF COMPUTED VALIDITY 
+                else if (internal_alert_level == "ND-L" || internal_alert_level == "ND-E" || internal_alert_level == "ND-R")
+                {
+                    if(moment(validity).isSameOrAfter(computed_validity))
+                        validity = moment(validity).add(4, "hours").format("YYYY-MM-DD HH:ss:mm");
                 }
 
                 var formData = {
@@ -626,7 +680,7 @@
                       $('#dependent_fields_a1e').show();
                       $('.dependentFieldSuppInfoGround').show(); 
                       $("label[for='timestamp_initial_trigger']").html("Timestamp of Initial Earthquake Trigger");
-                      $("label[for='timestamp_retrigger']").html("Timestamp of New Significant/Critical Earthquake Retrigger (if any)");
+                      $("label[for='timestamp_retrigger']").html("Timestamp of <span class='highlight'>NEW</span> Significant/Critical Earthquake Retrigger <span class='highlight'>(if any)</span>");
                       break;
                 case "A1-R":
                 case "ND-R":
@@ -635,7 +689,7 @@
                       $('#dependent_fields_a1e').hide();
                       $('.dependentFieldSuppInfoGround').show();
                       $("label[for='timestamp_initial_trigger']").html("Timestamp of Initial Rainfall Trigger");
-                      $("label[for='timestamp_retrigger']").html("Timestamp of New Significant/Critical Rainfall Retrigger (if any)");
+                      $("label[for='timestamp_retrigger']").html("Timestamp of <span class='highlight'>NEW</span> Significant/Critical Rainfall Retrigger <span class='highlight'>(if any)</span>");
                       break; 
                 case "A2":
                 case "A3":
@@ -645,7 +699,7 @@
                       $('#dependent_fields_a1e').hide();
                       $('.dependentFieldSuppInfoGround').show();
                       $("label[for='timestamp_initial_trigger']").html("Timestamp of Initial Ground Movement Trigger");
-                      $("label[for='timestamp_retrigger']").html("Timestamp of New Significant/Critical Ground Movement Retrigger (if any)");
+                      $("label[for='timestamp_retrigger']").html("Timestamp of <span class='highlight'>NEW</span> Significant/Critical Ground Movement Retrigger <span class='highlight'>(if any)</span>");
                       break;
                 default:
                       $('#dependent_fields_a1d').hide();
@@ -693,9 +747,9 @@
         var commentsLookUp = [
             ["comments", "timestamp_initial_trigger", "timestamp_retrigger", "validity", "previous_alert"],
             ["alertGroups", "request_reason", "comments"],
-            ["magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger"],
-            ["timestamp_initial_trigger", "comments", "timestamp_retrigger"],
-            ["timestamp_initial_trigger", "timestamp_retrigger", "comments" ]
+            ["magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"],
+            ["timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"],
+            ["timestamp_initial_trigger", "timestamp_retrigger", "comments", "validity"]
         ];
 
         var suggestions = {};
@@ -732,20 +786,6 @@
     
         return timestamps;
     }
-
-    // function parser(lookup, temp, alert_level)
-    // {
-    //     var x = lookup.indexOf("timestamp_initial_trigger");
-    //     var y = lookup.indexOf("timestamp_retrigger");
-    //     var str = temp.split(";");
-
-    //     var timestamps = {
-    //         "timestamp_initial_trigger" : (str[x] == "" ? null : str[x]),
-    //         "timestamp_retrigger" : (str[y] == "" ? null : str[y]),
-    //         "previous_alert" : alert_level
-    //     }
-    //     return timestamps;
-    // }
 
     function getValidity(initial, retrigger, alert_level) 
     {

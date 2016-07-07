@@ -68,19 +68,20 @@ class Pubrelease extends CI_Controller {
 		$timestamp_retrigger = $_POST["timestamp_retrigger"];
 
 		$comments = $_POST["comments"];
+		$validity = isset($_POST["validity"]) ? $_POST["validity"] : null;
 		
 		$alert = $_POST["internal_alert_level"];
 
 		if ($alert == "A1-D" || $alert == "ND-D") {
-			$data2['comments'] = implode(",", $alertgroup) . ";" . $request . ";" . $comments;
+			$data2['comments'] = implode(",", $alertgroup) . ";" . $request . ";" . $comments . ";" . $validity;
 		} else if ($alert == "A1-E" || $alert == "ND-E") {
-			$data2['comments'] = $magnitude . ";" . $epicenter . ";" . $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger;
+			$data2['comments'] = $magnitude . ";" . $epicenter . ";" . $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger . ";" . $validity;
 		} else if ($alert == "A1-R" || $alert == "ND-R") {
-			$data2['comments'] = $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger;
+			$data2['comments'] = $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger . ";" . $validity;
 		} else if ($alert == "A2" || $alert == "A3" || $alert == "ND-L") {
-			$data2['comments'] = $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $comments;
-		} else if ($alert == "A0") {
-			$data2['comments'] = $comments . ";" . $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $_POST["validity"] . ";" . $_POST["previous_alert"];
+			$data2['comments'] = $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $comments . ";" . $validity;
+		} else if ($alert == "A0" || $alert == "ND") {
+			$data2['comments'] = $comments . ";" . $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $validity . ";" . $_POST["previous_alert"];
 		}
 
 		if ($bool == 0) //Insert Data
