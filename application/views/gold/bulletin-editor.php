@@ -391,6 +391,7 @@
 									boilerPlate('GROUND MOVEMENT', $data->supp_info_ground);
 									break;
 								case 'A2':
+								case 'ND-L':
 									boilerPlate('GROUND MOVEMENT', parser($data->internal_alert_level, str_replace(";", ".", $data->supp_info_ground), $data->comments, 0));
 									break;
 								case 'A3':

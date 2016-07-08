@@ -337,6 +337,7 @@
 									boilerPlate('GROUND MOVEMENT', $ground);
 									break;
 								case 'A2':
+								case 'ND-L':
 									boilerPlate('GROUND MOVEMENT', $ground);
 									break;
 								case 'A3':
