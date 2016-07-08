@@ -625,7 +625,7 @@
 
                 console.log(formData);
 
-                /*$.ajax({
+                $.ajax({
                     url: "<?php echo base_url(); ?>pubrelease/insertData",
                     type: "POST",
                     data : formData,
@@ -635,7 +635,7 @@
                         $("#viewRecentEntry").attr("href", "<?php echo base_url(); ?>gold/publicrelease/individual/" + result);
                         $('#dataEntrySuccessful').modal('show');
                     }     
-                });*/
+                });
             }
         });
 
