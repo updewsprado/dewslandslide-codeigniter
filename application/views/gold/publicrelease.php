@@ -424,7 +424,7 @@
                             switch(result.internal_alert_level)
                             {
                                 case "ND-E": case "ND-R":
-                                case "ND-R":
+                                case "ND-L":
                                     // If the saved validity from the release is greater // than the computed validity, there is extension
                                     // through ND-(X)
                                     if( moment(validity).isAfter(computed_validity) )
@@ -595,7 +595,8 @@
                     previous_alert = suggestions.previous_alert;
                     validity = suggestions.validity;
                 }
-                // ADD FOUR HOURS IF ND-(X) AND END OR MORE OF COMPUTED VALIDITY 
+                // ADD FOUR HOURS IF ND-(X) AND IF IT IS END OR PAST 
+                // THE COMPUTED VALIDITY 
                 else if (internal_alert_level == "ND-L" || internal_alert_level == "ND-E" || internal_alert_level == "ND-R")
                 {
                     if(moment(validity).isSameOrAfter(computed_validity))
