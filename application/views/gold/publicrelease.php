@@ -403,7 +403,7 @@
                             $("#timestamp_initial_trigger").val(initial);
                             $("#internal_alert_level").val(result.internal_alert_level).trigger("change");
 
-                            var str = "This site is under continuous monitoring for being under <b>Alert Level [ALERT]</b>, with initial trigger timestamp of <b>[INITIAL]</b>. [RETRIGGER]. [ND]. The alert is valid until <b>[VALIDITY]</b>.";
+                            var str = "This site is under continuous monitoring with <b>Alert Level [ALERT]</b>, with initial trigger timestamp of <b>[INITIAL]</b>. [RETRIGGER]. [ND]. The alert is valid until <b>[VALIDITY]</b>.";
                             str = str.replace("[ALERT]", result.internal_alert_level)
                                     .replace("[INITIAL]", moment(initial).format("DD MMMM Y, hh:mm A"));
 
@@ -588,7 +588,7 @@
                     else timestamp_retrigger = retriggerList.join(",")
                 }
 
-                if(internal_alert_level == "A0" && suggestions != null )
+                if(internal_alert_level == "A0" || internal_alert_level == "ND" && suggestions != null )
                 {
                     timestamp_initial_trigger = suggestions.timestamp_initial_trigger;
                     timestamp_retrigger = suggestions.timestamp_retrigger;
@@ -625,7 +625,7 @@
 
                 console.log(formData);
 
-                $.ajax({
+                /*$.ajax({
                     url: "<?php echo base_url(); ?>pubrelease/insertData",
                     type: "POST",
                     data : formData,
@@ -635,7 +635,7 @@
                         $("#viewRecentEntry").attr("href", "<?php echo base_url(); ?>gold/publicrelease/individual/" + result);
                         $('#dataEntrySuccessful').modal('show');
                     }     
-                });
+                });*/
             }
         });
 
