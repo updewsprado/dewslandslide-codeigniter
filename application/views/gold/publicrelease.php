@@ -388,7 +388,7 @@
                         var validity = "";
                         computed_validity = getValidity(initial, retrigger, result.public_alert_level);
                         if(suggestions.validity != null && suggestions.validity != "" && moment(suggestions.validity).isSameOrAfter(computed_validity) )
-                            validity = suggestions.validity
+                            validity = suggestions.validity;
                         else
                             validity = computed_validity;
 
