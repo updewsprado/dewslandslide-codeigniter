@@ -297,6 +297,25 @@ class Pubrelease_Model extends CI_Model
 
 	}
 
+	public function getBulletinNumber($id)
+	{
+		$sql = "SELECT 
+					bulletin_id
+				FROM bulletin_tracker
+				WHERE public_alert_id = '$id'";
+
+		$result = $this->db->query($sql);
+		if ( $result->num_rows() == 0 )
+			$data = null;
+		else
+		{
+			$data = $result->result_array();
+			$data = json_encode($data);
+		}
+
+	    return $data;
+	}
+
 	/**
 	 * Gets most recent public release per site
 	 * 

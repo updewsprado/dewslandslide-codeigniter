@@ -79,10 +79,10 @@ $response = exec( $command );*/
 }*/
 
 $file = $_SERVER['DOCUMENT_ROOT'] . "/bulletin.pdf";
-$filename = 'bulletin.pdf';
+//$filename = 'bulletin.pdf';
 header('HTTP/1.0 200 OK');  
 header('Content-Type: application/pdf');
-header('Content-Disposition: inline; filename="' . $filename . '"');
+header('Content-Disposition: inline; filename="' . $str . '"');
 header('Content-Transfer-Encoding: binary');
 header('Accept-Ranges: bytes');
 readfile($file);

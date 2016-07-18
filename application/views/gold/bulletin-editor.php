@@ -100,7 +100,10 @@
 			return true;
 	}
 
-
+	$temp_date = date('jMY_gA', $release);
+	$temp_date = str_replace("12AM", "12MN", $temp_date);
+	$temp_date = str_replace("12PM", "12NN", $temp_date);
+	$filename = strtoupper($data->site) . "_" . $temp_date;
 
 ?>
 
@@ -280,7 +283,10 @@
         <div class="row">
 
         	<div class="col-sm-12 center-text">
-        		<h2 id="title"><b>DEWS-L PROGRAM LANDSLIDE ALERT LEVEL INFORMATION: <?php echo strtoupper($data->site) . "-" . date('Y', $data->entry_timestamp); ?>-<input type="text" class="form-control" name="bulletinTracker" id="bulletinTracker" placeholder="XXX" maxlength="3" style="width: 8%;">
+        		<h2 id="title"><b>DEWS-L PROGRAM LANDSLIDE ALERT LEVEL INFORMATION: <?php echo strtoupper($data->site) . "-" . date('Y', $data->entry_timestamp); ?>-<input type="text" class="form-control" name="bulletinTracker" id="bulletinTracker" placeholder="XXX" maxlength="3" style="width: 8%;" value="<?php
+        				if( is_null($data->bulletin_id) ) echo "";
+        				else echo sprintf('%03d', $data->bulletin_id);
+        			?>">
         		</b></h2>
         	</div>
 
@@ -702,7 +708,7 @@
 	});
 
 	$("#download").click(function () {
-		window.open("<?php echo base_url(); ?>gold/bulletin", "", "menubar=no, resizable=yes");
+		window.open("<?php echo base_url(); ?>gold/bulletin/DEWS-L Bulletin for <?php echo $filename; ?>", "", "menubar=no, resizable=yes");
 	});
 
 	function renderPDF() 

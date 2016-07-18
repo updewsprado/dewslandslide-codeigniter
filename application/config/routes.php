@@ -77,7 +77,7 @@ $route['gold/accomplishmentreport/all'] = "gold/view/accomplishmentreport_all";
 $route['gold/monitoring_dashboard'] = "monitoring/index";
 
 $route['gold/sample_view'] = "sample/index";
-$route['gold/bulletin'] = "bulletin/view";
+$route['gold/bulletin/(:any)'] = "bulletin/view/$1";
 $route['gold/bulletin-builder/(:num)'] = "bulletin/build/$1";
 $route['gold/bulletin-editor/(:num)'] = "bulletin/edit/$1";
 

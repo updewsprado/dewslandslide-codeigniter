@@ -357,19 +357,20 @@
         var suggestions = null, 
             retriggerList = null, 
             validity_global = null,
-            computed_validity =  null;
+            computed_validity =  null,
+            result_copy = null;
         $('#site, .datetime#entry').bind('change dp.change', function () 
         {
             //console.log("Fired!");
             $("#suggestions").hide();
             var site = $("#site").val();
             var entry = $("#timestamp_entry").val();
-            var result;
             if(site != '' && entry != '')
             {
                 getRecentRelease(site, function (result) 
                 {
                     console.log(result);
+                    result_copy = result;
                     suggestions = suggestInput(result);
                     console.log(suggestions, result.public_alert_level, result.site);
 
@@ -455,7 +456,7 @@
             }
         });
 
-        jQuery.validator.addMethod("TimestampTest", function(value, element) 
+        jQuery.validator.addMethod("TimestampTest", function(value, element)
         {   
             var x = $("#timestamp_initial_trigger").val();
             if (value == "") return true;
@@ -579,7 +580,9 @@
                 var public_alert = $("#public_alert_level").val();
                 var temp1 = timestamp_retrigger == "" ? null : timestamp_retrigger;
                 var temp = getValidity(timestamp_initial_trigger, temp1, public_alert).format("YYYY-MM-DD HH:ss:mm");
-                var validity = moment(validity_global).isSameOrAfter(temp) ? validity_global : temp;
+                var validity = null;
+                if( (validity_global != null || validity_global != "") && temp != "Invalid date")
+                    validity = moment(validity_global).isSameOrAfter(temp) ? validity_global : temp;
 
                 if(retriggerList != null)
                 {
@@ -588,19 +591,57 @@
                     else timestamp_retrigger = retriggerList.join(",")
                 }
 
-                if(internal_alert_level == "A0" || internal_alert_level == "ND" && suggestions != null )
+                if((internal_alert_level == "A0" || internal_alert_level == "ND") && suggestions != null )
                 {
-                    timestamp_initial_trigger = suggestions.timestamp_initial_trigger;
-                    timestamp_retrigger = suggestions.timestamp_retrigger;
-                    previous_alert = suggestions.previous_alert;
-                    validity = suggestions.validity;
+                    // This is saving A0-Lowered
+                    if( suggestions.previous_alert != "A0" && suggestions.previous_alert != "Routine" && suggestions.previous_alert != "ND" )
+                    {
+                        console.log("A0-Lowered");
+                        timestamp_initial_trigger = suggestions.timestamp_initial_trigger;
+                        timestamp_retrigger = suggestions.timestamp_retrigger;
+                        previous_alert = suggestions.previous_alert;
+                        validity = suggestions.validity;
+                    }
+                    else // This is for saving Extended AND Routine
+                    {
+                        validity = suggestions.validity;
+                        var val_3 = moment(validity).add(3,'days').set("hour", 12);
+
+                        // Check if timestamp_entry is within validity (Start) and validity + 3days (End) range
+                        if( moment(validity).isBefore(timestamp_entry) && moment(timestamp_entry).isSameOrBefore(val_3) )
+                        {
+                            console.log("Extended");
+                            if (comments == null) comments = "Extended monitoring";
+                            else comments = comments + " Extended monitoring";
+                            timestamp_initial_trigger = suggestions.timestamp_initial_trigger;
+                            timestamp_retrigger = suggestions.timestamp_retrigger;
+                            previous_alert = suggestions.previous_alert;
+                            validity = suggestions.validity;
+                        } else {
+                            console.log("Routine");
+                            if (comments == null) comments = "Routine monitoring";
+                            else comments = comments + " Routine monitoring";
+                            timestamp_initial_trigger = "";
+                            timestamp_retrigger = "";
+                            previous_alert = "Routine";
+                            validity = "";
+                        }
+                    }
                 }
-                // ADD FOUR HOURS IF ND-(X) AND IF IT IS END OR PAST 
-                // THE COMPUTED VALIDITY 
+                // Add four hours if ND-(X) and if it is end or past
+                // the computed validity but timestamp_entry is
+                // not below the validity
                 else if (internal_alert_level == "ND-L" || internal_alert_level == "ND-E" || internal_alert_level == "ND-R")
                 {
                     if(moment(validity).isSameOrAfter(computed_validity))
-                        validity = moment(validity).add(4, "hours").format("YYYY-MM-DD HH:ss:mm");
+                    {
+                        // Add only if timestamp_entry is for the
+                        // end of validity release
+                        if( moment.duration(moment(validity).diff(timestamp_entry)).asHours() < 2 )
+                        {
+                            validity = moment(validity).add(4, "hours").format("YYYY-MM-DD HH:ss:mm");
+                        }
+                    }
                 }
 
                 var formData = {
@@ -620,7 +661,9 @@
                     timestamp_initial_trigger: timestamp_initial_trigger,
                     timestamp_retrigger: timestamp_retrigger,
                     validity: validity,
-                    previous_alert: previous_alert
+                    previous_alert: previous_alert,
+                    previous_alert_id: result_copy.public_alert_id,
+                    previous_entry_timestamp: result_copy.entry_timestamp
                 };
 
                 console.log(formData);
@@ -738,13 +781,6 @@
 
     function suggestInput(result)
     {
-        // var commentsLookUp = [
-        //     ["alertGroups", "request_reason", "comments"],
-        //     ["magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger"],
-        //     ["timestamp_initial_trigger", "comments", "timestamp_retrigger"],
-        //     ["timestamp_initial_trigger", "timestamp_retrigger", "comments" ]
-        // ];
-
         var commentsLookUp = [
             ["comments", "timestamp_initial_trigger", "timestamp_retrigger", "validity", "previous_alert"],
             ["alertGroups", "request_reason", "comments"],
@@ -783,7 +819,7 @@
             timestamps[item] = ((str[index] == "" || typeof str[index] == 'undefined') ? null : str[index]);
         });
 
-        timestamps.previous_alert = alert_level;
+        timestamps.previous_alert = (typeof timestamps.previous_alert == 'undefined') || (timestamps.previous_alert != 'A0' && timestamps.previous_alert != 'Routine' && timestamps.previous_alert != 'ND') ? alert_level : timestamps.previous_alert;
     
         return timestamps;
     }
