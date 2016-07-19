@@ -268,7 +268,7 @@
 
 						                   		echo "<tr class='". $tableRowClass ."'>";
 						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/individual/" . $row->alert_id . "'>"
-						                            . $row->barangay."</a></td>";
+						                            . strtoupper($row->name)."</a></td>";
 						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->initial)) ."</td>";
 						                        if($row->retrigger == null)
 						                        	echo "<td>No record</td>";
@@ -312,7 +312,7 @@
 
 						                   		echo "<tr'>";
 						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/individual/" . $row->alert_id . "'>"
-						                            . $row->barangay."</a></td>";
+						                            . strtoupper($row->name)."</a></td>";
 						                        echo "<td>". date("j F Y, H:i:s" , $row->validity) ."</td>";
 						                        echo "<td>". date("j F Y, H:i:s" , $row->start) ."</td>";
 						                        echo "<td>". date("j F Y, H:i:s" , $row->end) ."</td>";
@@ -375,7 +375,7 @@
 
 						                   		echo "<tr class='". $tableRowClass ."'>";
 						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/individual/" . $row->alert_id . "'>"
-						                            . $row->barangay."</a></td>";
+						                            . strtoupper($row->name)."</a></td>";
 						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->initial)) ."</td>";
 						                        if($row->retrigger == null)
 						                        	echo "<td>No record</td>";
