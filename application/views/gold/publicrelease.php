@@ -10,9 +10,15 @@
  -->
 
 <?php
-
     $sites = json_decode($sites);
     $staff = json_decode($staff);
+
+    /*$i = 0;
+    foreach ($sites as $site) 
+    {
+        if ($site->name == 'mes') { array_splice($sites, $i, 1); break; }
+        $i++;
+    }*/
 ?>
 
 <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
@@ -89,9 +95,11 @@
                 <select class="form-control" id="site" name="site">
                     <option value="">Select site</option>
                     <?php foreach($sites as $site): ?>
-                        <option value="<?php echo $site->name; ?>">
-                        <?php echo strtoupper($site->name) . " (" . $site->address . ")"; ?>
-                        </option>
+                        <?php if($site->name != 'mes'): ?>
+                            <option value="<?php echo $site->name; ?>">
+                            <?php echo strtoupper($site->name) . " (" . $site->address . ")"; ?>
+                            </option>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -600,11 +608,11 @@
                         timestamp_initial_trigger = suggestions.timestamp_initial_trigger;
                         timestamp_retrigger = suggestions.timestamp_retrigger;
                         previous_alert = suggestions.previous_alert;
-                        validity = suggestions.validity;
+                        validity = validity_global;
                     }
                     else // This is for saving Extended AND Routine
                     {
-                        validity = suggestions.validity;
+                        validity = validity_global;
                         var val_3 = moment(validity).add(3,'days').set("hour", 12);
 
                         // Check if timestamp_entry is within validity (Start) and validity + 3days (End) range
@@ -616,7 +624,7 @@
                             timestamp_initial_trigger = suggestions.timestamp_initial_trigger;
                             timestamp_retrigger = suggestions.timestamp_retrigger;
                             previous_alert = suggestions.previous_alert;
-                            validity = suggestions.validity;
+                            validity = validity_global;
                         } else {
                             console.log("Routine");
                             if (comments == null) comments = "Routine monitoring";
@@ -668,7 +676,7 @@
 
                 console.log(formData);
 
-                $.ajax({
+                /*$.ajax({
                     url: "<?php echo base_url(); ?>pubrelease/insertData",
                     type: "POST",
                     data : formData,
@@ -678,7 +686,7 @@
                         $("#viewRecentEntry").attr("href", "<?php echo base_url(); ?>gold/publicrelease/individual/" + result);
                         $('#dataEntrySuccessful').modal('show');
                     }     
-                });
+                });*/
             }
         });
 

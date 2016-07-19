@@ -22,8 +22,15 @@
 
 	/*** Check re-trigger value ***/
 	$x = $data->internal_alert_level;
-	if ($x != "A0" || $x != "A1-D" || $x != "ND" || $x != "ND-D") 
+	if ($x != "A0" && $x != "A1-D" && $x != "ND" && $x != "ND-D") 
 	{
+		/*var commentsLookUp = [
+            A0 ["comments", "timestamp_initial_trigger", "timestamp_retrigger", "validity", "previous_alert"],
+            A1/ND-D ["alertGroups", "request_reason", "comments"],
+            A1/ND-E ["magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"],
+            A1/ND-R ["timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"],
+            A2/A3 ["timestamp_initial_trigger", "timestamp_retrigger", "comments", "validity"]
+        ];*/
 		$temp = explode(";", $data->comments);
 		if (($x == "A2" || $x == "A3" || $x == "ND-L") && $temp[1] != "")
 			$validity = $temp[1];
@@ -708,7 +715,7 @@
 	});
 
 	$("#download").click(function () {
-		window.open("<?php echo base_url(); ?>gold/bulletin/DEWS-L Bulletin for <?php echo $filename; ?>", "", "menubar=no, resizable=yes");
+		window.open("<?php echo base_url(); ?>gold/bulletin/DEWS-L Bulletin for <?php echo $filename; ?>.pdf", "", "menubar=no, resizable=yes");
 	});
 
 	function renderPDF() 
