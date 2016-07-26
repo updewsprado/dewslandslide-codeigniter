@@ -29,7 +29,7 @@ class Gold extends CI_Controller {
 		
 		$data['charts'] = $data['tables'] = $data['forms'] = $data['bselements'] = '';
 		$data['bsgrid'] = $data['blank'] = $data['home'] = $data['monitoring'] = '';
-		$data['dropdown_chart'] = $data['site'] = $data['node'] = '';
+		$data['dropdown_chart'] = $data['site'] = $data['node'] = $data['chatterbox'] = '';
 		$data['alert'] = $data['gmap'] = $data['commhealth'] = $data['analysisdyna'] = '';
 		$data['position'] = $data['presence'] = $data['customgmap'] = '';
 		$data['slider'] = $data['nodereport'] = $data['reportevent'] = '';
@@ -73,6 +73,18 @@ class Gold extends CI_Controller {
 				$data['dropdown_chart'] = 'class="active"';
 				break;
 				
+			case 'chatterbox':
+				//$data['chatterbox'] = 'class="active"';
+				$data['chatterbox'] = '<script src="/' . $data['folder'] . '/js/dewslandslide/dewschatterbox.js"></script>';
+
+				
+
+				// $this->load->view('gold/templates_lightweight/header', $data);
+				// $this->load->view('gold/templates/nav');
+				$this->load->view('gold/' . $page, $data);
+				// $this->load->view('gold/templates_lightweight/footer');		
+				break;
+
 			case 'site':
 				//Load Required Models
 				$this->load->model('Gmap_model');
@@ -356,7 +368,7 @@ class Gold extends CI_Controller {
 				break;
 		}
 	
-		if (($page != 'nodereport') && ($page != 'node2')) {
+		if (($page != 'nodereport') && ($page != 'node2') && ($page != 'chatterbox')) {
 			$this->load->view('gold/templates/header', $data);
 			$this->load->view('gold/templates/nav');
 			$this->load->view('gold/' . $page, $data);

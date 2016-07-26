@@ -126,6 +126,9 @@
                     <li>
                      <a href="<?php echo base_url() . $version; ?>/monitoring_dashboard"><i class="fa fa-fw fa-exclamation-triangle"></i> Alert Monitoring</a>
                     </li>
+                    <li>
+                     <a href="<?php echo base_url() . $version; ?>/chatterbox"><i class="fa fa-fw fa-comment"></i> Chatter Box <i class="text-warning">*NEW*</i> </a>
+                    </li>
                     <li <?php echo $dropdown_chart; ?> >
                         <a href="javascript:;" data-toggle="collapse" data-target="#dropdown_chart"><i class="fa fa-fw fa-bar-chart-o"></i> Visual Charts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="dropdown_chart" class="collapse">
