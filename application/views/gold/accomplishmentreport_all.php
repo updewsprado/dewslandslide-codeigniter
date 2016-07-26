@@ -155,7 +155,7 @@
 	            }
 	    	],
 	    	"processing": true,
-	    	//"order" : [[0, "desc"]],
+	    	"order" : [[0, "desc"]],
 	    	/*"sort": false,*/
 	    	"pagingType": "full_numbers",
 	    	"initComplete": function () 

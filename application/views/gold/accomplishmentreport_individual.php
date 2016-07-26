@@ -24,8 +24,6 @@ if (base_url() == "http://localhost/") {
 <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript" src="/js/jquery.validate.js"></script>
 <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="/js/chosen.jquery.js" ></script>
-<script type="text/javascript" src="/js/chosen.jquery.min.js" ></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
 
 <style type="text/css">
@@ -70,18 +68,8 @@ if (base_url() == "http://localhost/") {
 <?php 
 	$report = json_decode($report);
 	$markers = json_decode($markers);
-	
-	$totalSitesMonitored = 0;
-	$check = 0;
-	
-	if( $report->overtime_type == "Routine Monitoring Extension")
-	{
-		$temp = explode(";", $report->info);
-		$totalSitesMonitored = $temp[0];
-		if (isset($temp[1])) $report->info = $temp[1];
-		else $report->info = null;
 
-	}
+	$check = 0;
 
 	if (is_null($report->info)) {
 		$report->info = "No comments.";
@@ -182,27 +170,7 @@ if (base_url() == "http://localhost/") {
 				<hr>
 
 				<div class="row">
-					<div class="col-md-4" id="totalSites" hidden>
-						<!-- <h5><b>Total Sites Monitored: </b></h5>
-						<ul class="list-group">
-							<li class="list-group-item list-group-item-info"><?php echo $totalSitesMonitored; ?></li>
-						</ul> -->
-
-						<div class="panel panel-default">
-					      	<div class="panel-heading"><b>Total Number of Sites Monitored </b></div>
-					      	<div class="panel-body"><?php echo $totalSitesMonitored; ?></div>
-					    </div>
-					</div>
-
-		        	<div class="col-md-6">
-		        		<!-- <h5><b>Site Alerts: </b></h5>
-		        		<blockquote id="siteBlockquote" hidden>No sites with heightened alerts.</blockquote> -->
-
-		        		<div class="panel panel-default" id="sitePanel" hidden>
-					      	<div class="panel-heading"><b>Site Alerts </b></div>
-					      	<div class="panel-body">No sites with heightened alerts.</div>
-					    </div>
-
+		        	<div class="col-md-12">
 		        		<div class="table-responsive col-md-12" id="siteTable" hidden>
 							<table class="table table-condensed table-bordered table-striped">
 							    <thead>
@@ -210,13 +178,14 @@ if (base_url() == "http://localhost/") {
 							        	<th>Site</th>
 							        	<th>Alert Level</th>
 							        	<th>Continue Monitoring?</th>
+							        	<th>Comments</th>
 							     	</tr>
 							    </thead>
 							    <tbody>
 						    		<?php  
 						    			for ($i=0; $i < count($report->sitesWithAlerts); $i++) { 
 						    				
-						    				switch ($report->sitesWithAlerts[$i]->alert_status) {
+						    				switch ($report->sitesWithAlerts[$i]->public_alert_level) {
 						    					case 'A0':
 						    						echo "<tr class='success'>";
 						    						break;
@@ -234,9 +203,14 @@ if (base_url() == "http://localhost/") {
 						    						break;
 						    				}
 
-						    				echo "<td>" . strtoupper($report->sitesWithAlerts[$i]->site) ."</td>";
-						    				echo "<td class='col-md-4'>" . $report->sitesWithAlerts[$i]->alert_status ."</td>";
-						    				echo "<td class='col-md-6'>" . strtoupper($report->sitesWithAlerts[$i]->continue_monitoring) ."</td>";
+						    				echo "<td><a href='" . base_url() . "gold/publicrelease/individual/" . $report->sitesWithAlerts[$i]->public_alert_id . "'>" . strtoupper($report->sitesWithAlerts[$i]->site) ."</td>";
+						    				echo "<td class='col-md-4'>" . $report->sitesWithAlerts[$i]->internal_alert_level ."</td>";
+						    				if($report->sitesWithAlerts[$i]->internal_alert_level == "A0" || $report->sitesWithAlerts[$i]->internal_alert_level == "ND") $continue_monitoring = "No";
+						    				else $continue_monitoring = "Yes";
+						    				echo "<td class='col-md-6'>" . $continue_monitoring ."</td>";
+						    				$comment = parser($report->sitesWithAlerts[$i]->internal_alert_level, "", $report->sitesWithAlerts[$i]->comments, 1);
+						    				$comment = $comment == "" ? "-" : $comment;
+						    				echo "<td class='col-md-6'>" . $comment ."</td>";
 						    				echo "</tr>";
 						    			}
 						    		?>
@@ -245,7 +219,7 @@ if (base_url() == "http://localhost/") {
 						</div>
 		        	</div>
 
-		        	<div class="col-md-6" id="summary" hidden>
+		        	<div class="col-md-12" id="summary" hidden>
 		        		<!-- <h5><b>Summary:</b></h5>
 		        		<blockquote><?php 
 		        			echo $report->info;
@@ -276,6 +250,50 @@ if (base_url() == "http://localhost/") {
 
 </div> <!-- End of div page-wrapper -->
 
+<?php
+
+	function parser($internal_alert_level, $desc, $info, $infoOrComment) 
+	{
+
+		$comment;
+		$list = explode(";", $info);
+
+		switch ($internal_alert_level) {
+			case 'A1-D':
+			case 'ND-D':
+				$groups = str_replace(",", "/", $list[0]);
+				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
+				break;
+			case 'A1-E':
+			case 'ND-E':
+				$comment = ($list[3] != "" && isset($list[3])) ? $list[3] : null;
+				break;
+			case 'A1-R':
+			case 'ND-R':
+				$comment = ($list[1] != "" && isset($list[1])) ? $list[1] : null;
+				break;
+			case 'A2':
+			case 'ND-L':
+				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
+				break;
+			case 'A3':
+				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
+				break;
+			case 'A0':
+			case 'ND':
+				$groups = str_replace(",", "/", $list[0]);
+				$comment = ($list[0] != "" && isset($list[0])) ? $list[0] : null;
+				break;
+			default:
+				$comment = isset($info) ? $info : null;
+				break;
+		}
+
+		return $infoOrComment == 1 ? $comment : $desc;
+
+	}
+
+?>
 
 <!-- JAVASCRIPT AREA -->
 <script>
@@ -286,7 +304,6 @@ if (base_url() == "http://localhost/") {
 	    $('#button_right').hide();
 	}
 
-	if ("<?php echo $report->overtime_type; ?>" == "Routine Monitoring Extension" ) $("#totalSites").show();
 	if ("<?php echo $report->overtime_type; ?>" == "Others") $("#summary").show();
 
 	$("th").each(function() {
