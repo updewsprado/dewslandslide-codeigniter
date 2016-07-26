@@ -74,15 +74,10 @@ class Gold extends CI_Controller {
 				break;
 				
 			case 'chatterbox':
-				//$data['chatterbox'] = 'class="active"';
-				$data['chatterbox'] = '<script src="/' . $data['folder'] . '/js/dewslandslide/dewschatterbox.js"></script>';
-
-				
-
-				// $this->load->view('gold/templates_lightweight/header', $data);
-				// $this->load->view('gold/templates/nav');
+				$this->load->view('gold/templates_lightweight/header', $data);
+				$this->load->view('gold/templates/nav');
 				$this->load->view('gold/' . $page, $data);
-				// $this->load->view('gold/templates_lightweight/footer');		
+				$this->load->view('gold/templates_lightweight/footer');		
 				break;
 
 			case 'site':

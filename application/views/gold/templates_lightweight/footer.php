@@ -6,22 +6,49 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
 
+<?php if ($title == "chatterbox"): ?>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
+    <script id="messages-template-both" type="text/x-handlebars-template">
+    {{#each messages}}
+        {{#if isyou}}
+        <li class="right clearfix">
+            <span class="chat-img pull-right">
+                <img src="/goldF/images/Chatterbox/dewsl_03.png" alt="User Avatar">
+        {{else}}
+        <li class="left clearfix">
+            <span class="chat-img pull-left">
+                <img src="/goldF/images/Chatterbox/boy_avatar.png" alt="User Avatar">
+        {{/if}}
+            </span>
+            <div class="chat-body clearfix">
+                <div class="header">
+                    <strong class="primary-font">{{user}}</strong>
+                    <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> {{timestamp}}</small>
+                </div>
+                <p>
+                    {{msg}}
+                </p>
+            </div>
+        </li>
+    {{/each}}
+    </script>
 
-    <!-- Morris Charts JavaScript
-    <script src="js/plugins/morris/raphael.min.js"></script>
-    <script src="js/plugins/morris/morris.min.js"></script>
-    <script src="js/plugins/morris/morris-data.js"></script>
-    -->
-
-    <!-- Flot Charts JavaScript -->
-    <!--[if lte IE 8]><script src="js/excanvas.min.js"></script><![endif]
-    <script src="js/plugins/flot/jquery.flot.js"></script>
-    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
-    <script src="js/plugins/flot/jquery.flot.pie.js"></script>
-    <script src="js/plugins/flot/flot-data.js"></script>
-    -->
+    <script id="selected-contact-template" type="text/x-handlebars-template">
+        <div class="alert alert-danger">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>{{fullname}}</strong> {{numbers}}
+        </div>
+    </script>
+    
+    <script src="/goldF/js/awesomplete.min.js"></script>
+    <script src="/goldF/js/dewslandslide/dewschatterbox.js"></script>
+<?php else: ?>
+    <script type="text/javascript">
+        var others = "others";
+    </script>
+<?php endif; ?>
     <script>
     
 

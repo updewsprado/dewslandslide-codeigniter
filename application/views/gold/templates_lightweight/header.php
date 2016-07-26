@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,6 +10,25 @@
 
     <title><?php echo $title; ?></title>
 
+<?php if ($title == "chatterbox"): ?>
+    <!-- Bootstrap Core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/v4.0.0/build/css/bootstrap-datetimepicker.css">
+    <link href="/css/bootstrap.css" rel="stylesheet"> 
+
+    <!-- Bootstrap Theme CSS -->
+    <link rel="stylesheet" href="/css/sb-admin.css">
+
+    <!-- ChatterBox CSS -->
+    <link rel="stylesheet" type="text/css" href="/goldF/css/dewslandslide/dewschatterbox.css">
+    <link rel="stylesheet" type="text/css" href="/goldF/css/awesomplete.css">
+
+    <!-- ChatterBox JS Requirements -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+<?php else: ?>
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js">
     <link rel="stylesheet" type="text/css" href="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/v4.0.0/build/css/bootstrap-datetimepicker.css">
@@ -33,7 +51,6 @@
     <link rel="stylesheet" href="/css/sb-admin.css">
     <link rel="stylesheet" href="/css/jquery.growl.css" />
   
-
     <!-- Morris Charts CSS -->
     <link href="/css/plugins/morris.css" rel="stylesheet">
 
@@ -81,9 +98,6 @@
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
-	<!-- Custom Google Map Location -->	
-	<?php echo $customgmap; ?>
-
     <!-- Custom DEWS Landslide JS 
     <script src="js/dewslandslide/dewsalert.js"></script>
     -->	
@@ -97,26 +111,23 @@
     <?php echo $lsbchange; ?>
     <?php echo $accel; ?>
     <?php echo $presence; ?>
-	<?php echo $slider; ?>
-	<?php echo $nodereport; ?>
-    <?php echo $chatterbox; ?>
+    <?php echo $slider; ?>
+    <?php echo $nodereport; ?>
     
     <!-- Custom DEWS Map JS -->
     <?php echo $gmap; ?>
     
-	<script>
-	// Load the Map
-	var mapValue = "<?php echo $ismap; ?>";
-	
-	if(mapValue != "") {
-		gmapJSON = <?php echo $sitesCoord; ?>;
-		google.maps.event.addDomListener(window, 'load', initialize_map2);
-		
-	}
-	
-	
+    <script>
+    // Load the Map
+    var mapValue = "<?php echo $ismap; ?>";
+    
+    if(mapValue != "") {
+        gmapJSON = <?php echo $sitesCoord; ?>;
+        google.maps.event.addDomListener(window, 'load', initialize_map2);
+        
+    }
 	</script>
-
+<?php endif; ?>
 </head>
 
 <body>
