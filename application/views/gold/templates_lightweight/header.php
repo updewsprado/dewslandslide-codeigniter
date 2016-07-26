@@ -99,6 +99,7 @@
     <?php echo $presence; ?>
 	<?php echo $slider; ?>
 	<?php echo $nodereport; ?>
+    <?php echo $chatterbox; ?>
     
     <!-- Custom DEWS Map JS -->
     <?php echo $gmap; ?>
