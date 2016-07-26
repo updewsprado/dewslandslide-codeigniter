@@ -360,15 +360,16 @@ if (base_url() == "http://localhost/") {
 		    };
 		    //console.log(formData);
 		    
-		    getRecentRelease(formData, function (result) 
+		    getRecentRelease(formData, function (res) 
             {
-            	var result = getTimestamps(result);
-            	console.log(result);
+            	var result = getTimestamps(res);
 
             	// Get validity of each release
          		$.each(result, function (index, val) {
-         			val.validity = getValidity(val.timestamp_initial_trigger, val.timestamp_retrigger, val.public_alert_level);
+         			val.validity = typeof val.validity != "undefined" ? val.validity : getValidity(val.timestamp_initial_trigger, val.timestamp_retrigger, val.public_alert_level);
          		});
+
+         		console.log(result);
 
             	// Build the table
 	        	if (flag == 0) {
