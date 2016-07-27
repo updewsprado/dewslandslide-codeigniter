@@ -43,6 +43,10 @@
     $temp = explode(";", $data->comments);
     switch ($alert_level) 
     {
+    	case 'A0':
+    	case 'ND':
+    		$validity = getValidity($temp, $lookup[0]);
+    		break;
     	case 'A1-E':
    		case 'ND-E':
     		$validity = getValidity($temp, $lookup[2]);
@@ -391,7 +395,6 @@
 							<div class="col-sm-4">Alert Level Released:</div>
 							<div class="col-sm-8">
 							<?php
-
 								$validity = ", valid until " . amPmConverter(date("j F Y, h:i A" , $validity));
 
 								if ($data->public_alert_level != "A0")
