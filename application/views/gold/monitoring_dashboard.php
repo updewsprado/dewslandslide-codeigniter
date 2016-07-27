@@ -313,9 +313,9 @@
 						                   		echo "<tr'>";
 						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/individual/" . $row->alert_id . "'>"
 						                            . strtoupper($row->name)."</a></td>";
-						                        echo "<td>". date("j F Y, H:i:s" , $row->validity) ."</td>";
-						                        echo "<td>". date("j F Y, H:i:s" , $row->start) ."</td>";
-						                        echo "<td>". date("j F Y, H:i:s" , $row->end) ."</td>";
+						                        echo "<td>". date("j F Y H:i:s" , $row->validity) ."</td>";
+						                        echo "<td>". date("j F Y H:i:s" , $row->start) ."</td>";
+						                        echo "<td>". date("j F Y H:i:s" , $row->end) ."</td>";
 						                        echo "</tr>";  
 
 						                        //date("j F Y, h:i A" , strtotime($row->timestamp))     
