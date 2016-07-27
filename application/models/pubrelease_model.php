@@ -101,10 +101,13 @@ class Pubrelease_Model extends CI_Model
 					p.counter_reporter,
 					p.acknowledged,
 					p.recipient,
-					x.comments
+					x.comments,
+					y.public_alert_level
 				FROM public_alert p 
 				LEFT JOIN public_alert_extra x 
 				ON p.public_alert_id = x.public_alert_id
+				INNER JOIN lut_alerts y
+				ON p.internal_alert_level = y.internal_alert_level
 				#WHERE p.site = '$site'
 				#ORDER BY p.entry_timestamp DESC
 				ORDER BY p.public_alert_id DESC";

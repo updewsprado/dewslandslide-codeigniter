@@ -92,29 +92,34 @@ class Pubrelease extends CI_Controller {
 			return;
 		}
 
-		$previous_id = $_POST["previous_alert_id"];
-		$previous_entry = date_parse($_POST["previous_entry_timestamp"]);
-		$entry = date_parse($_POST["timestamp_entry"]);
-
-		$data3['public_alert_id'] = $id;
-
-		if($entry['year'] !== $previous_entry['year'])
+		if($bool == 0)
 		{
-			$data3['bulletin_id'] = 1;
-		} else {
-			$num = $this->pubrelease_model->getBulletinNumber($previous_id);
-			if(is_null($num))
+			$previous_id = $_POST["previous_alert_id"];
+			$previous_entry = date_parse($_POST["previous_entry_timestamp"]);
+			$entry = date_parse($_POST["timestamp_entry"]);
+
+			$data3['public_alert_id'] = $id;
+
+			if($entry['year'] !== $previous_entry['year'])
 			{
-				$data3['bulletin_id'] = null;
+				$data3['bulletin_id'] = 1;
+			} else {
+				$num = $this->pubrelease_model->getBulletinNumber($previous_id);
+				if(is_null($num))
+				{
+					$data3['bulletin_id'] = null;
+				}
+				else
+				{
+					$num = json_decode($num);
+					$data3['bulletin_id'] = $num[0]->bulletin_id + 1;
+				}	
 			}
-			else
-			{
-				$num = json_decode($num);
-				$data3['bulletin_id'] = $num[0]->bulletin_id + 1;
-			}	
+
+			$this->pubrelease_model->insert('bulletin_tracker', $data3);
 		}
 
-		$this->pubrelease_model->insert('bulletin_tracker', $data3);
+		
 
 		//Set the public release all cache to dirty
 		$this->setPublicReleaseAllDirty();
