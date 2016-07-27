@@ -20,17 +20,82 @@
 	$data->entry_timestamp = strtotime($data->entry_timestamp);
 	$data->time_released = strtotime($data->time_released);
 
+	/*var commentsLookUp = [
+        A0 ["comments", "timestamp_initial_trigger", "timestamp_retrigger", "validity", "previous_alert"],
+        A1/ND-D ["alertGroups", "request_reason", "comments"],
+        A1/ND-E ["magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"],
+        A1/ND-R ["timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"],
+        A2/A3 ["timestamp_initial_trigger", "timestamp_retrigger", "comments", "validity"]
+    ];
+    */
+
+    $lookup = array
+    (
+    	array("comments", "timestamp_initial_trigger", "timestamp_retrigger", "validity", "previous_alert"), // A0/ND
+        array("alertGroups", "request_reason", "comments"), // A1/ND-D 
+        array("magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"), // A1/ND-E
+        array("timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"), // A1/ND-R
+        array("timestamp_initial_trigger", "timestamp_retrigger", "comments", "validity") // A2/A3/ND-L
+    );
+
+    $alert_level = $data->internal_alert_level;
+    $initial = $retrigger = null;
+    $temp = explode(";", $data->comments);
+    switch ($alert_level) 
+    {
+    	case 'A1-E':
+   		case 'ND-E':
+    		$validity = getValidity($temp, $lookup[2]);
+    		break;
+    	case 'A1-R':
+   		case 'ND-R':
+    		$validity = getValidity($temp, $lookup[3]);
+    		break;
+    	case 'A2': case 'A3':
+   		case 'ND-L':
+    		$validity = getValidity($temp, $lookup[4]);
+    		break;
+    }
+
+    function getValidity($arr, $lookup)
+    {
+    	$key_validity = array_search('validity', $lookup);
+    	$key_retrigger = array_search('timestamp_retrigger', $lookup);
+    	$key_initial = array_search('timestamp_initial_trigger', $lookup);
+    	$temp_validity = null;
+
+    	if( isset($arr[$key_validity]) && $arr[$key_validity] != "" )
+    		return strtotime($arr[$key_validity]);
+    	else if ($arr[$key_retrigger] != "") 
+    	{
+    		$temp = explode(",", $arr[$key_retrigger]);
+    		$temp_validity = roundTime(strtotime($temp[count($temp) - 1]));
+    	}
+    	else if ($arr[$key_initial] != "")
+    		$temp_validity = roundTime(strtotime($arr[$key_initial]));
+    	else
+    	{
+    		global $data;
+    		$temp_validity = roundTime($data->entry_timestamp);
+    	}
+
+    	switch ($data->public_alert_level) 
+		{
+			case 'A0': $temp_validity = '';
+				break;
+			case 'A1': case 'A2': $temp_validity = $temp_validity + 24 * 3600;
+				break;
+			case 'A3': $temp_validity = $temp_validity + 48 * 3600;
+				break;
+		}
+
+		return $temp_validity;
+    }
+
 	/*** Check re-trigger value ***/
-	$x = $data->internal_alert_level;
+	/*$x = $data->internal_alert_level;
 	if ($x != "A0" && $x != "A1-D" && $x != "ND" && $x != "ND-D") 
 	{
-		/*var commentsLookUp = [
-            A0 ["comments", "timestamp_initial_trigger", "timestamp_retrigger", "validity", "previous_alert"],
-            A1/ND-D ["alertGroups", "request_reason", "comments"],
-            A1/ND-E ["magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"],
-            A1/ND-R ["timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"],
-            A2/A3 ["timestamp_initial_trigger", "timestamp_retrigger", "comments", "validity"]
-        ];*/
 		$temp = explode(";", $data->comments);
 		if (($x == "A2" || $x == "A3" || $x == "ND-L") && $temp[1] != "")
 			$validity = $temp[1];
@@ -52,9 +117,8 @@
 		$validity = strtotime($validity[count($validity) - 1]);
 	}
 
-	if (!isset($validity)) $validity = $data->entry_timestamp;
-
-	$validity = roundTime($validity);
+	if (!isset($validity)) $validity = $data->entry_timestamp;		
+	$validity = roundTime($validity);*/
 	
 	$release = date("j F Y", $data->entry_timestamp) . ", " . date("h:i A", $data->time_released);
 
@@ -327,19 +391,8 @@
 							<div class="col-sm-4">Alert Level Released:</div>
 							<div class="col-sm-8">
 							<?php
-								switch ($data->public_alert_level) 
-								{
-									case 'A0':
-										$validity = '';
-										break;
-									case 'A1':
-									case 'A2':
-										$validity = ", valid until " . amPmConverter(date("j F Y, h:i A" , $validity + 24 * 3600));
-										break;
-									case 'A3':
-										$validity = ", valid until " . amPmConverter(date("j F Y, h:i A" , $validity + 48 * 3600));
-										break;
-								}
+
+								$validity = ", valid until " . amPmConverter(date("j F Y, h:i A" , $validity));
 
 								if ($data->public_alert_level != "A0")
 								$validity = ', valid until <input type="text" class="form-control" name="validity" id="validity" style="width: 30%;" value="' . ltrim($validity, ", valid until ") . '">';
