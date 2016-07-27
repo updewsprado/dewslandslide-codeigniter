@@ -568,7 +568,7 @@
                 var site = $("#site").val();
                 var internal_alert_level = $("#internal_alert_level").val();
                 
-                var comments = (($("#comments").val() == '') ? null : $("#comments").val());
+                var comments = (($("#comments").val() == '') ? "" : $("#comments").val());
 
                 var acknowledgements = recipientData();
                 var flagger = $("#flagger").val();
@@ -604,11 +604,24 @@
                     // This is saving A0-Lowered
                     if( suggestions.previous_alert != "A0" && suggestions.previous_alert != "Routine" && suggestions.previous_alert != "ND" )
                     {
-                        console.log("A0-Lowered");
-                        timestamp_initial_trigger = suggestions.timestamp_initial_trigger;
-                        timestamp_retrigger = suggestions.timestamp_retrigger;
-                        previous_alert = suggestions.previous_alert;
-                        validity = validity_global;
+                        // Check if A0 entry_timestamp is before
+                        // validity, thus INVALID ALERT
+                        if(moment(timestamp_entry).isBefore(computed_validity))
+                        {
+                            console.log("Invalid Alert");
+                            timestamp_initial_trigger = suggestions.timestamp_initial_trigger;
+                            timestamp_retrigger = suggestions.timestamp_retrigger;
+                            comments = "[Invalidated] " + comments;
+                            previous_alert = "Invalid";
+
+                        } else // Valid A0 Lowering
+                        {
+                            console.log("A0-Lowered");
+                            timestamp_initial_trigger = suggestions.timestamp_initial_trigger;
+                            timestamp_retrigger = suggestions.timestamp_retrigger;
+                            previous_alert = suggestions.previous_alert;
+                            validity = validity_global;
+                        }
                     }
                     else // This is for saving Extended AND Routine
                     {
