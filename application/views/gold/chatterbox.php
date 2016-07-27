@@ -102,12 +102,15 @@
                                 </ul>
                             </div>
                             <div class="chat-box bg-white">
-                            	<div class="input-group">
-                            		<input type="text" id="msg" name="msg" class="form-control border no-shadow no-rounded" placeholder="Type your message here">
-                            		<span class="input-group-btn">
-                            			<button class="btn btn-success no-rounded" type="button" id="send-msg">Send</button>
-                            		</span>
-                            	</div><!-- /input-group -->	
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <textarea id="msg" name="msg" class="form-control border no-shadow no-rounded" placeholder="Type your message here" rows="4"></textarea>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <button class="btn btn-success no-rounded" type="button" id="send-msg">Send</button>
+                                    </div>
+                                </div>
+                                <p>Remaining characters: <b id="remaining_chars">800</b></p>
                             </div>            
                 		</div>        
                 	</div>
