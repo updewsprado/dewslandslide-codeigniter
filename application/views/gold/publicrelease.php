@@ -49,6 +49,11 @@
         margin-left: -40px;
     }
 
+    label.error {
+        font-size: 12px;
+        font-style: italic;
+        margin: 10px 0 0 10px;
+    }
 
 </style>
 
@@ -466,11 +471,38 @@
 
         jQuery.validator.addMethod("TimestampTest", function(value, element)
         {   
+            var message = "";
             var x = $("#timestamp_initial_trigger").val();
             if (value == "") return true;
-            else if(validity_global != null) return (moment(value).isAfter(x) && moment(value).isBefore(validity_global));
+            else if(validity_global != null) 
+            {
+                if(moment(value).isAfter(x) && moment(value).isBefore(validity_global))
+                {
+                    var ret = retriggerList.split(",");
+                    if(moment(ret[ret.length - 1]).isBefore(value))
+                    {
+                        return true;
+                    }
+                    else {
+                        message = "Timestamp should be more recent than the last re-trigger timestamp."
+                        return false;
+                    }
+                    
+                }
+                else {
+                    message = "Timestamp is either before the initial trigger timestamp or after the validity of alert."
+                    return false;
+                }
+            }
             else return (moment(value).isAfter(x)); 
         }, "");
+
+        jQuery.validator.addMethod("semiColonCheck", function(value, element)
+        {   
+            var x = $("#comments").val();
+            if(x.includes(";")) return false;
+            else return true;
+        }, "Please refrain from using semi-colons.");
 
         /*** 
          * Validate Form Entries 
@@ -526,9 +558,20 @@
                             var temp = $("#internal_alert_level").val();
                             return (temp === "A1-E" || temp === "ND-E");
                     }}
+                },
+                comments: {
+                    "semiColonCheck": true
                 }
             },
             errorPlacement: function ( error, element ) {
+
+                var placement = $(element).closest('.form-group');
+                //console.log(placement);
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(placement);
+                } //remove on success 
 
                 element.parents( ".form-group" ).addClass( "has-feedback" );
 
@@ -544,6 +587,8 @@
                 if ( !$( element ).next( "span" )) {
                     $( "<span class='glyphicon glyphicon-ok form-control-feedback' style='top:0px; right:37px;'></span>" ).insertAfter( $( element ) );
                 }
+
+                $(element).closest(".form-group").children("label.error").remove();
             },
             highlight: function ( element, errorClass, validClass ) {
                 $( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
