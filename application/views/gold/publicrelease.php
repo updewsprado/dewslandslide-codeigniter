@@ -613,7 +613,11 @@
                             timestamp_retrigger = suggestions.timestamp_retrigger;
                             comments = "[Invalidated] " + comments;
                             previous_alert = "Invalid";
+<<<<<<< HEAD
                             validity = "";
+=======
+
+>>>>>>> 0336698ec3e39ebfce0cc78cd75588bd19adb191
                         } else // Valid A0 Lowering
                         {
                             console.log("A0-Lowered");
