@@ -476,26 +476,22 @@
             if (value == "") return true;
             else if(validity_global != null) 
             {
-                if(moment(value).isAfter(x) && moment(value).isBefore(validity_global))
-                {
-                    var ret = retriggerList.split(",");
-                    if(moment(ret[ret.length - 1]).isBefore(value))
-                    {
-                        return true;
-                    }
-                    else {
-                        message = "Timestamp should be more recent than the last re-trigger timestamp."
-                        return false;
-                    }
-                    
-                }
-                else {
-                    message = "Timestamp is either before the initial trigger timestamp or after the validity of alert."
-                    return false;
-                }
+                if(moment(value).isAfter(x) && moment(value).isBefore(validity_global)) return true;
+                else return false;
             }
             else return (moment(value).isAfter(x)); 
-        }, "");
+        }, "Timestamp is either before the initial trigger timestamp or after the validity of alert.");
+
+        jQuery.validator.addMethod("TimestampTest2", function(value, element)
+        {   
+            if(retriggerList == null || value == "") return true;
+            else 
+            {
+                if(moment(retriggerList[retriggerList.length - 1]).isBefore(value, 'hour')) return true;
+                else return false;
+            }
+            
+        }, "Timestamp should be more recent than the last re-trigger timestamp.");
 
         jQuery.validator.addMethod("semiColonCheck", function(value, element)
         {   
@@ -543,7 +539,8 @@
                     }}
                 },
                 timestamp_retrigger: {
-                    "TimestampTest": true
+                    "TimestampTest": true,
+                    "TimestampTest2": true
                 },
                 magnitude: {
                     required: {

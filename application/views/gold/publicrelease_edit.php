@@ -410,7 +410,7 @@
             $(".modal-title").text("Edit Public Alert Release Entry");
 
             $(":disabled").prop("disabled", false);
-            $("#public_alert_id, #internal_alert_level, #site, #timestamp_initial_trigger, #flagger, #counter_reporter").prop("disabled", true);
+            $("#public_alert_id, #internal_alert_level, #site, #flagger, #counter_reporter").prop("disabled", true);
             $("#okay").hide();
             $("#update").show();
             $(".delete-warning").hide();
@@ -563,7 +563,7 @@
                 var validity = null;
                 validity = computed_validity;
 
-                if(current_entry.timestamp_retrigger != null)
+                if(current_entry.timestamp_retrigger != "")
                 {
                     // If new retrigger timestamp, add it to list
                     if(!current_entry.timestamp_retrigger.includes(timestamp_retrigger))
@@ -577,9 +577,12 @@
                     }
                 } else 
                 {
-                    x = current_entry.timestamp_retrigger.split(',');
-                    x = x.splice(x.length - 2, 1);
-                    timestamp_retrigger = x.join(",");
+                    if(timestamp_retrigger == "")
+                    {
+                        x = current_entry.timestamp_retrigger.split(',');
+                        x = x.splice(x.length - 2, 1);
+                        timestamp_retrigger = x.join(",");
+                    }
                 }
 
 
