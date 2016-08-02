@@ -379,7 +379,7 @@
             
             $("#modalForm")[0].reset();
             
-            current_entry = objectFound;
+            current_entry = $.extend(true, {}, objectFound);
             buildModal(objectFound, current_entry, commentsLookUp);
             $(".modal-title").text("Public Alert Release Entry");
 
@@ -401,11 +401,12 @@
 
             var elementPos = result.map(function(x) {return x.public_alert_id; }).indexOf(id);
             var objectFound = result[elementPos];
-            //console.log(objectFound);
+            console.log(objectFound);
             
             $("#modalForm")[0].reset();
             
-            current_entry = objectFound;
+            current_entry = $.extend(true, {}, objectFound);
+            console.log(current_entry);
             buildModal(objectFound, current_entry, commentsLookUp);
             $(".modal-title").text("Edit Public Alert Release Entry");
 
@@ -556,7 +557,14 @@
                 // Also a safeguard for unlowered A0 release
                 var public_alert = current_entry.public_alert_level;
                 var temp1 = timestamp_retrigger == "" ? null : timestamp_retrigger;
-                var computed_validity = getValidity(timestamp_initial_trigger, temp1, public_alert).format("YYYY-MM-DD HH:ss:mm");
+                var computed_validity;
+                if(public_alert == "A0")
+                {
+                    computed_validity = getValidity(timestamp_initial_trigger, temp1, previous_alert).format("YYYY-MM-DD HH:ss:mm");
+                } else {
+                    computed_validity = getValidity(timestamp_initial_trigger, temp1, public_alert).format("YYYY-MM-DD HH:ss:mm");
+                }
+                
 
                 //console.log(current_entry);
 
@@ -593,7 +601,7 @@
                     {
                         // Check if A0 entry_timestamp is before
                         // validity, thus INVALID ALERT
-                        if(moment(entry_timestamp).isBefore(computed_validity))
+                        if(moment(entry_timestamp).add(30, 'minutes').isBefore(computed_validity))
                         {
                             console.log("Invalid Alert");
                             timestamp_initial_trigger = current_entry.timestamp_initial_trigger;
@@ -697,7 +705,16 @@
 
     function getValidity(initial, retrigger, alert_level) 
     {
-        var validity = retrigger != null ? retrigger : initial;
+        var validity = (retrigger != null && retrigger != "") ? retrigger : initial;
+
+        switch (alert_level)
+        {
+            case 'A1-E': case 'A1-D':
+            case 'A1-R': case 'ND-E':
+            case 'ND-R': case 'ND-D':
+                alert_level = 'A1'; break;
+            case 'ND-L': alert_level = 'A2'; break;
+        }
 
         validity = moment(validity);
         switch (alert_level)
@@ -727,25 +744,27 @@
 
         var orgs = objectFound['recipient'].split(";")
         var alert_level = objectFound['internal_alert_level'];
-        $.each(objectFound, function (key, value) {
-           
-           if(key == "acknowledged") {
+        var commentList = objectFound['comments'].split(";");
+
+        $.each(current_entry, function (key, value) {
+            //console.log(objectFound);
+            if(key == "acknowledged") {
                 var times = objectFound['acknowledged'].split(";");
                 for (var i = 0; i < orgs.length; i++) {
                     $("#" + orgs[i].toLowerCase()).val(times[i]);
                 }
-            } else if(key == "comments") {
-                var temp = value.split(";");
+            } else if (key == "comments") {
                 switch(alert_level)
                 {
-                    case "A1-D": case "ND-D": delegateValue(commentsLookUp[1], current_entry, temp); toggleFields([1,0,0,1]); break;
-                    case "A1-E": case "ND-E": delegateValue(commentsLookUp[2], current_entry, temp); toggleFields([0,1,1,1]); break;
-                    case "A1-R": case "ND-R": delegateValue(commentsLookUp[3], current_entry, temp); toggleFields([0,0,1,1]); break;
-                    case "A2": case "A3": delegateValue(commentsLookUp[4], current_entry, temp); toggleFields([0,0,1,1]); break;
-                    case "A0": delegateValue(commentsLookUp[0], current_entry, temp); toggleFields([0,0,0,0]); break;
+                    case "A1-D": case "ND-D": delegateValue(commentsLookUp[1], current_entry, commentList); toggleFields([1,0,0,1]); break;
+                    case "A1-E": case "ND-E": delegateValue(commentsLookUp[2], current_entry, commentList); toggleFields([0,1,1,1]); break;
+                    case "A1-R": case "ND-R": delegateValue(commentsLookUp[3], current_entry, commentList); toggleFields([0,0,1,1]); break;
+                    case "A2": case "A3": delegateValue(commentsLookUp[4], current_entry, commentList); toggleFields([0,0,1,1]); break;
+                    case "A0": delegateValue(commentsLookUp[0], current_entry, commentList); toggleFields([0,0,0,0]); break;
                 }
-            } else
+            } else {
                 $("#" + key).val(value);
+            }
         });
     }
 
@@ -791,6 +810,7 @@
 
     function delegateValue(commentsLookUp, current_entry, temp)
     {
+        console.log(temp);
         if(commentsLookUp[0] == "alertGroups") {
             var a = temp[0].split(",");
             for (var i = 0; i < a.length; i++) {
