@@ -443,7 +443,7 @@
 							switch ($data->internal_alert_level) {
 								case 'A0':
 								case 'ND':
-									boilerPlate('GROUND MOVEMENT', 'Ground movement/sensor movement reduced to non-significant rates.');
+									boilerPlate('GROUND MOVEMENT', $data->supp_info_ground);
 									boilerPlate('RAINFALL', $data->supp_info_rain);
 									boilerPlate('EARTHQUAKE', $data->supp_info_eq);
 									break;
