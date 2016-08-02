@@ -143,7 +143,7 @@
 					$release->validity = $timestamp;
 					$release->start = $start;
 					$release->end = $end;
-					$release->day = 3 - ceil(($end - strtotime('now'))/(60*60*24));
+					$release->day = 3 - ceil(($end - (60*60*12) - strtotime('now'))/(60*60*24));
 					$extended[$k++] = $release;
 				}
 			}
