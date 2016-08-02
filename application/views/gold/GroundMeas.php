@@ -43,6 +43,7 @@ $dbname = "senslopedb";
 //Weather Stations
 $GndMeasurementFull;
 $GndMeasurement;
+$listtime2;
 $newSite = substr($site, 0, 3);
 
 
@@ -102,6 +103,7 @@ $data = [];
 $measType =[];
 $weatherData =[];
 if (mysqli_num_rows($resultTimestamp) > 0) {
+
     // Get All crack_id
     $listCrackId = [];
     $resultCrackId = mysqli_query($conn, $sqlCrackId);
@@ -111,9 +113,10 @@ if (mysqli_num_rows($resultTimestamp) > 0) {
 
     // print_r('<pre>' . print_r($listCrackId, true) . '</pre>');
     $listTimestamp = [];
+
     while($rowTimestamp = mysqli_fetch_assoc($resultTimestamp)) {
         array_push($listTimestamp, $rowTimestamp["timestamp"]);
-        
+        $listtime2[$numSites++]["timestamp"] = $rowTimestamp["timestamp"];
         $sqlData = "SELECT DISTINCT UPPER(crack_id) as crack_id, meas,meas_type,weather
                     FROM
                         senslopedb.gndmeas
@@ -158,12 +161,7 @@ if (mysqli_num_rows($resultTimestamp) > 0) {
     // print_r('<pre>' . print_r($yow, true) . '</pre>');
     // print_r('<pre>' . print_r(asort($listTimestamp).($listTimestamp), true) . '</pre>');
      // print_r('<pre>' . print_r($data['A']['2016-07-04 00:00:00'], true) . '</pre>');
-    // $listMeasType =[];
-    // $sqlMeasType = "SELECT DISTINCT meas_type FROM senslopedb.gndmeas WHERE site_id = '$varSite' and timestamp = '$listTimestamp'";
-    //  $resultMeasType = mysqli_query($conn, $sqlMeasType);
-    // while($rowCrackId = mysqli_fetch_assoc($resultMeasType)) {
-    //     array_push($listMeasType);
-    // }
+    
 
 }
 
@@ -187,6 +185,7 @@ mysqli_close($conn);
                         <form>
                           <select id="mySelect"  onchange="displayGroundGraphs()">
                             <?php
+
                               $ctr = 0;
                               foreach ($GndMeasurementFull as $singleSite) {
                                 $curSite = $singleSite["site_id"];
@@ -230,7 +229,7 @@ mysqli_close($conn);
     </div> 
   </div>
   
-    <div class="container" id="form">
+    <div class="container" id="groundform">
         <div class="page-header">
             <h1>Ground Measurment <small>Edit Form</small></h1>
         </div>
@@ -290,12 +289,18 @@ mysqli_close($conn);
             <tr> 
                 <th bgcolor="#222" style="color:#fff"> Crack </th>
                 <?php
-                $i = 0;
-                    foreach($data[$listCrackId[0]] as $timestamp=>$val) {
+                    
+                if(!empty($data)){
+                  $i = 0;
+                    foreach($data[$listCrackId["0"]] as $timestamp=>$val) {
                         $time1 =date("M j, Y H:i:s", strtotime($timestamp));;
                        
-                        echo '<th  class="time'.$i.'" id="time'.$i.'" value="" data-original-title="" data-container="body" data-toggle="tooltip">' . $time1 . '</th>';
+                        echo '<th  class="time'.$i.'" id="time'.$i.'" value="" data-original-title="" data-container="body" data-toggle="tooltip" class="tblhead">' . $time1 . '</th>';
                 $i++;
+              }
+            }else{
+                echo "<p>no results<p/>";
+              
                     }
                 ?>
                
@@ -359,11 +364,11 @@ mysqli_close($conn);
       
     </div>
   </div>
-  <!--  <div id="modalForm" class="modal fade" role="dialog">
+   <!-- <div id="modalForm" class="modal fade" role="dialog">
   <div class="modal-dialog"> -->
 
     <!-- Modal content-->
-    <!-- <div class="modal-content">
+   <!--  <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Update Form</h4>
@@ -377,20 +382,19 @@ mysqli_close($conn);
                       <br> -->
         <!--  <label class="control-label" for="timestamp_entry">TimeStamp</label> 
          <label class="control-label" for="meastable">Measurement(cm)</label></form> -->
-        <!--  <table>
+       <!--   <table>
            <THEAD>
              <th> timestamp </th>
-             <th> 
            </THEAD>
          </table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
-    </div>
+    </div> -->
 
   </div>
-</div> -->
+</div>
 
   </form>
 
@@ -400,12 +404,10 @@ mysqli_close($conn);
 <script>
 var end_date = new Date();
 var start_date = new Date(end_date.getFullYear(), end_date.getMonth(), end_date.getDate()-30);
-var tableData = <?php echo json_encode($data);  ?>;
-var timeData = <?php echo json_encode($listTimestamp);  ?>;
-var crackData = <?php echo json_encode($listCrackId);  ?>;
-var measTData = <?php echo json_encode($measType);  ?>;
-var weatherData = <?php echo json_encode($weatherData);  ?>;
-$('#form').hide();
+   
+$('#groundform').hide();
+$('.tblhead').hide();
+
 
 
 $(function() {
@@ -488,6 +490,7 @@ window.onload = function() {
   nodeStatusJSON = <?php echo $nodeStatus; ?>;
   maxNodesJSON = <?php echo $siteMaxNodes; ?>;
 
+  
   getAllSites();
   $('#mySelect').hide();
   $('#nodeGeneralname').hide();
@@ -502,7 +505,7 @@ window.onload = function() {
 
 function redirectGndPlots (frm) {
   if(document.getElementById("sitegeneral") == "none") {
-   
+   $('#grounfform').hide();
     //do nothing
   }
   else {
@@ -566,6 +569,10 @@ function myFunction1() {
 function check() {
       var table = document.getElementById("mytable");
       var select = document.getElementById('mySelect2');
+     
+      var crackData = [];
+      var measTData = <?php echo json_encode($measType);  ?>;
+      var weatherData = <?php echo json_encode($weatherData);  ?>;
       var tablelength = table.rows[0].cells.length - 3;
       var diff = new Array(); 
       var meas =[];
@@ -580,12 +587,19 @@ function check() {
       var attrColorArr =[];
       var green =[];
       var e =  select.options.length;
+      $('#groundform').show();
+$('.tblhead').show();
       for (var a= 1 ; a <= tablelength  ; a++) {
        var timedata = (table.rows[0].cells.item(a).innerHTML);
         tDiff.push(timedata);
          
       }
-        // console.log(crackData);
+         for (var y= 1 ;  y<= select.length  ; y++) {
+       var crkdata = (table.rows[y].cells.item(0).innerHTML);
+        crackData.push(crkdata);
+        console.log(crackData)
+         
+      }
 
         // TIME
           
@@ -755,13 +769,8 @@ $(document).ready(function() {
             $('#dBase').addClass('form-group col-xs-4').removeClass('form-group col-xs-3');
             $("#time").append($('#timestamp_entry').val());   
             $('.time0').hide();
-           
-         for (var crk = 0 ; crk <= crackData.length-1 ; crk++) {
-          console.log(crackData[crk]);
-        // $("#crackSelect").append(crackData[crk]);
 
-      }
-        
+         
         $('.datetime').datetimepicker({
             format: 'YYYY-MM-DD HH:mm:ss',
             allowInputToggle: true,
