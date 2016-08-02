@@ -593,7 +593,7 @@
                     {
                         // Check if A0 entry_timestamp is before
                         // validity, thus INVALID ALERT
-                        if(moment(timestamp_entry).isBefore(computed_validity))
+                        if(moment(entry_timestamp).isBefore(computed_validity))
                         {
                             console.log("Invalid Alert");
                             timestamp_initial_trigger = current_entry.timestamp_initial_trigger;
@@ -610,8 +610,8 @@
                     {
                         var val_3 = moment(validity).add(3,'days').set("hour", 12);
 
-                        // Check if timestamp_entry is within validity (Start) and validity + 3days (End) range
-                        if( moment(validity).isBefore(timestamp_entry) && moment(timestamp_entry).isSameOrBefore(val_3) )
+                        // Check if entry_timestamp is within validity (Start) and validity + 3days (End) range
+                        if( moment(validity).isBefore(entry_timestamp) && moment(entry_timestamp).isSameOrBefore(val_3) )
                         {
                             console.log("Extended");
                             timestamp_initial_trigger = current_entry.timestamp_initial_trigger;
@@ -625,7 +625,7 @@
                     }
                 }
                 // Add four hours if ND-(X) and if it is end or past
-                // the computed validity but timestamp_entry is
+                // the computed validity but entry_timestamp is
                 // not below the validity
                 if (internal_alert_level == "ND-L" || internal_alert_level == "ND-E" || internal_alert_level == "ND-R")
                 {
@@ -633,9 +633,9 @@
 
                     if(moment(validity).isSameOrAfter(current_entry.validity));
                     {
-                        // Add only if timestamp_entry is for the
+                        // Add only if entry_timestamp is for the
                         // end of validity release
-                        if( moment.duration(moment(validity).diff(timestamp_entry)).asHours() < 2 )
+                        if( moment.duration(moment(validity).diff(entry_timestamp)).asHours() < 2 )
                         {
                             validity = moment(validity).add(4, "hours").format("YYYY-MM-DD HH:ss:mm");
                         }
