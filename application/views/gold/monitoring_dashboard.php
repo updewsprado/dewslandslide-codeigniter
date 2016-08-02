@@ -49,6 +49,33 @@
     	border-top: 2px solid #ddd;
     }
 
+    .day-one {
+    	background-color: rgba(97, 223, 223, 0.8);
+    }
+
+    .day-one-square {
+    	color: rgba(97, 223, 223, 0.8);
+    	background-color: rgba(97, 223, 223, 0.8);
+    }
+
+    .day-two {
+    	background-color: rgba(107, 238, 111, 0.8);
+    }
+
+    .day-two-square {
+    	color: rgba(107, 238, 111, 0.8);
+    	background-color: rgba(107, 238, 111, 0.8);
+    }
+
+    .day-three {
+    	background-color:  rgba(47, 209, 89, 0.8);
+    }
+
+    .day-three-square {
+    	color:  rgba(47, 209, 89, 0.8);
+    	background-color:  rgba(47, 209, 89, 0.8);
+    }
+
 </style>
 
 <?php  
@@ -116,6 +143,7 @@
 					$release->validity = $timestamp;
 					$release->start = $start;
 					$release->end = $end;
+					$release->day = ceil(($end - strtotime('now'))/(60*60*24));
 					$extended[$k++] = $release;
 				}
 			}
@@ -293,8 +321,9 @@
 			    	<div class="panel panel-default">
 						<div class="panel-heading">Sites Under 3-Day Extended Monitoring</div>
 						<div class="panel-body clearfix">
+							<div class="col-md-12" style="text-align:center; font-size: 12px;"><b>Legend: &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-one-square"></span> First Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-two-square"></span> Second Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-three-square"></span> Third Day</b></div>
 							<div class="col-md-12"><div class="table-responsive">
-				                <table class="table table-striped" id="extended">
+				                <table class="table" id="extended">
 				                    <thead>
 				                        <tr>
 				                            <th>Site Name</th>
@@ -309,8 +338,14 @@
 				                    	{
 						                    foreach ($extended as $row) 
 						                    {
+						                    	switch ($row->day)
+						                        {
+						                            case 1: $class = "day-one"; break;
+						                            case 2: $class = "day-two"; break;
+						                            case 3: $class = "day-three"; break;
+						                        }
 
-						                   		echo "<tr'>";
+						                   		echo "<tr class='". $class ."'>";
 						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/individual/" . $row->alert_id . "'>"
 						                            . strtoupper($row->name)."</a></td>";
 						                        echo "<td>". date("j F Y H:i:s" , $row->validity) ."</td>";
