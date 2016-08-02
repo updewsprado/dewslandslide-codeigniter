@@ -648,7 +648,8 @@
                     {
                         // Check if A0 entry_timestamp is before
                         // validity, thus INVALID ALERT
-                        if(moment(timestamp_entry).isBefore(computed_validity))
+                        var temp_entry = moment(timestamp_entry).add(30, "minutes");
+                        if(moment(temp_entry).isBefore(computed_validity))
                         {
                             console.log("Invalid Alert");
                             timestamp_initial_trigger = suggestions.timestamp_initial_trigger;
@@ -731,7 +732,7 @@
 
                 console.log(formData);
 
-                $.ajax({
+                /*$.ajax({
                     url: "<?php echo base_url(); ?>pubrelease/insertData",
                     type: "POST",
                     data : formData,
@@ -741,7 +742,7 @@
                         $("#viewRecentEntry").attr("href", "<?php echo base_url(); ?>gold/publicrelease/individual/" + result);
                         $('#dataEntrySuccessful').modal('show');
                     }     
-                });
+                });*/
             }
         });
 
