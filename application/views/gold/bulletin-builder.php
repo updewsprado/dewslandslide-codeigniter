@@ -319,6 +319,7 @@
 							switch ($data->internal_alert_level) {
 								case 'A0':
 								case 'ND':
+									boilerPlate('GROUND MOVEMENT', $ground);
 									boilerPlate('RAINFALL', $rain);
 									boilerPlate('EARTHQUAKE', $eq);
 									break;

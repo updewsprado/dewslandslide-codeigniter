@@ -105,7 +105,7 @@ class Pubrelease extends CI_Controller {
 				$data3['bulletin_id'] = 1;
 			} else {
 				$num = $this->pubrelease_model->getBulletinNumber($previous_id);
-				if(is_null($num))
+				if(is_null($num) || !isset($num))
 				{
 					$data3['bulletin_id'] = null;
 				}

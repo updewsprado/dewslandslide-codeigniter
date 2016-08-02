@@ -45,7 +45,7 @@
     {
     	case 'A0':
     	case 'ND':
-    		$validity = getValidity($temp, $lookup[0]);
+    		$validity = getValidity($temp, $lookup[0], $data);
     		break;
     	case 'A1-E':
    		case 'ND-E':
@@ -61,7 +61,7 @@
     		break;
     }
 
-    function getValidity($arr, $lookup)
+    function getValidity($arr, $lookup, $data = 0)
     {
     	$key_validity = array_search('validity', $lookup);
     	$key_retrigger = array_search('timestamp_retrigger', $lookup);
@@ -79,7 +79,6 @@
     		$temp_validity = roundTime(strtotime($arr[$key_initial]));
     	else
     	{
-    		global $data;
     		$temp_validity = roundTime($data->entry_timestamp);
     	}
 
@@ -395,10 +394,12 @@
 							<div class="col-sm-4">Alert Level Released:</div>
 							<div class="col-sm-8">
 							<?php
-								$validity = ", valid until " . amPmConverter(date("j F Y, h:i A" , $validity));
-
-								if ($data->public_alert_level != "A0")
-								$validity = ', valid until <input type="text" class="form-control" name="validity" id="validity" style="width: 30%;" value="' . ltrim($validity, ", valid until ") . '">';
+								if ($data->public_alert_level != "A0" && $data->public_alert_level != "ND")
+								{
+									$validity = ", valid until " . amPmConverter(date("j F Y, h:i A" , $validity));
+									$validity = ', valid until <input type="text" class="form-control" name="validity" id="validity" style="width: 30%;" value="' . ltrim($validity, ", valid until ") . '">';
+								}
+								else $validity = "";
 
 								if ($data->internal_alert_level == "A1-D" || $data->internal_alert_level == "ND-D")
 								{
@@ -442,6 +443,7 @@
 							switch ($data->internal_alert_level) {
 								case 'A0':
 								case 'ND':
+									boilerPlate('GROUND MOVEMENT', 'Ground movement/sensor movement reduced to non-significant rates.');
 									boilerPlate('RAINFALL', $data->supp_info_rain);
 									boilerPlate('EARTHQUAKE', $data->supp_info_eq);
 									break;
