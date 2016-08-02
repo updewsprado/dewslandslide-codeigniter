@@ -601,7 +601,7 @@ function getRainfallData(str) {
               {
                   title: 'Rainfall Data from Senslope ' + str ,
                   stackedGraph: isStacked,
-                  labels: ['timestamp','72h', 'cumm', 'rain'],
+                  labels: ['timestamp','72h', '24h', 'rain'],
                   visibility: isVisible,
                   rollPeriod: 1,
                   showRoller: true,
@@ -684,7 +684,7 @@ function getRainfallARQ(str) {
               {
                   title: 'Rainfall Data from ARQ ' + str ,
                   stackedGraph: isStacked,
-                  labels: ['timestamp','72h', 'cumm', 'rain'],
+                  labels: ['timestamp','72h', '24h', 'rain'],
                   visibility: isVisible,
                   rollPeriod: 1,
                   showRoller: true,
@@ -767,7 +767,7 @@ function getRainfallDataNOAH(str) {
               {
                   title: 'Rainfall Data from Noah1 ' + str,
                   stackedGraph: isStacked,
-                  labels: ['timestamp', '72h','cumm', 'rain'],
+                  labels: ['timestamp', '72h','24h', 'rain'],
                   visibility: isVisible,
                   rollPeriod: 1,
                   showRoller: true,
@@ -850,7 +850,7 @@ function getRainfallDataNOAH2(str) {
               {
                   title: 'Rainfall Data from Noah2 ' + str,
                   stackedGraph: isStacked,
-                  labels: ['timestamp', '72h','cumm', 'rain'],
+                  labels: ['timestamp', '72h','24h', 'rain'],
                   visibility: isVisible,
                   rollPeriod: 1,
                   showRoller: true,
@@ -933,7 +933,7 @@ function getRainfallDataNOAH3(str) {
               {
                   title: 'Rainfall Data from Noah3 ' + str,
                   stackedGraph: isStacked,
-                  labels: ['timestamp', '72h','cumm', 'rain'],
+                  labels: ['timestamp', '72h','24h', 'rain'],
                   visibility: isVisible,
                   rollPeriod: 2,
                   showRoller: true,
