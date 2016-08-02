@@ -143,7 +143,7 @@
 					$release->validity = $timestamp;
 					$release->start = $start;
 					$release->end = $end;
-					$release->day = ceil(($end - strtotime('now'))/(60*60*24));
+					$release->day = 3 - ceil(($end - strtotime('now'))/(60*60*24));
 					$extended[$k++] = $release;
 				}
 			}
@@ -343,6 +343,7 @@
 						                            case 1: $class = "day-one"; break;
 						                            case 2: $class = "day-two"; break;
 						                            case 3: $class = "day-three"; break;
+						                            default: $class = ""; break;
 						                        }
 
 						                   		echo "<tr class='". $class ."'>";
