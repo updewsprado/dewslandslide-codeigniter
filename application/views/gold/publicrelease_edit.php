@@ -212,7 +212,7 @@
                             </div>
 
                             <div class="form-group col-sm-6 dependentFieldSuppInfoGround">
-                                <label for="timestamp_retrigger">Retrigger Timestamp</label>
+                                <label for="timestamp_retrigger">Last Retrigger Timestamp</label>
                                 <div class='input-group date datetime'>
                                     <input type='text' class="form-control" id="timestamp_retrigger" name="timestamp_retrigger" disabled="disabled" />
                                     <span class="input-group-addon">
@@ -344,14 +344,14 @@
             }
         });
         
-        var result, table = buildTable();
+        var result, current_entry, table = buildTable();
 
         var commentsLookUp = [
+            ["comments", "timestamp_initial_trigger", "timestamp_retrigger", "validity", "previous_alert"],
             ["alertGroups", "request_reason", "comments"],
-            ["magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger"],
-            ["timestamp_initial_trigger", "comments", "timestamp_retrigger"],
-            ["timestamp_initial_trigger", "timestamp_retrigger", "comments" ],
-            ["comments"]
+            ["magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"],
+            ["timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"],
+            ["timestamp_initial_trigger", "timestamp_retrigger", "comments", "validity"]
         ];
 
         $("#internal_alert_level").on("change", function (argument) {
@@ -378,8 +378,9 @@
             //console.log(objectFound);
             
             $("#modalForm")[0].reset();
-
-            buildModal(objectFound, commentsLookUp);
+            
+            current_entry = objectFound;
+            buildModal(objectFound, current_entry, commentsLookUp);
             $(".modal-title").text("Public Alert Release Entry");
 
             $("#modalForm input").prop("disabled", true);
@@ -403,12 +404,13 @@
             //console.log(objectFound);
             
             $("#modalForm")[0].reset();
-
-            buildModal(objectFound, commentsLookUp);
+            
+            current_entry = objectFound;
+            buildModal(objectFound, current_entry, commentsLookUp);
             $(".modal-title").text("Edit Public Alert Release Entry");
 
             $(":disabled").prop("disabled", false);
-            $("#public_alert_id, #site, #flagger, #counter_reporter").prop("disabled", true);
+            $("#public_alert_id, #internal_alert_level, #site, #flagger, #counter_reporter").prop("disabled", true);
             $("#okay").hide();
             $("#update").show();
             $(".delete-warning").hide();
@@ -426,7 +428,7 @@
             var objectFound = result[elementPos];
             //console.log(objectFound);
 
-            buildModal(objectFound, commentsLookUp);
+            buildModal(objectFound, current_entry, commentsLookUp);
             $("#modalForm input").prop("disabled", true);
             $("#modalForm select").prop("disabled", true);
             $("#modalForm textarea").prop("disabled", true);
@@ -449,9 +451,6 @@
         {
             debug: true,
             rules: {
-                internal_alert_level: {
-                    required: true,
-                },
                 entry_timestamp: "required",
                 time_released: "required",
                 site: {
@@ -537,7 +536,7 @@
                 var site = $("#site").val();
                 var internal_alert_level = $("#internal_alert_level").val();
                 
-                var comments = (($("#comments").val() == '') ? null : $("#comments").val());
+                var comments = (($("#comments").val() == '') ? "" : $("#comments").val());
 
                 var acknowledgements = recipientData();
                 var flagger = $("#flagger").val();
@@ -550,6 +549,98 @@
                 var request_reason = $("#request_reason").val();
                 var magnitude = $("#magnitude").val();
                 var epicenter = $("#epicenter").val();
+                var previous_alert = "";
+                previous_alert = (typeof current_entry.previous_alert != "undefined" && current_entry.previous_alert != "") ? current_entry.previous_alert : "";
+
+                // Adjust the validity to be saved if re-trigger exists;
+                // Also a safeguard for unlowered A0 release
+                var public_alert = current_entry.public_alert_level;
+                var temp1 = timestamp_retrigger == "" ? null : timestamp_retrigger;
+                var computed_validity = getValidity(timestamp_initial_trigger, temp1, public_alert).format("YYYY-MM-DD HH:ss:mm");
+
+                //console.log(current_entry);
+
+                var validity = null;
+                validity = computed_validity;
+
+                if(current_entry.timestamp_retrigger != "")
+                {
+                    // If new retrigger timestamp, add it to list
+                    if(!current_entry.timestamp_retrigger.includes(timestamp_retrigger))
+                    {
+                        x = current_entry.timestamp_retrigger.split(',');
+                        x = x.splice(x.length - 2, 1);
+                        current_entry.timestamp_retrigger = x.join(",");
+                        timestamp_retrigger = current_entry.timestamp_retrigger + "," + timestamp_retrigger;
+                    } else {
+                        timestamp_retrigger = current_entry.timestamp_retrigger
+                    }
+                } else 
+                {
+                    if(timestamp_retrigger == "")
+                    {
+                        x = current_entry.timestamp_retrigger.split(',');
+                        x = x.splice(x.length - 2, 1);
+                        timestamp_retrigger = x.join(",");
+                    }
+                }
+
+
+                if(internal_alert_level == "A0" || internal_alert_level == "ND" )
+                {
+                    // This is saving A0-Lowered
+                    if( current_entry.previous_alert != "A0" && current_entry.previous_alert != "Routine" && current_entry.previous_alert != "ND" )
+                    {
+                        // Check if A0 entry_timestamp is before
+                        // validity, thus INVALID ALERT
+                        if(moment(entry_timestamp).isBefore(computed_validity))
+                        {
+                            console.log("Invalid Alert");
+                            timestamp_initial_trigger = current_entry.timestamp_initial_trigger;
+                            timestamp_retrigger = current_entry.timestamp_retrigger;
+                            validity = "";
+                        } else // Valid A0 Lowering
+                        {
+                            console.log("A0-Lowered");
+                            timestamp_initial_trigger = current_entry.timestamp_initial_trigger;
+                            timestamp_retrigger = current_entry.timestamp_retrigger;
+                        }
+                    }
+                    else // This is for saving Extended AND Routine
+                    {
+                        var val_3 = moment(validity).add(3,'days').set("hour", 12);
+
+                        // Check if entry_timestamp is within validity (Start) and validity + 3days (End) range
+                        if( moment(validity).isBefore(entry_timestamp) && moment(entry_timestamp).isSameOrBefore(val_3) )
+                        {
+                            console.log("Extended");
+                            timestamp_initial_trigger = current_entry.timestamp_initial_trigger;
+                            timestamp_retrigger = current_entry.timestamp_retrigger;
+                        } else {
+                            console.log("Routine");
+                            timestamp_initial_trigger = "";
+                            timestamp_retrigger = "";
+                            validity = "";
+                        }
+                    }
+                }
+                // Add four hours if ND-(X) and if it is end or past
+                // the computed validity but entry_timestamp is
+                // not below the validity
+                if (internal_alert_level == "ND-L" || internal_alert_level == "ND-E" || internal_alert_level == "ND-R")
+                {
+                    current_entry.validity = moment(current_entry.validity).subtract(4, "hours");
+
+                    if(moment(validity).isSameOrAfter(current_entry.validity));
+                    {
+                        // Add only if entry_timestamp is for the
+                        // end of validity release
+                        if( moment.duration(moment(validity).diff(entry_timestamp)).asHours() < 2 )
+                        {
+                            validity = moment(validity).add(4, "hours").format("YYYY-MM-DD HH:ss:mm");
+                        }
+                    }
+                }
 
                 var formData = {
                     public_alert_id: public_alert_id,
@@ -567,11 +658,14 @@
                     magnitude: magnitude,
                     epicenter: epicenter,
                     timestamp_initial_trigger: timestamp_initial_trigger,
-                    timestamp_retrigger: timestamp_retrigger
+                    timestamp_retrigger: timestamp_retrigger,
+                    validity: validity,
+                    previous_alert: previous_alert
                 };
 
-                //console.log(formData);
+                console.log(formData);
                 $("#view").modal('hide');
+
                 $.ajax({
                     url: "<?php echo base_url(); ?>pubrelease/insertData/1/" + public_alert_id,
                     type: "POST",
@@ -601,7 +695,32 @@
 
     });
 
-    function buildModal(objectFound, commentsLookUp)
+    function getValidity(initial, retrigger, alert_level) 
+    {
+        var validity = retrigger != null ? retrigger : initial;
+
+        validity = moment(validity);
+        switch (alert_level)
+        {
+            case 'A1': 
+            case 'A2': validity.add(1, "days"); break;
+            case 'A3': validity.add(2, "days"); break;
+        }
+
+        if( validity.hour() % 4 != 0 )
+        {
+            remainder = Math.abs((validity.hour() % 4) - 4);
+            validity.add(remainder, "hours");
+        } else {
+            validity.add(4, "hours");
+        }
+
+        validity.set('minutes', 0);
+        
+        return validity;
+    }
+
+    function buildModal(objectFound, current_entry, commentsLookUp)
     {
         $(".has-feedback, .has-success, .has-error").removeClass("has-success").removeClass("has-feedback").removeClass("has-error");
         $(".glyphicon.glyphicon-ok").remove();
@@ -619,11 +738,11 @@
                 var temp = value.split(";");
                 switch(alert_level)
                 {
-                    case "A1-D": case "ND-D": delegateValue(commentsLookUp[0], temp); toggleFields([1,0,0,1]); break;
-                    case "A1-E": case "ND-E": delegateValue(commentsLookUp[1], temp); toggleFields([0,1,1,1]); break;
-                    case "A1-R": case "ND-R": delegateValue(commentsLookUp[2], temp); toggleFields([0,0,1,1]); break;
-                    case "A2": case "A3": delegateValue(commentsLookUp[3], temp); toggleFields([0,0,1,1]); break;
-                    case "A0": delegateValue(commentsLookUp[4], temp); toggleFields([0,0,0,0]); break;
+                    case "A1-D": case "ND-D": delegateValue(commentsLookUp[1], current_entry, temp); toggleFields([1,0,0,1]); break;
+                    case "A1-E": case "ND-E": delegateValue(commentsLookUp[2], current_entry, temp); toggleFields([0,1,1,1]); break;
+                    case "A1-R": case "ND-R": delegateValue(commentsLookUp[3], current_entry, temp); toggleFields([0,0,1,1]); break;
+                    case "A2": case "A3": delegateValue(commentsLookUp[4], current_entry, temp); toggleFields([0,0,1,1]); break;
+                    case "A0": delegateValue(commentsLookUp[0], current_entry, temp); toggleFields([0,0,0,0]); break;
                 }
             } else
                 $("#" + key).val(value);
@@ -670,7 +789,7 @@
         }
     }
 
-    function delegateValue(commentsLookUp, temp)
+    function delegateValue(commentsLookUp, current_entry, temp)
     {
         if(commentsLookUp[0] == "alertGroups") {
             var a = temp[0].split(",");
@@ -680,7 +799,14 @@
         }
 
         for (var i = 0; i < commentsLookUp.length; i++) {
+
             $("#" + commentsLookUp[i]).val(temp[i]);
+            current_entry[commentsLookUp[i]] = temp[i];
+            if( commentsLookUp[i] == 'timestamp_retrigger' )
+            {
+                x = temp[i].split(',');
+                $("#" + commentsLookUp[i]).val(x[x.length - 1]);
+            }
         }
     }
 
@@ -703,7 +829,7 @@
                 {
                     "data": "public_alert_id", 
                     "render": function (data, type, full) {
-                        return "<a href='<?php echo base_url(); ?>gold/sitemaintenancereport/individual/" + full.public_alert_id + "'>" + full.public_alert_id + "</a>";
+                        return "<a href='<?php echo base_url(); ?>gold/publicrelease/individual/" + full.public_alert_id + "'>" + full.public_alert_id + "</a>";
                     },
                     "name": 'public_alert_id',
                     className: "text-center"

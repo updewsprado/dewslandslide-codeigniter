@@ -45,7 +45,7 @@
 
 	$release = json_decode($release);
 	$alert_history = json_decode($alert_history);
-	//echo var_dump($release);
+	//print_r($release);
 	
 ?>
 
@@ -236,6 +236,12 @@
 
 					$llmc_lgu = "";
 					$str_entry_timestamp = strtotime($release[0]->entry_timestamp);
+
+					if(isInstantaneous($str_entry_timestamp))
+						$str_entry_timestamp = roundTime($str_entry_timestamp) - (4 * 3600);
+					else
+						$str_entry_timestamp = roundTime($str_entry_timestamp);
+
 					$temp = date("j F Y, h:i A" , $str_entry_timestamp + (3.5 * 3600));
 					$time = date("h:i A" , $str_entry_timestamp + (3.5 * 3600));
 					$time = date_create_from_format('h:i A', $time);
@@ -316,34 +322,39 @@
 			case 'A1-D':
 			case 'ND-D':
 				$groups = str_replace(",", "/", $list[0]);
-				$comment = isset($list[2]) ? $list[2] : null;
+				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
 				$desc = str_replace("[LGU/LLMC/Community]", $groups, $desc);
 	    		$desc = str_replace("[reason for request]", $list[1], $desc);
 				break;
 			case 'A1-E':
 			case 'ND-E':
-				$comment = isset($list[3]) ? $list[3] : null;
+				$comment = ($list[3] != "" && isset($list[3])) ? $list[3] : null;
 				$desc = str_replace("[M]", $list[0], $desc);
 	    		$desc = str_replace("[d]", $list[1], $desc);
 	    		$desc = str_replace("[date, time]", date("j F Y, h:i A" , strtotime($list[2])), $desc);
-	    		$desc = str_replace("[retriggers]", retriggers($list[4]), $desc);
+	    		$desc = ($list[4] != "" && isset($list[4])) ? str_replace("[retriggers]", retriggers($list[4]), $desc) : str_replace("\nAdditional alert re-trigger/s detected on [retriggers].", "", $desc);
 				break;
 			case 'A1-R':
 			case 'ND-R':
-				$comment = isset($list[1]) ? $list[1] : null;
+				$comment = ($list[1] != "" && isset($list[1])) ? $list[1] : null;
 				$desc = str_replace("[date, time (round up to the nearest next hour) of last threshold exceedence]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
-				$desc = str_replace("[retriggers]", retriggers($list[2]), $desc);
+				$desc = ($list[2] != "" && isset($list[2])) ? str_replace("[retriggers]", retriggers($list[2]), $desc) : str_replace("\nAdditional alert re-trigger/s detected on [retriggers].", "", $desc);
 				break;
 			case 'A2':
 			case 'ND-L':
-				$comment = isset($list[2]) ? $list[2] : null;
+				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
 				$desc = str_replace("[date, time (round up to nearest next hour) of original L1-triggering measurement]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
-	    		$desc = str_replace("[list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements]", retriggers($list[1]), $desc);
+				$desc = ($list[1] != "" && isset($list[1])) ? str_replace("[list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements]", retriggers($list[1]), $desc) : str_replace("\nAdditional ground movement/s detected on [list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements].", "", $desc);
 				break;
 			case 'A3':
-				$comment = isset($list[2]) ? $list[2] : null;
+				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
 				$desc = str_replace("[date, time (round up to nearest next hour) of original L2-triggering measurement]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
-	    		$desc = str_replace("[list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements]", retriggers($list[1]), $desc);
+	    		$desc = $desc = ($list[1] != "" && isset($list[1])) ? str_replace("[list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements]", retriggers($list[1]), $desc) : str_replace("\nAdditional ground movement/s detected on [list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements].", "", $desc);
+				break;
+			case 'A0':
+			case 'ND':
+				$groups = str_replace(",", "/", $list[0]);
+				$comment = ($list[0] != "" && isset($list[0])) ? $list[0] : null;
 				break;
 			default:
 				$comment = isset($info) ? $info : null;
@@ -364,10 +375,39 @@
 		return implode(", ", $list);
 	}
 
-	/*//Generate PDF automatically
-	$command = $_SERVER['DOCUMENT_ROOT'] . "/js/phantomjs/phantomjs" . " " . $_SERVER['DOCUMENT_ROOT'] . "/js/bulletin-maker.js " . $release[0]->public_alert_id;
+	function roundTime($timestamp, $release = 0)
+	{
+		/*** Adjust timestamp to nearest hour if minutes are not 00 ***/
+		$minutes = (int)(date('i', $timestamp));
+		if ($minutes == 0) $minutes = 60;
+		else $minutes = $minutes;
+		$timestamp = $timestamp + (60 - $minutes)*60;
 
-	$response = exec( $command );*/
+		/*** Round the time value to the nearest interval (4, 8, 12) ***/
+		$hours = date('h', $timestamp);
+		if ((int)$hours % 4 == 0)  $hours = 4;
+		else $hours = (int) $hours % 4;
+
+		if ($release == 1)
+		{
+			if($minutes == 60) $timestamp = $timestamp;
+			else $timestamp = $timestamp - 3600;
+		}
+		else
+		{
+			$timestamp = $timestamp + (4 - $hours)*3600;
+		}
+
+		return $timestamp;
+	}
+
+	function isInstantaneous($entry)
+	{
+		if( ((int)(date('h', $entry) % 4 == 3)) && ((int)(date('i', $entry) == 30)) )
+			return false;
+		else
+			return true;
+	}
 
 ?>
 

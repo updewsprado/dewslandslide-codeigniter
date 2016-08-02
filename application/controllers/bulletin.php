@@ -49,7 +49,7 @@
 			$this->load->view('gold/bulletin-builder', $data);
 		}
 
-		public function view()
+		public function view($str)
 		{
 			/*if( $id == '' ) {
 				show_404();
@@ -61,8 +61,8 @@
 				show_404();
 				break;
 			}*/
-
-			$this->load->view('gold/bulletin-viewer');
+			$data['str'] = $str;
+			$this->load->view('gold/bulletin-viewer', $data);
 		}
 
 		public function edit()

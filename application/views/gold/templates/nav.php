@@ -121,7 +121,13 @@
                  <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                 	<li <?php echo $monitoring; ?> >
-                     <a href="<?php echo base_url() . $version; ?>/monitoring"><i class="fa fa-fw fa-th"></i> Monitoring</a>
+                     <a href="<?php echo base_url() . $version; ?>/monitoring"><i class="fa fa-fw fa-th"></i> Sensor Monitoring</a>
+                    </li>
+                    <li>
+                     <a href="<?php echo base_url() . $version; ?>/monitoring_dashboard"><i class="fa fa-fw fa-exclamation-triangle"></i> Alert Monitoring</a>
+                    </li>
+                    <li>
+                     <a href="<?php echo base_url() . $version; ?>/chatterbox"><i class="fa fa-fw fa-comment"></i> Chatter Box <i class="text-warning">*NEW*</i> </a>
                     </li>
                     <li <?php echo $dropdown_chart; ?> >
                         <a href="javascript:;" data-toggle="collapse" data-target="#dropdown_chart"><i class="fa fa-fw fa-bar-chart-o"></i> Visual Charts <i class="fa fa-fw fa-caret-down"></i></a>

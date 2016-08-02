@@ -55,7 +55,7 @@ $route['v3alpha/site/(:any)'] = "v3alpha/view/site/$1";
 $route['v3alpha/(:any)'] = "v3alpha/view/$1";
 
 //Gold
-$route['gold'] = "gold/view";
+$route['gold'] = "monitoring/index";
 $route['logout'] = "gold/logout";
 $route['gold/logout'] = "gold/logout";
 $route['gold/node/(:any)/(:num)/(:num)/(:num)'] = "gold/view/node/$1/$2/$3/$4";
@@ -63,6 +63,7 @@ $route['gold/node/(:any)/(:num)/(:num)'] = "gold/view/node/$1/$2/$3";
 $route['gold/node/(:any)/(:num)'] = "gold/view/node/$1/$2";
 $route['gold/site/(:any)/(:num)'] = "gold/view/node/$1/$2";
 $route['gold/site/(:any)'] = "gold/view/site/$1";
+$route['gold/monitoring'] = "gold/view/monitoring";
 
 $route['gold/publicrelease/individual/(:num)'] = "gold/view/publicrelease_individual/$1";
 $route['gold/publicrelease/all'] = "gold/view/publicrelease_all";
@@ -73,8 +74,10 @@ $route['gold/sitemaintenancereport/all'] = "gold/view/sitemaintenancereport_all"
 $route['gold/accomplishmentreport/individual/(:num)'] = "gold/view/accomplishmentreport_individual/$1";
 $route['gold/accomplishmentreport/all'] = "gold/view/accomplishmentreport_all";
 
+$route['gold/monitoring_dashboard'] = "monitoring/index";
+
 $route['gold/sample_view'] = "sample/index";
-$route['gold/bulletin'] = "bulletin/view";
+$route['gold/bulletin/(:any)'] = "bulletin/view/$1";
 $route['gold/bulletin-builder/(:num)'] = "bulletin/build/$1";
 $route['gold/bulletin-editor/(:num)'] = "bulletin/edit/$1";
 

@@ -6,6 +6,7 @@ class Pubrelease extends CI_Controller {
 		parent::__construct();
 		$this->load->helper('url');
 		$this->load->model('pubrelease_model');
+		$this->load->library('../controllers/monitoring');
 	}
 
 	public function index()
@@ -67,19 +68,20 @@ class Pubrelease extends CI_Controller {
 		$timestamp_retrigger = $_POST["timestamp_retrigger"];
 
 		$comments = $_POST["comments"];
+		$validity = isset($_POST["validity"]) ? $_POST["validity"] : null;
 		
 		$alert = $_POST["internal_alert_level"];
 
 		if ($alert == "A1-D" || $alert == "ND-D") {
-			$data2['comments'] = implode(",", $alertgroup) . ";" . $request . ";" . $comments;
+			$data2['comments'] = implode(",", $alertgroup) . ";" . $request . ";" . $comments . ";" . $validity;
 		} else if ($alert == "A1-E" || $alert == "ND-E") {
-			$data2['comments'] = $magnitude . ";" . $epicenter . ";" . $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger;
+			$data2['comments'] = $magnitude . ";" . $epicenter . ";" . $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger . ";" . $validity;
 		} else if ($alert == "A1-R" || $alert == "ND-R") {
-			$data2['comments'] = $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger;
+			$data2['comments'] = $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger . ";" . $validity;
 		} else if ($alert == "A2" || $alert == "A3" || $alert == "ND-L") {
-			$data2['comments'] = $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $comments;
-		} else if ($alert == "A0"  && $comments != "") {
-			$data2['comments'] = $comments;
+			$data2['comments'] = $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $comments . ";" . $validity;
+		} else if ($alert == "A0" || $alert == "ND") {
+			$data2['comments'] = $comments . ";" . $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $validity . ";" . $_POST["previous_alert"];
 		}
 
 		if ($bool == 0) //Insert Data
@@ -89,7 +91,36 @@ class Pubrelease extends CI_Controller {
 			$this->updatedata($data, $data2);
 			return;
 		}
-		     
+
+		if($bool == 0)
+		{
+			$previous_id = $_POST["previous_alert_id"];
+			$previous_entry = date_parse($_POST["previous_entry_timestamp"]);
+			$entry = date_parse($_POST["timestamp_entry"]);
+
+			$data3['public_alert_id'] = $id;
+
+			if($entry['year'] !== $previous_entry['year'])
+			{
+				$data3['bulletin_id'] = 1;
+			} else {
+				$num = $this->pubrelease_model->getBulletinNumber($previous_id);
+				if(is_null($num) || !isset($num))
+				{
+					$data3['bulletin_id'] = null;
+				}
+				else
+				{
+					$num = json_decode($num);
+					$data3['bulletin_id'] = $num[0]->bulletin_id + 1;
+				}	
+			}
+
+			$this->pubrelease_model->insert('bulletin_tracker', $data3);
+		}
+
+		
+
 		//Set the public release all cache to dirty
 		$this->setPublicReleaseAllDirty();
 
@@ -144,6 +175,7 @@ class Pubrelease extends CI_Controller {
 	{
 		$deletePublicAlerts = $this->pubrelease_model->deletePublicAlerts("public_alert", "public_alert_id", $id);
 		$deletePublicAlerts = $this->pubrelease_model->deletePublicAlerts("public_alert_extra", "public_alert_id", $id);
+		$deletePublicAlerts = $this->pubrelease_model->deletePublicAlerts("bulletin_tracker", "public_alert_id", $id);
 
 		//Set the public release all cache to dirty
 		$this->setPublicReleaseAllDirty();

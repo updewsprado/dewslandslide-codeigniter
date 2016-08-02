@@ -68,51 +68,40 @@
 		 	);
 
 		 	$type = $_POST['overtime_type'];
-		 	if(isset($_POST['siteMonitoredList'])) $sites = $_POST['siteMonitoredList'];
 
 		 	$id = $this->accomplishment_model->insert('accomplishment_report', $data);
-    		//echo "$id";
 
-    		if( $type == "Event-Based Monitoring" )
-    		{
-    			for ($i=0; $i < count($sites); $i++) 
-    			{ 
-    				$data2 = array (
-    					'ar_id' => $id,
-    					'site' => $sites[$i]['site'],
-    					'alert_status' => $sites[$i]['alert'],
-    					'continue_monitoring' => $sites[$i]['continueStatus']
-    				);
-    				
-    				$this->accomplishment_model->insert('accomplishment_report_sites', $data2);
-    			}
-    		}
-    		else if( $type == "Routine Monitoring Extension" )
-    		{
-    			for ($i=0; $i < count($sites); $i++) 
-    			{ 
-    				$data2 = array (
-    					'ar_id' => $id,
-    					'site' => $sites[$i]['site'],
-    					'alert_status' => $sites[$i]['alert'],
-    					'continue_monitoring' => $sites[$i]['continueStatus']
-    				);
-    				
-    				$this->accomplishment_model->insert('accomplishment_report_sites', $data2);
-    			}
-
-    			$data3 = array( 'ar_id' => $id , 'info' => $_POST['routineSitesMonitored'] );
-    			$this->accomplishment_model->insert('accomplishment_report_extra', $data3);
-
-    		}
-    		else if( $type == "Others" )
+  			if( $type == "Others" )
     		{
     			$data3 = array( 'ar_id' => $id , 'info' => $_POST['summary'] );
     			$this->accomplishment_model->insert('accomplishment_report_extra', $data3);
     		}
 
     		echo "$id";
-		} 
+		}
+
+		public function showShiftReleases()
+		{
+			$data = $this->accomplishment_model->getShiftReleases($_GET['start'], $_GET['end']);
+
+			echo "$data";
+		}
+
+		public function showBasis()
+		{
+			$result = $this->accomplishment_model->getBasis();
+			
+			if ($result == "[]") echo "Variable is empty<Br><Br>";
+			else echo "$result";
+		}
+
+		public function showDuty()
+		{
+			$result = $this->accomplishment_model->checkDuty($_GET['start'], $_GET['end']);
+			
+			if ($result == "[]") echo "Variable is empty<Br><Br>";
+			else echo "$result";
+		}
 
 	}
 

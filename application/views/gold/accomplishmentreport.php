@@ -25,12 +25,35 @@ if (base_url() == "http://localhost/") {
 <link rel="stylesheet" type="text/css" href="/css/bootstrap-datetimepicker.css">
 <script type="text/javascript" src="/js/jquery.validate.js"></script>
 <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<script src="//cdn.ckeditor.com/4.5.9/basic/ckeditor.js"></script>
+
+<!-- With Bootstrap-->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/u/bs/dt-1.10.12,b-1.2.0,fh-3.1.2,r-2.1.0/datatables.min.css"/>
+
+<!-- Datatables -->
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/u/dt/dt-1.10.12,b-1.2.0,fh-3.1.2,r-2.1.0/datatables.min.css"/> -->
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/u/bs/dt-1.10.12,b-1.2.0,fh-3.1.2,r-2.1.0/datatables.min.js"></script>
 
 <style type="text/css">
+	
+	#monitoringTable {
+		font-size: 14px;
+	}
+
+	#dutyTable th, #dutyTable td {
+		text-align: center;
+	}
 	
 	.well {
 		font-size: 12px;
 		font-weight: bold;
+	}
+
+	label.error {
+		font-size: 12px;
+		font-style: italic;
+		margin: 10px 0 0 10px;
 	}
 
 </style>
@@ -50,7 +73,7 @@ if (base_url() == "http://localhost/") {
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                	Accomplishment Report for Overtime Work <small>Filing Form (Beta)</small>
+                	Accomplishment Report <small>Filing Form and Report Generator (Beta)</small>
                 </h1>
             </div>
         </div>
@@ -60,7 +83,25 @@ if (base_url() == "http://localhost/") {
 
         <hr>
 
-        <!-- First Row Div [TIMESTAMPS] -->
+        <!-- Second Row Div [NATURE OF WORK AND PERSON]-->
+        <div class="row"> 
+	    	<div class="form-group col-md-6"> <!-- Overtime_type Drop-Down -->
+		        <label class="control-label" for="overtime_type">Nature of Overtime Task</label>
+		        <select class="form-control" id="overtime_type" name="overtime_type" onchange="onChangeOvertimeType();">
+		        	<option value="">Please select</option>
+		        	<?php for ($i=0; $i < count($instructions); $i++) { 
+		        		echo "<option value='" . $instructions[$i]->overtime_type . "'>" . $instructions[$i]->overtime_type . "</option>";
+		        	} ?>
+		        </select>
+	      	</div>
+
+	      	<div class="col-md-6">
+		      	<label class="control-label" for="on_duty">Person On-Duty</label>
+		      	<input type="text" class="form-control" id="on_duty" name="on_duty" value="<?php echo $first_name . " " . $last_name; ?>" disabled>
+	      	</div>
+	    </div> <!-- End of Second Row Div [NATURE OF WORK AND PERSON]-->
+
+	    <!-- First Row Div [TIMESTAMPS] -->
 		<div class="row"> 
         	<div class="form-group col-sm-6">
 	            <label class="control-label" for="startOfShift">Start of Shift</label>
@@ -83,115 +124,30 @@ if (base_url() == "http://localhost/") {
           	</div>      
         </div> <!-- End of First Row Div [TIMESTAMPS] -->
 
+        <hr>
 
-        <!-- Second Row Div [NATURE OF WORK AND PERSON]-->
-        <div class="row"> 
-	    	<div class="form-group col-md-6"> <!-- Overtime_type Drop-Down -->
-		        <label class="control-label" for="overtime_type">Nature of Overtime Task</label>
-		        <select class="form-control" id="overtime_type" name="overtime_type" onchange="onChangeOvertimeType();">
-		        	<option value="">Please select</option>
-		        	<?php for ($i=0; $i < count($instructions); $i++) { 
-		        		echo "<option value='" . $instructions[$i]->overtime_type . "'>" . $instructions[$i]->overtime_type . "</option>";
-		        	} ?>
-		        </select>
-	      	</div>
-
-	      	<div class="col-md-6">
-		      	<label class="control-label" for="on_duty">Person On-Duty</label>
-		      	<input type="text" class="form-control" id="on_duty" name="on_duty" value="<?php echo $first_name . " " . $last_name; ?>" disabled>
-	      	</div>
-	    </div> <!-- End of Second Row Div [NATURE OF WORK AND PERSON]-->
-
-	    <hr>
-
-	    <div id="instructionGroup" hidden>
-	    	<!-- Third Row Div [INSTRUCTION'S AREA] -->
-	    	<div class="row">
-	    	    <div class="col-md-12">
-	    	    	<h4><b id="instruction"></b></h4>
-	    	    </div>
-	    	</div> <!-- End of Third Row Div [INSTRUCTION'S AREA] -->
-	    	<hr>
-	    </div>
-
-
-		<!-- Site Area Fields Group -->
-		<div id="siteAreaField" hidden>
-			<!-- Fourth Row Div [TOTAL NUMBER OF SITES MONITORED ] -->
-			<div id="routineField" hidden>
-				<div class="row" >
-		    	    <div class="form-group col-md-3">
-		    	    	<label for="routineSitesMonitored">Total Number of Sites Monitored</label>
-				        <input type="number" class="form-control" id="routineSitesMonitored" name="routineSitesMonitored" min="0" placeholder="Enter number">
-		    	    </div>
-		    	</div>
-		    	<hr>
-	    	</div> <!-- End of Fourth Row Div [TOTAL NUMBER OF SITES MONITORED ] -->
-
-			<!-- Fourth Row Div [MONITORING FIELD] -->
-		    <div class="row" id="monitoringField" hidden> 
-		    	<div class="form-group col-md-6">
-			        <label for="siteMonitored">Site Monitored</label>
-			        <select class="form-control" id="siteMonitored" name="siteMonitored">
-			        	<option value="">Please select</option>
-			        	<?php for ($i=0; $i < count($sites); $i++) { 
-		        			echo "<option value='" . $sites[$i]->name . "'>" . strtoupper($sites[$i]->name) . " (" . $sites[$i]->address . ")</option>";
-		        		} ?>
-
-		        	</select>
-		      	</div>
-
-		      	<div class="form-group col-md-3">
-			        <label for="alertEndShift">Alert Status at End-of-Shift</label>
-			        <select class="form-control" id="alertEndShift" name="alertEndShift">
-			        	<option value="">Please select</option>
-			        	<?php for ($i=0; $i < count($alerts); $i++) { 
-		        			echo "<option value='" . $alerts[$i]->alert_level . "'>" . strtoupper($alerts[$i]->alert_level) . "</option>";
-		        		} ?>
-
-		        	</select>
-		      	</div>
-
-		      	<div class="form-group col-md-3">
-			        <label for="continueMonitoring">Continue Monitoring</label>
-			        <select class="form-control" id="continueMonitoring" name="continueMonitoring">
-			        	<option value="">Please select</option>
-			        	<option value="yes">Yes</option>
-			        	<option value="no">No</option>
-		        	</select>
-		      	</div>
-		    </div> <!-- End of Fourth Row Div [MONITORING FIELD] -->
-
-
-		    <!-- SPECIAL ROW [ADD DATA BUTTON] -->
-		    <div class="row">
-		    	<div class="col-md-12">
-	   				<button type="submit" class="btn btn-info btn-sm pull-right" onclick="checkData()" disabled id="addData">Add data</button>
+        <!-- Generate Field Group -->
+	    <div id="generateField" hidden>
+		    <div class="row" style="margin-bottom:-15px">
+	    		<div class="form-group col-md-12">
+	   				<button type="button" class="btn btn-info btn-sm pull-right" id="generate">Generate Report</button>
 	   			</div>
-			</div>
-			<hr>
-			<!-- End of SPECIAL ROW [ADD DATA BUTTON] -->
-			
+		    </div>
+		    <hr>
+	    </div> <!-- End of Generate Field Group -->
 
-	   		<!-- Fifth Row Div [SITES MONITORED TABLE] -->
-	   		<div class="row">
-	   			<div class="table-responsive col-md-12">
-				 	<table class="table table-bordered table-condensed table-striped" id="monitoringTable">
-				    	<thead>
-				      		<tr>
-				        		<th>Site Monitored</th>
-				        		<th>Alert Status at End-of-Shift</th>
-				        		<th>Continue Monitoring?</th>
-				        		<th>Action</th>
-				      		</tr>
-				    	</thead>
-				    	<tbody>
-				    	</tbody>
-				  </table>
-				</div>	
-	   		</div> <!-- End of Fifth Row Div [SITES MONITORED TABLE] -->
-
-	    </div> <!-- End of Site Area Fields Group -->
+	    <!-- Suggestion Field Group -->
+	    <div id="suggestionField" hidden>
+		    <div class="row" style="margin-bottom:-15px">
+	    		<div class="col-sm-12">
+	                <div class="panel panel-danger">
+	                    <div class="panel-heading"><span class="glyphicon glyphicon-info-sign" style="top:2px;"></span>&nbsp;&nbsp;<b>Notice</b></div>
+	                    <div class="panel-body"></div>
+	                </div>
+	            </div>
+		    </div>
+		    <hr>
+	    </div> <!-- End of Suggestion Field Group -->
 
 	    <!-- Others Field Group -->
 	    <div id="othersField" hidden>
@@ -205,7 +161,7 @@ if (base_url() == "http://localhost/") {
 
 	    </div> <!-- End of Others Field Group -->
 
-	    <!-- Submit Field Group -->
+	     <!-- Submit Field Group -->
 	    <div id="submitField">
 	    	<div class="row">
 	    		<div class="form-group col-md-12">
@@ -213,7 +169,43 @@ if (base_url() == "http://localhost/") {
 	   			</div>
 	    	</div>
 	    </div> <!-- End of Submit Field Group -->
+		
+		<div id="reportPanel" class="panel panel-default" hidden>
+	    <div class="panel-heading"><b>Report</b></div>
+	    <div class="panel-body">
+			<!-- Site Area Fields Group -->
+			<div id="siteAreaField" hidden>
+		   		<!-- Fifth Row Div [SITES MONITORED TABLE] -->
+		   		<div class="row">
+		   			<div class="table-responsive col-md-12" style="width: 100%;">
+					 	<table class="table table-striped dt-responsive" id="monitoringTable">
+					    	<thead>
+					      		<tr>
+					        		<th>Site Monitored</th>
+					        		<th>Alert Status at End-of-Shift</th>
+					        		<th>Initial Alert Trigger</th>
+					        		<th>Latest Alert Re-trigger</th>
+					        		<th>Alert Validity</th>
+					      		</tr>
+					    	</thead>
+					    	<tbody>
+					    	</tbody>
+					  </table>
+					</div>	
+		   		</div> <!-- End of Fifth Row Div [SITES MONITORED TABLE] -->
 
+		   		<br/>
+
+		   		<div id="reportField" hidden><div class="row">
+		   			<div class="col-md-12">
+		   				<div class="form-group">
+							<textarea class="form-control" rows="5" id="report"></textarea>
+						</div>
+		   			</div>
+		   		</div></div>
+
+		    </div> <!-- End of Site Area Fields Group -->
+		</div></div> <!-- End of Report Panel -->
 
 	    <!-- MODAL AREA -->
         <div class="modal fade" id="dataEntry" role="dialog">
@@ -247,7 +239,8 @@ if (base_url() == "http://localhost/") {
 		$('#formGeneral').hide();
 	  	$('#formDate').hide();
 	    $('#button_right').hide();
-	    fillDiv(25);
+	    CKEDITOR.replace( 'report' );
+	    fillDiv(15);
 	}
 
 	/*** Initialize Date/Time Input Fields ***/
@@ -286,54 +279,50 @@ if (base_url() == "http://localhost/") {
 		}
 	}
 
-	/**
-	 * Create copy of instructions
-	 */
-	var myData;
+	var commentsLookUp = [
+		["comments", "timestamp_initial_trigger", "timestamp_retrigger", "validity", "previous_alert"],
+        ["alertGroups", "request_reason", "comments"],
+        ["magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger"],
+        ["timestamp_initial_trigger", "comments", "timestamp_retrigger"],
+        ["timestamp_initial_trigger", "timestamp_retrigger", "comments" ]
+    ];
 
+	/**
+	 * Create copy of basis
+	 */
+	var basis;
 	$.ajax ({
 		//async: false,
-		url: "<?php echo base_url(); ?>accomplishment/showInstructions",
+		url: "<?php echo base_url(); ?>accomplishment/showBasis",
 		type: "GET",
 		dataType: "json",
 	})
 	.done( function (json) {
-			myData = json; // SAVE SITES TO MYDATA
+		basis = json; // SAVE SITES TO MYDATA
 	});
 
 
 	function onChangeOvertimeType() 
 	{
-		if (myData == undefined) alert("Data not yet loaded!");
-		else 
-		{
-			var select = $("#overtime_type option:selected").val();
+		var select = $("#overtime_type option:selected").val();
 
-			switch(select) 
-			{
-				case "Event-Based Monitoring": 	$("#instruction").text(myData[0].instruction);
-								toggleFormFields( [1, 1, 1, 0, 0] );
-								fillDiv(0);
-								break;
-				case "Routine Monitoring Extension": $("#instruction").text(myData[1].instruction);
-								toggleFormFields( [1, 1, 1, 1, 0] );
-								fillDiv(0);
-								break;
-				case "Others": 	$("#instruction").text(myData[2].instruction);
-								toggleFormFields( [1, 0, 0, 0, 1] );
-								fillDiv(7);
-								break;
-				default: 	$("#instruction").text("");
-								toggleFormFields( [0, 0, 0, 0, 0] );
-								fillDiv(25);
-								break;
-			}
+		switch(select) 
+		{
+			case "Event-Based Monitoring": toggleFormFields( [0, 0, 0, 0, 0, 1] );
+							fillDiv(15);
+							break;
+			case "Others": toggleFormFields( [0, 0, 0, 0, 1, 1] );
+							fillDiv(7);
+							break;
+			default: toggleFormFields( [0, 0, 0, 0, 0, 1] );
+							fillDiv(15);
+							break;
 		}
-	}
+}
 
 	function toggleFormFields(array) 
 	{
-		var fields = ["#instructionGroup", "#siteAreaField", "#monitoringField", "#routineField", "#othersField"];
+		var fields = ["#generateField", "#reportPanel", "#siteAreaField", "#suggestionField", "#othersField", "#submitField"];
 
 		for (var i = 0; i < array.length; i++) {
 			if (array[i] == 0) $(fields[i]).hide();
@@ -341,159 +330,362 @@ if (base_url() == "http://localhost/") {
 		}
 	}
 
-
-	/**
-	 *	Object constructor for entries
-	**/
-	function Entry(site, alert, continueStatus) 
-	{
-	    this.site = site;
-	    this.alert = alert;
-	    this.continueStatus = continueStatus;
-	}
-
-	var entry = new Entry("-", "-", "-");
-	var siteMonitoredList = [];
-	alterTable(entry, 0);
-
-
-	function checkData() 
-	{
-		var newEntry = new Entry();
-
-		newEntry.site = $("#siteMonitored").val();
-		newEntry.alert = $("#alertEndShift").val();
-		newEntry.continueStatus = $("#continueMonitoring").val();
-
-		for (var i = 0; i < siteMonitoredList.length; i++) {
-			if( newEntry.site == siteMonitoredList[i].site )
+	$("#endOfShift").on("blur", function () {
+		if ($("#overtime_type option:selected").val() == "Event-Based Monitoring")
+		{
+			if( checkTimestamp($("#endOfShift").val(), $("#endOfShift")[0] ) )
 			{
-				$('#modalTitle').html("Entry Insertion Notice");
-				$('#modalBody').html('<p>Insertion of Data Failed</p><p class="text-danger"><b>Duplicate entry for site "' + newEntry.site.toUpperCase() + '"</b></p>');
-				$('#modalFooter').html('<button type="button" class="btn btn-danger" data-dismiss="modal">Okay</button>');
-		    	$('#dataEntry').modal('show');
-				return;
+				toggleFormFields([1, 0, 0, 0, 0, 0]);
+			} else {
+				toggleFormFields([0, 0, 0, 0, 0, 1]);
+				fillDiv(13);
 			}
 		}
-		addData(newEntry);
-	}
-
-
-	/**
-	 *	Adds data to "siteMonitoredList" array to be shown on the table
-	**/
-	function addData(newEntry) 
-	{
-		siteMonitoredList.push(newEntry);
-		buildTable();
-	}
-
-	function buildTable() 
-	{
-		$("#monitoringTable > tbody").html("");
-		for (var i = 0; i < siteMonitoredList.length; i++) {
-			alterTable(siteMonitoredList[i], i);
-		}
-	}
-
-	function alterTable(obj, i) 
-	{
-		$("#monitoringTable > tbody:last-child")
-			.append( "<tr row=" + i +">" +
-				("<td>" + obj.site.toUpperCase() + "</td>") +
-				("<td>" + obj.alert.toUpperCase() + "</td>") +
-				("<td>" + obj.continueStatus.toUpperCase() + "</td>") +
-				('<td><span class="glyphicon glyphicon-trash" onclick="deleteData(' + i + ')"></span></td>') +
-				"</tr>");
-		if(obj.site == "-") 
-		{ 
-			$(".glyphicon-trash").removeAttr("onclick");
-			validate();
-		}
-		$("th, td").css("text-align", "center");
-	}
-
-	function deleteData(number) 
-	{
-		siteMonitoredList.splice(number, 1);
-		buildTable();
-
-		if(siteMonitoredList.length == 0) alterTable(entry, 0);
-	}
-
-	/**
-	 * Checks if a form field is null
-	**/
-	function isInputAvailable(id) 
-	{
-		if ( $(id).val() == "None" ||  !($.trim($(id).val())) )
-		{
-			return false;
-		}
-		else { return true; }
-	}
-
-
-	$(document).ready(function () {
-	    $('#siteMonitored, #alertEndShift, #continueMonitoring, #routineSitesMonitored, #overtime_type').change(validate);
-	    $('#summary').keyup(validate);
-	    $("#addData").click(validate);
-	    validate();
+		
 	});
 
-	function validate() 
-	{
-		/**
-		 *	Checks if "siteMonitored", "alertEndShift" and "continueMonitoring"
-		 *	are already filled before enabling "Add data" button.
-		**/
-	    if(isInputAvailable("#siteMonitored") && isInputAvailable("#alertEndShift") && isInputAvailable("#continueMonitoring")) {
-			changeButton("#addData", "#2aabd2", false);
-		} else {
-			changeButton("#addData", "rgba(255,0,0,0.4)", true);
-		}
+	/**
+	 * MAIN FUNCTION FOR REPORT CREATION
+	 * Get the releases for the shift period
+	 */
+	var result, flag = 0, duties = [];
+	$("#generateField").on("click", function (e) {
 
-		/*var flag = 0;
-		var select = $("#overtime_type option:selected").val();
-		switch(select) 
+		if( checkTimestamp($("#endOfShift").val(), $("#endOfShift")[0] ) )
 		{
-			default: 	
-			case "Event-Based Monitoring": 	
-					if(siteMonitoredList.length == 0)
-					{ 
-						flag = 1;
-						changeButton("#submitForm", "rgba(255,0,0,0.4)", true);
-					}
-					break;
-			case "Routine Monitoring Extension": 
-					if(!isInputAvailable("#routineSitesMonitored"))
-					{ 
-						flag = 1;
-						changeButton("#submitForm", "rgba(255,0,0,0.4)", true);
-					}
-					break;
-			case "Others": 	
-				    var thetext = $("#summary").val();
-				    
-				    if (thetext.length < 20) 
-				    {
-				    	flag = 1;
-				        changeButton("#submitForm", "rgba(255,0,0,0.4)", true);
-				    }
-					break;
+			var formData = 
+		    {
+		        start: $("#startOfShift").val(),
+		        end: $("#endOfShift").val()
+		    };
+		    //console.log(formData);
+		    
+		    getRecentRelease(formData, function (res) 
+            {
+            	var result = getTimestamps(res);
+
+            	// Get validity of each release
+         		$.each(result, function (index, val) {
+         			val.validity = typeof val.validity != "undefined" ? val.validity : getValidity(val.timestamp_initial_trigger, val.timestamp_retrigger, val.public_alert_level);
+         		});
+
+         		console.log(result);
+
+            	// Build the table
+	        	if (flag == 0) {
+	        		table = buildTable(result); flag++;
+	        	}
+	        	else {
+	        		table.clear();
+                    table.rows.add(result).draw();
+	        	}
+
+	        	if(result.length != 0)
+	        	{
+		        	var start = $("#startOfShift").val();
+			        var end = $("#endOfShift").val();
+
+		        	// Convert each release per site to report
+		        	var report = "";
+		        	$.each(result, function (index, val) 
+		        	{
+		        		report = report + makeReport(val, start, end, basis) + "<br/>";
+		        	});
+
+		        	$("#reportField").show();
+		        	CKEDITOR.instances.report.setData('', function () {
+		        		CKEDITOR.instances['report'].insertHtml(report);
+		        		CKEDITOR.instances['report'].focus();
+		        	});
+
+		        	getDuty(formData, function (duty) {
+		        		var str = "", flagger = result[0].flagger, counter_reporter = result[0].counter_reporter;
+		        		if(duty == null)
+		        		{
+		        			var on_duty = $("#on_duty").val();
+		        			if( on_duty == flagger || on_duty == counter_reporter)
+		        			{
+		        				var form1 = {
+		        					shift_start: $("#startOfShift").val(),
+							    	shift_end: $("#endOfShift").val(),
+							    	overtime_type: $("#overtime_type").val(),
+							    	on_duty: flagger
+		        				};
+
+		        				var form2 = {
+		        					shift_start: $("#startOfShift").val(),
+							    	shift_end: $("#endOfShift").val(),
+							    	overtime_type: $("#overtime_type").val(),
+							    	on_duty: counter_reporter
+		        				};
+
+		        				duties[0] = form1, duties[1] = form2;
+
+		        				str = "<p><b>This shift has not yet been saved. Click the submit button to save.</b></p>";
+		        				$("#submitField").show();
+		        			} else {
+		        				str = "<p><b>This shift has not yet been saved.</b></p>";
+		        			}
+		        		} else {
+		        			str = "<p><b>Records for the monitoring shift:</b></p>"
+		        		}
+		        		str = str + "<table id='dutyTable' class='table table-condensed table-striped'><tr><th>Shift Start</th><th>Shift End</th><th>Person</th></tr>";
+	        			str = str + "<tr><td>" + moment(start).format("DD MMMM YYYY, HH:mm:ss") + "</td><td>" + moment(end).format("DD MMMM YYYY, HH:mm:ss") + "</td><td>" + flagger + "</td></tr>";
+	        			str = str + "<tr><td>" + moment(start).format("DD MMMM YYYY, HH:mm:ss") + "</td><td>" + moment(end).format("DD MMMM YYYY, HH:mm:ss") + "</td><td>" + counter_reporter + "</td></tr>";
+	        			str = str + "</table>";
+	        			$("#suggestionField .panel-body").html(str);
+	        			$("#suggestionField").show();
+		        	});
+		        } else {
+		        	$("#reportField").hide();
+		        }
+
+	        	fillDiv(0);
+	        	$("#siteAreaField").show();
+	        	$("#reportPanel").show();
+	        	$("#monitoringTable").css("width", "100%");
+
+            });
+		}
+		
+    });
+
+    function getRecentRelease(formData, callback) 
+    {
+        $.ajax({
+	        url: "<?php echo base_url(); ?>accomplishment/showShiftReleases",
+	        type: "GET",
+	        data : formData,
+	        success: function(response, textStatus, jqXHR)
+	        {
+	        	result = JSON.parse(response);
+	        	callback(result);
+	        },
+	        error: function(xhr, status, error) {
+	            var err = eval("(" + xhr.responseText + ")");
+	            alert(err.Message);
+	        }     
+	    });
+    }
+
+    function getDuty(formData, callback) 
+    {
+        $.ajax({
+	        url: "<?php echo base_url(); ?>accomplishment/showDuty",
+	        type: "GET",
+	        data : formData,
+	        success: function(response, textStatus, jqXHR)
+	        {
+	        	result = JSON.parse(response);
+	        	callback(result);
+	        },
+	        error: function(xhr, status, error) {
+	            var err = eval("(" + xhr.responseText + ")");
+	            alert(err.Message);
+	        }     
+	    });
+    }
+
+    /**
+     * Convert release items on the table to 
+     * end-of-shift report
+     * @param   {object}  release  individual release
+     */
+    function makeReport(release, start, end, basis) 
+    {
+    	/*var basisToRaise = {
+    		"A1-D": "a monitoring request of the LGU/LLMC",
+    		"A1-R": "accumulated rainfall value exceeding threshold level",
+    		"A1-E": "landslide-triggering earthquake detected",
+    		"A2": "ground measurement data and/or sensor data exhibiting significant movement",
+    		"A3": "ground measurement data and/or sensor data exhibiting significant movement"
+    	};
+
+    	var basisToLower = {
+    		"A1-D": "ground and sensor data found no significant movement",
+    		"A1-R": "rainfall values remained below threshold level",
+    		"A1-E": "ground and sensor data found no significant movement",
+    		"A2": "ground and sensor data found no significant movement",
+    		"A3": "ground and sensor data found no significant movement"
+    	}*/
+
+    	var basisToRaise = basis['raise'], basisToLower = basis['lower'];
+
+    	var report = "===== " + release.site.toUpperCase() + " =====<br/><br/><b>SHIFT START:</b><br/>" + moment(start).format("MMMM DD, YYYY, hh:mm A") + "<br/>";
+    	// Check if the release is A0 (thus ending, get previous alert)
+		// or new release (thus, get current alert)
+		var alert_level = release.internal_alert_level == "A0" ? release.previous_alert : release.internal_alert_level;
+
+		switch(alert_level)
+		{
+			case "ND-D": alert_level = "A1-D"; break;
+			case "ND-E": alert_level = "A1-E"; break;
+			case "ND-R": alert_level = "A1-R"; break;
+			case "ND-L": alert_level = "A2"; break;
 		}
 
-		if (flag == 0) changeButton("#submitForm", "#2aabd2", false);
-		else changeButton("#submitForm", "rgba(255,0,0,0.4)", true);*/
+    	/*** SHIFT START ***/
+    	// Check if site initially triggered within shift
+    	if( moment(release.timestamp_initial_trigger).isAfter(start) )
+    	{
+    		report = report + "- Monitoring started from " + alert_level + " initially triggered at " + moment(release.timestamp_initial_trigger).format("DD MMMM YYYY, HH:mm:ss") + " due to [BASIS]<br/>";
+    	} else // Else it is a continued monitoring
+    	{
+    		report = report + "- Monitoring continued from " + alert_level + " which was initially triggered at " + moment(release.timestamp_initial_trigger).format("DD MMMM YYYY, HH:mm:ss") + " due to [BASIS]<br/>";
+    	}
 
-	}
+    	report = report.replace("[BASIS]", basisToRaise[0][alert_level]);
 
-	function changeButton(element, color, disabledStatus) 
+    	// Determine if recent re-trigger is within shift 
+    	// or came from previous
+    	if( release.timestamp_retrigger != null )
+    	{
+    		if( moment(release.timestamp_retrigger).isBefore(start) )
+    			report = report + "- Most recent re-trigger occurred at " + moment(release.timestamp_retrigger).format("DD MMMM YYYY, HH:mm:ss") + "<br/><br/><b>SHIFT END:</b><br/>" + moment(end).format("MMMM DD, YYYY, hh:mm A") + "<br/>";
+    		else
+    			report = report + "<br/><b><b>SHIFT END:</b></b><br/>" + moment(end).format("MMMM DD, YYYY, hh:mm A") + "<br/>- Most recent re-trigger occurred at " + moment(release.timestamp_retrigger).format("DD MMMM YYYY, HH:mm:ss") + "<br/>";
+    	} else 
+    	{
+    		report = report + "<br/><b>SHIFT END:</b><br/>" + moment(end).format("MMMM DD, YYYY, hh:mm A") + "<br/>";
+    	}
+
+    	/*** SHIFT END ***/
+    	if( release.internal_alert_level == "A0" || release.internal_alert_level == "ND" )
+    	{
+    		report = report + "- A0 declared at " + moment(release.validity).format("DD MMMM YYYY, HH:mm:ss") + " after [BASIS]<br/><br/>";
+    	} else {
+    		report = report + "- Monitoring will continue until " + moment(release.validity).format("DD MMMM YYYY, HH:mm:ss") + "<br/><br/>";
+    	}
+    	report = report.replace("[BASIS]", basisToLower[0][release.previous_alert]);
+    	
+    	report = report + "<b>INFO:</b><br/> - Sensor data:<br/> - Ground data:<br/> - Rainfall data:<br/>";
+
+    	return report;
+
+    }
+
+    function buildTable(result) 
 	{
-		$(element).css("background-color", color);
-		$(element).css("border-color", color);
-		$(element).prop("disabled", disabledStatus);
+		var table = $('#monitoringTable').DataTable({
+			data: result,
+	        "columns": [
+	            { 
+	            	"data": "site",
+	            	"render": function (data, type, full) {
+	            		return full.site.toUpperCase() /*+ " (" + full.address + ")"*/;
+	            	},
+	            	"name": "site"
+	        	},
+	        	{
+	        		data: "internal_alert_level"
+	        	},
+	            { 
+	            	"data": "timestamp_initial_trigger",
+	            	"render": function (data, type, full) {
+	           			return full.timestamp_initial_trigger == null ? "N/A" : moment(full.timestamp_initial_trigger).format("D MMM YYYY HH:mm")
+	            	},
+	            	"name": "timestamp_initial_trigger",
+	            	className: "text-right"
+	            },
+	            { 
+	            	"data": "timestamp_retrigger",
+	            	"render": function (data, type, full) {
+	           			return full.timestamp_retrigger == null ? "N/A" :moment(full.timestamp_retrigger).format("D MMM YYYY HH:mm")
+	            	},
+	            	"name": "timestamp_retrigger",
+	            	className: "text-right"
+	            },
+	            { 
+	            	"data": "validity",
+	            	"render": function (data, type, full) {
+	           			return full.validity == null ? "N/A" : moment(full.validity).format("D MMM YYYY HH:mm")
+	            	},
+	            	"name": "validity",
+	            	className: "text-right"
+	            },
+	    	],
+	    	"processing": true,
+	    	"order" : [[4, "asc"]],
+	    	"filter": false,
+	    	/*"sort": false,*/
+	    	"info": false,
+    		"paginate": false		
+    	});
+
+		$("td").css("vertical-align", "middle");
+
+		return table;
 	}
+
+    function getTimestamps(result)
+    {
+    	var result_clone = result.slice(0), arr = [];
+        var j = 0;
+        for (var i = 0; i < result_clone.length; i++) 
+        {
+        	switch(result_clone[i].internal_alert_level)
+	        {
+	        	case "A0": case "ND":
+	        		var temp = result_clone[i].comments.split(';');
+	        		if (typeof temp[4] != 'undefined' && temp[4] != "A0" && temp[4] != "Routine" ) // or if temp[4] == "A0"
+	        		{
+	        			var temp_comments = result_clone[i].comments;
+	        			arr[j++] = parser(commentsLookUp[0], temp_comments, result_clone[i]); 
+	        		}
+	        		break;
+	            case "A1-E": case "ND-E": arr[j++] = parser(commentsLookUp[2], result_clone[i].comments, result_clone[i]); break;
+	            case "A1-R": case "ND-R": arr[j++] = parser(commentsLookUp[3], result_clone[i].comments, result_clone[i]); break;
+	            case "A2": case "A3": case "ND-L": arr[j++] = parser(commentsLookUp[4], result_clone[i].comments, result_clone[i]); break;
+	        }
+        }
+
+        return arr;
+    }
+
+	function parser(lookup, temp, result)
+    {
+        var str = temp.split(";");
+
+        lookup.forEach(function (item, index, array) 
+        {
+			result[item] = (str[index] == "" ? null : str[index]);
+		});
+
+        var x = result.timestamp_retrigger == null ? "" : result.timestamp_retrigger.split(",");
+		result.timestamp_retrigger = (x == "") ? null : x[x.length - 1];
+	
+        return result;
+    }
+
+    function getValidity(initial, retrigger, alert_level) 
+    {
+        var validity = null;
+
+        //if( alert_level != "A0" ) {}
+
+        validity = retrigger != null ? retrigger : initial;
+
+        validity = moment(validity);
+        switch (alert_level)
+        {
+            case 'A1': 
+            case 'A2': validity.add(1, "days"); break;
+            case 'A3': validity.add(2, "days"); break;
+        }
+
+        if( validity.hour() % 4 != 0 )
+        {
+            remainder = Math.abs((validity.hour() % 4) - 4);
+            validity.add(remainder, "hours");
+        } else {
+            validity.add(4, "hours");
+        }
+
+        validity.set('minutes', 0);
+        validity = moment(validity).format("YYYY-MM-DD HH:ss:mm");
+
+        return validity;
+    }
 
 	/**
 	 * VALIDATION AREA
@@ -505,36 +697,65 @@ if (base_url() == "http://localhost/") {
         return (temp === type);
 	}
 
+	function checkTimestamp(value, element) 
+	{
+		var type = $("#overtime_type").val();
+		var hour = moment(value).hour();
+        var minute = moment(value).minute();
+        
+       	if (type == "Event-Based Monitoring")
+        {	
+    		if(element.id == 'startOfShift')
+    		{
+	        	message = "Acceptable times of shift start are 07:30 and 19:30 only.";
+	        	var temp = moment(value).add(13, 'hours')
+	        	$("#endOfShift").val(moment(temp).format('YYYY-MM-DD HH:mm:ss'))
+	        	$("#endOfShift").prop("readonly", true).trigger('focus');
+	        	setTimeout(function() { 
+	        		$("#endOfShift").trigger('blur');
+	        	}, 500);
+	        	return (hour == 7 || hour == 19) && minute == 30;
+	       	} else if(element.id == 'endOfShift')
+    		{	
+	        	message = "Acceptable times of shift end are 08:30 and 20:30 only.";
+	        	return ((hour == 8 || hour == 20) && minute == 30);
+	        }
+        } else {
+        	$("#endOfShift").prop("readonly", false);
+        	return true;
+        }
+	}
+
+	var message;
+	jQuery.validator.addMethod("TimestampTest", function(value, element) 
+    {   
+        return checkTimestamp(value, element);
+    }, function () {return message});
+
 	$("#accomplishmentForm").validate(
 	{
 		debug: true,
 		rules: {
-			startOfShift: "required",
-			endOfShift: "required",
+			startOfShift: {
+				required: true,
+				TimestampTest: true
+			},
+			endOfShift: {
+				required: true,
+				TimestampTest: true
+			},
 			overtime_type: {
 				required: true
 			},
-			siteMonitored: {
-                required: { depends: function () { return checkOvertimeType("Event-Based Monitoring") }}
-            },
-            alertEndShift: {
-                required: { depends: function () { return checkOvertimeType("Event-Based Monitoring") }}
-            },
-            continueMonitoring: {
-                required: { depends: function () { return checkOvertimeType("Event-Based Monitoring") }}
-            },
-            routineSitesMonitored: {
-                required: { depends: function () { return checkOvertimeType("Routine Monitoring Extension") }}
-            },
             summary: {
-                required: { depends: function () { return checkOvertimeType("Others") }}
+                required: { depends: function () { return checkOvertimeType("Others") }},
+                minlength: 20
             },
 		},
-		/*messages: {
-			fieldWorkStart: "Please enter 'Start Date and Time'.",
-			fieldWorkEnd: "Please enter 'End Date and Time'.",
+		messages: {
+			summary: "Enter task summary (minimum of 20 characters)"
 		},
-		errorElement: "em",*/
+		//errorElement: "em",
 		errorPlacement: function ( error, element ) {
             /*// Add the `help-block` class to the error element
             error.addClass( "help-block" );
@@ -545,6 +766,14 @@ if (base_url() == "http://localhost/") {
                 error.insertAfter( element );
             }*/
 
+            var placement = $(element).closest('.form-group');
+            //console.log(placement);
+		    if (placement) {
+		        $(placement).append(error)
+		    } else {
+		        error.insertAfter(placement);
+		    } //remove on success 
+
             // Add `has-feedback` class to the parent div.form-group
             // in order to add icons to inputs
             element.parents( ".form-group" ).addClass( "has-feedback" );
@@ -552,7 +781,6 @@ if (base_url() == "http://localhost/") {
             // Add the span element, if doesn't exists, and apply the icon classes to it.
             if ( !element.next( "span" )[ 0 ] ) { 
                 $( "<span class='glyphicon glyphicon-remove form-control-feedback' style='top:18px; right:22px;'></span>" ).insertAfter( element );
-                //if(element[0].id == "timestamp_entry" || element[0].id == "time_released" || element[0].id == "timestamp_initial_trigger" || element[0].id == "timestamp_retrigger") element.next("span").css("right", "15px");
                 if(element.parent().is(".datetime") || element.parent().is(".datetime")) element.next("span").css("right", "15px");
                 if(element.is("select")) element.next("span").css({"top": "18px", "right": "30px"});
             }
@@ -562,6 +790,8 @@ if (base_url() == "http://localhost/") {
             if ( !$( element ).next( "span" )) {
                 $( "<span class='glyphicon glyphicon-ok form-control-feedback' style='top:0px; right:37px;'></span>" ).insertAfter( $( element ) );
             }
+
+           $(element).closest(".form-group").children("label.error").remove();
         },
         highlight: function ( element, errorClass, validClass ) {
             $( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
@@ -594,26 +824,24 @@ if (base_url() == "http://localhost/") {
 			{
 				default: 	
 				case "Event-Based Monitoring": 	
-						formData["siteMonitoredList"] = siteMonitoredList;
-						break;
-				case "Routine Monitoring Extension":
-						formData["routineSitesMonitored"] = $("#routineSitesMonitored").val();
-						formData["siteMonitoredList"] = siteMonitoredList;
+						for( var i = 0; i < 2; i++) {
+							save(duties[i]);
+							console.log(duties[i]);
+						}
 						break;
 				case "Others":
 						formData["summary"] = $("#summary").val();
+						console.log(formData);
 					    break;
 			}
 
-			//console.log(formData);
-
-		    $.ajax({
+		    /*$.ajax({
 		      	url: "<?php echo base_url(); ?>accomplishment/insertData",
 		    	type: "POST",
 		    	data : formData,
 		    	success: function(id, textStatus, jqXHR)
 		      	{
-		      		console.log(id);
+		      		//console.log(id);
 		      		$('#modalTitle').html("Entry Insertion Notice");
 					$('#modalBody').html('<p class="text-success"><b>Accomplishment report successfully submitted!</b></p>');
 					$('#modalFooter').html('<a href="<?php echo base_url(); ?>gold/accomplishmentreport/individual/' + id + '" class="btn btn-info" role="button">View Entry</a>');
@@ -625,9 +853,32 @@ if (base_url() == "http://localhost/") {
 					var err = eval("(" + xhr.responseText + ")");
 					alert(err.Message);
 				}     
-			});
+			});*/
 
 		}
 	});
+
+	function save(formData) 
+	{
+		$.ajax({
+	      	url: "<?php echo base_url(); ?>accomplishment/insertData",
+	    	type: "POST",
+	    	data : formData,
+	    	success: function(id, textStatus, jqXHR)
+	      	{
+	      		//console.log(id);
+	      		$('#modalTitle').html("Entry Insertion Notice");
+				$('#modalBody').html('<p class="text-success"><b>Accomplishment report successfully submitted!</b></p>');
+				$('#modalFooter').html('<a href="<?php echo base_url(); ?>gold/accomplishmentreport/individual/' + id + '" class="btn btn-info" role="button">View Entry</a>');
+				$('#modalFooter').append('<a href="<?php echo base_url(); ?>gold" class="btn btn-success" role="button">Home</a>');
+
+		    	$('#dataEntry').modal({backdrop: "static"});
+	    	},
+	    	error: function(xhr, status, error) {
+				var err = eval("(" + xhr.responseText + ")");
+				alert(err.Message);
+			}     
+		});
+	}
 
 </script>

@@ -319,6 +319,7 @@
 							switch ($data->internal_alert_level) {
 								case 'A0':
 								case 'ND':
+									boilerPlate('GROUND MOVEMENT', $ground);
 									boilerPlate('RAINFALL', $rain);
 									boilerPlate('EARTHQUAKE', $eq);
 									break;
@@ -337,6 +338,7 @@
 									boilerPlate('GROUND MOVEMENT', $ground);
 									break;
 								case 'A2':
+								case 'ND-L':
 									boilerPlate('GROUND MOVEMENT', $ground);
 									break;
 								case 'A3':
@@ -473,43 +475,62 @@
 
 <?php  
 	
-	function parser($internal_alert_level, $suppInfoDesc, $suppInfo, $infoOrComment) 
+	function parser($internal_alert_level, $desc, $info, $infoOrComment) 
 	{
+
 		$comment;
-		if($internal_alert_level == "A1-D" || $internal_alert_level == "ND-D") {
-	    	$list = explode(";", $suppInfo);
-	    	$groups = str_replace(",", "/", $list[0]);
-	    	if (isset($list[2])) $comment = $list[2]; else $comment = null;
-	    	$suppInfoDesc = str_replace("[LGU/LLMC/Community]", $groups, $suppInfoDesc);
-	    	$suppInfoDesc = str_replace("[reason for request]", $list[1], $suppInfoDesc);
-	  	} elseif ($internal_alert_level == "A1-E" || $internal_alert_level == "ND-E") {
-	    	$list = explode(";", $suppInfo);
-	    	if (isset($list[3])) $comment = $list[3]; else $comment = null;
-	    	$suppInfoDesc = str_replace("[M]", $list[0], $suppInfoDesc);
-	    	$suppInfoDesc = str_replace("[d]", $list[1], $suppInfoDesc);
-	    	$suppInfoDesc = str_replace("[date, time]", date("j F Y, h:i A", strtotime($list[2])), $suppInfoDesc);
-	  	} elseif ($internal_alert_level == "A1-R" || $internal_alert_level == "ND-R") {
-	    	$list = explode(";", $suppInfo);
-	    	if (isset($list[1])) $comment = $list[1]; else $comment = null;
-	    	$suppInfoDesc = str_replace("[date, time (round up to the nearest next hour) of last threshold exceedence]", date("j F Y, h:i A", strtotime($list[0])), $suppInfoDesc);
-	  	} elseif ($internal_alert_level == "A2" || $internal_alert_level == "ND-L") {
-	    	$list = explode(";", $suppInfo);
-	    	if (isset($list[2])) $comment = $list[2]; else $comment = null;
-	    	$suppInfoDesc = str_replace("[date, time (round up to nearest next hour) of original L1-triggering measurement]", date("j F Y, h:i A", strtotime($list[0])), $suppInfoDesc);
-	    	//$suppInfoDesc = str_replace("[list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements]", $list[1], $suppInfoDesc);
-	    	$suppInfoDesc = str_replace("Additional ground movement/s detected last: [list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements].", '' , $suppInfoDesc);
-	  	} elseif ($internal_alert_level == "A3") {
-	    	$list = explode(";", $suppInfo);
-	    	if (isset($list[2])) $comment = $list[2]; else $comment = null;
-	    	$suppInfoDesc = str_replace("[date, time (round up to nearest next hour) of original L2-triggering measurement]", date("j F Y, h:i A", strtotime($list[0])), $suppInfoDesc);
-	    	//$suppInfoDesc = str_replace("[list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements]", $list[1], $suppInfoDesc);
-	    	$suppInfoDesc = str_replace("Additional ground movement/s detected last: [list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements].", '', $suppInfoDesc);
-		} else {
-	    	if (isset($suppInfo)) $comment = $suppInfo; else $comment = null;
+		$list = explode(";", $info);
+
+		switch ($internal_alert_level) {
+			case 'A1-D':
+			case 'ND-D':
+				$groups = str_replace(",", "/", $list[0]);
+				$comment = isset($list[2]) ? $list[2] : null;
+				$desc = str_replace("[LGU/LLMC/Community]", $groups, $desc);
+	    		$desc = str_replace("[reason for request]", $list[1], $desc);
+				break;
+			case 'A1-E':
+			case 'ND-E':
+				$comment = isset($list[3]) ? $list[3] : null;
+				$desc = str_replace("[M]", $list[0], $desc);
+	    		$desc = str_replace("[d]", $list[1], $desc);
+	    		$desc = str_replace("[date, time]", date("j F Y, h:i A" , strtotime($list[2])), $desc);
+	    		$desc = str_replace("[retriggers]", retriggers($list[4]), $desc);
+				break;
+			case 'A1-R':
+			case 'ND-R':
+				$comment = isset($list[1]) ? $list[1] : null;
+				$desc = str_replace("[date, time (round up to the nearest next hour) of last threshold exceedence]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
+				$desc = str_replace("[retriggers]", retriggers($list[2]), $desc);
+				break;
+			case 'A2':
+			case 'ND-L':
+				$comment = isset($list[2]) ? $list[2] : null;
+				$desc = str_replace("[date, time (round up to nearest next hour) of original L1-triggering measurement]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
+	    		$desc = str_replace("[list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements]", retriggers($list[1]), $desc);
+				break;
+			case 'A3':
+				$comment = isset($list[2]) ? $list[2] : null;
+				$desc = str_replace("[date, time (round up to nearest next hour) of original L2-triggering measurement]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
+	    		$desc = str_replace("[list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements]", retriggers($list[1]), $desc);
+				break;
+			default:
+				$comment = isset($info) ? $info : null;
+				break;
 		}
 
-		if ($infoOrComment == 1) return $comment;
-		else return $suppInfoDesc;
+		return $infoOrComment == 1 ? $comment : $desc;
+
+	}
+
+	function retriggers($list)
+	{
+		$list = explode(",", $list);
+		for ($i=0; $i < count($list); $i++) 
+		{ 
+			$list[$i] = date("j F Y, h:i A" , strtotime($list[$i]));
+		}
+		return implode(", ", $list);
 	}
 
 ?>
