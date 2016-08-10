@@ -443,9 +443,9 @@
 							switch ($data->internal_alert_level) {
 								case 'A0':
 								case 'ND':
-									boilerPlate('GROUND MOVEMENT', "[No significant ground movement/sensor data detected.]/[Ground movement/sensor data reduced to non-significant rates.]");
-									boilerPlate('RAINFALL', "[No landslide-triggering rainfall event detected.]/[Rainfall data remained below threshold level in the last 24 hours.]");
-									boilerPlate('EARTHQUAKE', "[No landslide-triggering earthquake event detected.]/[No significant ground movement and sensor data detected after the earthquake.]");
+									boilerPlate('GROUND MOVEMENT', "***No significant ground movement/sensor data detected.*** OR ***Ground movement/sensor data reduced to non-significant rates.***");
+									boilerPlate('RAINFALL', "***No landslide-triggering rainfall event detected.*** OR ***Rainfall data remained below threshold level in the last 24 hours.***");
+									boilerPlate('EARTHQUAKE', "***No landslide-triggering earthquake event detected.*** OR ***No significant ground movement and sensor data detected after the earthquake.***");
 									break;
 								case 'A1-D':
 								case 'ND-D':

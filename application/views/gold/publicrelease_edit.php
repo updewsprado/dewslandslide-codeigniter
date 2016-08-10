@@ -759,7 +759,7 @@
                     case "A1-D": case "ND-D": delegateValue(commentsLookUp[1], current_entry, commentList); toggleFields([1,0,0,1]); break;
                     case "A1-E": case "ND-E": delegateValue(commentsLookUp[2], current_entry, commentList); toggleFields([0,1,1,1]); break;
                     case "A1-R": case "ND-R": delegateValue(commentsLookUp[3], current_entry, commentList); toggleFields([0,0,1,1]); break;
-                    case "A2": case "A3": delegateValue(commentsLookUp[4], current_entry, commentList); toggleFields([0,0,1,1]); break;
+                    case "A2": case "A3": case "ND-L": delegateValue(commentsLookUp[4], current_entry, commentList); toggleFields([0,0,1,1]); break;
                     case "A0": delegateValue(commentsLookUp[0], current_entry, commentList); toggleFields([0,0,0,0]); break;
                 }
             } else {
