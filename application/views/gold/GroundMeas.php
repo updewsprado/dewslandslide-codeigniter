@@ -3,13 +3,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined.js"></script>
-  <script type="text/javascript" src="http://fgnass.github.io/spin.js/spin.min.js"></script>
-  <script type="text/javascript" src="/js/jquery.validate.js"></script>
+<script type="text/javascript" src="http://fgnass.github.io/spin.js/spin.min.js"></script>
+<script type="text/javascript" src="/js/jquery.validate.js"></script>
 <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
 
- <!--  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/u/bs/dt-1.10.12,b-1.2.1,b-colvis-1.2.1,fh-3.1.2,r-2.1.0,se-1.2.0/datatables.min.css"/>
-<script type="text/javascript" src="https://cdn.datatables.net/u/bs/dt-1.10.12,b-1.2.0,fh-3.1.2,r-2.1.0/datatables.min.js"></script> -->
 
   <style type="text/css">
     /*body {
@@ -305,7 +302,7 @@ mysqli_close($conn);
                 ?>
                
                 <th >Measurement in (cm)</th>
-                <th >Action</th>
+         
             </tr>
         </thead>
 
@@ -326,7 +323,7 @@ mysqli_close($conn);
 
                      echo '<td ><input type="number"   style="width:80px" class="meas" /></td>';
                    
-                    echo '<td ><span class="glyphicon glyphicon-edit" style="left:10px;" button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalForm" id="modal'. $name . $i .'"></span></td>';
+                   
                 $i++;
                     echo '</tr>';
                 }
@@ -342,20 +339,16 @@ mysqli_close($conn);
             <button type="submit" class="btn btn-info btn-md pull-right"  >SAVE</button>
         </div>
 
-        <div class="modal fade" id="myModal" role="dialog">
+
+        <div class="modal fade" id="myModal" role="dialog" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog">
-    
-
-      <!-- Modal part-->
-
-       <!-- Modal succes-->
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" onclick="myFunction1()">&times;</button>
          <h4 class="modal-title">Entry Insertion Notice</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Successfully Inserted the Entry!</p>
+                        <p id="modaltext">Successfully Inserted the Entry!</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" id="rendertable"  onclick="myFunction1()">Close</button>
@@ -364,39 +357,106 @@ mysqli_close($conn);
       
     </div>
   </div>
-   <!-- <div id="modalForm" class="modal fade" role="dialog">
-  <div class="modal-dialog"> -->
+  </div>
+  </form>
+  <div id="modalForm" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static"> 
+
+  <div class="modal-dialog">
 
     <!-- Modal content-->
-   <!--  <div class="modal-content">
+    <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="close" data-dismiss="modal" onclick="myFunction1()" >&times;</button>
         <h4 class="modal-title">Update Form</h4>
+        <!-- <input type="text" value="hi" id="hi"> -->
       </div>
       <div class="modal-body">
-        <form>
-        <label class="control-label" for="crackid">Crack Id</label>
-                <select  class="form-control" onchange="displayGroundGraphs()" style="width: 126px;">
-                        <option  id="crackSelect" value=""></option>
-                      </select>
-                      <br> -->
-        <!--  <label class="control-label" for="timestamp_entry">TimeStamp</label> 
-         <label class="control-label" for="meastable">Measurement(cm)</label></form> -->
-       <!--   <table>
+        <form role="form"  id="crackFormUp"  method="POST" autocomplete="on">
+      
+         <table class="table">
            <THEAD>
-             <th> timestamp </th>
+           <tr>
+            <th> Timestamp<span class="glyphicon glyphicon-edit" style="left:5px;" button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#timemodal" id="upmodalTime" onClick="enable()"></span> </th>
+            <th> Crack</th>
+             <th> Measurement(cm) </th> 
+             </tr>
            </THEAD>
+           <tbody>
+           
+           <?php
+            echo "<tr>";
+                
+               echo "<td style='width: 300px'>";  
+                $i = 0;       
+                   foreach($data as $crackId=>$val) {
+                   
+                 echo   '<div class="input-group date datetime" class="entryupdate">
+                    <input type="text" class="form-control modalTime" name="entryupdate'.$i.'" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" value="" id="entryupdate'.$i.'" disabled="disabled"/><span class="input-group-addon" id="span'.$i.'"> <span class="glyphicon glyphicon-calendar"></span></span>
+                </div>        <br>  ';
+                $i++;
+                }
+                echo "</td>";   
+                 echo "<td>";    
+                    $i = 0;
+                   foreach($data as $crackId=>$val) {
+                        
+                 echo   '
+                        <input  type="text" class="form-control" id="crackSelect'.$i.'" value="'.$crackId.'" disabled="disabled"></input>
+                        <br>  ';
+                          $i++;
+                
+                }
+                echo "</td><td>";
+                 $i = 0;
+                    foreach($data as $crackId=>$val) {
+                 echo '<input type="text" class="form-control" id="updateMeas'.$i.'"   value="" /> <br>';
+                $i++;
+             }
+           echo "</td></tr>";
+          ?>
+
+           </tbody>
          </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       
+        <button type="submit" class="btn btn-info btn-md"  id="update" onclick="updateFunction()">Update</button>
+         <button type="button" class="btn btn-default"  id="cancel" onclick="cancelFunction()">Cancel</button>
       </div>
-    </div> -->
+      </form>
+    </div>
 
   </div>
 </div>
 
-  </form>
+ <div class="container">
+    <!-- Modal -->
+  <div class="modal fade" id="timemodal" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" onclick="myFunction1()">&times;</button>
+          <h4 class="modal-title">Update Form</h4>
+        </div>
+        <div class="modal-body">
+         <label class="control-label" for="timestamp_entry">Update Timestamp</label>
+                <div class='input-group date datetime' id="entry">
+                    <input type='text' class="form-control" id="timestampModal" name="timestamp_entry" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" value="" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info btn-md" data-dismiss="modal" onclick="save()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+
+
+  
 
 
 </div>
@@ -404,7 +464,15 @@ mysqli_close($conn);
 <script>
 var end_date = new Date();
 var start_date = new Date(end_date.getFullYear(), end_date.getMonth(), end_date.getDate()-30);
-   
+var table = document.getElementById("mytable");
+var tDiff = [];  
+var crackData = [];
+var upArray =[];
+var upDateAr =[];
+var reserveNo =[];
+var convert=[];
+var withVal =[];
+var datenew;
 $('#groundform').hide();
 $('.tblhead').hide();
 
@@ -560,23 +628,15 @@ function showDateSitePlots (frm) {
   }
 }
 
-function myFunction1() {
-     var urlExt = "gold/GroundMeas/" + curSite;
-    var urlBase = "<?php echo base_url(); ?>";
-    location.href = urlBase + urlExt;
-}
-    
+
 function check() {
-      var table = document.getElementById("mytable");
       var select = document.getElementById('mySelect2');
-     
-      var crackData = [];
       var measTData = <?php echo json_encode($measType);  ?>;
       var weatherData = <?php echo json_encode($weatherData);  ?>;
-      var tablelength = table.rows[0].cells.length - 3;
+      var crkDataval = <?php echo json_encode($listCrackId);  ?>;
+      var tablelength = table.rows[0].cells.length - 2;
       var diff = new Array(); 
       var meas =[];
-      var tDiff = [];
       var timediffVal = [];
       var tableDiff = [];
       var msDATA =[];
@@ -588,24 +648,38 @@ function check() {
       var green =[];
       var e =  select.options.length;
       $('#groundform').show();
-$('.tblhead').show();
+      $('.tblhead').show();
       for (var a= 1 ; a <= tablelength  ; a++) {
        var timedata = (table.rows[0].cells.item(a).innerHTML);
         tDiff.push(timedata);
          
       }
-         for (var y= 1 ;  y<= select.length  ; y++) {
-       var crkdata = (table.rows[y].cells.item(0).innerHTML);
-        crackData.push(crkdata);
-        console.log(crackData)
-         
+
+      if(document.getElementById("site_id").value != "sag" && document.getElementById("site_id").value != "nag"){
+             for (var y= 1 ;  y<= select.length  ; y++) {
+           var crkdata = (table.rows[y].cells.item(0).innerHTML);
+            crackData.push(crkdata);
+            // console.log(crackData)
+             
+          }
+      }else{
+          for (var y= 0 ;  y<= select.length  ; y++) {
+           var crkdata = crkDataval[y];
+            crackData.push(crkdata);
+            // console.log(document.getElementById("site_id").value);
+             
+          }
       }
 
         // TIME
-          
+          var timeCon =[];
              for (var i = 0  ; i <=weatherData.length; i++) {
               var add = 1+ i;
+              var addData = "modal" + add;
+ // $(".modalTime").attr('value',tDiff[i]);
+              // console.log(tDiff[i]);
             $('#time' + add).attr('value',tDiff[i] ); 
+            $("#time" + add).append('<span class="glyphicon glyphicon-edit" style="left:10px;" button type="button" class="btn btn-info btn-lg modal' +  add  + '" data-toggle="modal" data-target="#modalForm" id="modal' +  add  + '" onClick="reply_click(this.id)"></span>');
             $('#time' + i).attr('data-original-title',weatherData[weatherData.length-i]);
             var measdataType = measTData[weatherData.length-i];
             if (measdataType == "EVENT"){
@@ -617,29 +691,43 @@ $('.tblhead').show();
             }
           }
              
-              var iArray =[];
-              for (var k = 0 ; k <= e-1; k++) { 
-            for (var j = 1 ; j <= tablelength+1 ; j++) {
-              for (var i = k+1 ; i <= k+1 ; i++) {
-                  var tableRow = table.rows[i].cells;
+        
+         
+               var iArray =[];
+                for (var k = 0 ; k <= e-1; k++) { 
+              for (var j = 1 ; j <= tablelength+1 ; j++) {
+                for (var i = k+1 ; i <= k+1 ; i++) {
+                    if(document.getElementById("site_id").value != "sag" && document.getElementById("site_id").value != "nag" ) {
+                       var tableRow = table.rows[i].cells;
                   var diff1 = tableRow.item(j).innerHTML ;
                   if(diff1 != "null" ){
                   jArray.push(j);
                   iArray.push(i);
                  }
+                    }else{
+                         var tableRow = crkDataval[i] + j;
+                  var diff1 = document.getElementById(tableRow);
+                          console.log(diff1);
+                    if(diff1 != "null" ){
+                    jArray.push(j);
+                    iArray.push(i);
+                    
+                    
+                     
+                   }
+                 }
+                  }
+
                 }
-
-              }
-          }
-
-
-     
+             }
+            
+    
           
           for (var c = 0 ; c <= jArray.length  ; c++) {
               var i = iArray[c];
               var j = jArray[c];
               var i2=iArray[c+1]
-              // var u = c;
+               // $(".modalTime").removeAttr('value');
               var tableRow = table.rows[i].cells.item(j).innerHTML;
               if (i == i2){
               var tablecomputation = tableRow - table.rows[iArray[c]].cells.item(jArray[c+1]).innerHTML;
@@ -659,7 +747,7 @@ $('.tblhead').show();
                 var date2 = moment(tDiff[v2]);
                 var days = date2.diff(date1, 'hours');
                 timediffVal.push(days);
-                 // console.log(id+ (tablelength-1)); 
+                 // console.log(msDATA); 
 
                 if( days <= "4" && days >= "0"&& valueMeas <= "0.4" && valueMeas >= "0" ){
                      $(msDATA[d]).attr('bgcolor','#99ff99');
@@ -687,8 +775,8 @@ $('.tblhead').show();
                       // console.log(v); 
                 } else if (days <= "24" && days > "4" && valueMeas <= "9.9 " && valueMeas >= "0.5"){
                   $(msDATA[d]).attr('bgcolor','#ffb366');
-                   // console.log(tDiff[v2] +"-" +tDiff[v]+ "=" + days );  
-                  }else if (days <= "96" && days > "24" && valueMeas <= "29.9"  && valueMeas >= "1.5"){
+                   console.log(tDiff[v2] +"-" +tDiff[v]+ "=" + days );  
+                  }else if (days <= "96" && days > "25" && valueMeas <= "29.9"  && valueMeas >= "1.5"){
                     $(msDATA[d]).attr('bgcolor','#ffb366');
                     }else if ( days >= "97" && valueMeas <= "74.9" &&  valueMeas >= "3"){
                     $(msDATA[d]).attr('bgcolor','#ffb366');
@@ -701,13 +789,14 @@ $('.tblhead').show();
 
                 if( days <= "4" && days >= "0" && valueMeas > "5"  ){
                      $(msDATA[d]).attr('bgcolor','#ff6666');
-                     // console.log(tDiff[v2] +"-" +tDiff[v]+ "=" + days );  
+                     console.log(tDiff[v2] +"-" +tDiff[v]+ "=" + days );  
                       // console.log(v); 
-                } else if (days <= "24" && days > "5" && valueMeas > "10"){
+                } else if (days <= "24" && days > "5" && valueMeas > "10" ){
                   $(msDATA[d]).attr('bgcolor','#ff6666');
-                   // console.log(tDiff[v2] +"-" +tDiff[v]+ "=" + days );  
+                   console.log(tDiff[v2] +"-" +tDiff[v]+ "=" + days );  
                   }else if (days <= "96" && days > "25" && valueMeas > "30"  ){
                     $(msDATA[d]).attr('bgcolor','#ff6666');
+                    console.log(tDiff[v2] +"-" +tDiff[v]+ "=" + days );  
                     }else if ( days >= "97" && valueMeas >= "75" ){
                     $(msDATA[d]).attr('bgcolor','#ff6666');
                     }
@@ -732,7 +821,7 @@ $('.tblhead').show();
                         var uniqueArray = green.filter(function(elem, pos,arr) {
                    return arr.indexOf(elem) == pos;
                     });
-                console.log("#green"+ (i-1));
+                // console.log("#green"+ (i-1));
                        $("#green"+ (i-1)).attr("style","background-image: linear-gradient(to bottom, #99ff99 0%, rgba(125, 185, 232, 0) 100%)");
                           document.getElementById("green0").innerHTML = "<p> No Significant ground movement </p>";
                     }else if (attrColor == "#ffb366") {
@@ -742,37 +831,168 @@ $('.tblhead').show();
                                   // $('#red0').hide();
                                  // document.getElementById("red0").removeAttribute("style","background-image: linear-gradient(to bottom, #ff6666 0%, rgba(125, 185, 232, 0) 100%)")
                     }else if (attrColor == "#ff6666") {
-                       $('#green0').hide();
-                             $('#orange0').hide();
+                      $('#green0').hide();
+                      $('#orange0').hide();
+
                          $("#red0").attr("style","background-image: linear-gradient(to bottom, #ff6666 0%, rgba(125, 185, 232, 0) 100%)");
                           document.getElementById("red0").innerHTML = "<p> <b>ALERT!! </b> Critical ground movement observed in the last 48 hours; landslide may be imminent</p>";
                           
                         }
-                    
+                     
                 }
-                          
-              }
+
+}
+
+
+
+            
         
 }
 
-// function update() {
-      // for (var crk = 0 ; crk <= crackData.length  ; crk++) {
-      //  console.log(crackData);
-      // }
 
-// }
+function reply_click(clicked_id)
+{
+
+    var res = clicked_id.slice(5, 7);
+    reserveNo.push(res);
+    var datenew = tDiff[res];
+     var res2 = datenew.slice(12, 25);
+     var str = $.datepicker.formatDate('yy-mm-dd ',new Date(tDiff[res]));
+     convert.push(str);
+       for (var c = 1 ; c <= crackData.length  ; c++) {
+         var upId = crackData[c-1];
+        var noSpace = upId.replace(/\s/g,"");
+         var upVal = document.getElementById(noSpace+res).innerHTML;
+         if(upVal != "null"){
+          $("#updateMeas"+(c-1)).attr('value',upVal); 
+          $("#entryupdate"+(c-1)).attr('value',str+res2);
+          withVal.push(c-1);
+        upArray.push(upVal);
+          upDateAr.push(str+res2);
+         } else{
+          $("#updateMeas"+(c-1)).hide();
+          $("#entryupdate"+(c-1)).hide();
+          $("#crackSelect"+(c-1)).hide();
+          $("#span"+(c-1)).hide();
+         }
+       }
+
+
+}
+
+function updateFunction(){
+
+var  meas=[];
+var crack=[];
+var ts=[];
+var tsOld =[];
+var Ob =[];
+var Si =[];
+ for (var i = 0; i < crackData.length; i++) {
+  var measArray = document.getElementById("updateMeas"+i).value;
+  var crackArray = document.getElementById("crackSelect"+i).value;
+  var tsArray = document.getElementById("entryupdate"+i).value;
+  var datenew = tDiff[reserveNo];
+  var res2 = datenew.slice(12, 21)
+  var tsUpdate = convert+res2;
+  var observerArray = document.getElementById("observer_name").value;
+  var siteArray = document.getElementById("site_id").value;
+  meas.push(measArray);
+  crack.push(crackArray);
+  ts.push(tsArray);
+  tsOld.push(tsUpdate);
+  Ob.push(observerArray);
+  Si.push(siteArray);
+  console.log(crack);
+
+}
+
+ $("#crackFormUp").validate({
+
+            rules: {
+                site_id: {
+                    required: false,
+                },
+                observer_name: {
+                    required: false
+                },
+               
+            },
+          submitHandler:function(form){
+            
+        
+          var formData = {
+            timestampNew: ts,
+            timestamp: tsOld,
+            site_id: Si,
+            observer_name: Ob,
+            meas: meas,
+            crack_id: crack
+          };
+
+
+        $.ajax({
+            url: '<?php echo base_url(); ?>gndforms_crt/updatedata',
+            type:'POST',
+            data: formData,
+            success: function(result, textStatus, jqXHR)
+                    {
+                       
+                       console.log(result);
+              
+                       $('#modalForm').modal('hide');
+                        $('#myModal').modal('show');
+                    }     
+        
+        });
+
+       
+
+     }   
+});
+
+
+}
  
+function myFunction1() {
+     var urlExt = "gold/GroundMeas/" + curSite;
+    var urlBase = "<?php echo base_url(); ?>";
+    location.href = urlBase + urlExt;
+}
+
+function cancelFunction() {
+     var urlExt = "gold/GroundMeas/" + curSite;
+    var urlBase = "<?php echo base_url(); ?>";
+    location.href = urlBase + urlExt;
+}
+   
+
+function enable(){
+  $('#modalForm').modal('hide');
+  var entrydata = withVal[0];
+  var time = document.getElementById("entryupdate"+entrydata).value;
+  $("#timestampModal").attr('value',time);
+} 
+
+function save(){
+  $('#modalForm').modal('show');
+  var time = document.getElementById("timestampModal").value;
+  $(".modalTime").attr('value',time);
+}
+
 
 $(document).ready(function() {
 
             $('#siteG').addClass('form-group col-xs-6').removeClass(' form-group col-xs-3');
             $('#dBase').addClass('form-group col-xs-4').removeClass('form-group col-xs-3');
             $("#time").append($('#timestamp_entry').val());   
-            $('.time0').hide();
+            $('.time0').hide();    
 
+         
          
         $('.datetime').datetimepicker({
             format: 'YYYY-MM-DD HH:mm:ss',
+            defaultDate: datenew,
             allowInputToggle: true,
            maxDate: new Date(),
             widgetPositioning: {
@@ -788,7 +1008,7 @@ $(document).ready(function() {
                 horizontal: 'right'
             }
         });
-
+// INSERT
          $("#crackForm").validate({
 
           rules: {
@@ -813,20 +1033,18 @@ $(document).ready(function() {
                
             },
           submitHandler:function(form){
+            
           var listarray = new Array(); 
           var select = document.getElementById('mySelect2');
           for(var i = 0; i < select.options.length; i++){
              listarray.push(select.options[i].text);
              }
-             // console.log(listarray);
-
            var measVAL= new Array(); 
            var inputs = $(".meas");
           for(var i = 0; i < inputs.length; i++){
               measVAL.push($(inputs[i]).val());
              
           }
-          // console.log(measVAL);
           
            var timeVAL= new Array(); 
            var siteVAL = new Array();
@@ -842,8 +1060,8 @@ $(document).ready(function() {
             weatherVAL.push($("#weather").val());
             reliabilityVAL.push($("#reliability").val());
             }
-          console.log(timeVAL , measTypeVal ,siteVAL ,observerVAL ,weatherVAL ,reliabilityVAL); 
-
+          // console.log(timeVAL , measTypeVal ,siteVAL ,observerVAL ,weatherVAL ,reliabilityVAL); 
+            alert("1");
           var formData = {
             timestamp: timeVAL,
             meas_type: measTypeVal,
@@ -854,7 +1072,7 @@ $(document).ready(function() {
             meas: measVAL,
             crack_id: listarray
           };
-
+alert("2");
         $.ajax({
             url: '<?php echo base_url(); ?>gndforms_crt/insert',
             type:'POST',
@@ -868,6 +1086,9 @@ $(document).ready(function() {
                     }     
         
         });
+
+       
+
      }   
 });
 
@@ -875,7 +1096,6 @@ $(document).ready(function() {
  });
 
 
- 
 
 
 </script>
