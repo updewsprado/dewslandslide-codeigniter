@@ -52,6 +52,7 @@ public function updatedata()
             $ci=$_POST["crack_id"];
             $o =$_POST["observer_name"];
             $m =$_POST["meas"];
+            $r =$_POST["reliability"];
               foreach($to as $i=>$timestamp) {
     if($m[$i] != '') {
         $data = array(
@@ -69,6 +70,7 @@ public function updatedata()
             'observer_name' => $this->checkIfEmpty($o[$i]),
             'meas'          => $this->checkIfEmpty($m[$i]),
             'site_id'       => $this->checkIfEmpty($s[$i]), 
+            'reliability'   => $this->checkIfEmpty($r[$i]), 
 
         );
              var_dump($data);
