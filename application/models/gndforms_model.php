@@ -17,7 +17,15 @@ class Gndforms_model extends CI_Model {
         return $id;
  }
 
+public function updateCrack($data)
+  {
 
+    $sql = "UPDATE senslopedb.gndmeas SET timestamp='".$data['timestamp_new']."',meas='".$data['meas']."',reliability='".$data['reliability']."',observer_name='".$data['observer_name']."' WHERE crack_id='".$data['crack_id']."' AND site_id='".$data['site_id']."' AND timestamp='".$data['timestamp_old']."'";
+    $result = $this->db->query($sql);
+
+    echo var_dump($sql);
+  
+  }
 
 
  /* OTHERS*/
