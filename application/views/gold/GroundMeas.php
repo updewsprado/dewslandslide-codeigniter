@@ -504,11 +504,17 @@ var table = document.getElementById("mytable");
 var tDiff = [];  
 var crackData = [];
 var upArray =[];
+var upArraynull =[];
 var upDateAr =[];
+var upDateArnull =[];
+var upDateArnull =[];
 var reserveNo =[];
 var convert=[];
 var withVal =[];
 var reVal =[];
+var withValnull= [];
+var upArraynull= [];
+var upDateArnull= [];
 var datenew;
 $('#groundform').hide();
 $('.tblhead').hide();
@@ -537,7 +543,7 @@ function getAllSites() {
       URL = "http://localhost/temp/getSenslopeData.php?sitenames&db=senslopedb";
     }
     else {
-      URL = "http://www.dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
+      URL = "http://192.168.150.191/ajax/getSenslopeData.php?sitenames&db=senslopedb";
     }
     
     $.getJSON(URL, function(data, status) {
@@ -793,7 +799,6 @@ for(var i = 0; i < select.options.length; i++){
           
           for (var c = 0 ; c <= jArray.length  ; c++) {
               var i = iArray[c];
-              console.log(i);
               var j = jArray[c];
               var i2=iArray[c+1]
               var tableRow = table.rows[i].cells.item(j).innerHTML;   
@@ -945,20 +950,26 @@ function reply_click(clicked_id)
          var upId = crackData[c-1];
         var noSpace = upId.replace(/\s/g,"");
          var upVal = document.getElementById(noSpace+res).innerHTML;
+            if(upVal == "null"){
+          $("#updateMeas"+(c-1)).attr('value',upVal); 
+          $("#entryupdate"+(c-1)).attr('value',str+res2);
+          $("#updateRe"+(c-1)).attr('value',(reaVal)); 
+          withValnull.push(c-1);
+          upArraynull.push(upVal);
+          upDateArnull.push(str+res2);
+          // console.log(c-1);
+         } 
          if(upVal != "null"){
           $("#updateMeas"+(c-1)).attr('value',upVal); 
           $("#entryupdate"+(c-1)).attr('value',str+res2);
           $("#updateRe"+(c-1)).attr('value',(reaVal)); 
           withVal.push(c-1);
-        upArray.push(upVal);
+          upArray.push(upVal);
           upDateAr.push(str+res2);
-         } else{
-          $("#updateMeas"+(c-1)).hide();
-          $("#entryupdate"+(c-1)).hide();
-          $("#crackSelect"+(c-1)).hide();
-          $("#updateRe"+(c-1)).hide();
-          $("#span"+(c-1)).hide();
-         }
+          // console.log(c-1);
+         } 
+      
+
        }
 
 
@@ -973,11 +984,23 @@ var tsOld =[];
 var Ob =[];
 var Si =[];
 var re =[];
- for (var i = 0; i < crackData.length; i++) {
-  var measArray = document.getElementById("updateMeas"+i).value;
-  var crackArray = document.getElementById("crackSelect"+i).value;
-  var tsArray = document.getElementById("entryupdate"+i).value;
-  var ReArray = document.getElementById("updateRe"+i).value.toUpperCase();
+
+var measNull=[];
+var crackNull=[];
+var tsNull=[];
+var ObNull =[];
+var SiNull =[];
+var reNull =[];
+var weatherNull =[];
+var measTNull =[];
+
+var i = withVal;
+var i2 = withValnull;
+ for (var a = 0; a < withVal.length; a++) {
+  var measArray = document.getElementById("updateMeas"+i[a]).value;
+  var crackArray = document.getElementById("crackSelect"+i[a]).value;
+  var tsArray = document.getElementById("entryupdate"+i[a]).value;
+  var ReArray = document.getElementById("updateRe"+i[a]).value.toUpperCase();
   var datenew = tDiff[reserveNo];
   var res2 = datenew.slice(12, 21)
   var tsUpdate = convert+res2;
@@ -990,8 +1013,29 @@ var re =[];
   Ob.push(observerArray);
   Si.push(siteArray);
   re.push(ReArray);
-  // console.log(crackData.length);
+  
+}
 
+ for (var a2 = 0; a2 < withValnull.length; a2++) {
+  var measArray = document.getElementById("updateMeas"+i2[a2]).value;
+  var crackArray = document.getElementById("crackSelect"+i2[a2]).value;
+  var tsArray = document.getElementById("entryupdate"+i2[a2]).value;
+  var ReArray = document.getElementById("updateRe"+i2[a2]).value.toUpperCase();
+  var observerArray = document.getElementById("observer_name").value;
+  var siteArray = document.getElementById("site_id").value;
+  var weatherData = <?php echo json_encode($weatherData);  ?>;
+  var measTData = <?php echo json_encode($measType);  ?>;
+  var diff = weatherData.length-reserveNo;
+  var weatherNew = weatherData[diff];
+  var measTNew = measTData[diff];
+  measNull.push(measArray);
+  crackNull.push(crackArray);
+  tsNull.push(tsArray);
+  ObNull.push(observerArray);
+  SiNull.push(siteArray);
+  reNull.push(ReArray);
+  weatherNull.push(weatherNew);
+  measTNull.push(measTNew);
 }
 
  $("#crackFormUp").validate({
@@ -1018,6 +1062,16 @@ var re =[];
             reliability:re
           };
 
+          var formData2 = {
+            timestamp: tsNull,
+            site_id: SiNull,
+            observer_name: ObNull,
+            meas: measNull,
+            crack_id: crackNull,
+            reliability:reNull,
+            meas_type: measTNull,
+            weather: weatherNull,
+          };
 
         $.ajax({
             url: '<?php echo base_url(); ?>gndforms_crt/updatedata',
@@ -1025,16 +1079,22 @@ var re =[];
             data: formData,
             success: function(result, textStatus, jqXHR)
                     {
-                       
-                       // console.log(result);
-              
                        $('#modalForm').modal('hide');
                         $('#myModal').modal('show');
                     }     
         
         });
 
-       
+            $.ajax({
+            url: '<?php echo base_url(); ?>gndforms_crt/insert',
+            type:'POST',
+            data: formData2,
+            success: function(result, textStatus, jqXHR)
+                    {
+                       // console.log(result);
+                    }     
+        
+        });
 
      }   
 });
