@@ -1,11 +1,18 @@
             <div id="page-wrapper">
                 <div class="container bootstrap snippet">
                     <div class="row">
-                        <div id="search-contacts" class="col-md-6">
+                        <div id="search-contacts" class="col-md-3">
                             <label>Search for contact:</label><Br/>
-                            <input class="dropdown-input" data-multiple />
-                            <!-- <textarea class="dropdown-input" data-multiple></textarea> -->
-                            <button type="button" id="go-chat">Go Chat!</button><Br/>
+                            <input class="dropdown-input" placeholder="Type name..." data-multiple />
+                            <button type="button" class="btn btn-xs btn-primary" id="go-chat">Go Chat!</button><Br/>
+
+ <!-- Uncomment to enable bootstrap type button -->
+<!--                             <div class="input-group">
+                                <input type="text" class="form-control dropdown-input" placeholder="Type name..." data-multiple />
+                                <span class="input-group-btn">
+                                    <button id="go-chat" class="btn btn-primary" type="button">Go Chat!</button>
+                                </span>
+                            </div> -->
                         </div>
                         <div id="div-advanced-search" class="col-md-6">
                             <button type="button" class="btn btn-link btn-sm" id="btn-advanced-search" 
@@ -36,7 +43,7 @@
                     </div>
 
                     <div class="row">
-                		<div class="col-md-3 bg-white ">
+                		<div class="col-md-4 bg-white ">
                 <!--             
                             <div class=" row border-bottom padding-sm friend-list-header" style="height: 40px;">
                             	Contacts
@@ -44,10 +51,10 @@
 
                             <!-- =============================================================== -->
                             <!-- member list -->
-                <!--             <ul class="friend-list">
+<!--                             <ul class="friend-list">
                                 <li class="active bounceInDown">
                                 	<a href="#" class="clearfix">
-                                		<img src="images/phivolcs2.png" alt="" class="img-circle">
+                                		<img src="/goldF/images/Chatterbox/phivolcs2.png" alt="" class="img-circle">
                                 		<div class="friend-name">	
                                 			<strong>John Doe</strong>
                                 		</div>
@@ -57,6 +64,17 @@
                                 	</a>
                                 </li>
                                 <li>
+                                    <a href="#" class="clearfix">
+                                        <img src="/goldF/images/Chatterbox/phivolcs2.png" alt="" class="img-circle">
+                                        <div class="friend-name">   
+                                            <strong>XXX PLGU Prado Arturo Navarro Bognot</strong>
+                                        </div>
+                                        <div class="last-message text-muted">Testing what will happen if a put a very long message here. Will it ruin the layout or not? I wanna know, can you show me? I wanna know about the strangers like me.</div>
+                                        <small class="time text-muted">Just now</small>
+                                        <small class="chat-alert text-muted"><i class="fa fa-check"></i></small>
+                                    </a>
+                                </li>
+                                <li>
                                 	<a href="#" class="clearfix">
                                 		<img src="http://bootdey.com/img/Content/user_2.jpg" alt="" class="img-circle">
                                 		<div class="friend-name">	
@@ -64,12 +82,12 @@
                                 		</div>
                                 		<div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
                                 		<small class="time text-muted">5 mins ago</small>
-                                	<small class="chat-alert text-muted"><i class="fa fa-check"></i></small>
+                                	    <small class="chat-alert text-muted"><i class="fa fa-check"></i></small>
                                 	</a>
                                 </li> 
                                 <li>
                                 	<a href="#" class="clearfix">
-                                		<img src="img/boy_avatar.png" alt="" class="img-circle">
+                                		<img src="/goldF/images/Chatterbox/boy_avatar.png" alt="" class="img-circle">
                                 		<div class="friend-name">	
                                 			<strong>Kate</strong>
                                 		</div>
@@ -88,7 +106,40 @@
                                 		<small class="time text-muted">Yesterday</small>
                                 		<small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
                                 	</a>
-                                </li>                          
+                                </li>     
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <img src="http://bootdey.com/img/Content/user_2.jpg" alt="" class="img-circle">
+                                        <div class="friend-name">   
+                                            <strong>Eckhart Tolle</strong>
+                                        </div>
+                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
+                                        <small class="time text-muted">5 mins ago</small>
+                                        <small class="chat-alert text-muted"><i class="fa fa-check"></i></small>
+                                    </a>
+                                </li> 
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <img src="/goldF/images/Chatterbox/boy_avatar.png" alt="" class="img-circle">
+                                        <div class="friend-name">   
+                                            <strong>Uzzy Ahmed</strong>
+                                        </div>
+                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
+                                        <small class="time text-muted">Yesterday</small>
+                                        <small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
+                                    </a>
+                                </li>      
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <img src="http://bootdey.com/img/Content/user_6.jpg" alt="" class="img-circle">
+                                        <div class="friend-name">   
+                                            <strong>Andrei Orlovski</strong>
+                                        </div>
+                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
+                                        <small class="time text-muted">Yesterday</small>
+                                        <small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
+                                    </a>
+                                </li>                     
                             </ul> -->
                 		</div>
                         
@@ -117,7 +168,7 @@
                 </div>
 
                 <!-- Modal: WSS Connection disconnected -->
-                <div class="modal fade" id="connectionStatusModal" role="dialog">
+                <div class="modal fade" id="connectionStatusModal" role="dialog" data-keyboard="false" data-backdrop="static">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -125,7 +176,13 @@
                                 <h4 class="modal-title text-danger">You have been disconnected!</h4>
                             </div>
                             <div class="modal-body">
-                                <p>Chatterbox App will attempt to reconnect in a few seconds</p>
+                                <p>Chatterbox App will automatically reconnect when internet connection is detected.</p>
+                                <p>PHIVOLCS Internet is restarted every:</p>
+                                <ul>
+                                    <li>5:00 AM to 5:05 AM</li>
+                                    <li>12:00 PM to 12:05 PM</li>
+                                    <li>7:00 PM to 7:05 PM</li>
+                                </ul>
                             </div>
                             <div class="modal-footer">
                                 <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Refresh</button> -->
