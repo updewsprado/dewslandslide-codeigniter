@@ -51,7 +51,7 @@
 
                             <!-- =============================================================== -->
                             <!-- member list -->
-                            <ul class="friend-list">
+<!--                             <ul class="friend-list">
                                 <li class="active bounceInDown">
                                 	<a href="#" class="clearfix">
                                 		<img src="/goldF/images/Chatterbox/phivolcs2.png" alt="" class="img-circle">
@@ -140,7 +140,7 @@
                                         <small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
                                     </a>
                                 </li>                     
-                            </ul>
+                            </ul> -->
                 		</div>
                         
                         <!--=========================================================-->
@@ -176,7 +176,12 @@
                                 <h4 class="modal-title text-danger">You have been disconnected!</h4>
                             </div>
                             <div class="modal-body">
-                                <p>Chatterbox App will attempt to reconnect in a few seconds</p>
+                                <p>Chatterbox App will automatically reconnect when internet connection is detected.</p>
+                                <p>PHIVOLCS Internet is restarted every:</p>
+                                <ul>
+                                    <li>12:00 PM to 12:05 PM</li>
+                                    <li>7:00 PM to 7:05 PM</li>
+                                </ul>
                             </div>
                             <div class="modal-footer">
                                 <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Refresh</button> -->
