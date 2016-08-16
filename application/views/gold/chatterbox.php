@@ -179,6 +179,7 @@
                                 <p>Chatterbox App will automatically reconnect when internet connection is detected.</p>
                                 <p>PHIVOLCS Internet is restarted every:</p>
                                 <ul>
+                                    <li>5:00 AM to 5:05 AM</li>
                                     <li>12:00 PM to 12:05 PM</li>
                                     <li>7:00 PM to 7:05 PM</li>
                                 </ul>
