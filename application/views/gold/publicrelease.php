@@ -414,7 +414,6 @@
                         // AND entry timestamp is after the start of validity
                         if( moment(entry).isSameOrBefore(validity) && moment(entry).isAfter(start) )
                         {
-                            $("#timestamp_initial_trigger").val(initial);
                             $("#internal_alert_level").val(result.internal_alert_level).trigger("change");
 
                             var str = "This site is under continuous monitoring with <b>Alert Level [ALERT]</b>, with initial trigger timestamp of <b>[INITIAL]</b>. [RETRIGGER]. [ND]. The alert is valid until <b>[VALIDITY]</b>.";
@@ -779,7 +778,11 @@
                 case "A1-D":
                 case "ND-D":
                       $('#dependent_fields_a1d').show();
-                      $('#dependent_fields_rest').hide();
+                      $('#dependent_fields_rest').show();
+                      $('#dependent_fields_a1e').hide();
+                      $('.dependentFieldSuppInfoGround').show(); 
+                       $("label[for='timestamp_initial_trigger']").html("Timestamp of Request");
+                      $("label[for='timestamp_retrigger']").html("Timestamp of Request <span class='highlight'>(for Requested Monitoring Extension)</span>");
                       break;
                 case "A1-E":
                 case "ND-E":
@@ -847,7 +850,7 @@
     {
         var commentsLookUp = [
             ["comments", "timestamp_initial_trigger", "timestamp_retrigger", "validity", "previous_alert"],
-            ["alertGroups", "request_reason", "comments"],
+            ["alertGroups", "request_reason", "comments", "timestamp_initial_trigger", "timestamp_retrigger", "validity"],
             ["magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"],
             ["timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"],
             ["timestamp_initial_trigger", "timestamp_retrigger", "comments", "validity"]
@@ -864,6 +867,7 @@
                 // }
                 suggestions = parser(commentsLookUp[0], result.comments, result.internal_alert_level); break;
                 break;
+            case "A1-D": case "ND-D": suggestions = parser(commentsLookUp[1], result.comments, result.internal_alert_level); break;
             case "A1-E": case "ND-E": suggestions = parser(commentsLookUp[2], result.comments, result.internal_alert_level); break;
             case "A1-R": case "ND-R": suggestions = parser(commentsLookUp[3], result.comments, result.internal_alert_level); break;
             case "A2": case "A3": case "ND-L": suggestions = parser(commentsLookUp[4], result.comments, result.internal_alert_level); break;
@@ -881,6 +885,17 @@
         lookup.forEach(function (item, index, array) 
         {
             timestamps[item] = ((str[index] == "" || typeof str[index] == 'undefined') ? null : str[index]);
+
+            if(item != "timestamp_retrigger") $("#" + item).val(str[index]);
+
+            if((alert_level == "A1-D" || alert_level == "ND-D") && item == "alertGroups")
+            {
+                ["LGU","LLMC","Community"].forEach( function( item, i )
+                {
+                    if(str[index].includes(item)) $("#group" + item).prop("checked", true);
+                });
+            }
+
         });
 
         timestamps.previous_alert = (typeof timestamps.previous_alert == 'undefined') || (timestamps.previous_alert != 'A0' && timestamps.previous_alert != 'Routine' && timestamps.previous_alert != 'ND') ? alert_level : timestamps.previous_alert;
@@ -913,7 +928,8 @@
         return validity;
     }
 
-    function recipientChecker (recipientID, timeID) {
+    function recipientChecker (recipientID, timeID) 
+    {
         if($(recipientID).is(':checked')) {
             $(timeID).prop("disabled", false);
             return true;  //You can get the time data
@@ -951,7 +967,8 @@
         return {entryRecipient: recipients, entryAckTime: acktime};
     }
 
-    function alertGroupData () {
+    function alertGroupData () 
+    {
         var checkboxes = document.getElementsByName("alertGroups[]");
         var checkboxesChecked = [];
         // loop over them all
