@@ -44,114 +44,33 @@
 
                     <div class="row">
                 		<div class="col-md-4 bg-white ">
+
+                            <ul class="nav nav-tabs inbox-tab">
+                                <li class="active"><a data-toggle="tab" href="#registered">Registered</a></li>
+                                <li><a data-toggle="tab" href="#unknown">Unknown</a></li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div id="registered" class="tab-pane fade in active">
+                                    <h1></h1>
+                                    <!-- start of inbox display for Registered Numbers -->
+                                    <ul id="quick-inbox-display" class="friend-list">        
+                                    </ul>
+                                    <!-- end of inbox display for Registered Numbers -->
+                                </div>
+                                <div id="unknown" class="tab-pane fade">
+                                    <h1></h1>
+                                    <!-- start of inbox display for Unknown Numbers -->
+                                    <ul id="quick-inbox-unknown-display" class="friend-list">
+                                    </ul>
+                                    <!-- end of inbox display for Unknown Numbers -->
+                                </div>
+                            </div>
                 <!--             
                             <div class=" row border-bottom padding-sm friend-list-header" style="height: 40px;">
                             	Contacts
                             </div> -->
 
-                            <!-- =============================================================== -->
-                            <!-- member list -->
-                            <ul id="quick-inbox-display" class="friend-list">
-<!--                                 <li class="active bounceInDown">
-                                	<a href="#" class="clearfix">
-                                		<img src="/goldF/images/Chatterbox/phivolcs2.png" alt="" class="img-circle">
-                                		<div class="friend-name">	
-                                			<strong>John Doe</strong>
-                                		</div>
-                                		<div class="last-message text-muted">Hello, Are you there?</div>
-                                		<small class="time text-muted">Just now</small>
-                                		<small class="chat-alert label label-danger">1</small>
-                                	</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="clearfix">
-                                        <img src="/goldF/images/Chatterbox/boy_avatar.png" alt="" class="img-circle">
-                                        <div class="friend-name">   
-                                            <strong>Uzzy Ahmed</strong>
-                                        </div>
-                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
-                                        <small class="time text-muted">Yesterday</small>
-                                        <small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
-                                    </a>
-                                </li>  
-                                <li>
-                                    <a href="#" class="clearfix">
-                                        <img src="/goldF/images/Chatterbox/phivolcs2.png" alt="" class="img-circle">
-                                        <div class="friend-name">   
-                                            <strong>XXX PLGU Prado Arturo Navarro Bognot</strong>
-                                        </div>
-                                        <div class="last-message text-muted">Testing what will happen if a put a very long message here. Will it ruin the layout or not? I wanna know, can you show me? I wanna know about the strangers like me.</div>
-                                        <small class="time text-muted">Just now</small>
-                                        <small class="chat-alert text-muted"><i class="fa fa-check"></i></small>
-                                    </a>
-                                </li>
-                                <li>
-                                	<a href="#" class="clearfix">
-                                		<img src="http://bootdey.com/img/Content/user_2.jpg" alt="" class="img-circle">
-                                		<div class="friend-name">	
-                                			<strong>Jane Doe</strong>
-                                		</div>
-                                		<div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
-                                		<small class="time text-muted">5 mins ago</small>
-                                	    <small class="chat-alert text-muted"><i class="fa fa-check"></i></small>
-                                	</a>
-                                </li> 
-                                <li>
-                                	<a href="#" class="clearfix">
-                                		<img src="/goldF/images/Chatterbox/boy_avatar.png" alt="" class="img-circle">
-                                		<div class="friend-name">	
-                                			<strong>Kate</strong>
-                                		</div>
-                                		<div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
-                                		<small class="time text-muted">Yesterday</small>
-                                		<small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
-                                	</a>
-                                </li>      
-                                <li>
-                                	<a href="#" class="clearfix">
-                                		<img src="http://bootdey.com/img/Content/user_6.jpg" alt="" class="img-circle">
-                                		<div class="friend-name">	
-                                			<strong>Kate</strong>
-                                		</div>
-                                		<div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
-                                		<small class="time text-muted">Yesterday</small>
-                                		<small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
-                                	</a>
-                                </li>     
-                                <li>
-                                    <a href="#" class="clearfix">
-                                        <img src="http://bootdey.com/img/Content/user_2.jpg" alt="" class="img-circle">
-                                        <div class="friend-name">   
-                                            <strong>Eckhart Tolle</strong>
-                                        </div>
-                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
-                                        <small class="time text-muted">5 mins ago</small>
-                                        <small class="chat-alert text-muted"><i class="fa fa-check"></i></small>
-                                    </a>
-                                </li> 
-                                <li>
-                                    <a href="#" class="clearfix">
-                                        <img src="/goldF/images/Chatterbox/boy_avatar.png" alt="" class="img-circle">
-                                        <div class="friend-name">   
-                                            <strong>Uzzy Ahmed</strong>
-                                        </div>
-                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
-                                        <small class="time text-muted">Yesterday</small>
-                                        <small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
-                                    </a>
-                                </li>      
-                                <li>
-                                    <a href="#" class="clearfix">
-                                        <img src="http://bootdey.com/img/Content/user_6.jpg" alt="" class="img-circle">
-                                        <div class="friend-name">   
-                                            <strong>Andrei Orlovski</strong>
-                                        </div>
-                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
-                                        <small class="time text-muted">Yesterday</small>
-                                        <small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
-                                    </a>
-                                </li>                  -->    
-                            </ul>
                 		</div>
                         
                         <!--=========================================================-->
