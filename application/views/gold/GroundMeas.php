@@ -323,7 +323,7 @@ mysqli_close($conn);
                     $i = 0;
                     foreach($val as $meas) {
                            $name = str_replace(' ', '', $crackId);
-                        echo '<td bgcolor="" data-original-title="" data-container="body" data-toggle="tooltip" style="" class="time'.$i.'" id="'. $name . $i .'">' . $meas . '</td>';
+                        echo '<td bgcolor="" data-original-title="" data-container="body" data-toggle="tooltip" style="" class="time'.$i.'" id="'. $name . $i .'"  data-toggle="modal" data-target="#modalForm" >' . $meas . '</td>';
                          // var_dump($meas);
                         $i++;
                           
@@ -713,6 +713,13 @@ for(var i = 0; i < select.options.length; i++){
       var attrColorArr =[];
       var color =[];
       var e =  select.options.length;
+      var num1 = 0.5;
+      var num2 = 5;
+      var num3 = 10;
+      var num4 = 1.5;
+      var num5 = 30;
+      var num6 = 3;
+      var num7 = 75;
       $('#groundform').show();
       $('.tblhead').show();
       for (var a= 1 ; a <= tablelength  ; a++) {
@@ -817,43 +824,49 @@ for(var i = 0; i < select.options.length; i++){
                   var id = crkId.replace(/\s/g, "");
                   var measIdtime = "#"+id + (jArray[c+1]-1);
                   var measId = "#"+id + (jArray[c]-1);
-                  // $(measIdtime).attr('data-original-title', tDiff[vv] +"-"+tDiff[vv2]+"="+daysv+ "hrs  measDifference " +valueMeas );
-                  // msDATA.push(measId);
-                  $(measIdtime).attr('data-original-title',valueMeas );
+                  
                   msDATA.push(measId);
-                      if(daysv <= "4" && daysv >= "0"){
-                         if( daysv <= "4" && daysv >= "0" && valueMeas <= "0.49"&& valueMeas >= "0"  ){
+                  var cmPerHour= valueMeas / daysv;
+                  var roundoff2 =Math.round(cmPerHour*1000)/1000;
+                  $(measIdtime).attr('data-original-title', valueMeas);
+                  // $(measIdtime).attr('data-original-title', tDiff[vv] +"-"+tDiff[vv2]+"="+daysv+ "hrs  measDifference " +valueMeas +"-->"+roundoff2);
+                  msDATA.push(measId);
+
+                  
+                  if(daysv <= "4" && daysv >= "0"){
+                        if(cmPerHour <= (num1/4) ){
                            $(measIdtime).attr('bgcolor','#99ff99');
-                          }else if(daysv <= "4" && daysv >= "0" && valueMeas <= "4.99"&& valueMeas >= "0.5"){
-                            $(measIdtime).attr('bgcolor','#ffb366');
-                          }else if(daysv <= "4" && daysv >= "0" && valueMeas >= "5"){
+                        }else if (cmPerHour > (num1/4) && cmPerHour <= (num2/4)){
+                           $(measIdtime).attr('bgcolor','#ffb366');
+                         }else if (cmPerHour > (num2/4)){
                             $(measIdtime).attr('bgcolor','#ff6666');
-                          }
-                      }else if ( daysv <= "24" && daysv >= "5" ){
-                          if( daysv <= "24" && daysv >= "5" && valueMeas <= "0.49"&& valueMeas >= "0"  ){
+                        }
+                  }else if(daysv <= "24" && daysv > "4"){
+                        if(cmPerHour <= (num1/24) ){
                            $(measIdtime).attr('bgcolor','#99ff99');
-                          }else if(daysv <= "24" && daysv >= "5" && valueMeas <= "9.99"&& valueMeas >= "0.5"){
-                            $(measIdtime).attr('bgcolor','#ffb366');
-                          }else if(daysv <= "24" && daysv >= "5" && valueMeas >= "10"){
+                        }else if (cmPerHour > (num1/24) && cmPerHour <= (num3/24)){
+                           $(measIdtime).attr('bgcolor','#ffb366');
+                         }else if (cmPerHour > (num3/24)){
                             $(measIdtime).attr('bgcolor','#ff6666');
-                          }
-                      }else if(daysv <= "96" && daysv >= "25"){
-                          if( daysv <= "96" && daysv >= "25" && valueMeas <= "1.49"&& valueMeas >= "0"  ){
+                        }
+                  }else if(daysv <= "96" && daysv >= "24"){
+                        if(cmPerHour <= (num4/96) ){
                            $(measIdtime).attr('bgcolor','#99ff99');
-                          }else if(daysv <= "96" && daysv >= "25" && valueMeas <= "29.99"&& valueMeas >= "1.5"){
-                            $(measIdtime).attr('bgcolor','#ffb366');
-                          }else if(daysv <= "96" && daysv >= "25" && valueMeas >= "30"){
+                        }else if (cmPerHour > (num4/96) && cmPerHour <= (num5/96)){
+                           $(measIdtime).attr('bgcolor','#ffb366');
+                         }else if (cmPerHour > (num5/96)){
                             $(measIdtime).attr('bgcolor','#ff6666');
-                          }
-                      }else if( daysv >= "97"){
-                           if(  daysv >= "97" && valueMeas <= "2.99"&& valueMeas >= "0"  ){
+                        }
+                  }else if(daysv >= "97"){
+                    if(cmPerHour <= (num6/168) ){
                            $(measIdtime).attr('bgcolor','#99ff99');
-                          }else if( daysv >= "97" && valueMeas <= "74.99"&& valueMeas >= "3"){
-                            $(measIdtime).attr('bgcolor','#ffb366');
-                          }else if(daysv >= "98" && valueMeas >= "75"){
+                        }else if (cmPerHour > (num6/168) && cmPerHour <= (num7/168)){
+                           $(measIdtime).attr('bgcolor','#ffb366');
+                         }else if (cmPerHour > (num7/168)){
                             $(measIdtime).attr('bgcolor','#ff6666');
-                          }
-                      }
+                        }
+                  }
+                  
                 }else{
                    for (var c = 0 ; c <= jArray.length  ; c++) {
                   var crkId = listarray[c];
@@ -1094,14 +1107,6 @@ function myFunction1() {
     var urlBase = "<?php echo base_url(); ?>";
     location.href = urlBase + urlExt;
 }
-
-function cancelFunction() {
-     var urlExt = "gold/GroundMeas/" + curSite;
-    var urlBase = "<?php echo base_url(); ?>";
-    location.href = urlBase + urlExt;
-}
-   
-
 function enable(){
   $('#modalForm').modal('hide');
   var entrydata = withVal[0];
