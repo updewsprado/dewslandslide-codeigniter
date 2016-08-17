@@ -171,7 +171,7 @@
 	{
 		$commentsLookUp = [
 	        ["comments", "initial", "retrigger", "validity", "previous_alert"],
-	        ["alertGroups", "request_reason", "comments", "validity"],
+	        ["alertGroups", "request_reason", "comments", "initial", "retrigger", "validity"],
 	        ["magnitude", "epicenter", "initial", "comments", "retrigger", "validity"],
 	        ["initial", "comments", "retrigger", "validity"],
 	        ["initial", "retrigger", "comments", "validity"]

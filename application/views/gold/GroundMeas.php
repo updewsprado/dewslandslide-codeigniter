@@ -329,7 +329,7 @@ mysqli_close($conn);
                           
                     }
 
-                     echo '<td ><input type="number"   style="width:80px" class="meas" /></td>';
+                     echo '<td ><input type="number"  min="0" style="width:80px" class="meas" /></td>';
                    
                    
                 $i++;
@@ -504,11 +504,17 @@ var table = document.getElementById("mytable");
 var tDiff = [];  
 var crackData = [];
 var upArray =[];
+var upArraynull =[];
 var upDateAr =[];
+var upDateArnull =[];
+var upDateArnull =[];
 var reserveNo =[];
 var convert=[];
 var withVal =[];
 var reVal =[];
+var withValnull= [];
+var upArraynull= [];
+var upDateArnull= [];
 var datenew;
 $('#groundform').hide();
 $('.tblhead').hide();
@@ -680,10 +686,14 @@ for(var i = 0; i < select.options.length; i++){
        listarray.push(rpost);
       }
   }else if(document.getElementById("site_id").value == "sag"){
-    if(select.options[i].text != "L"  ){
-       listarray.push(select.options[i].text);
+    if(document.getElementById('mytable').rows[0].cells.length == "8"){
+      if(select.options[i].text != "L"  ){
+         listarray.push(select.options[i].text);
 
-      }
+        }
+    }else{
+       listarray.push(select.options[i].text);
+    }
   }
 }
 
@@ -702,7 +712,6 @@ for(var i = 0; i < select.options.length; i++){
       var jArray = [];
       var statDta =[];
       var attrColorArr =[];
-      var green =[];
       var color =[];
       var e =  select.options.length;
       $('#groundform').show();
@@ -739,7 +748,7 @@ for(var i = 0; i < select.options.length; i++){
              for (var i = 0  ; i <=weatherData.length; i++) {
               var add = 1+ i;
               var addData = "modal" + add;
-              console.log(reData.length-i);
+              // console.log(reData.length-i);
             $('#time' + add).attr('value',tDiff[i] ); 
             $("#time" + add).append('<span class="glyphicon glyphicon-edit" style="left:10px;" button type="button" class="btn btn-info btn-lg modal' +  add  + '" data-toggle="modal" data-target="#modalForm" id="modal' +  add  + '" onClick="reply_click(this.id)"></span>');
             $('#time' + i).attr('data-original-title',weatherData[reData.length-add]+" /  " + reData[reData.length-add]  + "  /  " +  measTData[reData.length-add]);
@@ -792,103 +801,136 @@ for(var i = 0; i < select.options.length; i++){
               var i = iArray[c];
               var j = jArray[c];
               var i2=iArray[c+1]
-              var tableRow = table.rows[i].cells.item(j).innerHTML;
+              var tableRow = table.rows[i].cells.item(j).innerHTML;   
               if (i == i2){
               var tablecomputation = tableRow - table.rows[iArray[c]].cells.item(jArray[c+1]).innerHTML;
-             tableDiff.push(tablecomputation);
-                if(document.getElementById("site_id").value != "nag"){
+              var vv = jArray[c]-1;
+                var vv2 = jArray[c+1]-1;
+                var date1v = moment(tDiff[vv]);
+                var date2v = moment(tDiff[vv2]);
+                var daysv = date2v.diff(date1v, 'hours');
+                 var roundoff =Math.round(tablecomputation*100)/100;
+                var valueMeas =Math.abs(roundoff);
+                timediffVal.push(daysv);
+                tableDiff.push(tablecomputation);
+                if(document.getElementById("site_id").value != "nag" ){
                   var crkId = crackData[i-1];
                   var id = crkId.replace(/\s/g, "");
+                  var measIdtime = "#"+id + (jArray[c+1]-1);
                   var measId = "#"+id + (jArray[c]-1);
+                  // $(measIdtime).attr('data-original-title', tDiff[vv] +"-"+tDiff[vv2]+"="+daysv+ "hrs  measDifference " +valueMeas );
+                  // msDATA.push(measId);
+                  $(measIdtime).attr('data-original-title',valueMeas );
                   msDATA.push(measId);
+                      if(daysv <= "4" && daysv >= "0"){
+                         if( daysv <= "4" && daysv >= "0" && valueMeas <= "0.49"&& valueMeas >= "0"  ){
+                           $(measIdtime).attr('bgcolor','#99ff99');
+                          }else if(daysv <= "4" && daysv >= "0" && valueMeas <= "4.99"&& valueMeas >= "0.5"){
+                            $(measIdtime).attr('bgcolor','#ffb366');
+                          }else if(daysv <= "4" && daysv >= "0" && valueMeas >= "5"){
+                            $(measIdtime).attr('bgcolor','#ff6666');
+                          }
+                      }else if ( daysv <= "24" && daysv >= "5" ){
+                          if( daysv <= "24" && daysv >= "5" && valueMeas <= "0.49"&& valueMeas >= "0"  ){
+                           $(measIdtime).attr('bgcolor','#99ff99');
+                          }else if(daysv <= "24" && daysv >= "5" && valueMeas <= "9.99"&& valueMeas >= "0.5"){
+                            $(measIdtime).attr('bgcolor','#ffb366');
+                          }else if(daysv <= "24" && daysv >= "5" && valueMeas >= "10"){
+                            $(measIdtime).attr('bgcolor','#ff6666');
+                          }
+                      }else if(daysv <= "96" && daysv >= "25"){
+                          if( daysv <= "96" && daysv >= "25" && valueMeas <= "1.49"&& valueMeas >= "0"  ){
+                           $(measIdtime).attr('bgcolor','#99ff99');
+                          }else if(daysv <= "96" && daysv >= "25" && valueMeas <= "29.99"&& valueMeas >= "1.5"){
+                            $(measIdtime).attr('bgcolor','#ffb366');
+                          }else if(daysv <= "96" && daysv >= "25" && valueMeas >= "30"){
+                            $(measIdtime).attr('bgcolor','#ff6666');
+                          }
+                      }else if( daysv >= "97"){
+                           if(  daysv >= "97" && valueMeas <= "2.99"&& valueMeas >= "0"  ){
+                           $(measIdtime).attr('bgcolor','#99ff99');
+                          }else if( daysv >= "97" && valueMeas <= "74.99"&& valueMeas >= "3"){
+                            $(measIdtime).attr('bgcolor','#ffb366');
+                          }else if(daysv >= "98" && valueMeas >= "75"){
+                            $(measIdtime).attr('bgcolor','#ff6666');
+                          }
+                      }
                 }else{
-                  var crkId = listarray[i-1];
+                   for (var c = 0 ; c <= jArray.length  ; c++) {
+                  var crkId = listarray[c];
+                  var measIdtime = "#"+crkId+ (jArray[c+1]-1);
                   var measId = "#"+crkId +(jArray[c]-1);
                   msDATA.push(measId);
+                  console.log(jArray);
+                }
+                }
 
-                }
-               for (var d = 0 ; d <= jArray.length  ; d++) {
-                var total = tableDiff[d-1];
-                var roundoff =Math.round(total*100)/100;
-                var valueMeas =Math.abs(roundoff);
-                $(msDATA[d]).attr('data-original-title',valueMeas);
-                $(msDATA[d]).attr('bgcolor','#fff');
-                var v = jArray[d]-1;
-                var v2 = jArray[d+1]-1;
-                var date1 = moment(tDiff[v]);
-                var date2 = moment(tDiff[v2]);
-                var days = date2.diff(date1, 'hours');
-                timediffVal.push(days);
-                if( days <= "4" && days >= "0"&& valueMeas <= "0.4" && valueMeas >= "0" ){
-                     $(msDATA[d]).attr('bgcolor','#99ff99');
-                }else if (days <= "24" && valueMeas <= "0.4" && valueMeas >= "0"   ){
-                  $(msDATA[d]).attr('bgcolor','#99ff99'); 
-                }else if (days <= "96" && days <= "25" && valueMeas <= "1.4"   ){
-                    $(msDATA[d]).attr('bgcolor','#99ff99');
-                }else if ( days >= "0" && valueMeas <= "2.9"   ){
-                    $(msDATA[d]).attr('bgcolor','#99ff99');
-                 }
-                if( days <= "4"  && valueMeas <= "4.9"  && valueMeas >= "0.5"){
-                     $(msDATA[d]).attr('bgcolor','#ffb366');
-                } else if (days <= "24" && days > "4" && valueMeas <= "9.9 " && valueMeas >= "0.5"){
-                  $(msDATA[d]).attr('bgcolor','#ffb366');
-                   // s.log(tDiff[v2] +"-" +tDiff[v]+ "=" + days );  
-                  }else if (days <= "96" && days > "25" && valueMeas <= "29.9"  && valueMeas >= "1.5"){
-                    $(msDATA[d]).attr('bgcolor','#ffb366');
-                    }else if ( days >= "97" && valueMeas <= "74.9" &&  valueMeas >= "3"){
-                    $(msDATA[d]).attr('bgcolor','#ffb366');
-                    }
-                if( days <= "4" && days >= "0" && valueMeas > "5"  ){
-                     $(msDATA[d]).attr('bgcolor','#ff6666');
-                     // console.log(tDiff[v2] +"-" +tDiff[v]+ "=" + days );  
-                      // console.log(v); 
-                } else if (days <= "24" && days > "5" && valueMeas > "10" ){
-                  $(msDATA[d]).attr('bgcolor','#ff6666');
-                   // console.log(tDiff[v2] +"-" +tDiff[v]+ "=" + days );  
-                  }else if (days <= "96" && days > "25" && valueMeas > "30"  ){
-                    $(msDATA[d]).attr('bgcolor','#ff6666');
-                    // console.log(tDiff[v2] +"-" +tDiff[v]+ "=" + days );  
-                    }else if ( days >= "97" && valueMeas >= "75" ){
-                    $(msDATA[d]).attr('bgcolor','#ff6666');
-                    }
-                    
-                }
+
+
+               // for (var d = 0 ; d <= jArray.length  ; d++) {
+               //  var total = tableDiff[d-1];
+               //  var roundoff =Math.round(total*100)/100;
+               //  var valueMeas =Math.abs(roundoff);
+               //  var v = jArray[d]-1;
+               //  var v2 = jArray[d+1]-1;
+               //  var date1 = moment(tDiff[v]);
+               //  var date2 = moment(tDiff[v2]);
+               //  var days = date2.diff(date1, 'hours');   
+               //  }
              } 
-
-
-
               if(document.getElementById("site_id").value != "nag"){
                  var lastcolumnId = "#"+id + (tablelength-1);
                 var lastcolumn = id + (tablelength-1);
-                // console.log(id);
                var attrColor = document.getElementById(lastcolumn).getAttribute("bgcolor"); 
+               attrColorArr.push(attrColor);
+              
              }else{
                var lastcolumnId = "#"+listarray[1] + (tablelength-1);
                 var lastcolumn = crkId+ (tablelength-1);
-
                var attrColor = document.getElementById(lastcolumn); 
-               console.log(attrColor);
+    
              }
 
-                if(measId == lastcolumnId){
-                    if(attrColor == "#99ff99"){
-                      green.push(attrColor);
-                        var uniqueArray = green.filter(function(elem, pos,arr) {
-                   return arr.indexOf(elem) == pos;
-                    });
-                       $("#green"+ (i-1)).attr("style","background-image: linear-gradient(to bottom, #99ff99 0%, rgba(125, 185, 232, 0) 100%)");
+               // console.log(attrColorArr);
+            Array.prototype.unique= function ()
+            {
+              return this.reduce(function(previous, current, index, array)
+               {
+                 previous[current.toString()+typeof(current)]=current;
+                 return array.length-1 == index ? Object.keys(previous).reduce(function(prev,cur)
+                   {
+                      prev.push(previous[cur]);
+                      return prev;
+                   },[]) : previous;
+               }, {});
+            };
+            var uniqueAttr = attrColorArr.unique();
+             Array.prototype.contains = function (element) {
+              for (var i = 0; i < this.length; i++) {
+                  if (this[i] == element) {
+                      return true;
+                  }
+              }
+              
+                return false;
+              };
+
+              if (uniqueAttr.contains('#99ff99')) {
+                 $("#green0").attr("style","background-image: linear-gradient(to bottom, #99ff99 0%, rgba(125, 185, 232, 0) 100%)");
                           document.getElementById("green0").innerHTML = "<p> No Significant ground movement </p>";
-                    }else if (attrColor == "#ffb366") {
-                        $("#orange0").attr("style","background-image: linear-gradient(to bottom, #ffb366 0%, rgba(125, 185, 232, 0) 100%)");
+              }
+              if (uniqueAttr.contains('#ffb366')) {
+                    $("#orange0").attr("style","background-image: linear-gradient(to bottom, #ffb366 0%, rgba(125, 185, 232, 0) 100%)");
                           document.getElementById("orange0").innerHTML = "<b>ALERT!! </b> Significant ground movement observer in the last 24 hours </p>";
                          $('#green0').hide();
-                    }else if (attrColor == "#ff6666") {
-                      $('#green0').hide();
+              }
+               if (uniqueAttr.contains('#ff6666')) {
+                 $('#green0').hide();
                       $('#orange0').hide();
                       $("#red0").attr("style","background-image: linear-gradient(to bottom, #ff6666 0%, rgba(125, 185, 232, 0) 100%)");
                         document.getElementById("red0").innerHTML = "<p> <b>ALERT!! </b> Critical ground movement observed in the last 48 hours; landslide may be imminent</p>";
-                      }
                 }
+
 }      
 }
 
@@ -900,7 +942,6 @@ function reply_click(clicked_id)
     var datenew = tDiff[res];
     var reData = <?php echo json_encode($reaType);  ?>;
     var reaVal = reData[reData.length-res];
-    alert(reaVal);
      var res2 = datenew.slice(12, 25);
      var str = $.datepicker.formatDate('yy-mm-dd ',new Date(tDiff[res]));
      convert.push(str);
@@ -909,19 +950,26 @@ function reply_click(clicked_id)
          var upId = crackData[c-1];
         var noSpace = upId.replace(/\s/g,"");
          var upVal = document.getElementById(noSpace+res).innerHTML;
+            if(upVal == "null"){
+          $("#updateMeas"+(c-1)).attr('value',upVal); 
+          $("#entryupdate"+(c-1)).attr('value',str+res2);
+          $("#updateRe"+(c-1)).attr('value',(reaVal)); 
+          withValnull.push(c-1);
+          upArraynull.push(upVal);
+          upDateArnull.push(str+res2);
+          // console.log(c-1);
+         } 
          if(upVal != "null"){
           $("#updateMeas"+(c-1)).attr('value',upVal); 
           $("#entryupdate"+(c-1)).attr('value',str+res2);
           $("#updateRe"+(c-1)).attr('value',(reaVal)); 
           withVal.push(c-1);
-        upArray.push(upVal);
+          upArray.push(upVal);
           upDateAr.push(str+res2);
-         } else{
-          $("#updateMeas"+(c-1)).hide();
-          $("#entryupdate"+(c-1)).hide();
-          $("#crackSelect"+(c-1)).hide();
-          $("#span"+(c-1)).hide();
-         }
+          // console.log(c-1);
+         } 
+      
+
        }
 
 
@@ -936,11 +984,23 @@ var tsOld =[];
 var Ob =[];
 var Si =[];
 var re =[];
- for (var i = 0; i < crackData.length; i++) {
-  var measArray = document.getElementById("updateMeas"+i).value;
-  var crackArray = document.getElementById("crackSelect"+i).value;
-  var tsArray = document.getElementById("entryupdate"+i).value;
-  var ReArray = document.getElementById("updateRe"+i).value.toUpperCase();
+
+var measNull=[];
+var crackNull=[];
+var tsNull=[];
+var ObNull =[];
+var SiNull =[];
+var reNull =[];
+var weatherNull =[];
+var measTNull =[];
+
+var i = withVal;
+var i2 = withValnull;
+ for (var a = 0; a < withVal.length; a++) {
+  var measArray = document.getElementById("updateMeas"+i[a]).value;
+  var crackArray = document.getElementById("crackSelect"+i[a]).value;
+  var tsArray = document.getElementById("entryupdate"+i[a]).value;
+  var ReArray = document.getElementById("updateRe"+i[a]).value.toUpperCase();
   var datenew = tDiff[reserveNo];
   var res2 = datenew.slice(12, 21)
   var tsUpdate = convert+res2;
@@ -953,8 +1013,29 @@ var re =[];
   Ob.push(observerArray);
   Si.push(siteArray);
   re.push(ReArray);
-  console.log(crackData.length);
+  
+}
 
+ for (var a2 = 0; a2 < withValnull.length; a2++) {
+  var measArray = document.getElementById("updateMeas"+i2[a2]).value;
+  var crackArray = document.getElementById("crackSelect"+i2[a2]).value;
+  var tsArray = document.getElementById("entryupdate"+i2[a2]).value;
+  var ReArray = document.getElementById("updateRe"+i2[a2]).value.toUpperCase();
+  var observerArray = document.getElementById("observer_name").value;
+  var siteArray = document.getElementById("site_id").value;
+  var weatherData = <?php echo json_encode($weatherData);  ?>;
+  var measTData = <?php echo json_encode($measType);  ?>;
+  var diff = weatherData.length-reserveNo;
+  var weatherNew = weatherData[diff];
+  var measTNew = measTData[diff];
+  measNull.push(measArray);
+  crackNull.push(crackArray);
+  tsNull.push(tsArray);
+  ObNull.push(observerArray);
+  SiNull.push(siteArray);
+  reNull.push(ReArray);
+  weatherNull.push(weatherNew);
+  measTNull.push(measTNew);
 }
 
  $("#crackFormUp").validate({
@@ -981,6 +1062,16 @@ var re =[];
             reliability:re
           };
 
+          var formData2 = {
+            timestamp: tsNull,
+            site_id: SiNull,
+            observer_name: ObNull,
+            meas: measNull,
+            crack_id: crackNull,
+            reliability:reNull,
+            meas_type: measTNull,
+            weather: weatherNull,
+          };
 
         $.ajax({
             url: '<?php echo base_url(); ?>gndforms_crt/updatedata',
@@ -988,16 +1079,22 @@ var re =[];
             data: formData,
             success: function(result, textStatus, jqXHR)
                     {
-                       
-                       console.log(result);
-              
                        $('#modalForm').modal('hide');
                         $('#myModal').modal('show');
                     }     
         
         });
 
-       
+            $.ajax({
+            url: '<?php echo base_url(); ?>gndforms_crt/insert',
+            type:'POST',
+            data: formData2,
+            success: function(result, textStatus, jqXHR)
+                    {
+                       // console.log(result);
+                    }     
+        
+        });
 
      }   
 });

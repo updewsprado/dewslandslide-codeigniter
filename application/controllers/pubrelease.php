@@ -73,7 +73,7 @@ class Pubrelease extends CI_Controller {
 		$alert = $_POST["internal_alert_level"];
 
 		if ($alert == "A1-D" || $alert == "ND-D") {
-			$data2['comments'] = implode(",", $alertgroup) . ";" . $request . ";" . $comments . ";" . $validity;
+			$data2['comments'] = implode(",", $alertgroup) . ";" . $request . ";" . $comments . ";" . $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $validity;
 		} else if ($alert == "A1-E" || $alert == "ND-E") {
 			$data2['comments'] = $magnitude . ";" . $epicenter . ";" . $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger . ";" . $validity;
 		} else if ($alert == "A1-R" || $alert == "ND-R") {

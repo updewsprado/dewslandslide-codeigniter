@@ -469,4 +469,11 @@ class Alert_Model extends CI_Model
 		return json_encode( $dbreturn );
 	}
 
+	public function insert($table, $data)
+	{
+        $this->db->insert($table, $data);
+        $id = $this->db->insert_id();
+        return $id;
+ }
+
 }

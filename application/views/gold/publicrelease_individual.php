@@ -181,6 +181,15 @@
 
 		    	<hr/>
 
+		    	<?php  
+
+		    		if($release[0]->internal_alert_level == "A1-D" || $release[0]->internal_alert_level == "ND-D")
+		    		{
+		    			$release[0]->internal_alert_desc = parser($release[0]->internal_alert_level, $release[0]->internal_alert_desc, $release[0]->comments, 0);
+		    		}
+
+		    	?>
+
 		    	<div class="row">
 		    		<div class="col-md-12">
 		    			<div class="panel panel-default">
