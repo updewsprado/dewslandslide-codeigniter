@@ -52,7 +52,7 @@
                             <!-- =============================================================== -->
                             <!-- member list -->
                             <ul id="quick-inbox-display" class="friend-list">
-                                <li class="active bounceInDown">
+<!--                                 <li class="active bounceInDown">
                                 	<a href="#" class="clearfix">
                                 		<img src="/goldF/images/Chatterbox/phivolcs2.png" alt="" class="img-circle">
                                 		<div class="friend-name">	
@@ -85,7 +85,7 @@
                                         <small class="chat-alert text-muted"><i class="fa fa-check"></i></small>
                                     </a>
                                 </li>
-                                <!-- <li>
+                                <li>
                                 	<a href="#" class="clearfix">
                                 		<img src="http://bootdey.com/img/Content/user_2.jpg" alt="" class="img-circle">
                                 		<div class="friend-name">	
@@ -150,7 +150,7 @@
                                         <small class="time text-muted">Yesterday</small>
                                         <small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
                                     </a>
-                                </li>               -->       
+                                </li>                  -->    
                             </ul>
                 		</div>
                         
