@@ -367,14 +367,14 @@ mysqli_close($conn);
   </div>
   </div>
   </form>
-  <div id="modalForm" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static"> 
+  <div id="modalForm" class="modal fade" role="dialog" > 
 
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" onclick="myFunction1()" >&times;</button>
+        <button type="button" class="close" data-dismiss="modal"  >&times;</button>
         <h4 class="modal-title">Update Form</h4>
         <!-- <input type="text" value="hi" id="hi"> -->
       </div>
@@ -436,7 +436,6 @@ mysqli_close($conn);
       <div class="modal-footer">
        
         <button type="submit" class="btn btn-info btn-md"  id="update" onclick="updateFunction()">Update</button>
-         <button type="button" class="btn btn-default"  id="cancel" onclick="cancelFunction()">Cancel</button>
       </div>
       </form>
     </div>
@@ -865,18 +864,6 @@ for(var i = 0; i < select.options.length; i++){
                 }
                 }
 
-
-
-               // for (var d = 0 ; d <= jArray.length  ; d++) {
-               //  var total = tableDiff[d-1];
-               //  var roundoff =Math.round(total*100)/100;
-               //  var valueMeas =Math.abs(roundoff);
-               //  var v = jArray[d]-1;
-               //  var v2 = jArray[d+1]-1;
-               //  var date1 = moment(tDiff[v]);
-               //  var date2 = moment(tDiff[v2]);
-               //  var days = date2.diff(date1, 'hours');   
-               //  }
              } 
               if(document.getElementById("site_id").value != "nag"){
                  var lastcolumnId = "#"+id + (tablelength-1);
