@@ -51,8 +51,8 @@
 
                             <!-- =============================================================== -->
                             <!-- member list -->
-<!--                             <ul class="friend-list">
-                                <li class="active bounceInDown">
+                            <ul id="quick-inbox-display" class="friend-list">
+<!--                                 <li class="active bounceInDown">
                                 	<a href="#" class="clearfix">
                                 		<img src="/goldF/images/Chatterbox/phivolcs2.png" alt="" class="img-circle">
                                 		<div class="friend-name">	
@@ -63,6 +63,17 @@
                                 		<small class="chat-alert label label-danger">1</small>
                                 	</a>
                                 </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <img src="/goldF/images/Chatterbox/boy_avatar.png" alt="" class="img-circle">
+                                        <div class="friend-name">   
+                                            <strong>Uzzy Ahmed</strong>
+                                        </div>
+                                        <div class="last-message text-muted">Lorem ipsum dolor sit amet.</div>
+                                        <small class="time text-muted">Yesterday</small>
+                                        <small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
+                                    </a>
+                                </li>  
                                 <li>
                                     <a href="#" class="clearfix">
                                         <img src="/goldF/images/Chatterbox/phivolcs2.png" alt="" class="img-circle">
@@ -139,8 +150,8 @@
                                         <small class="time text-muted">Yesterday</small>
                                         <small class="chat-alert text-muted"><i class="fa fa-reply"></i></small>
                                     </a>
-                                </li>                     
-                            </ul> -->
+                                </li>                  -->    
+                            </ul>
                 		</div>
                         
                         <!--=========================================================-->
@@ -232,7 +243,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button id="go-load-groups" type="button" class="btn btn-success" data-dismiss="modal">Okay</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                <button id="exit-load-group" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                             </div>
                         </div>
                     </div>
