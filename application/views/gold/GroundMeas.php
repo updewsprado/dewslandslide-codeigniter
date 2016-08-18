@@ -671,6 +671,50 @@ function showDateSitePlots (frm) {
   }
 }
 
+$(function(){
+    $('#mytable').on('click', 'td', function(){
+        var target = $(event.target);
+            $td = target.closest('td');
+            var col   = $td.index()-1;
+            var row   = $td.closest('tr').index();
+            $("#modalForm").modal("show");
+           var res = col;
+    reserveNo.push(res);
+    var datenew = tDiff[res];
+    var reData = <?php echo json_encode($reaType);  ?>;
+    var reaVal = reData[reData.length-res];
+     var res2 = datenew.slice(12, 25);
+     var str = $.datepicker.formatDate('yy-mm-dd ',new Date(tDiff[res]));
+     convert.push(str);
+       for (var c = 1 ; c <= crackData.length  ; c++) {
+         var upId = crackData[c-1];
+         var upId = crackData[c-1];
+        var noSpace = upId.replace(/\s/g,"");
+         var upVal = document.getElementById(noSpace+res).innerHTML;
+            if(upVal == "null"){
+          $("#updateMeas"+(c-1)).attr('value',upVal); 
+          $("#entryupdate"+(c-1)).attr('value',str+res2);
+          $("#updateRe"+(c-1)).attr('value',(reaVal)); 
+          withValnull.push(c-1);
+          upArraynull.push(upVal);
+          upDateArnull.push(str+res2);
+          // console.log(c-1);
+         } 
+         if(upVal != "null"){
+          $("#updateMeas"+(c-1)).attr('value',upVal); 
+          $("#entryupdate"+(c-1)).attr('value',str+res2);
+          $("#updateRe"+(c-1)).attr('value',(reaVal)); 
+          withVal.push(c-1);
+          upArray.push(upVal);
+          upDateAr.push(str+res2);
+          // console.log(c-1);
+         } 
+      
+
+       }
+
+    });
+});
 
 function check() {
 
@@ -1139,8 +1183,7 @@ $(document).ready(function() {
             $('#dBase').addClass('form-group col-xs-4').removeClass('form-group col-xs-3');
             $("#time").append($('#timestamp_entry').val());   
             $('.time0').hide();    
-
-         
+          
          
         $('.datetime').datetimepicker({
             format: 'YYYY-MM-DD HH:mm:ss',
