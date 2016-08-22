@@ -44,6 +44,39 @@ class Monitoring extends CI_Controller
 		$this->load->view('gold/templates/footer');
 	}
 
+	public function showReleases()
+	{
+		$releases = $this->monitoring_model->getAllPublicReleases();
+		echo "$releases";
+	}
+
+	public function showSavedAlerts()
+	{
+		$data = $this->monitoring_model->getAlertsForVerification();
+		echo "$data";
+	}
+
+	public function saveToVerificationTable()
+	{
+		$data['site'] = $_POST["site"];
+		$data['timestamp'] = $_POST["timestamp"];
+		$data['alert'] = $_POST["alert"];
+		$data['type'] = $_POST["type"];
+		$data['status'] = $_POST["status"];
+		$data['reason'] = $_POST["reason"];
+		$data['last_updated'] = $_POST["last_updated"];
+
+		$id = $this->monitoring_model->insert('alert_verification', $data);
+		if($id > 0) echo "$id";
+		else echo "null";
+	}
+
+	public function changeFile($id)
+	{
+		copy( $_SERVER['DOCUMENT_ROOT'] . "/temp/data/p" . $id . "/PublicAlert.json", $_SERVER['DOCUMENT_ROOT'] . "/temp/data/PublicAlert.json" );
+		echo "$id";
+	}
+
 	public function is_logged_in() 
 	{
 		$is_logged_in = $this->session->userdata('is_logged_in');

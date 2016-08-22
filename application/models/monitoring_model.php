@@ -75,6 +75,37 @@ class Monitoring_Model extends CI_Model
 	    }
 
 	    return json_encode($data);
-
 	}
+
+	/**
+	 * Gets data from alert_verification table
+	 * 
+	 * @author Kevin Dhale dela Cruz
+	 **/
+	public function getAlertsForVerification()
+	{
+	    $sql = "SELECT *
+				FROM alert_verification
+				WHERE status = 'pending'
+				OR status = 'valid'
+				ORDER BY id DESC";
+
+		$query = $this->db->query($sql);
+
+		$i = 0;
+	    foreach ($query->result_array() as $row)
+	    {
+	        $data[$i++] = $row;
+	    }
+
+	    return json_encode($data);
+	}
+
+	public function insert($table, $data)
+	{
+        $this->db->insert($table, $data);
+        $id = $this->db->insert_id();
+        return $id;
+    }
+
 }
