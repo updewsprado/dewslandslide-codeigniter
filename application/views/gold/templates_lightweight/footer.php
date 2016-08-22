@@ -33,6 +33,26 @@
     {{/each}}
     </script>
 
+    <script id="quick-inbox-template" type="text/x-handlebars-template">
+    {{#each quick_inbox_messages}}
+        <li>
+            <a href="#" class="clearfix" onclick="quickInboxStartChat('{{name}}' + ' - ' + '{{user}}');">
+            <!-- <a href="#" class="clearfix" onclick="quickInboxStartChat(this)"> -->
+                <img src="/goldF/images/Chatterbox/boy_avatar.png" alt="" class="img-circle">
+                <div class="friend-name">   
+                    {{#if isunknown}}
+                    <strong class="unknown-number">{{user}} </strong>
+                    {{else}}
+                    <strong>{{name}} </strong>
+                    {{/if}}
+                </div>
+                <div class="last-message text-muted">{{msg}}</div>
+                <small class="time text-muted"> {{timestamp}}</small>
+            </a>
+        </li>  
+    {{/each}}
+    </script>
+
     <script id="selected-contact-template" type="text/x-handlebars-template">
         <div class="alert alert-danger">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

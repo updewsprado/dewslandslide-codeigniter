@@ -323,7 +323,7 @@ mysqli_close($conn);
                     $i = 0;
                     foreach($val as $meas) {
                            $name = str_replace(' ', '', $crackId);
-                        echo '<td bgcolor="" data-original-title="" data-container="body" data-toggle="tooltip" style="" class="time'.$i.'" id="'. $name . $i .'">' . $meas . '</td>';
+                        echo '<td bgcolor="" data-original-title="" data-container="body" data-toggle="tooltip" style="" class="time'.$i.'" id="'. $name . $i .'"  data-toggle="modal" data-target="#modalForm" >' . $meas . '</td>';
                          // var_dump($meas);
                         $i++;
                           
@@ -367,14 +367,14 @@ mysqli_close($conn);
   </div>
   </div>
   </form>
-  <div id="modalForm" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static"> 
+  <div id="modalForm" class="modal fade" role="dialog" > 
 
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" onclick="myFunction1()" >&times;</button>
+        <button type="button" class="close" data-dismiss="modal"  >&times;</button>
         <h4 class="modal-title">Update Form</h4>
         <!-- <input type="text" value="hi" id="hi"> -->
       </div>
@@ -436,7 +436,6 @@ mysqli_close($conn);
       <div class="modal-footer">
        
         <button type="submit" class="btn btn-info btn-md"  id="update" onclick="updateFunction()">Update</button>
-         <button type="button" class="btn btn-default"  id="cancel" onclick="cancelFunction()">Cancel</button>
       </div>
       </form>
     </div>
@@ -504,11 +503,17 @@ var table = document.getElementById("mytable");
 var tDiff = [];  
 var crackData = [];
 var upArray =[];
+var upArraynull =[];
 var upDateAr =[];
+var upDateArnull =[];
+var upDateArnull =[];
 var reserveNo =[];
 var convert=[];
 var withVal =[];
 var reVal =[];
+var withValnull= [];
+var upArraynull= [];
+var upDateArnull= [];
 var datenew;
 $('#groundform').hide();
 $('.tblhead').hide();
@@ -666,6 +671,50 @@ function showDateSitePlots (frm) {
   }
 }
 
+$(function(){
+    $('#mytable').on('click', 'td', function(){
+        var target = $(event.target);
+            $td = target.closest('td');
+            var col   = $td.index()-1;
+            var row   = $td.closest('tr').index();
+            $("#modalForm").modal("show");
+           var res = col;
+    reserveNo.push(res);
+    var datenew = tDiff[res];
+    var reData = <?php echo json_encode($reaType);  ?>;
+    var reaVal = reData[reData.length-res];
+     var res2 = datenew.slice(12, 25);
+     var str = $.datepicker.formatDate('yy-mm-dd ',new Date(tDiff[res]));
+     convert.push(str);
+       for (var c = 1 ; c <= crackData.length  ; c++) {
+         var upId = crackData[c-1];
+         var upId = crackData[c-1];
+        var noSpace = upId.replace(/\s/g,"");
+         var upVal = document.getElementById(noSpace+res).innerHTML;
+            if(upVal == "null"){
+          $("#updateMeas"+(c-1)).attr('value',upVal); 
+          $("#entryupdate"+(c-1)).attr('value',str+res2);
+          $("#updateRe"+(c-1)).attr('value',(reaVal)); 
+          withValnull.push(c-1);
+          upArraynull.push(upVal);
+          upDateArnull.push(str+res2);
+          // console.log(c-1);
+         } 
+         if(upVal != "null"){
+          $("#updateMeas"+(c-1)).attr('value',upVal); 
+          $("#entryupdate"+(c-1)).attr('value',str+res2);
+          $("#updateRe"+(c-1)).attr('value',(reaVal)); 
+          withVal.push(c-1);
+          upArray.push(upVal);
+          upDateAr.push(str+res2);
+          // console.log(c-1);
+         } 
+      
+
+       }
+
+    });
+});
 
 function check() {
 
@@ -708,6 +757,13 @@ for(var i = 0; i < select.options.length; i++){
       var attrColorArr =[];
       var color =[];
       var e =  select.options.length;
+      var num1 = 0.5;
+      var num2 = 5;
+      var num3 = 10;
+      var num4 = 1.5;
+      var num5 = 30;
+      var num6 = 3;
+      var num7 = 75;
       $('#groundform').show();
       $('.tblhead').show();
       for (var a= 1 ; a <= tablelength  ; a++) {
@@ -793,7 +849,6 @@ for(var i = 0; i < select.options.length; i++){
           
           for (var c = 0 ; c <= jArray.length  ; c++) {
               var i = iArray[c];
-              console.log(i);
               var j = jArray[c];
               var i2=iArray[c+1]
               var tableRow = table.rows[i].cells.item(j).innerHTML;   
@@ -813,43 +868,49 @@ for(var i = 0; i < select.options.length; i++){
                   var id = crkId.replace(/\s/g, "");
                   var measIdtime = "#"+id + (jArray[c+1]-1);
                   var measId = "#"+id + (jArray[c]-1);
-                  // $(measIdtime).attr('data-original-title', tDiff[vv] +"-"+tDiff[vv2]+"="+daysv+ "hrs  measDifference " +valueMeas );
-                  // msDATA.push(measId);
-                  $(measIdtime).attr('data-original-title',valueMeas );
+                  
                   msDATA.push(measId);
-                      if(daysv <= "4" && daysv >= "0"){
-                         if( daysv <= "4" && daysv >= "0" && valueMeas <= "0.49"&& valueMeas >= "0"  ){
+                  var cmPerHour= valueMeas / daysv;
+                  var roundoff2 =Math.round(cmPerHour*1000)/1000;
+                  $(measIdtime).attr('data-original-title', valueMeas);
+                  // $(measIdtime).attr('data-original-title', tDiff[vv] +"-"+tDiff[vv2]+"="+daysv+ "hrs  measDifference " +valueMeas +"-->"+roundoff2);
+                  msDATA.push(measId);
+
+                  
+                  if(daysv <= "4" && daysv >= "0"){
+                        if(cmPerHour <= (num1/4) ){
                            $(measIdtime).attr('bgcolor','#99ff99');
-                          }else if(daysv <= "4" && daysv >= "0" && valueMeas <= "4.99"&& valueMeas >= "0.5"){
-                            $(measIdtime).attr('bgcolor','#ffb366');
-                          }else if(daysv <= "4" && daysv >= "0" && valueMeas >= "5"){
+                        }else if (cmPerHour > (num1/4) && cmPerHour <= (num2/4)){
+                           $(measIdtime).attr('bgcolor','#ffb366');
+                         }else if (cmPerHour > (num2/4)){
                             $(measIdtime).attr('bgcolor','#ff6666');
-                          }
-                      }else if ( daysv <= "24" && daysv >= "5" ){
-                          if( daysv <= "24" && daysv >= "5" && valueMeas <= "0.49"&& valueMeas >= "0"  ){
+                        }
+                  }else if(daysv <= "24" && daysv > "4"){
+                        if(cmPerHour <= (num1/24) ){
                            $(measIdtime).attr('bgcolor','#99ff99');
-                          }else if(daysv <= "24" && daysv >= "5" && valueMeas <= "9.99"&& valueMeas >= "0.5"){
-                            $(measIdtime).attr('bgcolor','#ffb366');
-                          }else if(daysv <= "24" && daysv >= "5" && valueMeas >= "10"){
+                        }else if (cmPerHour > (num1/24) && cmPerHour <= (num3/24)){
+                           $(measIdtime).attr('bgcolor','#ffb366');
+                         }else if (cmPerHour > (num3/24)){
                             $(measIdtime).attr('bgcolor','#ff6666');
-                          }
-                      }else if(daysv <= "96" && daysv >= "25"){
-                          if( daysv <= "96" && daysv >= "25" && valueMeas <= "1.49"&& valueMeas >= "0"  ){
+                        }
+                  }else if(daysv <= "96" && daysv >= "24"){
+                        if(cmPerHour <= (num4/96) ){
                            $(measIdtime).attr('bgcolor','#99ff99');
-                          }else if(daysv <= "96" && daysv >= "25" && valueMeas <= "29.99"&& valueMeas >= "1.5"){
-                            $(measIdtime).attr('bgcolor','#ffb366');
-                          }else if(daysv <= "96" && daysv >= "25" && valueMeas >= "30"){
+                        }else if (cmPerHour > (num4/96) && cmPerHour <= (num5/96)){
+                           $(measIdtime).attr('bgcolor','#ffb366');
+                         }else if (cmPerHour > (num5/96)){
                             $(measIdtime).attr('bgcolor','#ff6666');
-                          }
-                      }else if( daysv >= "97"){
-                           if(  daysv >= "97" && valueMeas <= "2.99"&& valueMeas >= "0"  ){
+                        }
+                  }else if(daysv >= "97"){
+                    if(cmPerHour <= (num6/168) ){
                            $(measIdtime).attr('bgcolor','#99ff99');
-                          }else if( daysv >= "97" && valueMeas <= "74.99"&& valueMeas >= "3"){
-                            $(measIdtime).attr('bgcolor','#ffb366');
-                          }else if(daysv >= "98" && valueMeas >= "75"){
+                        }else if (cmPerHour > (num6/168) && cmPerHour <= (num7/168)){
+                           $(measIdtime).attr('bgcolor','#ffb366');
+                         }else if (cmPerHour > (num7/168)){
                             $(measIdtime).attr('bgcolor','#ff6666');
-                          }
-                      }
+                        }
+                  }
+                  
                 }else{
                    for (var c = 0 ; c <= jArray.length  ; c++) {
                   var crkId = listarray[c];
@@ -860,18 +921,6 @@ for(var i = 0; i < select.options.length; i++){
                 }
                 }
 
-
-
-               // for (var d = 0 ; d <= jArray.length  ; d++) {
-               //  var total = tableDiff[d-1];
-               //  var roundoff =Math.round(total*100)/100;
-               //  var valueMeas =Math.abs(roundoff);
-               //  var v = jArray[d]-1;
-               //  var v2 = jArray[d+1]-1;
-               //  var date1 = moment(tDiff[v]);
-               //  var date2 = moment(tDiff[v2]);
-               //  var days = date2.diff(date1, 'hours');   
-               //  }
              } 
               if(document.getElementById("site_id").value != "nag"){
                  var lastcolumnId = "#"+id + (tablelength-1);
@@ -945,20 +994,26 @@ function reply_click(clicked_id)
          var upId = crackData[c-1];
         var noSpace = upId.replace(/\s/g,"");
          var upVal = document.getElementById(noSpace+res).innerHTML;
+            if(upVal == "null"){
+          $("#updateMeas"+(c-1)).attr('value',upVal); 
+          $("#entryupdate"+(c-1)).attr('value',str+res2);
+          $("#updateRe"+(c-1)).attr('value',(reaVal)); 
+          withValnull.push(c-1);
+          upArraynull.push(upVal);
+          upDateArnull.push(str+res2);
+          // console.log(c-1);
+         } 
          if(upVal != "null"){
           $("#updateMeas"+(c-1)).attr('value',upVal); 
           $("#entryupdate"+(c-1)).attr('value',str+res2);
           $("#updateRe"+(c-1)).attr('value',(reaVal)); 
           withVal.push(c-1);
-        upArray.push(upVal);
+          upArray.push(upVal);
           upDateAr.push(str+res2);
-         } else{
-          $("#updateMeas"+(c-1)).hide();
-          $("#entryupdate"+(c-1)).hide();
-          $("#crackSelect"+(c-1)).hide();
-          $("#updateRe"+(c-1)).hide();
-          $("#span"+(c-1)).hide();
-         }
+          // console.log(c-1);
+         } 
+      
+
        }
 
 
@@ -973,11 +1028,23 @@ var tsOld =[];
 var Ob =[];
 var Si =[];
 var re =[];
- for (var i = 0; i < crackData.length; i++) {
-  var measArray = document.getElementById("updateMeas"+i).value;
-  var crackArray = document.getElementById("crackSelect"+i).value;
-  var tsArray = document.getElementById("entryupdate"+i).value;
-  var ReArray = document.getElementById("updateRe"+i).value.toUpperCase();
+
+var measNull=[];
+var crackNull=[];
+var tsNull=[];
+var ObNull =[];
+var SiNull =[];
+var reNull =[];
+var weatherNull =[];
+var measTNull =[];
+
+var i = withVal;
+var i2 = withValnull;
+ for (var a = 0; a < withVal.length; a++) {
+  var measArray = document.getElementById("updateMeas"+i[a]).value;
+  var crackArray = document.getElementById("crackSelect"+i[a]).value;
+  var tsArray = document.getElementById("entryupdate"+i[a]).value;
+  var ReArray = document.getElementById("updateRe"+i[a]).value.toUpperCase();
   var datenew = tDiff[reserveNo];
   var res2 = datenew.slice(12, 21)
   var tsUpdate = convert+res2;
@@ -990,8 +1057,29 @@ var re =[];
   Ob.push(observerArray);
   Si.push(siteArray);
   re.push(ReArray);
-  // console.log(crackData.length);
+  
+}
 
+ for (var a2 = 0; a2 < withValnull.length; a2++) {
+  var measArray = document.getElementById("updateMeas"+i2[a2]).value;
+  var crackArray = document.getElementById("crackSelect"+i2[a2]).value;
+  var tsArray = document.getElementById("entryupdate"+i2[a2]).value;
+  var ReArray = document.getElementById("updateRe"+i2[a2]).value.toUpperCase();
+  var observerArray = document.getElementById("observer_name").value;
+  var siteArray = document.getElementById("site_id").value;
+  var weatherData = <?php echo json_encode($weatherData);  ?>;
+  var measTData = <?php echo json_encode($measType);  ?>;
+  var diff = weatherData.length-reserveNo;
+  var weatherNew = weatherData[diff];
+  var measTNew = measTData[diff];
+  measNull.push(measArray);
+  crackNull.push(crackArray);
+  tsNull.push(tsArray);
+  ObNull.push(observerArray);
+  SiNull.push(siteArray);
+  reNull.push(ReArray);
+  weatherNull.push(weatherNew);
+  measTNull.push(measTNew);
 }
 
  $("#crackFormUp").validate({
@@ -1018,6 +1106,16 @@ var re =[];
             reliability:re
           };
 
+          var formData2 = {
+            timestamp: tsNull,
+            site_id: SiNull,
+            observer_name: ObNull,
+            meas: measNull,
+            crack_id: crackNull,
+            reliability:reNull,
+            meas_type: measTNull,
+            weather: weatherNull,
+          };
 
         $.ajax({
             url: '<?php echo base_url(); ?>gndforms_crt/updatedata',
@@ -1025,16 +1123,22 @@ var re =[];
             data: formData,
             success: function(result, textStatus, jqXHR)
                     {
-                       
-                       // console.log(result);
-              
                        $('#modalForm').modal('hide');
                         $('#myModal').modal('show');
                     }     
         
         });
 
-       
+            $.ajax({
+            url: '<?php echo base_url(); ?>gndforms_crt/insert',
+            type:'POST',
+            data: formData2,
+            success: function(result, textStatus, jqXHR)
+                    {
+                       // console.log(result);
+                    }     
+        
+        });
 
      }   
 });
@@ -1047,14 +1151,6 @@ function myFunction1() {
     var urlBase = "<?php echo base_url(); ?>";
     location.href = urlBase + urlExt;
 }
-
-function cancelFunction() {
-     var urlExt = "gold/GroundMeas/" + curSite;
-    var urlBase = "<?php echo base_url(); ?>";
-    location.href = urlBase + urlExt;
-}
-   
-
 function enable(){
   $('#modalForm').modal('hide');
   var entrydata = withVal[0];
@@ -1087,8 +1183,7 @@ $(document).ready(function() {
             $('#dBase').addClass('form-group col-xs-4').removeClass('form-group col-xs-3');
             $("#time").append($('#timestamp_entry').val());   
             $('.time0').hide();    
-
-         
+          
          
         $('.datetime').datetimepicker({
             format: 'YYYY-MM-DD HH:mm:ss',
