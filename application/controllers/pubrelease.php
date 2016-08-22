@@ -78,7 +78,7 @@ class Pubrelease extends CI_Controller {
 			$data2['comments'] = $magnitude . ";" . $epicenter . ";" . $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger . ";" . $validity;
 		} else if ($alert == "A1-R" || $alert == "ND-R") {
 			$data2['comments'] = $timestamp_initial_trigger . ";" . $comments . ";" . $timestamp_retrigger . ";" . $validity;
-		} else if ($alert == "A2" || $alert == "A3" || $alert == "ND-L") {
+		} else if ($alert == "A2" || $alert == "A3" || $alert == "ND-L" || $alert == "ND-L2") {
 			$data2['comments'] = $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $comments . ";" . $validity;
 		} else if ($alert == "A0" || $alert == "ND") {
 			$data2['comments'] = $comments . ";" . $timestamp_initial_trigger . ";" . $timestamp_retrigger . ";" . $validity . ";" . $_POST["previous_alert"];

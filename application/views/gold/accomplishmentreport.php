@@ -522,6 +522,7 @@ if (base_url() == "http://localhost/") {
 			case "ND-E": alert_level = "A1-E"; break;
 			case "ND-R": alert_level = "A1-R"; break;
 			case "ND-L": alert_level = "A2"; break;
+			case "ND-L2": alert_level = "A3"; break;
 		}
 
     	/*** SHIFT START ***/
@@ -635,7 +636,7 @@ if (base_url() == "http://localhost/") {
 	        		break;
 	            case "A1-E": case "ND-E": arr[j++] = parser(commentsLookUp[2], result_clone[i].comments, result_clone[i]); break;
 	            case "A1-R": case "ND-R": arr[j++] = parser(commentsLookUp[3], result_clone[i].comments, result_clone[i]); break;
-	            case "A2": case "A3": case "ND-L": arr[j++] = parser(commentsLookUp[4], result_clone[i].comments, result_clone[i]); break;
+	            case "A2": case "A3": case "ND-L": case "ND-L2": arr[j++] = parser(commentsLookUp[4], result_clone[i].comments, result_clone[i]); break;
 	        }
         }
 

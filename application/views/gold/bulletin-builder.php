@@ -342,6 +342,7 @@
 									boilerPlate('GROUND MOVEMENT', $ground);
 									break;
 								case 'A3':
+								case 'ND-L2':
 									boilerPlate('GROUND MOVEMENT', $ground);
 									break;
 							}
@@ -510,6 +511,7 @@
 	    		$desc = str_replace("[list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements]", retriggers($list[1]), $desc);
 				break;
 			case 'A3':
+			case 'ND-L2':
 				$comment = isset($list[2]) ? $list[2] : null;
 				$desc = str_replace("[date, time (round up to nearest next hour) of original L2-triggering measurement]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
 	    		$desc = str_replace("[list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements]", retriggers($list[1]), $desc);

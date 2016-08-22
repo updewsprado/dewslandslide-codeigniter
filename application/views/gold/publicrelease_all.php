@@ -96,6 +96,7 @@
                                     $tableRowClass = "alert_02";
                                     break;
                                 case 'A3':
+                                case 'ND-L2':
                                     $tableRowClass = "alert_00";
                                     break;
                                 case 'ND':

@@ -187,7 +187,7 @@
 			case 'A1-E': case 'ND-E': $x = 2; break;
 			case 'A1-R': case 'ND-R': $x = 3; break;
 			case 'A2': case 'ND-L':
-			case 'A3':	$x = 4; break;
+			case 'A3': case 'ND-L2':	$x = 4; break;
 		}
 
 		$elem = $commentsLookUp[$x];
@@ -283,7 +283,7 @@
 						                            case 'A1-R':case 'A1':
 						                                $tableRowClass = "alert_02";
 						                                break;
-						                            case 'A3':
+						                            case 'A3':case 'ND-L2':
 						                                $tableRowClass = "alert_00";
 						                                break;
 						                            case 'ND':case 'A0':
@@ -398,7 +398,7 @@
 						                            case 'A1-R':case 'A1':
 						                                $tableRowClass = "alert_02";
 						                                break;
-						                            case 'A3':
+						                            case 'A3':case 'ND-L2':
 						                                $tableRowClass = "alert_00";
 						                                break;
 						                            case 'ND':case 'A0':
