@@ -287,7 +287,7 @@ $conn->close();
 			URL = "http://localhost/temp/getSenslopeData.php?sitenames&db=senslopedb";
 		}
 		else {
-			URL = "http://www.dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
+			URL = "http://dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
 		}
 		
 		$.getJSON(URL, function(data, status) {
@@ -310,6 +310,7 @@ $conn->close();
 			
 			if(opt == "select") {
 				el.value = "none";
+				
 			}
 			else {
 				el.value = opt;
@@ -317,6 +318,8 @@ $conn->close();
 			
 			select.appendChild(el);
 		}
+
+		// console.log(document.getElementById("sitegeneral").text);
 	}
 	
 	function initNode() {
@@ -327,7 +330,7 @@ $conn->close();
 			var targetForm = document.getElementById("formGeneral");
 			var V2V = "<?php echo $version ?>";
 			element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " (v" + V2V + ") "+ "Node " + curNode + " Overview";
-				
+			 
 		}
 	}
 	
@@ -370,8 +373,14 @@ $conn->close();
 		return targetForm;
 	}
 	
-	window.onload = function() {					
-		//popDropDownGeneral();
+	window.onload = function() {	
+		 if( curSite != ""){
+			$("#slide_right").removeClass("slide_right_open");
+			$( "#bpright" ).removeClass( "glyphicon  glyphicon-menu-right" ).addClass( "glyphicon glyphicon-menu-left" );	
+			}else{
+			$("#slide_right").addClass("slide_right_open");
+	 		$( "#bpright" ).removeClass( "glyphicon  glyphicon-menu-left" ).addClass( "glyphicon glyphicon-menu-right" );
+			}
 		getAllSites();
 		initAlertPlot();
 		toggleGraphView();
@@ -380,7 +389,7 @@ $conn->close();
 		
 		setTimeout(function(){
 			initNode();
-
+			
 			if ((document.getElementById("sitegeneral").value).length == 5) {
 				//$("#moisture-panel").hide();
 				$("#moisture-panel").find("b").text("Battery Level: V Value");
@@ -421,9 +430,9 @@ $conn->close();
 	}
 	
 	function redirectNodePlots (frm) {
-		//if(frm.sitegeneral.value == "none") {
 		if(document.getElementById("sitegeneral").value == "none") {
 			//do nothing
+			
 		}
 		else if ((curSite == document.getElementById("sitegeneral").value) && (curNode == document.getElementById("node").value)) {
 			if ((document.getElementById("sitegeneral").value).length == 5) {

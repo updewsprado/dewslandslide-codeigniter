@@ -574,12 +574,18 @@ mysqli_close($conn);
      
      
     window.onload = function() {
+    if( curSite != ""){
+        $("#slide_right").removeClass("slide_right_open");
+        $( "#bpright" ).removeClass( "glyphicon  glyphicon-menu-right" ).addClass( "glyphicon glyphicon-menu-left" );   
+    }else{
+        $("#slide_right").addClass("slide_right_open");
+        $( "#bpright" ).removeClass( "glyphicon  glyphicon-menu-left" ).addClass( "glyphicon glyphicon-menu-right" );
+    }
+
       var targetForm = getMainForm();
       nodeAlertJSON = <?php echo $nodeAlerts; ?>;
       nodeStatusJSON = <?php echo $nodeStatus; ?>;
       maxNodesJSON = <?php echo $siteMaxNodes; ?>;
-
-      
       getAllSites();
       $('#mySelect').hide();
       $('#nodeGeneralname').hide();
@@ -587,6 +593,7 @@ mysqli_close($conn);
       displayGroundGraphs();
       check();
       update();
+      
       
     }
 
@@ -1354,7 +1361,7 @@ mysqli_close($conn);
     function displayGroundGraphs() {
         var x = document.getElementById("mySelect").value;
         var y = document.getElementById("mySelect2").value;
-
+     
         if (x != "default") {
             var GndName = allWS[x]["site_id"];
             var crack = allWS2[y]["crack_id"];
