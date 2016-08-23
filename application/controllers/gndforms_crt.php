@@ -57,13 +57,6 @@ public function updatedata()
     if($m[$i] != '') {
         $data = array(
 
-            // 'timestamp_new' => $tn[0],
-            // 'timestamp_old' => $to[0], 
-            // 'crack_id'      => "B",
-            // 'observer_name' => "ivy",
-            // 'meas'          => $m[0],
-            // 'site_id'       => "agb", 
-
             'timestamp_new' => $this->checkIfEmpty($tn[$i]),
             'timestamp_old' => $this->checkIfEmpty($to[$i]), 
             'crack_id'      =>  $this->checkIfEmpty($ci[$i]),

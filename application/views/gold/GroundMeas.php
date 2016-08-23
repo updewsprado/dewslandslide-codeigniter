@@ -141,7 +141,7 @@ if (mysqli_num_rows($resultTimestamp) > 0) {
         }
 
         foreach($listCrackId as $crackId) {
-            $data[$crackId][$rowTimestamp['timestamp']] ="null";
+            $data[$crackId][$rowTimestamp['timestamp']] ="ND";
         }
 
         while($rowData = mysqli_fetch_assoc($resData)) {
@@ -398,7 +398,7 @@ mysqli_close($conn);
                 }
                 echo "</td><td>";
                for ($i = 0; $i <= count($data)-1; $i++) {
-                 echo '<input type="number"  min="0" class="form-control"  id="updateMeas'.$i.'"   value="" /> <br>';
+                 echo '<input type="text"  min="0" class="form-control"  id="updateMeas'.$i.'"   value="" /> <br>';
              }
               echo "</td><td>";
                 for ($i = 0; $i <= count($data)-1; $i++) {
@@ -521,7 +521,7 @@ mysqli_close($conn);
           URL = "http://localhost/temp/getSenslopeData.php?sitenames&db=senslopedb";
         }
         else {
-          URL = "http://www.dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
+          URL = "http://dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
         }
         
         $.getJSON(URL, function(data, status) {
