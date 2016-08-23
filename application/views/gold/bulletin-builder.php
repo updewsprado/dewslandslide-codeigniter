@@ -428,7 +428,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-12"><p>Please see the attached <i>Landslide Alert Level Based on Ground Movement and Alert Levels and Recommended Responses</i> for references.</p></div>
+							<div class="col-md-12"><p>Please proceed to the links <a href="<?php echo base_url(); ?>images/bulletin/landslide-alert.png"><i>Landslide Alert Level Based on Ground Movement</a></i> and <a href="<?php echo base_url(); ?>images/bulletin/alert-table.png"><i>Alert Levels and Recommended Responses</a></i> for references.</p></div>
 						</div>
 
 					</div>
@@ -462,14 +462,6 @@
         </div>
 
 		</div> <!-- End of Text-Area div -->
-
-		<div class="images" style="page-break-before:always;">
-			<img src="/images/Bulletin/landslide-alert.png"/>
-		</div>
-
-		<div class="images" style="page-break-before:always;">
-			<img src="/images/Bulletin/alert-table.png"/>
-		</div>
 
     </div>
 </div>
