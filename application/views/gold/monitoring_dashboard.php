@@ -50,30 +50,30 @@
     }
 
     .day-one {
-    	background-color: rgba(97, 223, 223, 0.8);
+    	background-color: rgba(97, 223, 223, 0.5);
     }
 
     .day-one-square {
-    	color: rgba(97, 223, 223, 0.8);
-    	background-color: rgba(97, 223, 223, 0.8);
+    	color: rgba(97, 223, 223, 0.5);
+    	background-color: rgba(97, 223, 223, 0.5);
     }
 
     .day-two {
-    	background-color: rgba(107, 238, 111, 0.8);
+    	background-color: rgba(107, 238, 111, 0.5);
     }
 
     .day-two-square {
-    	color: rgba(107, 238, 111, 0.8);
-    	background-color: rgba(107, 238, 111, 0.8);
+    	color: rgba(107, 238, 111, 0.5);
+    	background-color: rgba(107, 238, 111, 0.5);
     }
 
     .day-three {
-    	background-color:  rgba(47, 209, 89, 0.8);
+    	background-color:  rgba(47, 209, 89, 0.5);
     }
 
     .day-three-square {
-    	color:  rgba(47, 209, 89, 0.8);
-    	background-color:  rgba(47, 209, 89, 0.8);
+    	color:  rgba(47, 209, 89, 0.5);
+    	background-color:  rgba(47, 209, 89, 0.5);
     }
 
 </style>
