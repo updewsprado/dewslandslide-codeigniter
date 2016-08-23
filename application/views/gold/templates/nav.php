@@ -190,8 +190,8 @@
             </nav>
             
             <nav>
-                    <div id="slide_right" class="slide_right_close srl_menu">
-                        <button id="button_right" class="button sbutton " data-toggle="tooltip" title="Variable Analysis"> 
+                    <div id="slide_right" class="slide_right_close srl_menu ">
+                        <button id="button_right" class="button sbutton " data-toggle="tooltip" title="Analysis Variables"> 
                             <span id="bpright" class="glyphicon glyphicon-equalizer glyphicon-menu-left" data-target="#collapseDiv"></span>
 
                             <!-- <img id="bsright" src="img/menu_icon.png"/> -->

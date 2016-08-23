@@ -29,47 +29,29 @@
 
     $(document).ready(function()
     {
-
-        // Closes the sidebar menu on menu-close button click event
-        $("#menu-close").click(function(e)                          //declare the element event ...'(e)' = event (shorthand)
+        $("#menu-close").click(function(e)                          
         {
-                                                                    // - will not work otherwise")
-            $("#sidebar-wrapper").toggleClass("active");            //instead on click event toggle active CSS element
-            e.preventDefault();                                     //prevent the default action ("Do not remove as the code
-
-            /*!
-            ======================= Notes ===============================
-            * see: .sidebar-wrapper.active in: style.css
-            ==================== END Notes ==============================
-            */
-        });                                                         //Close 'function()'
-
-        // Open the Sidebar-wrapper on Hover
-        $("#menu-toggle").hover(function(e)                         //declare the element event ...'(e)' = event (shorthand)
+                                                    
+            $("#sidebar-wrapper").toggleClass("active");            
+            e.preventDefault();                                    
+        });                                                    
+        $("#menu-toggle").hover(function(e)                        
         {
-            $("#sidebar-wrapper").toggleClass("active",true);       //instead on click event toggle active CSS element
-            e.preventDefault();                                     //prevent the default action ("Do not remove as the code
+            $("#sidebar-wrapper").toggleClass("active",true);       
+            e.preventDefault();                                     
         });
 
-        $("#menu-toggle").bind('click',function(e)                  //declare the element event ...'(e)' = event (shorthand)
+        $("#menu-toggle").bind('click',function(e)             
         {
-            $("#sidebar-wrapper").toggleClass("active",true);       //instead on click event toggle active CSS element
-            e.preventDefault();                                     //prevent the default action ("Do not remove as the code
-        });                                                         //Close 'function()'
+            $("#sidebar-wrapper").toggleClass("active",true);    
+            e.preventDefault();   
+        });   
 
-        $('#sidebar-wrapper').mouseleave(function(e)                //declare the jQuery: mouseleave() event
-                                                                    // - see: ('//api.jquery.com/mouseleave/' for details)
+        $('#sidebar-wrapper').mouseleave(function(e)            
         {
-            /*! .toggleClass( className, state ) */
-            $('#sidebar-wrapper').toggleClass('active',false);      /* toggleClass: Add or remove one or more classes from each element
-                                                                    in the set of matched elements, depending on either the class's
-                                                                    presence or the value of the state argument */
-            e.stopPropagation();                                    //Prevents the event from bubbling up the DOM tree
-                                                                    // - see: ('//api.jquery.com/event.stopPropagation/' for details)
-
-
-            e.preventDefault();                                     // Prevent the default action of the event will not be triggered
-                                                                    // - see: ('//api.jquery.com/event.preventDefault/' for details)
+            $('#sidebar-wrapper').toggleClass('active',false);  
+            e.stopPropagation();                              
+            e.preventDefault();        
         });
     });
     $(document).ready(function(){
@@ -79,6 +61,8 @@
 });
     // sliding toggle
      $(document).ready(function(){
+
+       
                 $("#button_right").click(function(){
                     $("#slide_right").toggleClass("slide_right_open");/*Opens and closes the menu*/
                     if($("#slide_right").hasClass("slide_right_open")){/*If the menu is open, then:*/
@@ -87,8 +71,6 @@
                         $("#bpright").toggleClass('glyphicon glyphicon-menu-right').toggleClass('glyphicon glyphicon-menu-left');
                     }
                  });
-
-
     });
 
 </script>

@@ -141,7 +141,7 @@ if (mysqli_num_rows($resultTimestamp) > 0) {
         }
 
         foreach($listCrackId as $crackId) {
-            $data[$crackId][$rowTimestamp['timestamp']] ="ND";
+            $data[$crackId][$rowTimestamp['timestamp']] ="null";
         }
 
         while($rowData = mysqli_fetch_assoc($resData)) {
@@ -398,7 +398,7 @@ mysqli_close($conn);
                 }
                 echo "</td><td>";
                for ($i = 0; $i <= count($data)-1; $i++) {
-                 echo '<input type="text"  min="0" class="form-control"  id="updateMeas'.$i.'"   value="" /> <br>';
+                 echo '<input type="text"  class="form-control"  id="updateMeas'.$i.'"   value="" /> <br>';
              }
               echo "</td><td>";
                 for ($i = 0; $i <= count($data)-1; $i++) {
@@ -574,12 +574,18 @@ mysqli_close($conn);
      
      
     window.onload = function() {
+    if( curSite != ""){
+        $("#slide_right").removeClass("slide_right_open");
+        $( "#bpright" ).removeClass( "glyphicon  glyphicon-menu-right" ).addClass( "glyphicon glyphicon-menu-left" );   
+    }else{
+        $("#slide_right").addClass("slide_right_open");
+        $( "#bpright" ).removeClass( "glyphicon  glyphicon-menu-left" ).addClass( "glyphicon glyphicon-menu-right" );
+    }
+
       var targetForm = getMainForm();
       nodeAlertJSON = <?php echo $nodeAlerts; ?>;
       nodeStatusJSON = <?php echo $nodeStatus; ?>;
       maxNodesJSON = <?php echo $siteMaxNodes; ?>;
-
-      
       getAllSites();
       $('#mySelect').hide();
       $('#nodeGeneralname').hide();
@@ -587,6 +593,7 @@ mysqli_close($conn);
       displayGroundGraphs();
       check();
       update();
+      
       
     }
 
@@ -736,13 +743,13 @@ mysqli_close($conn);
           var attrColorArr =[];
           var color =[];
           var e =  select.options.length;
-          var num1 = 0.5;
-          var num2 = 5;
-          var num3 = 10;
-          var num4 = 1.5;
-          var num5 = 30;
-          var num6 = 3;
-          var num7 = 75;
+          var a0apatHours = 0.5;
+          var a3apatHours = 5;
+          var a3isangDay = 10;
+          var a2apatDays = 1.5;
+          var a3apatDays = 30;
+          var a2isangWeek = 3;
+          var a3isangWeek = 75;
           $('#groundform').show();
           $('.tblhead').show();
           for (var a= 1 ; a <= tablelength  ; a++) {
@@ -837,10 +844,10 @@ mysqli_close($conn);
                     var vv2 = jArray[c+1]-1;
                     var date1v = moment(tDiff[vv]);
                     var date2v = moment(tDiff[vv2]);
-                    var daysv = date2v.diff(date1v, 'hours');
+                    var hours = date2v.diff(date1v, 'hours');
                      var roundoff =Math.round(tablecomputation*100)/100;
                     var valueMeas =Math.abs(roundoff);
-                    timediffVal.push(daysv);
+                    timediffVal.push(hours);
                     tableDiff.push(tablecomputation);
                     if(document.getElementById("site_id").value != "nag" ){
                       var crkId = crackData[i-1];
@@ -849,43 +856,43 @@ mysqli_close($conn);
                       var measId = "#"+id + (jArray[c]-1);
                       
                       msDATA.push(measId);
-                      var cmPerHour= valueMeas / daysv;
+                      var cmPerHour= valueMeas / hours;
                       var roundoff2 =Math.round(cmPerHour*1000)/1000;
                       $(measIdtime).attr('data-original-title', valueMeas);
-                      // $(measIdtime).attr('data-original-title', tDiff[vv] +"-"+tDiff[vv2]+"="+daysv+ "hrs  measDifference " +valueMeas +"-->"+roundoff2);
+                      // $(measIdtime).attr('data-original-title', tDiff[vv] +"-"+tDiff[vv2]+"="+hours+ "hrs  measDifference " +valueMeas +"-->"+cmPerHour+"=====>"+roundoff2);
                       msDATA.push(measId);
 
                       
-                      if(daysv <= "4" && daysv >= "0"){
-                            if(cmPerHour <= (num1/4) ){
+                      if(hours <= "23" && hours >= "0"){
+                            if(cmPerHour < (a0apatHours/4) ){
                                $(measIdtime).attr('bgcolor','#99ff99');
-                            }else if (cmPerHour > (num1/4) && cmPerHour <= (num2/4)){
+                            }else if (cmPerHour >= (a0apatHours/4) && cmPerHour <= (a3apatHours/4)){
                                $(measIdtime).attr('bgcolor','#ffb366');
-                             }else if (cmPerHour > (num2/4)){
+                             }else if (cmPerHour > (a3apatHours/4)){
                                 $(measIdtime).attr('bgcolor','#ff6666');
                             }
-                      }else if(daysv <= "24" && daysv > "4"){
-                            if(cmPerHour <= (num1/24) ){
+                      }else if(hours <= "95" && hours >= "24"){
+                            if(cmPerHour < (a0apatHours/24) ){
                                $(measIdtime).attr('bgcolor','#99ff99');
-                            }else if (cmPerHour > (num1/24) && cmPerHour <= (num3/24)){
+                            }else if (cmPerHour >= (a0apatHours/24) && cmPerHour <= (a3isangDay/24)){
                                $(measIdtime).attr('bgcolor','#ffb366');
-                             }else if (cmPerHour > (num3/24)){
+                             }else if (cmPerHour > (a3isangDay/24)){
                                 $(measIdtime).attr('bgcolor','#ff6666');
                             }
-                      }else if(daysv <= "96" && daysv >= "24"){
-                            if(cmPerHour <= (num4/96) ){
+                      }else if(hours <= "167" && hours >= "96"){
+                            if(cmPerHour < (a2apatDays/96) ){
                                $(measIdtime).attr('bgcolor','#99ff99');
-                            }else if (cmPerHour > (num4/96) && cmPerHour <= (num5/96)){
+                            }else if (cmPerHour >= (a2apatDays/96) && cmPerHour <= (a3apatDays/96)){
                                $(measIdtime).attr('bgcolor','#ffb366');
-                             }else if (cmPerHour > (num5/96)){
+                             }else if (cmPerHour > (a3apatDays/96)){
                                 $(measIdtime).attr('bgcolor','#ff6666');
                             }
-                      }else if(daysv >= "97"){
-                        if(cmPerHour <= (num6/168) ){
+                      }else if(hours >= "168"){
+                        if(cmPerHour < (a2isangWeek/168) ){
                                $(measIdtime).attr('bgcolor','#99ff99');
-                            }else if (cmPerHour > (num6/168) && cmPerHour <= (num7/168)){
+                            }else if (cmPerHour >= (a2isangWeek/168) && cmPerHour <= (a3isangWeek/168)){
                                $(measIdtime).attr('bgcolor','#ffb366');
-                             }else if (cmPerHour > (num7/168)){
+                             }else if (cmPerHour > (a3isangWeek/168)){
                                 $(measIdtime).attr('bgcolor','#ff6666');
                             }
                       }
@@ -1354,7 +1361,7 @@ mysqli_close($conn);
     function displayGroundGraphs() {
         var x = document.getElementById("mySelect").value;
         var y = document.getElementById("mySelect2").value;
-
+     
         if (x != "default") {
             var GndName = allWS[x]["site_id"];
             var crack = allWS2[y]["crack_id"];

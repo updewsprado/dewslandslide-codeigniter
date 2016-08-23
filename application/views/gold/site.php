@@ -253,7 +253,7 @@ function getAllSites() {
             URL = "http://localhost/temp/getSenslopeData.php?sitenames&db=senslopedb";
         }
         else {
-            URL = "http://www.dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
+            URL = "http://dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
         }
         
         $.getJSON(URL, function(data, status) {
@@ -293,17 +293,23 @@ function initSite() {
         element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " Site Overview";
 
         showSitePlots(targetForm);
+       
     }
 }
-
 function getMainForm() {
         var targetForm = document.getElementById("formGeneral");
         
         return targetForm;
     }
 
-
 window.onload = function() {
+    if( curSite != ""){
+        $("#slide_right").removeClass("slide_right_open");
+        $( "#bpright" ).removeClass( "glyphicon  glyphicon-menu-right" ).addClass( "glyphicon glyphicon-menu-left" );   
+    }else{
+        $("#slide_right").addClass("slide_right_open");
+        $( "#bpright" ).removeClass( "glyphicon  glyphicon-menu-left" ).addClass( "glyphicon glyphicon-menu-right" );
+    }
     var targetForm = getMainForm();
     nodeAlertJSON = <?php echo $nodeAlerts; ?>;
     nodeStatusJSON = <?php echo $nodeStatus; ?>;
