@@ -45,7 +45,7 @@ class Gndforms_crt extends CI_Controller {
 
 public function updatedata()
     {
-
+            
             $tn= $_POST["timestampNew"];
             $to= $_POST["timestamp"];
             $s =$_POST["site_id"];
@@ -77,16 +77,6 @@ public function updatedata()
      $this->gndforms_model->updateCrack($data);
     }
 }
-
-       
-
-        
-
-        // //Set the public release all cache to dirty
-        // $this->setPublicReleaseAllDirty();
     }
-
-
-
 }
 

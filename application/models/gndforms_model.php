@@ -20,7 +20,11 @@ class Gndforms_model extends CI_Model {
 public function updateCrack($data)
   {
 
+    if($data['meas'] == "ND" || $data['meas'] == "nd"){
+      $sql = "UPDATE senslopedb.gndmeas SET timestamp='".$data['timestamp_new']."',meas=NULL ,reliability='".$data['reliability']."',observer_name='".$data['observer_name']."' WHERE crack_id='".$data['crack_id']."' AND site_id='".$data['site_id']."' AND timestamp='".$data['timestamp_old']."'";
+    }else{
     $sql = "UPDATE senslopedb.gndmeas SET timestamp='".$data['timestamp_new']."',meas='".$data['meas']."',reliability='".$data['reliability']."',observer_name='".$data['observer_name']."' WHERE crack_id='".$data['crack_id']."' AND site_id='".$data['site_id']."' AND timestamp='".$data['timestamp_old']."'";
+  }
     $result = $this->db->query($sql);
 
     echo var_dump($sql);
