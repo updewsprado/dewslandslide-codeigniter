@@ -78,6 +78,14 @@
 		color: #000;
 	}
 
+	i {
+		color: blue !important;
+	}
+
+	a[href]:after {
+    	content: none !important;
+  	}
+
 	@font-face {
 		font-family: 'Arial';
 		src:	url('<?php echo $host ?>/fonts/Arial/arial.ttf'),
@@ -207,7 +215,7 @@
 
         <div class="row">
 
-        	<div class="col-md-2"><img id="phivolcs" class="pull-right" src="/images/Bulletin/phivolcs.png"></div>
+        	<div class="col-md-2"><img id="phivolcs" class="pull-right" src="/images/bulletin/phivolcs.png"></div>
 
         	<div class="col-md-8 center-text" id="header-text">
         		
@@ -221,7 +229,7 @@
 
         	</div>
 
-        	<div class="col-md-2"><img id="dost" class="pull-left" src="/images/Bulletin/dost.png"></div>
+        	<div class="col-md-2"><img id="dost" class="pull-left" src="/images/bulletin/dost.png"></div>
 
         </div>
 
@@ -428,7 +436,8 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-12"><p>Please proceed to the links <a href="<?php echo base_url(); ?>images/bulletin/landslide-alert.png"><i>Landslide Alert Level Based on Ground Movement</a></i> and <a href="<?php echo base_url(); ?>images/bulletin/alert-table.png"><i>Alert Levels and Recommended Responses</a></i> for references.</p></div>
+							<div class="col-md-12"><p>Please proceed to the links <a href="<?php echo base_url(); ?>images/bulletin/landslide-alert.png"><i>Landslide Alert Level Based on Ground Movement</a></i> 
+							<br><span class="rowIndent"></span>and <a href="<?php echo base_url(); ?>images/bulletin/alert-table.png"><i>Alert Levels and Recommended Responses</a></i> for references.</p></div>
 						</div>
 
 					</div>
