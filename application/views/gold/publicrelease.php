@@ -437,7 +437,7 @@
                             switch(result.internal_alert_level)
                             {
                                 case "ND-E": case "ND-R":
-                                case "ND-L":
+                                case "ND-L": case "ND-L2":
                                     // If the saved validity from the release is greater // than the computed validity, there is extension
                                     // through ND-(X)
                                     if( moment(validity).isAfter(computed_validity) )
@@ -534,7 +534,7 @@
                     required: {
                         depends: function () {
                             var temp = $("#internal_alert_level").val();
-                            return (temp === "A2" || temp === "A3" || temp === "A1-R" || temp === "A1-E" || temp === "ND-R" || temp === "ND-E" || temp === "ND-L");
+                            return (temp === "A2" || temp === "A3" || temp === "A1-R" || temp === "A1-E" || temp === "ND-R" || temp === "ND-E" || temp === "ND-L" || temp === "ND-L2");
                     }}
                 },
                 timestamp_retrigger: {
@@ -694,7 +694,7 @@
                 // Add four hours if ND-(X) and if it is end or past
                 // the computed validity but timestamp_entry is
                 // not below the validity
-                else if (internal_alert_level == "ND-L" || internal_alert_level == "ND-E" || internal_alert_level == "ND-R")
+                else if (internal_alert_level == "ND-L" || internal_alert_level == "ND-E" || internal_alert_level == "ND-R" || internal_alert_level == "ND-L2")
                 {
                     if(moment(validity).isSameOrAfter(computed_validity))
                     {
@@ -805,6 +805,7 @@
                 case "A2":
                 case "A3":
                 case "ND-L":
+                case "ND-L2":
                       $('#dependent_fields_a1d').hide();
                       $('#dependent_fields_rest').show();
                       $('#dependent_fields_a1e').hide();
@@ -870,7 +871,7 @@
             case "A1-D": case "ND-D": suggestions = parser(commentsLookUp[1], result.comments, result.internal_alert_level); break;
             case "A1-E": case "ND-E": suggestions = parser(commentsLookUp[2], result.comments, result.internal_alert_level); break;
             case "A1-R": case "ND-R": suggestions = parser(commentsLookUp[3], result.comments, result.internal_alert_level); break;
-            case "A2": case "A3": case "ND-L": suggestions = parser(commentsLookUp[4], result.comments, result.internal_alert_level); break;
+            case "A2": case "A3": case "ND-L": case "ND-L2": suggestions = parser(commentsLookUp[4], result.comments, result.internal_alert_level); break;
         }
 
         return suggestions;

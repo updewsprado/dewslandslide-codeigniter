@@ -277,6 +277,7 @@ if (base_url() == "http://localhost/") {
 				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
 				break;
 			case 'A3':
+			case 'ND-L2':
 				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
 				break;
 			case 'A0':

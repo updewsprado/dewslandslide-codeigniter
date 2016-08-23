@@ -342,6 +342,7 @@
 									boilerPlate('GROUND MOVEMENT', $ground);
 									break;
 								case 'A3':
+								case 'ND-L2':
 									boilerPlate('GROUND MOVEMENT', $ground);
 									break;
 							}
@@ -427,7 +428,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-12"><p>Please see the attached <i>Landslide Alert Level Based on Ground Movement and Alert Levels and Recommended Responses</i> for references.</p></div>
+							<div class="col-md-12"><p>Please proceed to the links <a href="<?php echo base_url(); ?>images/bulletin/landslide-alert.png"><i>Landslide Alert Level Based on Ground Movement</a></i> and <a href="<?php echo base_url(); ?>images/bulletin/alert-table.png"><i>Alert Levels and Recommended Responses</a></i> for references.</p></div>
 						</div>
 
 					</div>
@@ -461,14 +462,6 @@
         </div>
 
 		</div> <!-- End of Text-Area div -->
-
-		<div class="images" style="page-break-before:always;">
-			<img src="/images/Bulletin/landslide-alert.png"/>
-		</div>
-
-		<div class="images" style="page-break-before:always;">
-			<img src="/images/Bulletin/alert-table.png"/>
-		</div>
 
     </div>
 </div>
@@ -510,6 +503,7 @@
 	    		$desc = str_replace("[list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements]", retriggers($list[1]), $desc);
 				break;
 			case 'A3':
+			case 'ND-L2':
 				$comment = isset($list[2]) ? $list[2] : null;
 				$desc = str_replace("[date, time (round up to nearest next hour) of original L2-triggering measurement]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
 	    		$desc = str_replace("[list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements]", retriggers($list[1]), $desc);

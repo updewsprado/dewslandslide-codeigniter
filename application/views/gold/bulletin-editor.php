@@ -56,19 +56,19 @@
     		$validity = getValidity($temp, $lookup[3]);
     		break;
     	case 'A2': case 'A3':
-   		case 'ND-L':
+   		case 'ND-L': case 'ND-L2':
     		$validity = getValidity($temp, $lookup[4]);
     		break;
     }
 
-    function getValidity($arr, $lookup, $data = 0)
+    function getValidity($arr, $lookup, $data = 0, $isA3 = 0)
     {
     	$key_validity = array_search('validity', $lookup);
     	$key_retrigger = array_search('timestamp_retrigger', $lookup);
     	$key_initial = array_search('timestamp_initial_trigger', $lookup);
     	$temp_validity = null;
 
-    	if( isset($arr[$key_validity]) && $arr[$key_validity] != "" )
+    	if( isset($arr[$key_validity]) && $arr[$key_validity] != "" && $isA3 == 0)
     		return strtotime($arr[$key_validity]);
     	else if ($arr[$key_retrigger] != "") 
     	{
@@ -94,34 +94,6 @@
 
 		return $temp_validity;
     }
-
-	/*** Check re-trigger value ***/
-	/*$x = $data->internal_alert_level;
-	if ($x != "A0" && $x != "A1-D" && $x != "ND" && $x != "ND-D") 
-	{
-		$temp = explode(";", $data->comments);
-		if (($x == "A2" || $x == "A3" || $x == "ND-L") && $temp[1] != "")
-			$validity = $temp[1];
-		else if (($x == "A1-R" || $x == "ND-R") && $temp[2] != "")
-			$validity = $temp[2];
-		else if (($x == "A1-E" || $x == "ND-E") && $temp[4] != "")
-			$validity = $temp[4];
-		else 
-		{
-			if ($x == "A2" || $x == "A3" || $x == "ND-L")
-				$validity = $temp[0];
-			else if ($x == "A1-R" || $x == "ND-R")
-				$validity = $temp[0];
-			else if ($x == "A1-E" || $x == "ND-E")
-				$validity = $temp[3];
-		}
-
-		$validity = explode(",", $validity);
-		$validity = strtotime($validity[count($validity) - 1]);
-	}
-
-	if (!isset($validity)) $validity = $data->entry_timestamp;		
-	$validity = roundTime($validity);*/
 	
 	$release = date("j F Y", $data->entry_timestamp) . ", " . date("h:i A", $data->time_released);
 
@@ -150,7 +122,7 @@
 
 		/*** Round the time value to the nearest interval (4, 8, 12) ***/
 		$hours = date('h', $timestamp);
-		if ((int)$hours % 4 == 0)  $hours = 4;
+		if ((int)$hours % 4 == 0) $hours = 0;
 		else $hours = (int) $hours % 4;
 
 		if ($release == 1)
@@ -394,6 +366,7 @@
 							<div class="col-sm-4">Alert Level Released:</div>
 							<div class="col-sm-8">
 							<?php
+								$temp_validity = $validity;
 								if ($data->public_alert_level != "A0" && $data->public_alert_level != "ND")
 								{
 									$validity = ", valid until " . amPmConverter(date("j F Y, h:i A" , $validity));
@@ -466,6 +439,7 @@
 									boilerPlate('GROUND MOVEMENT', parser($data->internal_alert_level, str_replace(";", ".", $data->supp_info_ground), $data->comments, 0));
 									break;
 								case 'A3':
+								case 'ND-L2':
 									boilerPlate('GROUND MOVEMENT', parser($data->internal_alert_level, str_replace(";", ".",$data->supp_info_ground), $data->comments, 0));
 									break;
 							}
@@ -515,7 +489,12 @@
 								$datetime = $temp;
 							}
 
-							if($data->public_alert_level == "A3") $datetime = date("j F Y, h:i A" , strtotime("+2 days", strtotime($datetime)));
+							if($data->public_alert_level == "A3") 
+							{
+								$computed_validity = getValidity(explode(";", $data->comments), $lookup[4], $data, 1);
+
+								$datetime = date("j F Y, h:i A" , $computed_validity);
+							}
 
 							switch ($data->public_alert_level) 
 							{
@@ -553,7 +532,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-sm-12"><p>Please see the attached <i>Landslide Alert Level Based on Ground Movement and Alert Levels and Recommended Responses</i> for references.</p></div>
+							<div class="col-md-12"><p>Please proceed to the links <a href="<?php echo base_url(); ?>images/bulletin/landslide-alert.png"><i>Landslide Alert Level Based on Ground Movement</a></i> and <a href="<?php echo base_url(); ?>images/bulletin/alert-table.png"><i>Alert Levels and Recommended Responses</a></i> for references.</p></div>
 						</div>
 
 					</div>
@@ -657,6 +636,7 @@
 				$desc = ($list[1] != "" && isset($list[1])) ? str_replace("[list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements]", retriggers($list[1]), $desc) : str_replace("\nAdditional ground movement/s detected on [list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements].", "", $desc);
 				break;
 			case 'A3':
+			case 'ND-L2':
 				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
 				$desc = str_replace("[date, time (round up to nearest next hour) of original L2-triggering measurement]", amPmConverter(date("j F Y, h:i A" , strtotime($list[0]))), $desc);
 	    		$desc = $desc = ($list[1] != "" && isset($list[1])) ? str_replace("[list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements]", retriggers($list[1]), $desc) : str_replace("\nAdditional ground movement/s detected on [list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements].", "", $desc);

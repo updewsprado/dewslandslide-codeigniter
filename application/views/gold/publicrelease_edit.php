@@ -478,7 +478,7 @@
                     required: {
                         depends: function () {
                             var temp = $("#internal_alert_level").val();
-                            return (temp === "A2" || temp === "A3" || temp === "A1-R" || temp === "A1-E" || temp === "ND-R" || temp === "ND-E" || temp === "ND-L");
+                            return (temp === "A2" || temp === "A3" || temp === "A1-R" || temp === "A1-E" || temp === "ND-R" || temp === "ND-E" || temp === "ND-L" || temp === "ND-L2");
                     }}
                 },
                 magnitude: {
@@ -635,7 +635,7 @@
                 // Add four hours if ND-(X) and if it is end or past
                 // the computed validity but entry_timestamp is
                 // not below the validity
-                if (internal_alert_level == "ND-L" || internal_alert_level == "ND-E" || internal_alert_level == "ND-R")
+                if (internal_alert_level == "ND-L" || internal_alert_level == "ND-E" || internal_alert_level == "ND-R" || internal_alert_level == "ND-L2")
                 {
                     current_entry.validity = moment(current_entry.validity).subtract(4, "hours");
 
@@ -714,6 +714,7 @@
             case 'ND-R': case 'ND-D':
                 alert_level = 'A1'; break;
             case 'ND-L': alert_level = 'A2'; break;
+            case 'ND-L2': alert_level = 'A3'; break;
         }
 
         validity = moment(validity);
@@ -759,8 +760,8 @@
                     case "A1-D": case "ND-D": delegateValue(commentsLookUp[1], current_entry, commentList); toggleFields([1,0,0,1]); break;
                     case "A1-E": case "ND-E": delegateValue(commentsLookUp[2], current_entry, commentList); toggleFields([0,1,1,1]); break;
                     case "A1-R": case "ND-R": delegateValue(commentsLookUp[3], current_entry, commentList); toggleFields([0,0,1,1]); break;
-                    case "A2": case "A3": case "ND-L": delegateValue(commentsLookUp[4], current_entry, commentList); toggleFields([0,0,1,1]); break;
-                    case "A0": delegateValue(commentsLookUp[0], current_entry, commentList); toggleFields([0,0,0,0]); break;
+                    case "A2": case "A3": case "ND-L": case "ND-L2": delegateValue(commentsLookUp[4], current_entry, commentList); toggleFields([0,0,1,1]); break;
+                    case "A0": case "ND": delegateValue(commentsLookUp[0], current_entry, commentList); toggleFields([0,0,0,0]); break;
                 }
             } else {
                 $("#" + key).val(value);
@@ -916,6 +917,7 @@
                         $(row).addClass("alert_02");
                         break;
                     case 'A3':
+                    case 'ND-L2':
                         $(row).addClass("alert_00");
                         break;
                     case 'ND':

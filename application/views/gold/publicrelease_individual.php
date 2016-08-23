@@ -356,6 +356,7 @@
 				$desc = ($list[1] != "" && isset($list[1])) ? str_replace("[list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements]", retriggers($list[1]), $desc) : str_replace("\nAdditional ground movement/s detected on [list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements].", "", $desc);
 				break;
 			case 'A3':
+			case 'ND-L2':
 				$comment = ($list[2] != "" && isset($list[2])) ? $list[2] : null;
 				$desc = str_replace("[date, time (round up to nearest next hour) of original L2-triggering measurement]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
 	    		$desc = $desc = ($list[1] != "" && isset($list[1])) ? str_replace("[list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements]", retriggers($list[1]), $desc) : str_replace("\nAdditional ground movement/s detected on [list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements].", "", $desc);
