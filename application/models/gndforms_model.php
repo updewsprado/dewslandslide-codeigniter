@@ -20,8 +20,9 @@ class Gndforms_model extends CI_Model {
 public function updateCrack($data)
   {
 
-    if($data['meas'] == "NULL" || $data['meas'] == "null"|| $data['meas'] == "Null"){
-      $sql = "UPDATE senslopedb.gndmeas SET timestamp='".$data['timestamp_new']."',meas=NULL ,reliability='".$data['reliability']."',observer_name='".$data['observer_name']."' WHERE crack_id='".$data['crack_id']."' AND site_id='".$data['site_id']."' AND timestamp='".$data['timestamp_old']."'";
+    if($data['meas'] == "NULL" || $data['meas'] == "null"||$data['meas'] == "ND" || $data['meas'] == "nd"){
+       $sql = "DELETE from senslopedb.gndmeas where reliability='".$data['reliability']."' AND crack_id='".$data['crack_id']."' AND site_id='".$data['site_id']."' AND timestamp='".$data['timestamp_old']."'";
+      // $sql = "UPDATE senslopedb.gndmeas SET timestamp='".$data['timestamp_new']."',meas=NULL ,reliability='".$data['reliability']."',observer_name='".$data['observer_name']."' WHERE crack_id='".$data['crack_id']."' AND site_id='".$data['site_id']."' AND timestamp='".$data['timestamp_old']."'";
     }else{
     $sql = "UPDATE senslopedb.gndmeas SET timestamp='".$data['timestamp_new']."',meas='".$data['meas']."',reliability='".$data['reliability']."',observer_name='".$data['observer_name']."' WHERE crack_id='".$data['crack_id']."' AND site_id='".$data['site_id']."' AND timestamp='".$data['timestamp_old']."'";
   }
