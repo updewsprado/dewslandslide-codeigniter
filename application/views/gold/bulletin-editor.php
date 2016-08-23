@@ -306,7 +306,7 @@
 		<div class="text-area">
         <div class="row">
 
-        	<div class="col-sm-2"><img id="phivolcs" class="pull-right" src="/images/Bulletin/phivolcs.png"></div>
+        	<div class="col-sm-2"><img id="phivolcs" class="pull-right" src="/images/bulletin/phivolcs.png"></div>
 
         	<div class="col-sm-8 center-text" id="header-text">
         		
@@ -320,7 +320,7 @@
 
         	</div>
 
-        	<div class="col-sm-2"><img id="dost" class="pull-left" src="/images/Bulletin/dost.png"></div>
+        	<div class="col-sm-2"><img id="dost" class="pull-left" src="/images/bulletin/dost.png"></div>
 
         </div>
 
@@ -738,11 +738,11 @@
 		    	data : formData,
 		    	success: function(id, textStatus, jqXHR)
 		      	{
-		      		$modal.modal('show');
-					setTimeout(function() {
+		      		//$modal.modal('show');
+					/*setTimeout(function() {
 					    $modal.modal('hide');
-					  }, 11000);
-					renderPDF();
+					  }, 5000);*/
+					renderPDF($modal);
 		    	},
 		    	error: function(xhr, status, error) {
 					var err = eval("(" + xhr.responseText + ")");
@@ -756,8 +756,9 @@
 		window.open("<?php echo base_url(); ?>gold/bulletin/DEWS-L Bulletin for <?php echo $filename; ?>.pdf", "", "menubar=no, resizable=yes");
 	});
 
-	function renderPDF() 
+	function renderPDF($modal) 
 	{
+		$modal.modal('show');
 		var address = '<?php echo base_url(); ?>bulletin/run_script/<?php echo $data->public_alert_id; ?>';
 
 		$.ajax ({
@@ -766,13 +767,17 @@
 			type: "GET",
 		})
 		.done( function (response) {
+			$modal.modal('hide');
 			console.log(response);
-			$(".modal-header").prop("hidden", false);
-			$(".modal-content span").prop("hidden", false);
-			$(".modal-footer").prop("hidden", false);
-			$(".progress.progress-popup").prop("hidden", true);
-			$(".modal-header button").show();
-		    $('.js-loading-bar').modal('show');
+			setTimeout(function () 
+			{
+				$(".modal-header").prop("hidden", false);
+				$(".modal-content span").prop("hidden", false);
+				$(".modal-footer").prop("hidden", false);
+				$(".progress.progress-popup").prop("hidden", true);
+				$(".modal-header button").show();
+			    $('.js-loading-bar').modal('show');
+			}, 1000);
 		});
 	}
 
