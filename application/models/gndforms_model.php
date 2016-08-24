@@ -259,7 +259,7 @@ public function updateCrack($data)
   
   public function getSiteMaxNodes()
   {
-    $query = $this->db->query("SELECT name FROM site_column where s_id < 100 order by name desc");
+    $query = $this->db->query("SELECT name FROM site_column order by name desc");
     
     $sitesAll = array();
     $ctr = 0;

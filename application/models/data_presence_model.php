@@ -69,7 +69,7 @@ class Data_presence_Model extends CI_Model
 	public function getAllDataPresAlert($daysnodata = 3)
 	{
 		$dbreturn = array();
-		$sitesAll = $this->db->query("SELECT name FROM site_column WHERE s_id < 100");	
+		$sitesAll = $this->db->query("SELECT name FROM site_column");	
 		$ctr = 0;
 		
 		foreach ($sitesAll->result_array() as $row)
@@ -230,7 +230,7 @@ class Data_presence_Model extends CI_Model
 		$date_from =  "'" . date('Y-m-d H:i:s',strtotime($date_string)) . "'";
 		
 		$dbSelected = $this->load->database($curdb, TRUE);
-		$sitesAll = $dbSelected->query("SELECT name FROM site_column WHERE s_id < 100");	
+		$sitesAll = $dbSelected->query("SELECT name FROM site_column");	
 		
 		foreach ($sitesAll->result_array() as $row)
 		{
@@ -343,7 +343,7 @@ class Data_presence_Model extends CI_Model
 		$siteArray = array();
 		$ctr = 0;
 		
-		$sql_maxnode = $this->db->query("SELECT name FROM site_column WHERE s_id < 100");
+		$sql_maxnode = $this->db->query("SELECT name FROM site_column");
 		
 		foreach ($sql_maxnode->result_array() as $row)
 		{

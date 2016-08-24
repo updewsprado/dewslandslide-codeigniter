@@ -243,7 +243,7 @@ class Alert_Model extends CI_Model
 	
 	public function getSiteMaxNodes()
 	{
-		$query = $this->db->query("SELECT name FROM site_column where s_id < 100 order by name desc");
+		$query = $this->db->query("SELECT name FROM site_column order by name desc");
 		
 		$sitesAll = array();
 		$ctr = 0;
@@ -252,6 +252,8 @@ class Alert_Model extends CI_Model
 		{		    
 			$sitesAll[$ctr]['site'] = $row['name'];
 			$site = $row['name'];
+
+			// echo "site: $site <Br/>";
 
 			$result = mysql_query("SHOW TABLES LIKE '$site'");
 			$tableExists = mysql_num_rows($result) > 0;			

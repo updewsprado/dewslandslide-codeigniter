@@ -46,7 +46,7 @@ class Gmap_Model extends CI_Model
 
 	public function getSitesCoord()
 	{
-		$query = $this->db->query("SELECT * FROM site_column WHERE s_id < 100");
+		$query = $this->db->query("SELECT * FROM site_column");
 
 		$dbreturn = array();
 		$ctr = 0;
