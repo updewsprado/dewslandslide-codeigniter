@@ -122,7 +122,7 @@
 
 		/*** Round the time value to the nearest interval (4, 8, 12) ***/
 		$hours = date('h', $timestamp);
-		if ((int)$hours % 4 == 0) $hours = 0;
+		if ((int)$hours % 4 == 0) $hours = 4;
 		else $hours = (int) $hours % 4;
 
 		if ($release == 1)
