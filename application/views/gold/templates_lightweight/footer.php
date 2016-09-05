@@ -7,6 +7,7 @@
 <?php if ($title == "chatterbox"): ?>
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 
     <script id="messages-template-both" type="text/x-handlebars-template">
     {{#each messages}}
