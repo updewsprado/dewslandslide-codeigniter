@@ -76,6 +76,10 @@
     	background-color:  rgba(47, 209, 89, 0.5);
     }
 
+    #send-btn-ewi-amd {
+    	margin-top: 10px;
+    }
+
 </style>
 
 <?php  
@@ -294,6 +298,9 @@
 						                                break;
 						                        }
 
+						                        $row->time_released = date("j F Y\ H:i:s" , $row->time_released);
+						                        $row->validity = date("j F Y\ H:i:s" , $row->validity);
+
 						                   		echo "<tr class='". $tableRowClass ."'>";
 						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/individual/" . $row->alert_id . "'>"
 						                            . strtoupper($row->name)."</a></td>";
@@ -302,10 +309,10 @@
 						                        	echo "<td>No record</td>";
 						                        else echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->retrigger))."</td>";
 						                        echo "<td>".$row->internal_alert."</td>";
-						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , $row->validity) ."</td>";
-						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , $row->time_released) ."</td>";
-						                        echo "</tr>";  
-
+						                        echo "<td>". $row->validity ."</td>";
+						                        echo "<td>". $row->time_released .
+						                        "<button class='btn-success' onclick='sendViaAlertMonitor(".json_encode($row).")'>EWI</button></td>";
+						                        echo "</tr>";
 						                        //date("j F Y, h:i A" , strtotime($row->timestamp))     
 						                    }
 						                }
@@ -316,6 +323,28 @@
 				    	</div>
 					</div>
 				</div>
+
+				<!-- EWI MODAL -->
+
+				<div class="modal fade col-lg-10" id="ewi-asap-modal" role="dialog">
+				  <div class="modal-dialog modal-md" id="ewi-modal-cs-dialog">
+				    <div class="modal-content" id="ewi-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				        <h4>EARLY WARNING INFORMATION</h4>
+				      </div>
+				      <div class="modal-body row-fluid"> 
+							<textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control"></textarea>
+							<button type="button" id="send-btn-ewi-amd" class="btn btn-success" onclick="templateSendViaAMD()">Send</button>
+							<input type="hidden" name="site_abbr" id="site-abbr">
+				      </div>
+				    </div>  
+				  </div>
+				</div>
+
+				<!-- END OF EWI MODAL -->
+
+
 
 				<div class="row">
 			    	<div class="panel panel-default">
