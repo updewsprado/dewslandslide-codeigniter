@@ -120,7 +120,7 @@
      
                  <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                	<li <?php echo $monitoring; ?> >
+                    <li <?php echo $monitoring; ?> >
                      <a href="<?php echo base_url() . $version; ?>/monitoring"><i class="fa fa-fw fa-th"></i> Sensor Monitoring</a>
                     </li>
                     <li>
@@ -200,29 +200,29 @@
                             <FORM id="formGeneral">
                                <center> <h4>Variable Analysis</h4></center><br>
                               
-        	                    <div class="form-group  col-xs-1">
-        	                        <label>Site:</label>
+                                <div class="form-group  col-xs-1">
+                                    <label>Site:</label>
                                 </div>
                                 <div class="form-group    col-xs-3 " id="siteG">
-        	                        <select class="form-control" name="sitegeneral" id="sitegeneral" onchange="<?php //echo $showplots; ?>">
-        	                        </select>
+                                    <select class="form-control" name="sitegeneral" id="sitegeneral" onchange="<?php //echo $showplots; ?>">
+                                    </select>
                                 </div>
 
-        	                    <div  class="form-group  col-xs-1" id="nodeGeneralname">
+                                <div  class="form-group  col-xs-1" id="nodeGeneralname">
                                     <label >Node:</label>
                                 </div>
-        	                    <div id="nodeGeneral" class="form-group   col-xs-3">
-        	                        <input class="form-control col-xs-4" name="node" id="node" onchange="<?php //echo $showplots; ?>" type="number" min="1" max="41" value="" maxlength="2" size="2" >
-        	                    </div>
+                                <div id="nodeGeneral" class="form-group   col-xs-3">
+                                    <input class="form-control col-xs-4" name="node" id="node" onchange="<?php //echo $showplots; ?>" type="number" min="1" max="41" value="" maxlength="2" size="2" >
+                                </div>
                                 <div class="form-group  col-xs-1">
                                     <label>Filter:</label>
                                 </div>
                                 <div class="form-group  col-xs-3 " id="dBase">
-        	                        <select class="form-control" name="dbase" id="dbase">
-        		                        <option value="raw">Raw</option>
-        								<option value="filtered">Filtered</option>
-        	                        </select><br>
-                                </div>				       
+                                    <select class="form-control" name="dbase" id="dbase">
+                                        <option value="raw">Raw</option>
+                                        <option value="filtered">Filtered</option>
+                                    </select><br>
+                                </div>                     
                             </FORM>  
                             <FORM id="formDate">
                                        <!--  <h4>Date:</h4> -->
@@ -236,7 +236,7 @@
                                              <div class="form-group col-xs-1" id-"yow">
                                                  <label >    To:  </label>
                                              </div>     
-            		                           <input type="text" id="datepicker2" class="col-xs-3" name="dateinput2">
+                                               <input type="text" id="datepicker2" class="col-xs-3" name="dateinput2">
                                         <div class="form-group col-xs-1"  onchange="" size="10">
                                          <input id="submit" type="button" value="Submit" onclick="<?php echo $showplots; ?>">  
                                          </div>
