@@ -295,7 +295,18 @@ class Chatterbox extends CI_Controller {
 							"Ang susunod na Early Warning Information ay mamayang/bukas ng <HH> <AM, NN, PM, MN>.",
 			"Remind to send Ground Data" => "Magandang %%PANAHON%% po.\n\n".
 											"Inaasahan namin ang pagpapadala ng LLMC ng ground data mamaya, %%DATE%% bago mag-<HH:MM> <AM, NN, PM, MN>.\n\n".
-											"Salamat.");
+											"Salamat.",
+			"A2" => "Magandang %%PANAHON%% po.\n\n".
+							"A2 ang alert level sa %%SBMP%% ngayong %%DATE%% <HH> <AM, NN, PM, MN>. Naka-detect ang sensor ng significant ground movement at Nakapagsukat ng significant ground movement ang LLMC.\n\n".
+							"Ang recommended response ay PREPARE TO EVACUATE THE HOUSEHOLDS AT RISK.\n".
+							"Inaasahan namin ang pagpapadala ng LLMC ng ground data mamaya, <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>. \n".
+							"Ang susunod na Early Warning Information ay mamaya ng <HH> <AM, NN, PM, MN>.\n\n".
+							"Salamat.",
+			"A3" => "Magandang %%PANAHON%% po.\n\n".
+							"A3 ang alert level sa %%SBMP%% ngayong %%DATE%% <HH> <AM, NN, PM, MN>.\n".
+							"EVACUATE THE HOUSEHOLDS AT RISK ang recommended response. \n".
+							"Nakapagsukat ang LLMC ng critical ground movement.\n\n".
+							"Ang susunod na Early Warning Information ay mamayang/bukas ng <HH> <AM, NN, PM, MN>.");
 		print json_encode($ewi_template);
 	}
 }
