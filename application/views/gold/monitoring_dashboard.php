@@ -635,3 +635,8 @@
 	google.maps.event.addDomListener(window, 'load', initialize_map);
 
 </script>
+
+<script type="text/javascript">
+  first_name = "<?php echo $first_name; ?>";
+  $('#footer-ewi').val(first_name);
+</script>
