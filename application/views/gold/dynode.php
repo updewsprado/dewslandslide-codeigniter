@@ -3,7 +3,7 @@ $servername = "localhost";
 $username = "updews";
 $password = "october50sites";
 $dbname = "senslopedb";
-
+$newSite = substr($site, 0, 3);
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -21,26 +21,88 @@ if ($result->num_rows > 0) {
     	$version =  $row["version"];
     
     }
-} else {
-    // echo "0 results";
 }
-$conn->close();
+  $listAnnotationM = [];
+    $annotationDateM =[];
+    $sql = "SELECT sm_id , start_date FROM senslopedb.maintenance_report where site ='$site'";
+    $result = mysqli_query($conn, $sql);
+
+    $numSites = 0;
+    if (mysqli_num_rows($result) > 0) {
+        // output data of each row
+        while($row = mysqli_fetch_assoc($result)) {
+            array_push($listAnnotationM, $row["sm_id"]);
+             array_push($annotationDateM, $row["start_date"]);
+        }
+    } 
+
+    $listAnnotationAlert = [];
+    $annotationDateAlert =[];
+    $annotationinternalAlert =[];
+    $annotationDateAlert1 =[];
+    $sql = "SELECT entry_timestamp,internal_alert_level,public_alert_id FROM senslopedb.public_alert where site = '$newSite'";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                 array_push($annotationDateAlert1, $row["entry_timestamp"]);
+            }
+            foreach ($annotationDateAlert1 as $timestamp) {
+                $sliceTime = substr($timestamp, 0, 10);
+                $sql = "SELECT distinct internal_alert_level,public_alert_id,entry_timestamp from senslopedb.public_alert where entry_timestamp like '%".$sliceTime."%' and site='$newSite' group by(internal_alert_level)";
+                    $result = mysqli_query($conn, $sql);
+                     if (mysqli_num_rows($result) > 0) {
+                // output data of each row
+                while($row = mysqli_fetch_assoc($result)) {
+                     array_push($annotationDateAlert, $row["entry_timestamp"]);
+                     array_push($annotationinternalAlert, $row["internal_alert_level"]);
+                      array_push($listAnnotationAlert, $row["public_alert_id"]);
+                }
+            }
+        }
+    }
+     
+    $idAnnform = [];
+    $tsAnnform =[];
+    $flaggerAnnform =[];
+    $reportAnnform =[];
+    $sql = "SELECT * FROM senslopedb.annotation_data where site_id = '$site'";
+    $result = mysqli_query($conn, $sql);
+
+    $numSites = 0;
+    if (mysqli_num_rows($result) > 0) {
+        // output data of each row
+        while($row = mysqli_fetch_assoc($result)) {
+            array_push($idAnnform, $row["id"]);
+            array_push($tsAnnform, $row["ts"]);
+            array_push($reportAnnform, $row["report"]);
+            array_push($flaggerAnnform, $row["flagger"]);
+        }
+    }  
+
+    
+    mysqli_close($conn);
 
 ?>
 
-	
+	<script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
 	<link href="/js/development-bundle/themes/south-street/jquery-ui.css" rel="stylesheet">
-
 	<script type="text/javascript" src="/js/jquery-ui-1.10.4.custom.js"></script>
+	<script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
 	<script type="text/javascript" src="/js/development-bundle/ui/jquery.ui.core.js"></script>
 	<script type="text/javascript" src="/js/development-bundle/ui/jquery.ui.widget.js"></script>
 	<script type="text/javascript" src="/js/development-bundle/ui/jquery.ui.datepicker.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.0/dygraph-combined.js"></script>
 	<script type="text/javascript" src="http://fgnass.github.io/spin.js/spin.min.js"></script>
-	
 	<script type="text/javascript" src="/goldF/js/dewslandslide/dewsaccel-dy.js"></script>
 	<script type="text/javascript" src="/goldF/js/dewslandslide/dewslsbchange.js"></script>
 	<script type="text/javascript" src="/goldF/js/dewslandslide/dewsalertmini.js"></script>
+	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
 	
 	<style type="text/css">
@@ -64,6 +126,53 @@ $conn->close();
 			min-width: 50%;
 			min-height: 70%;		
 		}
+
+    	.annotationA1 {
+             background-color: #FFFF99;
+        }
+        .annotationA2 {
+             background-color:  #FFCC00;
+        }
+        .annotationA3 {
+             background-color:  #FF3333;
+        }
+        .annotationND {
+             background-color: #66FF99;
+        }
+        .annotationC {
+            background-color:  #66FFFF;
+        }
+        .annotationM {
+            background-color:   #FFFFCC;
+        }
+        .in{
+            margin-bottom: 0px;
+        }
+        #submit{     
+            height: 32px;
+            margin-top: 5px;
+            width: 156px;
+            margin-left: 10px;
+        }
+        .off,.btn-primary{
+            width: 166px;
+            height: 34px;
+        }
+        #addAnn{         
+            margin-right: 190px;
+            width: 276px;
+        }
+        #reportrange{
+            width: 260px;
+            margin-bottom: 10px;
+            margin-right: 20px;
+            margin-left: 10px;
+        }
+        .submitclass{
+            top: 40px;
+            right: 200px;
+            left: 320px;
+        }
     </style>
 
 
@@ -266,12 +375,53 @@ $conn->close();
                      
                         
 <script>
-	var toDate = "<?php echo $dateto; ?>";
-	var fromDate = "<?php echo $datefrom; ?>";
-
+    var annValue = "<?php echo $annotation; ?>";
 	var curSite = "<?php echo $site; ?>";
 	var curNode = "<?php echo $node; ?>";
+    var toDate = "<?php echo $dateto; ?>";
+    var fromDate = "<?php echo $datefrom; ?>";
 	var dataBase = "";
+	var annotationD ="";
+               
+    if(annValue == "true"){
+                $('#checkAnn').bootstrapToggle('on');
+            }else{
+                $('#checkAnn').bootstrapToggle('off');
+            }
+
+	if(toDate ==""){
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+        document.getElementById("addAnn").disabled = true;
+
+    }else{
+       
+        var start = moment(fromDate);
+        var end = moment(toDate);
+    }
+
+	$('#reportrange').daterangepicker({
+        autoUpdateInput: true,
+        startDate: start,
+        endDate: end,
+        opens: "left",
+        showDropdowns: true,
+        ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, cb);
+
+    cb(start, end);
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));   
+
+    }
 	
 	nodeAlertJSON = <?php echo $nodeAlerts; ?>;
 	nodeStatusJSON = <?php echo $nodeStatus; ?>;
@@ -295,11 +445,6 @@ $conn->close();
 			popDropDownGeneral();
 		});
 	}
-
-	//getAllSites();	
-
-	setDate(fromDate, toDate);
-	// console.log(curSite);
 	function popDropDownGeneral() {
 		var select = document.getElementById('sitegeneral');
 		var i;
@@ -329,8 +474,7 @@ $conn->close();
 			var element = document.getElementById("header-site");
 			var targetForm = document.getElementById("formGeneral");
 			var V2V = "<?php echo $version ?>";
-			element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " (v" + V2V + ") "+ "Node " + curNode + " Overview";
-			 
+			element.innerHTML = targetForm.sitegeneral.value.toUpperCase() + " (v" + V2V + ") "+ "Node " + curNode + " Overview";	 
 		}
 	}
 	
@@ -433,8 +577,7 @@ $conn->close();
 		if(document.getElementById("sitegeneral").value == "none") {
 			//do nothing
 			
-		}
-		else if ((curSite == document.getElementById("sitegeneral").value) && (curNode == document.getElementById("node").value)) {
+		}else if ((curSite == document.getElementById("sitegeneral").value) && (curNode == document.getElementById("node").value)) {
 			if ((document.getElementById("sitegeneral").value).length == 5) {
 				//$("#moisture-panel").hide();
 				$("#moisture-panel").find("b").text("Battery Level: V Value");
@@ -461,9 +604,10 @@ $conn->close();
 		else {
 			curSite = document.getElementById("sitegeneral").value;
 			curNode = document.getElementById("node").value;
-			fromDate = document.getElementById("formDate").dateinput.value;
-			toDate = document.getElementById("formDate").dateinput2.value;
-			var urlExt = "gold/node/" + curSite + "/" + curNode + "/" + fromDate + "/" + toDate;
+			fromDate = $('#reportrange span').html().slice(0,10);
+            toDate = $('#reportrange span').html().slice(13,23);
+			annotationD = $('#checkAnn').prop('checked');
+        	var urlExt = "gold/node/" + curSite + "/" + curNode + "/" + fromDate + "/" + toDate + "/" + annotationD;
 			var urlBase = "<?php echo base_url(); ?>";
 			
 			window.location.href = urlBase + urlExt;
@@ -511,6 +655,14 @@ $conn->close();
 	}
 
 $(document).ready(function(){
+    $('.submit1').hide();
+     $('.datetime').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:ss',
+                allowInputToggle: true,
+                widgetPositioning: {
+                horizontal: 'right'
+                }
+            });
     $('.btn-ds-1').click(function(){
         if($('.first-dataset').is(':visible')) {
             $('.first-dataset').hide();
@@ -528,7 +680,32 @@ $(document).ready(function(){
     });
 });
 
-$(document).ready(function(){
+
+    $("#checkAnn").change(function(){
+    if(annValue == ""){
+
+    }else{
+        if($(this).prop("checked") == true){
+                curSite = document.getElementById("sitegeneral").value;
+                curNode = document.getElementById("node").value;
+                fromDate = $('#reportrange span').html().slice(0,10);
+                toDate = $('#reportrange span').html().slice(13,23);
+                annotationD = $('#checkAnn').prop('checked');
+                var urlExt = "gold/node/" + curSite + "/" + curNode + "/" + fromDate + "/" + toDate + "/" + annotationD;
+                var urlBase = "<?php echo base_url(); ?>";
+                window.location.href = urlBase + urlExt;
+        }else{
+                curSite = document.getElementById("sitegeneral").value;
+                curNode = document.getElementById("node").value;
+                fromDate = $('#reportrange span').html().slice(0,10);
+                toDate = $('#reportrange span').html().slice(13,23);
+                annotationD = $('#checkAnn').prop('checked');
+                var urlExt = "gold/node/" + curSite + "/" + curNode + "/" + fromDate + "/" + toDate + "/" + annotationD;
+                var urlBase = "<?php echo base_url(); ?>";
+                window.location.href = urlBase + urlExt;
+        }
+    }
+
 	$('.btn-ds-2').click(function() {
          if($('.second-dataset').is(':visible')) {
             $('.second-dataset').hide();
@@ -544,16 +721,112 @@ $(document).ready(function(){
 				setSecondSetLoaded(true);
 			}		
 	});
-});
 
-$(document).ready(function(){
     $('.button').click(function() {  
         $('.button').not(this).removeClass('buttonactive');
         $(this).toggleClass('buttonactive');
     });
+
+    
 });
 
+	var annotationData = <?php echo json_encode($listAnnotationM); ?>;
+    var annotationVal = <?php echo json_encode($annotationDateM); ?>;
+    var annotationDataAlert = <?php echo json_encode($listAnnotationAlert); ?>;
+    var annotationValAlert = <?php echo json_encode($annotationDateAlert); ?>;
+    var annotationinternalAlert = <?php echo json_encode($annotationinternalAlert); ?>;
+    var tsExtra = <?php echo json_encode($tsAnnform); ?>;
+    var idExtra =<?php echo json_encode($idAnnform); ?>;
+    var commentExtra = <?php echo json_encode($reportAnnform); ?>;
+    var flaggerExtra = <?php echo json_encode($flaggerAnnform); ?>;
+    var annValue = "<?php echo $annotation; ?>";
+    var frmdate = window.location.href.slice(33,43);
+    var todate = window.location.href.slice(44,54);
+    var seriesAnn=["X","Y","Z","V","cal","raw"];
+    var alertAnnotationNum;
+    var dataannotation=[];
+    if(annValue == "true"){
+     for(var a = 0; a < seriesAnn.length; a++){
+     	var S = seriesAnn[a];
+        for(var i = 0; i < annotationValAlert.length; i++){
+            if( annotationinternalAlert[i] == "ND"){
+            var dataannotation2 = ({series: S, x: annotationValAlert[i] , shortText: annotationinternalAlert[i] , width: 20, text: "Alert_report no.#" + annotationDataAlert[i], cssClass:'annotationND'} );
+            dataannotation.push(dataannotation2);
+            }else if(annotationinternalAlert[i] == "A1"){
+                var dataannotation2 = ({series: S, x: annotationValAlert[i] , shortText: annotationinternalAlert[i] , width: 20, text: "Alert_report no.#" + annotationDataAlert[i], cssClass:'annotationA1'} );
+            dataannotation.push(dataannotation2);
+            }else if(annotationinternalAlert[i] == "A2"){
+                var dataannotation2 = ({series: S, x: annotationValAlert[i] , shortText: annotationinternalAlert[i] , width: 20, text: "Alert_report no.#" + annotationDataAlert[i], cssClass:'annotationA2'} );
+            dataannotation.push(dataannotation2);
+            }else if(annotationinternalAlert[i] == "A3"){
+                var dataannotation2 = ({series: S, x: annotationValAlert[i] , shortText: annotationinternalAlert[i] , width: 20, text: "Alert_report no.#" + annotationDataAlert[i], cssClass:'annotationA3'} );
+            dataannotation.push(dataannotation2);
+            }
+        }
+        for(var i = 0; i < annotationVal.length; i++){
+             var dataannotation3 =({series: S, x: annotationVal[i] , shortText: "M" , width: 20, text: "Maintenance_report no.#" + annotationData[i], cssClass:'annotationM'});
+             dataannotation.push(dataannotation3);
+        }
+        for(var i = 0; i < idExtra.length; i++){
+             var dataannotation4 =({series: S, x: tsExtra[i] , shortText: "C" , width: 20, text: "Comment_report no.#" + idExtra[i], cssClass:'annotationC', comment:commentExtra[i] , flagger:flaggerExtra[i]});
+             dataannotation.push(dataannotation4);
+        }
+       }
+    }
+     
+     $(".dismissbtn").click(function () {
+          $('#link').empty();
 
+        });
+     $('#anModal').click(function() {
+     $('#link').empty();
+        });
+
+     
+    function nameAnnotation(ann) {
+        if (ann.shortText == "M"){
+            return   'For more info: '+'<a href="http://www.dewslandslide.com/gold/sitemaintenancereport/individual/'+ann.text.slice(23,30)+'">'+ann.text+'</a>';
+        }else if(ann.shortText == "C"){
+            return   '<table class="table"><label>'+ann.text+'</label><tbody><tr><td><label>Site Id</label><input type="text" class="form-control" id="site_id" name="site_id" value="<?php echo $site ?>" disabled= "disabled" ></td></tr><tr><td><label>Timestamp</label><div class="input-group date datetime" id="entry"><input type="text" class="form-control col-xs-3" id="tsAnnotation" name="tsAnnotation" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" disabled= "disabled" value="'+ann.x+'" style="width: 256px;"/><div> </td></tr><tr><td><label>Report</label><textarea class="form-control" rows="3" id="comment"disabled= "disabled">'+ann.comment+'</textarea></td></tr><tr><td><label>Flagger</label><input type="text" class="form-control" id="flaggerAnn" value="'+ann.flagger+'"disabled= "disabled"></td></tr></tbody></table>';
+        }else{
+             return 'For more info: '+'<a href="http://www.dewslandslide.com/gold/publicrelease/individual/'+ann.text.slice(17,30)+'">'+ann.text+'</a>';
+          }
+        }
+    function saveAnn() {
+        var site_id = $('#site_id').val();
+        var ts = $('#tsAnnotation').val();
+        var report = $('#comment').val();
+        var flagger = '<?php echo $first_name . " " . $last_name; ?>';
+              var formData = {
+                timestamp: ts,
+                site_id: site_id,
+                flagger: flagger,
+                report: report
+              };
+
+            $.ajax({
+                url: '<?php echo base_url(); ?>annotation_crt/insert',
+                type:'POST',
+                data: formData,
+                success: function(result, textStatus, jqXHR)
+                        {
+                            $('#tsAnnotation').val("");
+                            $('#comment').val("");
+                            $('#endModal').modal('show');
+                            
+                        }    
+            });
+    }
+    function myFunction1() {
+       	fromDate = $('#reportrange span').html().slice(0,10);
+        toDate = $('#reportrange span').html().slice(13,23);
+        annotationD = $('#checkAnn').prop('checked');
+        var urlExt = "gold/node/" + curSite + "/" + curNode + "/" + fromDate + "/" + toDate + "/" + annotationD;
+        var urlBase = "<?php echo base_url(); ?>";
+        location.href = urlBase + urlExt;
+    }
+
+        
                            
 
 </script>

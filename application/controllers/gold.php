@@ -86,9 +86,13 @@ class Gold extends CI_Controller {
 				$this->load->model('Alert_model');
 				$this->load->model('Comm_health_Model');
 				$this->load->model('Sent_node_total_Model');
+				$this->load->model('annotation_model');
 				
 				$data['site'] = $site;
-				
+				$data['siteURL'] = $this->uri->segment(3);
+				$data['datefrom'] = $this->uri->segment(4);
+				$data['dateto'] = $this->uri->segment(5);
+				$data['annotation'] = $this->uri->segment(6);
 				//Data for Alert Map
 				if ($site) {
 					$data['nodeAlerts'] = $this->Alert_model->getSingleAlert($site);
@@ -163,11 +167,13 @@ class Gold extends CI_Controller {
 			case 'node':
 				//Load Required Models
 				$this->load->model('Alert_model');	
+				$this->load->model('annotation_model');
 			
 				$data['site'] = $site;
 				$data['node'] = $node;
 				$data['datefrom'] = $datefrom;
 				$data['dateto'] = $dateto;
+				$data['annotation'] = $this->uri->segment(7);
 
 				//Data for Alert Map
 				if ($site) {
@@ -303,9 +309,12 @@ class Gold extends CI_Controller {
 				break;
 			
 			case 'GroundMeas':
-				$this->load->model('gndforms_model');	
+				$this->load->model('gndforms_model');
+				$this->load->model('annotation_model');	
 			
 				$data['site'] = $site;
+				$data['annotation'] = $this->uri->segment(4);
+				$data['siteURL'] = $this->uri->segment(3);
 				
 				//Data for Alert Map
 				if ($site) {
