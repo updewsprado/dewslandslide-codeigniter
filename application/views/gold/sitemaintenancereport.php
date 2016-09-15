@@ -125,7 +125,7 @@ if (base_url() == "http://localhost/") {
  			            </div>
 
  			            <div class="col-md-5">
-			        		<label for="remarks">Remarks (Optional) </label>
+			        		<label for="remarks">Remarks </label>
 							<textarea class="form-control" rows="1" id="remarks" name="remarks" placeholder="Enter remarks..." maxlength="64"></textarea>
 						</div>
 
@@ -300,7 +300,7 @@ if (base_url() == "http://localhost/") {
 	 * Objects Area
 	 */
 
-	objectList = ["Rain Gauge", "GSM Clock", "Sensor Column", "Solar Panel", "SD Card", "Others (Type/Append on text field)"];
+	objectList = ["Rain Gauge", "GSM Clock", "Sensor Column", "Solar Panel", "SD Card", "ARQ","Battery","Others (Type/Append on text field)"];
 	populateObject(objectList);
 
 	function populateObject(objectList)
@@ -560,6 +560,9 @@ if (base_url() == "http://localhost/") {
 		ignore: ".ignore",
 		rules: {
 			site: {
+				required: true
+			},
+			remarks:{
 				required: true
 			},
 			fieldWorkStart: "required",

@@ -13,7 +13,7 @@ class Gndforms_crt extends CI_Controller {
     public function index(){
       echo "ground form control";
     }
-		public function insert(){
+	public function insert(){
 		    $t= $_POST["timestamp"];
 	    	$mt= $_POST["meas_type"];
 	    	$s =$_POST["site_id"];
