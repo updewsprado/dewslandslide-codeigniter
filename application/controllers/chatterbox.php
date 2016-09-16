@@ -245,4 +245,68 @@ class Chatterbox extends CI_Controller {
 		}
 		echo "</tbody>";
 	}
+
+	public function getewi(){
+		$ewi_template = array(
+			"A0" => "Magandang %%PANAHON%% po.\n\n".
+										"A0 ang alert level sa %%SBMP%% ngayong %%DATE%% 12NN.\n".
+										"Inaasahan namin ang pagpapadala ng LLMC ng ground data bukas <DD Month> bago mag-11:30 AM para sa pangalawang araw ng 3-day extended monitoring.\n\n".
+										"Salamat.",
+			"A1-R" => "Magandang %%PANAHON%% po.\n\n".
+							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% <HH> <AM, NN, PM, MN>. Maaaring magkaroon ng landslide dahil sa nakaraan o kasalukuyang ulan.\n\n".
+							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS (A2 or A3).\n".
+							"Inaasahan namin ang pagpapadala ng LLMC ng ground data mamaya, <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>.\n".
+							"Ang susunod na Early Warning Information ay mamayang/bukas ng <HH> <AM, NN, PM, MN>.\n\n".
+							"Salamat.",
+			"A1-E" => "Magandang %%PANAHON%% po.\n\n".
+								"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% <HH> <AM, NN, PM, MN>. Maaring magkaroon ng landslide dahil sa nakaraang lindol o earthquake.\n\n".
+								"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS (A2 or A3).\n".
+								"Inaasahan po namin ang pagpapadala ng LLMC ng ground data mamaya, <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>.\n".
+								"Ang susunod na Early Warning Information ay mamayang <HH> <AM, NN, PM, MN>.\n\n".
+								"Salamat.",
+			"A1-D" => "Magandang %%PANAHON%% po.\n\n".
+							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% <HH> <AM, NN, PM, MN>. Nag-request ang LLMC/LGU ng monitoring sa site dahil sa <situation>.\n\n".
+							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS (A2 or A3).\n".
+							"Inaasahan namin ang pagpapadala ng LLMC ng ground data mamaya, <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>.\n".
+							"Ang susunod na Early Warning Information ay mamayang <HH> <AM, NN, PM, MN>.\n\n".
+							"Salamat.",
+			"A2-S" => "Magandang %%PANAHON%% po.\n\n".
+							"A2 ang alert level sa %%SBMP%% ngayong %%DATE%% <HH> <AM, NN, PM, MN>. Naka-detect ang sensor ng significant ground movement.\n\n".
+							"Ang recommended response ay PREPARE TO EVACUATE THE HOUSEHOLDS AT RISK.\n".
+							"Inaasahan namin ang pagpapadala ng LLMC ng ground data mamaya, <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>.\n".
+							"Ang susunod na Early Warning Information ay mamaya ng <HH> <AM, NN, PM, MN>.\n\n".
+							"Salamat.\n".
+							"DEWSL-PHIVOLCS",
+			"A2-G" => "Magandang %%PANAHON%% po.\n\n".
+							"A2 ang alert level sa %%SBMP%% ngayong %%DATE%% <HH> <AM, NN, PM, MN>. Nakapagsukat ng significant ground movement ang LLMC.\n\n".
+							"Ang recommended response ay PREPARE TO EVACUATE THE HOUSEHOLDS AT RISK.\n".
+							"Inaasahan namin ang pagpapadala ng LLMC ng ground data mamaya, <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>. \n".
+							"Ang susunod na Early Warning Information ay mamaya ng <HH> <AM, NN, PM, MN>.\n\n".
+							"Salamat.",
+			"A3-S" => "Magandang %%PANAHON%% po.\n\n".
+							"A3 ang alert level sa %%SBMP%% ngayong %%DATE%% <HH> <AM, NN, PM, MN>.\n".
+							"EVACUATE THE HOUSEHOLDS AT RISK ang recommended response.\n".
+							"Naka-detect ang sensor ng critical ground movement.\n\n".
+							"Ang susunod na Early Warning Information ay mamayang/bukas ng <HH> <AM, NN, PM, MN>.",
+			"A3-G" => "Magandang %%PANAHON%% po.\n\n".
+							"A3 ang alert level sa %%SBMP%% ngayong %%DATE%% <HH> <AM, NN, PM, MN>.\n".
+							"EVACUATE THE HOUSEHOLDS AT RISK ang recommended response. \n".
+							"Nakapagsukat ang LLMC ng critical ground movement.\n\n".
+							"Ang susunod na Early Warning Information ay mamayang/bukas ng <HH> <AM, NN, PM, MN>.",
+			"Remind to send Ground Data" => "Magandang %%PANAHON%% po.\n\n".
+											"Inaasahan namin ang pagpapadala ng LLMC ng ground data mamaya, %%DATE%% bago mag-<HH:MM> <AM, NN, PM, MN>.\n\n".
+											"Salamat.",
+			"A2" => "Magandang %%PANAHON%% po.\n\n".
+							"A2 ang alert level sa %%SBMP%% ngayong %%DATE%% <HH> <AM, NN, PM, MN>. Naka-detect ang sensor ng significant ground movement at Nakapagsukat ng significant ground movement ang LLMC.\n\n".
+							"Ang recommended response ay PREPARE TO EVACUATE THE HOUSEHOLDS AT RISK.\n".
+							"Inaasahan namin ang pagpapadala ng LLMC ng ground data mamaya, <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>. \n".
+							"Ang susunod na Early Warning Information ay mamaya ng <HH> <AM, NN, PM, MN>.\n\n".
+							"Salamat.",
+			"A3" => "Magandang %%PANAHON%% po.\n\n".
+							"A3 ang alert level sa %%SBMP%% ngayong %%DATE%% <HH> <AM, NN, PM, MN>.\n".
+							"EVACUATE THE HOUSEHOLDS AT RISK ang recommended response. \n".
+							"Nakapagsukat ang LLMC ng critical ground movement.\n\n".
+							"Ang susunod na Early Warning Information ay mamayang/bukas ng <HH> <AM, NN, PM, MN>.");
+		print json_encode($ewi_template);
+	}
 }
