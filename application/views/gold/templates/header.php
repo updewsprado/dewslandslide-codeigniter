@@ -13,6 +13,7 @@
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js">
+    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js">
     <link rel="stylesheet" type="text/css" href="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/v4.0.0/build/css/bootstrap-datetimepicker.css">
     <!-- <script type="text/javascript" src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/v4.0.0/src/js/bootstrap-datetimepicker.js"></script> -->
 	<link href="/css/bootstrap.css" rel="stylesheet"> 
@@ -35,7 +36,6 @@
     <link rel="stylesheet" href="/css/sb-admin.css">
     <link rel="stylesheet" href="/css/jquery.growl.css" />
   
-
     <!-- Morris Charts CSS -->
     <link href="/css/plugins/morris.css" rel="stylesheet">
 
@@ -60,11 +60,13 @@
 	<!-- jQuery Skins -->
 	<link href="/js/development-bundle/themes/south-street/jquery-ui.css" rel="stylesheet">
 
+    <!-- Chatterbox Js -->
+    <script src="/<?php echo $folder; ?>/js/dewslandslide/dewschatterbox.js"></script>
+
     <!-- jQuery Version 1.11.0 -->
     <script src="/js/jquery-1.11.0.js"></script>
     <script src="/js/jquery.growl.js"></script>
    
-    
     <!-- jQuery Development Bundle -->
     <script src="/js/development-bundle/ui/jquery.ui.core.js"></script>
     <script src="/js/development-bundle/ui/jquery.ui.widget.js"></script>
