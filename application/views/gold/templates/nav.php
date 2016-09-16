@@ -204,25 +204,44 @@
                                     <label>Site:</label>
                                 </div>
                                 <div class="form-group col-xs-3 in" id="siteG">
+<<<<<<< HEAD
                                     <select class="form-control" name="sitegeneral" id="sitegeneral" onchange="<?php //echo $showplots; ?>">
                                     </select>
+=======
+        	                        <select class="form-control" name="sitegeneral" id="sitegeneral" onchange="<?php //echo $showplots; ?>">
+        	                        </select>
+>>>>>>> master
                                 </div>
 
                                 <div  class="form-group  col-xs-1" id="nodeGeneralname">
                                     <label >Node:</label>
                                 </div>
+<<<<<<< HEAD
                                 <div id="nodeGeneral" class="form-group   col-xs-3 in">
                                     <input class="form-control col-xs-4" name="node" id="node" onchange="<?php //echo $showplots; ?>" type="number" min="1" max="41" value="" maxlength="2" size="2" >
                                 </div>
+=======
+        	                    <div id="nodeGeneral" class="form-group   col-xs-3 in">
+        	                        <input class="form-control col-xs-4" name="node" id="node" onchange="<?php //echo $showplots; ?>" type="number" min="1" max="41" value="" maxlength="2" size="2" >
+        	                    </div>
+>>>>>>> master
                                 <div class="form-group  col-xs-1 dbase">
                                     <label>Filter:</label>
                                 </div>
                                 <div class="form-group  col-xs-3 dbase in" id="dBase">
+<<<<<<< HEAD
                                     <select class="form-control dbase" name="dbase" id="dbase">
                                         <option value="raw">Raw</option>
                                         <option value="filtered">Filtered</option>
                                     </select><br>
                                 </div>                     
+=======
+        	                        <select class="form-control dbase" name="dbase" id="dbase">
+        		                        <option value="raw">Raw</option>
+        								<option value="filtered">Filtered</option>
+        	                        </select><br>
+                                </div>				       
+>>>>>>> master
                             </FORM>  
                             <FORM id="formDate">
 

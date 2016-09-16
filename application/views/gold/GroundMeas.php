@@ -6,6 +6,8 @@
 <script type="text/javascript" src="http://fgnass.github.io/spin.js/spin.min.js"></script>
 <script type="text/javascript" src="/js/jquery.validate.js"></script>
 <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
   <style type="text/css">
     .rainPlot {
@@ -23,8 +25,30 @@
     #green0{
       background-image: linear-gradient(to bottom, #99ff99 0%, rgba(125, 185, 232, 0) 100%)
     }
-  
-  </style>
+
+    .dygraphDefaultAnnotation {
+        color:#000;
+
+    }
+    .annotationA1 {
+         background-color: #FFFF99;
+    }
+    .annotationA2 {
+         background-color:  #FFCC00;
+    }
+    .annotationA3 {
+         background-color:  #FF3333;
+    }
+    .annotationND {
+         background-color: #66FF99;
+    }
+    .annotationC {
+        background-color:  #66FFFF;
+    }
+    .annotationM {
+        background-color:   #FFFFCC;
+    }
+    </style>
 
 <?php
 // Database login information
@@ -68,14 +92,15 @@ if (mysqli_num_rows($result) > 0) {
     }
 } 
 
-
-$sql2 = "SELECT DISTINCT crack_id FROM senslopedb.gndmeas where site_id ='$varSite' order by crack_id asc";
+$listCracknameId = [];
+$sql2 = "SELECT DISTINCT UPPER(crack_id) as crack_id  FROM senslopedb.gndmeas where site_id ='$varSite' order by crack_id asc";
 $result2 = mysqli_query($conn, $sql2);
 
 $numSites2 = 0;
 if (mysqli_num_rows($result2) > 0) {
     // output data of each row
     while($row = mysqli_fetch_assoc($result2)) {
+         array_push($listCracknameId, $row["crack_id"]);
         $GndMeasurement[$numSites2++]["crack_id"] = $row["crack_id"];
     
     }
@@ -153,6 +178,67 @@ if (mysqli_num_rows($resultTimestamp) > 0) {
         $data[$crackId] = array_reverse($data[$crackId]);
     }
 }
+
+  $listAnnotationM = [];
+    $annotationDateM =[];
+    $sql = "SELECT sm_id , start_date FROM senslopedb.maintenance_report where site ='$site'";
+    $result = mysqli_query($conn, $sql);
+
+    $numSites = 0;
+    if (mysqli_num_rows($result) > 0) {
+        // output data of each row
+        while($row = mysqli_fetch_assoc($result)) {
+            array_push($listAnnotationM, $row["sm_id"]);
+             array_push($annotationDateM, $row["start_date"]);
+        }
+    } 
+
+      $listAnnotationAlert = [];
+    $annotationDateAlert =[];
+    $annotationinternalAlert =[];
+    $annotationDateAlert1 =[];
+    $sql = "SELECT entry_timestamp,internal_alert_level,public_alert_id FROM senslopedb.public_alert where site = '$newSite'";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        // output data of each row
+        while($row = mysqli_fetch_assoc($result)) {
+             array_push($annotationDateAlert1, $row["entry_timestamp"]);
+        }
+        foreach ($annotationDateAlert1 as $timestamp) {
+            $sliceTime = substr($timestamp, 0, 10);
+            $sql = "SELECT distinct internal_alert_level,public_alert_id,entry_timestamp from senslopedb.public_alert where entry_timestamp like '%".$sliceTime."%' and site='$newSite' group by(internal_alert_level)";
+                $result = mysqli_query($conn, $sql);
+                 if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                 array_push($annotationDateAlert, $row["entry_timestamp"]);
+                 array_push($annotationinternalAlert, $row["internal_alert_level"]);
+                  array_push($listAnnotationAlert, $row["public_alert_id"]);
+            }
+        }
+      }
+    }
+     
+     
+
+    $idAnnform = [];
+    $tsAnnform =[];
+    $flaggerAnnform =[];
+    $reportAnnform =[];
+    $sql = "SELECT * FROM senslopedb.annotation_data where site_id = '$site'";
+    $result = mysqli_query($conn, $sql);
+
+    $numSites = 0;
+    if (mysqli_num_rows($result) > 0) {
+        // output data of each row
+        while($row = mysqli_fetch_assoc($result)) {
+            array_push($idAnnform, $row["id"]);
+            array_push($tsAnnform, $row["ts"]);
+            array_push($reportAnnform, $row["report"]);
+            array_push($flaggerAnnform, $row["flagger"]);
+        }
+    }  
 
 mysqli_close($conn);
 
@@ -471,14 +557,8 @@ mysqli_close($conn);
 </div>
 <!--  -->
 
-
-
- 
 <script>
-    var end_date = new Date();
-    var start_date = new Date(end_date.getFullYear(), end_date.getMonth(), end_date.getDate()-30);
-    var table = document.getElementById("mytable");
-    var tDiff = [];  
+    var tDiff = []  
     var crackData = [];
     var upArray =[];
     var upArraynull =[];
@@ -497,23 +577,43 @@ mysqli_close($conn);
     $('#groundform').hide();
     $('.tblhead').hide();
     $('.new_meas').hide();
-
-
-    $(function() {
-                $( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
-                $( "#datepicker" ).datepicker("setDate", start_date);
-            });
-
-            $(function() {
-                $( "#datepicker2" ).datepicker({ dateFormat: "yy-mm-dd" });
-                $( "#datepicker2" ).datepicker("setDate", end_date);
-            });
-     //
     var curSite = "<?php echo $site; ?>";
-    var fromDate = "" , toDate = "" , dataBase = "";
-    var curNode = "<?php echo $node; ?>";
+    var annValue = "<?php echo $annotation; ?>";
+    var table = document.getElementById("mytable");
+    var fromDate = "" , toDate = "" , dataBase = "" ,annotationD = "";
+     if(annValue == ""){
+            document.getElementById("addAnn").disabled = true;
+        }
+    if(annValue == "true"){
+            $('#checkAnn').bootstrapToggle('on');
+             
+    }else{
+            $('#checkAnn').bootstrapToggle('off');
 
-
+    }
+    $("#checkAnn").change(function(){
+        if(annValue == ""){
+            
+        }else{
+            if($(this).prop("checked") == true){
+                curSite = document.getElementById("sitegeneral").value;
+                fromDate = $('#reportrange span').html().slice(0,10);
+                toDate = $('#reportrange span').html().slice(13,23);
+                annotationD = $('#checkAnn').prop('checked');
+                var urlExt = "gold/site/" + curSite + "/" + fromDate + "/" + toDate+ "/" + annotationD ;
+                var urlBase = "<?php echo base_url(); ?>";
+                window.location.href = urlBase + urlExt;
+            }else{
+                curSite = document.getElementById("sitegeneral").value;
+                fromDate = $('#reportrange span').html().slice(0,10);
+                toDate = $('#reportrange span').html().slice(13,23);
+                annotationD = $('#checkAnn').prop('checked');
+                var urlExt = "gold/site/" + curSite + "/" + fromDate + "/" + toDate+ "/" + annotationD ;
+                var urlBase = "<?php echo base_url(); ?>";
+                window.location.href = urlBase + urlExt;
+            }
+        }
+  });
     function getAllSites() {  
         var baseURL = "<?php echo $_SERVER['SERVER_NAME']; ?>";
         var URL;
@@ -534,7 +634,7 @@ mysqli_close($conn);
       var select = document.getElementById('sitegeneral');
       
       $("#sitegeneral").append('<option value="">SELECT</option>');
-
+        
       var i;
       for (i = 1; i < options.length; i++) {
         var opt = options[i];
@@ -548,10 +648,13 @@ mysqli_close($conn);
         }
         else {
           el.value = opt;
+
         }
 
         select.appendChild(el);
-        
+        var siteUrl = "<?php echo $siteURL; ?>"
+        $("#sitegeneral").val(siteUrl);
+
         var usedNames = {};
         $("select[name='sitegeneral'] > option").each(function () {
             if(usedNames[this.text]) {
@@ -606,11 +709,9 @@ mysqli_close($conn);
       }
       else {
         curSite = document.getElementById("sitegeneral").value;
-        fromDate = document.getElementById("formDate").dateinput.value;
-        toDate = document.getElementById("formDate").dateinput2.value;
-        var urlExt = "gold/GroundMeas/" + curSite;
+        annotationD = $('#checkAnn').prop('checked');
+        var urlExt = "gold/GroundMeas/" + curSite +"/" + annotationD;
         var urlBase = "<?php echo base_url(); ?>";
-        
         window.location.href = urlBase + urlExt;
       }
     }
@@ -701,6 +802,35 @@ mysqli_close($conn);
 
         });
     });
+
+    function saveAnn() {
+        var site_id = $('#site_id').val();
+        var ts = $('#tsAnnotation').val();
+        var report = $('#comment').val();
+        var flagger = '<?php echo $first_name . " " . $last_name; ?>';
+              var formData = {
+                timestamp: ts,
+                site_id: site_id,
+                flagger: flagger,
+                report: report
+              };
+
+            $.ajax({
+                url: '<?php echo base_url(); ?>annotation_crt/insert',
+                type:'POST',
+                data: formData,
+                success: function(result, textStatus, jqXHR)
+                        {
+
+                            $('#tsAnnotation').val("");
+                            $('#comment').val("");
+                            $('#endModal').modal('show');
+                            
+                        }    
+            });
+                
+          
+    }
 
     function check() {
 
@@ -837,8 +967,8 @@ mysqli_close($conn);
                   var i = iArray[c];
                   var j = jArray[c];
                   var i2=iArray[c+1]
-                  var tableRow = table.rows[i].cells.item(j).innerHTML;   
                   if (i == i2){
+                    var tableRow = table.rows[i].cells.item(j).innerHTML;   
                   var tablecomputation = tableRow - table.rows[iArray[c]].cells.item(jArray[c+1]).innerHTML;
                   var vv = jArray[c]-1;
                     var vv2 = jArray[c+1]-1;
@@ -1163,7 +1293,8 @@ mysqli_close($conn);
     }
      
     function myFunction1() {
-         var urlExt = "gold/GroundMeas/" + curSite;
+        annotationD = $('#checkAnn').prop('checked');
+        var urlExt = "gold/GroundMeas/" + curSite +"/" + annotationD;
         var urlBase = "<?php echo base_url(); ?>";
         location.href = urlBase + urlExt;
     }
@@ -1194,7 +1325,10 @@ mysqli_close($conn);
 
     $(document).ready(function() {
                 $('#siteG').addClass('form-group col-xs-6').removeClass(' form-group col-xs-3');
-                $('#dBase').addClass('form-group col-xs-4').removeClass('form-group col-xs-3');
+                $('head').append('<style type="text/css">.off,.btn-primary{width: 176px;height: 34px;left: 0px;margin-bottom: 10px;}#addAnn {width: 230px;margin-right: 15px;}#submit{width: 150px;margin-right: 65px;}</style>');
+                $("#formDate").hide();
+                $(".dbase").hide();
+                $("#reportrange").hide();
                 $("#time").append($('#timestamp_entry').val());   
                 $('.time0').hide();    
                 $('#mytable tr').find('td:first').on('click', function(e) {
@@ -1294,6 +1428,7 @@ mysqli_close($conn);
                 cache: false,
                 success: function(result, textStatus, jqXHR)
                         {
+                            // console.log(result);
                             $('#myModal').modal('show');
                         }     
             });
@@ -1315,6 +1450,68 @@ mysqli_close($conn);
     var GroundData = [];
     var GroundDataFull = [];
     var isVisible = [true, true, true, true,true,true, true, true,true];
+    var annotationData = <?php echo json_encode($listAnnotationM); ?>;
+    var annotationVal = <?php echo json_encode($annotationDateM); ?>;
+    var annotationDataAlert = <?php echo json_encode($listAnnotationAlert); ?>;
+    var annotationValAlert = <?php echo json_encode($annotationDateAlert); ?>;
+    var annotationinternalAlert = <?php echo json_encode($annotationinternalAlert); ?>;
+    var tsExtra = <?php echo json_encode($tsAnnform); ?>;
+    var idExtra =<?php echo json_encode($idAnnform); ?>;
+    var commentExtra = <?php echo json_encode($reportAnnform); ?>;
+    var flaggerExtra = <?php echo json_encode($flaggerAnnform); ?>;
+    var annValue = "<?php echo $annotation; ?>";
+    var frmdate = window.location.href.slice(33,43);
+    var todate = window.location.href.slice(44,54);
+     var listCrackname = <?php echo json_encode($listCracknameId); ?>;
+    var alertAnnotationNum;
+    var dataannotation=[];
+    if(annValue == "true"){
+      for(var a = 0; a < listCrackname.length; a++){
+      var S = listCrackname[a];
+        for(var i = 0; i < annotationValAlert.length; i++){
+            if( annotationinternalAlert[i] == "ND"){
+            var dataannotation2 = ({series: S, x: annotationValAlert[i] , shortText: annotationinternalAlert[i] , width: 20, text: "Alert_report no.#" + annotationDataAlert[i], cssClass:'annotationND'} );
+            dataannotation.push(dataannotation2);
+            }else if(annotationinternalAlert[i] == "A1"){
+                var dataannotation2 = ({series: S, x: annotationValAlert[i] , shortText: annotationinternalAlert[i] , width: 20, text: "Alert_report no.#" + annotationDataAlert[i], cssClass:'annotationA1'} );
+            dataannotation.push(dataannotation2);
+            }else if(annotationinternalAlert[i] == "A2"){
+                var dataannotation2 = ({series: S, x: annotationValAlert[i] , shortText: annotationinternalAlert[i] , width: 20, text: "Alert_report no.#" + annotationDataAlert[i], cssClass:'annotationA2'} );
+            dataannotation.push(dataannotation2);
+            }else if(annotationinternalAlert[i] == "A3"){
+                var dataannotation2 = ({series: S, x: annotationValAlert[i] , shortText: annotationinternalAlert[i] , width: 20, text: "Alert_report no.#" + annotationDataAlert[i], cssClass:'annotationA3'} );
+            dataannotation.push(dataannotation2);
+            }
+        }
+        for(var i = 0; i < annotationVal.length; i++){
+             var dataannotation3 =({series: S, x: annotationVal[i] , shortText: "M" , width: 20, text: "Maintenance_report no.#" + annotationData[i], cssClass:'annotationM'});
+             dataannotation.push(dataannotation3);
+        }
+        for(var i = 0; i < idExtra.length; i++){
+             var dataannotation4 =({series: S, x: tsExtra[i] , shortText: "C" , width: 20, text: "Comment_report no.#" + idExtra[i], cssClass:'annotationC', comment:commentExtra[i] , flagger:flaggerExtra[i]});
+             dataannotation.push(dataannotation4);
+        }
+      }
+    }
+     
+     $(".dismissbtn").click(function () {
+          $('#link').empty();
+
+        });
+     $('#anModal').click(function() {
+     $('#link').empty();
+        });
+
+     
+    function nameAnnotation(ann) {
+        if (ann.shortText == "M"){
+            return   'For more info: '+'<a href="http://www.dewslandslide.com/gold/sitemaintenancereport/individual/'+ann.text.slice(23,30)+'">'+ann.text+'</a>';
+        }else if(ann.shortText == "C"){
+            return   '<table class="table"><label>'+ann.text+'</label><tbody><tr><td><label>Site Id</label><input type="text" class="form-control" id="site_id" name="site_id" value="<?php echo $site ?>" disabled= "disabled" ></td></tr><tr><td><label>Timestamp</label><div class="input-group date datetime" id="entry"><input type="text" class="form-control col-xs-3" id="tsAnnotation" name="tsAnnotation" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" disabled= "disabled" value="'+ann.x+'" style="width: 256px;"/><div> </td></tr><tr><td><label>Report</label><textarea class="form-control" rows="3" id="comment"disabled= "disabled">'+ann.comment+'</textarea></td></tr><tr><td><label>Flagger</label><input type="text" class="form-control" id="flaggerAnn" value="'+ann.flagger+'"disabled= "disabled"></td></tr></tbody></table>';
+        }else{
+             return 'For more info: '+'<a href="http://www.dewslandslide.com/gold/publicrelease/individual/'+ann.text.slice(17,30)+'">'+ann.text+'</a>';
+          }
+        }
       function JSON2CSV(objArray) {
         var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
 
@@ -1426,7 +1623,7 @@ mysqli_close($conn);
               var isStacked = false;
         
 
-              
+             
               g = new Dygraph(
                   document.getElementById("Groundfull"), 
                data, 
@@ -1449,11 +1646,36 @@ mysqli_close($conn);
                           strokeWidth: 2,
                           strokeBorderWidth: 3,
                           highlightCircleSize: 5
+                      },
+                       drawCallback: function(g, is_initial) {
+                      if (is_initial) {
+                        graph_initialized = true;
+                        if (dataannotation.length > 0) {
+                          g.setAnnotations(dataannotation);
+                        }
                       }
+
+                       var ann = dataannotation;
+                      var html = "";
+                      for (var i = 0; i < ann.length; i++) {
+                        var name = "nameAnnotation" + i;
+                        html += "<span id='" + name + "'>"
+                        html += name + ": " + (ann[i].shortText || '(icon)')
+                        html += " -> " + ann[i].text + "</span><br/>";
+                      }
+                 
+                    }
                   }
               );  
+                g.updateOptions( {
+              annotationClickHandler: function(ann, point, dg, event) {
+              document.getElementById("link").innerHTML += nameAnnotation(ann) + "<br/>";
+              $('#anModal').modal('show');
+             },
+            
+          }); 
+      
             }
-               
           }});
         }
     }
@@ -1478,9 +1700,6 @@ mysqli_close($conn);
             if(jsonData) {
               var data = JSON2CSV(jsonData);
               var isStacked = false;
-              
-
-              
               g = new Dygraph(
                   document.getElementById("GroundMeas"), 
                   data, 
@@ -1510,11 +1729,36 @@ mysqli_close($conn);
                           strokeWidth: 2,
                           strokeBorderWidth: 3,
                           highlightCircleSize: 3
+                      },
+                       drawCallback: function(g, is_initial) {
+                      if (is_initial) {
+                        graph_initialized = true;
+                        if (dataannotation.length > 0) {
+                          g.setAnnotations(dataannotation);
+                        }
                       }
+
+                       var ann = dataannotation;
+                      var html = "";
+                      for (var i = 0; i < ann.length; i++) {
+                        var name = "nameAnnotation" + i;
+                        html += "<span id='" + name + "'>"
+                        html += name + ": " + (ann[i].shortText || '(icon)')
+                        html += " -> " + ann[i].text + "</span><br/>";
+                      }
+                 
+                    }
                   }
               );  
+                g.updateOptions( {
+              annotationClickHandler: function(ann, point, dg, event) {
+              document.getElementById("link").innerHTML += nameAnnotation(ann) + "<br/>";
+              $('#anModal').modal('show');
+             },
+            
+          }); 
+      
             }
-              
           }});
         }
     }
