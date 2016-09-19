@@ -86,10 +86,15 @@ class Contacts_model extends CI_Model {
 		return $query;
 	}
 
-		public function getDistinctOffice(){
+	public function getDistinctOffice(){
 		$this->db->distinct();
 		$this->db->select('office');
 		$query = $this->db->get('communitycontacts');
+		return $query;
+	}
+	
+	public function getSitioBangProvMun($site){
+		$query = $this->db->query("SELECT DISTINCT sitio,barangay,municipality,province FROM site_column WHERE name LIKE '%".$site."%'");
 		return $query;
 	}
 }
