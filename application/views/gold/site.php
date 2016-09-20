@@ -804,7 +804,6 @@
             return;
         } else {
           $.ajax({url: "/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-              alert(result);
             var target = document.getElementById('rainGraphSenslope');
             var spinner = new Spinner(opts).spin();
             target.appendChild(spinner.el);
@@ -912,7 +911,7 @@
             return;
         } else {
           $.ajax({url: "/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-            console.log(result + " " +"/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate);
+           
             var target = document.getElementById('rainGraphARQ');
             var spinner = new Spinner(opts).spin();
             target.appendChild(spinner.el);
@@ -929,10 +928,7 @@
             // console.log(jsonData);
             if(jsonData) {
               var data = JSON2CSV(jsonData);
-              var GndDyGraph = [];
-              var newData = GndDyGraph.push(data);
               var isStacked = false;
-              alert(newData);
               spinner.stop();
             
               g = new Dygraph(
