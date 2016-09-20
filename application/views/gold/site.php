@@ -109,7 +109,7 @@
     
     mysqli_close($conn);
 ?>  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+   
     <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
@@ -122,6 +122,8 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script type="text/javascript" src="/js/jquery.validate.js"></script>
     <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
+    
+
     <style type="text/css">
     .dygraphDefaultAnnotation {
         color:#000;
@@ -387,7 +389,7 @@
                 URL = "http://localhost/temp/getSenslopeData.php?sitenames&db=senslopedb";
             }
             else {
-                URL = "http://www.dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
+                URL = "http://dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
             }
             
             $.getJSON(URL, function(data, status) {
@@ -593,8 +595,8 @@
     var commentExtra = <?php echo json_encode($reportAnnform); ?>;
     var flaggerExtra = <?php echo json_encode($flaggerAnnform); ?>;
     var annValue = "<?php echo $annotation; ?>";
-    var frmdate = window.location.href.slice(33,43);
-    var todate = window.location.href.slice(44,54);
+    var frmdate = "<?php echo $datefrom; ?>";
+    var todate = "<?php echo $dateto; ?>";
     var alertAnnotationNum;
     var dataannotation=[];
     if(annValue == "true"){
@@ -802,7 +804,7 @@
             return;
         } else {
           $.ajax({url: "/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
-              // alert(url);
+              alert(result);
             var target = document.getElementById('rainGraphSenslope');
             var spinner = new Spinner(opts).spin();
             target.appendChild(spinner.el);
@@ -910,6 +912,7 @@
             return;
         } else {
           $.ajax({url: "/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate, success: function(result){
+            console.log(result + " " +"/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate);
             var target = document.getElementById('rainGraphARQ');
             var spinner = new Spinner(opts).spin();
             target.appendChild(spinner.el);
@@ -926,8 +929,10 @@
             // console.log(jsonData);
             if(jsonData) {
               var data = JSON2CSV(jsonData);
+              var GndDyGraph = [];
+              var newData = GndDyGraph.push(data);
               var isStacked = false;
-              
+              alert(newData);
               spinner.stop();
             
               g = new Dygraph(
