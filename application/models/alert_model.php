@@ -243,7 +243,7 @@ class Alert_Model extends CI_Model
 	
 	public function getSiteMaxNodes()
 	{
-		$query = $this->db->query("SELECT name FROM site_column order by name desc");
+		$query = $this->db->query("SELECT name FROM site_column WHERE installation_status = 'Installed' order by name desc");
 		
 		$sitesAll = array();
 		$ctr = 0;
