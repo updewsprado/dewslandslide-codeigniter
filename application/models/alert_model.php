@@ -140,7 +140,7 @@ class Alert_Model extends CI_Model
 		
 		// Do it
 		$dataAlert = $this->csvToArray($feed, ',');
-		 
+
 		// Set number of elements (minus 1 because we shift off the first row)
 		$count = count($dataAlert);
 		
@@ -156,7 +156,22 @@ class Alert_Model extends CI_Model
 			$dX = array_combine($keys, $dataAlert[$j]);
 			$arrayAlert[$j] = $dX;
 		}
-		
+
+		// Get the list of installed working columns
+		$workingColumns = $this->getInstalledWorkingSiteColumns("csv");
+		$pos = 0;
+
+		foreach ($arrayAlert as $alert) {
+			//Remove row if it does not belong to the installed working columns
+			if (stripos($workingColumns, $alert["site"]) == FALSE) {
+				//echo "Removing[$pos]: " . $alert["site"] . "<Br/>";
+				array_splice($arrayAlert, $pos, 1);
+			}
+			else {
+				$pos++;
+			}
+		}
+
 		// Print as JSON data
 		return json_encode($arrayAlert);
 	}
@@ -241,6 +256,31 @@ class Alert_Model extends CI_Model
 		//return json_encode($siteAlerts);
 	}
 	
+	// PANB - Get only the installed columns that are still working
+	public function getInstalledWorkingSiteColumns($dataorg=null)
+	{
+		$query = $this->db->query("SELECT name FROM site_column WHERE installation_status = 'Installed' order by name desc");
+
+		if ($dataorg == "csv") {
+			$sitesAll = "";
+			foreach ($query->result_array() as $row) {
+				$site = $row['name'];
+				$sitesAll = $sitesAll . ",$site"; 
+			}
+
+			return $sitesAll;
+		}
+		else {
+			$ctr = 0;
+			foreach ($query->result_array() as $row) {		    
+				$sitesAll[$ctr]['site'] = $row['name'];
+				$ctr = $ctr + 1;
+			}
+
+			return json_encode($sitesAll);
+		}
+	}
+
 	public function getSiteMaxNodes()
 	{
 		$query = $this->db->query("SELECT name FROM site_column WHERE installation_status = 'Installed' order by name desc");
@@ -476,6 +516,6 @@ class Alert_Model extends CI_Model
         $this->db->insert($table, $data);
         $id = $this->db->insert_id();
         return $id;
- }
+	}
 
 }
