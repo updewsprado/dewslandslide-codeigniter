@@ -389,7 +389,7 @@
                 URL = "http://localhost/temp/getSenslopeData.php?sitenames&db=senslopedb";
             }
             else {
-                URL = "http://dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
+                URL = "http:///www.dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
             }
             
             $.getJSON(URL, function(data, status) {
