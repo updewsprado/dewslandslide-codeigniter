@@ -152,6 +152,12 @@ class Chatterbox extends CI_Controller {
 		}
 	}
 
+	// Fetch the Sitio,Barangay,Province and Municipality.
+	public function getsitbangprovmun(){
+		$result = $this->contacts_model->getSitioBangProvMun($_POST["sites"]);	
+		print json_encode($result->result());
+	}
+
 	public function getdistinctsitename(){
 		$result = $this->contacts_model->getDistinctSites();
 		print json_encode($result->result());
