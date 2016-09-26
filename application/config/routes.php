@@ -65,9 +65,15 @@ $route['gold/site/(:any)/(:num)'] = "gold/view/node/$1/$2";
 $route['gold/site/(:any)'] = "gold/view/site/$1";
 $route['gold/monitoring'] = "gold/view/monitoring";
 
-$route['gold/publicrelease/individual/(:num)'] = "gold/view/publicrelease_individual/$1";
+/*$route['gold/publicrelease/individual/(:num)'] = "gold/view/publicrelease_individual/$1";
 $route['gold/publicrelease/all'] = "gold/view/publicrelease_all";
-$route['gold/publicrelease/edit'] = "gold/view/publicrelease_edit";
+$route['gold/publicrelease/edit'] = "gold/view/publicrelease_edit";*/
+
+$route['gold/publicrelease'] = "pubrelease/index/publicrelease";
+$route['gold/publicrelease/individual/(:num)'] = "pubrelease/index/publicrelease_individual/$1";
+$route['gold/publicrelease/event/individual/(:num)'] = "pubrelease/index/publicrelease_event_individual/$1";
+$route['gold/publicrelease/event/all'] = "pubrelease/index/publicrelease_event_all";
+$route['gold/publicrelease/edit'] = "pubrelease/index/publicrelease_edit";
 
 $route['gold/sitemaintenancereport/individual/(:num)'] = "gold/view/sitemaintenancereport_individual/$1";
 $route['gold/sitemaintenancereport/all'] = "gold/view/sitemaintenancereport_all";

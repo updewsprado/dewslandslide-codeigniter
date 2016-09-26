@@ -13,69 +13,20 @@ class Monitoring_Model extends CI_Model
 	 * 
 	 * @author Kevin Dhale dela Cruz
 	 **/
-	public function getAllPublicReleases()
+	public function getOnGoingAndExtended()
 	{
-	    $sql = "SELECT
-					t.public_alert_id,
-					t.entry_timestamp,
-					t.time_released,
-					t.site,
-					t.internal_alert_level,
-					s.sitio,
-					s.barangay,
-					s.municipality,
-					s.province,
-					s.region,
-					s.lat,
-					s.lon,
-					l.public_alert_level,
-					l.public_alert_desc,
-					x.comments
-				FROM public_alert t
-				INNER JOIN 
-				(
-					SELECT 
-						site, MAX( entry_timestamp ) AS MaxDateTime
-					FROM public_alert
-					GROUP BY site
-				) maxed 
-					ON t.site = maxed.site
-					AND t.entry_timestamp = maxed.MaxDateTime
-				INNER JOIN site_column s
-					ON ( LEFT(t.site, 3) = LEFT(s.name, 3) )
-				INNER JOIN lut_alerts l 
-					ON t.internal_alert_level = l.internal_alert_level
-				LEFT JOIN public_alert_extra x
-					ON t.public_alert_id = x.public_alert_id
-				GROUP BY t.site
-				ORDER BY t.entry_timestamp DESC";
-
-		$query = $this->db->query($sql);
-
-		$i = 0;
-	    foreach ($query->result_array() as $row)
-	    {
-	        $data[$i]["alert_id"] = $row["public_alert_id"];
-	        $data[$i]["entry_timestamp"] = $row["entry_timestamp"];
-	        $data[$i]["time_released"] = $row["time_released"];
-	        $data[$i]["name"] = $row["site"];
-	        $data[$i]["internal_alert"] = $row["internal_alert_level"];
-	        $data[$i]["lat"] = $row["lat"];
-	        $data[$i]["lon"] = $row["lon"];
-	        $data[$i]["sitio"] = $row["sitio"];
-	        $data[$i]["barangay"] = $row["barangay"];
-	        $data[$i]["municipality"] = $row["municipality"];
-	        $data[$i]["province"] = $row["province"];
-	        $data[$i]["region"] = $row["region"];
-	        $data[$i]["public_alert"] = $row["public_alert_level"];
-	        $data[$i]["public_alert_desc"] = $row["public_alert_desc"];
-	        $data[$i]["comments"] = $row["comments"];
-
-	        $i++;
-	    }
-
-	    return json_encode($data);
+		$this->db->select('public_alert_event.*, site.*, public_alert_release.data_timestamp, public_alert_release.release_time, public_alert_release.internal_alert_level, public_alert_trigger.trigger_type, public_alert_trigger.timestamp AS trigger_timestamp');
+		$this->db->from('public_alert_event');
+		$this->db->join('site', 'public_alert_event.site_id = site.id');
+		$this->db->join('public_alert_release', 'public_alert_event.latest_release_id = public_alert_release.release_id');
+		$this->db->join('public_alert_trigger', 'public_alert_event.latest_trigger_id = public_alert_trigger.trigger_id');
+		$this->db->where('public_alert_event.status','on-going');
+ 		$this->db->or_where('public_alert_event.status','extended');
+		$query = $this->db->get();
+		//$query = $this->db->get_where('public_alert_event', array('status' => 'on-going'));
+		return json_encode($query->result_array());
 	}
+
 
 	/**
 	 * Gets data from alert_verification table

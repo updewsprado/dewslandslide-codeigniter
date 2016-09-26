@@ -36,7 +36,7 @@ class Monitoring extends CI_Controller
 		$data['ismap'] = false;
 		/*** End ***/
 
-		$data['releases'] = $this->monitoring_model->getAllPublicReleases();
+		$data['events'] = $this->monitoring_model->getOnGoingAndExtended();
 
 		$this->load->view('gold/templates/header', $data);
 		$this->load->view('gold/templates/nav');
