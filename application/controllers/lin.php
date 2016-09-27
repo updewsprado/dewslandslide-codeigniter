@@ -13,10 +13,12 @@ class Lin extends CI_Controller {
 		$query = $this->membership_model->validate();
 		
 		if ($query) {	//if the user's credentials validated
+			$id = $this->membership_model->get_user_id();
 			$firstname = $this->membership_model->get_first_name();
 			$lastname = $this->membership_model->get_last_name();
 		
 			$data = array (
+				'id' => $id,
 				'username' => $this->input->post('username'),
 				'first_name' => $firstname,
 				'last_name' => $lastname,

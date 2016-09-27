@@ -11,50 +11,44 @@
 
 <?php  
 
-	$data = json_decode($data);
-	$data = array_pop($data);
+	$event = array_pop(json_decode($event));
+	$release = json_decode($release);
+	$triggers = json_decode($triggers);
+	$responses = json_decode($responses);
 
-	//echo var_dump($edits);
-
-	$bulletinTracker = $edits[0];
-	$release = $edits[1];
-	$validity = $edits[2];
-	$next_reporting = $edits[3];
-	$next_bulletin = $edits[4];
-	$households = $edits[5];
-	$reason = $edits[6];
-	$llmc_lgu = $eq = $rain = $ground = "";
-
-	$llmc_lgu = ltrim($edits[7], "LLMC ");
-	$i = 8;
-	while (strpos($edits[$i], 'EQ') === false) 
+	function roundTime($timestamp)
 	{
-		$llmc_lgu = $llmc_lgu . "<br/>" . $edits[$i];
-		$i++;
+		// Adjust timestamp to nearest hour if minutes are not 00
+		$minutes = (int)( date('i', $timestamp) );
+		$hours = (int)( date('h', $timestamp) );
+		$x = ($minutes > 0 ) ? true : false;
+
+		$minutes = $minutes == 0 ? 60 : $minutes;
+		$timestamp = $timestamp + (60 - $minutes) * 60;
+
+		// Round the time value to the nearest interval (4, 8, 12)
+		$hours = $hours % 4 == 0 ? 0 : $hours % 4;
+		$timestamp = $timestamp + (4 - $hours) * 3600;
+
+		// Remove 1 hour if timestamp is a regular release (LOOK $x)
+		if( $x ) $timestamp = $timestamp - 3600;
+		return $timestamp;
 	}
 
-	$eq = ltrim($edits[$i++], "EQ");
-	while (strpos($edits[$i], 'RAIN') === false) 
+	$release_time = isInstantaneous(strtotime($release->data_timestamp)) ? $release->data_timestamp : date("j F Y, h:i A" , strtotime($release->data_timestamp) + 1800) ;
+
+	function isInstantaneous($entry)
 	{
-		$eq = $eq . "<br/>" . $edits[$i];
-		$i++;
+		if( ((int)(date('h', $entry) % 4 == 3)) && ((int)(date('i', $entry) == 30)) )
+			return false;
+		else
+			return true;
 	}
 
-	$rain = ltrim($edits[$i++], "RAIN");
-	while (strpos($edits[$i], 'GROUND') === false) 
-	{
-		$rain = $rain . "<br/>" . $edits[$i];
-		$i++;
-	}
-
-	$ground = ltrim($edits[$i++], "GROUND");
-	while ($i < count($edits)) 
-	{
-		$ground = $ground . "<br/>" . $edits[$i];
-		$i++;
-	}
-
-	$data->entry_timestamp = strtotime($data->entry_timestamp);
+	$temp_date = date('jMY_gA', strtotime($release_time));
+	$temp_date = str_replace("12AM", "12MN", $temp_date);
+	$temp_date = str_replace("12PM", "12NN", $temp_date);
+	$filename = strtoupper($event->name) . "_" . $temp_date;
 
 ?>
 
@@ -70,15 +64,15 @@
 <style type="text/css">
 
 	/* FOR LINUX/UBUNTU */
-	body {
+	/*body {
 		zoom: 0.75;
-	}
+	}*/
 
 	@media print {
 		color: #000;
 	}
 
-	i {
+	a i {
 		color: blue !important;
 	}
 
@@ -88,27 +82,27 @@
 
 	@font-face {
 		font-family: 'Arial';
-		src:	url('<?php echo $host ?>/fonts/Arial/arial.ttf'),
-				url('<?php echo $host ?>/fonts/Arial/ArialMT.otf'),
-				url('<?php echo $host ?>/fonts/Arial/ArialMT.woff') format('woff');
+		src:	url('/fonts/Arial/arial.ttf'),
+				url('/fonts/Arial/ArialMT.otf'),
+				url('/fonts/Arial/ArialMT.woff') format('woff');
 		font-weight: normal;
 		font-style: normal;
 	}
 
 	@font-face {
 		font-family: 'Arial';
-		src: 	url('<?php echo $host ?>/fonts/Arial/arialbd.ttf'),
-				url('<?php echo $host ?>/fonts/Arial/Arial-BoldMT.otf'),
-				url('<?php echo $host ?>/fonts/Arial/Arial-BoldMT.woff') format('woff');
+		src: 	url('/fonts/Arial/arialbd.ttf'),
+				url('/fonts/Arial/Arial-BoldMT.otf'),
+				url('/fonts/Arial/Arial-BoldMT.woff') format('woff');
 		font-weight: bold;
 		font-style: normal;
 	}
 
 	@font-face {
 		font-family: 'Arial';
-		src: 	url('<?php echo $host ?>/fonts/Arial/ariali.ttf'),
-				url('<?php echo $host ?>/fonts/Arial/Arial-ItalicMT.otf'),
-				url('<?php echo $host ?>/fonts/Arial/Arial-ItalicMT.woff') format('woff');
+		src: 	url('/fonts/Arial/ariali.ttf'),
+				url('/fonts/Arial/Arial-ItalicMT.otf'),
+				url('/fonts/Arial/Arial-ItalicMT.woff') format('woff');
 		font-style: italic;
 	}
 
@@ -163,8 +157,8 @@
 	}
 
 	#title {
-		margin-top: 30px;
-		margin-bottom: 20px;
+		margin-top: 25px; //30
+		margin-bottom: 15px; //20
 	}
 
 	.panel-default {
@@ -172,24 +166,24 @@
 	}
 
 	#bulletin, #areaSituation, #footer {
-		font-size: 27px;
+		font-size: 24px; //27
 	}
 
 	#bulletin .row {
-		margin: 12px 0;
+		margin: 10px 0; //12
 	}
 
-	#areaSituation .row {
-		margin: 20px 0;
-	}
-
-	#bulletin .col-md-8 {
+	#bulletin .col-sm-8 {
 		padding-left: 0;
 		font-weight: bold;
 	}
 
+	#areaSituation .row {
+		margin: 12px 0; //20
+	}
+
 	#areaSituation h3 {
-		font-size: 32px;
+		font-size: 26px; //32
 		margin-top: 0;
 	}
 
@@ -210,14 +204,12 @@
 <div id="page-wrapper" style="height: 100%;">
 	
 	<div class="container-fluid">
-		
 		<div class="text-area">
-
         <div class="row">
 
-        	<div class="col-md-2"><img id="phivolcs" class="pull-right" src="/images/bulletin/phivolcs.png"></div>
+        	<div class="col-sm-2"><img id="phivolcs" class="pull-right" src="/images/Bulletin/phivolcs.png"></div>
 
-        	<div class="col-md-8 center-text" id="header-text">
+        	<div class="col-sm-8 center-text" id="header-text">
         		
         		<div class="row">REPUBLIC OF THE PHILIPPINES</div>
         		<div class="row">DEPARTMENT OF SCIENCE AND TECHNOLOGY</div>
@@ -229,7 +221,7 @@
 
         	</div>
 
-        	<div class="col-md-2"><img id="dost" class="pull-left" src="/images/bulletin/dost.png"></div>
+        	<div class="col-sm-2"><img id="dost" class="pull-left" src="/images/Bulletin/dost.png"></div>
 
         </div>
 
@@ -237,67 +229,69 @@
 
         <div class="row">
 
-        	<div class="col-md-12 center-text"><h2 id="title"><b>DEWS-L PROGRAM LANDSLIDE ALERT LEVEL INFORMATION: <?php echo strtoupper($data->site) . "-" . date('Y', $data->entry_timestamp) . "-" . $bulletinTracker; ?></b></h2></div>
+        	<div class="col-sm-12 center-text">
+        		<h2 id="title"><b>DEWS-L PROGRAM LANDSLIDE ALERT LEVEL INFORMATION: <?php echo strtoupper($event->name) . "-" . date('Y', strtotime($release_time)) . "-" . sprintf("%03d", $release->bulletin_number); ?>
+        		</b></h2>
+        	</div>
 
         </div>
 
         <br/>
 
         <div class="row">
-        	<div class="col-md-12">
+        	<div class="col-sm-12">
 	        	<div class="panel panel-default">
 					<div class="panel-body" id="bulletin">
 					
 						<div class="row">
-							<div class="col-md-4">Location:</div>
-							<div class="col-md-8">
+							<div class="col-sm-4">Location:</div>
+							<div class="col-sm-8">
 								<?php 
-									if (!is_null($data->sitio)) {
+									if (!is_null($event->sitio)) {
 					    				echo "Sitio " . $data->sitio . ", ";
 					    			}
-								?>
-								Barangay <?php echo $data->barangay . ", " . $data->municipality . ", " . $data->province; ?>	
+					    		?>
+					    		Brgy. <?php echo $event->barangay . ", " . $event->municipality . ", " . $event->province; ?>	
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-4">Date/Time</div>
-							<div class="col-md-8"><?php 
-								//echo date("j F Y, h:i A" , $data->entry_timestamp); 
-								echo $release;
-							?></div>
+							<div class="col-sm-4">Date/Time</div>
+							<div class="col-sm-8"><?php echo amPmConverter(date("j F Y, h:i A" , strtotime($release_time))); ?></div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-4">Alert Level Released:</div>
-							<div class="col-md-8">
-							<?php
-
-								switch ($data->public_alert_level) 
+							<div class="col-sm-4">Alert Level Released:</div>
+							<div class="col-sm-8 text-justify">
+							<?php 
+								$description = $responses->description->description;
+								if( $public_alert_level == "A0" )
 								{
-									case 'A0':
-										$validity = '';
-										break;
-									case 'A1':
-									case 'A2':
-									case 'A3':
-										$validity = ", valid until " . $validity;
-										break;
+									$option = explode("***OR***", $description);
+									if( $event->status == "finished" ) $description = $option[1];
+									else if ( $event->status == "routine" || $event->status == "extended" || $event->status == "invalid" ) $description = $option[0];
+									$description = $description . ")";
+								} else $description = $description . "), valid until " . amPmConverter(date("j F Y, h:i A" , strtotime($event->validity)));
+ 
+								echo $public_alert_level . " (" . $description;
+							?>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-4">Recommended Response:</div>
+							<div class="col-sm-8 text-justify">
+							<?php 
+								$recommended = $responses->response->recommended_response;
+								if( $public_alert_level == "A0" )
+								{
+									$option = explode("***OR***", $recommended);
+									if( $event->status == "finished" ) $recommended = $option[1];
+									else if ( $event->status == "routine" || $event->status == "invalid") $recommended = $option[0];
+									else if ( $event->status == "extended") $recommended = $option[2];
 								}
-
-								/*if ($data->internal_alert_level == "A1-D" || $data->internal_alert_level == "ND-D")
-								{
-									$data->internal_alert_desc = parser($data->internal_alert_level, $data->internal_alert_desc, $data->comments, 0);
-								}*/
-
-								echo $data->public_alert_level . " (" . rtrim($data->internal_alert_desc, '.') . ")" . $validity; 
-							?>	
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-4">Recommended Response:</div>
-							<div class="col-md-8"><?php echo $data->recommended_response; ?></div>
+								echo $recommended;
+							?></div>
 						</div>
 
 					</div>
@@ -307,137 +301,167 @@
 					<div class="panel-body" id="areaSituation">
 					
 						<div class="row">
-							<div class="col-md-12"><h3><b><u>AREA SITUATION</u>:</b></h3></div>
+							<div class="col-sm-12"><h3><b><u>AREA SITUATION</u>:</b></h3></div>
 						</div>
 
 
-						<?php  
-
-							function boilerPlate($title, $description)
+						<?php
+							
+							function boilerplate($title, $description)
 							{
-								echo '<div class="row">';
+								if($title == "SENSOR" || $title == "GROUND MEASUREMENT")
+									echo '<div class="row rowIndent">';
+								else echo '<div class="row">';
 								echo '<div class="col-md-12"><b>' . $title . '</b></div>';
 								echo '</div>';
 
-								echo '<div class="row rowIndent">';
-								echo '<div class="col-md-12">' . $description . '</div>';
-								echo '</div>';
+								/*echo '<div class="row rowIndent">';
+								echo '<div class="col-sm-12"><textarea name="' . $title . '" class="form-control" rows="2" style="width:90%">' . $description . '</textarea></div>';
+								echo '</div>';*/
+
+								if( $description != '')
+								{
+									echo '<div class="row rowIndent">';
+									echo '<div class="col-md-12 text-justify">' . $description . '</div>';
+									echo '</div>';
+								}
+								
 							}
 
-							switch ($data->internal_alert_level) {
+							function print_triggers($triggers, $responses, $internal)
+							{
+								// ISSUE UPCOMING: 0 for ND'S
+								// S/G with lower-case counterparts
+								// Combining same dates with just different timestamps
+								$list = str_split(substr($internal, 3));
+								$list = array_reverse($list);
+
+								foreach ($list as $a) 
+								{
+									$ordered = array_values(array_filter($triggers, function ($trigger) use ($a)
+									{ 
+										if ($a == "G" || $a == "S") return strtoupper($trigger->trigger_type) == $a;
+										else return $trigger->trigger_type == $a; 
+									}));
+
+									$desc = $responses->trigger_desc->$a;
+									$desc = str_replace("[timestamp]", "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($ordered[count($ordered) - 1]->timestamp))) . "</b>", $desc);
+									array_pop($ordered);
+									$additional = '';
+
+									$i = 0;
+									foreach ($ordered as $key => $trigger) 
+									{
+										if( $i < 3 )
+										{
+											$temp = "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($trigger->timestamp))) . "</b>";
+											$additional = $additional == '' ? $temp : $additional . ", " . $temp;
+										}
+									}
+
+									if($additional != '') $desc = $desc . " Most recent re-trigger/s occurred on " . $additional . ".";
+
+									switch ($a) {
+										case 'R': boilerplate("RAINFALL", $desc); break;
+										case 'E': boilerplate("EARTHQUAKE", $desc); break;
+										case 'E': boilerplate("ON-DEMAND", $desc); break;
+										case 'g': case 'G': boilerplate("GROUND MOVEMENT", ""); boilerplate("<i class='rowIndent'><u>GROUND MEASUREMENT</u></i>", $desc); break;
+										case 's': case 'S': 
+											if( count(array_intersect( ['g','G'], $list) ) <= 0 ) boilerplate("GROUND MOVEMENT", ""); 
+											boilerplate("<i class='rowIndent'><u>SENSOR</u></i>", $desc); break;
+									}
+								}
+							}
+
+							// boilerplate("ON-DEMAND", "[description]");
+							// boilerplate("RAINFALL", "[description]");
+							// boilerplate("EARTHQUAKE", "[description]");
+							// boilerplate("GROUND MOVEMENT:", '');
+							// boilerplate("SENSOR", "[description]");
+							// boilerplate("GROUND MEASUREMENT", "[description]");
+
+							switch ($public_alert_level) {
 								case 'A0':
-								case 'ND':
-									boilerPlate('GROUND MOVEMENT', $ground);
-									boilerPlate('RAINFALL', $rain);
-									boilerPlate('EARTHQUAKE', $eq);
+									if ( $event->status == 'finished' || $event->status == 'extended' )
+										boilerplate("GROUND MOVEMENT", 'No significant ground movement detected within the event-monitoring period.');
+									else boilerplate("GROUND MOVEMENT", 'No significant ground movement detected.');
 									break;
-								case 'A1-D':
-								case 'ND-D':
-									boilerPlate('GROUND MOVEMENT', $ground);
+								case 'A1':
+									print_triggers($triggers, $responses, $release->internal_alert_level);
+									boilerplate('GROUND MOVEMENT', 'No significant ground movement detected.');
 									break;
-								case 'A1-E':
-								case 'ND-E':
-									boilerPlate('EARTHQUAKE', $eq);
-									boilerPlate('GROUND MOVEMENT', $ground);
-									break;
-								case 'A1-R':
-								case 'ND-R':
-									boilerPlate('RAINFALL', $rain);
-									boilerPlate('GROUND MOVEMENT', $ground);
-									break;
-								case 'A2':
-								case 'ND-L':
-									boilerPlate('GROUND MOVEMENT', $ground);
-									break;
-								case 'A3':
-								case 'ND-L2':
-									boilerPlate('GROUND MOVEMENT', $ground);
+								case 'A2': case 'A3':
+									print_triggers($triggers, $responses, $release->internal_alert_level);
 									break;
 							}
 
 						?>
 
 						<div class="row">
-							<div class="col-md-12"><b>HOUSEHOLD AT RISK</b></div>
+							<div class="col-sm-12"><b>HOUSEHOLDS AT RISK</b></div>
 						</div>
 
 						<div class="row rowIndent">
-							<div class="col-md-12" id="household">
-							<?php
-								/*if (!is_null($data->affected_households)) {
-									echo "At least $data->affected_households identified households";
-								} else {
-									echo "Number of affected households currently undefined";
-								}*/
-
-								echo $households;
-							?>
+							<div class="col-sm-12 text-justify" id="household">
+								<?php echo $event->households == NULL ? "NULL LOL" : $event->households; ?>
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-12"><h3><b><u>OTHER RECOMMENDATIONS</u>:</b></h3></div>
+							<div class="col-sm-12"><h3><b><u>OTHER RECOMMENDATIONS</u>:</b></h3></div>
 						</div>
 
 						<?php
 
-							/*$llmc_lgu = "";
-							$temp = date("j F Y, h:i A" , $data->entry_timestamp + (3.5 * 3600));
-							$time = date("h:i A" , $data->entry_timestamp + (3.5 * 3600));
+							$llmc_lgu = "";
+							$temp = date("j F Y, h:i A" , roundTime(strtotime($release->data_timestamp)) + (3.5 * 3600));
+							$time = date("h:i A" , roundTime(strtotime($release->data_timestamp)) + (3.5 * 3600));
 							
 							$time = date_create_from_format('h:i A', $time);
 							$date1 = date_create('3:30 PM');
 							$date2 = date_create('7:30 AM');
 
+							if( $public_alert_level == 'A3' ) $datetime = amPmConverter(date("j F Y, h:i A" , strtotime($event->validity)));
 							if ($time > $date1 || $time < $date2) 
 							{
-								if ($time > $date1) 
-								{
-									$datetime = date("j F Y," , strtotime('+1 day', strtotime($temp))) . " 7:30 AM";
-								} else {
-									$datetime = date("j F Y," , strtotime($temp)) . " 7:30 AM";
-								}
-								
-							} else {
-								$datetime = $temp;
-							}*/
+								if ($time > $date1) $datetime = date("j F Y," , strtotime('+1 day', strtotime($temp))) . " 7:30 AM";
+								else $datetime = date("j F Y," , strtotime($temp)) . " 7:30 AM";		
+							} 
+							else $datetime = $temp;
 
-							/*switch ($data->public_alert_level) 
+							$llmc_lgu = $responses->response->response_llmc_lgu;
+
+							switch ($public_alert_level) 
 							{
 								case 'A0':
-									$llmc_lgu = $data->response_llmc_lgu;
+									$option = explode("***OR***", $llmc_lgu);
+									if( $event->status == "finished" ) $llmc_lgu = $option[1];
+									else if ( $event->status == "routine" || $event->status == "invalid") $llmc_lgu = $option[0];
+									else if ($event->status == "extended") $llmc_lgu = $option[2];
 									break;
-								case 'A1':
-									$llmc_lgu = $data->response_llmc_lgu;
-									$llmc_lgu = str_replace("[date and time of next reporting]", $next_reporting, $llmc_lgu);
-									break;
-								case 'A2':
-									$llmc_lgu = $data->response_llmc_lgu;
-									$llmc_lgu = str_replace("[date and time of next reporting]", $next_reporting, $llmc_lgu);
+								case 'A1': case 'A2':
+									$llmc_lgu = str_replace("[date and time of next reporting]", "<b>" . $datetime . "</b>", $llmc_lgu);
 									break;
 								case 'A3':
-									$llmc_lgu = $data->response_llmc_lgu;
-									$llmc_lgu = str_replace("[end of A3 validity period]", date("j F Y, h:i A" , strtotime("+2 days", strtotime($next_reporting))), $llmc_lgu);
+									$llmc_lgu = str_replace("[end of A3 validity period]", "<b>" . $datetime . "</b>", $llmc_lgu);
 									break;
-							}*/
-
+							}
 						?>
 
 						<div class="row">
-							<div class="col-md-12"><b id="llmc">For the Local Landslide Monitoring Committee (LLMC):</b> <?php echo $llmc_lgu; ?></div>
+							<div class="col-sm-12 text-justify"><b id="llmc">For the Local Landslide Monitoring Committee (LLMC):</b> <?php echo $llmc_lgu; ?></div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-12"><b id="community">For the Community:</b> <?php echo $data->response_community; ?></div>
+							<div class="col-sm-12 text-justify"><b id="community">For the Community:</b> <?php echo $responses->response->response_community; ?></div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-12"><b id="barangay">NOTE:</b> This Bulletin contains the official Alert Level and Recommended Response of the DEWS-L Program for Brgy. <?php echo $data->barangay; ?> and will hold true until a new bulletin is released.</div>
+							<div class="col-sm-12 text-justify"><b id="barangay">NOTE:</b> This Bulletin contains the official Alert Level and Recommended Response of the DEWS-L Program for Brgy. <?php echo $event->barangay; ?> and will hold true until a new bulletin is released.</div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-12"><p>Please proceed to the links <a href="<?php echo base_url(); ?>images/bulletin/landslide-alert.png"><i>Landslide Alert Level Based on Ground Movement</a></i> 
-							<br><span class="rowIndent"></span>and <a href="<?php echo base_url(); ?>images/bulletin/alert-table.png"><i>Alert Levels and Recommended Responses</a></i> for references.</p></div>
+							<div class="col-sm-12 text-justify"><p>Please proceed to the links <a href="<?php echo base_url(); ?>images/bulletin/landslide-alert.png"><i>Landslide Alert Level Based on Ground Movement</a></i> and <a href="<?php echo base_url(); ?>images/bulletin/alert-table.png"><i>Alert Levels and Recommended Responses</a></i> for references.</p></div>
 						</div>
 
 					</div>
@@ -448,23 +472,17 @@
 
 
         <div class="row rowIndent" id="footer">
-        	<div class="col-md-12">
-		        <?php 
-		        	if( $data->public_alert_level != 'A0')
-		        	{
-						echo '<div class="row">Next bulletin on: ' . $next_bulletin . '</div>';
-		        	}
-		        ?>
-	        	<div class="row">Prepared by: 
-	        	<?php 
-					preg_match_all('#([A-Z]+)#', $data->flagger, $matches);
+        	<div class="col-sm-12">
+        		<div class="row">
+	        		<?php if( $public_alert_level != 'A0') echo '<b>Next bulletin on: </b>' . amPmConverter(date("j F Y, h:i A" , roundTime(strtotime($release->data_timestamp)) + 4 * 3600)); ?>
+        		</div>    
+	        	<div class="row" style="margin-top: 5px;"><b>Prepared by: </b>
+	        	<?php
+					preg_match_all('#([A-Z]+)#', $reporters['reporter_mt'], $matches);
 					foreach ($matches[0] as $key) echo $key;
-	        		if (!is_null($data->counter_reporter)) 
-	        		{
-	        			echo ", ";
-	        			preg_match_all('#([A-Z]+)#', $data->counter_reporter, $matches);
-						foreach ($matches[0] as $key) echo $key;
-	        		}
+					echo ", ";
+					preg_match_all('#([A-Z]+)#', $reporters['reporter_ct'], $matches);
+					foreach ($matches[0] as $key) echo $key;
 	        	?>
 	        	</div>
         	</div>
@@ -472,68 +490,26 @@
 
 		</div> <!-- End of Text-Area div -->
 
+		<!-- <div class="images" style="page-break-before:always;">
+			<img src="/images/Bulletin/landslide-alert.png"/>
+		</div>
+
+		<div class="images" style="page-break-before:always;">
+			<img src="/images/Bulletin/alert-table.png"/>
+		</div> -->
+
     </div>
 </div>
 
 <?php  
 	
-	function parser($internal_alert_level, $desc, $info, $infoOrComment) 
+	function amPmConverter($date)
 	{
-
-		$comment;
-		$list = explode(";", $info);
-
-		switch ($internal_alert_level) {
-			case 'A1-D':
-			case 'ND-D':
-				$groups = str_replace(",", "/", $list[0]);
-				$comment = isset($list[2]) ? $list[2] : null;
-				$desc = str_replace("[LGU/LLMC/Community]", $groups, $desc);
-	    		$desc = str_replace("[reason for request]", $list[1], $desc);
-				break;
-			case 'A1-E':
-			case 'ND-E':
-				$comment = isset($list[3]) ? $list[3] : null;
-				$desc = str_replace("[M]", $list[0], $desc);
-	    		$desc = str_replace("[d]", $list[1], $desc);
-	    		$desc = str_replace("[date, time]", date("j F Y, h:i A" , strtotime($list[2])), $desc);
-	    		$desc = str_replace("[retriggers]", retriggers($list[4]), $desc);
-				break;
-			case 'A1-R':
-			case 'ND-R':
-				$comment = isset($list[1]) ? $list[1] : null;
-				$desc = str_replace("[date, time (round up to the nearest next hour) of last threshold exceedence]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
-				$desc = str_replace("[retriggers]", retriggers($list[2]), $desc);
-				break;
-			case 'A2':
-			case 'ND-L':
-				$comment = isset($list[2]) ? $list[2] : null;
-				$desc = str_replace("[date, time (round up to nearest next hour) of original L1-triggering measurement]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
-	    		$desc = str_replace("[list of date-time (round up to nearest next hour) of succeeding L1-triggering measurements]", retriggers($list[1]), $desc);
-				break;
-			case 'A3':
-			case 'ND-L2':
-				$comment = isset($list[2]) ? $list[2] : null;
-				$desc = str_replace("[date, time (round up to nearest next hour) of original L2-triggering measurement]", date("j F Y, h:i A" , strtotime($list[0])), $desc);
-	    		$desc = str_replace("[list of date-time (round up to nearest next hour) of succeeding L1/L2-triggering measurements]", retriggers($list[1]), $desc);
-				break;
-			default:
-				$comment = isset($info) ? $info : null;
-				break;
-		}
-
-		return $infoOrComment == 1 ? $comment : $desc;
-
-	}
-
-	function retriggers($list)
-	{
-		$list = explode(",", $list);
-		for ($i=0; $i < count($list); $i++) 
-		{ 
-			$list[$i] = date("j F Y, h:i A" , strtotime($list[$i]));
-		}
-		return implode(", ", $list);
+		$temp = strtotime($date);
+		$hour = date("G", $temp);
+		if( $hour == 0 ) return date("j F Y, h:i \M\N", $temp);
+		elseif ($hour == 12) return date("j F Y, h:i \N\N", $temp);
+		else return date("j F Y, h:i A", $temp);
 	}
 
 ?>

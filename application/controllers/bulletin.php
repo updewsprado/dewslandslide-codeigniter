@@ -16,35 +16,32 @@
 			
 		}
 
-		public function build($id)
+		public function build($release_id)
 		{
 
-			if( $id == '' ) {
+			if( $release_id == '' ) {
 				show_404();
 				break;
 			}
 
-			$data['data'] = $this->bulletin_model->getPublicRelease($id);
-			if( $data['data'] == "[]") {
+			$temp = $this->bulletin_model->getRelease($release_id);
+			if( $temp == null) {
 				show_404();
 				break;
 			}
-
-			$file = fopen($_SERVER['DOCUMENT_ROOT'] . "/bulletin-edits.txt", "rb");
-			$line = []; $i = 0;
-			if ($file) {
-			    while (($buffer = fgets($file)) !== false) {
-			        $line[$i] = $buffer;
-			        $i++;
-			    }
-			    if (!feof($file)) {
-			        echo "Error: unexpected fgets() fail\n";
-			    }
-			    
-			    fclose($file);
-			}
-
-			$data['edits'] = $line;
+			$temp = json_decode($temp);
+			$data['release'] = json_encode($temp);
+			
+			$x = substr($temp->internal_alert_level, 0, 2);
+			$x = $x == "ND" ? ( strlen($temp->internal_alert_level) > 3 ? "A1" : "A0" ) : $x;
+			$data['public_alert_level'] = $x;
+			$data['triggers'] = $this->bulletin_model->getAllEventTriggers($temp->event_id);
+			$data['event'] = $this->bulletin_model->getEvent($temp->event_id);
+			$data['reporters'] = array(
+				'reporter_mt' => $this->bulletin_model->getName($temp->reporter_id_mt),
+				'reporter_ct' => $this->bulletin_model->getName($temp->reporter_id_ct),  
+			);
+			$data['responses'] = $this->bulletin_model->getResponses($data['public_alert_level'], $temp->internal_alert_level);
 
 			$this->load->view('gold/bulletin-builder', $data);
 		}
@@ -65,7 +62,7 @@
 			$this->load->view('gold/bulletin-viewer', $data);
 		}
 
-		public function edit()
+		public function edit($release_id)
 		{
 			$this->is_logged_in();
 
@@ -92,17 +89,20 @@
 			$data['ismap'] = false;
 			/*** End ***/
 
-			$id = $this->uri->segment(3);
-			if( $id == '' ) {
-				show_404();
-				break;
-			}
+			$temp = json_decode($this->bulletin_model->getRelease($release_id));
+			$data['release'] = json_encode($temp);
+			
+			$x = substr($temp->internal_alert_level, 0, 2);
+			$x = $x == "ND" ? ( strlen($temp->internal_alert_level) > 3 ? "A1" : "A0" ) : $x;
+			$data['public_alert_level'] = $x;
+			$data['triggers'] = $this->bulletin_model->getAllEventTriggers($temp->event_id);
+			$data['event'] = $this->bulletin_model->getEvent($temp->event_id);
+			$data['reporters'] = array(
+				'reporter_mt' => $this->bulletin_model->getName($temp->reporter_id_mt),
+				'reporter_ct' => $this->bulletin_model->getName($temp->reporter_id_ct),  
+			);
+			$data['responses'] = $this->bulletin_model->getResponses($data['public_alert_level'], $temp->internal_alert_level);
 
-			$data['data'] = $this->bulletin_model->getPublicRelease($id);
-			if( $data['data'] == "[]") {
-				show_404();
-				break;
-			}
 
 			$this->load->view('gold/templates/header', $data);
 			$this->load->view('gold/templates/nav');

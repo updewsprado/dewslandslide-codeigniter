@@ -147,16 +147,13 @@
                         <a href="<?php echo base_url() . $version; ?>/nodereport"><i class="fa fa-fw fa-list-alt"></i> Report Node Status</a>
                     </li>
                     <li <?php echo $reportevent; ?> >
-                        <a href="javascript:;" data-toggle="collapse" data-target="#dropdown_public_release"><i class="fa fa-fw fa-bar-chart-o"></i> Public Release <i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#dropdown_public_release"><i class="fa fa-fw fa-bar-chart-o"></i> Early Warning Release <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="dropdown_public_release" class="collapse">
                             <li>
-                                <a href="<?php echo base_url() . $version; ?>/publicrelease">Report Public Release</a>
-                            </li>
-                            <li>
-                                <a href="<?php echo base_url() . $version; ?>/publicrelease/edit">Edit Previous Releases</a>
+                                <a href="<?php echo base_url() . $version; ?>/publicrelease">Release Early Warning Announcement</a>
                             </li>
                              <li>
-                                <a href="<?php echo base_url() . $version; ?>/publicrelease/all">Public Release All</a>
+                                <a href="<?php echo base_url() . $version; ?>/publicrelease/event/all">View All Monitoring Events</a>
                             </li>
                         </ul>
                     </li>

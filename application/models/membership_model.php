@@ -13,6 +13,7 @@
 class Membership_model extends CI_Model {
 
 	protected $names = array(
+        'id' => NULL,
         'first_name' => NULL,
         'last_name' => NULL
     );
@@ -27,6 +28,7 @@ class Membership_model extends CI_Model {
 		$query = $this->db->get('membership');
 		
 		if ($query->num_rows == 1) {
+			$this->names['id'] = $query->row()->id;
 			$this->names['first_name'] = $query->row()->first_name;
 			$this->names['last_name'] = $query->row()->last_name;
 			return true;
@@ -36,6 +38,10 @@ class Membership_model extends CI_Model {
 		}
 	}
 	
+	public function get_user_id() {
+		 return $this->names['id'];
+	}
+
 	public function get_first_name() {
 		 return $this->names['first_name'];
 	}

@@ -9,10 +9,310 @@ class Pubrelease extends CI_Controller {
 		$this->load->library('../controllers/monitoring');
 	}
 
-	public function index()
+	public function index($page)
 	{
-		echo "Index of Pubrelease";
+
+		$this->is_logged_in();
+
+		$data['user_id'] = $this->session->userdata("id");
+		$data['first_name'] = $this->session->userdata('first_name');
+		$data['last_name'] = $this->session->userdata('last_name');
+		
+		/*** TEMPORARY REQUIRED DATA (To be deleted soon) ***/
+		$data['title'] = $page;
+		$data['version'] = "gold";
+		$data['folder'] = "goldF";
+		$data['imgfolder'] = "images";
+		
+		$data['charts'] = $data['tables'] = $data['forms'] = $data['bselements'] = '';
+		$data['bsgrid'] = $data['blank'] = $data['home'] = $data['monitoring'] = '';
+		$data['dropdown_chart'] = $data['site'] = $data['node'] = '';
+		$data['alert'] = $data['gmap'] = $data['commhealth'] = $data['analysisdyna'] = '';
+		$data['position'] = $data['presence'] = $data['customgmap'] = '';
+		$data['slider'] = $data['nodereport'] = $data['reportevent'] = '';
+		$data['sentnodetotal'] = $data['rainfall'] = $data['lsbchange'] = '';
+		$data['accel'] = $data['showplots'] = $data['showdateplots'] = '';
+		$data['sitesCoord'] = 0;
+		$data['datefrom'] = $data['dateto'] = '';
+		$data['ismap'] = false;
+		/*** End ***/
+
+		switch ($page) 
+		{
+			case 'publicrelease':
+				$data['sites'] = $this->pubrelease_model->getSites();
+				$data['staff'] = $this->pubrelease_model->getStaff();
+				$data['active'] = $this->pubrelease_model->getOnGoingAndExtended();
+				break;
+
+			case 'publicrelease_edit':
+				$data['sites'] = $this->pubrelease_model->getSites();
+				$data['alerts'] = $this->pubrelease_model->getAlerts();
+				break;
+
+			case 'publicrelease_all':
+	
+				//$data['releases'] = $this->pubrelease_model->getAllPublicReleases();
+
+				//Load the pubrelease.php controller
+				$this->load->library('../controllers/pubrelease');
+				$data['releases'] = $this->pubrelease->testAllReleasesCached();
+
+				break;
+
+			case 'publicrelease_individual':
+				$id = $this->uri->segment(4);
+				$data['event'] = $temp = $this->pubrelease_model->getSinglePublicRelease($id);
+
+				$temp = json_decode($temp);
+				$site = $temp[0]->site;
+				$data['alert_history'] = $this->pubrelease_model->getAlertHistory($site);
+				break;
+
+			case 'publicrelease_event_individual':
+				$id = $this->uri->segment(5);
+				$data['event'] = $this->pubrelease_model->getEvent($id);
+				if( $data['event'] == "[]") {
+					show_404();
+					break;
+				}
+				$data['releases'] = $this->pubrelease_model->getAllRelease($id);
+				$data['triggers'] = $this->pubrelease_model->getAllEventTriggers($id);
+				$data['staff'] = $this->pubrelease_model->getStaff();
+				break;
+
+			case 'publicrelease_event_all':
+	
+				//$data['releases'] = $this->pubrelease_model->getAllPublicReleases();
+				//$this->load->library('../controllers/pubrelease');
+				$data['events'] = $this->testAllReleasesCached();
+
+				break;
+		}
+
+		$this->load->view('gold/templates/header', $data);
+		$this->load->view('gold/templates/nav');
+		$this->load->view('gold/' . $page, $data);
+		$this->load->view('gold/templates/footer');
 	}
+
+	public function getLastSiteEvent($site_id)
+	{
+		$result = $this->pubrelease_model->getLastSiteEvent($site_id);
+		echo "$result";
+	}
+
+	public function getLastRelease($event_id)
+	{
+		$result = $this->pubrelease_model->getLastRelease($event_id);
+		echo "$result";
+	}
+
+	public function getAllEventTriggers($event_id, $release_id = null)
+	{
+		$result = $this->pubrelease_model->getAllEventTriggers($event_id, $release_id);
+		echo "$result";
+	}
+
+	public function getRelease($release_id)
+	{
+		$result = $this->pubrelease_model->getRelease($release_id);
+		echo "$result";
+	}
+
+	public function getSentRoutine()
+	{
+		$result = $this->pubrelease_model->getSentRoutine($_GET['timestamp']);
+		echo "$result";
+	}
+
+	public function insert()
+	{
+		$status = $_POST['status'];
+		$latest_trigger_id = NULL;
+		$site_id = $_POST['site'];
+
+		if( $status == 'new' )
+		{
+			// Prepare and save on public_alert_event table
+			$event['site_id'] = $site_id;
+			$event['event_start'] = $_POST['timestamp_entry'];
+			$event['status'] = 'on-going';
+			$event_id = $this->pubrelease_model->insert('public_alert_event', $event);
+			
+			//Prepare and save on public_alert_release
+			$release['event_id'] = $event_id;
+			$release['data_timestamp'] = $_POST['timestamp_entry'];
+			$release['internal_alert_level'] = $_POST['internal_alert_level'];
+			$release['release_time'] = $_POST['release_time'];
+			$release['comments'] = $_POST['comments'] == "" ? NULL : $_POST['comments'];
+			$release['reporter_id_mt'] = $_POST['reporter_1'];
+			$release['reporter_id_ct'] = $_POST['reporter_2'];
+			$release['bulletin_number'] = $this->pubrelease_model->getBulletinNumber($site_id) + 1;
+			$this->pubrelease_model->update('site_id', $site_id, 'bulletin_tracker', array('bulletin_number' => $release['bulletin_number']) );
+			$release_id = $this->pubrelease_model->insert('public_alert_release', $release);
+			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', array('latest_release_id' => $release_id) );
+
+			$this->saveTriggers($_POST, $event_id, $release_id);
+
+			// This $event_id came from EXTENDED to NEW event
+			if( $_POST['previous_event_id'] != NULL &&  $_POST['previous_event_id'] != '' ) $this->pubrelease_model->update('event_id', $_POST['previous_event_id'], 'public_alert_event', array( 'status' => 'finished' ));
+
+			echo "$event_id";
+
+		}
+		else if ( $status == 'on-going' || $status == 'extended' || $status == 'invalid' || $status == 'finished')
+		{
+			$release['event_id'] = $event_id = $_POST['current_event_id'];
+			$release['data_timestamp'] = $_POST['timestamp_entry'];
+			$release['internal_alert_level'] = $_POST['internal_alert_level'];
+			$release['release_time'] = $_POST['release_time'];
+			$release['comments'] = $_POST['comments'] == "" ? NULL : $_POST['comments'];
+			$release['reporter_id_mt'] = $_POST['reporter_1'];
+			$release['reporter_id_ct'] = $_POST['reporter_2'];
+			$release['bulletin_number'] = $this->pubrelease_model->getBulletinNumber($site_id) + 1;
+			$this->pubrelease_model->update('site_id', $site_id, 'bulletin_tracker', array('bulletin_number' => $release['bulletin_number']) );
+			$release_id = $this->pubrelease_model->insert('public_alert_release', $release);
+			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', array('latest_release_id' => $release_id) );
+			
+			if( isset($_POST['extend_ND']) )
+			{
+				$a = $this->pubrelease_model->getEventValidity($event_id);
+    			$data['validity'] = date("Y-m-d H:i:s", strtotime($a[0]->validity) + 4 * 3600);
+    			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', $data);
+			}
+			else $this->saveTriggers($_POST, $event_id, $release_id);
+
+			if($status == 'extended' || $status == 'invalid' || $status == 'finished')
+			{
+				$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', array('status' => $status));
+			}
+
+			echo "$event_id";
+
+		}
+		else if ($status == 'routine')
+		{
+			foreach ($_POST['routine_list'] as $site_id) 
+			{
+				// Prepare and save on public_alert_event table
+				$event['site_id'] = $site_id;
+				$event['event_start'] = $_POST['timestamp_entry'];
+				$event['status'] = $status;
+				$event_id = $this->pubrelease_model->insert('public_alert_event', $event);
+
+				//Prepare and save on public_alert_release
+				$release['event_id'] = $event_id;
+				$release['data_timestamp'] = $_POST['timestamp_entry'];
+				$release['internal_alert_level'] = $_POST['internal_alert_level'];
+				$release['release_time'] = $_POST['release_time'];
+				$release['comments'] = $_POST['comments'] == "" ? NULL : $_POST['comments'];
+				$release['reporter_id_mt'] = $_POST['reporter_1'];
+				$release['reporter_id_ct'] = $_POST['reporter_2'];
+				$release['bulletin_number'] = $this->pubrelease_model->getBulletinNumber($site_id) + 1;
+				$this->pubrelease_model->update('site_id', $site_id, 'bulletin_tracker', array('bulletin_number' => $release['bulletin_number']) );
+				$release_id = $this->pubrelease_model->insert('public_alert_release', $release);
+				$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', array('latest_release_id' => $release_id) );
+			}
+
+			echo "Routine";
+		}
+
+		//Set the public release all cache to dirty
+		$this->setPublicReleaseAllDirty();
+	}
+
+	public function getValidity($timestamp, $alert)
+    {
+    	$timestamp = $this->roundTime( strtotime($timestamp) );
+    	switch ($alert) 
+		{
+			case 'A1': case 'A2': return date("Y-m-d H:i:s", $timestamp + 24 * 3600);
+				break;
+			case 'A3': return date("Y-m-d H:i:s", $timestamp + 48 * 3600);
+				break;
+		}
+    }
+
+    public function getVal($event_id)
+    {
+    	$a = $this->pubrelease_model->getEventValidity($event_id);
+    	echo $a[0]->validity;
+    }
+
+    public function roundTime($timestamp)
+	{
+		// Adjust timestamp to nearest hour if minutes are not 00
+		$minutes = (int)( date('i', $timestamp) );
+		$hours = (int)( date('h', $timestamp) );
+		$x = ($minutes > 0 ) ? true : false;
+
+		$minutes = $minutes == 0 ? 60 : $minutes;
+		$timestamp = $timestamp + (60 - $minutes) * 60;
+
+		// Round the time value to the nearest interval (4, 8, 12)
+		$hours = $hours % 4 == 0 ? 0 : $hours % 4;
+		$timestamp = $timestamp + (4 - $hours) * 3600;
+
+		// Remove 1 hour if timestamp is a regular release (LOOK $x)
+		if( $x ) $timestamp = $timestamp - 3600;
+		return $timestamp;
+	}
+
+	public function saveTriggers($post, $event_id, $release_id)
+	{
+		$lookup = array( "g" => "trigger_ground_1", "G" => "trigger_ground_2", "s" => "trigger_sensor_1", "S" => "trigger_sensor_2", "R" => "trigger_rain", "E" => "trigger_eq", "D" => "trigger_od" );
+		$list = [];
+		if( $post['trigger_list'] != NULL )
+		{
+			//Prepare and save on public_alert_trigger
+			foreach ( $post['trigger_list'] as $type ) 
+			{
+				$a['type'] = $type;
+				$a['timestamp'] = $post[ $lookup[$type] ];
+				array_push($list, $a);
+			}
+
+			usort($list, function($a, $b) {
+			    return strtotime($a['timestamp']) - strtotime($b['timestamp']);
+			});
+
+			foreach ( $list as $entry ) 
+			{
+				$trigger['event_id'] = $event_id;
+				$trigger['release_id'] = $release_id;
+				$trigger['trigger_type'] = $entry['type'];
+				$last_timestamp = $trigger['timestamp'] = $entry['timestamp'];
+				$latest_trigger_id = $this->pubrelease_model->insert('public_alert_trigger', $trigger);
+				
+				// Save additional data for Earthquake trigger
+				if( $entry['type'] == "E" )
+				{
+					$eq['trigger_id'] = $latest_trigger_id;
+					$eq['magnitude'] = $post['magnitude'];
+					$eq['latitude'] = $post['latitude'];
+					$eq['longitude'] = $post['longitude'];
+					$this->pubrelease_model->insert('public_alert_eq', $eq);
+				}
+			}
+
+			// Update event entry's latest_trigger_id and validity
+			$data['latest_trigger_id'] = $latest_trigger_id;
+			$data['validity'] = $this->getValidity( $last_timestamp, $post['public_alert_level'] );
+			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', $data);
+		}
+	}
+
+
+	public function update()
+	{
+		$this->pubrelease_model->update('release_id', $_POST['release_id'], 'public_alert_release', array('data_timestamp' => $_POST['data_timestamp'], 'release_time' => $_POST['release_time'], 'comments' => $_POST['comments'] ));
+		#ADD TRIGGERS CHUCHU
+	}
+
+
+	/***************************************************************/
+
 
 	public function showAlerts()
 	{
@@ -197,7 +497,7 @@ class Pubrelease extends CI_Controller {
 
 	public function testAllReleases()
 	{
-		$allRelease = $this->pubrelease_model->getAllPublicReleases();
+		$allRelease = $this->pubrelease_model->getAllEvents();
 		echo "$allRelease";
 	}
 
@@ -208,7 +508,7 @@ class Pubrelease extends CI_Controller {
 
 		if (strpos($os,'WIN') !== false) {
 		    //echo "Running on a windows server. Not using memcached </Br>";
-		    $allRelease = $this->pubrelease_model->getAllPublicReleases();
+		    $allRelease = $this->pubrelease_model->getAllEvents();
 		}
 		elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
 			//echo "Running on a Linux server. Will use memcached </Br>";
@@ -226,14 +526,14 @@ class Pubrelease extends CI_Controller {
 			} 
 			else {
 			    //echo "No matching key found or dirty cache flag has been raised. I'll add that now!";
-			    $allRelease = $this->pubrelease_model->getAllPublicReleases();
+			    $allRelease = $this->pubrelease_model->getAllEvents();
 			    $mem->set("cachedprall", $allRelease) or die("couldn't save pubreleaseall");
 			    $mem->set("cachedpralldirty", false) or die ("couldn't save dirty flag");
 			}
 		}
 		else {
 			//echo "Unknown OS for execution... Script discontinued";
-			$allRelease = $this->pubrelease_model->getAllPublicReleases();
+			$allRelease = $this->pubrelease_model->getAllEvents();
 		}
 		
 		return "$allRelease";
@@ -262,6 +562,18 @@ class Pubrelease extends CI_Controller {
 
 			//echo "Set the dirty cache flag for publicreleaseall as True";
 			$mem->set("cachedpralldirty", true) or die ("couldn't save dirty flag");
+		}
+	}
+
+	public function is_logged_in() 
+	{
+		$is_logged_in = $this->session->userdata('is_logged_in');
+		
+		if(!isset($is_logged_in) || ($is_logged_in !== TRUE)) {
+			echo 'You don\'t have permission to access this page. <a href="../lin">Login</a>';
+			die();
+		}
+		else {
 		}
 	}
 
