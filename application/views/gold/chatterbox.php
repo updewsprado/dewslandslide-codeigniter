@@ -28,6 +28,10 @@ Contact Settings
 </div>
 <div id="current-contacts" class="col-md-8 col-sm-6 col-xs-8">
   <h4 class="bg-success"></h4>
+  <div id="search-lbl">
+    <input class='form-control' id='search-key' type='text' hidden>
+    <h5 hidden><span class='glyphicon glyphicon-search'></span>Search</h5>
+  </div>
 </div>
 <!--         
 <div class="bg-white">
