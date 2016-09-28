@@ -156,7 +156,7 @@ class Pubrelease extends CI_Controller {
 			$this->saveTriggers($_POST, $event_id, $release_id);
 
 			// This $event_id came from EXTENDED to NEW event
-			if( $_POST['previous_event_id'] != NULL &&  $_POST['previous_event_id'] != '' ) $this->pubrelease_model->update('event_id', $_POST['previous_event_id'], 'public_alert_event', array( 'status' => 'finished' ));
+			if( isset($_POST['previous_event_id']) && $_POST['previous_event_id'] != NULL &&  $_POST['previous_event_id'] != '' ) $this->pubrelease_model->update('event_id', $_POST['previous_event_id'], 'public_alert_event', array( 'status' => 'finished' ));
 
 			echo "$event_id";
 

@@ -241,7 +241,7 @@
         </div>
         <!-- /.row -->
 
-        <div class="well well-sm"><b><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;For the list of all Public Releases, click <a href="<?php echo base_url(); ?>gold/publicrelease/all">here.</a></b></div>
+        <!-- <div class="well well-sm"><b><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;For the list of all Public Releases, click <a href="<?php echo base_url(); ?>gold/publicrelease/all">here.</a></b></div> -->
 
         <div class="btn-group btn-group-md btn-group-justified">
             <div class="btn-group">
@@ -786,6 +786,7 @@
             let val = $("#public_alert_level").val();
             $(".cbox_trigger_switch").prop("disabled", false);
             $(".cbox_trigger").prop("checked", false);
+            $(".alert").slideUp();
 
             switch( val )
             {
@@ -794,6 +795,7 @@
                         break;
                 case "A0": $(".cbox_trigger_switch").prop("checked", false).prop("disabled", true);
                         $(".cbox_nd[value=ND]").prop("checked", false).prop("disabled", false);
+                        toExtendND = false;
                         break;
                 case "A1": $(".cbox_trigger_switch[value='gs'], .cbox_trigger_switch[value='ss']").prop("checked", false).prop("disabled", true);
                     $(".cbox_nd[value=ND]").prop("checked", false).prop("disabled", false);
@@ -808,7 +810,7 @@
             }
 
             // Show invalid alert notification if Alert is lowered prematurely
-            if( typeof current_event != undefined )
+            if( !jQuery.isEmptyObject(current_event) )
             {
                 if( val == "A0" && moment($("#timestamp_entry").val()).add(30, 'minutes').isBefore(current_event.validity) ) 
                 {
@@ -944,6 +946,11 @@
         $("#site").change(function () 
         {
             let val = $("#site").val() == "" ? 0 : $("#site").val();
+            trigger_list = [], saved_triggers = [];
+
+            // Clear all trigger timestamps area
+            $(".trigger_time").val("");
+
             $.get( "<?php echo base_url(); ?>pubrelease/getLastSiteEvent/" + val, 
             function( event ) 
             {
@@ -977,7 +984,13 @@
                         $("#details").html($("#details").html().replace("[LAST]", moment(release.data_timestamp).add(30, 'minutes').format("dddd, MMMM Do YYYY, HH:mm") ));
 
                         let triggers = release.internal_alert_level.substr(3).split("");
-                        saved_triggers = triggers.splice(0);
+                        //saved_triggers = triggers.splice(0);
+                        for (let i = 0; i < triggers.length; i++) {
+                            if (triggers[i + 1] == "0") 
+                                { saved_triggers.push(triggers[i] + triggers[i + 1]); i++; }
+                            else saved_triggers.push(triggers[i]);
+                        }
+                        console.log("SAVED TRIGGERS", saved_triggers);
 
                         // Trigger Public ALert change and restrict unintentional level lowering
                         // except to A0
@@ -1026,6 +1039,7 @@
                 {
                     status = "new";
                     saved_triggers = [];
+                    current_event = [];
                     $(".previous_info span:nth-child(2)").text("No trigger yet.");
                     $("#site_info_area").slideUp();
                     $(".cbox_trigger_nd").prop('disabled', true);
@@ -1039,13 +1053,17 @@
 
         function groupTriggersByType(event, triggers) 
         {
-            let trigger_list = event.internal_alert_level.slice(3);
+            //let trigger_list = event.internal_alert_level.slice(3);
+            let trigger_list = saved_triggers.slice(0);
+            // Remove 0 from trigger list (if internal alert has no data)
+            let trigger_copy = trigger_list.map(function (x) { return x.replace('0', ''); });
+
             $(".cbox_trigger_switch").prop("checked", false);
             let arr = [];
             for (let i = 0; i < trigger_list.length; i++) 
             {
                 // Check Operational Triggers and Enable cbox_triggers_nd on Form
-                let check = function (x) { $(".cbox_trigger_switch[value=" + x + "]").prop("checked", true); }
+                let check = function (x, y = "switch") { $(".cbox_trigger_" + y + "[value=" + x + "]").prop("checked", true); }
                 let enable = function (x) { $(".cbox_trigger_nd[value=" + x + "]").prop("disabled", false); }
 
                 switch( trigger_list[i] )
@@ -1053,17 +1071,24 @@
                     case "R": check("rs"); enable("R0"); break;
                     case "E": check("es"); enable("E0"); break;
                     case "D": check("ds"); enable("D0"); break;
+                    case "g0": check("g0", "nd");
                     case "G": case "g": check("gs"); enable("g0"); break;
+                    case "s0": check("s0", "nd");
                     case "S": case "s": check("ss"); enable("s0"); break;
                     default: check(trigger_list[i]); break;
                 }
 
+                // Re-save the triggers WITHOUT 0 on saved_triggers after using its
+                // purpose of checking x0 checkboxes
+                saved_triggers = trigger_copy.slice(0);
+
                 $(".cbox_trigger_switch").trigger("change");
+                $(".cbox_trigger_nd").trigger("change");
                 // END OF CHECKING CHECKBOXES
 
                 let x = triggers.filter(function (val) 
                 {
-                    return val.trigger_type == trigger_list[i];
+                    return val.trigger_type == trigger_copy[i];
                 })
 
                 x.sort(function (a, b) 
@@ -1296,7 +1321,11 @@
 
                 if( status == 'new' )
                 {
-                    if(temp.public_alert_level == 'A0') temp.status = 'routine';
+                    if(temp.public_alert_level == 'A0')
+                    {
+                        temp.routine_list = [temp.site];
+                        temp.status = 'routine';
+                    } 
                 }
                 else if( status == "on-going" ) 
                 {
@@ -1394,6 +1423,9 @@
 
     function reposition() 
     {
+
+        console.log("Repositioned");
+
         var modal = $(this),
             dialog = modal.find('.modal-dialog');
         

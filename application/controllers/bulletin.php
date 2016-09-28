@@ -89,7 +89,17 @@
 			$data['ismap'] = false;
 			/*** End ***/
 
+			if( $release_id == '' ) {
+				show_404();
+				break;
+			}
+
 			$temp = json_decode($this->bulletin_model->getRelease($release_id));
+			if( $temp == null) {
+				show_404();
+				break;
+			}
+
 			$data['release'] = json_encode($temp);
 			
 			$x = substr($temp->internal_alert_level, 0, 2);

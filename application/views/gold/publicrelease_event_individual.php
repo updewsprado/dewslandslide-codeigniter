@@ -247,6 +247,12 @@
 
     .line { margin-top: -5px; margin-bottom: 5px; }
 
+    .triggers {
+        font-size: 14px;
+        color: red;
+        text-shadow: 0.5px 0.4px grey;
+    }
+
 </style>
 
 <?php  
@@ -288,7 +294,7 @@
         <div class="row">
             <div class="col-sm-12" id="header">
                 <h2 class="page-header">
-                	<?php echo $status; ?> Monitoring Page for <?php echo $name . " (" . strtoupper($event->name) . ")"; ?>
+                    Monitoring Page for <?php echo $name . " (" . strtoupper($event->name) . ")"; ?>
                 	<br><small><?php echo date("F jS Y, g:i A", strtotime($event->event_start)); if(!is_null($event->validity)) echo " to " . date("F jS Y, g:i A", strtotime($event->validity)); ?></small>
                 </h2>
                 
@@ -301,14 +307,14 @@
                 <div>
             		<div id="reveal" class="text-center"> 
             			<?php echo strtoupper($status); ?> MONITORTING PAGE FOR <br>
-            			<?php echo strtoupper($name) . " (" . strtoupper($event->name) . ")"; ?><br>
+            			<?php $temp = $event->sitio == null ? "" : $event->sitio . ", "; echo strtoupper("$temp$event->barangay,<br>$event->municipality, $event->province") . " (" . strtoupper($event->name) . ")"; ?><br>
                     	<small><?php echo date("M j, Y, g:i A", strtotime($event->event_start)). "<br>";
                     	if(!is_null($event->validity)) echo " to " . date("M j, Y, g:i A", strtotime($event->validity)); ?></small> 
                     </div>
 
                     <div id="bread">
                         <ol class="breadcrumb">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="<?php echo base_url() . 'gold'; ?>">Home</a></li>
                             <li><a href="<?php echo base_url() . 'gold/publicrelease/event/all'; ?>">DEWS-Landslide All Events</a></li>
                             <li class="active">Individual Event No. <?php echo $event->event_id; ?></li>
                         </ol>

@@ -242,7 +242,7 @@
 							<div class="col-sm-8">
 								<?php 
 									if (!is_null($event->sitio)) {
-					    				echo "Sitio " . $data->sitio . ", ";
+					    				echo "Sitio " . $event->sitio . ", ";
 					    			}
 					    		?>
 					    		Brgy. <?php echo $event->barangay . ", " . $event->municipality . ", " . $event->province; ?>	
@@ -262,8 +262,8 @@
 								if( $public_alert_level == "A0" )
 								{
 									$option = explode("***OR***", $description);
-									if( $event->status == "finished" ) $description = $option[1];
-									else if ( $event->status == "routine" || $event->status == "extended" || $event->status == "invalid" ) $description = $option[0];
+									if( $event->status == "finished" || $event->status == "extended" ) $description = $option[1];
+									else if ( $event->status == "routine" || $event->status == "invalid" ) $description = $option[0];
 									$description = $description . ")";
 								} else $description = $description . "), valid until " . amPmConverter(date("j F Y, h:i A" , strtotime($event->validity)));
  
@@ -280,9 +280,9 @@
 								if( $public_alert_level == "A0" )
 								{
 									$option = explode("***OR***", $recommended);
-									if( $event->status == "finished" ) $recommended = $option[1];
+									if( $event->status == "finished" || $event->status == "extended" ) $recommended = $option[1];
 									else if ( $event->status == "routine" || $event->status == "invalid") $recommended = $option[0];
-									else if ( $event->status == "extended") $recommended = $option[2];
+									//else if ( $event->status == "extended") $recommended = $option[2];
 								}
 								echo $recommended;
 							?></div>
@@ -332,33 +332,51 @@
 
 								foreach ($list as $a) 
 								{
-									$ordered = array_values(array_filter($triggers, function ($trigger) use ($a)
-									{ 
-										if ($a == "G" || $a == "S") return strtoupper($trigger->trigger_type) == $a;
-										else return $trigger->trigger_type == $a; 
-									}));
-
-									$desc = $responses->trigger_desc->$a;
-									$desc = str_replace("[timestamp]", "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($ordered[count($ordered) - 1]->timestamp))) . "</b>", $desc);
-									array_pop($ordered);
-									$additional = '';
-
-									$i = 0;
-									foreach ($ordered as $key => $trigger) 
+									$area_printer = function ($triggers, $a) use ($responses)
 									{
-										if( $i < 3 )
-										{
-											$temp = "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($trigger->timestamp))) . "</b>";
-											$additional = $additional == '' ? $temp : $additional . ", " . $temp;
-										}
-									}
+										$ordered = array_values(array_filter($triggers, 
+										function ($trigger) use ($a)
+										{ 
+											return $trigger->trigger_type == $a; 
+										}));
 
-									if($additional != '') $desc = $desc . " Most recent re-trigger/s occurred on " . $additional . ".";
+										// If ordered has no triggers in it (case like A3 
+										// looking for L2 triggers ) exit
+										if(count($ordered) == 0) return NULL;
+
+										$desc = $responses->trigger_desc->$a;
+										$desc = str_replace("[timestamp]", "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($ordered[count($ordered) - 1]->timestamp))) . "</b>", $desc);
+										array_pop($ordered);
+										$additional = '';
+
+										$i = 0;
+										foreach ($ordered as $key => $trigger) 
+										{
+											if( $i < 3 )
+											{
+												$temp = "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($trigger->timestamp))) . "</b>";
+												$additional = $additional == '' ? $temp : $additional . ", " . $temp;
+												$i++;
+											}
+										}
+
+										if($additional != '') $desc = $desc . " Most recent re-trigger/s occurred on " . $additional . ".";
+										return $desc;
+									};
+
+									$desc = $area_printer($triggers, $a);
+
+									if( $a == "G" || $a == "S" )
+									{
+										$b = $a == "G" ? "g" : "s";
+										$desc_2 = $area_printer($triggers, $b);
+										$desc = $desc . "<br>" . $desc_2;
+									}
 
 									switch ($a) {
 										case 'R': boilerplate("RAINFALL", $desc); break;
 										case 'E': boilerplate("EARTHQUAKE", $desc); break;
-										case 'E': boilerplate("ON-DEMAND", $desc); break;
+										case 'D': boilerplate("ON-DEMAND", $desc); break;
 										case 'g': case 'G': boilerplate("GROUND MOVEMENT", ""); boilerplate("<i class='rowIndent'><u>GROUND MEASUREMENT</u></i>", $desc); break;
 										case 's': case 'S': 
 											if( count(array_intersect( ['g','G'], $list) ) <= 0 ) boilerplate("GROUND MOVEMENT", ""); 
@@ -429,9 +447,9 @@
 							{
 								case 'A0':
 									$option = explode("***OR***", $llmc_lgu);
-									if( $event->status == "finished" ) $llmc_lgu = $option[1];
+									if( $event->status == "finished" || $event->status == "extended" ) $llmc_lgu = $option[1];
 									else if ( $event->status == "routine" || $event->status == "invalid") $llmc_lgu = $option[0];
-									else if ($event->status == "extended") $llmc_lgu = $option[2];
+									//else if ($event->status == "extended") $llmc_lgu = $option[2];
 									break;
 								case 'A1': case 'A2':
 									$llmc_lgu = str_replace("[date and time of next reporting]", "<b>" . $datetime . "</b>", $llmc_lgu);
