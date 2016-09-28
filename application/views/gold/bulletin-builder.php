@@ -207,7 +207,7 @@
 		<div class="text-area">
         <div class="row">
 
-        	<div class="col-sm-2"><img id="phivolcs" class="pull-right" src="/images/Bulletin/phivolcs.png"></div>
+        	<div class="col-sm-2"><img id="phivolcs" class="pull-right" src="/images/bulletin/phivolcs.png"></div>
 
         	<div class="col-sm-8 center-text" id="header-text">
         		
@@ -221,7 +221,7 @@
 
         	</div>
 
-        	<div class="col-sm-2"><img id="dost" class="pull-left" src="/images/Bulletin/dost.png"></div>
+        	<div class="col-sm-2"><img id="dost" class="pull-left" src="/images/bulletin/dost.png"></div>
 
         </div>
 
