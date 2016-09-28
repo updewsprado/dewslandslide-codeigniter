@@ -1055,8 +1055,18 @@
         {
             //let trigger_list = event.internal_alert_level.slice(3);
             let trigger_list = saved_triggers.slice(0);
+            let public_alert = event.internal_alert_level.substr(0,2);
+            
             // Remove 0 from trigger list (if internal alert has no data)
-            let trigger_copy = trigger_list.map(function (x) { return x.replace('0', ''); });
+            // and converts g0/s0 to G/S if its A3
+            function clearZero(x, public_alert) 
+            { 
+                console.log(public_alert);
+                x = x.replace('0', '');
+                if(public_alert == "A3") x = x.toUpperCase();
+                return x;
+            }
+            let trigger_copy = trigger_list.map(function (x) { return clearZero(x, public_alert); });
 
             $(".cbox_trigger_switch").prop("checked", false);
             let arr = [];
