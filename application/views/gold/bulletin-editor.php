@@ -301,12 +301,12 @@
 
 						<?php
 							
-							function boilerplate($title, $description)
+							function boilerplate($title, $description, $info )
 							{
 								if($title == "SENSOR" || $title == "GROUND MEASUREMENT")
 									echo '<div class="row rowIndent">';
 								else echo '<div class="row">';
-								echo '<div class="col-md-12"><b>' . $title . '</b></div>';
+								echo '<div class="col-sm-12"><b>' . $title . '</b></div>';
 								echo '</div>';
 
 								/*echo '<div class="row rowIndent">';
@@ -316,21 +316,37 @@
 								if( $description != '')
 								{
 									echo '<div class="row rowIndent">';
-									echo '<div class="col-md-12 text-justify">' . $description . '</div>';
+									echo '<div class="col-sm-12 text-justify">' . $description . '</div>';
+									if( $info != '' && $info != NULL ) echo '<div class="col-sm-12 text-justify"><b>Detail:</b> ' . $info . '</div>';
 									echo '</div>';
 								}
 								
 							}
 
-							function print_triggers($triggers, $responses, $internal)
+							function print_triggers($triggers, $responses, $internal, $public_alert_level)
 							{
 								// ISSUE UPCOMING: 0 for ND'S
 								// S/G with lower-case counterparts
 								// Combining same dates with just different timestamps
-								$list = str_split(substr($internal, 3));
-								$list = array_reverse($list);
+								$list = substr($internal, 3);
+								$x = [];
+								for ( $i = 0; $i < strlen($list); $i++) {
+		                            if (isset($list[$i + 1]) && $list[$i + 1] == "0") 
+		                                { array_push($x, $list[$i] . $list[$i + 1]); $i++; }
+		                            else array_push($x, $list[$i]);
+		                        }
+		                        $list = array_reverse($x);
+								$x = array_reverse($x);
 
-								foreach ($list as $a) 
+					            $trigger_copy = [];
+					            foreach ($x as $y) 
+					            {
+					            	$y = str_replace('0', '', $y);
+					                if($public_alert_level == "A3") $y = strtoupper($y);
+					            	array_push($trigger_copy, $y);
+					            }
+
+								foreach ($trigger_copy as $a) 
 								{
 									$area_printer = function ($triggers, $a) use ($responses)
 									{
@@ -346,6 +362,7 @@
 
 										$desc = $responses->trigger_desc->$a;
 										$desc = str_replace("[timestamp]", "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($ordered[count($ordered) - 1]->timestamp))) . "</b>", $desc);
+										$info = $ordered[count($ordered) - 1]->info;
 										array_pop($ordered);
 										$additional = '';
 
@@ -361,26 +378,29 @@
 										}
 
 										if($additional != '') $desc = $desc . " Most recent re-trigger/s occurred on " . $additional . ".";
-										return $desc;
+										return [$desc, $info];
 									};
 
-									$desc = $area_printer($triggers, $a);
+									$details = $area_printer($triggers, $a);
+									$desc = $details[0]; $info = $details[1];
 
 									if( $a == "G" || $a == "S" )
 									{
 										$b = $a == "G" ? "g" : "s";
-										$desc_2 = $area_printer($triggers, $b);
-										$desc = $desc . "<br>" . $desc_2;
+										$details_2 = $area_printer($triggers, $b);
+										$desc = $desc . " " . $details_2[0];
+										$info = $info . " " . $details_2[1];
+										$info = $info == " " ? "" : $info;
 									}
 
 									switch ($a) {
-										case 'R': boilerplate("RAINFALL", $desc); break;
-										case 'E': boilerplate("EARTHQUAKE", $desc); break;
-										case 'D': boilerplate("ON-DEMAND", $desc); break;
-										case 'g': case 'G': boilerplate("GROUND MOVEMENT", ""); boilerplate("<i class='rowIndent'><u>GROUND MEASUREMENT</u></i>", $desc); break;
+										case 'R': boilerplate("RAINFALL", $desc, $info); break;
+										case 'E': boilerplate("EARTHQUAKE", $desc, $info); break;
+										case 'D': boilerplate("ON-DEMAND", $desc, $info); break;
+										case 'g': case 'G': boilerplate("GROUND MOVEMENT", "", ""); boilerplate("<i class='rowIndent'><u>GROUND MEASUREMENT</u></i>", $desc, $info); break;
 										case 's': case 'S': 
-											if( count(array_intersect( ['g','G'], $list) ) <= 0 ) boilerplate("GROUND MOVEMENT", ""); 
-											boilerplate("<i class='rowIndent'><u>SENSOR</u></i>", $desc); break;
+											if( count(array_intersect( ['g','G'], $list) ) <= 0 ) boilerplate("GROUND MOVEMENT", "", ""); 
+											boilerplate("<i class='rowIndent'><u>SENSOR</u></i>", $desc, $info); break;
 									}
 								}
 							}
@@ -396,14 +416,14 @@
 								case 'A0':
 									if ( $event->status == 'finished' || $event->status == 'extended' )
 										boilerplate("GROUND MOVEMENT", 'No significant ground movement detected within the event-monitoring period.');
-									else boilerplate("GROUND MOVEMENT", 'No significant ground movement detected.');
+									else boilerplate("GROUND MOVEMENT", 'No significant ground movement detected.', '');
 									break;
 								case 'A1':
-									print_triggers($triggers, $responses, $release->internal_alert_level);
-									boilerplate('GROUND MOVEMENT', 'No significant ground movement detected.');
+									print_triggers($triggers, $responses, $release->internal_alert_level, $public_alert_level);
+									boilerplate('GROUND MOVEMENT', 'No significant ground movement detected.', '');
 									break;
 								case 'A2': case 'A3':
-									print_triggers($triggers, $responses, $release->internal_alert_level);
+									print_triggers($triggers, $responses, $release->internal_alert_level, $public_alert_level);
 									break;
 							}
 

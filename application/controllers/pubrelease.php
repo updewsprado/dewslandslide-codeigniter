@@ -270,6 +270,7 @@ class Pubrelease extends CI_Controller {
 			{
 				$a['type'] = $type;
 				$a['timestamp'] = $post[ $lookup[$type] ];
+				$a['info'] = $post[ $lookup[$type] . "_info" ];
 				array_push($list, $a);
 			}
 
@@ -282,6 +283,7 @@ class Pubrelease extends CI_Controller {
 				$trigger['event_id'] = $event_id;
 				$trigger['release_id'] = $release_id;
 				$trigger['trigger_type'] = $entry['type'];
+				$trigger['trigger_type'] = $entry['info'];
 				$last_timestamp = $trigger['timestamp'] = $entry['timestamp'];
 				$latest_trigger_id = $this->pubrelease_model->insert('public_alert_trigger', $trigger);
 				

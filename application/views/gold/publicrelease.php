@@ -128,7 +128,7 @@
     .previous_info:hover{
         position: absolute;
         width: 80%;
-        right: 16px;
+        right: 0px;
         -webkit-transition: width 0.5s ease-out, position;
     }
 
@@ -372,28 +372,39 @@
                             <div class="col-sm-2 area_label">
                                 <h4>RAINFALL</h4>
                             </div>
-                            <div class="col-sm-4 form-group">
-                                <label class="control-label" for="trigger_rain">Trigger Timestamp</label>
-                                <div class="input-group col-sm-12">
-                                    <span class="input-group-addon">
-                                        <input class="cbox_trigger" type="checkbox" value="R" name="R">
-                                    </span>
-                                    <div class='input-group date datetime'>
-                                        <input type='text' class="form-control trigger_time" id="trigger_rain" name="trigger_rain" placeholder="Enter timestamp" disabled="disabled" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-sm-4 form-group">
+                                        <label class="control-label" for="trigger_rain">Trigger Timestamp</label>
+                                        <div class="input-group col-sm-12">
+                                            <span class="input-group-addon">
+                                                <input class="cbox_trigger" type="checkbox" value="R" name="R">
+                                            </span>
+                                            <div class='input-group date datetime'>
+                                                <input type='text' class="form-control trigger_time" id="trigger_rain" name="trigger_rain" placeholder="Enter timestamp" disabled="disabled" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 form-group no-data">
+                                        <div class="checkbox">
+                                            <label><input class="cbox_trigger_nd" type="checkbox" value="R0" disabled="disabled"><b>No Data (R&#8320;)</b></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 previous_info" id="rain_desc">
+                                       <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-10 form-group">
+                                        <label for="trigger_rain_info">Technical Info:</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_rain_info" name="trigger_rain_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-2 form-group no-data">
-                                <div class="checkbox">
-                                    <label><input class="cbox_trigger_nd" type="checkbox" value="R0" disabled="disabled"><b>No Data (R&#8320;)</b></label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 previous_info" id="rain_desc">
-                               <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
-                            </div>
+                            
                         </div> <!------ END OF RAINFALL ------>
 
 
@@ -403,39 +414,50 @@
                             <div class="col-sm-2 area_label">
                                 <h4>EARTHQUAKE</h4>
                             </div>
-                            <div class="col-sm-7">
+                            <div class="col-sm-10">
                                 <div class="row">
-                                    <div class="col-sm-5 form-group">
-                                        <label class="control-label" for="trigger_eq">Trigger Timestamp</label>
-                                        <div class="input-group col-sm-12">
-                                            <span class="input-group-addon">
-                                                <input class="cbox_trigger" type="checkbox" value="E" name="E">
-                                            </span>
-                                            <div class='input-group date datetime'>
-                                                <input type='text' class="form-control trigger_time" id="trigger_eq" name="trigger_eq" placeholder="Enter timestamp" disabled="disabled"/>
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
+                                    <div class="col-sm-7">
+                                        <div class="row">
+                                            <div class="col-sm-5 form-group">
+                                                <label class="control-label" for="trigger_eq">Trigger Timestamp</label>
+                                                <div class="input-group col-sm-12">
+                                                    <span class="input-group-addon">
+                                                        <input class="cbox_trigger" type="checkbox" value="E" name="E">
+                                                    </span>
+                                                    <div class='input-group date datetime'>
+                                                        <input type='text' class="form-control trigger_time" id="trigger_eq" name="trigger_eq" placeholder="Enter timestamp" disabled="disabled"/>
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2 form-group number">
+                                                <label for="magnitude">Magnitude</label>
+                                                <input type="number" step="0.1" min="0" class="form-control" id="magnitude" name="magnitude" disabled="disabled">
+                                            </div>
+                                            <div class="col-sm-2 form-group number">
+                                                <label for="latitude">Latitude</label>
+                                                <input type="number" step="0.1" min="0" class="form-control" id="latitude" name="latitude" disabled="disabled">
+                                            </div>
+                                            <div class="col-sm-3 form-group">
+                                                <label for="longitude">Longitude</label>
+                                                <input type="number" step="0.1" min="0" class="form-control" id="longitude" name="longitude" disabled="disabled">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-2 form-group number">
-                                        <label for="magnitude">Magnitude</label>
-                                        <input type="number" step="0.1" min="0" class="form-control" id="magnitude" name="magnitude" disabled="disabled">
+                                    <div class="col-sm-4 previous_info" id="eq_desc">
+                                       <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
                                     </div>
-                                    <div class="col-sm-2 form-group number">
-                                        <label for="latitude">Latitude</label>
-                                        <input type="number" step="0.1" min="0" class="form-control" id="latitude" name="latitude" disabled="disabled">
-                                    </div>
-                                    <div class="col-sm-3 form-group">
-                                        <label for="longitude">Longitude</label>
-                                        <input type="number" step="0.1" min="0" class="form-control" id="longitude" name="longitude" disabled="disabled">
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-10 form-group">
+                                        <label for="trigger_eq_info">Technical Info:</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_eq_info" name="trigger_eq_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-4 previous_info" id="eq_desc">
-                               <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
-                            </div>
+                            
                         </div> <!------ END OF EARTHQUAKE ------>
 
 
@@ -445,46 +467,61 @@
                             <div class="col-sm-2 area_label">
                                 <h4>GROUND MEASUREMENT</h4>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-10">
                                 <div class="row">
-                                    <div class="col-sm-6 form-group no-padding-right">
-                                        <label class="control-label" for="trigger_ground_1">L2 (g) Trigger Timestamp</label>
-                                        <div class="input-group col-sm-12">
-                                            <span class="input-group-addon">
-                                                <input class="cbox_trigger" type="checkbox" value="g" name="g">
-                                            </span>
-                                            <div class='input-group date datetime'>
-                                                <input type='text' class="form-control trigger_time" id="trigger_ground_1" name="trigger_ground_1" placeholder="Enter timestamp" disabled="disabled" />
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-6 form-group no-padding-right">
+                                                <label class="control-label" for="trigger_ground_1">L2 (g) Trigger Timestamp</label>
+                                                <div class="input-group col-sm-12">
+                                                    <span class="input-group-addon">
+                                                        <input class="cbox_trigger" type="checkbox" value="g" name="g">
+                                                    </span>
+                                                    <div class='input-group date datetime'>
+                                                        <input type='text' class="form-control trigger_time" id="trigger_ground_1" name="trigger_ground_1" placeholder="Enter timestamp" disabled="disabled" />
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <label class="control-label" for="trigger_ground_2">L3 (G) Trigger Timestamp</label>
+                                                <div class="input-group col-sm-12">
+                                                    <span class="input-group-addon">
+                                                        <input class="cbox_trigger" type="checkbox" value="G" name="G">
+                                                    </span>
+                                                    <div class='input-group date datetime'>
+                                                        <input type='text' class="form-control trigger_time" id="trigger_ground_2" name="trigger_ground_2" placeholder="Enter timestamp" disabled="disabled"/>
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 form-group">
-                                        <label class="control-label" for="trigger_ground_2">L3 (G) Trigger Timestamp</label>
-                                        <div class="input-group col-sm-12">
-                                            <span class="input-group-addon">
-                                                <input class="cbox_trigger" type="checkbox" value="G" name="G">
-                                            </span>
-                                            <div class='input-group date datetime'>
-                                                <input type='text' class="form-control trigger_time" id="trigger_ground_2" name="trigger_ground_2" placeholder="Enter timestamp" disabled="disabled"/>
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                            </div>
+                                    <div class="col-sm-2 form-group no-data">
+                                        <div class="checkbox">
+                                            <label><input class="cbox_trigger_nd" type="checkbox" value="g0" disabled="disabled"><b>No Data (g&#8320;)</b></label>
                                         </div>
+                                    </div>
+                                    <div class="col-sm-4 previous_info" id="ground_desc">
+                                       <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-5 form-group">
+                                        <label for="trigger_ground_1_info">Technical Info:</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_ground_1_info" name="trigger_ground_1_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                    </div>
+                                    <div class="col-sm-5 form-group">
+                                        <label for="trigger_ground_2_info">Technical Info:</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_ground_2_info" name="trigger_ground_2_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-2 form-group no-data">
-                                <div class="checkbox">
-                                    <label><input class="cbox_trigger_nd" type="checkbox" value="g0" disabled="disabled"><b>No Data (g&#8320;)</b></label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 previous_info" id="ground_desc">
-                               <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
-                            </div>
+                            
                         </div>
                         <!------ END OF GROUND DATA ------>
 
@@ -495,46 +532,61 @@
                             <div class="col-sm-2 area_label">
                                 <h4>SENSOR</h4>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-10">
                                 <div class="row">
-                                    <div class="col-sm-6 form-group no-padding-right">
-                                        <label class="control-label" for="trigger_sensor_1">L2 (s) Trigger Timestamp</label>
-                                        <div class="input-group col-sm-12">
-                                            <span class="input-group-addon">
-                                                <input class="cbox_trigger" type="checkbox" value="s" name="s">
-                                            </span>
-                                            <div class='input-group date datetime'>
-                                                <input type='text' class="form-control trigger_time" id="trigger_sensor_1" name="trigger_sensor_1" placeholder="Enter timestamp" disabled="disabled"/>
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-6 form-group no-padding-right">
+                                                <label class="control-label" for="trigger_sensor_1">L2 (s) Trigger Timestamp</label>
+                                                <div class="input-group col-sm-12">
+                                                    <span class="input-group-addon">
+                                                        <input class="cbox_trigger" type="checkbox" value="s" name="s">
+                                                    </span>
+                                                    <div class='input-group date datetime'>
+                                                        <input type='text' class="form-control trigger_time" id="trigger_sensor_1" name="trigger_sensor_1" placeholder="Enter timestamp" disabled="disabled"/>
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <label class="control-label" for="trigger_sensor_2">L3 (S) Trigger Timestamp</label>
+                                                <div class="input-group col-sm-12">
+                                                    <span class="input-group-addon">
+                                                        <input class="cbox_trigger" type="checkbox" value="S" name="S">
+                                                    </span>
+                                                    <div class='input-group date datetime'>
+                                                        <input type='text' class="form-control trigger_time" id="trigger_sensor_2" name="trigger_sensor_2" placeholder="Enter timestamp" disabled="disabled"/>
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 form-group">
-                                        <label class="control-label" for="trigger_sensor_2">L3 (S) Trigger Timestamp</label>
-                                        <div class="input-group col-sm-12">
-                                            <span class="input-group-addon">
-                                                <input class="cbox_trigger" type="checkbox" value="S" name="S">
-                                            </span>
-                                            <div class='input-group date datetime'>
-                                                <input type='text' class="form-control trigger_time" id="trigger_sensor_2" name="trigger_sensor_2" placeholder="Enter timestamp" disabled="disabled"/>
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                            </div>
+                                    <div class="col-sm-2 form-group no-data">
+                                        <div class="checkbox">
+                                            <label><input class="cbox_trigger_nd" type="checkbox" value="s0" disabled="disabled"><b>No Data (s&#8320;)</b></label>
                                         </div>
+                                    </div>
+                                    <div class="col-sm-4 previous_info" id="sensor_desc">
+                                       <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-5 form-group">
+                                        <label for="trigger_sensor_1_info">Technical Info:</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_1_info" name="trigger_sensor_1_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                    </div>
+                                    <div class="col-sm-5 form-group">
+                                        <label for="trigger_sensor_2_info">Technical Info:</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_2_info" name="trigger_sensor_2_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-2 form-group no-data">
-                                <div class="checkbox">
-                                    <label><input class="cbox_trigger_nd" type="checkbox" value="s0" disabled="disabled"><b>No Data (s&#8320;)</b></label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 previous_info" id="sensor_desc">
-                               <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
-                            </div>
+                            
                         </div>
                         <!------ END OF SENSOR DATA ------>
                      </div> <!-- End of Panel Body -->
@@ -909,10 +961,17 @@
             }
             
             // Disable Timestamp Input Validation Checkbox Fields
-            if( $(".cbox_trigger[value=" + this.value + "]").is(":checked") ) 
-                $(this).closest("span").next("div").children("input").prop("disabled", false);
-            else 
-                $(this).closest("span").next("div").children("input").prop("disabled", true);
+            let a = $(this).closest("span").next("div").children("input");
+            if( $(".cbox_trigger[value=" + this.value + "]").is(":checked") )
+            {
+                $(a).prop("disabled", false);
+                $( "#" + $(a).attr('id') + "_info" ).prop("disabled", false);
+            }
+            else
+            {
+                $(a).prop("disabled", true);
+                $( "#" + $(a).attr('id') + "_info" ).prop("disabled", true);
+            }
 
             // If Checkbox is E, enable magnitude, latitude and longitude
             if( $(".cbox_trigger[value=E]").is(":checked") ) $("#magnitude, #latitude, #longitude").prop("disabled", false);
@@ -1202,7 +1261,17 @@
             trigger_time: {
                 "hasTriggerTime": true
             }
-        });       
+        });
+
+       jQuery.validator.addMethod("hasTriggerInfo", function(value, element, param) {
+            return $(element).val() !== '';
+        }, "Basic technical information of the trigger required.");
+
+       $.validator.addClassRules({
+            trigger_info: {
+                "hasTriggerInfo": true
+            }
+        });    
 
         $("#publicReleaseForm").validate(
         {
