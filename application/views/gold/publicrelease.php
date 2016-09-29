@@ -320,7 +320,7 @@
                         <!-- FIRST INSIDE COLUMN -->
                         <div class="col-sm-5 form-group">
                             <label for="public_alert_level">Public Alert</label>
-                            <select class="form-control" id="public_alert_level" name="public_alert_level">
+                            <select class="form-control" id="public_alert_level" name="public_alert_level" disabled="disabled">
                                 <option value="">---</option>
                                 <option value="A0">A0</option>
                                 <option value="A1">A1</option>
@@ -756,6 +756,17 @@
         });
 
         let status = 'new', active = [], routine_finish =[];
+
+
+        /*******************************************
+         * 
+         *  Ensure that Data Timestamp is filled 
+         *  first before Public Alert Level
+         *  
+         *******************************************/
+        $(".datetime").on('change dp.change', function(e) {
+            if( e.currentTarget.id == "entry" && $("#timestamp_entry") != "" ) $("#public_alert_level").prop("disabled", false);
+        });
 
         /*******************************************
          * 
