@@ -378,7 +378,10 @@
 			        <li class="timeline-inverted">
 			        	<?php 
 
-			        		if( substr($release->internal_alert_level, 0, 2) == "A0" && ($event->status == "extended" || $event->status == "finished")  ) 
+                            $x = substr($release->internal_alert_level, 0, 2);
+                            $x = $x == "ND" ? ( strlen($release->internal_alert_level) > 3 ? "A1" : "A0" ) : $x;
+
+			        		if( $x == 'A0' && ($event->status == "extended" || $event->status == "finished")  ) 
                             { 
                                 $class = "success"; $glyph = "ok";
                                 $validity = new DateTime($event->validity, new DateTimeZone('Asia/Manila'));
@@ -504,16 +507,25 @@
                         	<div class="row line"><hr></div>
                         	<div class="row">
                         		<div class="col-sm-3 text-center area_label"><h4><b>RAINFALL</b></h4></div>
-	                            <div class="form-group col-sm-9">
-	                                <label for="trigger_rain">Trigger Timestamp</label>
-	                                <div class='input-group date datetime'>
-	                                    <input type='text' class="form-control" id="trigger_rain" name="trigger_rain" disabled="disabled"/>
-	                                    <span class="input-group-addon">
-	                                        <span class="glyphicon glyphicon-calendar"></span>
-	                                    </span>
-	                                </div>
-	                            </div>
-                        	</div>                            
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="form-group col-sm-12">
+                                            <label for="trigger_rain">Trigger Timestamp</label>
+                                            <div class='input-group date datetime'>
+                                                <input type='text' class="form-control" id="trigger_rain" name="trigger_rain" disabled="disabled"/>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 form-group">
+                                            <label for="trigger_rain_info">Technical Info:</label>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_rain_info" name="trigger_rain_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                        </div>
+                                    </div>
+                                </div> 
+                        	</div>
+                                                        
                         </div>
 
                         <div id="eq_area" hidden="hidden">
@@ -543,33 +555,52 @@
 	                                <label for="longitude">Longitude</label>
 	                                <input type="number" step="0.1" min="0" class="form-control" id="longitude" name="longitude" disabled="disabled">
 	                            </div>
-                        	</div>                        
+                        	</div>
+                            <div class="row">
+                                <div class="col-sm-12 form-group">
+                                    <label for="trigger_eq_info">Technical Info:</label>
+                                    <textarea class="form-control trigger_info" rows="1" id="trigger_eq_info" name="trigger_eq_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                </div>      
+                            </div>
+                                          
                         </div>
 
                          <div id="ground_area" hidden="hidden">
                         	<div class="row line"><hr></div>
                         	<div class="row">
                         		<div class="col-sm-3 text-center area_label"><h4><b>GROUND</b></h4></div>
-                        		<div class="col-sm-9">
-		                            <div class="form-group col-sm-6">
-		                                <label for="trigger_ground_1">L2 (g) Trigger Timestamp</label>
-		                                <div class='input-group date datetime'>
-		                                    <input type='text' class="form-control" id="trigger_ground_1" name="trigger_ground_1" disabled="disabled"/>
-		                                    <span class="input-group-addon">
-		                                        <span class="glyphicon glyphicon-calendar"></span>
-		                                    </span>
-		                                </div>
-		                            </div>
-		                            <div class="form-group col-sm-6">
-		                                <label for="trigger_ground_2">L3 (G) Trigger Timestamp</label>
-		                                <div class='input-group date datetime'>
-		                                    <input type='text' class="form-control" id="trigger_ground_2" name="trigger_ground_2" disabled="disabled"/>
-		                                    <span class="input-group-addon">
-		                                        <span class="glyphicon glyphicon-calendar"></span>
-		                                    </span>
-		                                </div>
-		                            </div>
-		                        </div>
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="form-group col-sm-6">
+                                            <label for="trigger_ground_1">L2 (g) Trigger Timestamp</label>
+                                            <div class='input-group date datetime'>
+                                                <input type='text' class="form-control" id="trigger_ground_1" name="trigger_ground_1" disabled="disabled"/>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="trigger_ground_2">L3 (G) Trigger Timestamp</label>
+                                            <div class='input-group date datetime'>
+                                                <input type='text' class="form-control" id="trigger_ground_2" name="trigger_ground_2" disabled="disabled"/>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-6">
+                                            <label for="trigger_ground_1_info">Technical Info:</label>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_ground_1_info" name="trigger_ground_1_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="trigger_ground_2_info">Technical Info:</label>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_ground_2_info" name="trigger_ground_2_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                         	</div>                            
                         </div>
 
@@ -578,27 +609,39 @@
                         	<div class="row">
                         		<div class="col-sm-3 text-center area_label"><h4><b>SENSOR</b></h4></div>
                         		<div class="col-sm-9">
-		                            <div class="form-group col-sm-6">
-		                                <label for="trigger_sensor_1">L2 (s) Trigger Timestamp</label>
-		                                <div class='input-group date datetime'>
-		                                    <input type='text' class="form-control" id="trigger_sensor_1" name="trigger_sensor_1" disabled="disabled"/>
-		                                    <span class="input-group-addon">
-		                                        <span class="glyphicon glyphicon-calendar"></span>
-		                                    </span>
-		                                </div>
-		                            </div>
-		                            <div class="form-group col-sm-6">
-		                                <label for="trigger_sensor_2">L3 (S) Trigger Timestamp</label>
-		                                <div class='input-group date datetime'>
-		                                    <input type='text' class="form-control" id="trigger_sensor_2" name="trigger_sensor_2" disabled="disabled"/>
-		                                    <span class="input-group-addon">
-		                                        <span class="glyphicon glyphicon-calendar"></span>
-		                                    </span>
-		                                </div>
-		                            </div>
-		                        </div>
-                        	</div>                            
-                        </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-6">
+                                            <label for="trigger_sensor_1">L2 (g) Trigger Timestamp</label>
+                                            <div class='input-group date datetime'>
+                                                <input type='text' class="form-control" id="trigger_sensor_1" name="trigger_sensor_1" disabled="disabled"/>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="trigger_sensor_2">L3 (G) Trigger Timestamp</label>
+                                            <div class='input-group date datetime'>
+                                                <input type='text' class="form-control" id="trigger_sensor_2" name="trigger_sensor_2" disabled="disabled"/>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-6">
+                                            <label for="trigger_sensor_1_info">Technical Info:</label>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_1_info" name="trigger_sensor_1_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="trigger_sensor_2_info">Technical Info:</label>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_2_info" name="trigger_sensor_2_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    	</div>
 
                         <div class="row line"><hr></div>
 
@@ -715,10 +758,10 @@
 					let delegate = function (x,a) { $(x).val(a).prop("disabled", false); }
 					switch(a.trigger_type)
 					{
-						case "g": case "s": $("#trigger_" + lookup[a.trigger_type] + "_1").val(a.timestamp).prop("disabled", false); current_release.trigger_list.push( ["trigger_" + lookup[a.trigger_type] + "_1", a.trigger_id] ); break;
-						case "G": case "S": $("#trigger_" + lookup[a.trigger_type] + "_2").val(a.timestamp).prop("disabled", false); current_release.trigger_list.push( ["trigger_" + lookup[a.trigger_type] + "_2", a.trigger_id] ); break;
+						case "g": case "s": $("#trigger_" + lookup[a.trigger_type] + "_1").val(a.timestamp).prop("disabled", false);  $("#trigger_" + lookup[a.trigger_type] + "_1_info").val(a.info).prop("disabled", false); current_release.trigger_list.push( ["trigger_" + lookup[a.trigger_type] + "_1", a.trigger_id] ); break;
+						case "G": case "S": $("#trigger_" + lookup[a.trigger_type] + "_2").val(a.timestamp).prop("disabled", false); $("#trigger_" + lookup[a.trigger_type] + "_2_info").val(a.info).prop("disabled", false); current_release.trigger_list.push( ["trigger_" + lookup[a.trigger_type] + "_2", a.trigger_id] ); break;
 						case "E": delegate("#magnitude", a.eq_info[0].magnitude); delegate("#latitude", a.eq_info[0].latitude); delegate("#longitude", a.eq_info[0].longitude);
-						default: $("#trigger_" + lookup[a.trigger_type]).val(a.timestamp).prop("disabled", false);  current_release.trigger_list.push( ["trigger_" + lookup[a.trigger_type], a.trigger_id] );
+						default: $("#trigger_" + lookup[a.trigger_type]).val(a.timestamp).prop("disabled", false); $("#trigger_" + lookup[a.trigger_type] + "_info").val(a.info).prop("disabled", false); current_release.trigger_list.push( ["trigger_" + lookup[a.trigger_type], a.trigger_id] );
 					}
 					$("#" + lookup[a.trigger_type] + "_area").show();
 				})
@@ -758,6 +801,12 @@
             trigger_ground_2: "required",
             trigger_sensor_1: "required",
            	trigger_sensor_2: "required",
+            trigger_rain_info: "required",
+            trigger_eq_info: "required",
+            trigger_ground_1_info: "required",
+            trigger_ground_2_info: "required",
+            trigger_sensor_1_info: "required",
+            trigger_sensor_2_info: "required",
             magnitude: {
                 required: {
                     depends: function () {
