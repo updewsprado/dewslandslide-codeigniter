@@ -184,7 +184,6 @@
 				                    	{
 						                    foreach ($latest as $row) 
 						                    {
-
 						                		$public_alert = substr($row->internal_alert_level, 0, 2);
 												$public_alert = $public_alert == "ND" ? ( strlen($row->internal_alert_level) > 3 ? "A1" : "A0" ) : $public_alert;
 
@@ -201,7 +200,7 @@
 						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/event/individual/" . $row->event_id . "'>"
 						                            . strtoupper($row->name)."</a></td>";
 						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->event_start)) ."</td>";
-						                        if($row->trigger_timestamp == null)
+						                        if($row->trigger_timestamp == $row->event_start)
 						                        	echo "<td>No record</td>";
 						                        else echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->trigger_timestamp))."</td>";
 						                        echo "<td>".$row->internal_alert_level."</td>";
@@ -305,7 +304,7 @@
 						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/event/individual/" . $row->event_id . "'>"
 						                            . strtoupper($row->name)."</a></td>";
 						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->event_start)) ."</td>";
-						                        if($row->trigger_timestamp == null)
+						                        if($row->trigger_timestamp == $row->event_start)
 						                        	echo "<td>No record</td>";
 						                        else echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->trigger_timestamp))."</td>";
 						                        echo "<td>".$row->internal_alert_level."</td>";
