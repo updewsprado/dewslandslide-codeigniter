@@ -283,7 +283,7 @@ class Pubrelease extends CI_Controller {
 				$trigger['event_id'] = $event_id;
 				$trigger['release_id'] = $release_id;
 				$trigger['trigger_type'] = $entry['type'];
-				$trigger['trigger_type'] = $entry['info'];
+				$trigger['info'] = $entry['info'];
 				$last_timestamp = $trigger['timestamp'] = $entry['timestamp'];
 				$latest_trigger_id = $this->pubrelease_model->insert('public_alert_trigger', $trigger);
 				
@@ -309,7 +309,16 @@ class Pubrelease extends CI_Controller {
 	public function update()
 	{
 		$this->pubrelease_model->update('release_id', $_POST['release_id'], 'public_alert_release', array('data_timestamp' => $_POST['data_timestamp'], 'release_time' => $_POST['release_time'], 'comments' => $_POST['comments'] ));
-		#ADD TRIGGERS CHUCHU
+		
+		if($_POST['trigger_list'] != null)
+		{
+			foreach ($_POST['trigger_list'] as $trigger) 
+			{
+				$data['timestamp'] = $_POST[ $trigger[0] ];
+				$data['info'] = $_POST[ $trigger[0] . "_info" ];
+				$this->pubrelease_model->update('trigger_id', $trigger[1], 'public_alert_trigger', $data);
+			}
+		}
 	}
 
 
