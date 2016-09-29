@@ -349,6 +349,7 @@
             						<ul>
             					<?php foreach ($trigger_list as $trigger): ?>
 		        						<li><?php echo format($trigger->trigger_type, $trigger->timestamp); ?></li>
+                                        <?php if($trigger->info != null) echo "<ul><li>" . $trigger->info . "</li></ul>"; ?>
 		        				<?php endforeach; ?>
 		        					</ul>
 		        					<hr>
@@ -422,6 +423,7 @@
             						<ul>
             					<?php foreach ($trigger_list as $trigger): ?>
 		        						<li><?php echo format($trigger->trigger_type, $trigger->timestamp); ?></li>
+                                        <?php if($trigger->info != null) echo "<ul><li>" . $trigger->info . "</li></ul>"; ?>
 		        				<?php endforeach; ?>
 		        					</ul>
 		        					<hr>
