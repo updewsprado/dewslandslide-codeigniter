@@ -307,7 +307,7 @@
 
 						<?php
 							
-							function boilerplate($title, $description, $info )
+							function boilerplate($title, $description)
 							{
 								if($title == "SENSOR" || $title == "GROUND MEASUREMENT")
 									echo '<div class="row rowIndent">';
@@ -323,14 +323,15 @@
 								{
 									echo '<div class="row rowIndent">';
 									echo '<div class="col-sm-12 text-justify">' . $description . '</div>';
-									if( $info != '' && $info != NULL ) echo '<div class="col-sm-12 text-justify"><b>Detail:</b> ' . $info . '</div>';
 									echo '</div>';
 								}
 								
 							}
 
-							function print_triggers($triggers, $responses, $internal, $public_alert_level)
+							function print_triggers($triggers, $responses, $release, $public_alert_level)
 							{
+								$internal = $release->internal_alert_level;
+								$release_id = $release->release_id;
 								// ISSUE UPCOMING: 0 for ND'S
 								// S/G with lower-case counterparts
 								// Combining same dates with just different timestamps
@@ -354,12 +355,13 @@
 
 								foreach ($trigger_copy as $a) 
 								{
-									$area_printer = function ($triggers, $a) use ($responses)
+									$area_printer = function ($triggers, $a) use ($responses, $release_id)
 									{
 										$ordered = array_values(array_filter($triggers, 
-										function ($trigger) use ($a)
+										function ($trigger) use ($a, $release_id)
 										{ 
-											return $trigger->trigger_type == $a; 
+											//return $trigger->trigger_type == $a;
+											return $trigger->trigger_type == $a && $trigger->release_id <= $release_id;
 										}));
 
 										// If ordered has no triggers in it (case like A3 
@@ -394,19 +396,22 @@
 									{
 										$b = $a == "G" ? "g" : "s";
 										$details_2 = $area_printer($triggers, $b);
-										$desc = $desc . " " . $details_2[0];
-										$info = $info . " " . $details_2[1];
-										$info = $info == " " ? "" : $info;
+										// $desc = $desc . "<br> " . $details_2[0];
+										// $info = $info . " " . $details_2[1];
+										// $info = $info == " " ? "" : $info;
+										$info = $info != '' && $info != NULL ? '<b>Detail:</b> ' . $info . '<br>' : "<br>";
+										$info_2 = $details_2[1] != '' && $details_2[1] != NULL ? '<b>Detail:</b> ' . $details_2[1] : "";
+										$desc = $desc . "<br>" . $info . $details_2[0] . "<br>" . $info_2;
 									}
 
 									switch ($a) {
-										case 'R': boilerplate("RAINFALL", $desc, $info); break;
-										case 'E': boilerplate("EARTHQUAKE", $desc, $info); break;
-										case 'D': boilerplate("ON-DEMAND", $desc, $info); break;
-										case 'g': case 'G': boilerplate("GROUND MOVEMENT", "", ""); boilerplate("<i class='rowIndent'><u>GROUND MEASUREMENT</u></i>", $desc, $info); break;
+										case 'R': boilerplate("RAINFALL", $desc); break;
+										case 'E': boilerplate("EARTHQUAKE", $desc); break;
+										case 'D': boilerplate("ON-DEMAND", $desc); break;
+										case 'g': case 'G': boilerplate("GROUND MOVEMENT", "", ""); boilerplate("<i class='rowIndent'><u>GROUND MEASUREMENT</u></i>", $desc); break;
 										case 's': case 'S': 
 											if( count(array_intersect( ['g','G'], $list) ) <= 0 ) boilerplate("GROUND MOVEMENT", "", ""); 
-											boilerplate("<i class='rowIndent'><u>SENSOR</u></i>", $desc, $info); break;
+											boilerplate("<i class='rowIndent'><u>SENSOR</u></i>", $desc); break;
 									}
 								}
 							}
@@ -425,11 +430,11 @@
 									else boilerplate("GROUND MOVEMENT", 'No significant ground movement detected.', '');
 									break;
 								case 'A1':
-									print_triggers($triggers, $responses, $release->internal_alert_level, $public_alert_level);
+									print_triggers($triggers, $responses, $release, $public_alert_level);
 									boilerplate('GROUND MOVEMENT', 'No significant ground movement detected.', '');
 									break;
 								case 'A2': case 'A3':
-									print_triggers($triggers, $responses, $release->internal_alert_level, $public_alert_level);
+									print_triggers($triggers, $responses, $release, $public_alert_level);
 									break;
 							}
 
