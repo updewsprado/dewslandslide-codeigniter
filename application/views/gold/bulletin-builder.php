@@ -64,9 +64,9 @@
 <style type="text/css">
 
 	/* FOR LINUX/UBUNTU */
-	/*body {
+	body {
 		zoom: 0.75;
-	}*/
+	}
 
 	@media print {
 		color: #000;
@@ -331,7 +331,6 @@
 							function print_triggers($triggers, $responses, $release, $public_alert_level)
 							{
 								$internal = $release->internal_alert_level;
-								$release_id = $release->release_id;
 								// ISSUE UPCOMING: 0 for ND'S
 								// S/G with lower-case counterparts
 								// Combining same dates with just different timestamps
@@ -355,13 +354,13 @@
 
 								foreach ($trigger_copy as $a) 
 								{
-									$area_printer = function ($triggers, $a) use ($responses, $release_id)
+									$area_printer = function ($triggers, $a) use ($responses, $release)
 									{
 										$ordered = array_values(array_filter($triggers, 
-										function ($trigger) use ($a, $release_id)
+										function ($trigger) use ($a, $release)
 										{ 
 											//return $trigger->trigger_type == $a;
-											return $trigger->trigger_type == $a && $trigger->release_id <= $release_id;
+											return $trigger->trigger_type == $a && strtotime($trigger->timestamp) <= strtotime($release->data_timestamp);
 										}));
 
 										// If ordered has no triggers in it (case like A3 
@@ -371,6 +370,7 @@
 										$desc = $responses->trigger_desc->$a;
 										$desc = str_replace("[timestamp]", "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($ordered[count($ordered) - 1]->timestamp))) . "</b>", $desc);
 										$info = $ordered[count($ordered) - 1]->info;
+
 										array_pop($ordered);
 										$additional = '';
 
@@ -396,12 +396,13 @@
 									{
 										$b = $a == "G" ? "g" : "s";
 										$details_2 = $area_printer($triggers, $b);
-										// $desc = $desc . "<br> " . $details_2[0];
-										// $info = $info . " " . $details_2[1];
-										// $info = $info == " " ? "" : $info;
-										$info = $info != '' && $info != NULL ? '<b>Detail:</b> ' . $info . '<br>' : "<br>";
+										$info = $info != '' && $info != NULL ? '<b>Detail:</b> ' . $info . '<br>' : "";
 										$info_2 = $details_2[1] != '' && $details_2[1] != NULL ? '<b>Detail:</b> ' . $details_2[1] : "";
 										$desc = $desc . "<br>" . $info . $details_2[0] . "<br>" . $info_2;
+									} else 
+									{
+										$info = $info != '' && $info != NULL ? '<b>Detail:</b> ' . $info . '<br>' : "<br>";
+										$desc = $desc . "<br>" . $info;
 									}
 
 									switch ($a) {
