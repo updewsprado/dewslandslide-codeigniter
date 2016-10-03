@@ -375,6 +375,7 @@
 											{
 												$temp = "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($trigger->timestamp))) . "</b>";
 												$additional = $additional == '' ? $temp : $additional . ", " . $temp;
+												if($i == 0) $info = $trigger->info;
 												$i++;
 											}
 										}
@@ -452,21 +453,26 @@
 						<?php
 
 							$llmc_lgu = "";
-							$temp = date("j F Y, h:i A" , roundTime(strtotime($release->data_timestamp)) + (3.5 * 3600));
-							$time = date("h:i A" , roundTime(strtotime($release->data_timestamp)) + (3.5 * 3600));
+							$temp = $public_alert_level == 'A3' ? date("j F Y, h:i A" , strtotime($event->validity) - (4.5 * 3600)) : date("j F Y, h:i A" , roundTime(strtotime($release->data_timestamp)) + (3.5 * 3600));
+							$time = date("h:i A" , roundTime(strtotime($temp)));
 							
 							$time = date_create_from_format('h:i A', $time);
 							$date1 = date_create('3:30 PM');
 							$date2 = date_create('7:30 AM');
 
-							if( $public_alert_level == 'A3' ) $datetime = amPmConverter(date("j F Y, h:i A" , strtotime($event->validity)));
 							if ($time > $date1 || $time < $date2) 
 							{
 								if ($time > $date1) $datetime = date("j F Y," , strtotime('+1 day', strtotime($temp))) . " 7:30 AM";
-								else $datetime = date("j F Y," , strtotime($temp)) . " 7:30 AM";		
+								else {
+									if( $public_alert_level == 'A3' )
+									{
+										if( strpos(date("j F Y, h:i A" , strtotime($event->validity)), "4:00 AM") == true ) $datetime = date("j F Y," , strtotime('+1 day', strtotime($temp))) . " 7:30 AM";
+										else $datetime = date("j F Y," , strtotime($temp)) . " 7:30 AM";
+									}	
+								}	
 							} 
-							else $datetime = $temp;
-
+							else $datetime = $public_alert_level == 'A3' ? date("j F Y, h:i A" , strtotime($event->validity) - 1800) : $temp;
+							
 							$llmc_lgu = $responses->response->response_llmc_lgu;
 
 							switch ($public_alert_level) 
