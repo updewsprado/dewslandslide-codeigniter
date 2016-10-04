@@ -36,12 +36,23 @@
 			$x = $x == "ND" ? ( strlen($temp->internal_alert_level) > 3 ? "A1" : "A0" ) : $x;
 			$data['public_alert_level'] = $x;
 			$data['triggers'] = $this->bulletin_model->getAllEventTriggers($temp->event_id);
+			$temp_2 = json_decode($data['triggers']);
 			$data['event'] = $this->bulletin_model->getEvent($temp->event_id);
 			$data['reporters'] = array(
 				'reporter_mt' => $this->bulletin_model->getName($temp->reporter_id_mt),
 				'reporter_ct' => $this->bulletin_model->getName($temp->reporter_id_ct),  
 			);
 			$data['responses'] = $this->bulletin_model->getResponses($data['public_alert_level'], $temp->internal_alert_level);
+			
+			// Get most recent validity for the said release
+			foreach ($temp_2 as $trigger) 
+			{
+				if( $temp->release_id >= $trigger->release_id )
+				{ 
+					$data['validity'] = $this->getValidity($trigger->timestamp, $x);
+					break;
+				}
+			}
 
 			$this->load->view('gold/bulletin-builder', $data);
 		}
@@ -106,6 +117,7 @@
 			$x = $x == "ND" ? ( strlen($temp->internal_alert_level) > 3 ? "A1" : "A0" ) : $x;
 			$data['public_alert_level'] = $x;
 			$data['triggers'] = $this->bulletin_model->getAllEventTriggers($temp->event_id);
+			$temp_2 = json_decode($data['triggers']);
 			$data['event'] = $this->bulletin_model->getEvent($temp->event_id);
 			$data['reporters'] = array(
 				'reporter_mt' => $this->bulletin_model->getName($temp->reporter_id_mt),
@@ -113,12 +125,53 @@
 			);
 			$data['responses'] = $this->bulletin_model->getResponses($data['public_alert_level'], $temp->internal_alert_level);
 
+			// Get most recent validity for the said release
+			foreach ($temp_2 as $trigger) 
+			{
+				if( $temp->release_id >= $trigger->release_id )
+				{ 
+					$data['validity'] = $this->getValidity($trigger->timestamp, $x);
+					break;
+				}
+			}
 
 			$this->load->view('gold/templates/header', $data);
 			$this->load->view('gold/templates/nav');
 			$this->load->view('gold/' . $page, $data);
 			$this->load->view('gold/templates/footer');	
 		}
+
+		public function getValidity($timestamp, $alert)
+	    {
+	    	$timestamp = $this->roundTime( strtotime($timestamp) );
+	    	switch ($alert) 
+			{
+				case 'A1': case 'A2': return date("Y-m-d H:i:s", $timestamp + 24 * 3600);
+					break;
+				case 'A3': return date("Y-m-d H:i:s", $timestamp + 48 * 3600);
+					break;
+			}
+	    }
+
+	    public function roundTime($timestamp)
+		{
+			// Adjust timestamp to nearest hour if minutes are not 00
+			$minutes = (int)( date('i', $timestamp) );
+			$hours = (int)( date('h', $timestamp) );
+			$x = ($minutes > 0 ) ? true : false;
+
+			$minutes = $minutes == 0 ? 60 : $minutes;
+			$timestamp = $timestamp + (60 - $minutes) * 60;
+
+			// Round the time value to the nearest interval (4, 8, 12)
+			$hours = $hours % 4 == 0 ? 0 : $hours % 4;
+			$timestamp = $timestamp + (4 - $hours) * 3600;
+
+			// Remove 1 hour if timestamp is a regular release (LOOK $x)
+			if( $x ) $timestamp = $timestamp - 3600;
+			return $timestamp;
+		}
+
 
 		public function saveEdit()
 		{
