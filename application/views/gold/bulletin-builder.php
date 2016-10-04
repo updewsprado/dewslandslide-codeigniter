@@ -470,7 +470,7 @@
 								$temp = isInstantaneous(strtotime($release->data_timestamp)) ? date("j F Y, h:i A" , roundTime(strtotime($release->data_timestamp)) - 1800) : date("j F Y, h:i A" , roundTime(strtotime($release->data_timestamp)) + (3.5 * 3600));
 							}
 
-							$time = date("h:i A" , roundTime(strtotime($temp)));
+							$time = date("h:i A" , strtotime($temp));
 							$time = date_create_from_format('h:i A', $time);
 							$date1 = date_create('3:30 PM');
 							$date2 = date_create('7:30 AM');
