@@ -730,6 +730,16 @@
         
 <script>
 
+    let setElementHeight = function () {
+        let window_h = $(window).height();
+        $('#page-wrapper').css('min-height', window_h);
+        //$('#map').css('min-height', final);
+    };
+
+    $(window).on("resize", function () {
+        setElementHeight();
+    }).resize();
+
     $(document).ready(function() 
     {
         $('#nd label').tooltip();
@@ -1091,6 +1101,8 @@
                             groupedTriggers.forEach( function (arr) 
                             {
                                 let desc = "Latest trigger occurred on " + moment(arr[0].timestamp).format("dddd, MMMM Do YYYY, HH:mm");
+                                if( arr[0].trigger_type == 'g' || arr[0].trigger_type == 's' ) desc = desc + " (L2)";
+                                else if( arr[0].trigger_type == 'G' || arr[0].trigger_type == 'S' ) desc = desc + " (L3)";
                                 if( arr[0].trigger_type == "E" )
                                 {
                                     let a = function (a, b) { $("#" + a).val(b) };
@@ -1168,7 +1180,7 @@
 
                 let x = triggers.filter(function (val) 
                 {
-                    return val.trigger_type == trigger_copy[i];
+                    return val.trigger_type == trigger_copy[i] || val.trigger_type == trigger_copy[i].toLowerCase();
                 })
 
                 x.sort(function (a, b) 

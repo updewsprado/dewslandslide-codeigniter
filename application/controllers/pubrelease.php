@@ -222,6 +222,17 @@ class Pubrelease extends CI_Controller {
 		$this->setPublicReleaseAllDirty();
 	}
 
+	public function isNewYear($site_id, $timestamp)
+	{
+		$event = json_decode($this->pubrelease_model->getLastSiteEvent($site_id));
+		$release = json_decode($this->pubrelease_model->getLastRelease($event->event_id));
+		$previous_timestamp = date_parse($release->data_timestamp);
+		$current_timestamp = date_parse($timestamp);
+
+		if($current_timestamp['year'] !== $previous_timestamp['year']) return true;
+		else false;
+	}
+
 	public function getValidity($timestamp, $alert)
     {
     	$timestamp = $this->roundTime( strtotime($timestamp) );
