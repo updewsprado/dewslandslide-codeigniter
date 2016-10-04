@@ -453,9 +453,11 @@
 						<?php
 
 							$llmc_lgu = "";
-							$temp = $public_alert_level == 'A3' ? date("j F Y, h:i A" , strtotime($event->validity) - (4.5 * 3600)) : date("j F Y, h:i A" , roundTime(strtotime($release->data_timestamp)) + (3.5 * 3600));
+							$temp = $public_alert_level == 'A3' ? date("j F Y, h:i A" , strtotime($event->validity) - (4.5 * 3600)) : date("j F Y, h:i A" , roundTime(strtotime($release->data_timestamp)));
+
+							$temp = isInstantaneous(strtotime($temp)) ? date("j F Y, h:i A" , strtotime($temp) - 1800 ) : date("j F Y, h:i A" , roundTime(strtotime($release->data_timestamp)) + (3.5 * 3600));
+
 							$time = date("h:i A" , roundTime(strtotime($temp)));
-							
 							$time = date_create_from_format('h:i A', $time);
 							$date1 = date_create('3:30 PM');
 							$date2 = date_create('7:30 AM');
@@ -468,7 +470,8 @@
 									{
 										if( strpos(date("j F Y, h:i A" , strtotime($event->validity)), "4:00 AM") == true ) $datetime = date("j F Y," , strtotime('+1 day', strtotime($temp))) . " 7:30 AM";
 										else $datetime = date("j F Y," , strtotime($temp)) . " 7:30 AM";
-									}	
+									}
+									else $datetime = date("j F Y," , strtotime($temp)) . " 7:30 AM";
 								}	
 							} 
 							else $datetime = $public_alert_level == 'A3' ? date("j F Y, h:i A" , strtotime($event->validity) - 1800) : $temp;
@@ -518,7 +521,10 @@
         <div class="row rowIndent" id="footer">
         	<div class="col-sm-12">
         		<div class="row">
-	        		<?php if( $public_alert_level != 'A0') echo '<b>Next bulletin on: </b>' . amPmConverter(date("j F Y, h:i A" , roundTime(strtotime($release->data_timestamp)) + 4 * 3600)); ?>
+	        		<?php
+	        			$next_release = isInstantaneous(strtotime($release->data_timestamp)) ? roundTime(strtotime($release->data_timestamp)) : roundTime(strtotime($release->data_timestamp)) + 4 * 3600;
+	        			if( $public_alert_level != 'A0') echo '<b>Next bulletin on: </b>' . amPmConverter(date("j F Y, h:i A" , $next_release)); 
+	        		?>
         		</div>    
 	        	<div class="row" style="margin-top: 5px;"><b>Prepared by: </b>
 	        	<?php
