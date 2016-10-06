@@ -12,18 +12,19 @@
  */
 class Contacts_model extends CI_Model {
 
-	public function addNewContactEmployee($data,$category){
+public function addNewContactEmployee($data,$category){
 		$result = $this->contactExists($data,$category);
 		if ($result == false) {
 			try {
 				$query = $this->db->insert('dewslcontacts',$data);
+				$resMessage =  "<script>alert('Contact successfully added!, returning to chatterbox...')</script>";
 			} catch (Exception $e) {
 				echo $e->getMessage(),"\n";
 			}	
 		} else {
-			echo "User Already Exist, returning to chatterbox...";
-			redirect('/gold/chatterbox');
+			$resMessage =  "<script>alert('User Already Exist, returning to chatterbox...')</script>";
 		}
+		return $resMessage;
 	}
 
 	public function addNewContactCommunity($data,$category){
@@ -31,24 +32,32 @@ class Contacts_model extends CI_Model {
 		if ($result == false) {
 			try {
 				$query = $this->db->insert('communitycontacts',$data);
+				$resMessage =  "<script>alert('Contact successfully added!, returning to chatterbox...')</script>";
 			} catch (Exception $e) {
 				echo $e->getMessage(),"\n";
 			}	
 		} else {
-			echo "User Already Exist, returning to chatterbox...";
-			redirect('/gold/chatterbox');
+			$resMessage =  "<script>alert('User Already Exist, returning to chatterbox...')</script>";
 		}
+		return $resMessage;
 	}
 
 	public function contactExists($data,$category){
 		$flag = false;
-		$this->db->select('*');
-		$this->db->from($category);
-		$this->db->where('firstname', $data["firstname"]);
-		$this->db->where('lastname', $data["lastname"]);
-		$query = $this->db->get();
-		if ($query->num_rows >= 1) {
-			$flag = true;
+		if ($category == "communitycontacts"){
+			$query = $this->db->query("SELECT * FROM ".$category." WHERE firstname='".$data["firstname"]."' AND lastname='".$data["lastname"]."' AND office='".$data["office"]."' AND sitename='".$data["sitename"]."'");
+			if ($query->num_rows >= 1) {
+				$flag = true;
+			}
+		} else {
+			$this->db->select('*');
+			$this->db->from($category);
+			$this->db->where('firstname', $data["firstname"]);
+			$this->db->where('lastname', $data["lastname"]);
+			$query = $this->db->get();
+			if ($query->num_rows >= 1) {
+				$flag = true;
+			}
 		}
 		return $flag;
 	}
