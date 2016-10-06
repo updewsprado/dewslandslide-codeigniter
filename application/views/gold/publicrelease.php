@@ -868,6 +868,7 @@
                         break;
                 case "A0": $(".cbox_trigger_switch").prop("checked", false).prop("disabled", true);
                         $(".cbox_nd[value=ND]").prop("checked", false).prop("disabled", false);
+                        $(".cbox_trigger_nd").prop("checked", false).prop("disabled", false);
                         toExtendND = false;
                         break;
                 case "A1": $(".cbox_trigger_switch[value='gs'], .cbox_trigger_switch[value='ss']").prop("checked", false).prop("disabled", true);
@@ -1496,7 +1497,7 @@
                     $('.js-loading-bar:visible').each(reposition);
                 });
 
-                $.ajax({
+               $.ajax({
                     url: "<?php echo base_url(); ?>pubrelease/insert",
                     type: "POST",
                     data : temp,
