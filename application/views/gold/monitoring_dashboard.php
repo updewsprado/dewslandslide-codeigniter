@@ -76,6 +76,8 @@
     	background-color:  rgba(47, 209, 89, 0.5);
     }
 
+    .close { margin-top: -3px; }
+
     #send-btn-ewi-amd {
         margin-top: 10px;
 	}
@@ -184,6 +186,7 @@
 				                            <th class="col-sm-1">Internal Alert</th>
 				                            <th class="col-sm-2">Validity</th>
 				                            <th class="col-sm-2">Last Alert Release</th>
+				                            <th class="col-sm-1">Send EWI</th>
 				                        </tr>
 				                    </thead>
 				                    <tbody>
@@ -213,7 +216,9 @@
 						                        else echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->trigger_timestamp))."</td>";
 						                        echo "<td>".$row->internal_alert_level."</td>";
 						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->validity)) ."</td>";
-						                        echo "<td>". $row->release_time ."<button class='btn-success' onclick='sendViaAlertMonitor(".json_encode($row).")'>EWI</button></td>";
+						                        echo "<td>". $row->release_time . "</td>";
+						                        echo "<td><a onclick='sendViaAlertMonitor(" . json_encode($row) . ")'><span class='glyphicon glyphicon-envelope'></span></td>";
+						                       // echo "<td><button class='btn-success' onclick='sendViaAlertMonitor(" .json_encode($row) . ")'>EWI</button></td>";
 						                        echo "</tr>";
 
 						                        // $row->time_released = date("j F Y\ H:i:s" , $row->time_released);
@@ -225,6 +230,13 @@
 				              </table>
 							</div></div>
 				    	</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="alert alert-info">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						<strong>Notice to Monitoring Duty Persons:</strong> Be reminded to release early warning information (EWI) on sites under <strong>Extended Three-day Monitoring!</strong>
 					</div>
 				</div>
 
@@ -373,8 +385,6 @@
 			</div>
 		</div>
 
-	    <div class="fill"></div>
-
 	</div> <!-- End of Container -->
 </div> <!-- End of Page Wrapper -->
 
@@ -416,7 +426,9 @@
 	$('#table').DataTable({
 		"columnDefs": [
 			{ className: "text-left", "targets": [ 0, 3 ] },
-	 		{ className: "text-right", "targets": [ 1, 2, 4, 5 ] }
+	 		{ className: "text-right", "targets": [ 1, 2, 4, 5 ] },
+	 		{ className: "text-center", "targets": [ 6 ] },
+	 		{ 'sortable' : false, 'targets' : [6] }
 		],
     	"order" : [[4, "asc"]],
     	"processing": true,

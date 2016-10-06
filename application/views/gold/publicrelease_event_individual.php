@@ -39,7 +39,7 @@
     	font-weight: 600;
     	position: fixed;
     	top: 80px;
-    	left: 65px;
+    	left: 100vh - 100px; //65px;
     	z-index: 0;
 	}
 
@@ -47,7 +47,7 @@
         font-weight: 600;
         position: fixed;
         top: 200px;
-        left: 80px;
+        left: 100vh - 100px; //80px;
         z-index: 0;
     }
 
@@ -253,6 +253,13 @@
         text-shadow: 0.5px 0.4px grey;
     }
 
+    #h3_area { margin-left: 70px; }
+
+    h3 {
+        margin: 24px 0px 22px 0px; 
+        background-color: rgba(128, 128, 128, 0.49);
+    }
+
 </style>
 
 <?php  
@@ -263,7 +270,7 @@
 	$staff = json_decode($staff);
 	$name = $event->sitio != NULL ? "$event->sitio, $event->barangay, $event->municipality, $event->province" :  "$event->barangay, $event->municipality, $event->province";
 
-	$status = $event->status == "on-going" || $event->status == "finished" || $event->status == "extended" ? "Event-Based" : "Routine";
+	$status = $event->status == "on-going" || $event->status == "finished" || $event->status == "extended" || $event->status == "invalid" ? "Event-Based" : "Routine";
 	
 	function returnName($id, $staff)
 	{
@@ -374,7 +381,12 @@
 			          	</div>
 			        </li>
 
-			        <?php  foreach (array_slice($releases, 1) as $release): ?>
+                    <div id="h3_area">
+                        <h3><b>&nbsp;Recent releases:</b></h3>
+                    </div>
+                    
+
+			        <?php  foreach (array_reverse($releases) as $release): ?>
 			        <li class="timeline-inverted">
 			        	<?php 
 
@@ -396,6 +408,7 @@
                                 else $title = "End of Monitoring:";
 
                             }
+                            elseif ($x == 'A0' && $event->status == 'invalid') { $class = "danger"; $title = "Invalidation Release for"; $glyph = "trash"; }
 			        		else { $class = "warning"; $title = "Early Warning Release for"; $glyph = "file"; }
 			        	?>
         				<div class="timeline-badge <?php echo $class; ?>"><i class="glyphicon glyphicon-<?php echo $glyph; ?>"></i></div>

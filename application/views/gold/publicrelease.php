@@ -225,6 +225,11 @@
         left: 45px;
     }
 
+    .alert-warning {
+        font-size: 16px;
+    }
+
+    .alert-warning a { margin-top: 8px; }
 
 </style>
 
@@ -241,7 +246,10 @@
         </div>
         <!-- /.row -->
 
-        <!-- <div class="well well-sm"><b><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;For the list of all Public Releases, click <a href="<?php echo base_url(); ?>gold/publicrelease/all">here.</a></b></div> -->
+       <div class="alert alert-warning">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Notice!</strong> Make a habit to <strong>refresh</strong> the input form or to <strong>click the "Add More Entries"</strong> button to clear the form input fields and to make sure <strong>no remnants</strong> from the previous release will be included on the new release entry. This is to <strong>avoid errors</strong> on our releases.
+        </div>
 
         <div class="btn-group btn-group-md btn-group-justified">
             <div class="btn-group">
@@ -730,6 +738,16 @@
         
 <script>
 
+    let setElementHeight = function () {
+        let window_h = $(window).height();
+        $('#page-wrapper').css('min-height', window_h);
+        //$('#map').css('min-height', final);
+    };
+
+    $(window).on("resize", function () {
+        setElementHeight();
+    }).resize();
+
     $(document).ready(function() 
     {
         $('#nd label').tooltip();
@@ -858,6 +876,7 @@
                         break;
                 case "A0": $(".cbox_trigger_switch").prop("checked", false).prop("disabled", true);
                         $(".cbox_nd[value=ND]").prop("checked", false).prop("disabled", false);
+                        $(".cbox_trigger_nd").prop("checked", false).prop("disabled", false);
                         toExtendND = false;
                         break;
                 case "A1": $(".cbox_trigger_switch[value='gs'], .cbox_trigger_switch[value='ss']").prop("checked", false).prop("disabled", true);
@@ -1091,6 +1110,8 @@
                             groupedTriggers.forEach( function (arr) 
                             {
                                 let desc = "Latest trigger occurred on " + moment(arr[0].timestamp).format("dddd, MMMM Do YYYY, HH:mm");
+                                if( arr[0].trigger_type == 'g' || arr[0].trigger_type == 's' ) desc = desc + " (L2)";
+                                else if( arr[0].trigger_type == 'G' || arr[0].trigger_type == 'S' ) desc = desc + " (L3)";
                                 if( arr[0].trigger_type == "E" )
                                 {
                                     let a = function (a, b) { $("#" + a).val(b) };
@@ -1168,7 +1189,7 @@
 
                 let x = triggers.filter(function (val) 
                 {
-                    return val.trigger_type == trigger_copy[i];
+                    return val.trigger_type == trigger_copy[i] || val.trigger_type == trigger_copy[i].toLowerCase();
                 })
 
                 x.sort(function (a, b) 
@@ -1484,7 +1505,7 @@
                     $('.js-loading-bar:visible').each(reposition);
                 });
 
-                $.ajax({
+               $.ajax({
                     url: "<?php echo base_url(); ?>pubrelease/insert",
                     type: "POST",
                     data : temp,
