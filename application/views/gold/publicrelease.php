@@ -225,6 +225,11 @@
         left: 45px;
     }
 
+    .alert-warning {
+        font-size: 16px;
+    }
+
+    .alert-warning a { margin-top: 8px; }
 
 </style>
 
@@ -241,7 +246,10 @@
         </div>
         <!-- /.row -->
 
-        <!-- <div class="well well-sm"><b><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;For the list of all Public Releases, click <a href="<?php echo base_url(); ?>gold/publicrelease/all">here.</a></b></div> -->
+       <div class="alert alert-warning">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Notice!</strong> Make a habit to <strong>refresh</strong> the input form or to <strong>click the "Add More Entries"</strong> button to clear the form input fields and to make sure <strong>no remnants</strong> from the previous release will be included on the new release entry. This is to <strong>avoid errors</strong> on our releases.
+        </div>
 
         <div class="btn-group btn-group-md btn-group-justified">
             <div class="btn-group">
