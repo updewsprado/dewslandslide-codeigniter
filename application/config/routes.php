@@ -73,12 +73,15 @@ $route['gold/publicrelease'] = "pubrelease/index/publicrelease";
 $route['gold/publicrelease/individual/(:num)'] = "pubrelease/index/publicrelease_individual/$1";
 $route['gold/publicrelease/event/individual/(:num)'] = "pubrelease/index/publicrelease_event_individual/$1";
 $route['gold/publicrelease/event/all'] = "pubrelease/index/publicrelease_event_all";
-$route['gold/publicrelease/edit'] = "pubrelease/index/publicrelease_edit";
+$route['gold/publicrelease/faq'] = "pubrelease/index/publicrelease_faq";
+
+$route['gold/accomplishmentreport'] = "accomplishment/index/accomplishmentreport";
+$route['gold/accomplishmentreport/individual/(:num)'] = "gold/view/accomplishmentreport_individual/$1";
+$route['gold/accomplishmentreport/all'] = "gold/view/accomplishmentreport_all";
 
 $route['gold/sitemaintenancereport/individual/(:num)'] = "gold/view/sitemaintenancereport_individual/$1";
 $route['gold/sitemaintenancereport/all'] = "gold/view/sitemaintenancereport_all";
-$route['gold/accomplishmentreport/individual/(:num)'] = "gold/view/accomplishmentreport_individual/$1";
-$route['gold/accomplishmentreport/all'] = "gold/view/accomplishmentreport_all";
+
 
 $route['gold/monitoring_dashboard'] = "monitoring/index";
 

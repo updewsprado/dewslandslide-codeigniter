@@ -395,7 +395,7 @@
 			        		if( $x == 'A0' && ($event->status == "extended" || $event->status == "finished")  ) 
                             { 
                                 $class = "success"; $glyph = "ok";
-                                $validity = new DateTime($event->validity, new DateTimeZone('Asia/Manila'));
+                                /*$validity = new DateTime($event->validity, new DateTimeZone('Asia/Manila'));
                                 $this_release = new DateTime($release->data_timestamp, new DateTimeZone('Asia/Manila'));
                                 date_add($this_release, date_interval_create_from_date_string('30 mins'));
                                 $diff = date_diff($validity, $this_release);
@@ -403,6 +403,17 @@
                                 if( $diff->d > 0 )
                                 {
                                     $title = "Day " . $diff->d . " of Extended Monitoring:";
+                                } 
+                                else $title = "End of Monitoring:";
+                                print_r($this_release); print_r($validity); print_r($diff);
+                                */
+
+                                $start = strtotime('tomorrow noon', strtotime($event->validity));
+                                $end = strtotime('+2 days', $start);
+                                $day = 3 - ceil(($end - (60*60*12) - strtotime($release->data_timestamp))/(60*60*24));
+                                if( $day > 0 )
+                                {
+                                    $title = "Day " . $day . " of Extended Monitoring:";
                                 } 
                                 else $title = "End of Monitoring:";
 

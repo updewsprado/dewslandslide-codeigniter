@@ -225,7 +225,7 @@
         left: 45px;
     }
 
-    .alert-warning {
+    .alert-warning, .alert-info {
         font-size: 16px;
     }
 
@@ -240,11 +240,15 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    DEWS-Landslide Early Warning Announcement <small>Release Form</small>
+                    DEWS-Landslide Early Warning Information <small>Release Form</small>
                 </h1>
             </div>
         </div>
         <!-- /.row -->
+
+        <div class="alert alert-info">
+            <strong>If in doubt or there are questions on releasing EWIs</strong>, refer to <strong><a href="<?php echo base_url(); ?>gold/publicrelease/faq">Monitoring Primer and Frequently Asked Questions (FAQ)</a></strong> page.
+        </div>
 
        <div class="alert alert-warning">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -398,7 +402,7 @@
                                     </div>
                                     <div class="col-sm-2 form-group no-data">
                                         <div class="checkbox">
-                                            <label><input class="cbox_trigger_nd" type="checkbox" value="R0" disabled="disabled"><b>No Data (R&#8320;)</b></label>
+                                            <label data-toggle="tooltip" data-placement="top" title="Check this if there is lack of rainfall data. If you are referring to lack of ground AND sensor data, check ND"><input class="cbox_trigger_nd" type="checkbox" value="R0" disabled="disabled"><b>No Data (R&#8320;)</b></label>
                                         </div>
                                     </div>
                                     <div class="col-sm-4 previous_info" id="rain_desc">

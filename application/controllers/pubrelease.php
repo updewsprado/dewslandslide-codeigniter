@@ -45,11 +45,6 @@ class Pubrelease extends CI_Controller {
 				$data['active'] = $this->pubrelease_model->getOnGoingAndExtended();
 				break;
 
-			case 'publicrelease_edit':
-				$data['sites'] = $this->pubrelease_model->getSites();
-				$data['alerts'] = $this->pubrelease_model->getAlerts();
-				break;
-
 			case 'publicrelease_all':
 	
 				//$data['releases'] = $this->pubrelease_model->getAllPublicReleases();
