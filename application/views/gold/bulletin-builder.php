@@ -15,7 +15,7 @@
 	$release = json_decode($release);
 	$triggers = json_decode($triggers);
 	$responses = json_decode($responses);
-	$event->validity = $validity;
+	if($public_alert_level != 'A0') $event->validity = $validity;
 
 	function roundTime($timestamp)
 	{
