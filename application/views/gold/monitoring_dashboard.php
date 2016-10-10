@@ -86,6 +86,8 @@
 	   width: 100%;
 	}
 
+	#primer { font-size: 13px; }
+
 </style>
 
 <?php  
@@ -172,6 +174,12 @@
 		    </div>
 
 		    <div class="col-sm-9" id="column_2">
+		    	<div class="row">
+		    		<div class="alert alert-info" id="primer">
+			            <strong>TO ALL MONITORING DUTY PERSONS</strong>: allot some time to read the <strong><a href="<?php echo base_url(); ?>gold/publicrelease/faq">Monitoring Primer and Frequently Asked Questions (FAQ)</a></strong> page.
+			        </div>
+		    	</div>
+
 		    	<div class="row">
 			    	<div class="panel panel-default">
 						<div class="panel-heading">Latest Site Alerts</div>
