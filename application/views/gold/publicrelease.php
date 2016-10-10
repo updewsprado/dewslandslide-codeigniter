@@ -932,7 +932,7 @@
         })
 
         // For ND (A0-A1) Trigger Change
-        $(".cbox_nd").change(function (argument) 
+        $(".cbox_nd").click(function () 
         {
             let val = $("#internal_alert_level").val();
             if( $(".cbox_nd").is(":checked") ) 
@@ -1092,7 +1092,7 @@
                             case "A1": $('#public_alert_level option').prop('disabled', false); break;
                         }
                         $("#public_alert_level").val(public_alert).trigger("change");
-                        if( x == "ND" ) $(".cbox_nd").trigger("click");
+                        if( x == "ND" ) setTimeout(function(){ $(".cbox_nd").trigger("click"); }, 300);
 
                     }, "json")
                     .done(function (event) 

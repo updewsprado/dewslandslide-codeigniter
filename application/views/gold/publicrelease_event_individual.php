@@ -379,14 +379,13 @@
             					
             				</div>
 			          	</div>
-			        </li>
+			        </li>                    
 
-                    <div id="h3_area">
-                        <h3><b>&nbsp;Recent releases:</b></h3>
-                    </div>
-                    
-
-			        <?php  foreach (array_reverse($releases) as $release): ?>
+			        <?php if( $event->status != 'routine' ) : ?>
+                        <div id="h3_area">
+                            <h3><b>&nbsp;Recent releases:</b></h3>
+                        </div>
+                    <?php foreach (array_reverse($releases) as $release): ?>
 			        <li class="timeline-inverted">
 			        	<?php 
 
@@ -462,7 +461,10 @@
             				</div>
           				</div>
         			</li>
-        			<?php endforeach; ?>
+        			<?php 
+                        endforeach;
+                        endif;
+                    ?>
 			    </ul>
 		    </div>
 		</div>
