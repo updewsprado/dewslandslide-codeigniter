@@ -27,7 +27,9 @@ class Chatterbox extends CI_Controller {
 			} else {
 				try {
 					$query = $this->contacts_model->addNewContactEmployee($data,$_POST["category"]);
-					redirect('/gold/chatterbox');
+					echo $query;
+					// redirect('/gold/chatterbox');.
+					echo "<script>window.location = '/gold/chatterbox' </script>";
 				} catch (Exception $e) {
 					echo $e->getMessage(),"\n";
 				}
@@ -58,7 +60,9 @@ class Chatterbox extends CI_Controller {
 			} else {
 				try {
 					$query = $this->contacts_model->addNewContactCommunity($data,$_POST["category"]);
-					redirect('/gold/chatterbox');
+					echo $query;
+					// redirect('/gold/chatterbox');
+					echo "<script>window.location = '/gold/chatterbox' </script>";
 				} catch (Exception $e) {
 					echo $e->getMessage(),"\n";
 				}
