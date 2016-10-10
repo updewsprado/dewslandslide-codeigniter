@@ -49,9 +49,20 @@
 			{
 				if( $temp->release_id >= $trigger->release_id )
 				{ 
-					$data['validity'] = $this->getValidity($trigger->timestamp, $x);
+					$computed_validity = $this->getValidity($trigger->timestamp, $x);
 					break;
 				}
+			}
+
+			$isND = substr($temp->internal_alert_level, 0, 2);
+			if( $x != 'A0' )
+			{
+				$data['validity'] = $computed_validity;
+				$flag = false;
+				
+				// Adjust timestamps if ND or X0 if end of validity
+				if( $isND == "ND" || strpos($temp->internal_alert_level, 'g0') !== false || strpos($temp->internal_alert_level, 's0') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
+				$data['validity'] = $flag == true ? date( "Y-m-d H:i:s", strtotime($temp->data_timestamp) + 4.5 * 3600) : $computed_validity;
 			}
 
 			$this->load->view('gold/bulletin-builder', $data);
@@ -130,9 +141,20 @@
 			{
 				if( $temp->release_id >= $trigger->release_id )
 				{ 
-					$data['validity'] = $this->getValidity($trigger->timestamp, $x);
+					$computed_validity = $this->getValidity($trigger->timestamp, $x);
 					break;
 				}
+			}
+
+			$isND = substr($temp->internal_alert_level, 0, 2);
+			if( $x != 'A0' )
+			{
+				$data['validity'] = $computed_validity;
+				$flag = false;
+				
+				// Adjust timestamps if ND or X0 if end of validity
+				if( $isND == "ND" || strpos($temp->internal_alert_level, 'g0') !== false || strpos($temp->internal_alert_level, 's0') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
+				$data['validity'] = $flag == true ? date( "Y-m-d H:i:s", strtotime($temp->data_timestamp) + 4.5 * 3600) : $computed_validity;
 			}
 
 			$this->load->view('gold/templates/header', $data);
