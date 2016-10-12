@@ -1,15 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-/**
- * Includes the User_Model class as well as the required sub-classes
- * @package codeigniter.application.models
- */
-
-/**
- * User_Model extends codeigniters base CI_Model to inherit all codeigniter magic!
- * @author Leon Revill
- * @package codeigniter.application.models
- */
 class Pubrelease_Model extends CI_Model
 {
 	function __construct()
@@ -20,9 +10,8 @@ class Pubrelease_Model extends CI_Model
 
 	public function getSites()
 	{
-		$sql = "SELECT DISTINCT 
-					LEFT(name , 3) as name, sitio, barangay, municipality, province 
-				FROM site_column 
+		$sql = "SELECT id, name, sitio, barangay, municipality, province 
+				FROM site 
 				ORDER BY name ASC";
 
 		$query = $this->db->query($sql);
@@ -42,12 +31,181 @@ class Pubrelease_Model extends CI_Model
 	          $address = "$sitio, $barangay, $municipality, $province";
 	        }
 
+	        $site[$i]["id"] = $row["id"];
 	        $site[$i]["name"] = $row["name"];
 	        $site[$i++]["address"] = $address;
 	    }
 
 	    	return json_encode($site);
 	}
+
+	/**
+	 * Gets all staff
+	 *
+	 * @author Kevin Dhale dela Cruz
+	 **/
+	public function getStaff()
+	{
+		$sql = "SELECT id, first_name, last_name FROM membership ORDER BY last_name ASC";
+		
+		$query = $this->db->query($sql);
+		$result = [];
+		$i = 0;
+		foreach ($query->result() as $row) {
+			$result[$i]["id"] = $row->id;
+			$result[$i]["first_name"] = $row->first_name;
+			$result[$i]["last_name"] = $row->last_name;
+			$i = $i + 1;
+		}
+
+		return json_encode($result);
+	}
+
+	public function getOnGoingAndExtended()
+	{
+		$this->db->select('site_id, status');
+		$this->db->where('status','on-going');
+ 		$this->db->or_where('status','extended');
+		$query = $this->db->get('public_alert_event');
+		//$query = $this->db->get_where('public_alert_event', array('status' => 'on-going'));
+		return json_encode($query->result_array());
+	}
+
+	public function getLastSiteEvent($site_id)
+	{
+		$sql = "SELECT * 
+				FROM public_alert_event
+				WHERE site_id = '$site_id'
+				ORDER BY event_id 
+				DESC LIMIT 1";
+
+		$result = $this->db->query($sql);
+
+		return json_encode($result->row());
+	}
+
+	public function getLastRelease($event_id)
+	{
+		$sql = "SELECT * 
+				FROM public_alert_release
+				WHERE event_id = '$event_id'
+				ORDER BY data_timestamp 
+				DESC LIMIT 1";
+
+		$result = $this->db->query($sql);
+
+		return json_encode($result->row());
+	}
+
+	public function getAllEventTriggers($event_id, $release_id = null)
+	{
+		if( $release_id == null ) $array = array('event_id' => $event_id);
+		else $array = array('event_id' => $event_id, 'release_id' => $release_id);
+		$this->db->where($array);
+		$this->db->from('public_alert_trigger');
+		$this->db->order_by("timestamp", "desc");
+		$result = $this->db->get();
+
+		$data = $result->result_array();
+
+		foreach ($data as &$arr) 
+		{
+			if($arr['trigger_type'] == 'E') 
+			{
+				$this->db->where('trigger_id', $arr['trigger_id']);
+				$query = $this->db->get('public_alert_eq');
+
+				$arr['eq_info'] = $query->result_array();
+				break;
+			}
+		}
+
+		return json_encode($data);
+	}
+
+	public function getSentRoutine($timestamp)
+	{
+		$this->db->select('site_id');
+		$array = array('status' => 'routine', 'event_start' => $timestamp);
+		$this->db->where($array);
+		$query = $this->db->get('public_alert_event');
+		return json_encode($query->result_object());
+	}	
+
+	public function getEventValidity($event_id)
+	{
+		$this->db->select('validity');
+		$query = $this->db->get_where('public_alert_event', array('event_id' => $event_id));
+		return $query->result_object();
+	}
+
+	public function getBulletinNumber($site)
+	{
+		$sql = "SELECT bulletin_number
+				FROM bulletin_tracker
+				WHERE site_id = '$site'";
+
+		$result = $this->db->query($sql);
+		if ( $result->num_rows() == 0 )
+		{
+			$a = array( "site_id" => $site, "bulletin_number" => 0 );
+			$b = $this->insert('bulletin_tracker', $a);
+			$data = 0;
+		}
+		else
+		{
+			$data = $result->result();
+			$data = $data[0]->bulletin_number;
+		}
+	    return $data;
+	}
+
+	public function getEvent($event_id)
+	{
+		$this->db->select('public_alert_event.*, site.*');
+		$this->db->from('public_alert_event');
+		$this->db->join('site', 'public_alert_event.site_id = site.id');
+		$this->db->where('public_alert_event.event_id', $event_id);
+		$query = $this->db->get();
+		return json_encode($query->result_object());
+	}
+
+	public function getAllRelease($event_id)
+	{
+		$query = $this->db->get_where('public_alert_release', array('event_id' => $event_id));
+		return json_encode($query->result_object());
+	}
+
+	public function getRelease($release_id)
+	{
+		$query = $this->db->get_where('public_alert_release', array('release_id' => $release_id));
+		return json_encode($query->result_array()[0]);
+	}
+
+	public function insert($table, $data)
+	{
+        $this->db->insert($table, $data);
+        $id = $this->db->insert_id();
+        return $id;
+    }
+
+	public function update($column, $key, $table, $data)
+	{
+		$this->db->where($column, $key);
+		$this->db->update($table, $data);
+	}
+
+	public function getAllEvents()
+	{
+		$this->db->select('public_alert_event.*, site.*, public_alert_release.*');
+		$this->db->from('public_alert_event');
+		$this->db->join('site', 'public_alert_event.site_id = site.id');
+		$this->db->join('public_alert_release', 'public_alert_event.latest_release_id = public_alert_release.release_id');
+		$query = $this->db->get();
+		return json_encode($query->result_object());
+	}
+
+	//================================================================
 	
 	public function getAlerts()
 	{
@@ -122,13 +280,6 @@ class Pubrelease_Model extends CI_Model
 		return json_encode( $data );
 	}
 
-	public function insert($table, $data)
-	{
-        $this->db->insert($table, $data);
-        $id = $this->db->insert_id();
-        return $id;
-    }
-
 	public function updatePublicAlerts($table, $data, $search, $id)
 	{
 		/*$alertid = $dataSet['alertid'];
@@ -181,28 +332,6 @@ class Pubrelease_Model extends CI_Model
 		    return "Delete failed.";
 		}
 	}
-
-	/**
-	 * Gets all staff
-	 *
-	 * @author Kevin Dhale dela Cruz
-	 **/
-	public function getStaff()
-	{
-		$sql = "SELECT first_name, last_name FROM membership ORDER BY last_name ASC";
-		
-		$query = $this->db->query($sql);
-		$result = [];
-		$i = 0;
-		foreach ($query->result() as $row) {
-			$result[$i]["first_name"] = $row->first_name;
-			$result[$i]["last_name"] = $row->last_name;
-			$i = $i + 1;
-		}
-
-		return json_encode($result);
-	}
-
 
 	/**
 	 * Gets public releases
@@ -298,25 +427,6 @@ class Pubrelease_Model extends CI_Model
 
 	    return json_encode($data);
 
-	}
-
-	public function getBulletinNumber($id)
-	{
-		$sql = "SELECT 
-					bulletin_id
-				FROM bulletin_tracker
-				WHERE public_alert_id = '$id'";
-
-		$result = $this->db->query($sql);
-		if ( $result->num_rows() == 0 )
-			$data = null;
-		else
-		{
-			$data = $result->result_array();
-			$data = json_encode($data);
-		}
-
-	    return $data;
 	}
 
 	/**

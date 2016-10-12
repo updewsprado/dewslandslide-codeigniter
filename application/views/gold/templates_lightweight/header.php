@@ -81,8 +81,6 @@
         <script src="/js/jquery-1.11.0.js"></script>
         <script src="/js/jquery.growl.js"></script>
 
-        <script src="/goldF/js/dewslandslide/dewschatterbox.js"></script>
-
         <!-- jQuery Development Bundle -->
         <script src="/js/development-bundle/ui/jquery.ui.core.js"></script>
         <script src="/js/development-bundle/ui/jquery.ui.widget.js"></script>
