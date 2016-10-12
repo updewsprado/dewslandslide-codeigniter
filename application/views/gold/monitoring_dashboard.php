@@ -125,11 +125,10 @@
 			date_default_timezone_set('Asia/Manila');
 			$start = strtotime('tomorrow noon', strtotime($event->validity));
  			$end = strtotime('+2 days', $start);
- 			if (strtotime('now') <= $end)
+ 			if (strtotime('now') <= $end + 3600*12)
 			{
 				$event->start = $start;
 				$event->end = $end;
-				echo date("y-m-d H:i:s", strtotime("now"));
 				$event->day = 3 - ceil(($end - (60*60*12) - strtotime('now UTC'))/(60*60*24));
 				array_push($extended, $event);
 			}
