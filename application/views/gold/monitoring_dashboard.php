@@ -68,12 +68,12 @@
     }
 
     .day-three {
-    	background-color:  rgba(47, 209, 89, 0.5);
+    	background-color:  rgba(8, 139, 42, 0.5);
     }
 
     .day-three-square {
-    	color:  rgba(47, 209, 89, 0.8);
-    	background-color:  rgba(47, 209, 89, 0.5);
+    	color:  rgba(8, 139, 42, 0.8);
+    	background-color: rgba(8, 139, 42, 0.5);
     }
 
     .close { margin-top: -3px; }
@@ -122,13 +122,15 @@
 		}
 		else
 		{
+			date_default_timezone_set('Asia/Manila');
 			$start = strtotime('tomorrow noon', strtotime($event->validity));
  			$end = strtotime('+2 days', $start);
  			if (strtotime('now') <= $end)
 			{
 				$event->start = $start;
 				$event->end = $end;
-				$event->day = 3 - ceil(($end - (60*60*12) - strtotime('now'))/(60*60*24));
+				echo date("y-m-d H:i:s", strtotime("now"));
+				$event->day = 3 - ceil(($end - (60*60*12) - strtotime('now UTC'))/(60*60*24));
 				array_push($extended, $event);
 			}
 		}
@@ -216,8 +218,8 @@
 						                        }
 
 						                   		echo "<tr class='". $tableRowClass ."'>";
-						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/event/individual/" . $row->event_id . "'>"
-						                            . strtoupper($row->name)."</a></td>";
+						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/event/individual/" . $row->event_id . "'><strong>"
+						                            . strtoupper($row->name)."</strong></a></td>";
 						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->event_start)) ."</td>";
 						                        if($row->trigger_timestamp == $row->event_start)
 						                        	echo "<td>No record</td>";
@@ -317,8 +319,8 @@
 						                        }
 
 						                   		echo "<tr class='". $class ."'>";
-						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/event/individual/" . $row->event_id . "'>"
-						                            . strtoupper($row->name)."</a></td>";
+						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/event/individual/" . $row->event_id . "'><strong>"
+						                            . strtoupper($row->name)."</strong></a></td>";
 						                        echo "<td>". date("j F Y H:i:s" , strtotime($row->validity)) ."</td>";
 						                        echo "<td>". date("j F Y H:i:s" , $row->start) ."</td>";
 						                        echo "<td>". date("j F Y H:i:s" , $row->end) ."</td>";
@@ -371,8 +373,8 @@
 						                        }
 
 						                   		echo "<tr class='". $tableRowClass ."'>";
-						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/event/individual/" . $row->event_id . "'>"
-						                            . strtoupper($row->name)."</a></td>";
+						                    	echo "<td><a href='" . base_url() . "gold/publicrelease/event/individual/" . $row->event_id . "'><strong>"
+						                            . strtoupper($row->name)."</strong></a></td>";
 						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->event_start)) ."</td>";
 						                        if($row->trigger_timestamp == $row->event_start)
 						                        	echo "<td>No record</td>";
