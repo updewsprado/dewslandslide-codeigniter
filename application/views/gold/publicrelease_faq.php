@@ -72,8 +72,8 @@
                     <div class="panel-body">
                         <p>All of the given are operational triggers we are using that are also represented on the internal alert level. Their purpose is to easily identify the triggers involved for an event monitoring. All of them indicates “No Data” but for different triggers and functions.</p>
                         <ul>
-                            <li><strong>ND</strong> – <strong>used for alerts A0 and A1</strong> to indicate <strong>lack of data for BOTH ground and sensor</strong>; important for events with A1 alerts since we cannot lower an event to A0 at end of its validity if no ground OR sensor data is available to prove no significant movement happened on the site, hence an extension of four hours will be added to its validity.</li>
-                            <li><strong>R0</strong> – signifies <strong>no data for rainfall</strong></li>
+                            <li><strong>ND</strong> – <strong>used for alerts A0 and A1</strong> to indicate <strong>lack of data for BOTH ground and sensor</strong>; important for events with A1 alerts since we cannot lower an event to A0 at end of its validity if no ground AND sensor data is available to prove no significant movement happened on the site, hence an extension of four hours will be added to its validity.</li>
+                            <li><strong>R0</strong> – signifies <strong>no data for rainfall</strong> (read as R-null); note that <strong>it is different from lower-case r-zero (r0)</strong> that denotes presence of rainfall data below threshold level</li>
                             <li><strong>g0</strong> – stands for <strong>no ground data</strong> (regardless if alert is A2 or A3); purpose similar to ND (i.e. extension of validity)</li>
                             <li><strong>s0</strong> – represents <strong>no sensor data</strong> (regardless if alert is A2 or A3); purpose similar to ND (i.e. extension of validity)</li>
                         </ul>
@@ -130,10 +130,10 @@
                 <div id="collapse5" class="panel-collapse collapse">
                     <div class="panel-body">
                         <ul>
-                            <li><strong>ON-GOING</strong> – Refers to on-going event monitoring due to values exceeding thresholds on our operational triggers</li>
+                            <li><strong>ON-GOING</strong> – Refers to an on-going event monitoring due to values exceeding thresholds on our operational triggers</li>
                             <li><strong>ROUTINE</strong> – Refers to our weekly monitoring on all sites; done every Wednesday on dry season and every Tuesday and Friday on wet season</li>
                             <li><strong>FINISHED</strong> – Refers to the end of an event monitoring</li>
-                            <li><strong>EXTENDED</strong> – Refers to the three-day extended monitoring done after we lower a heightened alert on a site; a temporary status that will eventually change to FINISHED either after three days OR if new triggers occured on the site</li>
+                            <li><strong>EXTENDED</strong> – Refers to the three-day extended monitoring done after we lower a heightened alert on a site; a temporary status that will eventually change to FINISHED either after three days of releasing EWI OR if new triggers occured on the site</li>
                             <li><strong>INVALID</strong> – Refers to invalidated on-going site monitoring</li>
                         </ul>
                     </div>
@@ -141,7 +141,7 @@
             </div>
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h4 class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapse6">6. Is it important to release EWI for sites under three-day extended monitoring?</h4>
+                    <h4 class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapse6">6. Is it important to release EWI on sites under three-day extended monitoring?</h4>
                 </div>
                 <div id="collapse6" class="panel-collapse collapse">
                     <div class="panel-body">
@@ -218,6 +218,10 @@
     $(window).on("resize", function () {
         setElementHeight();
     }).resize();
+
+    $('.panel-title').hover(function() {
+        $(this).css('cursor','pointer');
+    });
 
 </script>
 

@@ -147,6 +147,9 @@
                         <a href="<?php echo base_url() . $version; ?>/nodereport"><i class="fa fa-fw fa-list-alt"></i> Report Node Status</a>
                     </li>
                     <li <?php echo $reportevent; ?> >
+                        <a href="<?php echo base_url() . $version; ?>/publicrelease/faq"><i class="fa fa-fw fa-question-circle"></i> Monitoring Primer And FAQs</a>
+                    </li>
+                    <li <?php echo $reportevent; ?> >
                         <a href="javascript:;" data-toggle="collapse" data-target="#dropdown_public_release"><i class="fa fa-fw fa-bar-chart-o"></i> Early Warning Release <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="dropdown_public_release" class="collapse">
                             <li>
