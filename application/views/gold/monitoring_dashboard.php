@@ -122,7 +122,7 @@
 		}
 		else
 		{
-			date_default_timezone_set('Asia/Manila');
+			//date_default_timezone_set('Asia/Manila');
 			$start = strtotime('tomorrow noon', strtotime($event->validity));
  			$end = strtotime('+2 days', $start);
  			if (strtotime('now') <= $end + 3600*12)
