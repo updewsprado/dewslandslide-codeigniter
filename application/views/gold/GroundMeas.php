@@ -1,15 +1,26 @@
-<script type="text/javascript" src="/js/jquery-ui-1.10.4.custom.js"></script>
-<script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-<script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined.js"></script>
-<script type="text/javascript" src="http://fgnass.github.io/spin.js/spin.min.js"></script>
-<script type="text/javascript" src="/js/jquery.validate.js"></script>
-<script type="text/javascript" src="/js/jquery.validate.min.js"></script>
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined.js"></script>
+    <script src="http://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.0/dygraph-combined.js"></script>
+    <script type="text/javascript" src="http://fgnass.github.io/spin.js/spin.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.validate.js"></script>
+    <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
   <style type="text/css">
+    #submit{     
+            height: 32px;
+            margin-top: 5px;
+            width: 156px;
+    }
     .rainPlot {
       margin-left: auto;
       margin-right: auto;
@@ -234,7 +245,7 @@ if (mysqli_num_rows($resultTimestamp) > 0) {
         // output data of each row
         while($row = mysqli_fetch_assoc($result)) {
             array_push($idAnnform, $row["id"]);
-            array_push($tsAnnform, $row["ts"]);
+            array_push($tsAnnform, $row["timestamp"]);
             array_push($reportAnnform, $row["report"]);
             array_push($flaggerAnnform, $row["flagger"]);
         }
@@ -578,50 +589,18 @@ mysqli_close($conn);
     $('.tblhead').hide();
     $('.new_meas').hide();
     var curSite = "<?php echo $site; ?>";
-    var annValue = "<?php echo $annotation; ?>";
     var table = document.getElementById("mytable");
     var fromDate = "" , toDate = "" , dataBase = "" ,annotationD = "";
-     if(annValue == ""){
-            document.getElementById("addAnn").disabled = true;
-        }
-    if(annValue == "true"){
-            $('#checkAnn').bootstrapToggle('on');
-             
-    }else{
-            $('#checkAnn').bootstrapToggle('off');
-
-    }
-    $("#checkAnn").change(function(){
-        if(annValue == ""){
-            
-        }else{
-            if($(this).prop("checked") == true){
-                curSite = document.getElementById("sitegeneral").value;
-                fromDate = $('#reportrange span').html().slice(0,10);
-                toDate = $('#reportrange span').html().slice(13,23);
-                annotationD = $('#checkAnn').prop('checked');
-                var urlExt = "gold/site/" + curSite + "/" + fromDate + "/" + toDate+ "/" + annotationD ;
-                var urlBase = "<?php echo base_url(); ?>";
-                window.location.href = urlBase + urlExt;
-            }else{
-                curSite = document.getElementById("sitegeneral").value;
-                fromDate = $('#reportrange span').html().slice(0,10);
-                toDate = $('#reportrange span').html().slice(13,23);
-                annotationD = $('#checkAnn').prop('checked');
-                var urlExt = "gold/site/" + curSite + "/" + fromDate + "/" + toDate+ "/" + annotationD ;
-                var urlBase = "<?php echo base_url(); ?>";
-                window.location.href = urlBase + urlExt;
-            }
-        }
-  });
+     
+   
     function getAllSites() {  
         var baseURL = "<?php echo $_SERVER['SERVER_NAME']; ?>";
         var URL;
         if (baseURL == "localhost") {
-          URL = "http://localhost/temp/getSenslopeData.php?sitenames&db=senslopedb";
+          URL = "http://"+baseURL+"/temp/getSenslopeData.php?sitenames&db=senslopedb";
         }
         else {
-          URL = "http:///www.dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
+          URL = "http://"+baseURL+"/ajax/getSenslopeData.php?sitenames&db=senslopedb";
         }
         
         $.getJSON(URL, function(data, status) {
@@ -693,6 +672,8 @@ mysqli_close($conn);
       $('#mySelect').hide();
       $('#nodeGeneralname').hide();
       $('#nodeGeneral').hide();
+      $('.nodetable').hide()
+      $('.datetable').hide()
       displayGroundGraphs();
       check();
       update();
@@ -1459,13 +1440,13 @@ mysqli_close($conn);
     var idExtra =<?php echo json_encode($idAnnform); ?>;
     var commentExtra = <?php echo json_encode($reportAnnform); ?>;
     var flaggerExtra = <?php echo json_encode($flaggerAnnform); ?>;
-    var annValue = "<?php echo $annotation; ?>";
+
     var frmdate = window.location.href.slice(33,43);
     var todate = window.location.href.slice(44,54);
      var listCrackname = <?php echo json_encode($listCracknameId); ?>;
     var alertAnnotationNum;
     var dataannotation=[];
-    if(annValue == "true"){
+
       for(var a = 0; a < listCrackname.length; a++){
       var S = listCrackname[a];
         for(var i = 0; i < annotationValAlert.length; i++){
@@ -1492,7 +1473,7 @@ mysqli_close($conn);
              dataannotation.push(dataannotation4);
         }
       }
-    }
+    
      
      $(".dismissbtn").click(function () {
           $('#link').empty();
