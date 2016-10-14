@@ -174,6 +174,7 @@ class Gold extends CI_Controller {
 				$data['datefrom'] = $datefrom;
 				$data['dateto'] = $dateto;
 				$data['annotation'] = $this->uri->segment(7);
+				// $data['anndata'] = $this->annotation_model->getAnnotationData($sitename);
 
 				//Data for Alert Map
 				if ($site) {

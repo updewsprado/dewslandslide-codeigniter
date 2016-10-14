@@ -15,6 +15,29 @@ class annotation_model extends CI_Model {
         echo $this->db->last_query();
         return $id;
  }
-}
 
+ // public function getAnnotationData($sitename){
+ //    $this->db->select('entry_timestamp');
+ //    $this->db->from('public_alert');
+ //    $this->db->where('site',$sitename);
+ //    $query = $this->db->get();
+ //    return $query;
+ //  }
+
+ //  public function filterAnnotationData($slicedAnnotation,$site){
+ //    $this->db->select('internal_alert_level,public_alert_id,entry_timestamp');
+ //    $this->db->from('public_alert');
+ //    $this->db->where('entry_timestamp',$slicedAnnotation);
+ //    $this->db->where('site',$site);
+ //    $query = $this->db->get();
+ //    return $query;  
+ //  }
+
+ //  public function getAnnotationDataMaintenance(){
+ //    $query = $this->db->query("SELECT sm_id , start_date FROM maintenance_report where site ='agbta'");
+ //    return $query;
+ //    }
+  }
+  
+ 
 ?>

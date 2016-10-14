@@ -199,60 +199,32 @@
                         <ul class="list_menu">
                             <FORM id="formGeneral">
                                <center> <h4>Variable Analysis</h4></center><br>
-                              
-        	                    <div class="form-group  col-xs-1">
-        	                        <label>Site:</label>
-                                </div>
-                                <div class="form-group col-xs-3 in" id="siteG">
-        	                        <select class="form-control" name="sitegeneral" id="sitegeneral" onchange="<?php //echo $showplots; ?>">
-        	                        </select>
-                                </div>
-
-        	                    <div  class="form-group  col-xs-1" id="nodeGeneralname">
-                                    <label >Node:</label>
-                                </div>
-        	                    <div id="nodeGeneral" class="form-group   col-xs-3 in">
-        	                        <input class="form-control col-xs-4" name="node" id="node" onchange="<?php //echo $showplots; ?>" type="number" min="1" max="41" value="" maxlength="2" size="2" >
-        	                    </div>
-                                <div class="form-group  col-xs-1 dbase">
-                                    <label>Filter:</label>
-                                </div>
-                                <div class="form-group  col-xs-3 dbase in" id="dBase">
-        	                        <select class="form-control dbase" name="dbase" id="dbase">
-        		                        <option value="raw">Raw</option>
-        								<option value="filtered">Filtered</option>
-        	                        </select><br>
-                                </div>				       
-                            </FORM>  
-                            <FORM id="formDate">
-
-                                        <div class="form-group col-xs-1 submitclass"  onchange="" size="10">
-                                         <input id="submit"  type="button" value="Submit" onclick="<?php echo $showplots; ?>">  
-                                         </div>
-                                       
-
-                            </FORM>
-                             <FORM  id= "withAnnotation">
-                                 <div class="form-group" > 
-                                    
-                                            <div id="reportrange" class="pull-left form-control cols-xs-7" style="background: #fff;cursor: pointer;padding: 5px 10px;border: 1px solid #ccc;width: 272px;margin-bottom: 10px;">
-                                              <label >Date:</label>
-
+                                <table class="table" >
+                         <tr class="nodetable">
+                            <th class="nodetable"> Node: </th>
+                           <td class="nodetable"> <input class="form-control col-xs-4" name="node" id="node" onchange="<?php //echo $showplots; ?>" type="number" min="1" max="41" value="" maxlength="2" size="2" style=" width: 226.22222px;" ></td>
+                        </tr>
+                        <tr>
+                         <th> Site: </th>
+                          <td>  <select class="form-control"  name="sitegeneral" id="sitegeneral" onchange="<?php //echo $showplots; ?>" style=" width: 226.22222px;" >
+                          </td>
+                        </tr>
+                            
+                         <tr class="datetable">
+                          <th class="datetable"> Date: </th>
+                           <td class="datetable">  <div id="reportrange" class="pull-left form-control cols-xs-7" style="background: #fff;cursor: pointer;padding: 5px 10px;border: 1px solid #ccc;width: 226.22222px;" ;margin-bottom: 10px;">
                                             <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                                             <span id="dateAnnotation"></span> <b class="caret"></b>
-
-                                       </div>
-                            </FORM>
-                                        <div class="form-group">
-                                        
-                                         <input type="checkbox"  class="form-control "  data-toggle="toggle" data-on="Show Annotation" data-off="Hide Annotation " data-width="150" id="checkAnn">
-                                          <input id="submit" class="form-control pull-right submit1"  style="" type="button" value="Submit" onclick="<?php echo $showplots; ?>">  
-
-                                          <input id="addAnn" class="form-control pull-right btn-success"  style="" type="button" value="Add Annotation" onclick="" data-toggle="modal" data-target="#annModal">   
-                                            </div>
+                            </td>
+                        </tr>
+                         <tr>
+                         <th></th>
+                           <td> <input id="submit"  type="button" value="Submit" onclick="<?php echo $showplots; ?>" style=" width: 226.22222px;" ></td>
+                        </tr>
+                    </table>
+                  </FORM>
                                          
-                          </ul>
-                     </div>             
+                                   
             
             <!-- /.navbar-collapse -->
         </nav>
@@ -302,8 +274,9 @@
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body">
-              <p>Succesfully Added</p>
+            <div class="modal-body" >
+              <p id="success">Succesfully Added</p>
+              <p><b  id="other"></b></p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal"   onclick="myFunction1()">Close</button>
@@ -317,7 +290,7 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close dismissbtn" data-dismiss="modal" >&times;</button>
-                      <h4 class="modal-title">Annotation Report</h4>
+                      <h4 class="modal-title" id="anReport">Annotation Report</h4>
                     </div>
                     <div class="modal-body">
                       <p id="link"> </p>
@@ -325,6 +298,22 @@
                     <div class="modal-footer">
                       <button type="button" class="btn btn-default dismissbtn" data-dismiss="modal">Close</button>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+     <div class="modal fade" id="loading" role="dialog" data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog modal-sm">
+                  <div class="modal-content">
+                   
+                    <div class="modal-body">
+                      <p > <img src="/images/box.gif" style="display: block; margin: auto;"></img> <br>
+                        <b style="margin-left: 100px;">Loading . . . </b></p>
+
+                    </div>
+               
+                     <!--  <button type="button" class="btn btn-default dismissbtn" data-dismiss="modal" id="close">Close</button> -->
+                
                   </div>
                 </div>
               </div>
