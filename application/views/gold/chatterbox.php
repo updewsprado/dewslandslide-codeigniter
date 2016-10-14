@@ -33,7 +33,7 @@ data-toggle="modal" data-target="#contact-settings" title="Contact Settings"><sp
   <div>
     <h4 ></h4> <span class="glyphicon glyphicon-search" id="btn-standard-search"></span>
   </div>
-    <input type="text" id="search-key" class="form-control" placeholder="Search for...">
+    <input type="text" id="search-key" class="form-control" placeholder="Search for..." hidden>
 </div>
 <!--         
 <div class="bg-white">
