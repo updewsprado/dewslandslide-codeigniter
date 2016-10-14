@@ -223,40 +223,6 @@ class Gold extends CI_Controller {
 				$data['blank'] = 'class="active"';
 				break;
 
-			case 'publicrelease_edit':
-				$this->load->model('pubrelease_model');
-				$data['sites'] = $this->pubrelease_model->getSites();
-				$data['alerts'] = $this->pubrelease_model->getAlerts();
-				break;
-
-			case 'publicrelease_all':
-				//$this->load->model('pubrelease_model');
-				//$data['releases'] = $this->pubrelease_model->getAllPublicReleases();
-
-				//Load the pubrelease.php controller
-				$this->load->library('../controllers/pubrelease');
-				$data['releases'] = $this->pubrelease->testAllReleasesCached();
-
-				break;
-
-			case 'publicrelease_individual':
-				$this->load->model('pubrelease_model');
-				$id = $this->uri->segment(4);
-				$data['release'] = $temp = $this->pubrelease_model->getSinglePublicRelease($id);
-
-				$temp = json_decode($temp);
-				$site = $temp[0]->site;
-				$data['alert_history'] = $this->pubrelease_model->getAlertHistory($site);
-
-				break;
-
-			case 'accomplishmentreport':
-				$this->load->model('accomplishment_model');
-				$data['instructions'] = $this->accomplishment_model->getInstructions();
-				$data['sites'] = $this->accomplishment_model->getSites();
-				$data['alerts'] = $this->accomplishment_model->getAlerts();
-				break;
-
 			case 'accomplishmentreport_individual':
 				$this->load->model('accomplishment_model');
 				$id = $this->uri->segment(4);
