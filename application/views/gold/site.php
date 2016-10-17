@@ -133,6 +133,7 @@ $listAnnotationAlert = [];
    
     
     <link href="/js/development-bundle/themes/south-street/jquery-ui.css" rel="stylesheet">
+    <script type="text/javascript" src="/goldF/css/dewslandslide/linecolor.js"></script>
     <script type="text/javascript" src="/js/jquery-ui-1.10.4.custom.js"></script>
     <script src="http://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/stock/highstock.js"></script>
@@ -150,7 +151,7 @@ $listAnnotationAlert = [];
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/u/bs/dt-1.10.12,b-1.2.0,fh-3.1.2,r-2.1.0/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/u/bs/dt-1.10.12,b-1.2.0,fh-3.1.2,r-2.1.0/datatables.min.js"></script>
     <script src="//cdn.rawgit.com/ashl1/datatables-rowsgroup/v1.0.0/dataTables.rowsGroup.js"></script>
-
+    <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined.js"></script>
 
     <style type="text/css">
     .dygraphDefaultAnnotation {
@@ -315,9 +316,9 @@ $listAnnotationAlert = [];
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Communication Health <input type='button' id='show' onclick='showLegends(this.form)' value='Show Legends' /></h3>
                                     <div width="250px" id="legends" style="visibility:hidden; display:none;">
-                                            <input type='button' onclick="barTransition('red')" style='background-color:red; padding-right:5px;' /><strong><font color="yellow">Last 7 Days</font> </strong><br/>
-                                            <input type='button' onclick="barTransition('blue')" style='background-color:blue; padding-right:5px;' /><strong><font color="yellow">Last 30 Days</font></strong><br/>
-                                            <input type='button' onclick="barTransition('green')" style='background-color:green; padding-right:5px;' /><strong><font color="yellow">Last 60 Days</font></strong>
+                                            <input type='button' onclick="barTransition('red')" style='background-color:red; padding-right:5px;' /><strong><font color="#0000FF">Last 7 Days</font> </strong><br/>
+                                            <input type='button' onclick="barTransition('blue')" style='background-color:blue; padding-right:5px;' /><strong><font color="#0000FF">Last 30 Days</font></strong><br/>
+                                            <input type='button' onclick="barTransition('green')" style='background-color:green; padding-right:5px;' /><strong><font color="#0000FF">Last 60 Days</font></strong>
                                     </div>
                             </div>
                             <div class="panel-body">
@@ -371,12 +372,12 @@ $listAnnotationAlert = [];
                                     </div>
                                 </h3>
                             </div>
-                            <div class="panel-body" style="height: 1650">
-                                 <div id="rain-arq" class="ARQdataset" ></div>
-                                 <div id="rain-senslope" class="SENdataset" style="width:auto; height:250px;"></div><br><br>
-                                 <div id="rain-noah" class="NOAHdataset" style="width:auto; height:250px;"></div><br><br>
-                                  <div id="rain-noah2" class="NOAHdataset" style="width:auto; height:250px;"></div><br><br>
-                                   <div id="rain-noah3" class="NOAHdataset" style="width:auto; height:250px;"></div><br><br>
+                            <div class="panel-body" style="height: 1900">
+                                 <div id="rain-arq" class="ARQdataset" ></div><br>
+                                 <div id="rain-senslope" class="SENdataset" ></div><br>
+                                 <div id="rain-noah" class="NOAHdataset" ></div><br>
+                                  <div id="rain-noah2" class="NOAHdataset" ></div><br>
+                                   <div id="rain-noah3" class="NOAHdataset" ></div><br>
                           </div>
                         </div>
                     </div>                                     
@@ -432,7 +433,7 @@ $listAnnotationAlert = [];
 
     
     if(toDate ==""){
-        var start = moment().subtract(29, 'days');
+        var start = moment().subtract(7, 'days');
         var end = moment().add(1, 'days');
         
 
@@ -798,18 +799,16 @@ $listAnnotationAlert = [];
 
     var testResult;
     function getRainfallData(str) {
-         // $('#rain-senslope').append('<img src="/images/box.gif" id="imgspin" style="display: block; margin: auto;"></img>');
+         console.log("/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate);
          $.ajax({
         url:"/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate,
           dataType: "json",
        success: function(data)
             {
                 var jsonRespo =data;
-               
-               
                 var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[];
-                  var x = document.getElementById("mySelect").value;
-            var max = allWS[x]["max_rain_2year"];
+                var x = document.getElementById("mySelect").value;
+                 var max = allWS[x]["max_rain_2year"];
 
               
                      for (i = 0; i < jsonRespo.length; i++) {
@@ -835,9 +834,20 @@ $listAnnotationAlert = [];
                                    type: 'spline',
                                     zoomType: 'x',
                                    height: 300,
+                                   backgroundColor: {
+                                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                                         stops: [
+                                            [0, '#2a2a2b'],
+                                            [1, '#3e3e40']
+                                         ]
+                                      },
                                 },
                                 title: {
-                                    text:' <b>Rainfall Data from Senslope ' +  str +'</b>'
+                                    text:' <b>Rainfall Data from Senslope ' +  str +'</b>',
+                                    style: {
+                                     color: '#E0E0E3',
+                                     fontSize: '20px'
+                                  }
                                 },
                                 
                                 xAxis: {
@@ -854,11 +864,12 @@ $listAnnotationAlert = [];
                                 yAxis:{
                                       plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: 'yellow',
+                                        color: '#0000FF',
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
-                                            text: '24hrs threshold (' + max/2 +')'
+                                            text: '24hrs threshold (' + max/2 +')',
+                                            style: { color: '#fff',}
                                         }
                                      },{
                                           value: max,
@@ -866,7 +877,8 @@ $listAnnotationAlert = [];
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
-                                            text: '72hrs threshold (' + max +')'
+                                            text: '72hrs threshold (' + max +')',
+                                            style: { color: '#fff',}
                                         }
                                     }]
 
@@ -923,19 +935,33 @@ $listAnnotationAlert = [];
                                     layout: 'vertical',
                                     align: 'right',
                                     verticalAlign: 'middle',
-                                    borderWidth: 0
+                                    borderWidth: 0,
+                                      itemStyle: {
+                                         color: '#E0E0E3'
+                                      },
+                                      itemHoverStyle: {
+                                         color: '#FFF'
+                                      },
+                                      itemHiddenStyle: {
+                                         color: '#606063'
+                                      }
                                 },
                                 series: [{
-                                    name:  'rval',
+                                    name:  '15mins',
+                                    step: true,
                                     data:   DataSeriesRain,
                                     id: 'dataseries',
+                                    color: colordata[85]
+
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
+                                    color: colordata[170]
                                 
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
+                                    color: colordata[255]
                                     
                                 },{
                                     type: 'flags',
@@ -983,8 +1009,9 @@ $listAnnotationAlert = [];
                 var x = document.getElementById("mySelect").value;
                 var max = allWS[x]["max_rain_2year"];
 
-              
+             
                      for (i = 0; i < jsonRespo.length; i++) {
+
                         var Data24h=[] ,Datarain=[] ,Data72h=[] ;
                         var time =  Date.parse(jsonRespo[i].ts);
                         Data72h.push(time, parseFloat(jsonRespo[i].hrs72));
@@ -1001,17 +1028,28 @@ $listAnnotationAlert = [];
                          var color =["red","blue","green"];
                        
                         for (i = 0; i < divContainer.length; i++) {
+
                              // Highcharts.setOptions(theme);
                               $("#"+divContainer[i]).highcharts({
                                 chart: {
                                    type: 'spline',
                                     zoomType: 'x',
                                    height: 300,
-                                   background: "#222"
+                                    backgroundColor: {
+                                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                                         stops: [
+                                            [0, '#2a2a2b'],
+                                            [1, '#3e3e40']
+                                         ]
+                                      },
 
                                 },
                                 title: {
-                                    text:' <b>Rainfall Data from ARQ ' +  str +'</b>'
+                                    text:' <b>Rainfall Data from ARQ ' +  str +'</b>',
+                                     style: {
+                                     color: '#E0E0E3',
+                                     fontSize: '20px'
+                                  }
                                 },
                                 
                                 xAxis: {
@@ -1028,19 +1066,21 @@ $listAnnotationAlert = [];
                                 yAxis:{
                                     plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: 'yellow',
+                                        color: '#0000FF',
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
-                                            text: '24hrs threshold (' + max/2 +')'
+                                            text: '24hrs threshold (' + max/2 +')',
+                                            style: { color: '#fff',}
                                         }
                                      },{
-                                          value: max,
-                                         color: 'red',
+                                        value: max,
+                                        color: 'red',
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
-                                            text: '72hrs threshold (' + max +')'
+                                            text: '72hrs threshold (' + max +')',
+                                           style: { color: '#fff',}
                                         }
                                     }]
 
@@ -1093,25 +1133,36 @@ $listAnnotationAlert = [];
                                     }
 
                                 },
-                                legend: {
+                               legend: {
                                     layout: 'vertical',
                                     align: 'right',
                                     verticalAlign: 'middle',
-                                    borderWidth: 0
+                                    borderWidth: 0,
+                                      itemStyle: {
+                                         color: '#E0E0E3'
+                                      },
+                                      itemHoverStyle: {
+                                         color: '#FFF'
+                                      },
+                                      itemHiddenStyle: {
+                                         color: '#606063'
+                                      }
                                 },
                                 series: [{
-                                    name:  'rval',
+                                    name:  '15mins',
+                                 step: true,
                                     data:   DataSeriesRain,
-                                     id: 'dataseries',
+                                    id: 'dataseries',
+                                    color: colordata[85]
                                    
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
-                                   
+                                    color: colordata[170]
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
-                                   
+                                    color: colordata[255]
                                 },{
                                     type: 'flags',
                                     name:'Alert',
@@ -1126,7 +1177,7 @@ $listAnnotationAlert = [];
                                     shape: 'flag',
                                     width: 25,
                                     onSeries: 'dataseries',
-                                    },{
+                                 },{
                                     type: 'flags',
                                     name:'Comment',
                                     data: extraReport,
@@ -1185,10 +1236,20 @@ $listAnnotationAlert = [];
                                    type: 'spline',
                                     zoomType: 'x',
                                    height: 300,
-
+                                   backgroundColor: {
+                                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                                         stops: [
+                                            [0, '#2a2a2b'],
+                                            [1, '#3e3e40']
+                                         ]
+                                      },
                                 },
                                 title: {
-                                    text:' <b>Rainfall Data from Noah ' +  str +'</b>'
+                                    text:' <b>Rainfall Data from Noah ' +  str +'</b>',
+                                    style: {
+                                     color: '#E0E0E3',
+                                     fontSize: '20px'
+                                  }
                                 },
                                 
                                 xAxis: {
@@ -1205,11 +1266,12 @@ $listAnnotationAlert = [];
                                 yAxis:{
                                   plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: 'yellow',
+                                        color: '#0000FF',
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
-                                            text: '24hrs threshold (' + max/2 +')'
+                                            text: '24hrs threshold (' + max/2 +')',
+                                            style: { color: '#fff',}
                                         }
                                      },{
                                           value: max,
@@ -1217,7 +1279,8 @@ $listAnnotationAlert = [];
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
-                                            text: '72hrs threshold (' + max +')'
+                                            text: '72hrs threshold (' + max +')',
+                                            style: { color: '#fff',}
                                         }
                                     }]
 
@@ -1274,19 +1337,32 @@ $listAnnotationAlert = [];
                                     layout: 'vertical',
                                     align: 'right',
                                     verticalAlign: 'middle',
-                                    borderWidth: 0
+                                    borderWidth: 0,
+                                      itemStyle: {
+                                         color: '#E0E0E3'
+                                      },
+                                      itemHoverStyle: {
+                                         color: '#FFF'
+                                      },
+                                      itemHiddenStyle: {
+                                         color: '#606063'
+                                      }
                                 },
                                 series: [{
-                                    name:  'rval',
+                                    name:  '15mins',
+                                     step: true,
                                     data:   DataSeriesRain,
                                     id: 'dataseries',
+                                    color: colordata[85]
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
+                                    color: colordata[170]
                                  
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
+                                    color: colordata[255]
                                    
                                 },{
                                     type: 'flags',
@@ -1362,10 +1438,20 @@ $listAnnotationAlert = [];
                                    type: 'spline',
                                     zoomType: 'x',
                                    height: 300,
-
+                                   backgroundColor: {
+                                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                                         stops: [
+                                            [0, '#2a2a2b'],
+                                            [1, '#3e3e40']
+                                         ]
+                                      },
                                 },
                                 title: {
-                                    text:' <b>Rainfall Data from Noah2 ' +  str +'</b>'
+                                    text:' <b>Rainfall Data from Noah2 ' +  str +'</b>',
+                                    style: {
+                                     color: '#E0E0E3',
+                                     fontSize: '20px'
+                                  }
                                 },
                                 
                                 xAxis: {
@@ -1382,11 +1468,12 @@ $listAnnotationAlert = [];
                                 yAxis:{
                                      plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: 'yellow',
+                                        color: '#0000FF',
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
-                                            text: '24hrs threshold (' + max/2 +')'
+                                            text: '24hrs threshold (' + max/2 +')',
+                                            style: { color: '#fff',}
                                         }
                                      },{
                                           value: max,
@@ -1394,7 +1481,8 @@ $listAnnotationAlert = [];
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
-                                            text: '72hrs threshold (' + max +')'
+                                            text: '72hrs threshold (' + max +')',
+                                            style: { color: '#fff',}
                                         }
                                     }]
 
@@ -1451,20 +1539,33 @@ $listAnnotationAlert = [];
                                     layout: 'vertical',
                                     align: 'right',
                                     verticalAlign: 'middle',
-                                    borderWidth: 0
+                                    borderWidth: 0,
+                                      itemStyle: {
+                                         color: '#E0E0E3'
+                                      },
+                                      itemHoverStyle: {
+                                         color: '#FFF'
+                                      },
+                                      itemHiddenStyle: {
+                                         color: '#606063'
+                                      }
                                 },
                                 series: [{
-                                    name:  'rval',
+                                    name:  '15mins',
+                                     step: true,
                                     data:   DataSeriesRain,
                                      id: 'dataseries',
+                                     color: colordata[85]
                                  
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
+                                    color: colordata[170]
                                
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
+                                    color: colordata[255]
                                    
                                 },{
                                     type: 'flags',
@@ -1502,6 +1603,7 @@ $listAnnotationAlert = [];
 
 
     function getRainfallDataNOAH3(str) {
+        console.log("/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate);
           $.ajax({
         url:"/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate,
           dataType: "text",
@@ -1543,10 +1645,20 @@ $listAnnotationAlert = [];
                                    type: 'spline',
                                     zoomType: 'x',
                                    height: 300,
-
+                                   backgroundColor: {
+                                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                                         stops: [
+                                            [0, '#2a2a2b'],
+                                            [1, '#3e3e40']
+                                         ]
+                                      },
                                 },
                                 title: {
-                                    text:' <b>Rainfall Data from Noah3 ' +  str +'</b>'
+                                    text:' <b>Rainfall Data from Noah3 ' +  str +'</b>',
+                                    style: {
+                                     color: '#E0E0E3',
+                                     fontSize: '20px'
+                                  }
                                 },
                                 
                                 xAxis: {
@@ -1563,11 +1675,12 @@ $listAnnotationAlert = [];
                                 yAxis:{
                                       plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: 'yellow',
+                                        color: '#0000FF',
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
-                                            text: '24hrs threshold (' + max/2 +')'
+                                            text: '24hrs threshold (' + max/2 +')',
+                                            style: { color: '#fff',}
                                         }
                                      },{
                                           value: max,
@@ -1575,7 +1688,8 @@ $listAnnotationAlert = [];
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
-                                            text: '72hrs threshold (' + max +')'
+                                            text: '72hrs threshold (' + max +')',
+                                            style: { color: '#fff',}
                                         }
                                     }]
 
@@ -1632,20 +1746,33 @@ $listAnnotationAlert = [];
                                     layout: 'vertical',
                                     align: 'right',
                                     verticalAlign: 'middle',
-                                    borderWidth: 0
+                                    borderWidth: 0,
+                                      itemStyle: {
+                                         color: '#E0E0E3'
+                                      },
+                                      itemHoverStyle: {
+                                         color: '#FFF'
+                                      },
+                                      itemHiddenStyle: {
+                                         color: '#606063'
+                                      }
                                 },
                                 series: [{
-                                    name:  'rval',
+                                    name:  '15mins',
+                                     step: true,
                                     data:   DataSeriesRain,
                                     id: 'dataseries',
+                                    color: colordata[85]
                                  
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
+                                    color: colordata[170]
                             
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
+                                    color: colordata[255]
                                    
                                 },{
                                     type: 'flags',
