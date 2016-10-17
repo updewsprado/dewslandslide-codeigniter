@@ -225,8 +225,14 @@
         left: 45px;
     }
 
-    .alert-warning, .alert-info {
+    .alert-warning {
         font-size: 16px;
+    }
+
+    .alert-danger li { 
+        font-size: 18px;
+        margin-top: 5px; 
+        margin-bottom: 5px;
     }
 
     .alert-warning a { margin-top: 8px; }
@@ -246,13 +252,13 @@
         </div>
         <!-- /.row -->
 
-        <div class="alert alert-info">
-            <strong>If in doubt or there are questions on releasing EWIs</strong>, refer to <strong><a href="<?php echo base_url(); ?>gold/publicrelease/faq">Monitoring Primer and Frequently Asked Questions (FAQ)</a></strong> page.
-        </div>
-
-       <div class="alert alert-warning">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Notice!</strong> Make a habit to <strong>refresh</strong> the input form or to <strong>click the "Add More Entries"</strong> button to clear the form input fields and to make sure <strong>no remnants</strong> from the previous release will be included on the new release entry. This is to <strong>avoid errors</strong> on our releases.
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading"><strong><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> READ ME!</strong></h4>
+            <ol>
+                <li><strong>If in doubt of your decisions, have questions, or made an error on releasing EWIs</strong>, refer <strong>immediately</strong> to <strong><a href="<?php echo base_url(); ?>gold/publicrelease/faq">Monitoring Primer and Frequently Asked Questions (FAQ)</a></strong> page <strong>before making another move</strong>.</li>
+                <li><strong>Do NOT forget</strong> to release a 12 noon EWI on sites under <strong>extended three-day monitoring</strong> (if there is any)!</li>
+                <li>Make a habit to <strong>refresh</strong> the input form or to <strong>click the "Add More Entries"</strong> button to clear the form input fields and to make sure <strong>no remnants</strong> from the previous release will be included on the new release entry. This is to <strong>avoid errors</strong> on our releases.</li>
+            </ol>
         </div>
 
         <div class="btn-group btn-group-md btn-group-justified">
@@ -354,7 +360,7 @@
             </div> <!-- End of Col Time of Acknowledgement -->
         </div>
 
-        <div class="alert alert-danger" hidden="hidden">
+        <div class="alert alert-danger" hidden="hidden" id="alert_invalid">
             <strong>Warning!</strong> Lowering the alert for this site to A0 without waiting for its end of validity will render the monitoring event as <b>INVALID</b>.
         </div>
 
@@ -871,7 +877,7 @@
             let val = $("#public_alert_level").val();
             $(".cbox_trigger_switch").prop("disabled", false);
             $(".cbox_trigger").prop("checked", false);
-            $(".alert").slideUp();
+            $("#alert_invalid").slideUp();
 
             switch( val )
             {
@@ -901,9 +907,9 @@
                 if( val == "A0" && moment($("#timestamp_entry").val()).add(30, 'minutes').isBefore(current_event.validity) ) 
                 {
                     status = "invalid";
-                    $(".alert").slideDown();
+                    $("#alert_invalid").slideDown();
                 }
-                else $(".alert").slideUp();
+                else $("#alert_invalid").slideUp();
             }
 
             // Prevent entering of NO DATA trigger on NEW ON-GOING ENTRIES
