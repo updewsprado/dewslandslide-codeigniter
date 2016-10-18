@@ -297,6 +297,14 @@ Contacts
                 <option value="Q">Q</option>
               </select>
             </div>
+
+            <div class="form-group">
+              <label for="rel">EWI Recipient:</label>
+              <select name="rel" id="rel" class="form-control">
+                <option value="Y">Yes</option>
+                <option value="N">No</option>
+              </select>
+            </div>
             <button type="submit" value="submit" class="btn btn-primary">Save</button>
             <button type="button" class="btn btn-danger" id="btn-clear-cc">Clear</button>
           </form>
@@ -329,21 +337,11 @@ Contacts
           <thead>
             <tr>
               <th>Name</th>
-              <th>Position</th>
-              <th>Office</th>
-              <th>Age</th>
-              <th>Start date</th>
-              <th>Salary</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
               <th>Name</th>
-              <th>Position</th>
-              <th>Office</th>
-              <th>Age</th>
-              <th>Start date</th>
-              <th>Salary</th>
             </tr>
           </tfoot>
         </table>
@@ -366,7 +364,7 @@ Contacts
         <div id="contact-settings-wrapper">
         </div>
         <div>
-         <button type="submit" value="submit" class="btn btn-primary">Save</button>
+         <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
          <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
        </div>
      </form>
