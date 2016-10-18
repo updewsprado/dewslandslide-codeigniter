@@ -30,11 +30,11 @@ data-toggle="modal" data-target="#contact-settings" title="Contact Settings"><sp
 
 <div id="current-contacts" class="col-md-8 col-sm-6 col-xs-8">
   <div id="search-lbl" class="bg-success">
-  <div>
-    <h4 ></h4> <span class="glyphicon glyphicon-search" id="btn-standard-search"></span>
-  </div>
+    <div>
+      <h4 ></h4> <span class="glyphicon glyphicon-search" id="btn-standard-search"></span>
+    </div>
     <input type="text" id="search-key" class="form-control" placeholder="Search for..." hidden>
-</div>
+  </div>
 <!--         
 <div class="bg-white">
 <div class="input-group">
@@ -157,6 +157,13 @@ Contacts
             <div id="offices-3" class="col-md-2 col-sm-2 col-xs-2"></div>
             <div id="offices-4" class="col-md-2 col-sm-2 col-xs-2"></div>
             <div id="offices-5" class="col-md-2 col-sm-2 col-xs-2"></div>
+          </div>
+        </div>
+          <div class="row">
+          <p>Early Warning Information Recipients:</p>
+          <div id="modal-select-recipients">
+            <label class="opt-ewi-recipients"><input type="radio" name="opt-ewi-recipients" value="false" checked>All</label>
+            <label class="opt-ewi-recipients"><input type="radio" name="opt-ewi-recipients" value="true">Only selected EWI Receivers</label>
           </div>
         </div>
         <Br/>
@@ -418,11 +425,11 @@ Contacts
       </div>
       <div class="modal-body row-fluid"> 
         <div class="search-result-container">
-            <div class="result-message">
-              <ul id="search-result" class="chat">
+          <div class="result-message">
+            <ul id="search-result" class="chat">
 
-              </ul>
-            </div>
+            </ul>
+          </div>
         </div>
       </div>
     </div>  
@@ -436,7 +443,7 @@ Contacts
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4>Search Result</h4>
         <div class="input-group">
-        <input type="text" id="search-global-keyword" class="form-control" placeholder="Search for...">
+          <input type="text" id="search-global-keyword" class="form-control" placeholder="Search for...">
           <span class="input-group-btn">
             <button class="btn btn-default" type="button" id="btn-search-global" ><span class="glyphicon glyphicon-search"></span></button>
           </span>
@@ -444,11 +451,11 @@ Contacts
       </div>
       <div class="modal-body row-fluid"> 
         <div class="search-global-message-container">
-            <div class="result-message">
-              <ul id="search-global-result" class="chat">
+          <div class="result-message">
+            <ul id="search-global-result" class="chat">
 
-              </ul>
-            </div>
+            </ul>
+          </div>
         </div>
       </div>
     </div>  
@@ -456,6 +463,28 @@ Contacts
 </div>
 
 <!-- END OF SEARCH MESSAGE MODAL -->
+
+<!-- EWI RECIPIENTS MODAL -->
+  <div class="modal fade col-lg-10" id="ewi-recipient-update-modal" role="dialog">
+  <div class="modal-dialog modal-md" id="search-global-dialog">
+    <div class="modal-content" id="search-global-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4>Update Profiles</h4>
+      </div>
+      <div class="modal-body row-fluid"> 
+        <div class="ewi-recipients-container">
+          <div class="alert alert-info">
+            <strong>NOTICE!</strong> Some contacts needs to be updated. please select users that will be receiving Early warning information alerts.
+          </div>
+          <ul class="list-ewi-recipient"></ul>
+          <button type="button" class="btn btn-info" id="confirm-ewi-recipients">Confirm</button>
+        </div>
+      </div>
+    </div>  
+  </div>
+</div>  
+<!-- END OF EWI RECIPIENTS MODAL -->
 
 </div>
 
