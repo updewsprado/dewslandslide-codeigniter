@@ -316,9 +316,9 @@ $listAnnotationAlert = [];
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Communication Health <input type='button' id='show' onclick='showLegends(this.form)' value='Show Legends' /></h3>
                                     <div width="250px" id="legends" style="visibility:hidden; display:none;">
-                                            <input type='button' onclick="barTransition('red')" style='background-color:red; padding-right:5px;' /><strong><font color="#0000FF">Last 7 Days</font> </strong><br/>
-                                            <input type='button' onclick="barTransition('blue')" style='background-color:blue; padding-right:5px;' /><strong><font color="#0000FF">Last 30 Days</font></strong><br/>
-                                            <input type='button' onclick="barTransition('green')" style='background-color:green; padding-right:5px;' /><strong><font color="#0000FF">Last 60 Days</font></strong>
+                                            <input type='button' onclick="barTransition('red')" style='background-color:red; padding-right:5px;' /><strong><font color=colordata[170]>Last 7 Days</font> </strong><br/>
+                                            <input type='button' onclick="barTransition('blue')" style='background-color:blue; padding-right:5px;' /><strong><font color=colordata[170]>Last 30 Days</font></strong><br/>
+                                            <input type='button' onclick="barTransition('green')" style='background-color:green; padding-right:5px;' /><strong><font color=colordata[170]>Last 60 Days</font></strong>
                                     </div>
                             </div>
                             <div class="panel-body">
@@ -831,7 +831,7 @@ $listAnnotationAlert = [];
                              // Highcharts.setOptions(theme);
                               $("#"+divContainer[i]).highcharts({
                                 chart: {
-                                   type: 'spline',
+                                   type: 'area',
                                     zoomType: 'x',
                                    height: 300,
                                    backgroundColor: {
@@ -864,7 +864,7 @@ $listAnnotationAlert = [];
                                 yAxis:{
                                       plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: '#0000FF',
+                                        color: colordata[170],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -873,7 +873,7 @@ $listAnnotationAlert = [];
                                         }
                                      },{
                                           value: max,
-                                         color: 'red',
+                                         color: colordata[255],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -892,6 +892,9 @@ $listAnnotationAlert = [];
 
                                 plotOptions: {
                                      series: {
+                                        marker: {
+                                                radius: 3
+                                            },
                                         cursor: 'pointer',
                                         point: {
                                             events: {
@@ -922,9 +925,8 @@ $listAnnotationAlert = [];
                                             }
                                         }
                                     },
-                                    spline: {
+                                    area: {
                                         marker: {
-                                            // fillColor: '#FFFFFF',
                                             lineWidth: 3,
                                             lineColor: null // inherit from series
                                         }
@@ -950,16 +952,26 @@ $listAnnotationAlert = [];
                                     name:  '15mins',
                                     step: true,
                                     data:   DataSeriesRain,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
                                     id: 'dataseries',
                                     color: colordata[85]
 
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
+
                                     color: colordata[170]
                                 
                                  },{
                                     name:  '72hrs',
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
                                     data:   DataSeries72h,
                                     color: colordata[255]
                                     
@@ -1032,7 +1044,7 @@ $listAnnotationAlert = [];
                              // Highcharts.setOptions(theme);
                               $("#"+divContainer[i]).highcharts({
                                 chart: {
-                                   type: 'spline',
+                                   type: 'area',
                                     zoomType: 'x',
                                    height: 300,
                                     backgroundColor: {
@@ -1066,7 +1078,7 @@ $listAnnotationAlert = [];
                                 yAxis:{
                                     plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: '#0000FF',
+                                        color: colordata[170],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -1075,7 +1087,7 @@ $listAnnotationAlert = [];
                                         }
                                      },{
                                         value: max,
-                                        color: 'red',
+                                        color: colordata[255],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -1093,7 +1105,13 @@ $listAnnotationAlert = [];
                                 },
 
                                 plotOptions: {
+                                    marker: {
+                                                radius: 3
+                                            },
                                      series: {
+                                        marker: {
+                                                radius: 3
+                                            },
                                         cursor: 'pointer',
                                         point: {
                                             events: {
@@ -1124,9 +1142,8 @@ $listAnnotationAlert = [];
                                             }
                                         }
                                     },
-                                    spline: {
+                                    area: {
                                         marker: {
-                                            // fillColor: '#FFFFFF',
                                             lineWidth: 3,
                                             lineColor: null // inherit from series
                                         }
@@ -1153,15 +1170,24 @@ $listAnnotationAlert = [];
                                  step: true,
                                     data:   DataSeriesRain,
                                     id: 'dataseries',
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
                                     color: colordata[85]
                                    
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
                                     color: colordata[170]
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
                                     color: colordata[255]
                                 },{
                                     type: 'flags',
@@ -1233,7 +1259,7 @@ $listAnnotationAlert = [];
                              // Highcharts.setOptions(theme);
                               $("#"+divContainer[i]).highcharts({
                                 chart: {
-                                   type: 'spline',
+                                   type: 'area',
                                     zoomType: 'x',
                                    height: 300,
                                    backgroundColor: {
@@ -1266,7 +1292,7 @@ $listAnnotationAlert = [];
                                 yAxis:{
                                   plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: '#0000FF',
+                                        color: colordata[170],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -1275,7 +1301,7 @@ $listAnnotationAlert = [];
                                         }
                                      },{
                                           value: max,
-                                         color: 'red',
+                                         color: colordata[255],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -1293,7 +1319,13 @@ $listAnnotationAlert = [];
                                 },
 
                                 plotOptions: {
+                                    marker: {
+                                                radius: 3
+                                            },
                                      series: {
+                                        marker: {
+                                                radius: 3
+                                            },
                                         cursor: 'pointer',
                                         point: {
                                             events: {
@@ -1324,7 +1356,7 @@ $listAnnotationAlert = [];
                                             }
                                         }
                                     },
-                                    spline: {
+                                    area: {
                                         marker: {
                                             // fillColor: '#FFFFFF',
                                             lineWidth: 3,
@@ -1352,16 +1384,25 @@ $listAnnotationAlert = [];
                                     name:  '15mins',
                                      step: true,
                                     data:   DataSeriesRain,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
                                     id: 'dataseries',
                                     color: colordata[85]
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
                                     color: colordata[170]
                                  
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
                                     color: colordata[255]
                                    
                                 },{
@@ -1435,7 +1476,7 @@ $listAnnotationAlert = [];
                              // Highcharts.setOptions(theme);
                               $("#"+divContainer[i]).highcharts({
                                 chart: {
-                                   type: 'spline',
+                                   type: 'area',
                                     zoomType: 'x',
                                    height: 300,
                                    backgroundColor: {
@@ -1468,7 +1509,7 @@ $listAnnotationAlert = [];
                                 yAxis:{
                                      plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: '#0000FF',
+                                        color: colordata[170],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -1477,7 +1518,7 @@ $listAnnotationAlert = [];
                                         }
                                      },{
                                           value: max,
-                                         color: 'red',
+                                         color: colordata[255],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -1496,6 +1537,9 @@ $listAnnotationAlert = [];
 
                                 plotOptions: {
                                      series: {
+                                        marker: {
+                                                radius: 3
+                                            },
                                         cursor: 'pointer',
                                         point: {
                                             events: {
@@ -1526,7 +1570,7 @@ $listAnnotationAlert = [];
                                             }
                                         }
                                     },
-                                    spline: {
+                                    area: {
                                         marker: {
                                             // fillColor: '#FFFFFF',
                                             lineWidth: 3,
@@ -1552,19 +1596,28 @@ $listAnnotationAlert = [];
                                 },
                                 series: [{
                                     name:  '15mins',
-                                     step: true,
+                                    step: true,
                                     data:   DataSeriesRain,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
                                      id: 'dataseries',
                                      color: colordata[85]
                                  
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
                                     color: colordata[170]
                                
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
                                     color: colordata[255]
                                    
                                 },{
@@ -1642,7 +1695,7 @@ $listAnnotationAlert = [];
                 //      $('#loading').modal("hide");
                 // }
             },
-                                   type: 'spline',
+                                   type: 'area',
                                     zoomType: 'x',
                                    height: 300,
                                    backgroundColor: {
@@ -1675,7 +1728,7 @@ $listAnnotationAlert = [];
                                 yAxis:{
                                       plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: '#0000FF',
+                                        color: colordata[170],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -1684,7 +1737,7 @@ $listAnnotationAlert = [];
                                         }
                                      },{
                                           value: max,
-                                         color: 'red',
+                                         color: colordata[255],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -1703,6 +1756,9 @@ $listAnnotationAlert = [];
 
                                 plotOptions: {
                                      series: {
+                                        marker: {
+                                                radius: 3
+                                            },
                                         cursor: 'pointer',
                                         point: {
                                             events: {
@@ -1733,7 +1789,7 @@ $listAnnotationAlert = [];
                                             }
                                         }
                                     },
-                                    spline: {
+                                    area: {
                                         marker: {
                                             // fillColor: '#FFFFFF',
                                             lineWidth: 3,
@@ -1762,16 +1818,25 @@ $listAnnotationAlert = [];
                                      step: true,
                                     data:   DataSeriesRain,
                                     id: 'dataseries',
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
                                     color: colordata[85]
                                  
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
                                     color: colordata[170]
                             
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
                                     color: colordata[255]
                                    
                                 },{
