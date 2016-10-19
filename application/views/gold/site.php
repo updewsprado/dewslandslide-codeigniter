@@ -527,7 +527,7 @@ $listAnnotationAlert = [];
 
     window.onload = function() {
         if( curSite != ""){
-            $("#loading").modal("show");
+            // $("#loading").modal("show");
             $("#slide_right").removeClass("slide_right_open");
             $( "#bpright" ).removeClass( "glyphicon  glyphicon-menu-right" ).addClass( "glyphicon glyphicon-menu-left" );   
         }else{
@@ -1638,9 +1638,9 @@ $listAnnotationAlert = [];
                               $("#"+divContainer[i]).highcharts({
                                 chart: {
                                      events: {
-                load: function(){
-                     $('#loading').modal("hide");
-                }
+                // load: function(){
+                //      $('#loading').modal("hide");
+                // }
             },
                                    type: 'spline',
                                     zoomType: 'x',
