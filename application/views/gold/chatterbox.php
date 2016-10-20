@@ -299,10 +299,10 @@ Contacts
             </div>
 
             <div class="form-group">
-              <label for="ewirecipient">EWI Recipient:</label>
-              <select name="ewirecipient" id="ewirecipient" class="form-control">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
+              <label for="rel">EWI Recipient:</label>
+              <select name="rel" id="rel" class="form-control">
+                <option value="Y">Yes</option>
+                <option value="N">No</option>
               </select>
             </div>
             <button type="submit" value="submit" class="btn btn-primary">Save</button>
