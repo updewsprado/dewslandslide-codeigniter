@@ -299,8 +299,8 @@ Contacts
             </div>
 
             <div class="form-group">
-              <label for="rel">EWI Recipient:</label>
-              <select name="rel" id="rel" class="form-control">
+              <label for="ewirecipient">EWI Recipient:</label>
+              <select name="ewirecipient" id="ewirecipient" class="form-control">
                 <option value="Y">Yes</option>
                 <option value="N">No</option>
               </select>
