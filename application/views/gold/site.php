@@ -1186,7 +1186,7 @@ $listAnnotationAlert = [];
 
 
     function getRainfallDataNOAH(str) {
-      if( str.length >= 13){
+      if( str.length >= 11){
             var URLdata = "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate;
             console.log("/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate)
             var namedata= str.slice(10,15);
@@ -1427,7 +1427,7 @@ $listAnnotationAlert = [];
 
 
     function getRainfallDataNOAH2(str) {
-    if( str.length >= 13){
+    if( str.length >= 11){
             var URLdata = "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate;
             console.log("/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate)
             var namedata= str.slice(10,15);
@@ -1666,7 +1666,7 @@ $listAnnotationAlert = [];
 
 
     function getRainfallDataNOAH3(str) {
-       if( str.length >= 13){
+       if( str.length >= 11){
             var URLdata = "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate;
             console.log("/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate)
             var namedata= str.slice(10,15);
