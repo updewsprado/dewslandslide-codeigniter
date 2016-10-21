@@ -55,6 +55,7 @@ class Chatterbox extends CI_Controller {
 
 			$data['number'] = $_POST["number"];
 			$data['rel'] = $_POST["rel"];
+			$data['ewirecipient'] = $_POST["ewirecipient"];
 			$isValid = $this->validate_community_data($data);
 			if ($isValid == false) {
 			} else {
@@ -134,6 +135,11 @@ class Chatterbox extends CI_Controller {
 			$data['sitename'] = strtoupper($_POST["sitename"]);
 			$data['number'] = $_POST["number"];
 			$data['rel'] = strtoupper($_POST["rel"]);
+			if ($_POST["ewirecipient"] == "Yes") {
+				$data['ewirecipient'] = true;
+			} else {
+				$data['ewirecipient'] = false;
+			}
 			$isValid = $this->validate_community_data($data);
 			if ($isValid == true) {
 				try {
@@ -226,6 +232,7 @@ class Chatterbox extends CI_Controller {
 		echo "<th>Sitename</th>";
 		echo "<th>Contact #</th>";
 		echo "<th>Rel</th>";
+		echo "<th>EWI Recipient</th>";
 		echo "</tr>";
 		echo "</thead>";
 		echo "<tfoot>";
@@ -238,10 +245,12 @@ class Chatterbox extends CI_Controller {
 		echo "<th>Sitename</th>";
 		echo "<th>Contact #</th>";
 		echo "<th>Rel</th>";
+		echo "<th>EWI Recipient</th>";
 		echo "</tr>";
 		echo "</tfoot>";
 		echo "<tbody>";
 		foreach ($result->result() as $data) {
+			$ewirecipient = "";
 			echo "<tr>";
 			echo "<td style='display:none;'>c_".$data->c_id."</td>";
 			echo "<td>".$data->firstname."</td>";
@@ -251,6 +260,12 @@ class Chatterbox extends CI_Controller {
 			echo "<td>".$data->sitename."</td>";
 			echo "<td>".$data->number."</td>";
 			echo "<td>".$data->rel."</td>";
+			if ($data->ewirecipient == true ) {
+				$ewirecipient = "Yes";
+			} else {
+				$ewirecipient = "No";
+			}
+			echo "<td>".$ewirecipient."</td>";
 			echo "</tr>";
 		}
 		echo "</tbody>";
