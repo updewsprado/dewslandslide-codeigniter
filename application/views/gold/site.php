@@ -39,31 +39,7 @@
         }
     }
 
-    $ts1=[];
-    $sql = "SELECT UNIX_TIMESTAMP(timestamp) as timestamp FROM senslopedb.".$StationsFull[0]['rain_arq']." order by timestamp asc";
-    $result = mysqli_query($conn, $sql);
-    $numSites = 0;
-      while($row = mysqli_fetch_assoc($result)) {
-            array_push($ts1, $row["timestamp"]* 1000);
-      }
 
-    // $ts2=[];
-    // $sql = "SELECT UNIX_TIMESTAMP(timestamp) as timestamp FROM senslopedb.".$StationsFull[0]['rain_senslope']." order by timestamp asc";
-    // $result = mysqli_query($conn, $sql);
-    // $numSites = 0;
-    //   while($row = mysqli_fetch_assoc($result)) {
-    //         array_push($ts2, $row["timestamp"]* 1000);
-    //   }
-
-    // $ts3=[];
-    // $ts4=[];
-    // $ts5=[];
-    // $sql = "SELECT UNIX_TIMESTAMP(timestamp) as timestamp FROM senslopedb.".$StationsFull[0]['rain_arq']." order by timestamp asc";
-    // $result = mysqli_query($conn, $sql);
-    // $numSites = 0;
-    //   while($row = mysqli_fetch_assoc($result)) {
-    //         array_push($ts1, $row["timestamp"]* 1000);
-    //   }
 
     $sql = "SELECT DISTINCT LEFT(name,3) as name,  rain_noah,rain_noah2, rain_noah3, rain_senslope,rain_arq,max_rain_2year
             FROM senslopedb.site_rain_props  where LEFT(name,3) = '$newSite'";
@@ -783,7 +759,6 @@ $listAnnotationAlert = [];
                 var x = document.getElementById("mySelect").value;
                  var max = all[x]["max_rain_2year"];
 
-
               
                      for (i = 0; i < jsonRespo.length; i++) {
                         var Data24h=[] ,Datarain=[] ,Data72h=[] ;
@@ -991,19 +966,19 @@ $listAnnotationAlert = [];
 
     function getRainfallARQ(str) {
         console.log("/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
-        var ts1 = <?php echo json_encode($ts1); ?>;
         $.ajax({
         url:"/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate,
           dataType: "json",
        success: function(data)
             {
                 var jsonRespo = data;
-                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[] ,negative=[] ,nval=[];
+                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[];
                 var x = document.getElementById("mySelect").value;
                 var max = all[x]["max_rain_2year"];
 
              
                      for (i = 0; i < jsonRespo.length; i++) {
+
                         var Data24h=[] ,Datarain=[] ,Data72h=[] ;
                         var time =  Date.parse(jsonRespo[i].ts);
                         Data72h.push(time, parseFloat(jsonRespo[i].hrs72));
@@ -1013,26 +988,7 @@ $listAnnotationAlert = [];
                         DataSeries24h.push(Data24h);
                         DataSeriesRain.push(Datarain);
                     }
-                   //  for (i = 0; i < jsonRespo.length; i++) {
-                   //       var time =  Date.parse(jsonRespo[i].ts);
-                   //      if( parseFloat(jsonRespo[i].rval) == 0.0){
-                   //          ts1.push(time);
-                   //      }
-                   //  }
-
-                   //  var nanData=[];
-                   //  for (i = 0; i < ts1.length; i++) {
-                   //      if(nanData.indexOf(ts1[i]) == -1){
-                   //          nanData.push(ts1[i]);
-                   //      }
-                   //  }
-                    
-                   //  for (i = 0; i < nanData.length; i++) {
-                                        
-                   //       nval.push({from: parseFloat(nanData[i]), to: parseFloat(nanData[i+1]), color: "#DCDCDC"});
-
-                   //  }
-                   // console.log(nanData);
+                   
                         var divContainer =["rain-arq"];
                         // alert("rain-arq");
                          var divname =["rain","24hrs" ,"72hrs"];
@@ -1070,7 +1026,6 @@ $listAnnotationAlert = [];
                                 },
                                 
                                 xAxis: {
-                                    // plotBands: nval,
                                     type: 'datetime',
                                     dateTimeLabelFormats: { // don't display the dummy year
                                         month: '%e. %b',
@@ -1148,7 +1103,12 @@ $listAnnotationAlert = [];
                                             }
                                         }
                                     },
-                    
+                                    area: {
+                                        marker: {
+                                            lineWidth: 3,
+                                            lineColor: null // inherit from series
+                                        }
+                                    }
 
                                 },
                                legend: {
@@ -1168,13 +1128,13 @@ $listAnnotationAlert = [];
                                 },
                                 series: [{
                                     name:  '15mins',
-                                    step: true,
+                                 step: true,
                                     data:   DataSeriesRain,
                                     id: 'dataseries',
                                     fillOpacity: 0.1,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[85],
+                                    color: colordata[85]
                                    
                                 },{
                                     name:  '24hrs',
