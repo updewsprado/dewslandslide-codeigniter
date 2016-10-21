@@ -7,6 +7,7 @@
 
     //Weather Stations
     $weatherStationsFull;
+    $StationsFull;
     $weatherStations;
     $annotation;
 
@@ -19,15 +20,28 @@
     }
     $newSite = substr($site, 0, 3);
     // echo $newSite;
+    $sql = "SELECT  name,rain_senslope,rain_arq,max_rain_2year,RG1,d_RG1,RG2,d_RG2,RG3,d_RG3 FROM senslopedb.rain_props  where name = '$newSite'";
+    $result = mysqli_query($conn, $sql);
 
-    $sql = "SELECT DISTINCT
-              LEFT(name,3) as name, 
-              rain_noah,
-              rain_noah2, 
-              rain_noah3, 
-              rain_senslope,
-              rain_arq,
-              max_rain_2year
+    $numSites = 0;
+    if (mysqli_num_rows($result) > 0) {
+        while($row = mysqli_fetch_assoc($result)) {
+            $StationsFull[$numSites]["name"] = $row["name"];
+            $StationsFull[$numSites]["RG1"] = $row["RG1"];
+            $StationsFull[$numSites]["RG2"] = $row["RG2"];
+            $StationsFull[$numSites]["RG3"] = $row["RG3"];
+            $StationsFull[$numSites]["rain_senslope"] = $row["rain_senslope"];
+            $StationsFull[$numSites]["rain_arq"] = $row["rain_arq"];
+            $StationsFull[$numSites]["d_RG1"] = $row["d_RG1"];
+            $StationsFull[$numSites]["d_RG2"] = $row["d_RG2"];
+            $StationsFull[$numSites]["d_RG3"] = $row["d_RG3"];
+            $StationsFull[$numSites++]["max_rain_2year"] = $row["max_rain_2year"];
+        }
+    }
+
+
+
+    $sql = "SELECT DISTINCT LEFT(name,3) as name,  rain_noah,rain_noah2, rain_noah3, rain_senslope,rain_arq,max_rain_2year
             FROM senslopedb.site_rain_props  where LEFT(name,3) = '$newSite'";
     $result = mysqli_query($conn, $sql);
 
@@ -373,11 +387,11 @@ $listAnnotationAlert = [];
                                 </h3>
                             </div>
                             <div class="panel-body" style="height: 1900">
-                                 <div id="rain-arq" class="ARQdataset" ></div><br>
-                                 <div id="rain-senslope" class="SENdataset" ></div><br>
-                                 <div id="rain-noah" class="NOAHdataset" ></div><br>
-                                  <div id="rain-noah2" class="NOAHdataset" ></div><br>
-                                   <div id="rain-noah3" class="NOAHdataset" ></div><br>
+                                <div id="rain-arq" ></div><br>
+                                <div id="rain-senslope" ></div><br>
+                                <div id="rain-noah"></div><br>
+                                <div id="rain-noah2" ></div><br>
+                                <div id="rain-noah3" ></div><br>
                           </div>
                         </div>
                     </div>                                     
@@ -668,7 +682,7 @@ $listAnnotationAlert = [];
 
 </script>
 <script>
-    var allWS = <?php echo json_encode($weatherStationsFull); ?>;
+    var all = <?php echo json_encode($StationsFull); ?>;
     var alertReport = <?php echo json_encode($listAnnotationAlert);  ?>;
     var maintenaceReport = <?php echo json_encode($listAnnotationM); ?>;
     var extraReport = <?php echo json_encode($reportAnnform); ?>;
@@ -717,84 +731,19 @@ $listAnnotationAlert = [];
         var x = document.getElementById("mySelect").value;
 
         if (x != "default") {
-            var rainSenslope = allWS[x]["rain_senslope"];
-            var rainNOAH = allWS[x]["rain_noah"];
-            var rainNOAH2 = allWS[x]["rain_noah2"];
-            var rainNOAH3 = allWS[x]["rain_noah3"];
-            var rainARQ = allWS[x]["rain_arq"];
-            var max = allWS[x]["max_rain_2year"];
-            // console.log(x +"ito un")
-            if(rainSenslope) {
-                if (rainSenslope != prevWS) {
-                    getRainfallData(rainSenslope);
-                    prevWS = rainSenslope;
-                  
-
-                  
-                }            
-            }
-            else {
-                document.getElementById("rain-senslope").innerHTML = null;
-                $(".SENdataset").hide();
-                $(".btn-ds-2").hide();
-            }
-
-            if(rainARQ) {
-              if (rainARQ != prevWS) {
-                  getRainfallARQ(rainARQ);
-                  prevWS = rainARQ;
-                 
-                 
-              }            
-            }
-            else {
-              document.getElementById("rain-arq").innerHTML = null;
-              $(".ARQdataset").hide();
-              $(".btn-ds-1").hide();
-            }
-
-             if(rainNOAH) {
-                if (rainNOAH != prevWSnoah) {
-                    getRainfallDataNOAH(rainNOAH);
-                    prevWSnoah = rainNOAH;
-                
-                }            
-            }
-            else {
-                document.getElementById("rain-noah").innerHTML = null;
-                $(".NOAHdataset").hide();
-                $(".btn-ds-3").hide();
-            }
-
-             if(rainNOAH2) {
-                if (rainNOAH2 != prevWSnoah) {
-                    getRainfallDataNOAH2(rainNOAH2);
-                    prevWSnoah = rainNOAH2;
-                
-                }            
-            }
-            else {
-                document.getElementById("rain-noah2").innerHTML = null;
-                 $(".NOAHdataset2").hide();
-                 $(".btn-ds-4").hide();
-            }
-
-
-             if(rainNOAH3) {
-                if (rainNOAH3 != prevWSnoah) {
-                    getRainfallDataNOAH3(rainNOAH3);
-                    prevWSnoah = rainNOAH3;
-                    
-                }            
-            }
-            else {
-                document.getElementById("rain-noah3").innerHTML = null;
-                 $(".NOAHdataset3").hide();
-                 $(".btn-ds-5").hide();
-            }
-            
-           
-        };
+            var rainSenslope = all[x]["rain_senslope"];
+            var rainNOAH = all[x]["RG1"];
+            var rainNOAH2 = all[x]["RG2"];
+            var rainNOAH3 = all[x]["RG3"];
+            var rainARQ = all[x]["rain_arq"];
+            var max = all[x]["max_rain_2year"];
+            console.log( rainNOAH +" " + rainNOAH2 +" " + rainNOAH3 +" " +rainARQ + " " +rainSenslope);
+             getRainfallData(rainSenslope);
+             getRainfallARQ(rainARQ);
+             getRainfallDataNOAH(rainNOAH);
+            getRainfallDataNOAH2(rainNOAH2);
+            getRainfallDataNOAH3(rainNOAH3);
+         };
     }
 
     var testResult;
@@ -808,7 +757,7 @@ $listAnnotationAlert = [];
                 var jsonRespo =data;
                 var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[];
                 var x = document.getElementById("mySelect").value;
-                 var max = allWS[x]["max_rain_2year"];
+                 var max = all[x]["max_rain_2year"];
 
               
                      for (i = 0; i < jsonRespo.length; i++) {
@@ -828,10 +777,15 @@ $listAnnotationAlert = [];
                          var color =["red","blue","green"];
                        
                         for (i = 0; i < divContainer.length; i++) {
-                             // Highcharts.setOptions(theme);
+                              Highcharts.setOptions({
+                             global: {
+                                    timezoneOffset: 8 * 60
+                                }
+                            });
+
                               $("#"+divContainer[i]).highcharts({
                                 chart: {
-                                   type: 'area',
+                                   type: 'areaspline',
                                     zoomType: 'x',
                                    height: 300,
                                    backgroundColor: {
@@ -925,7 +879,7 @@ $listAnnotationAlert = [];
                                             }
                                         }
                                     },
-                                    area: {
+                                    areaspline: {
                                         marker: {
                                             lineWidth: 3,
                                             lineColor: null // inherit from series
@@ -1019,7 +973,7 @@ $listAnnotationAlert = [];
                 var jsonRespo = data;
                 var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[];
                 var x = document.getElementById("mySelect").value;
-                var max = allWS[x]["max_rain_2year"];
+                var max = all[x]["max_rain_2year"];
 
              
                      for (i = 0; i < jsonRespo.length; i++) {
@@ -1035,16 +989,22 @@ $listAnnotationAlert = [];
                     }
                    
                         var divContainer =["rain-arq"];
+                        // alert("rain-arq");
                          var divname =["rain","24hrs" ,"72hrs"];
                          var d1 =[DataSeries24h,DataSeries72h,DataSeriesRain];
                          var color =["red","blue","green"];
                        
                         for (i = 0; i < divContainer.length; i++) {
 
-                             // Highcharts.setOptions(theme);
+                             Highcharts.setOptions({
+                             global: {
+                                    timezoneOffset: 8 * 60
+                                }
+                            });
+
                               $("#"+divContainer[i]).highcharts({
                                 chart: {
-                                   type: 'area',
+                                   type: 'areaspline',
                                     zoomType: 'x',
                                    height: 300,
                                     backgroundColor: {
@@ -1142,7 +1102,7 @@ $listAnnotationAlert = [];
                                             }
                                         }
                                     },
-                                    area: {
+                                    areaspline: {
                                         marker: {
                                             lineWidth: 3,
                                             lineColor: null // inherit from series
@@ -1225,18 +1185,29 @@ $listAnnotationAlert = [];
 
 
     function getRainfallDataNOAH(str) {
+      if( str.length >= 13){
+            var URLdata = "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate;
+            console.log("/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate)
+        }else if(str.length == 4){
+            var URLdata = "/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate;
+            console.log("/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
+        }else{
+             var URLdata = "/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate;
+             console.log("/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
+        }
 
-         $.ajax({
-        url:"/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate,
-          dataType: "text",
+     $.ajax({
+        url: URLdata,
+        dataType: "json",
        success: function(data)
             {
-                var jsonRespo = JSON.parse(data);
+                var jsonRespo = data;
                
                
                 var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[];
                 var x = document.getElementById("mySelect").value;
-                 var max = allWS[x]["max_rain_2year"];
+                var max = all[x]["max_rain_2year"];
+                var rname = all[x]["d_RG1"];
 
               
                      for (i = 0; i < jsonRespo.length; i++) {
@@ -1251,443 +1222,18 @@ $listAnnotationAlert = [];
                     }
                  
                         var divContainer =["rain-noah"];
+                        // alert("rain_noah")
                          var divname =["rain","24hrs" ,"72hrs"];
                          var d1 =[DataSeries24h,DataSeries72h,DataSeriesRain];
                          var color =["red","blue","green"];
                        
                         for (i = 0; i < divContainer.length; i++) {
-                             // Highcharts.setOptions(theme);
-                              $("#"+divContainer[i]).highcharts({
-                                chart: {
-                                   type: 'area',
-                                    zoomType: 'x',
-                                   height: 300,
-                                   backgroundColor: {
-                                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                                         stops: [
-                                            [0, '#2a2a2b'],
-                                            [1, '#3e3e40']
-                                         ]
-                                      },
-                                },
-                                title: {
-                                    text:' <b>Rainfall Data from Noah ' +  str +'</b>',
-                                    style: {
-                                     color: '#E0E0E3',
-                                     fontSize: '20px'
-                                  }
-                                },
-                                
-                                xAxis: {
-                                    type: 'datetime',
-                                    dateTimeLabelFormats: { // don't display the dummy year
-                                        month: '%e. %b',
-                                        year: '%b'
-                                    },
-                                    title: {
-                                        text: 'Date'
-                                    }
-                                },
-
-                                yAxis:{
-                                  plotBands: [{ // visualize the weekend
-                                        value: max/2,
-                                        color: colordata[170],
-                                        dashStyle: 'shortdash',
-                                        width: 2,
-                                        label: {
-                                            text: '24hrs threshold (' + max/2 +')',
-                                            style: { color: '#fff',}
-                                        }
-                                     },{
-                                          value: max,
-                                         color: colordata[255],
-                                        dashStyle: 'shortdash',
-                                        width: 2,
-                                        label: {
-                                            text: '72hrs threshold (' + max +')',
-                                            style: { color: '#fff',}
-                                        }
-                                    }]
-
-                                },
-                           
-                                tooltip: {
-                                    // pointFormat: '<b>{series.name}</b>: {point.y:.2f}<br>',
-                                   shared: true,
-                                   crosshairs: true
-                                },
-
-                                plotOptions: {
-                                    marker: {
-                                                radius: 3
-                                            },
-                                     series: {
-                                        marker: {
-                                                radius: 3
-                                            },
-                                        cursor: 'pointer',
-                                        point: {
-                                            events: {
-                                                click: function () {
-                                                    // console.log(this.series.tooltipOptions.pointFormat[point]);
-                                                    console.log(this.text);
-                                                    if(this.series.name =="Comment"){
-                                                        
-                                                         $("#anModal").modal("show");
-                                                          $("#link").append('<table class="table"><label>'+this.series.name+' Report no. '+ this.text+'</label><tbody><tr><td><label>Site Id</label><input type="text" class="form-control" id="site_id" name="site_id" value="'+selectedSite+'" disabled= "disabled" ></td></tr><tr><td><label>Timestamp</label><div class="input-group date datetime" id="entry"><input type="text" class="form-control col-xs-3" id="tsAnnotation" name="tsAnnotation" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" disabled= "disabled" value="'+moment(this.x).format('YYYY-MM-DD HH:mm:ss')+'" style="width: 256px;"/><div> </td></tr><tr><td><label>Report</label><textarea class="form-control" rows="3" id="comment"disabled= "disabled">'+this.report+'</textarea></td></tr><tr><td><label>Flagger</label><input type="text" class="form-control" id="flaggerAnn" value="'+this.flagger+'"disabled= "disabled"></td></tr></tbody></table>');
-                                                    }else if(this.series.name =="Alert" ){
-                                                        
-                                                         $("#anModal").modal("show");
-                                                         $("#link").append('For more info:<a href="http://www.dewslandslide.com/gold/publicrelease/event/individual/'+ this.text+'">'+this.series.name+' Report no. '+ this.text+'</a>'); 
-                                                        
-                                                    }else if(this.series.name =="Maintenace"){
-                                                    
-                                                         $("#anModal").modal("show");
-                                                         $("#link").append('For more info:<a href="http://www.dewslandslide.com/gold/sitemaintenancereport/individual/'+ this.text+'">'+this.series.name+' Report no. '+ this.text+'</a>'); 
-                                                        
-                                                    }
-                                                    else {
-                                                    $("#annModal").modal("show");
-                                                     $("#tsAnnotation").attr('value',moment(this.category).format('YYYY-MM-DD HH:mm:ss')); 
-                                                     console.log(this.series.name);
-                                                 }
-                                                }
-                                            }
-                                        }
-                                    },
-                                    area: {
-                                        marker: {
-                                            // fillColor: '#FFFFFF',
-                                            lineWidth: 3,
-                                            lineColor: null // inherit from series
-                                        }
-                                    }
-
-                                },
-                                legend: {
-                                    layout: 'vertical',
-                                    align: 'right',
-                                    verticalAlign: 'middle',
-                                    borderWidth: 0,
-                                      itemStyle: {
-                                         color: '#E0E0E3'
-                                      },
-                                      itemHoverStyle: {
-                                         color: '#FFF'
-                                      },
-                                      itemHiddenStyle: {
-                                         color: '#606063'
-                                      }
-                                },
-                                series: [{
-                                    name:  '15mins',
-                                     step: true,
-                                    data:   DataSeriesRain,
-                                    fillOpacity: 0.1,
-                                    zIndex: 0,
-                                    lineWidth: 1,
-                                    id: 'dataseries',
-                                    color: colordata[85]
-                                },{
-                                    name:  '24hrs',
-                                    data:   DataSeries24h,
-                                    fillOpacity: 0.1,
-                                    zIndex: 0,
-                                    lineWidth: 1,
-                                    color: colordata[170]
-                                 
-                                 },{
-                                    name:  '72hrs',
-                                    data:   DataSeries72h,
-                                    fillOpacity: 0.1,
-                                    zIndex: 0,
-                                    lineWidth: 1,
-                                    color: colordata[255]
-                                   
-                                },{
-                                    type: 'flags',
-                                    name:'Alert',
-                                    data: alertReport,
-                                    shape: 'circlepin',
-                                    width: 35,
-                                    onSeries: 'dataseries',
-                                 },{
-                                    type: 'flags',
-                                    name:'Maintenace',
-                                    data: maintenaceReport,
-                                    shape: 'flag',
-                                    width: 25,
-                                    onSeries: 'dataseries',
-                                    },{
-                                    type: 'flags',
-                                    name:'Comment',
-                                    data: extraReport,
-                                    shape: 'circlepin',
-                                    width: 25,
-                                    onSeries: 'dataseries',
-                                }]
+                              Highcharts.setOptions({
+                             global: {
+                                    timezoneOffset: 8 * 60
+                                }
                             });
-                     if(str != ""){
-                        var chart = $('#'+divContainer[i]).highcharts();
-                         chart.series[3].hide();
-                         chart.series[4].hide();
-                         chart.series[5].hide();
-                        }
-                        }
-            }
-        })
-    }
 
-
-    function getRainfallDataNOAH2(str) {
-         $('#rain-noah2').append('<img src="/images/box.gif" id="imgspin" style="display: block; margin: auto;"></img>');
-
-         $.ajax({
-        url:"/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate,
-          dataType: "text",
-       success: function(data)
-            {
-                var jsonRespo = JSON.parse(data);
-               
-               
-                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[];
-                  var x = document.getElementById("mySelect").value;
-            var max = allWS[x]["max_rain_2year"];
-
-              
-                     for (i = 0; i < jsonRespo.length; i++) {
-                        var Data24h=[] ,Datarain=[] ,Data72h=[] ;
-                        var time =  Date.parse(jsonRespo[i].ts);
-                        Data72h.push(time, parseFloat(jsonRespo[i].hrs72));
-                        Data24h.push(time, parseFloat(jsonRespo[i].cumm));
-                        Datarain.push(time, parseFloat(jsonRespo[i].rval));
-                        DataSeries72h.push(Data72h);
-                        DataSeries24h.push(Data24h);
-                        DataSeriesRain.push(Datarain);
-                    }
-                 
-                        var divContainer =["rain-noah2"];
-                         var divname =["rain","24hrs" ,"72hrs"];
-                         var d1 =[DataSeries24h,DataSeries72h,DataSeriesRain];
-                         var color =["red","blue","green"];
-                       
-                        for (i = 0; i < divContainer.length; i++) {
-                             // Highcharts.setOptions(theme);
-                              $("#"+divContainer[i]).highcharts({
-                                chart: {
-                                   type: 'area',
-                                    zoomType: 'x',
-                                   height: 300,
-                                   backgroundColor: {
-                                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                                         stops: [
-                                            [0, '#2a2a2b'],
-                                            [1, '#3e3e40']
-                                         ]
-                                      },
-                                },
-                                title: {
-                                    text:' <b>Rainfall Data from Noah2 ' +  str +'</b>',
-                                    style: {
-                                     color: '#E0E0E3',
-                                     fontSize: '20px'
-                                  }
-                                },
-                                
-                                xAxis: {
-                                    type: 'datetime',
-                                    dateTimeLabelFormats: { // don't display the dummy year
-                                        month: '%e. %b',
-                                        year: '%b'
-                                    },
-                                    title: {
-                                        text: 'Date'
-                                    }
-                                },
-
-                                yAxis:{
-                                     plotBands: [{ // visualize the weekend
-                                        value: max/2,
-                                        color: colordata[170],
-                                        dashStyle: 'shortdash',
-                                        width: 2,
-                                        label: {
-                                            text: '24hrs threshold (' + max/2 +')',
-                                            style: { color: '#fff',}
-                                        }
-                                     },{
-                                          value: max,
-                                         color: colordata[255],
-                                        dashStyle: 'shortdash',
-                                        width: 2,
-                                        label: {
-                                            text: '72hrs threshold (' + max +')',
-                                            style: { color: '#fff',}
-                                        }
-                                    }]
-
-                                },
-                           
-                                tooltip: {
-                                    // pointFormat: '<b>{series.name}</b>: {point.y:.2f}<br>',
-                                   shared: true,
-                                   crosshairs: true
-                                },
-
-                                plotOptions: {
-                                     series: {
-                                        marker: {
-                                                radius: 3
-                                            },
-                                        cursor: 'pointer',
-                                        point: {
-                                            events: {
-                                                click: function () {
-                                                    // console.log(this.series.tooltipOptions.pointFormat[point]);
-                                                    console.log(this.text);
-                                                    if(this.series.name =="Comment"){
-                                                        
-                                                         $("#anModal").modal("show");
-                                                          $("#link").append('<table class="table"><label>'+this.series.name+' Report no. '+ this.text+'</label><tbody><tr><td><label>Site Id</label><input type="text" class="form-control" id="site_id" name="site_id" value="'+selectedSite+'" disabled= "disabled" ></td></tr><tr><td><label>Timestamp</label><div class="input-group date datetime" id="entry"><input type="text" class="form-control col-xs-3" id="tsAnnotation" name="tsAnnotation" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" disabled= "disabled" value="'+moment(this.x).format('YYYY-MM-DD HH:mm:ss')+'" style="width: 256px;"/><div> </td></tr><tr><td><label>Report</label><textarea class="form-control" rows="3" id="comment"disabled= "disabled">'+this.report+'</textarea></td></tr><tr><td><label>Flagger</label><input type="text" class="form-control" id="flaggerAnn" value="'+this.flagger+'"disabled= "disabled"></td></tr></tbody></table>');
-                                                    }else if(this.series.name =="Alert" ){
-                                                        
-                                                         $("#anModal").modal("show");
-                                                         $("#link").append('For more info:<a href="http://www.dewslandslide.com/gold/publicrelease/event/individual/'+ this.text+'">'+this.series.name+' Report no. '+ this.text+'</a>'); 
-                                                        
-                                                    }else if(this.series.name =="Maintenace"){
-                                                    
-                                                         $("#anModal").modal("show");
-                                                         $("#link").append('For more info:<a href="http://www.dewslandslide.com/gold/sitemaintenancereport/individual/'+ this.text+'">'+this.series.name+' Report no. '+ this.text+'</a>'); 
-                                                        
-                                                    }
-                                                    else {
-                                                    $("#annModal").modal("show");
-                                                     $("#tsAnnotation").attr('value',moment(this.category).format('YYYY-MM-DD HH:mm:ss')); 
-                                                     console.log(this.series.name);
-                                                 }
-                                                }
-                                            }
-                                        }
-                                    },
-                                    area: {
-                                        marker: {
-                                            // fillColor: '#FFFFFF',
-                                            lineWidth: 3,
-                                            lineColor: null // inherit from series
-                                        }
-                                    }
-
-                                },
-                                legend: {
-                                    layout: 'vertical',
-                                    align: 'right',
-                                    verticalAlign: 'middle',
-                                    borderWidth: 0,
-                                      itemStyle: {
-                                         color: '#E0E0E3'
-                                      },
-                                      itemHoverStyle: {
-                                         color: '#FFF'
-                                      },
-                                      itemHiddenStyle: {
-                                         color: '#606063'
-                                      }
-                                },
-                                series: [{
-                                    name:  '15mins',
-                                    step: true,
-                                    data:   DataSeriesRain,
-                                    fillOpacity: 0.1,
-                                    zIndex: 0,
-                                    lineWidth: 1,
-                                     id: 'dataseries',
-                                     color: colordata[85]
-                                 
-                                },{
-                                    name:  '24hrs',
-                                    data:   DataSeries24h,
-                                    fillOpacity: 0.1,
-                                    zIndex: 0,
-                                    lineWidth: 1,
-                                    color: colordata[170]
-                               
-                                 },{
-                                    name:  '72hrs',
-                                    data:   DataSeries72h,
-                                    fillOpacity: 0.1,
-                                    zIndex: 0,
-                                    lineWidth: 1,
-                                    color: colordata[255]
-                                   
-                                },{
-                                    type: 'flags',
-                                    name:'Alert',
-                                    data: alertReport,
-                                    shape: 'circlepin',
-                                    width: 35,
-                                    onSeries: 'dataseries',
-                                 },{
-                                    type: 'flags',
-                                    name:'Maintenace',
-                                    data: maintenaceReport,
-                                    shape: 'flag',
-                                    width: 25,
-                                    onSeries: 'dataseries',
-                                    },{
-                                    type: 'flags',
-                                    name:'Comment',
-                                    data: extraReport,
-                                    shape: 'circlepin',
-                                    width: 25,
-                                    onSeries: 'dataseries',
-                                }]
-                            });
-                     if(str != ""){
-                        var chart = $('#'+divContainer[i]).highcharts();
-                         chart.series[3].hide();
-                         chart.series[4].hide();
-                         chart.series[5].hide();
-                        }
-                        }
-            }
-        })
-    }
-
-
-    function getRainfallDataNOAH3(str) {
-        console.log("/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate);
-          $.ajax({
-        url:"/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate,
-          dataType: "text",
-       success: function(data)
-            {
-                var jsonRespo = JSON.parse(data);
-               
-               
-                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[];
-                  var x = document.getElementById("mySelect").value;
-            var max = allWS[x]["max_rain_2year"];
-
-              
-                     for (i = 0; i < jsonRespo.length; i++) {
-                        var Data24h=[] ,Datarain=[] ,Data72h=[] ;
-                        var time =  Date.parse(jsonRespo[i].ts);
-                        Data72h.push(time, parseFloat(jsonRespo[i].hrs72));
-                        Data24h.push(time, parseFloat(jsonRespo[i].cumm));
-                        Datarain.push(time, parseFloat(jsonRespo[i].rval));
-                        DataSeries72h.push(Data72h);
-                        DataSeries24h.push(Data24h);
-                        DataSeriesRain.push(Datarain);
-                    }
-                 
-                        var divContainer =["rain-noah3"];
-                         var divname =["rain","24hrs" ,"72hrs"];
-                         var d1 =[DataSeries24h,DataSeries72h,DataSeriesRain];
-                         var color =["red","blue","green"];
-                       
-                        for (i = 0; i < divContainer.length; i++) {
-                             // Highcharts.setOptions(theme);
                               $("#"+divContainer[i]).highcharts({
                                 chart: {
                                      events: {
@@ -1695,7 +1241,7 @@ $listAnnotationAlert = [];
                 //      $('#loading').modal("hide");
                 // }
             },
-                                   type: 'area',
+                                   type: 'areaspline',
                                     zoomType: 'x',
                                    height: 300,
                                    backgroundColor: {
@@ -1707,7 +1253,7 @@ $listAnnotationAlert = [];
                                       },
                                 },
                                 title: {
-                                    text:' <b>Rainfall Data from Noah3 ' +  str +'</b>',
+                                    text:' <b>Rainfall Data ' +  str +'('+rname+')</b>',
                                     style: {
                                      color: '#E0E0E3',
                                      fontSize: '20px'
@@ -1789,7 +1335,482 @@ $listAnnotationAlert = [];
                                             }
                                         }
                                     },
-                                    area: {
+                                    areaspline: {
+                                        marker: {
+                                            // fillColor: '#FFFFFF',
+                                            lineWidth: 3,
+                                            lineColor: null // inherit from series
+                                        }
+                                    }
+
+                                },
+                                legend: {
+                                    layout: 'vertical',
+                                    align: 'right',
+                                    verticalAlign: 'middle',
+                                    borderWidth: 0,
+                                      itemStyle: {
+                                         color: '#E0E0E3'
+                                      },
+                                      itemHoverStyle: {
+                                         color: '#FFF'
+                                      },
+                                      itemHiddenStyle: {
+                                         color: '#606063'
+                                      }
+                                },
+                                series: [{
+                                    name:  '15mins',
+                                     step: true,
+                                    data:   DataSeriesRain,
+                                    id: 'dataseries',
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
+                                    color: colordata[85]
+                                 
+                                },{
+                                    name:  '24hrs',
+                                    data:   DataSeries24h,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
+                                    color: colordata[170]
+                            
+                                 },{
+                                    name:  '72hrs',
+                                    data:   DataSeries72h,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
+                                    color: colordata[255]
+                                   
+                                },{
+                                    type: 'flags',
+                                    name:'Alert',
+                                    data: alertReport,
+                                    shape: 'circlepin',
+                                    width: 35,
+                                    onSeries: 'dataseries',
+                                 },{
+                                    type: 'flags',
+                                    name:'Maintenace',
+                                    data: maintenaceReport,
+                                    shape: 'flag',
+                                    width: 25,
+                                    onSeries: 'dataseries',
+                                    },{
+                                    type: 'flags',
+                                    name:'Comment',
+                                    data: extraReport,
+                                    shape: 'circlepin',
+                                    width: 25,
+                                    onSeries: 'dataseries',
+                                }]
+                            });
+                     if(str != ""){
+                        var chart = $('#'+divContainer[i]).highcharts();
+                         chart.series[3].hide();
+                         chart.series[4].hide();
+                         chart.series[5].hide();
+                        }
+                        }
+            }
+        })
+    }
+
+
+    function getRainfallDataNOAH2(str) {
+  
+        
+        if( str.length >= 13){
+            var URLdata = "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate;
+            console.log("/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate)
+        }else if(str.length == 4){
+            var URLdata = "/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate;
+            console.log("/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
+        }else{
+             var URLdata = "/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate;
+             console.log("/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
+        }
+
+     $.ajax({
+        url: URLdata,
+        dataType: "json",
+       success: function(data)
+            {
+                var jsonRespo = data;
+               
+               
+                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[];
+                var x = document.getElementById("mySelect").value;
+                var max = all[x]["max_rain_2year"];
+                var rname = all[x]["d_RG2"];
+
+              
+                     for (i = 0; i < jsonRespo.length; i++) {
+                        var Data24h=[] ,Datarain=[] ,Data72h=[] ;
+                        var time =  Date.parse(jsonRespo[i].ts);
+                        Data72h.push(time, parseFloat(jsonRespo[i].hrs72));
+                        Data24h.push(time, parseFloat(jsonRespo[i].cumm));
+                        Datarain.push(time, parseFloat(jsonRespo[i].rval));
+                        DataSeries72h.push(Data72h);
+                        DataSeries24h.push(Data24h);
+                        DataSeriesRain.push(Datarain);
+                    }
+                 
+                        var divContainer =["rain-noah2"];
+                        // alert("rain-noah2")
+                         var divname =["rain","24hrs" ,"72hrs"];
+                         var d1 =[DataSeries24h,DataSeries72h,DataSeriesRain];
+                         var color =["red","blue","green"];
+                       
+                        for (i = 0; i < divContainer.length; i++) {
+                              Highcharts.setOptions({
+                             global: {
+                                    timezoneOffset: 8 * 60
+                                }
+                            });
+
+                              $("#"+divContainer[i]).highcharts({
+                                chart: {
+                                     events: {
+                // load: function(){
+                //      $('#loading').modal("hide");
+                // }
+            },
+                                   type: 'areaspline',
+                                    zoomType: 'x',
+                                   height: 300,
+                                   backgroundColor: {
+                                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                                         stops: [
+                                            [0, '#2a2a2b'],
+                                            [1, '#3e3e40']
+                                         ]
+                                      },
+                                },
+                                title: {
+                                    text:' <b>Rainfall Data  ' +  str +'('+rname+')</b>',
+                                    style: {
+                                     color: '#E0E0E3',
+                                     fontSize: '20px'
+                                  }
+                                },
+                                
+                                xAxis: {
+                                    type: 'datetime',
+                                    dateTimeLabelFormats: { // don't display the dummy year
+                                        month: '%e. %b',
+                                        year: '%b'
+                                    },
+                                    title: {
+                                        text: 'Date'
+                                    }
+                                },
+
+                                yAxis:{
+                                      plotBands: [{ // visualize the weekend
+                                        value: max/2,
+                                        color: colordata[170],
+                                        dashStyle: 'shortdash',
+                                        width: 2,
+                                        label: {
+                                            text: '24hrs threshold (' + max/2 +')',
+                                            style: { color: '#fff',}
+                                        }
+                                     },{
+                                          value: max,
+                                         color: colordata[255],
+                                        dashStyle: 'shortdash',
+                                        width: 2,
+                                        label: {
+                                            text: '72hrs threshold (' + max +')',
+                                            style: { color: '#fff',}
+                                        }
+                                    }]
+
+                                },
+                           
+                                tooltip: {
+                                    // pointFormat: '<b>{series.name}</b>: {point.y:.2f}<br>',
+                                   shared: true,
+                                   crosshairs: true
+                                },
+
+                                plotOptions: {
+                                     series: {
+                                        marker: {
+                                                radius: 3
+                                            },
+                                        cursor: 'pointer',
+                                        point: {
+                                            events: {
+                                                click: function () {
+                                                    // console.log(this.series.tooltipOptions.pointFormat[point]);
+                                                    console.log(this.text);
+                                                    if(this.series.name =="Comment"){
+                                                        
+                                                         $("#anModal").modal("show");
+                                                          $("#link").append('<table class="table"><label>'+this.series.name+' Report no. '+ this.text+'</label><tbody><tr><td><label>Site Id</label><input type="text" class="form-control" id="site_id" name="site_id" value="'+selectedSite+'" disabled= "disabled" ></td></tr><tr><td><label>Timestamp</label><div class="input-group date datetime" id="entry"><input type="text" class="form-control col-xs-3" id="tsAnnotation" name="tsAnnotation" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" disabled= "disabled" value="'+moment(this.x).format('YYYY-MM-DD HH:mm:ss')+'" style="width: 256px;"/><div> </td></tr><tr><td><label>Report</label><textarea class="form-control" rows="3" id="comment"disabled= "disabled">'+this.report+'</textarea></td></tr><tr><td><label>Flagger</label><input type="text" class="form-control" id="flaggerAnn" value="'+this.flagger+'"disabled= "disabled"></td></tr></tbody></table>');
+                                                    }else if(this.series.name =="Alert" ){
+                                                        
+                                                         $("#anModal").modal("show");
+                                                         $("#link").append('For more info:<a href="http://www.dewslandslide.com/gold/publicrelease/event/individual/'+ this.text+'">'+this.series.name+' Report no. '+ this.text+'</a>'); 
+                                                        
+                                                    }else if(this.series.name =="Maintenace"){
+                                                    
+                                                         $("#anModal").modal("show");
+                                                         $("#link").append('For more info:<a href="http://www.dewslandslide.com/gold/sitemaintenancereport/individual/'+ this.text+'">'+this.series.name+' Report no. '+ this.text+'</a>'); 
+                                                        
+                                                    }
+                                                    else {
+                                                    $("#annModal").modal("show");
+                                                     $("#tsAnnotation").attr('value',moment(this.category).format('YYYY-MM-DD HH:mm:ss')); 
+                                                     console.log(this.series.name);
+                                                 }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    areaspline: {
+                                        marker: {
+                                            // fillColor: '#FFFFFF',
+                                            lineWidth: 3,
+                                            lineColor: null // inherit from series
+                                        }
+                                    }
+
+                                },
+                                legend: {
+                                    layout: 'vertical',
+                                    align: 'right',
+                                    verticalAlign: 'middle',
+                                    borderWidth: 0,
+                                      itemStyle: {
+                                         color: '#E0E0E3'
+                                      },
+                                      itemHoverStyle: {
+                                         color: '#FFF'
+                                      },
+                                      itemHiddenStyle: {
+                                         color: '#606063'
+                                      }
+                                },
+                                series: [{
+                                    name:  '15mins',
+                                     step: true,
+                                    data:   DataSeriesRain,
+                                    id: 'dataseries',
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
+                                    color: colordata[85]
+                                 
+                                },{
+                                    name:  '24hrs',
+                                    data:   DataSeries24h,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
+                                    color: colordata[170]
+                            
+                                 },{
+                                    name:  '72hrs',
+                                    data:   DataSeries72h,
+                                    fillOpacity: 0.1,
+                                    zIndex: 0,
+                                    lineWidth: 1,
+                                    color: colordata[255]
+                                   
+                                },{
+                                    type: 'flags',
+                                    name:'Alert',
+                                    data: alertReport,
+                                    shape: 'circlepin',
+                                    width: 35,
+                                    onSeries: 'dataseries',
+                                 },{
+                                    type: 'flags',
+                                    name:'Maintenace',
+                                    data: maintenaceReport,
+                                    shape: 'flag',
+                                    width: 25,
+                                    onSeries: 'dataseries',
+                                    },{
+                                    type: 'flags',
+                                    name:'Comment',
+                                    data: extraReport,
+                                    shape: 'circlepin',
+                                    width: 25,
+                                    onSeries: 'dataseries',
+                                }]
+                            });
+                     if(str != ""){
+                        var chart = $('#'+divContainer[i]).highcharts();
+                         chart.series[3].hide();
+                         chart.series[4].hide();
+                         chart.series[5].hide();
+                        }
+                        }
+            }
+        })
+    }
+
+
+    function getRainfallDataNOAH3(str) {
+        if( str.length == 5){
+            var URLdata = "/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate;
+             console.log("/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
+        }else if(str.length == 4){
+            var URLdata = "/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate;
+            console.log("/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
+        }else{
+             var URLdata = "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate;
+            console.log("/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate)
+        }
+
+     $.ajax({
+        url: URLdata,
+        dataType: "json",
+       success: function(data)
+            {
+                var jsonRespo = data;
+               
+               
+                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[];
+                var x = document.getElementById("mySelect").value;
+                var max = all[x]["max_rain_2year"];
+                var rname = all[x]["d_RG3"];
+
+
+              
+                     for (i = 0; i < jsonRespo.length; i++) {
+                        var Data24h=[] ,Datarain=[] ,Data72h=[] ;
+                        var time =  Date.parse(jsonRespo[i].ts);
+                        Data72h.push(time, parseFloat(jsonRespo[i].hrs72));
+                        Data24h.push(time, parseFloat(jsonRespo[i].cumm));
+                        Datarain.push(time, parseFloat(jsonRespo[i].rval));
+                        DataSeries72h.push(Data72h);
+                        DataSeries24h.push(Data24h);
+                        DataSeriesRain.push(Datarain);
+                    }
+                 
+                        var divContainer =["rain-noah3"];
+                        // alert("rain-noah3")
+                         var divname =["rain","24hrs" ,"72hrs"];
+                         var d1 =[DataSeries24h,DataSeries72h,DataSeriesRain];
+                         var color =["red","blue","green"];
+                       
+                        for (i = 0; i < divContainer.length; i++) {
+                              Highcharts.setOptions({
+                             global: {
+                                    timezoneOffset: 8 * 60
+                                }
+                            });
+
+                              $("#"+divContainer[i]).highcharts({
+                                chart: {
+                                     events: {
+                // load: function(){
+                //      $('#loading').modal("hide");
+                // }
+            },
+                                   type: 'areaspline',
+                                    zoomType: 'x',
+                                   height: 300,
+                                   backgroundColor: {
+                                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                                         stops: [
+                                            [0, '#2a2a2b'],
+                                            [1, '#3e3e40']
+                                         ]
+                                      },
+                                },
+                                title: {
+                                    text:' <b>Rainfall Data ' +  str +'('+rname+')</b>',
+                                    style: {
+                                     color: '#E0E0E3',
+                                     fontSize: '20px'
+                                  }
+                                },
+                                
+                                xAxis: {
+                                    type: 'datetime',
+                                    dateTimeLabelFormats: { // don't display the dummy year
+                                        month: '%e. %b',
+                                        year: '%b'
+                                    },
+                                    title: {
+                                        text: 'Date'
+                                    }
+                                },
+
+                                yAxis:{
+                                      plotBands: [{ // visualize the weekend
+                                        value: max/2,
+                                        color: colordata[170],
+                                        dashStyle: 'shortdash',
+                                        width: 2,
+                                        label: {
+                                            text: '24hrs threshold (' + max/2 +')',
+                                            style: { color: '#fff',}
+                                        }
+                                     },{
+                                          value: max,
+                                         color: colordata[255],
+                                        dashStyle: 'shortdash',
+                                        width: 2,
+                                        label: {
+                                            text: '72hrs threshold (' + max +')',
+                                            style: { color: '#fff',}
+                                        }
+                                    }]
+
+                                },
+                           
+                                tooltip: {
+                                    // pointFormat: '<b>{series.name}</b>: {point.y:.2f}<br>',
+                                   shared: true,
+                                   crosshairs: true
+                                },
+
+                                plotOptions: {
+                                     series: {
+                                        marker: {
+                                                radius: 3
+                                            },
+                                        cursor: 'pointer',
+                                        point: {
+                                            events: {
+                                                click: function () {
+                                                    // console.log(this.series.tooltipOptions.pointFormat[point]);
+                                                    console.log(this.text);
+                                                    if(this.series.name =="Comment"){
+                                                        
+                                                         $("#anModal").modal("show");
+                                                          $("#link").append('<table class="table"><label>'+this.series.name+' Report no. '+ this.text+'</label><tbody><tr><td><label>Site Id</label><input type="text" class="form-control" id="site_id" name="site_id" value="'+selectedSite+'" disabled= "disabled" ></td></tr><tr><td><label>Timestamp</label><div class="input-group date datetime" id="entry"><input type="text" class="form-control col-xs-3" id="tsAnnotation" name="tsAnnotation" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" disabled= "disabled" value="'+moment(this.x).format('YYYY-MM-DD HH:mm:ss')+'" style="width: 256px;"/><div> </td></tr><tr><td><label>Report</label><textarea class="form-control" rows="3" id="comment"disabled= "disabled">'+this.report+'</textarea></td></tr><tr><td><label>Flagger</label><input type="text" class="form-control" id="flaggerAnn" value="'+this.flagger+'"disabled= "disabled"></td></tr></tbody></table>');
+                                                    }else if(this.series.name =="Alert" ){
+                                                        
+                                                         $("#anModal").modal("show");
+                                                         $("#link").append('For more info:<a href="http://www.dewslandslide.com/gold/publicrelease/event/individual/'+ this.text+'">'+this.series.name+' Report no. '+ this.text+'</a>'); 
+                                                        
+                                                    }else if(this.series.name =="Maintenace"){
+                                                    
+                                                         $("#anModal").modal("show");
+                                                         $("#link").append('For more info:<a href="http://www.dewslandslide.com/gold/sitemaintenancereport/individual/'+ this.text+'">'+this.series.name+' Report no. '+ this.text+'</a>'); 
+                                                        
+                                                    }
+                                                    else {
+                                                    $("#annModal").modal("show");
+                                                     $("#tsAnnotation").attr('value',moment(this.category).format('YYYY-MM-DD HH:mm:ss')); 
+                                                     console.log(this.series.name);
+                                                 }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    areaspline: {
                                         marker: {
                                             // fillColor: '#FFFFFF',
                                             lineWidth: 3,
