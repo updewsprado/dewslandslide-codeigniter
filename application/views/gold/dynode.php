@@ -342,6 +342,7 @@ if ($result->num_rows > 0) {
     var maintenaceReport = <?php echo json_encode($listAnnotationM); ?>;
     var extraReport = <?php echo json_encode($reportAnnform); ?>;
     var annValue = "<?php echo $annotation; ?>";
+    var baseURL = "<?php echo $_SERVER['SERVER_NAME']; ?>";
     var frmdate = window.location.href.slice(33,43);
     var todate = window.location.href.slice(44,54);
 	var dataBase = "";
@@ -462,7 +463,7 @@ if ($result->num_rows > 0) {
 	
 	window.onload = function() {	
 		 if( curSite != ""){
-            $("#loading").modal("show");
+            // $("#loading").modal("show");
 			$("#slide_right").removeClass("slide_right_open");
 			$( "#bpright" ).removeClass( "glyphicon  glyphicon-menu-right" ).addClass( "glyphicon glyphicon-menu-left" );	
 			}else{

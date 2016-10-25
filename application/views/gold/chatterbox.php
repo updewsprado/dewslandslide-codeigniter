@@ -16,19 +16,25 @@
 </div>
 <div id="div-advanced-search" class="col-md-6">
   <button type="button" class="btn btn-link btn-sm" id="btn-advanced-search" 
-  data-toggle="modal" data-target="#advanced-search">
+  data-toggle="modal" data-target="#advanced-search" title="Quick Community Group Selection">
   <span class="glyphicon glyphicon-list-alt"></span>
-  Quick Community Group Selection
 </button>
 
 <button type="button" class="btn btn-link btn-sm" id="btn-contact-settings" 
-data-toggle="modal" data-target="#contact-settings">
-Contact Settings
+data-toggle="modal" data-target="#contact-settings" title="Contact Settings"><span class="glyphicon glyphicon-user"></span>
 </button>
+
+<button type="button" class="btn btn-link btn-sm" id="btn-gbl-search" title="Search Message"><span class="glyphicon glyphicon-search"></span></button>
+
 </div>
+
 <div id="current-contacts" class="col-md-8 col-sm-6 col-xs-8">
-  <h4 class="bg-success"></h4>
-</div>
+  <div id="search-lbl" class="bg-success">
+    <div>
+      <h4 ></h4> <span class="glyphicon glyphicon-search" id="btn-standard-search"></span>
+    </div>
+    <input type="text" id="search-key" class="form-control" placeholder="Search for..." hidden>
+  </div>
 <!--         
 <div class="bg-white">
 <div class="input-group">
@@ -151,6 +157,13 @@ Contacts
             <div id="offices-3" class="col-md-2 col-sm-2 col-xs-2"></div>
             <div id="offices-4" class="col-md-2 col-sm-2 col-xs-2"></div>
             <div id="offices-5" class="col-md-2 col-sm-2 col-xs-2"></div>
+          </div>
+        </div>
+          <div class="row">
+          <p>Early Warning Information Recipients:</p>
+          <div id="modal-select-recipients">
+            <label class="opt-ewi-recipients"><input type="radio" name="opt-ewi-recipients" value="false" checked>All</label>
+            <label class="opt-ewi-recipients"><input type="radio" name="opt-ewi-recipients" value="true">Only selected EWI Receivers</label>
           </div>
         </div>
         <Br/>
@@ -284,6 +297,14 @@ Contacts
                 <option value="Q">Q</option>
               </select>
             </div>
+
+            <div class="form-group">
+              <label for="ewirecipient">EWI Recipient:</label>
+              <select name="ewirecipient" id="ewirecipient" class="form-control">
+                <option value="Y">Yes</option>
+                <option value="N">No</option>
+              </select>
+            </div>
             <button type="submit" value="submit" class="btn btn-primary">Save</button>
             <button type="button" class="btn btn-danger" id="btn-clear-cc">Clear</button>
           </form>
@@ -316,21 +337,11 @@ Contacts
           <thead>
             <tr>
               <th>Name</th>
-              <th>Position</th>
-              <th>Office</th>
-              <th>Age</th>
-              <th>Start date</th>
-              <th>Salary</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
               <th>Name</th>
-              <th>Position</th>
-              <th>Office</th>
-              <th>Age</th>
-              <th>Start date</th>
-              <th>Salary</th>
             </tr>
           </tfoot>
         </table>
@@ -353,7 +364,7 @@ Contacts
         <div id="contact-settings-wrapper">
         </div>
         <div>
-         <button type="submit" value="submit" class="btn btn-primary">Save</button>
+         <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
          <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
        </div>
      </form>
@@ -400,6 +411,78 @@ Contacts
 </div>
 
 <!-- END OF EWI MODAL -->
+
+<!-- SEARCH MESSAGE MODAL -->
+
+<div class="modal fade col-lg-10" id="search-result-modal" role="dialog">
+  <div class="modal-dialog modal-md" id="ewi-modal-cs-dialog">
+    <div class="modal-content" id="ewi-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4>Search Result</h4>
+      </div>
+      <div class="modal-body row-fluid"> 
+        <div class="search-result-container">
+          <div class="result-message">
+            <ul id="search-result" class="chat">
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+</div>
+
+<div class="modal fade col-lg-10" id="search-global-message-modal" role="dialog">
+  <div class="modal-dialog modal-md" id="search-global-dialog">
+    <div class="modal-content" id="search-global-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4>Search Result</h4>
+        <div class="input-group">
+          <input type="text" id="search-global-keyword" class="form-control" placeholder="Search for...">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" id="btn-search-global" ><span class="glyphicon glyphicon-search"></span></button>
+          </span>
+        </div>
+      </div>
+      <div class="modal-body row-fluid"> 
+        <div class="search-global-message-container">
+          <div class="result-message">
+            <ul id="search-global-result" class="chat">
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+</div>
+
+<!-- END OF SEARCH MESSAGE MODAL -->
+
+<!-- EWI RECIPIENTS MODAL -->
+  <div class="modal fade col-lg-10" id="ewi-recipient-update-modal" role="dialog">
+  <div class="modal-dialog modal-md" id="search-global-dialog">
+    <div class="modal-content" id="search-global-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4>Update Profiles</h4>
+      </div>
+      <div class="modal-body row-fluid"> 
+        <div class="ewi-recipients-container">
+          <div class="alert alert-info">
+            <strong>NOTICE!</strong> Some contacts needs to be updated. please select users that will be receiving Early warning information alerts.
+          </div>
+          <ul class="list-ewi-recipient"></ul>
+          <button type="button" class="btn btn-info" id="confirm-ewi-recipients">Confirm</button>
+        </div>
+      </div>
+    </div>  
+  </div>
+</div>  
+<!-- END OF EWI RECIPIENTS MODAL -->
 
 </div>
 
