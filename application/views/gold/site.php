@@ -39,7 +39,31 @@
         }
     }
 
+    // $ts1=[];
+    // $sql = "SELECT UNIX_TIMESTAMP(timestamp) as timestamp FROM senslopedb.".$StationsFull[0]['rain_arq']." order by timestamp asc";
+    // $result = mysqli_query($conn, $sql);
+    // $numSites = 0;
+    //   while($row = mysqli_fetch_assoc($result)) {
+    //         array_push($ts1, $row["timestamp"]* 1000);
+    //   }
 
+    // $ts2=[];
+    // $sql = "SELECT UNIX_TIMESTAMP(timestamp) as timestamp FROM senslopedb.".$StationsFull[0]['rain_senslope']." order by timestamp asc";
+    // $result = mysqli_query($conn, $sql);
+    // $numSites = 0;
+    //   while($row = mysqli_fetch_assoc($result)) {
+    //         array_push($ts2, $row["timestamp"]* 1000);
+    //   }
+
+    // $ts3=[];
+    // $ts4=[];
+    // $ts5=[];
+    // $sql = "SELECT UNIX_TIMESTAMP(timestamp) as timestamp FROM senslopedb.".$StationsFull[0]['rain_arq']." order by timestamp asc";
+    // $result = mysqli_query($conn, $sql);
+    // $numSites = 0;
+    //   while($row = mysqli_fetch_assoc($result)) {
+    //         array_push($ts1, $row["timestamp"]* 1000);
+    //   }
 
     $sql = "SELECT DISTINCT LEFT(name,3) as name,  rain_noah,rain_noah2, rain_noah3, rain_senslope,rain_arq,max_rain_2year
             FROM senslopedb.site_rain_props  where LEFT(name,3) = '$newSite'";
@@ -682,10 +706,11 @@ $listAnnotationAlert = [];
 
 </script>
 <script>
-    var all = <?php echo json_encode($StationsFull); ?>;
+   
     var alertReport = <?php echo json_encode($listAnnotationAlert);  ?>;
     var maintenaceReport = <?php echo json_encode($listAnnotationM); ?>;
     var extraReport = <?php echo json_encode($reportAnnform); ?>;
+     var all = <?php echo json_encode($StationsFull); ?>;
     var frmdate = "<?php echo $datefrom; ?>";
     var todate = "<?php echo $dateto; ?>";
     var alertAnnotationNum;
@@ -737,7 +762,7 @@ $listAnnotationAlert = [];
             var rainNOAH3 = all[x]["RG3"];
             var rainARQ = all[x]["rain_arq"];
             var max = all[x]["max_rain_2year"];
-            console.log( rainNOAH +" " + rainNOAH2 +" " + rainNOAH3 +" " +rainARQ + " " +rainSenslope);
+            // console.log( rainNOAH +" " + rainNOAH2 +" " + rainNOAH3 +" " +rainARQ + " " +rainSenslope);
              getRainfallData(rainSenslope);
              getRainfallARQ(rainARQ);
              getRainfallDataNOAH(rainNOAH);
@@ -748,20 +773,19 @@ $listAnnotationAlert = [];
 
     var testResult;
     function getRainfallData(str) {
-         console.log("/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate);
+        // console.log("/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate);
          $.ajax({
         url:"/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate,
-          dataType: "json",
-       success: function(data)
+        dataType: "json",
+        success: function(data)
             {
                 var jsonRespo =data;
-                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[];
+                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[] , negative=[] , nval=[];
                 var x = document.getElementById("mySelect").value;
                  var max = all[x]["max_rain_2year"];
 
-              
-                     for (i = 0; i < jsonRespo.length; i++) {
-                        var Data24h=[] ,Datarain=[] ,Data72h=[] ;
+                    for (i = 0; i < jsonRespo.length; i++) {
+                        var Data24h=[] ,Datarain=[] ,Data72h=[];
                         var time =  Date.parse(jsonRespo[i].ts);
                         Data72h.push(time, parseFloat(jsonRespo[i].hrs72));
                         Data24h.push(time, parseFloat(jsonRespo[i].cumm));
@@ -769,19 +793,31 @@ $listAnnotationAlert = [];
                         DataSeries72h.push(Data72h);
                         DataSeries24h.push(Data24h);
                         DataSeriesRain.push(Datarain);
-                    }
-                 
+                       if(jsonRespo[i].cumm == null){
+                            if(jsonRespo[i-1].cumm != null && jsonRespo[i].cumm == null ){
+                                nval.push(i);
+                                }
+                             if(jsonRespo[i+1].cumm != null && jsonRespo[i].cumm == null ){
+                                nval.push(i);
+                                }
+                            }
+                        }
+                        for (var i = 0; i < nval.length; i=i+2) {
+                           var n = nval[i];
+                           var n2 = nval[i+1];
+                           negative.push( {from: Date.parse(jsonRespo[n].ts), to: Date.parse(jsonRespo[n2].ts), color: 'rgba(68, 170, 213, .2)'})
+                        }
                         var divContainer =["rain-senslope"];
-                         var divname =["rain","24hrs" ,"72hrs"];
-                         var d1 =[DataSeries24h,DataSeries72h,DataSeriesRain];
-                         var color =["red","blue","green"];
+                        var divname =["rain","24hrs" ,"72hrs"];
+                        var d1 =[DataSeries24h,DataSeries72h,DataSeriesRain];
+                        var color =["red","blue","green"];
                        
                         for (i = 0; i < divContainer.length; i++) {
-                              Highcharts.setOptions({
-                             global: {
-                                    timezoneOffset: -8 * 60
-                                }
-                            });
+                            Highcharts.setOptions({
+                                global: {
+                                        timezoneOffset: -8 * 60
+                                    }
+                                });
 
                               $("#"+divContainer[i]).highcharts({
                                 chart: {
@@ -812,13 +848,15 @@ $listAnnotationAlert = [];
                                     },
                                     title: {
                                         text: 'Date'
-                                    }
+                                    },
+                                    plotBands: negative ,
+
                                 },
 
                                 yAxis:{
                                       plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: colordata[170],
+                                        color: colordata[128],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -826,8 +864,8 @@ $listAnnotationAlert = [];
                                             style: { color: '#fff',}
                                         }
                                      },{
-                                          value: max,
-                                         color: colordata[255],
+                                        value: max,
+                                        color: colordata[255],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -854,7 +892,7 @@ $listAnnotationAlert = [];
                                             events: {
                                                 click: function () {
                                                     // console.log(this.series.tooltipOptions.pointFormat[point]);
-                                                    console.log(this.text);
+                                                    // console.log(this.text);
                                                     if(this.series.name =="Comment"){
                                                         
                                                          $("#anModal").modal("show");
@@ -873,7 +911,7 @@ $listAnnotationAlert = [];
                                                     else {
                                                     $("#annModal").modal("show");
                                                      $("#tsAnnotation").attr('value',moment(this.category).format('YYYY-MM-DD HH:mm:ss')); 
-                                                     console.log(this.series.name);
+                                                     // console.log(this.series.name);
                                                  }
                                                 }
                                             }
@@ -910,7 +948,8 @@ $listAnnotationAlert = [];
                                     zIndex: 0,
                                     lineWidth: 1,
                                     id: 'dataseries',
-                                    color: colordata[85]
+                                    color: colordata[0],
+                                    zIndex:3
 
                                 },{
                                     name:  '24hrs',
@@ -918,8 +957,8 @@ $listAnnotationAlert = [];
                                     fillOpacity: 0.1,
                                     zIndex: 0,
                                     lineWidth: 1,
-
-                                    color: colordata[170]
+                                    color: colordata[128],
+                                    zIndex:2
                                 
                                  },{
                                     name:  '72hrs',
@@ -927,7 +966,8 @@ $listAnnotationAlert = [];
                                     zIndex: 0,
                                     lineWidth: 1,
                                     data:   DataSeries72h,
-                                    color: colordata[255]
+                                    color: colordata[255],
+                                    zIndex:1
                                     
                                 },{
                                     type: 'flags',
@@ -965,21 +1005,19 @@ $listAnnotationAlert = [];
     }
 
     function getRainfallARQ(str) {
-        console.log("/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
+
         $.ajax({
-        url:"/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate,
-          dataType: "json",
-       success: function(data)
-            {
+            url:"/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate,
+            dataType: "json",
+            success: function(data)
+                {
                 var jsonRespo = data;
-                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[];
+                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[] ,negative=[],nval=[];
                 var x = document.getElementById("mySelect").value;
                 var max = all[x]["max_rain_2year"];
-
              
                      for (i = 0; i < jsonRespo.length; i++) {
-
-                        var Data24h=[] ,Datarain=[] ,Data72h=[] ;
+                        var Data24h=[] ,Datarain=[] ,Data72h=[];
                         var time =  Date.parse(jsonRespo[i].ts);
                         Data72h.push(time, parseFloat(jsonRespo[i].hrs72));
                         Data24h.push(time, parseFloat(jsonRespo[i].cumm));
@@ -987,10 +1025,21 @@ $listAnnotationAlert = [];
                         DataSeries72h.push(Data72h);
                         DataSeries24h.push(Data24h);
                         DataSeriesRain.push(Datarain);
-                    }
-                   
+                        if(jsonRespo[i].cumm == null){
+                            if(jsonRespo[i-1].cumm != null && jsonRespo[i].cumm == null ){
+                                nval.push(i);
+                                }
+                             if(jsonRespo[i+1].cumm != null && jsonRespo[i].cumm == null ){
+                                nval.push(i);
+                                }
+                            }
+                        }
+                        for (var i = 0; i < nval.length; i=i+2) {
+                           var n = nval[i];
+                           var n2 = nval[i+1];
+                           negative.push( {from: Date.parse(jsonRespo[n].ts), to: Date.parse(jsonRespo[n2].ts), color: 'rgba(68, 170, 213, .2)'})
+                        }
                         var divContainer =["rain-arq"];
-                        // alert("rain-arq");
                          var divname =["rain","24hrs" ,"72hrs"];
                          var d1 =[DataSeries24h,DataSeries72h,DataSeriesRain];
                          var color =["red","blue","green"];
@@ -1026,6 +1075,7 @@ $listAnnotationAlert = [];
                                 },
                                 
                                 xAxis: {
+                                    plotBands: negative,
                                     type: 'datetime',
                                     dateTimeLabelFormats: { // don't display the dummy year
                                         month: '%e. %b',
@@ -1039,7 +1089,7 @@ $listAnnotationAlert = [];
                                 yAxis:{
                                     plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: colordata[170],
+                                        color: colordata[128],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -1077,8 +1127,6 @@ $listAnnotationAlert = [];
                                         point: {
                                             events: {
                                                 click: function () {
-                                                    // console.log(this.series.tooltipOptions.pointFormat[point]);
-                                                    console.log(this.text);
                                                     if(this.series.name =="Comment"){
                                                         
                                                          $("#anModal").modal("show");
@@ -1097,19 +1145,11 @@ $listAnnotationAlert = [];
                                                     else {
                                                     $("#annModal").modal("show");
                                                      $("#tsAnnotation").attr('value',moment(this.category).format('YYYY-MM-DD HH:mm:ss')); 
-                                                     console.log(this.series.name);
                                                  }
                                                 }
                                             }
                                         }
                                     },
-                                    area: {
-                                        marker: {
-                                            lineWidth: 3,
-                                            lineColor: null // inherit from series
-                                        }
-                                    }
-
                                 },
                                legend: {
                                     layout: 'vertical',
@@ -1128,13 +1168,14 @@ $listAnnotationAlert = [];
                                 },
                                 series: [{
                                     name:  '15mins',
-                                 step: true,
+                                    step: true,
                                     data:   DataSeriesRain,
                                     id: 'dataseries',
                                     fillOpacity: 0.1,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[85]
+                                    color: colordata[0],
+                                    zIndex:3
                                    
                                 },{
                                     name:  '24hrs',
@@ -1142,14 +1183,16 @@ $listAnnotationAlert = [];
                                     fillOpacity: 0.1,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[170]
+                                    color: colordata[128],
+                                    zIndex:2
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
                                     fillOpacity: 0.1,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[255]
+                                    color: colordata[255],
+                                    zIndex:1
                                 },{
                                     type: 'flags',
                                     name:'Alert',
@@ -1186,18 +1229,18 @@ $listAnnotationAlert = [];
 
 
     function getRainfallDataNOAH(str) {
-      if( str.length >= 11){
+      if( str.length >= 13){
             var URLdata = "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate;
-            console.log("/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate)
+            // console.log("/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate)
             var namedata= str.slice(10,15);
             var names = "Noah "+namedata;
         }else if(str.length == 4){
             var URLdata = "/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate;
-            console.log("/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
+            // console.log("/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
             var names = "Senslope "+str;
         }else{
              var URLdata = "/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate;
-             console.log("/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
+             // console.log("/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
               var names = "ARQ "+str;
         }
 
@@ -1209,7 +1252,7 @@ $listAnnotationAlert = [];
                 var jsonRespo = data;
                
                
-                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[];
+                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[] ,negative=[] ,nval=[];
                 var x = document.getElementById("mySelect").value;
                 var max = all[x]["max_rain_2year"];
                 var rname = all[x]["d_RG1"];
@@ -1225,10 +1268,22 @@ $listAnnotationAlert = [];
                         DataSeries72h.push(Data72h);
                         DataSeries24h.push(Data24h);
                         DataSeriesRain.push(Datarain);
-                    }
-                 
+                        if(jsonRespo[i].cumm == null){
+                            if(jsonRespo[i-1].cumm != null && jsonRespo[i].cumm == null ){
+                                nval.push(i);
+                                }
+                             if(jsonRespo[i+1].cumm != null && jsonRespo[i].cumm == null ){
+                                nval.push(i);
+                                }
+                            }
+                        }
+                        for (var i = 0; i < nval.length; i=i+2) {
+                           var n = nval[i];
+                           var n2 = nval[i+1];
+                           negative.push( {from: Date.parse(jsonRespo[n].ts), to: Date.parse(jsonRespo[n2].ts), color: 'rgba(68, 170, 213, .2)'});
+                        }
+                        // console.log(nval);
                         var divContainer =["rain-noah"];
-                        // alert("rain_noah")
                          var divname =["rain","24hrs" ,"72hrs"];
                          var d1 =[DataSeries24h,DataSeries72h,DataSeriesRain];
                          var color =["red","blue","green"];
@@ -1243,10 +1298,10 @@ $listAnnotationAlert = [];
                               $("#"+divContainer[i]).highcharts({
                                 chart: {
                                      events: {
-                // load: function(){
-                //      $('#loading').modal("hide");
-                // }
-            },
+                                        // load: function(){
+                                        //      $('#loading').modal("hide");
+                                        // }
+                                    },
                                    type: 'area',
                                     zoomType: 'x',
                                    height: 300,
@@ -1267,6 +1322,7 @@ $listAnnotationAlert = [];
                                 },
                                 
                                 xAxis: {
+                                    plotBands: negative,
                                     type: 'datetime',
                                     dateTimeLabelFormats: { // don't display the dummy year
                                         month: '%e. %b',
@@ -1280,7 +1336,7 @@ $listAnnotationAlert = [];
                                 yAxis:{
                                       plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: colordata[170],
+                                        color: colordata[128],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -1315,8 +1371,6 @@ $listAnnotationAlert = [];
                                         point: {
                                             events: {
                                                 click: function () {
-                                                    // console.log(this.series.tooltipOptions.pointFormat[point]);
-                                                    console.log(this.text);
                                                     if(this.series.name =="Comment"){
                                                         
                                                          $("#anModal").modal("show");
@@ -1335,7 +1389,6 @@ $listAnnotationAlert = [];
                                                     else {
                                                     $("#annModal").modal("show");
                                                      $("#tsAnnotation").attr('value',moment(this.category).format('YYYY-MM-DD HH:mm:ss')); 
-                                                     console.log(this.series.name);
                                                  }
                                                 }
                                             }
@@ -1373,7 +1426,8 @@ $listAnnotationAlert = [];
                                     fillOpacity: 0.1,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[85]
+                                    color: colordata[0],
+                                    zIndex:3
                                  
                                 },{
                                     name:  '24hrs',
@@ -1381,7 +1435,8 @@ $listAnnotationAlert = [];
                                     fillOpacity: 0.1,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[170]
+                                    color: colordata[128],
+                                    zIndex:2
                             
                                  },{
                                     name:  '72hrs',
@@ -1389,7 +1444,8 @@ $listAnnotationAlert = [];
                                     fillOpacity: 0.1,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[255]
+                                    color: colordata[255],
+                                    zIndex:1
                                    
                                 },{
                                     type: 'flags',
@@ -1427,18 +1483,18 @@ $listAnnotationAlert = [];
 
 
     function getRainfallDataNOAH2(str) {
-    if( str.length >= 11){
+    if( str.length >= 13){
             var URLdata = "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate;
-            console.log("/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate)
+            // console.log("/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate)
             var namedata= str.slice(10,15);
             var names = "Noah "+namedata;
         }else if(str.length == 4){
             var URLdata = "/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate;
-            console.log("/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
+            // console.log("/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
             var names = "Senslope "+str;
         }else{
              var URLdata = "/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate;
-             console.log("/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
+             // console.log("/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
               var names = "ARQ "+str;
         }
 
@@ -1450,14 +1506,14 @@ $listAnnotationAlert = [];
                 var jsonRespo = data;
                
                
-                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[];
+                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[], negative=[], nval=[];
                 var x = document.getElementById("mySelect").value;
                 var max = all[x]["max_rain_2year"];
                 var rname = all[x]["d_RG2"];
 
               
                      for (i = 0; i < jsonRespo.length; i++) {
-                        var Data24h=[] ,Datarain=[] ,Data72h=[] ;
+                        var Data24h=[] ,Datarain=[] ,Data72h=[] , negative=[];
                         var time =  Date.parse(jsonRespo[i].ts);
                         Data72h.push(time, parseFloat(jsonRespo[i].hrs72));
                         Data24h.push(time, parseFloat(jsonRespo[i].cumm));
@@ -1465,10 +1521,21 @@ $listAnnotationAlert = [];
                         DataSeries72h.push(Data72h);
                         DataSeries24h.push(Data24h);
                         DataSeriesRain.push(Datarain);
-                    }
-                 
+                       if(jsonRespo[i].cumm == null){
+                            if(jsonRespo[i-1].cumm != null && jsonRespo[i].cumm == null ){
+                                nval.push(i);
+                                }
+                             if(jsonRespo[i+1].cumm != null && jsonRespo[i].cumm == null ){
+                                nval.push(i);
+                                }
+                            }
+                        }
+                        for (var i = 0; i < nval.length; i=i+2) {
+                           var n = nval[i];
+                           var n2 = nval[i+1];
+                           negative.push( {from: Date.parse(jsonRespo[n].ts), to: Date.parse(jsonRespo[n2].ts), color: 'rgba(68, 170, 213, .2)'})
+                        }
                         var divContainer =["rain-noah2"];
-                        // alert("rain-noah2")
                          var divname =["rain","24hrs" ,"72hrs"];
                          var d1 =[DataSeries24h,DataSeries72h,DataSeriesRain];
                          var color =["red","blue","green"];
@@ -1483,10 +1550,10 @@ $listAnnotationAlert = [];
                               $("#"+divContainer[i]).highcharts({
                                 chart: {
                                      events: {
-                // load: function(){
-                //      $('#loading').modal("hide");
-                // }
-            },
+                                        // load: function(){
+                                        //      $('#loading').modal("hide");
+                                        // }
+                                    },
                                    type: 'area',
                                     zoomType: 'x',
                                    height: 300,
@@ -1506,6 +1573,7 @@ $listAnnotationAlert = [];
                                   }
                                 },
                                 xAxis: {
+                                    plotBands: negative ,
                                     type: 'datetime',
                                     dateTimeLabelFormats: { // don't display the dummy year
                                         month: '%e. %b',
@@ -1519,7 +1587,7 @@ $listAnnotationAlert = [];
                                 yAxis:{
                                       plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: colordata[170],
+                                        color: colordata[128],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -1554,8 +1622,6 @@ $listAnnotationAlert = [];
                                         point: {
                                             events: {
                                                 click: function () {
-                                                    // console.log(this.series.tooltipOptions.pointFormat[point]);
-                                                    console.log(this.text);
                                                     if(this.series.name =="Comment"){
                                                         
                                                          $("#anModal").modal("show");
@@ -1574,7 +1640,6 @@ $listAnnotationAlert = [];
                                                     else {
                                                     $("#annModal").modal("show");
                                                      $("#tsAnnotation").attr('value',moment(this.category).format('YYYY-MM-DD HH:mm:ss')); 
-                                                     console.log(this.series.name);
                                                  }
                                                 }
                                             }
@@ -1612,7 +1677,8 @@ $listAnnotationAlert = [];
                                     fillOpacity: 0.1,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[85]
+                                    color: colordata[0],
+                                    zIndex:3
                                  
                                 },{
                                     name:  '24hrs',
@@ -1620,7 +1686,8 @@ $listAnnotationAlert = [];
                                     fillOpacity: 0.1,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[170]
+                                    color: colordata[128],
+                                    zIndex:2
                             
                                  },{
                                     name:  '72hrs',
@@ -1628,7 +1695,8 @@ $listAnnotationAlert = [];
                                     fillOpacity: 0.1,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[255]
+                                    color: colordata[255],
+                                    zIndex:1
                                    
                                 },{
                                     type: 'flags',
@@ -1666,18 +1734,18 @@ $listAnnotationAlert = [];
 
 
     function getRainfallDataNOAH3(str) {
-       if( str.length >= 11){
+       if( str.length >= 13){
             var URLdata = "/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate;
-            console.log("/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate)
+            // console.log("/ajax/rainfallNewGetDataNoah.php?rsite=" + str+"&fdate="+frmdate+"&tdate="+todate)
             var namedata= str.slice(10,15);
             var names = "Noah "+namedata;
         }else if(str.length == 4){
             var URLdata = "/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate;
-            console.log("/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
+            // console.log("/ajax/rainfallNewGetData.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
             var names = "Senslope "+str;
         }else{
              var URLdata = "/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate;
-             console.log("/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
+             // console.log("/ajax/rainfallNewGetDataARQ.php?rsite="+str+"&fdate="+frmdate+"&tdate="+todate)
               var names = "ARQ "+str;
         }
      $.ajax({
@@ -1688,7 +1756,7 @@ $listAnnotationAlert = [];
                 var jsonRespo = data;
                
                
-                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[];
+                var DataSeries24h=[] , DataSeriesRain=[] , DataSeries72h=[] ,negative=[] ,nval=[];
                 var x = document.getElementById("mySelect").value;
                 var max = all[x]["max_rain_2year"];
                 var rname = all[x]["d_RG3"];
@@ -1704,10 +1772,21 @@ $listAnnotationAlert = [];
                         DataSeries72h.push(Data72h);
                         DataSeries24h.push(Data24h);
                         DataSeriesRain.push(Datarain);
-                    }
-                 
+                        if(jsonRespo[i].cumm == null){
+                            if(jsonRespo[i-1].cumm != null && jsonRespo[i].cumm == null ){
+                                nval.push(i);
+                                }
+                             if(jsonRespo[i+1].cumm != null && jsonRespo[i].cumm == null ){
+                                nval.push(i);
+                                }
+                            }
+                        }
+                        for (var i = 0; i < nval.length; i=i+2) {
+                           var n = nval[i];
+                           var n2 = nval[i+1];
+                           negative.push( {from: Date.parse(jsonRespo[n].ts), to: Date.parse(jsonRespo[n2].ts), color: 'rgba(68, 170, 213, .2)'})
+                        }
                         var divContainer =["rain-noah3"];
-                        // alert("rain-noah3")
                          var divname =["rain","24hrs" ,"72hrs"];
                          var d1 =[DataSeries24h,DataSeries72h,DataSeriesRain];
                          var color =["red","blue","green"];
@@ -1722,10 +1801,10 @@ $listAnnotationAlert = [];
                               $("#"+divContainer[i]).highcharts({
                                 chart: {
                                      events: {
-                // load: function(){
-                //      $('#loading').modal("hide");
-                // }
-            },
+                                        // load: function(){
+                                        //      $('#loading').modal("hide");
+                                        // }
+                                    },
                                    type: 'area',
                                     zoomType: 'x',
                                    height: 300,
@@ -1746,6 +1825,7 @@ $listAnnotationAlert = [];
                                 },
                                 
                                 xAxis: {
+                                    plotBands: negative,
                                     type: 'datetime',
                                     dateTimeLabelFormats: { // don't display the dummy year
                                         month: '%e. %b',
@@ -1759,7 +1839,7 @@ $listAnnotationAlert = [];
                                 yAxis:{
                                       plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: colordata[170],
+                                        color: colordata[128],
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -1794,8 +1874,6 @@ $listAnnotationAlert = [];
                                         point: {
                                             events: {
                                                 click: function () {
-                                                    // console.log(this.series.tooltipOptions.pointFormat[point]);
-                                                    console.log(this.text);
                                                     if(this.series.name =="Comment"){
                                                         
                                                          $("#anModal").modal("show");
@@ -1814,7 +1892,6 @@ $listAnnotationAlert = [];
                                                     else {
                                                     $("#annModal").modal("show");
                                                      $("#tsAnnotation").attr('value',moment(this.category).format('YYYY-MM-DD HH:mm:ss')); 
-                                                     console.log(this.series.name);
                                                  }
                                                 }
                                             }
@@ -1852,7 +1929,8 @@ $listAnnotationAlert = [];
                                     fillOpacity: 0.1,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[85]
+                                    color: colordata[0],
+                                    zIndex:3
                                  
                                 },{
                                     name:  '24hrs',
@@ -1860,7 +1938,8 @@ $listAnnotationAlert = [];
                                     fillOpacity: 0.1,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[170]
+                                    color: colordata[128],
+                                    zIndex:2
                             
                                  },{
                                     name:  '72hrs',
@@ -1868,7 +1947,8 @@ $listAnnotationAlert = [];
                                     fillOpacity: 0.1,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[255]
+                                    color: colordata[255],
+                                    zIndex:1
                                    
                                 },{
                                     type: 'flags',
