@@ -885,7 +885,7 @@ $listAnnotationAlert = [];
                                 plotOptions: {
                                      series: {
                                         marker: {
-                                                radius: 2
+                                                radius: 3
                                             },
                                         cursor: 'pointer',
                                         point: {
@@ -944,7 +944,7 @@ $listAnnotationAlert = [];
                                     name:  '15mins',
                                     step: true,
                                     data:   DataSeriesRain,
-                                    fillOpacity: 0.5,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     id: 'dataseries',
@@ -954,7 +954,7 @@ $listAnnotationAlert = [];
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
-                                    fillOpacity: 0.5,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     color: colordata[128],
@@ -962,7 +962,7 @@ $listAnnotationAlert = [];
                                 
                                  },{
                                     name:  '72hrs',
-                                    fillOpacity: 0.5,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     data:   DataSeries72h,
@@ -1171,7 +1171,7 @@ $listAnnotationAlert = [];
                                     step: true,
                                     data:   DataSeriesRain,
                                     id: 'dataseries',
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     color: colordata[0],
@@ -1180,7 +1180,7 @@ $listAnnotationAlert = [];
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     color: colordata[128],
@@ -1188,7 +1188,7 @@ $listAnnotationAlert = [];
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     color: colordata[255],
@@ -1423,7 +1423,7 @@ $listAnnotationAlert = [];
                                      step: true,
                                     data:   DataSeriesRain,
                                     id: 'dataseries',
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     color: colordata[0],
@@ -1432,7 +1432,7 @@ $listAnnotationAlert = [];
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     color: colordata[128],
@@ -1441,7 +1441,7 @@ $listAnnotationAlert = [];
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     color: colordata[255],
@@ -1674,7 +1674,7 @@ $listAnnotationAlert = [];
                                      step: true,
                                     data:   DataSeriesRain,
                                     id: 'dataseries',
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     color: colordata[0],
@@ -1683,7 +1683,7 @@ $listAnnotationAlert = [];
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     color: colordata[128],
@@ -1692,7 +1692,7 @@ $listAnnotationAlert = [];
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     color: colordata[255],
@@ -1926,7 +1926,7 @@ $listAnnotationAlert = [];
                                      step: true,
                                     data:   DataSeriesRain,
                                     id: 'dataseries',
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     color: colordata[0],
@@ -1935,7 +1935,7 @@ $listAnnotationAlert = [];
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     color: colordata[128],
@@ -1944,7 +1944,7 @@ $listAnnotationAlert = [];
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.4,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     color: colordata[255],
