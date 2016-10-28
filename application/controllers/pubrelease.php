@@ -80,8 +80,10 @@ class Pubrelease extends CI_Controller {
 	
 				//$data['releases'] = $this->pubrelease_model->getAllPublicReleases();
 				//$this->load->library('../controllers/pubrelease');
-				$data['events'] = $this->testAllReleasesCached();
-
+				//$data['events'] = $this->testAllReleasesCached();
+				$temp = $this->testAllReleasesCached();
+				$data['events'] = $temp['events'];
+				$data['releases'] = $temp['releases'];				
 				break;
 		}
 
@@ -301,6 +303,13 @@ class Pubrelease extends CI_Controller {
 					$eq['latitude'] = $post['latitude'];
 					$eq['longitude'] = $post['longitude'];
 					$this->pubrelease_model->insert('public_alert_eq', $eq);
+				} else if( $entry['type'] == "D" )
+				{
+					$od['trigger_id'] = $latest_trigger_id;
+					$od['is_llmc'] = isset($post['llmc']) ? true : false;
+					$od['is_lgu'] = isset($post['lgu']) ? true : false;
+					$od['reason'] = $post['reason'];
+					$this->pubrelease_model->insert('public_alert_on_demand', $od);
 				}
 			}
 
@@ -523,9 +532,12 @@ class Pubrelease extends CI_Controller {
 	{
 		$os = PHP_OS;
 
+		$data = [];
+
 		if (strpos($os,'WIN') !== false) {
 		    //echo "Running on a windows server. Not using memcached </Br>";
-		    $allRelease = $this->pubrelease_model->getAllEvents();
+		    $data['events'] = $this->pubrelease_model->getAllEvents();
+		    $data['releases'] = $this->pubrelease_model->getAllReleasesWithSite();
 		}
 		elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
 			//echo "Running on a Linux server. Will use memcached </Br>";
@@ -543,17 +555,19 @@ class Pubrelease extends CI_Controller {
 			} 
 			else {
 			    //echo "No matching key found or dirty cache flag has been raised. I'll add that now!";
-			    $allRelease = $this->pubrelease_model->getAllEvents();
-			    $mem->set("cachedprall", $allRelease) or die("couldn't save pubreleaseall");
+			    $data['events'] = $this->pubrelease_model->getAllEvents();
+		   		$data['releases'] = $this->pubrelease_model->getAllReleasesWithSite();
+			    $mem->set("cachedprall", $data) or die("couldn't save pubreleaseall");
 			    $mem->set("cachedpralldirty", false) or die ("couldn't save dirty flag");
 			}
 		}
 		else {
 			//echo "Unknown OS for execution... Script discontinued";
-			$allRelease = $this->pubrelease_model->getAllEvents();
+			$data['events'] = $this->pubrelease_model->getAllEvents();
+		    $data['releases'] = $this->pubrelease_model->getAllReleasesWithSite();
 		}
 		
-		return "$allRelease";
+		return $data;
 	}
 
 	public function testSingleRelease()

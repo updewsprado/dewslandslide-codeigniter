@@ -269,10 +269,17 @@
 								if( $public_alert_level == "A0" )
 								{
 									$option = explode("***OR***", $description);
-									if( $event->status == "finished" || $event->status == "extended") $description = $option[1];
-									else if ( $event->status == "routine"  || $event->status == "invalid" ) $description = $option[0];
+									if( $event->status == "finished" || $event->status == "extended" ) $description = $option[1];
+									else if ( $event->status == "routine" || $event->status == "invalid" ) $description = $option[0];
 									$description = $description . ")";
-								} else $description = $description . "), valid until " . amPmConverter(date("j F Y, h:i A" , strtotime($event->validity)));
+								} else if ($release->internal_alert_level === "A1-D")
+								{
+									if ($triggers[0]->od_info->is_llmc && $triggers[0]->od_info->is_lgu) $group = "LLMC/LGU";
+									else if ($triggers[0]->od_info->is_llmc) $group = "LLMC"; else $group = "LGU";
+									$description = str_replace("[requester]", $group, $description);
+									$description = str_replace("[reason]", $triggers[0]->od_info->reason, $description) . ")";
+								} 
+								else $description = $description . "), valid until " . amPmConverter(date("j F Y, h:i A" , strtotime($event->validity)));
  
 								echo $public_alert_level . " (" . $description;
 							?>
@@ -370,6 +377,21 @@
 
 										$desc = $responses->trigger_desc->$a;
 										$desc = str_replace("[timestamp]", "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($ordered[count($ordered) - 1]->timestamp))) . "</b>", $desc);
+										if($a === 'E')
+										{
+											$temp = $ordered[count($ordered)-1];
+											$desc = str_replace("[magnitude]", $temp->eq_info->magnitude, $desc);
+											$desc = str_replace("[lat]", rtrim($temp->eq_info->latitude, '0') . "&deg;", $desc);
+											$desc = str_replace("[lon]", rtrim($temp->eq_info->longitude, '0') . "&deg;", $desc);
+										}
+										else if($a === 'D')
+										{
+											$temp = $ordered[count($ordered)-1];
+											if ($temp->od_info->is_llmc && $temp->od_info->is_lgu) $group = "LLMC/LGU";
+											else if ($temp->od_info->is_llmc) $group = "LLMC"; else $group = "LGU";
+											$desc = str_replace("[group]", $group, $desc);
+											$desc = str_replace("[reason]", $temp->od_info->reason, $desc);
+										}
 										$info = $ordered[count($ordered) - 1]->info;
 
 										array_pop($ordered);

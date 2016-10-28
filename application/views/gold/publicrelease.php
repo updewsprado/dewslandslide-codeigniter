@@ -176,6 +176,12 @@
         margin-left: 2px;
     }
 
+    #od_area label.checkbox-inline {
+        top: 8px;
+        font-size: 18px;
+        margin-right: 10px;
+    }
+
     .no-data {
         margin-top: 12px;
         margin-bottom: 0;
@@ -352,7 +358,7 @@
                         </div>
                         <div class="col-sm-2 form-group" id="nd">
                             <div class="checkbox">
-                                <label data-toggle="tooltip" data-placement="top" title="For releases (i.e. A0 (Routine) and A1) without ground and sensor data"><input class="cbox_nd" type="checkbox" value="ND" disabled="disabled"><b>No Data (ND)</b></label>
+                                <label data-toggle="tooltip" data-placement="top" title="For releases (i.e. A0 (Routine) and A1) without ground and sensor data"><input class="cbox_nd" name="cbox_nd" type="checkbox" value="ND" disabled="disabled"><b>No Data (ND)</b></label>
                             </div>
                         </div>
                     </div> <!-- End of Panel Body -->
@@ -408,7 +414,7 @@
                                     </div>
                                     <div class="col-sm-2 form-group no-data">
                                         <div class="checkbox">
-                                            <label data-toggle="tooltip" data-placement="top" title="Check this if there is lack of rainfall data. If you are referring to lack of ground AND sensor data, check ND"><input class="cbox_trigger_nd" type="checkbox" value="R0" disabled="disabled"><b>No Data (R&#8320;)</b></label>
+                                            <label data-toggle="tooltip" data-placement="top" title="Check this if there is lack of rainfall data. If you are referring to lack of ground AND sensor data, check ND"><input class="cbox_trigger_nd" name="cbox_trigger_nd_r0" type="checkbox" value="R0" disabled="disabled"><b>No Data (R&#8320;)</b></label>
                                         </div>
                                     </div>
                                     <div class="col-sm-4 previous_info" id="rain_desc">
@@ -521,7 +527,7 @@
                                     </div>
                                     <div class="col-sm-2 form-group no-data">
                                         <div class="checkbox">
-                                            <label><input class="cbox_trigger_nd" type="checkbox" value="g0" disabled="disabled"><b>No Data (g&#8320;)</b></label>
+                                            <label><input class="cbox_trigger_nd" name="cbox_trigger_nd_g0" type="checkbox" value="g0" disabled="disabled"><b>No Data (g&#8320;)</b></label>
                                         </div>
                                     </div>
                                     <div class="col-sm-4 previous_info" id="ground_desc">
@@ -586,7 +592,7 @@
                                     </div>
                                     <div class="col-sm-2 form-group no-data">
                                         <div class="checkbox">
-                                            <label><input class="cbox_trigger_nd" type="checkbox" value="s0" disabled="disabled"><b>No Data (s&#8320;)</b></label>
+                                            <label><input class="cbox_trigger_nd" name="cbox_trigger_nd_s0" type="checkbox" value="s0" disabled="disabled"><b>No Data (s&#8320;)</b></label>
                                         </div>
                                     </div>
                                     <div class="col-sm-4 previous_info" id="sensor_desc">
@@ -607,6 +613,61 @@
                             
                         </div>
                         <!------ END OF SENSOR DATA ------>
+
+                        <!------ ON-DEMAND ------>
+                        <div class="row" id="od_area" hidden="hidden">
+                            <hr class="hr-divider">
+                            <div class="col-sm-2 area_label">
+                                <h4>ON-DEMAND</h4>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-sm-4 form-group">
+                                        <label class="control-label" for="trigger_od">Request Timestamp</label>
+                                        <div class="input-group col-sm-12">
+                                            <span class="input-group-addon">
+                                                <input class="cbox_trigger" type="checkbox" value="D" name="D">
+                                            </span>
+                                            <div class='input-group date datetime'>
+                                                <input type='text' class="form-control trigger_time" id="trigger_od" name="trigger_od" placeholder="Enter timestamp" disabled="disabled" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4 form-group">
+                                        <label for="trigger_od_info">Requested by</label>
+                                        <div class="input-group">
+                                            <label class="checkbox-inline"><input type="checkbox" class="od_group" name="llmc" value="llmc" disabled="disabled">LLMC</label>
+                                            <label class="checkbox-inline"><input type="checkbox" class="od_group" name="lgu" value="lgu" disabled="disabled">LGU</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4 previous_info" id="od_desc">
+                                       <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 form-group">
+                                        <label for="reason">Reason for Request</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon3">Monitoring requested due to</span>
+                                            <textarea class="form-control" rows="1" id="reason" name="reason" placeholder="Enter reason for request." maxlength="140" aria-describedby="basic-addon3" disabled="disabled"></textarea>
+                                            <!-- <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3"> -->
+                                        </div>
+                                        <!-- <textarea class="form-control" rows="1" id="reason" name="reason" placeholder="Enter reason for request." maxlength="140"></textarea> -->
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label for="trigger_od_info">Current Site Info:</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_od_info" name="trigger_od_info" placeholder="Enter basic site details" maxlength="140" disabled="disabled"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div> <!------ END OF ON-DEMAND ------>
+
                      </div> <!-- End of Panel Body -->
                 </div> <!-- End of Panel -->
             </div> <!-- End of Col Time of Acknowledgement -->
@@ -742,6 +803,27 @@
             </div>
         </div>
 
+        <div class="modal fade" id="nd_modal" role="dialog">
+            <div class="modal-dialog modal-md">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Alert Notice</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>This release is for the event monitoring's current end-of-validity.</p>
+                        <p>If it is not yet the time to lower the alert to A0 due to lack of data (on ground, sensor, or both), please check the appropriate "No Data" button to extend the validity by 4 hours.</p>
+                        <p>Else, if there are new triggers, enter the triggers on their respective fields.</p>
+                        <p>Else, lower the site to A0.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Okay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </form>
     </div><!-- /.container-fluid -->
 </div><!-- /#page-wrapper -->   
@@ -783,7 +865,7 @@
             }
         });
 
-        let status = 'new', active = [], routine_finish =[];
+        let status = 'new', active = [], routine_finish = [], validity_global = null;
 
 
         /*******************************************
@@ -867,7 +949,7 @@
         var saved_triggers = [],
             lookup = [  { x:"rs", y:"rain_area", z:false }, 
                         { x:"es", y:"eq_area", z:false },
-                        { x:"D", y:"", z:false },
+                        { x:"ds", y:"od_area", z:false },
                         { x:"gs", y:"ground_area", z:false },
                         { x:"ss", y:"sensor_area", z:false } ];
 
@@ -1016,6 +1098,10 @@
             // If Checkbox is E, enable magnitude, latitude and longitude
             if( $(".cbox_trigger[value=E]").is(":checked") ) $("#magnitude, #latitude, #longitude").prop("disabled", false);
             else $("#magnitude, #latitude, #longitude").prop("disabled", true);
+
+            // If Checkbox is D, enable magnitude, latitude and longitude
+            if( $(".cbox_trigger[value=D]").is(":checked") ) $(".od_group, #reason").prop("disabled", false);
+            else $(".od_group, #reason").prop("disabled", true);
             
             // Mark toExtendND true if X0 (ND-trigger) is checked
             if( trigger_list.includes("s0") || trigger_list.includes("g0") ) toExtendND = true;
@@ -1073,6 +1159,7 @@
                         $("#details").html("Event-based monitoring started on <b>" + moment(event.event_start).format("dddd, MMMM Do YYYY, HH:mm") + "</b> and ended on <b>" + moment(event.validity).format("dddd, MMMM Do YYYY, HH:mm") + "</b>. The site is under three-day extended monitoring.");
                     }
                     $("#site_info_area").slideDown();
+                    validity_global = event.validity;
                     
                     $.get( "<?php echo base_url(); ?>pubrelease/getLastRelease/" + event.event_id, 
                     function( release ) 
@@ -1102,7 +1189,7 @@
                             case "A1": $('#public_alert_level option').prop('disabled', false); break;
                         }
                         $("#public_alert_level").val(public_alert).trigger("change");
-                        if( x == "ND" ) setTimeout(function(){ $(".cbox_nd").trigger("click"); }, 300);
+                        if( x == "ND" ) setTimeout(function(){ $(".cbox_nd").trigger("click"); }, 1000);
 
                     }, "json")
                     .done(function (event) 
@@ -1141,6 +1228,7 @@
                     status = "new";
                     saved_triggers = [];
                     current_event = [];
+                    validity_global = null;
                     $(".previous_info span:nth-child(2)").text("No trigger yet.");
                     $("#site_info_area").slideUp();
                     $(".cbox_trigger_nd").prop('disabled', true);
@@ -1313,7 +1401,43 @@
             trigger_info: {
                 "hasTriggerInfo": true
             }
-        });    
+        });
+
+       jQuery.validator.addMethod("isEndOfValidity", function(value, element, param) {
+            let x = validity_global;
+            let y = $("#timestamp_entry").val();
+            console.log(moment(x).isSame(moment(y).add(30, 'minutes')));
+            if( moment(x).isSame(moment(y).add(30, 'minutes')) )
+            {
+                if( $("#public_alert_level").val() == "A0")
+                {   
+                    return true;
+                }
+                if( $("#public_alert_level").val() == "A1" && $(element).is(":checked"))
+                {
+                    return true;
+                }
+                else if( ($("#public_alert_level").val() == "A2" || $("#public_alert_level").val() == "A2") && ($(".cbox_trigger_nd[value=g0]").is(":checked") || $(".cbox_trigger_nd[value=s0]").is(":checked")) )
+                {
+                    return true;
+                }
+                else {
+                    $("#nd_modal").modal('show');
+                    return false;
+                } 
+                    
+            } else return true;
+            
+        }, "");
+
+       $.validator.addClassRules({
+            cbox_nd: {
+                "isEndOfValidity": true
+            },
+            cbox_trigger_nd: {
+                "isEndOfValidity": true
+            }
+        });
 
         $("#publicReleaseForm").validate(
         {
@@ -1498,7 +1622,7 @@
 
                 console.log(temp);
 
-                $('.js-loading-bar').modal({
+               $('.js-loading-bar').modal({
                     backdrop: 'static',
                     //show: false
                 });
