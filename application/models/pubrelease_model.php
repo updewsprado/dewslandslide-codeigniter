@@ -205,6 +205,16 @@ class Pubrelease_Model extends CI_Model
 		return json_encode($query->result_object());
 	}
 
+	public function getAllReleasesWithSite()
+	{
+		$this->db->select('public_alert_event.site_id, site.name, site.sitio, site.barangay, site.municipality, site.province, public_alert_release.*');
+		$this->db->from('public_alert_release');
+		$this->db->join('public_alert_event', 'public_alert_event.event_id = public_alert_release.event_id');
+		$this->db->join('site', 'public_alert_event.site_id = site.id');
+		$query = $this->db->get();
+		return json_encode($query->result_object());
+	}
+
 	//================================================================
 	
 	public function getAlerts()
