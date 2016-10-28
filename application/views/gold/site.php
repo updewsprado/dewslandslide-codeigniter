@@ -885,7 +885,7 @@ $listAnnotationAlert = [];
                                 plotOptions: {
                                      series: {
                                         marker: {
-                                                radius: 3
+                                                radius: 2
                                             },
                                         cursor: 'pointer',
                                         point: {
@@ -944,7 +944,7 @@ $listAnnotationAlert = [];
                                     name:  '15mins',
                                     step: true,
                                     data:   DataSeriesRain,
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.5,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     id: 'dataseries',
@@ -954,7 +954,7 @@ $listAnnotationAlert = [];
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.5,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     color: colordata[128],
@@ -962,7 +962,7 @@ $listAnnotationAlert = [];
                                 
                                  },{
                                     name:  '72hrs',
-                                    fillOpacity: 0.1,
+                                    fillOpacity: 0.5,
                                     zIndex: 0,
                                     lineWidth: 1,
                                     data:   DataSeries72h,
