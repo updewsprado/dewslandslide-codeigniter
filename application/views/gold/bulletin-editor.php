@@ -20,7 +20,7 @@
 	$responses = json_decode($responses);
 	if($public_alert_level != 'A0') $event->validity = $validity;
 
-	print_r($triggers);
+	//print_r($triggers);
 
 	function roundTime($timestamp)
 	{
