@@ -195,6 +195,15 @@ class Pubrelease_Model extends CI_Model
 		$this->db->update($table, $data);
 	}
 
+	public function doesExists($select, $table, $where_array)
+	{
+		$this->db->select($select);
+		$this->db->from($table);
+		$this->db->where($where_array);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	public function getAllEvents()
 	{
 		$this->db->select('public_alert_event.*, site.*, public_alert_release.*');

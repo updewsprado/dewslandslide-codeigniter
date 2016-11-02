@@ -1413,13 +1413,16 @@
                 {   
                     return true;
                 }
-                if( $("#public_alert_level").val() == "A1" && $(element).is(":checked"))
+                if( $("#public_alert_level").val() == "A1")
                 {
-                    return true;
+                    if($(element).is(":checked") || $(".cbox_trigger").is(":checked"))
+                        return true;
+                    else { $("#nd_modal").modal('show'); return false; }
                 }
-                else if( ($("#public_alert_level").val() == "A2" || $("#public_alert_level").val() == "A2") && ($(".cbox_trigger_nd[value=g0]").is(":checked") || $(".cbox_trigger_nd[value=s0]").is(":checked")) )
+                else if( $("#public_alert_level").val() == "A2" || $("#public_alert_level").val() == "A2" )
                 {
-                    return true;
+                    if ($(".cbox_trigger_nd[value=g0]").is(":checked") || $(".cbox_trigger_nd[value=s0]").is(":checked") || $(".cbox_trigger").is(":checked")) return true;
+                    else { $("#nd_modal").modal('show'); return false; }
                 }
                 else {
                     $("#nd_modal").modal('show');
@@ -1596,8 +1599,10 @@
                 {
                     temp.routine_list = [];
                     $("input[name='routine_sites[]']:checked").each(function () {
-                        temp.routine_list.push(this.value);
-                    })
+                        if(!this.disabled) 
+                            temp.routine_list.push(this.value); 
+                        else console.log("DIS");
+                    });
                 }
                 else if ( status == "extended" )
                 {
