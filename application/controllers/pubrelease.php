@@ -172,9 +172,9 @@ class Pubrelease extends CI_Controller {
 			$release_id = $this->pubrelease_model->insert('public_alert_release', $release);
 			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', array('latest_release_id' => $release_id) );
 			
+			$a = $this->pubrelease_model->getEventValidity($event_id);
 			if( isset($_POST['extend_ND']) )
 			{
-				$a = $this->pubrelease_model->getEventValidity($event_id);
     			$data['validity'] = date("Y-m-d H:i:s", strtotime($a[0]->validity) + 4 * 3600);
     			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', $data);
 			}
@@ -242,10 +242,13 @@ class Pubrelease extends CI_Controller {
 		}
     }
 
-    public function getVal($event_id)
+    public function test()
     {
-    	$a = $this->pubrelease_model->getEventValidity($event_id);
-    	echo $a[0]->validity;
+    	$select = "event_id";
+    	$table = "public_alert_event";
+    	$where_array = array('site_id' => '4', 'event_start' => '2016-11-02 11:30:00', 'status' => 'routine' );
+    	$a = $this->pubrelease_model->doesExists($select, $table, $where_array);
+    	if( count($a) == 0 ) echo "Insert"; else echo $a[0]->event_id;
     }
 
     public function roundTime($timestamp)
