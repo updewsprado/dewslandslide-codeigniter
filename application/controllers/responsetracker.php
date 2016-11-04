@@ -80,11 +80,11 @@ class Responsetracker extends CI_Controller {
 	public function getAnalyticsSite($firstname,$lastname,$number,$period,$current_date,$site){
 		$data['firstname'] = $firstname;
 		$data['lastname'] = $lastname;
-		$data['number'] = $number;
+		$data['number'] = [$number];
 		$data['period'] = $period;
 		$data['site'] = $site;
 		$data['current_date'] = $current_date;
-		$timeStamps = $this->responsetracker_model->getChatTimeStampsPerSite($data);
+		$timeStamps = $this->responsetracker_model->getChatTimeStamps($data);
 		return $timeStamps;
 	}
 
@@ -95,7 +95,7 @@ class Responsetracker extends CI_Controller {
 		$data['period'] = $period;
 		$data['current_date'] = $current_date;
 		$data['number'] = $number;
-		$timeStamps = $this->responsetracker_model->getChatTimeStampsPerPerson($data);
+		$timeStamps = $this->responsetracker_model->getChatTimeStamps($data);
 		return $timeStamps;	
 	}
 

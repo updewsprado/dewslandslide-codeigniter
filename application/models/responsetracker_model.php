@@ -44,22 +44,7 @@ class Responsetracker_model extends CI_Model {
 		return $query;
 	}
 
-	public function getChatTimeStampsPerSite($data){
-		$number = substr($data['number'],1);
-		$period = $data['period'];
-		$current_date = $data['current_date'];
-		$sql = "SELECT 'You' as user,timestamp_written as 
-			timestamp FROM smsoutbox WHERE recepients LIKE '%$number' 
-			AND (timestamp_written BETWEEN '$period' AND '$current_date') UNION 
-			SELECT sim_num as user,timestamp as timestamp FROM smsinbox WHERE sim_num LIKE '%$number' 
-			AND (timestamp BETWEEN '$period' AND '$current_date') ORDER BY timestamp ASC";
-
-		$query = $this->db->query($sql);
-		
-		return $query->result();
-	}
-
-	public function getChatTimeStampsPerPerson($data){
+	public function getChatTimeStamps($data){
 
 		if (sizeof($data['number']) > 1){
 			for ($i = 0;$i < sizeof($data['number']);$i++){
@@ -89,8 +74,8 @@ class Responsetracker_model extends CI_Model {
 		$query = $this->db->query($sql);
 		
 		return $query->result();
-	}
 
+	}
 
 	public function getAllSitesPersons(){
 
