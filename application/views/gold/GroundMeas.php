@@ -1558,7 +1558,6 @@ mysqli_close($conn);
           }
         var series_data=[]
         for(var a = 0; a < listarray.length; a++){
-            var n = coloursArray.length;
             series_data.push({name:listarray[a],data:data.slice(slice[a],slice[a+1]),})
           }
           console.log(series_data);
