@@ -1419,7 +1419,7 @@
                         return true;
                     else { $("#nd_modal").modal('show'); return false; }
                 }
-                else if( $("#public_alert_level").val() == "A2" || $("#public_alert_level").val() == "A2" )
+                else if( $("#public_alert_level").val() == "A2" || $("#public_alert_level").val() == "A3" )
                 {
                     if ($(".cbox_trigger_nd[value=g0]").is(":checked") || $(".cbox_trigger_nd[value=s0]").is(":checked") || $(".cbox_trigger").is(":checked")) return true;
                     else { $("#nd_modal").modal('show'); return false; }
