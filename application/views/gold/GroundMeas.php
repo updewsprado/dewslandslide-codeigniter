@@ -1,26 +1,18 @@
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined.js"></script>
-    <script src="http://code.highcharts.com/highcharts-more.js"></script>
-    <script src="https://code.highcharts.com/stock/highstock.js"></script>
-    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
-    <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-    <script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.0/dygraph-combined.js"></script>
-    <script type="text/javascript" src="http://fgnass.github.io/spin.js/spin.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.validate.js"></script>
-    <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+<script type="text/javascript" src="/js/jquery-ui-1.10.4.custom.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap-datetimepicker.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined.js"></script>
+<script type="text/javascript" src="http://fgnass.github.io/spin.js/spin.min.js"></script>
+<script type="text/javascript" src="/js/jquery.validate.js"></script>
+<script type="text/javascript" src="/js/jquery.validate.min.js"></script>
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script type="text/javascript" src="/goldF/css/dewslandslide/linecolor.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
   <style type="text/css">
-    #submit{     
-            height: 32px;
-            margin-top: 5px;
-            width: 156px;
-    }
     .rainPlot {
       margin-left: auto;
       margin-right: auto;
@@ -245,7 +237,7 @@ if (mysqli_num_rows($resultTimestamp) > 0) {
         // output data of each row
         while($row = mysqli_fetch_assoc($result)) {
             array_push($idAnnform, $row["id"]);
-            array_push($tsAnnform, $row["timestamp"]);
+            array_push($tsAnnform, $row["ts"]);
             array_push($reportAnnform, $row["report"]);
             array_push($flaggerAnnform, $row["flagger"]);
         }
@@ -256,65 +248,62 @@ mysqli_close($conn);
 
 ?>
 <div id="page-wrapper">
-<div class="container">
-  <div class="jumbotron">
-    <h2>GROUND MEASUREMENT</h2>      
-  </div>
-    <div class="row " id= "crack 2">
-         <div class="col-lg-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                      <i class="fa fa-bar-chart-o fa-fw"></i> <b>Superimpose </b>
-                       <div class="row">
-                      <div class="col-sm-2">
-                        <form>
-                          <select id="mySelect"  onchange="displayGroundGraphs()">
-                            <?php
+  <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header" id="header-site">Ground Measurement Overview</h1>
+        </div>
+    </div>
+          <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#graph" role="tab">Graph</a>
+        </li>
+        <li class="nav-item analysisgraph" id="liAnalisis">
+          <a class="nav-link" data-toggle="tab" href="#analysisgraph" role="tab">Analysis Graph</a>
+        </li>
+        <li></li>
+      </ul>
 
-                              $ctr = 0;
-                              foreach ($GndMeasurementFull as $singleSite) {
-                                $curSite = $singleSite["site_id"];
-                                echo "<option value=\"$ctr\">$curSite</option>";
-                              }
-                            ?>
-                          </select>    
-                      
-                        </form>
-                      </div>    
-                    </div>
-                    </h3>
-                </div>
-                <div class="panel-body">
-                <div  id="Groundfull" style="width:auto; height:350px;"></div>    
-                </div>
-            </div>
-        </div>                                     
-
-         <div class="col-lg-6 ">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <label>
-                   <select id="mySelect2" class="form-control" onchange="displayGroundGraphs()">
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="graph" role="tabpanel">
+           <div id="container" ></div>
+        </div>
+      <div class="tab-pane" id="analysisgraph" role="tabpanel">  
+      <select id="mySelect"  onchange="displayGroundGraphs()">
                         <?php
+
                           $ctr = 0;
-                          foreach ($GndMeasurement as $singleSite) {
-                            $curSite = $singleSite["crack_id"];
+                          foreach ($GndMeasurementFull as $singleSite) {
+                            $curSite = $singleSite["site_id"];
                             echo "<option value=\"$ctr\">$curSite</option>";
-                            $ctr++;
                           }
                         ?>
-                      </select>
-                     </label> 
-                </div>
-                <div class="panel-body">
-                <div  id="GroundMeas" style="width:auto; height:300px;"></div>    
-                </div>
-            </div>
-        </div>                                     
-    </div> 
-  </div>
-  
+                      </select> 
+        <br>  
+        <table>
+        <tr>
+        <th> <p> Select Crack :  </p> </th>
+        <td>
+        <select id="mySelect2" class="form-control" onchange="displayGroundGraphs()" style="width: 126.22222px;;">
+      <!--     <option value="">Select Crack</option> -->
+          <?php
+            $ctr = 0;
+            foreach ($GndMeasurement as $singleSite) {
+              $curSite = $singleSite["crack_id"];
+              echo "<option value=\"$ctr\">$curSite</option>";
+              $ctr++;
+            }
+          ?>
+        </select>
+        </td></tr>
+        </table>
+        <div class ="col-md-12" style="padding: 0px">
+          <div class ="col-md-6"  id="velocityGraph" style="padding: 0px"></div>
+          <div  class ="col-md-6" id="disGraph" style="padding: 0px"></div>
+        </div>
+        </div>
+      </div>
     <div class="container" id="groundform">
         <div class="page-header">
             <h1>Ground Measurment <small>Edit Form</small></h1>
@@ -411,7 +400,7 @@ mysqli_close($conn);
                           
                     }
 
-                     echo '<td ><input type="number"  min="0" style="width:80px" class="meas" /></td>';
+                     echo '<td ><input type="number"  min="0" style="width:80px" class="meas"  disabled="disabled"/></td>';
                    
                    
                 $i++;
@@ -569,6 +558,8 @@ mysqli_close($conn);
 <!--  -->
 
 <script>
+  
+
     var tDiff = []  
     var crackData = [];
     var upArray =[];
@@ -591,16 +582,15 @@ mysqli_close($conn);
     var curSite = "<?php echo $site; ?>";
     var table = document.getElementById("mytable");
     var fromDate = "" , toDate = "" , dataBase = "" ,annotationD = "";
-     
-   
+    
     function getAllSites() {  
         var baseURL = "<?php echo $_SERVER['SERVER_NAME']; ?>";
         var URL;
         if (baseURL == "localhost") {
-          URL = "http://"+baseURL+"/temp/getSenslopeData.php?sitenames&db=senslopedb";
+          URL = "http://localhost/temp/getSenslopeData.php?sitenames&db=senslopedb";
         }
         else {
-          URL = "http://"+baseURL+"/ajax/getSenslopeData.php?sitenames&db=senslopedb";
+          URL = "http://www.dewslandslide.com/ajax/getSenslopeData.php?sitenames&db=senslopedb";
         }
         
         $.getJSON(URL, function(data, status) {
@@ -610,6 +600,9 @@ mysqli_close($conn);
       }
 
     function popDropDownGeneral() {
+
+    
+
       var select = document.getElementById('sitegeneral');
       
       $("#sitegeneral").append('<option value="">SELECT</option>');
@@ -656,27 +649,29 @@ mysqli_close($conn);
      
      
     window.onload = function() {
-    if( curSite != ""){
-        $("#slide_right").removeClass("slide_right_open");
-        $( "#bpright" ).removeClass( "glyphicon  glyphicon-menu-right" ).addClass( "glyphicon glyphicon-menu-left" );   
-    }else{
-        $("#slide_right").addClass("slide_right_open");
-        $( "#bpright" ).removeClass( "glyphicon  glyphicon-menu-left" ).addClass( "glyphicon glyphicon-menu-right" );
-    }
+       if( curSite != ""){
+           
+            $("#slide_right").removeClass("slide_right_open");
+            $( "#bpright" ).removeClass( "glyphicon  glyphicon-menu-right" ).addClass( "glyphicon glyphicon-menu-left" );   
+        }else{
+            $("#slide_right").addClass("slide_right_open");
+            $( "#bpright" ).removeClass( "glyphicon  glyphicon-menu-left" ).addClass( "glyphicon glyphicon-menu-right" );
+             $(".crackTable").hide();
+             $("#container").append('<br><img src="/images/box.gif" style="display: block; margin: auto;"></img><center><h1>Select Site</h1></center>');
 
+        }
       var targetForm = getMainForm();
       nodeAlertJSON = <?php echo $nodeAlerts; ?>;
       nodeStatusJSON = <?php echo $nodeStatus; ?>;
       maxNodesJSON = <?php echo $siteMaxNodes; ?>;
       getAllSites();
       $('#mySelect').hide();
-      $('#nodeGeneralname').hide();
-      $('#nodeGeneral').hide();
-      $('.nodetable').hide()
-      $('.datetable').hide()
+      $('.nodetable').hide();
+      $('.datetable').hide();
       displayGroundGraphs();
       check();
       update();
+      
       
       
     }
@@ -690,8 +685,7 @@ mysqli_close($conn);
       }
       else {
         curSite = document.getElementById("sitegeneral").value;
-        annotationD = $('#checkAnn').prop('checked');
-        var urlExt = "gold/GroundMeas/" + curSite +"/" + annotationD;
+        var urlExt = "gold/GroundMeas/" + curSite ;
         var urlBase = "<?php echo base_url(); ?>";
         window.location.href = urlBase + urlExt;
       }
@@ -969,44 +963,51 @@ mysqli_close($conn);
                       msDATA.push(measId);
                       var cmPerHour= valueMeas / hours;
                       var roundoff2 =Math.round(cmPerHour*1000)/1000;
-                      $(measIdtime).attr('data-original-title', valueMeas);
-                      // $(measIdtime).attr('data-original-title', tDiff[vv] +"-"+tDiff[vv2]+"="+hours+ "hrs  measDifference " +valueMeas +"-->"+cmPerHour+"=====>"+roundoff2);
+                      // $(measIdtime).attr('data-original-title', valueMeas);
+                      $(measIdtime).attr('data-original-title', tDiff[vv] +"-"+tDiff[vv2]+"="+hours+ "hrs  measDifference " +valueMeas +"-->"+cmPerHour+"=====>"+roundoff2);
                       msDATA.push(measId);
 
-                      
-                      if(hours <= "23" && hours >= "0"){
-                            if(cmPerHour < (a0apatHours/4) ){
-                               $(measIdtime).attr('bgcolor','#99ff99');
-                            }else if (cmPerHour >= (a0apatHours/4) && cmPerHour <= (a3apatHours/4)){
-                               $(measIdtime).attr('bgcolor','#ffb366');
-                             }else if (cmPerHour > (a3apatHours/4)){
-                                $(measIdtime).attr('bgcolor','#ff6666');
-                            }
-                      }else if(hours <= "95" && hours >= "24"){
-                            if(cmPerHour < (a0apatHours/24) ){
-                               $(measIdtime).attr('bgcolor','#99ff99');
-                            }else if (cmPerHour >= (a0apatHours/24) && cmPerHour <= (a3isangDay/24)){
-                               $(measIdtime).attr('bgcolor','#ffb366');
-                             }else if (cmPerHour > (a3isangDay/24)){
-                                $(measIdtime).attr('bgcolor','#ff6666');
-                            }
-                      }else if(hours <= "167" && hours >= "96"){
-                            if(cmPerHour < (a2apatDays/96) ){
-                               $(measIdtime).attr('bgcolor','#99ff99');
-                            }else if (cmPerHour >= (a2apatDays/96) && cmPerHour <= (a3apatDays/96)){
-                               $(measIdtime).attr('bgcolor','#ffb366');
-                             }else if (cmPerHour > (a3apatDays/96)){
-                                $(measIdtime).attr('bgcolor','#ff6666');
-                            }
-                      }else if(hours >= "168"){
-                        if(cmPerHour < (a2isangWeek/168) ){
-                               $(measIdtime).attr('bgcolor','#99ff99');
-                            }else if (cmPerHour >= (a2isangWeek/168) && cmPerHour <= (a3isangWeek/168)){
-                               $(measIdtime).attr('bgcolor','#ffb366');
-                             }else if (cmPerHour > (a3isangWeek/168)){
-                                $(measIdtime).attr('bgcolor','#ff6666');
-                            }
+                      if(valueMeas >= 0.25){
+                        $(measIdtime).attr('bgcolor','#ffb366');
+                      } else if ( valueMeas >= 1.8){
+                        $(measIdtime).attr('bgcolor','#ff6666');
+                      } else{
+                         $(measIdtime).attr('bgcolor','#99ff99');
+
                       }
+                      // if(hours <= "23" && hours >= "0"){
+                      //       if(cmPerHour < (a0apatHours/4) ){
+                      //          $(measIdtime).attr('bgcolor','#99ff99');
+                      //       }else if (cmPerHour >= (a0apatHours/4) && cmPerHour <= (a3apatHours/4)){
+                      //          $(measIdtime).attr('bgcolor','#ffb366');
+                      //        }else if (cmPerHour > (a3apatHours/4)){
+                      //           $(measIdtime).attr('bgcolor','#ff6666');
+                      //       }
+                      // }else if(hours <= "95" && hours >= "24"){
+                      //       if(cmPerHour < (a0apatHours/24) ){
+                      //          $(measIdtime).attr('bgcolor','#99ff99');
+                      //       }else if (cmPerHour >= (a0apatHours/24) && cmPerHour <= (a3isangDay/24)){
+                      //          $(measIdtime).attr('bgcolor','#ffb366');
+                      //        }else if (cmPerHour > (a3isangDay/24)){
+                      //           $(measIdtime).attr('bgcolor','#ff6666');
+                      //       }
+                      // }else if(hours <= "167" && hours >= "96"){
+                      //       if(cmPerHour < (a2apatDays/96) ){
+                      //          $(measIdtime).attr('bgcolor','#99ff99');
+                      //       }else if (cmPerHour >= (a2apatDays/96) && cmPerHour <= (a3apatDays/96)){
+                      //          $(measIdtime).attr('bgcolor','#ffb366');
+                      //        }else if (cmPerHour > (a3apatDays/96)){
+                      //           $(measIdtime).attr('bgcolor','#ff6666');
+                      //       }
+                      // }else if(hours >= "168"){
+                      //   if(cmPerHour < (a2isangWeek/168) ){
+                      //          $(measIdtime).attr('bgcolor','#99ff99');
+                      //       }else if (cmPerHour >= (a2isangWeek/168) && cmPerHour <= (a3isangWeek/168)){
+                      //          $(measIdtime).attr('bgcolor','#ffb366');
+                      //        }else if (cmPerHour > (a3isangWeek/168)){
+                      //           $(measIdtime).attr('bgcolor','#ff6666');
+                      //       }
+                      // }
                       
                     }else{
                        for (var c = 0 ; c <= jArray.length  ; c++) {
@@ -1306,7 +1307,7 @@ mysqli_close($conn);
 
     $(document).ready(function() {
                 $('#siteG').addClass('form-group col-xs-6').removeClass(' form-group col-xs-3');
-                $('head').append('<style type="text/css">.off,.btn-primary{width: 176px;height: 34px;left: 0px;margin-bottom: 10px;}#addAnn {width: 230px;margin-right: 15px;}#submit{width: 150px;margin-right: 65px;}</style>');
+                $('head').append('<style type="text/css">.off,.btn-primary{width: 176px;height: 34px;left: 0px;margin-bottom: 10px;}#addAnn {width: 230px;margin-right: 15px;}#submit{width: 226.22222px;height: 36.22222px;}</style>');
                 $("#formDate").hide();
                 $(".dbase").hide();
                 $("#reportrange").hide();
@@ -1440,59 +1441,11 @@ mysqli_close($conn);
     var idExtra =<?php echo json_encode($idAnnform); ?>;
     var commentExtra = <?php echo json_encode($reportAnnform); ?>;
     var flaggerExtra = <?php echo json_encode($flaggerAnnform); ?>;
-
     var frmdate = window.location.href.slice(33,43);
     var todate = window.location.href.slice(44,54);
-     var listCrackname = <?php echo json_encode($listCracknameId); ?>;
+    var listCrackname = <?php echo json_encode($listCracknameId); ?>;
     var alertAnnotationNum;
     var dataannotation=[];
-
-      for(var a = 0; a < listCrackname.length; a++){
-      var S = listCrackname[a];
-        for(var i = 0; i < annotationValAlert.length; i++){
-            if( annotationinternalAlert[i] == "ND"){
-            var dataannotation2 = ({series: S, x: annotationValAlert[i] , shortText: annotationinternalAlert[i] , width: 20, text: "Alert_report no.#" + annotationDataAlert[i], cssClass:'annotationND'} );
-            dataannotation.push(dataannotation2);
-            }else if(annotationinternalAlert[i] == "A1"){
-                var dataannotation2 = ({series: S, x: annotationValAlert[i] , shortText: annotationinternalAlert[i] , width: 20, text: "Alert_report no.#" + annotationDataAlert[i], cssClass:'annotationA1'} );
-            dataannotation.push(dataannotation2);
-            }else if(annotationinternalAlert[i] == "A2"){
-                var dataannotation2 = ({series: S, x: annotationValAlert[i] , shortText: annotationinternalAlert[i] , width: 20, text: "Alert_report no.#" + annotationDataAlert[i], cssClass:'annotationA2'} );
-            dataannotation.push(dataannotation2);
-            }else if(annotationinternalAlert[i] == "A3"){
-                var dataannotation2 = ({series: S, x: annotationValAlert[i] , shortText: annotationinternalAlert[i] , width: 20, text: "Alert_report no.#" + annotationDataAlert[i], cssClass:'annotationA3'} );
-            dataannotation.push(dataannotation2);
-            }
-        }
-        for(var i = 0; i < annotationVal.length; i++){
-             var dataannotation3 =({series: S, x: annotationVal[i] , shortText: "M" , width: 20, text: "Maintenance_report no.#" + annotationData[i], cssClass:'annotationM'});
-             dataannotation.push(dataannotation3);
-        }
-        for(var i = 0; i < idExtra.length; i++){
-             var dataannotation4 =({series: S, x: tsExtra[i] , shortText: "C" , width: 20, text: "Comment_report no.#" + idExtra[i], cssClass:'annotationC', comment:commentExtra[i] , flagger:flaggerExtra[i]});
-             dataannotation.push(dataannotation4);
-        }
-      }
-    
-     
-     $(".dismissbtn").click(function () {
-          $('#link').empty();
-
-        });
-     $('#anModal').click(function() {
-     $('#link').empty();
-        });
-
-     
-    function nameAnnotation(ann) {
-        if (ann.shortText == "M"){
-            return   'For more info: '+'<a href="http://www.dewslandslide.com/gold/sitemaintenancereport/individual/'+ann.text.slice(23,30)+'">'+ann.text+'</a>';
-        }else if(ann.shortText == "C"){
-            return   '<table class="table"><label>'+ann.text+'</label><tbody><tr><td><label>Site Id</label><input type="text" class="form-control" id="site_id" name="site_id" value="<?php echo $site ?>" disabled= "disabled" ></td></tr><tr><td><label>Timestamp</label><div class="input-group date datetime" id="entry"><input type="text" class="form-control col-xs-3" id="tsAnnotation" name="tsAnnotation" placeholder="Enter timestamp (YYYY-MM-DD hh:mm:ss)" disabled= "disabled" value="'+ann.x+'" style="width: 256px;"/><div> </td></tr><tr><td><label>Report</label><textarea class="form-control" rows="3" id="comment"disabled= "disabled">'+ann.comment+'</textarea></td></tr><tr><td><label>Flagger</label><input type="text" class="form-control" id="flaggerAnn" value="'+ann.flagger+'"disabled= "disabled"></td></tr></tbody></table>';
-        }else{
-             return 'For more info: '+'<a href="http://www.dewslandslide.com/gold/publicrelease/individual/'+ann.text.slice(17,30)+'">'+ann.text+'</a>';
-          }
-        }
       function JSON2CSV(objArray) {
         var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
 
@@ -1537,13 +1490,14 @@ mysqli_close($conn);
       }
 
     function displayGroundGraphs() {
+
+        $( "#mySelect2" ).insertAfter( "#extra" );
         var x = document.getElementById("mySelect").value;
         var y = document.getElementById("mySelect2").value;
-     
         if (x != "default") {
             var GndName = allWS[x]["site_id"];
             var crack = allWS2[y]["crack_id"];
-            
+            $('#extra').hide();
 
             if(GndName && crack) {
                 if (GndName != prevWS) {
@@ -1558,7 +1512,7 @@ mysqli_close($conn);
             
             if(GndName && crack) {
                 if (GndName != prevWSnoah && crack != prevWSnoah) {
-                    groundCrack(GndName , crack);
+                    groundCrackAnalysis(GndName , crack);
                     prevWSnoah = GndName;
                     prevWSnoah = crack;
                 }            
@@ -1579,169 +1533,280 @@ mysqli_close($conn);
         var crack = allWS2[y]["crack_id"];
         var listarray = []; 
         var select = document.getElementById('mySelect2');
-        listarray.push('timestamp');
         for(var i = 0; i < select.options.length; i++){
            listarray.push(select.options[i].text);
         }
-        listarray.push('0','1','2','3','4','5','6','7','8','9');
-
           $.ajax({url: "/ajax/gndmeasfull.php?gsite="+str , success: function(result){
-           
-            testResult = result;
-
-            if ((result == "[]") || (result == "")) {
-              document.getElementById("Groundfull").innerHTML = "";
-              return;
-            };
-
-            var jsonData = JSON.parse(result);
-            
-            if(jsonData) {
-              var data = JSON2CSV(jsonData);
-              var GndDyGraph = [];
-              var newData = GndDyGraph.push(data);
-
-              var isStacked = false;
-        
-
-             
-              g = new Dygraph(
-                  document.getElementById("Groundfull"), 
-               data, 
-                  {
-                      title: 'GND Superimpose ' + str,
-                      stackedGraph: isStacked,
-                    
-                      labels:  listarray,
-                      rollPeriod: 1,
-                      showRoller: true,
-           
-                      highlightCircleSize: 2,
-                      strokeWidth: 2,
-                      strokeBorderWidth: isStacked ? null : 1,
-                      connectSeparatedPoints: true,
-
-                
-                                
-                      highlightSeriesOpts: {
-                          strokeWidth: 2,
-                          strokeBorderWidth: 3,
-                          highlightCircleSize: 5
-                      },
-                       drawCallback: function(g, is_initial) {
-                      if (is_initial) {
-                        graph_initialized = true;
-                        if (dataannotation.length > 0) {
-                          g.setAnnotations(dataannotation);
-                        }
-                      }
-
-                       var ann = dataannotation;
-                      var html = "";
-                      for (var i = 0; i < ann.length; i++) {
-                        var name = "nameAnnotation" + i;
-                        html += "<span id='" + name + "'>"
-                        html += name + ": " + (ann[i].shortText || '(icon)')
-                        html += " -> " + ann[i].text + "</span><br/>";
-                      }
-                 
-                    }
-                  }
-              );  
-                g.updateOptions( {
-              annotationClickHandler: function(ann, point, dg, event) {
-              document.getElementById("link").innerHTML += nameAnnotation(ann) + "<br/>";
-              $('#anModal').modal('show');
-             },
-            
-          }); 
-      
+          var jsonData = JSON.parse(result);
+            console.log(listarray);
+          var slice =[0];
+          var data1 =[];
+          var data =[];
+          for (var a = 0; a < listarray.length; a++) {
+            var all = []
+            for (var i = 0; i < jsonData.length; i++) {
+              if(listarray[a] == jsonData[i].crack_id){
+                data1.push(listarray[a]);
+                data.push([Date.parse(jsonData[i].ts) , jsonData[i].meas] );
+              }
             }
+          }
+          for(var a = 0; a < data1.length; a++){
+            if(data1[a]!= data1[a+1]){
+              slice.push(a+1)
+            }
+          }
+        var series_data=[]
+        for(var a = 0; a < listarray.length; a++){
+            var n = coloursArray.length;
+            series_data.push({name:listarray[a],data:data.slice(slice[a],slice[a+1]),})
+          }
+          console.log(series_data);
+            Highcharts.setOptions({
+              global: {
+                      timezoneOffset: -8 * 60
+                  }
+              });
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'spline',
+                    zoomType: 'x',
+                     height: 500,
+                    
+                },
+                title: {
+                    text: '<b> Ground Measurement of  ' + str + '<b>',
+                  
+                },
+               xAxis: {
+                    // plotBands: negative,
+                    type: 'datetime',
+                    dateTimeLabelFormats: { // don't display the dummy year
+                        month: '%e. %b',
+                        year: '%b'
+                    },
+                    title: {
+                        text: 'Date'
+                    },
+                    
+                },
+               
+                 tooltip: {
+                  header:'{point.x:%Y-%m-%d}: {point.y:.2f}',
+                   // pointFormat: '{point.x:%Y-%m-%d}: {point.y:.2f}',
+                   shared: true,
+                   crosshairs: true
+                },
+                plotOptions: {
+                    spline: {
+                        marker: {
+                            enabled: true
+                        }
+                    }
+                },
+              credits: {
+                enabled: false
+              },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0,
+                      itemStyle: {
+                         color: '#222'
+                      },
+                      itemHoverStyle: {
+                         color: '#E0E0E3'
+                      },
+                      itemHiddenStyle: {
+                         color: '#606063'
+                      }
+                },
+                series: series_data
+            });
           }});
         }
     }
 
-    function groundCrack(str,str2) {
+    function groundCrackAnalysis(str,str2) {
         if (str.length == 0) { 
             document.getElementById("GroundMeas").innerHTML = "";
             return;
         } else {
           var y = document.getElementById("mySelect2").value;
           var crack = allWS2[y]["crack_id"];
-
-          $.ajax({url: "/ajax/groundMeasBak.php?site="+ str +"&crack=" + crack, success: function(result){
-         
-            if ((result == "[]") || (result == "")) {
-              document.getElementById("GroundMeas").innerHTML = "";
-              return;
-            };
-
+            console.log("/ajax/ground.php?site="+ str +"&cid=" + crack);
+          $.ajax({url: "/ajax/ground.php?site="+ str +"&cid=" + crack,
+         success: function(result){
+            console.log(result);
             var jsonData = JSON.parse(result);
+            var dvt = [];
+            var vGraph =[] ;
+            var dvtgnd = [];
+            var dvtdata = jsonData["dvt"];
+            var catdata= [];
+
+            for(var i = 0; i < dvtdata.gnd["surfdisp"].length; i++){
+              dvtgnd.push([dvtdata.gnd["ts"][i],dvtdata.gnd["surfdisp"][i]]);
+              catdata.push(i);
+            }
+            for(var i = 0; i < dvtdata.interp["surfdisp"].length; i++){
+              dvt.push([dvtdata.interp["ts"][i],dvtdata.interp["surfdisp"][i]]);
+            }
+            var last =[];
+            for(var i = 0; i < jsonData["av"].v.length; i++){
+              var data = [];
+              data.push( jsonData["av"].v[i] , jsonData["av"].a[i]);
+              vGraph.push(data);
+            }
+
+            for(var i = jsonData["av"].v.length-1; i < jsonData["av"].v.length; i++){
+             last.push([jsonData["av"].v[i],jsonData["av"].a[i]]);
+            }
             
-            if(jsonData) {
-              var data = JSON2CSV(jsonData);
-              var isStacked = false;
-              g = new Dygraph(
-                  document.getElementById("GroundMeas"), 
-                  data, 
-                  {
-                      title: 'GND ' + crack+ " " + str,
-                      stackedGraph: isStacked,
-             
-                      labels: ['timestamp', 'Ground Measurement'],
-                      visibility: isVisible,
-                      rollPeriod: 1,
-                      showRoller: true,
-                 
+            var up =[];
+            var down =[];
+            var line = [];
+            var thers = [];
 
-                      highlightCircleSize: 2,
-                      strokeWidth: 2,
-                      strokeBorderWidth: isStacked ? null : 1,
-                      connectSeparatedPoints: true,
+            for(var i = 0; i < jsonData["av"].v_threshold.length; i++){
+              up.push([jsonData["av"].v_threshold[i],jsonData["av"].a_threshold_up[i]]);
+               down.push([jsonData["av"].v_threshold[i],jsonData["av"].a_threshold_down[i]]);
+              line.push([jsonData["av"].v_threshold[i],jsonData["av"].a_threshold_line[i]]);
+            }
 
-                      cumm : {
-                        axis : { }
+              $('#velocityGraph').highcharts({
+              chart: {
+                      type: 'line',
+                      zoomType: 'x',  
+                       width: 550,   
+                       height: 500,
                       },
-                      S : {
-                        axis : 'cumm'
-                      },                
-                                
-                      highlightSeriesOpts: {
-                          strokeWidth: 2,
-                          strokeBorderWidth: 3,
-                          highlightCircleSize: 3
-                      },
-                       drawCallback: function(g, is_initial) {
-                      if (is_initial) {
-                        graph_initialized = true;
-                        if (dataannotation.length > 0) {
-                          g.setAnnotations(dataannotation);
-                        }
-                      }
+              title: {
+                  text: ' Velocity Chart of ' + crack ,
+                  x: -20 //center
+              },
+             xAxis: {
+                  title: {
+                      text: 'velocity'
+                  },
+                  gridLineWidth: 1,
+                  
+              },
+              yAxis: {
+                  title: {
+                      text: 'acceleraton'
+                  },
+                  plotLines: [{
+                      value: 0,
+                      width: 1,
+                      color: '#808080'
+                  }],
+                  
+            minorTickInterval: 0.1
+              },
+              tooltip: {
+                         shared: true,
+                         crosshairs: true
+              },
+              credits: {
+                enabled: false
+              },
+              series: [{
+                      name: 'Data',
+                      data: vGraph,
+                      id: 'dataseries',
+                 },{
+                      type: 'line',
+                      name: 'TU',
+                      data: up,
+                      dashStyle: 'shortdot',
+                     
+                 },{
+                      type: 'line',
+                      name: 'TD',
+                      data: down,
+                       dashStyle: 'shortdot',
+                    
+                  },{
+                      type: 'line',
+                      name: 'TL',
+                      data: line,   
 
-                       var ann = dataannotation;
-                      var html = "";
-                      for (var i = 0; i < ann.length; i++) {
-                        var name = "nameAnnotation" + i;
-                        html += "<span id='" + name + "'>"
-                        html += name + ": " + (ann[i].shortText || '(icon)')
-                        html += " -> " + ann[i].text + "</span><br/>";
-                      }
-                 
-                    }
+                 },{
+                      type: 'scatter',
+                      name: 'LPoint',
+                      data: last,  
+                      marker: {
+                      symbol: 'url(https://www.highcharts.com/samples/graphics/sun.png)'
+                    } 
+                  }]
+              });
+
+
+
+
+              Highcharts.setOptions({
+              global: {
+                      timezoneOffset: -8 * 60
                   }
-              );  
-                g.updateOptions( {
-              annotationClickHandler: function(ann, point, dg, event) {
-              document.getElementById("link").innerHTML += nameAnnotation(ann) + "<br/>";
-              $('#anModal').modal('show');
-             },
-            
+              });
+              $('#disGraph').highcharts({
+              chart: {
+                 type: 'line',
+                  zoomType: 'x',
+                  width: 550, 
+                  height: 500,
+
+              },
+              title: {
+                  text: ' Displacement Chart of ' + crack ,
+              },
+              xAxis: {
+                  type: 'datetime',
+                  dateTimeLabelFormats: { // don't display the dummy year
+                      month: '%e. %b',
+                      year: '%b'
+                  },
+                  title: {
+                      text: 'Date'
+                  },
+                  gridLineWidth: 1
+              },
+              yAxis: {
+                  title: {
+                      text: 'disp(meters)'
+                  },
+                  min: 0
+              },
+              tooltip: {
+                  
+                  shared: true,
+                  crosshairs: true
+              },
+              credits: {
+                  enabled: false
+              },
+              series: [{
+                  name: 'Data',
+                  data: dvtgnd,
+                   type: 'scatter',
+                },{
+                  name: 'Interpolation',
+                  data: dvt,
+                 marker: {
+                    enabled: true,
+                    radius: 0
+                },
+                }]
+                    });
+
+            }
+
           }); 
       
-            }
-          }});
-        }
+          }
+    
     }
 </script>
 </body>
