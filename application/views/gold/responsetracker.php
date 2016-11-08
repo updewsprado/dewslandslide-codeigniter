@@ -15,7 +15,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row" id="reliability-row">
 			<div class="col-md-4">
 				<div class="panel panel-info" id="tracker-filter-panel">
 					<div class="panel-heading">Tracker Filter</div>
@@ -51,11 +51,33 @@
 									<button type="button" class="btn btn-success" id="confirm-filter-btn">Confirm</button>	
 								</div>
 							</div>
+
+							<div class="row" id="date-selector-rtracker">
+								<div class="col-md-8">
+									<div class="input-group date datetime" id="entry">
+		                                <input type="text" class="form-control" id="from-date" name="from-date" placeholder="Enter From timestamp" aria-required="true" aria-invalid="false">
+		                                <span class="input-group-addon">
+		                                    <span class="glyphicon glyphicon-calendar"></span>
+		                                </span>
+		                            </div>
+								</div>
+							</div>
+
+							<div class="row" id="date-selector-rtracker">
+								<div class="col-md-8">
+									<div class="input-group date datetime" id="entry">
+		                                <input type="text" class="form-control" id="to-date" name="to-date" placeholder="Enter To timestamp" aria-required="true" aria-invalid="false">
+		                                <span class="input-group-addon">
+		                                    <span class="glyphicon glyphicon-calendar"></span>
+		                                </span>
+		                            </div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-8">
+			<div class="col-md-8" id="reliability-pane">
 				<div class="panel panel-info" id="reliability-panel">
 					<div class="panel-heading">Reliability</div>
 					<div class="panel-body">
@@ -66,7 +88,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-6" id="adp-pane">
 				<div class="panel panel-info" id="average-delay-panel">
 					<div class="panel-heading">Average delay per reply</div>
 					<div class="panel-body">
@@ -75,7 +97,7 @@
 				</div>		
 			</div>
 
-			<div class="col-md-6">
+			<div class="col-md-6" id="detailed-pane">
 				<div class="panel panel-info" id="detailed-info-panel">
 					<div class="panel-heading">Detailed information</div>
 					<div class="panel-body">

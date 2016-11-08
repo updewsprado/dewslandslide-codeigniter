@@ -77,6 +77,17 @@ class Responsetracker_model extends CI_Model {
 
 	}
 
+	public function getTargetContacts($sitename){
+		$contact = [];
+		$sql = "SELECT firstname,lastname,sitename,number FROM communitycontacts WHERE sitename = '$sitename'";
+		$query = $this->db->query($sql);
+
+		foreach ($query->result() as $contacts) {
+			array_push($contact,$contacts);
+		}
+		return $contact;
+	}
+
 	public function getAllSitesPersons(){
 
 	}

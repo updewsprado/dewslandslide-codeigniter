@@ -63,7 +63,25 @@ class Responsetracker extends CI_Controller {
 	}
 
 	public function analyticsAllSites(){
-		var_dump(json_decode($_POST['allsites']));
+		$data = json_decode($_POST['allsites']);
+
+		$allSiteName = $this->responsetracker_model->getSite();
+		$siteNames = [];
+		$temp_collections = [];
+		$timestamp_collections = [];
+		foreach ($allSiteName->result() as $sitenames) {
+			$timestampHolder = [];
+			array_push($siteNames,$sitenames->sitename);
+			$targetContacts = $this->responsetracker_model->getTargetContacts($sitenames->sitename);
+
+			for ($i=0; $i < sizeof($targetContacts); $i++) { 
+				$chatTimeStamps =  $this->getAnalyticsAllSite($targetContacts[$i]->firstname,$targetContacts[$i]->lastname,$sitenames,$data->period,$data->current_date,$targetContacts[$i]->number);
+				array_push($timestampHolder, $chatTimeStamps);
+			}
+			$temp_collections[$sitenames->sitename] = $timestampHolder;
+		}
+		array_push($timestamp_collections,$temp_collections);
+		print json_encode($timestamp_collections);
 	}
 
 	public function analyticsSite(){
@@ -83,6 +101,18 @@ class Responsetracker extends CI_Controller {
 		$data['number'] = [$number];
 		$data['period'] = $period;
 		$data['site'] = $site;
+		$data['current_date'] = $current_date;
+		$timeStamps = $this->responsetracker_model->getChatTimeStamps($data);
+		return $timeStamps;
+	}
+
+	public function getAnalyticsAllSite($firstname,$lastname,$sitenames,$period,$current_date,$numbers){
+
+		$data['firstname'] = $firstname;
+		$data['lastname'] = $lastname;
+		$data['number'] = [$numbers];
+		$data['period'] = $period;
+		$data['site'] = $sitenames;
 		$data['current_date'] = $current_date;
 		$timeStamps = $this->responsetracker_model->getChatTimeStamps($data);
 		return $timeStamps;
