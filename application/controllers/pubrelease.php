@@ -81,9 +81,12 @@ class Pubrelease extends CI_Controller {
 				//$data['releases'] = $this->pubrelease_model->getAllPublicReleases();
 				//$this->load->library('../controllers/pubrelease');
 				//$data['events'] = $this->testAllReleasesCached();
-				$temp = $this->testAllReleasesCached();
-				$data['events'] = $temp['events'];
-				$data['releases'] = $temp['releases'];				
+				// $temp = $this->testAllReleasesCached();
+				// $data['events'] = $temp['events'];
+				// $data['releases'] = $temp['releases'];				
+				
+				$data['events'] = $this->pubrelease_model->getAllEvents();
+		    	$data['releases'] = $this->pubrelease_model->getAllReleasesWithSite();
 				break;
 		}
 
