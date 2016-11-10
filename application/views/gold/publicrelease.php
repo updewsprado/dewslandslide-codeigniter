@@ -1657,6 +1657,10 @@
                             if( result == "Routine")
                                  $("#view").attr("href", "<?php echo base_url(); ?>gold/publicrelease/event/all").text("View All Releases");
                             else $("#view").attr("href", "<?php echo base_url(); ?>gold/publicrelease/event/individual/" + result).text("View Recent Release");
+                            $('#view_modal').on('show.bs.modal', reposition);
+                            $(window).on('resize', function() {
+                                $('#view_modal:visible').each(reposition);
+                            });
                             $('#view_modal').modal('show');
                         }, 1000);
                     },
