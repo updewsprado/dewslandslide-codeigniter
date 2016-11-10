@@ -102,27 +102,6 @@
 					<div class="panel-heading">Detailed information</div>
 					<div class="panel-body">
 						<div id="detailed-info-container">
-
-							<div class="panel-group">
-							  <div class="panel panel-default">
-							    <div class="panel-heading">
-							      <h4 class="panel-title">
-							        <a data-toggle="collapse" href="#collapse1">Collapsible panel 1</a>
-							      </h4>
-							    </div>
-							    <div id="collapse1" class="panel-collapse collapse">
-							      <div class="panel-body">
-							      	<h5><strong>Latest Message: </strong>SAMPLE DATA</h5>
-							      	<h5><strong>Timestamp: </strong>SAMPLE DATA</h5>
-							      	<h5><strong>Latest Reply: </strong>SAMPLE DATA</h5>
-							      	<h5><strong>Timestamp: </strong>SAMPLE DATA</h5>
-							      	<h5><strong>Average Reply: </strong>SAMPLE DATA</h5>
-							      	<h5><strong>Latest % of Reply: </strong>SAMPLE DATA</h5>
-							      </div>
-							    </div>
-							  </div>
-							</div>
-
 						</div>
 					</div>
 				</div>		
