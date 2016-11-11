@@ -2,6 +2,8 @@
 <script src="/goldF/js/awesomplete.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.4.1/bootstrap-slider.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.4.1/css/bootstrap-slider.min.css" />
 <link rel="stylesheet" href="/goldF/css/dewslandslide/dewsresponsetracker.css" />
 <link rel="stylesheet" type="text/css" href="/goldF/css/awesomplete.css">
 
@@ -82,6 +84,18 @@
 					<div class="panel-heading">Reliability</div>
 					<div class="panel-body">
 						<div id="reliability-chart-container"></div>
+						<div id="div-data-resolution" style="opacity: 0" disabled>
+					        <label for="data-resolution">Data Resolution</label>
+					        <input id="data-resolution" type="text"
+					              data-provide="slider"
+					              data-slider-ticks="[1, 2, 3, 4]"
+					              data-slider-ticks-labels='["Hourly", "Daily", "Weekly","Monthly"]'
+					              data-slider-min="1"
+					              data-slider-max="4"
+					              data-slider-step="1"
+					              data-slider-value="2"
+					              data-slider-tooltip="hide"/>
+						</div>
 					</div>
 				</div>		
 			</div>
@@ -101,6 +115,9 @@
 				<div class="panel panel-info" id="detailed-info-panel">
 					<div class="panel-heading">Detailed information</div>
 					<div class="panel-body">
+						<div class="alert alert-info" id="ntc-data-resolution" hidden>
+						  <strong>Info!</strong> The Default Data resolution is set as per day.
+						</div>
 						<div id="detailed-info-container">
 						</div>
 					</div>
