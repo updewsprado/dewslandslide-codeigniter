@@ -66,9 +66,9 @@ class Responsetracker_model extends CI_Model {
 		$period = $data['period'];
 		$current_date = $data['current_date'];
 		$sql = "SELECT 'You' as user,timestamp_written as 
-			timestamp,sms_msg as msg FROM smsoutbox WHERE $recipients 
+			timestamp FROM smsoutbox WHERE $recipients 
 			AND (timestamp_written BETWEEN '$period' AND '$current_date') UNION 
-			SELECT sim_num as user,timestamp as timestamp,sms_msg as msg FROM smsinbox WHERE $sim_num 
+			SELECT sim_num as user,timestamp as timestamp FROM smsinbox WHERE $sim_num 
 			AND (timestamp BETWEEN '$period' AND '$current_date') ORDER BY timestamp ASC";
 			
 		$query = $this->db->query($sql);
