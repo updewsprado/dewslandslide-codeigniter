@@ -11,6 +11,10 @@
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script type="text/javascript" src="/goldF/css/dewslandslide/linecolor.js"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/u/bs/dt-1.10.12,b-1.2.0,fh-3.1.2,r-2.1.0/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/u/bs/dt-1.10.12,b-1.2.0,fh-3.1.2,r-2.1.0/datatables.min.js"></script>
+<script src="//cdn.rawgit.com/ashl1/datatables-rowsgroup/v1.0.0/dataTables.rowsGroup.js"></script>
 
   <style type="text/css">
     .rainPlot {
@@ -67,10 +71,12 @@ $listtime2;
 $newSite = substr($site, 0, 3);
 
 
-  if ($newSite == "png") {
+if ($newSite == "png") {
     $varSite = "pan";
 } elseif ($newSite == "mng") {
     $varSite =  "man";
+} elseif ($newSite == "jor") {
+    $varSite =  "pob";
 } else {
     $varSite = substr($site, 0, 3);
 }
@@ -243,6 +249,47 @@ if (mysqli_num_rows($resultTimestamp) > 0) {
         }
     }  
 
+
+
+    $allgroundData = [];
+    $dataground =[];
+    $dateAll = [];
+    $gdata =[];
+    $extradata=[];
+    $sql = "SELECT  distinct timestamp ,observer_name,weather,reliability,meas_type FROM senslopedb.gndmeas where site_id = '$varSite' ORDER by timestamp desc limit 11";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        // output data of each row
+        while($row = mysqli_fetch_assoc($result)) {
+             array_push($dateAll, $row["timestamp"]);
+             array_push($extradata, [$row["observer_name"],$row["weather"],$row["reliability"],$row["meas_type"]]);
+
+        }
+        foreach ($listCracknameId as $crk) {
+          foreach ($dateAll as $ts) {
+              // echo "SELECT crack_id,meas,observer_name,weather,reliability from senslopedb.gndmeas where timestamp='$ts' and site_id = '$newSite' order by crack_id asc";
+              $sql = "SELECT UPPER(crack_id) as crack_id,meas,timestamp from senslopedb.gndmeas where timestamp='$ts' and site_id = '$varSite' and crack_id='$crk'  and meas <= '1000' order by crack_id asc";
+                  $result = mysqli_query($conn, $sql);
+                  
+                  $i = 0;
+                  if (mysqli_num_rows($result) > 0) {
+                    while($row = mysqli_fetch_assoc($result)) {
+                          $gdata[$i]["ts"] = $row["timestamp"];
+                          $gdata[$i]["crack_id"] = $row["crack_id"];
+                          $gdata[$i++]["meas"] = $row["meas"];    
+                    }
+                     array_push($allgroundData, $gdata);
+                  }else{
+                        $gdata[$i]["ts"] = 'null';
+                        $gdata[$i]["crack_id"] = $crk;
+                        $gdata[$i++]["meas"] = 'null';
+                         array_push($allgroundData, $gdata);
+                  }
+          }
+        }
+    }  
+
 mysqli_close($conn);
 
 
@@ -309,11 +356,10 @@ mysqli_close($conn);
             <h1>Ground Measurment <small>Edit Form</small></h1>
         </div>
              <div class="row">
-
-   <form role="form"  id="crackForm"  method="POST" autocomplete="on">
-    <div class="col-md-12 pull-left server-action-menu" id = "green0"></div>
-         <div class="col-md-12 pull-left server-action-menu" id = "orange0"></div>
-          <div class="col-md-12 pull-left server-action-menu" id = "red0"></div>
+          <form role="form"  id="crackForm"  method="POST" autocomplete="on">
+            <div class="col-md-12 pull-left server-action-menu" id = "green0"></div>
+            <div class="col-md-12 pull-left server-action-menu" id = "orange0"></div>
+            <div class="col-md-12 pull-left server-action-menu" id = "red0"></div>
     <div class="form-group col-sm-2" style="width: 130px;">
                 <label for="site_id">Site ID</label>
                 <input type="text" class="form-control" id="site_id" name="site_id" value="<?php echo $varSite ?>" placeholder="Enter Flagger" >
@@ -360,6 +406,7 @@ mysqli_close($conn);
               </div>
               
             <div class="col-md-12"><div class="table-responsive">        
+             
           <table class="table" id="mytable" >
         <thead>
             <tr> 
@@ -414,8 +461,11 @@ mysqli_close($conn);
           </div>
         
             <div class="row">
-            
+            <table id="gTable" class="col-md-12 display table" cellspacing="0" width="100%" ></table>
             <button type="submit" class="btn btn-info btn-md pull-right"  >SAVE</button>
+
+           
+
         </div>
 
 
@@ -502,6 +552,8 @@ mysqli_close($conn);
         <button type="submit" class="btn btn-info btn-md"  id="update" onclick="updateFunction()">Update</button>
       </div>
       </form>
+
+
     </div>
 
   </div>
@@ -582,7 +634,212 @@ mysqli_close($conn);
     var curSite = "<?php echo $site; ?>";
     var table = document.getElementById("mytable");
     var fromDate = "" , toDate = "" , dataBase = "" ,annotationD = "";
+
+    var grounddatatable = <?php echo json_encode($allgroundData); ?>;
+    var extradata = <?php echo json_encode($extradata); ?>;
+    var crackname= <?php echo json_encode($listCracknameId); ?>;
+    var dateAll= <?php echo json_encode($dateAll); ?>;
+    var allsitegrnd =[];
+    var allsitelist =[];
+    var crackMeasDataAll =[];
+    var headerdates=[];
     
+ 
+    for (var a = 0; a < crackname.length+1; a++) {
+       allsitegrnd.push(crackname[a]);
+       allsitelist.push(crackname[a]);
+      allsitelist.push(crackname[a]);
+        for (var i = grounddatatable.length - 1; i >= 0 ; i--) {
+          if(crackname[a] == grounddatatable[i][0].crack_id){
+            allsitelist.push(crackname[a]);
+           allsitegrnd.push(grounddatatable[i][0].meas);
+          }
+        }
+        allsitegrnd.push(' <td ><input type="number"  min="0" style="width:80px" class="meas"  disabled="disabled"/></td>');
+      }
+     var allsitenum=[0];
+    for (var a = 0; a < allsitelist.length+1; a++) {
+      if(allsitelist[a] != allsitelist[a+1]){
+        allsitenum.push(a+1);
+      }
+    }
+
+    var dateALLarrange =[];
+     for(var a = 0; a < crackname.length; a++){
+            crackMeasDataAll.push(allsitegrnd.slice(allsitenum[a],allsitenum[a+1]));
+          }
+           headerdates.push({title : "Crack"})
+      for(var a =  dateAll.length-1 ; a >= 0; a--){
+            headerdates.push({title : "<p data-container='body' data-toggle='tooltip' id='timestamp"+a+"' style='background-color:'>"+moment(dateAll[a]).format('MMM D YYYY, hh:mm:ss')+"</p>"});
+              dateALLarrange.push(dateAll[a]);
+          }
+           headerdates.push({title : "Measurement (cm)"})
+      $('#gTable').DataTable( {
+        data: crackMeasDataAll,
+        columns:headerdates,
+        "processing": true ,
+        "paging":   false,
+        "searching": false,
+        "createdRow": function ( row, data, index ) {
+        $('td', row).eq(0).attr('class', 'crackId');
+        $('td', row).eq(0).attr('bgcolor', '#222');
+        $('td', row).eq(0).attr('style', 'color:#fff');
+        // $('td', row).eq(1).hide();
+        for(var a = 1; a < crackMeasDataAll[0].length-1; a++){
+          $('td', row).eq(a).attr('id', 'td-' + index +a);
+          $('td', row).eq(a).attr('data-container', 'body');
+          $('td', row).eq(a).attr('data-toggle', 'tooltip');
+          $('td', row).eq(a).attr('data-original-title', '');
+
+        }
+      }
+
+    } );
+    $('#gTable t').on('click', 'th', function () {
+        var data =  $('#gTable').DataTable( ).column( this ).data();
+        // console.log( 'You clicked on '+data[0]+'\'s row' );
+
+    } );
+    $('#gTable').DataTable( ).column( 1 ).visible( false );
+    var nullA =[] , nullB=[], nullLetter =[] , nullData=[], nulldatetotal=[];
+    var datacompute =[];
+    var letterscompute =[];
+     for(var a = 0; a < crackMeasDataAll.length; a++){
+       letterscompute.push(crackname[a]);
+       datacompute.push(crackname[a]);
+        for(var b = 1; b < crackMeasDataAll[0].length-1; b++){
+          datacompute.push(Math.abs(Math.round((crackMeasDataAll[a][b] - crackMeasDataAll[a][b+1])*100)/100));
+          if(crackMeasDataAll[a][b] == "null" && crackMeasDataAll[a][b+1] != "null" ){
+              for(var c = b; c >= 1; c--){
+                if(crackMeasDataAll[a][c] != "null" && crackMeasDataAll[a][c].slice(1,2) != "<"){
+                nullLetter.push(crackMeasDataAll[a][0]);
+                // console.log(a+"/"+c+"-"+a+"/"+(b+1)+"=="+"/"+crackMeasDataAll[a][c]+"-"+crackMeasDataAll[a][b+1]+"="+(crackMeasDataAll[a][c] - crackMeasDataAll[a][b+1]));
+                            nullA.push(a);
+            nullB.push(b+1);
+                nullData.push(Math.abs(Math.round((crackMeasDataAll[a][c] - crackMeasDataAll[a][b+1])*100)/100));
+                var dateall1 = moment(dateALLarrange[c-1]);
+                var dateall2 = moment(dateALLarrange[b]);
+                var datealltotal = dateall2.diff(dateall1, 'hours');
+                // console.log(dateALLarrange[c-1]+"-"+dateALLarrange[b+1])
+                nulldatetotal.push(datealltotal);
+                break;
+              }
+            }
+          }
+          letterscompute.push(crackMeasDataAll[a][0]);
+       }
+     }
+     var slicedata =[0]
+     for (var a = 0; a < letterscompute.length+1; a++) {
+      if(letterscompute[a] != letterscompute[a+1]){
+        slicedata.push(a+1);
+      }
+    }
+
+    //<----- initial filter and computing ground difference
+    var alldatacomputation = [];
+    var lastcolumnColor = [];
+    for(var a = 0; a < crackname.length; a++){
+              alldatacomputation.push( datacompute.slice(slicedata[a],slicedata[a+1]));
+            }
+    for(var a = 0; a < crackname.length; a++){
+      for(var b = 1; b < alldatacomputation[0].length; b++){
+          var dateall1 = moment(dateALLarrange[b-1]);
+          var dateall2 = moment(dateALLarrange[b]);
+          var datealltotal = dateall2.diff(dateall1, 'hours');
+          var cmPerHour= alldatacomputation[a][b] / datealltotal;
+          var roundoff2 =Math.round(cmPerHour*1000)/1000;
+          // console.log(alldatacomputation[a][b-1] +"/"+ datealltotal+"="+roundoff2);
+
+            if(roundoff2 == roundoff2){
+                // $('#td-'+a+(b+1)).attr('data-original-title',alldatacomputation[a][b] +"/"+ datealltotal+"="+roundoff2);
+                $('#td-'+a+(b+1)).attr('data-original-title',alldatacomputation[a][b]);
+                if( roundoff2 <= 0.249 ){
+                  $('#td-'+a+(b+1)).attr('bgcolor','#99ff99');
+                  if((b+1) == (alldatacomputation[0].length-1) ){
+                 lastcolumnColor.push("#99ff99");
+                 }
+                }else if(roundoff2 >= 0.25 && roundoff2 <= 1.79){
+                   $('#td-'+a+(b+1)).attr('bgcolor','#ffb366');
+                    if((b+1) == (alldatacomputation[0].length-1) ){
+                  lastcolumnColor.push("#ffb366");
+                 }
+                }else if (roundoff2 >= 1.8){
+                  $('#td-'+a+(b+1)).attr('bgcolor','#ff6666');
+                   if((b+1) == (alldatacomputation[0].length-1) ){
+                  lastcolumnColor.push("#ff6666");
+                 }
+                }
+            }
+            $('#timestamp'+(b-1)).attr('data-original-title',extradata[b-1][1]+"/"+extradata[b-1][2]+"/"+extradata[b-1][3]);
+            if (extradata[b-1][3] == "EVENT"){
+                $('#timestamp'+(b-1)).attr('style','background-color:#8080ff');
+                }else if(extradata[b-1][3] == "ROUTINE"){
+                  $('#timestamp'+(b-1)).attr('style','background-color:#e6e6ff');
+                }else{
+                   $('#timestamp'+(b-1)).attr('style','background-color:#b3b3ff');
+                }
+            }
+          }
+          //<----- initial filter and computing ground difference of null values
+    for(var a = 0; a < nullA.length; a++){
+      $('#td-'+nullA[a]+nullB[a]).attr('data-original-title',nullData[a]);
+        console.log(nullA[a]+"/"+nullB[a]+"="+nullData[a])
+       var cmPerHour= nullData[a]/ nulldatetotal[a];
+       var roundoff2 =Math.round(cmPerHour*1000)/1000;
+      if( roundoff2 <= 0.249 ){
+            $('#td-'+nullA[a]+nullB[a]).attr('bgcolor','#99ff99');
+          }else if(roundoff2 >= 0.25 && roundoff2 <= 1.79){
+             $('#td-'+nullA[a]+nullB[a]).attr('bgcolor','#ffb366');
+          }else if (roundoff2 >= 1.8){
+            $('#td-'+nullA[a]+nullB[a]).attr('bgcolor','#ff6666');
+          }
+    }
+    var lastcolorfilter=[];
+    for(var a = 0; a < lastcolumnColor.length; a++){
+      if(lastcolumnColor[a] != lastcolumnColor[a+1]){
+        lastcolorfilter.push(lastcolumnColor[a]);
+      }
+    }
+    
+      if(lastcolorfilter.length == 1){
+         if (lastcolorfilter[0] == '#99ff99' ) {
+               $("#green0").attr("style","background-image: linear-gradient(to bottom, #99ff99 0%, rgba(125, 185, 232, 0) 100%)");
+                        document.getElementById("green0").innerHTML = "<p> No Significant ground movement </p>";
+            }
+              if (lastcolorfilter[0] == '#ffb366') {
+                  $("#orange0").attr("style","background-image: linear-gradient(to bottom, #ffb366 0%, rgba(125, 185, 232, 0) 100%)");
+                        document.getElementById("orange0").innerHTML = "<b>ALERT!! </b> Significant ground movement observer in the last 24 hours </p>";
+                       $('#green0').hide();
+            }
+             if (lastcolorfilter[0] == '#ff6666') {
+               $('#green0').hide();
+                    $('#orange0').hide();
+                    $("#red0").attr("style","background-image: linear-gradient(to bottom, #ff6666 0%, rgba(125, 185, 232, 0) 100%)");
+                      document.getElementById("red0").innerHTML = "<p> <b>ALERT!! </b> Critical ground movement observed in the last 48 hours; landslide may be imminent</p>";
+              }
+      }else{
+        for(var a = 0; a < lastcolorfilter.length; a++){
+           if (lastcolorfilter[a] == '#99ff99' ) {
+               $("#green0").attr("style","background-image: linear-gradient(to bottom, #99ff99 0%, rgba(125, 185, 232, 0) 100%)");
+                        document.getElementById("green0").innerHTML = "<p> No Significant ground movement </p>";
+            }
+              if (lastcolorfilter[a] == '#ffb366') {
+                  $("#orange0").attr("style","background-image: linear-gradient(to bottom, #ffb366 0%, rgba(125, 185, 232, 0) 100%)");
+                        document.getElementById("orange0").innerHTML = "<b>ALERT!! </b> Significant ground movement observer in the last 24 hours </p>";
+                       $('#green0').hide();
+            }
+             if (lastcolorfilter[a] == '#ff6666') {
+               $('#green0').hide();
+                    $('#orange0').hide();
+                    $("#red0").attr("style","background-image: linear-gradient(to bottom, #ff6666 0%, rgba(125, 185, 232, 0) 100%)");
+                      document.getElementById("red0").innerHTML = "<p> <b>ALERT!! </b> Critical ground movement observed in the last 48 hours; landslide may be imminent</p>";
+              }
+         }
+      }
+  
+    
+
     function getAllSites() {  
         var baseURL = "<?php echo $_SERVER['SERVER_NAME']; ?>";
         var URL;
@@ -761,6 +1018,7 @@ mysqli_close($conn);
               upArraynull.push(upVal);
               upDateArnull.push(str+res2);
               // console.log(c-1);
+
              } 
              if(upVal != "null"){
               $("#updateMeas"+(c-1)).attr('value',upVal); 
@@ -769,10 +1027,7 @@ mysqli_close($conn);
               withVal.push(c-1);
               upArray.push(upVal);
               upDateAr.push(str+res2);
-              // console.log(c-1);
              } 
-          
-
            }
 
         });
@@ -813,22 +1068,7 @@ mysqli_close($conn);
 
     var select = document.getElementById('mySelect2');
     for(var i = 0; i < select.options.length; i++){
-      if(document.getElementById("site_id").value == "nag"){
-          if(select.options[i].text != "Crack 7" && select.options[i].text != "G" ){
-             var rep =select.options[i].text;
-           var rpost = rep.replace(/\s/g,"");
-           listarray.push(rpost);
-          }
-      }else if(document.getElementById("site_id").value == "sag"){
-        if(document.getElementById('mytable').rows[0].cells.length == "8"){
-          if(select.options[i].text != "L"  ){
-             listarray.push(select.options[i].text);
-
-            }
-        }else{
            listarray.push(select.options[i].text);
-        }
-      }
     }
 
           var select = document.getElementById('mySelect2');
@@ -863,28 +1103,12 @@ mysqli_close($conn);
              
           }
 
-          if(document.getElementById("site_id").value != "sag" && document.getElementById("site_id").value != "nag"){
+          
                  for (var y= 1 ;  y<= select.length  ; y++) {
                var crkdata = (table.rows[y].cells.item(0).innerHTML);
                 crackData.push(crkdata); 
               }
-          }else if(document.getElementById("site_id").value == "sag"){
-
-              for (var y= 0 ;  y<= select.length; y++) {
-               var crkdata = listarray[y];
-                crackData.push(crkdata);
-              }
-          }else if(document.getElementById("site_id").value == "nag"){
-
-            for (var y= 0 ;  y<= select.length-3 ; y++) {
-               var crkdata = listarray[y];
-               var count = listarray[y] + (tDiff.length-1);
-                crackData.push(crkdata);
-                color.push(count.toUpperCase());
-              }
-
-          }
-            // TIME
+         
               var timeCon =[];
                  for (var i = 0  ; i <=weatherData.length; i++) {
                   var add = 1+ i;
@@ -893,6 +1117,7 @@ mysqli_close($conn);
                 $('#time' + add).attr('value',tDiff[i] ); 
                 $("#time" + add).append('<span class="glyphicon glyphicon-edit" style="left:10px;" button type="button" class="btn btn-info btn-lg modal' +  add  + '" data-toggle="modal" data-target="#modalForm" id="modal' +  add  + '" onClick="reply_click(this.id)"></span>');
                 $('#time' + i).attr('data-original-title',weatherData[reData.length-add]+" /  " + reData[reData.length-add]  + "  /  " +  measTData[reData.length-add]);
+                
                 var measdataType = measTData[reData.length-add];
                 if (measdataType == "EVENT"){
                 $('#time' + i).attr('bgcolor','#8080ff');
@@ -909,28 +1134,14 @@ mysqli_close($conn);
                     for (var k = 0 ; k <= e-1; k++) { 
                   for (var j = 1 ; j <= tablelength+1 ; j++) {
                     for (var i = k+1 ; i <= k+1 ; i++) {
-                        if(document.getElementById("site_id").value != "sag" && document.getElementById("site_id").value != "nag" ) {
+                        // if(document.getElementById("site_id").value != "sag" && document.getElementById("site_id").value != "nag" ) {
                            var tableRow = table.rows[i].cells;
                             var diff1 = tableRow.item(j).innerHTML ;
                             if(diff1 != "null" ){
                             jArray.push(j);
                             iArray.push(i);
                              }
-                        }else if(document.getElementById("site_id").value == "sag"){
-                             var tableRow = listarray[i] + j;
-                             var diff1 = document.getElementById(tableRow);
-                              if(diff1 != "null" ){
-                              jArray.push(j);
-                              iArray.push(i);
-                             }
-                        }else if(document.getElementById("site_id").value == "nag"){
-                             var tableRow = listarray[i-1] + j;
-                             var diff1 = document.getElementById(tableRow);
-                              if(diff1 != "null" ){
-                              jArray.push(j);
-                              iArray.push(i-1);
-                             }
-                        }
+            
                       }
 
                     }
@@ -965,7 +1176,8 @@ mysqli_close($conn);
                       var roundoff2 =Math.round(cmPerHour*1000)/1000;
                       // $(measIdtime).attr('data-original-title', valueMeas);
                       $(measIdtime).attr('data-original-title', tDiff[vv] +"-"+tDiff[vv2]+"="+hours+ "hrs  measDifference " +valueMeas +"-->"+cmPerHour+"=====>"+roundoff2);
-                      msDATA.push(measId);
+                      // console.log( tDiff[vv] +"-"+tDiff[vv2]+"="+hours+ "hrs  measDifference " +valueMeas +"-->"+cmPerHour+"=====>"+roundoff2)
+                      // msDATA.push(measId);
 
                       if(valueMeas >= 0.25){
                         $(measIdtime).attr('bgcolor','#ffb366');
@@ -975,39 +1187,6 @@ mysqli_close($conn);
                          $(measIdtime).attr('bgcolor','#99ff99');
 
                       }
-                      // if(hours <= "23" && hours >= "0"){
-                      //       if(cmPerHour < (a0apatHours/4) ){
-                      //          $(measIdtime).attr('bgcolor','#99ff99');
-                      //       }else if (cmPerHour >= (a0apatHours/4) && cmPerHour <= (a3apatHours/4)){
-                      //          $(measIdtime).attr('bgcolor','#ffb366');
-                      //        }else if (cmPerHour > (a3apatHours/4)){
-                      //           $(measIdtime).attr('bgcolor','#ff6666');
-                      //       }
-                      // }else if(hours <= "95" && hours >= "24"){
-                      //       if(cmPerHour < (a0apatHours/24) ){
-                      //          $(measIdtime).attr('bgcolor','#99ff99');
-                      //       }else if (cmPerHour >= (a0apatHours/24) && cmPerHour <= (a3isangDay/24)){
-                      //          $(measIdtime).attr('bgcolor','#ffb366');
-                      //        }else if (cmPerHour > (a3isangDay/24)){
-                      //           $(measIdtime).attr('bgcolor','#ff6666');
-                      //       }
-                      // }else if(hours <= "167" && hours >= "96"){
-                      //       if(cmPerHour < (a2apatDays/96) ){
-                      //          $(measIdtime).attr('bgcolor','#99ff99');
-                      //       }else if (cmPerHour >= (a2apatDays/96) && cmPerHour <= (a3apatDays/96)){
-                      //          $(measIdtime).attr('bgcolor','#ffb366');
-                      //        }else if (cmPerHour > (a3apatDays/96)){
-                      //           $(measIdtime).attr('bgcolor','#ff6666');
-                      //       }
-                      // }else if(hours >= "168"){
-                      //   if(cmPerHour < (a2isangWeek/168) ){
-                      //          $(measIdtime).attr('bgcolor','#99ff99');
-                      //       }else if (cmPerHour >= (a2isangWeek/168) && cmPerHour <= (a3isangWeek/168)){
-                      //          $(measIdtime).attr('bgcolor','#ffb366');
-                      //        }else if (cmPerHour > (a3isangWeek/168)){
-                      //           $(measIdtime).attr('bgcolor','#ff6666');
-                      //       }
-                      // }
                       
                     }else{
                        for (var c = 0 ; c <= jArray.length  ; c++) {
@@ -1015,7 +1194,7 @@ mysqli_close($conn);
                       var measIdtime = "#"+crkId+ (jArray[c+1]-1);
                       var measId = "#"+crkId +(jArray[c]-1);
                       msDATA.push(measId);
-                      console.log(jArray);
+                      // console.log(jArray);
                     }
                     }
 
@@ -1056,22 +1235,6 @@ mysqli_close($conn);
                   
                     return false;
                   };
-
-                  if (uniqueAttr.contains('#99ff99')) {
-                     $("#green0").attr("style","background-image: linear-gradient(to bottom, #99ff99 0%, rgba(125, 185, 232, 0) 100%)");
-                              document.getElementById("green0").innerHTML = "<p> No Significant ground movement </p>";
-                  }
-                  if (uniqueAttr.contains('#ffb366')) {
-                        $("#orange0").attr("style","background-image: linear-gradient(to bottom, #ffb366 0%, rgba(125, 185, 232, 0) 100%)");
-                              document.getElementById("orange0").innerHTML = "<b>ALERT!! </b> Significant ground movement observer in the last 24 hours </p>";
-                             $('#green0').hide();
-                  }
-                   if (uniqueAttr.contains('#ff6666')) {
-                     $('#green0').hide();
-                          $('#orange0').hide();
-                          $("#red0").attr("style","background-image: linear-gradient(to bottom, #ff6666 0%, rgba(125, 185, 232, 0) 100%)");
-                            document.getElementById("red0").innerHTML = "<p> <b>ALERT!! </b> Critical ground movement observed in the last 48 hours; landslide may be imminent</p>";
-                    }
       }      
     }
 
@@ -1312,7 +1475,8 @@ mysqli_close($conn);
                 $(".dbase").hide();
                 $("#reportrange").hide();
                 $("#time").append($('#timestamp_entry').val());   
-                $('.time0').hide();    
+                $('.time0').hide();  
+                $('#mytable').hide();  
                 $('#mytable tr').find('td:first').on('click', function(e) {
                   e.preventDefault();
                   e.stopPropagation();
@@ -1538,7 +1702,7 @@ mysqli_close($conn);
         }
           $.ajax({url: "/ajax/gndmeasfull.php?gsite="+str , success: function(result){
           var jsonData = JSON.parse(result);
-            console.log(listarray);
+            // console.log(listarray);
           var slice =[0];
           var data1 =[];
           var data =[];
@@ -1551,6 +1715,7 @@ mysqli_close($conn);
               }
             }
           }
+
           for(var a = 0; a < data1.length; a++){
             if(data1[a]!= data1[a+1]){
               slice.push(a+1)
@@ -1560,7 +1725,6 @@ mysqli_close($conn);
         for(var a = 0; a < listarray.length; a++){
             series_data.push({name:listarray[a],data:data.slice(slice[a],slice[a+1]),})
           }
-          console.log(series_data);
             Highcharts.setOptions({
               global: {
                       timezoneOffset: -8 * 60
@@ -1634,10 +1798,10 @@ mysqli_close($conn);
         } else {
           var y = document.getElementById("mySelect2").value;
           var crack = allWS2[y]["crack_id"];
-            console.log("/ajax/ground.php?site="+ str +"&cid=" + crack);
+            // console.log("/ajax/ground.php?site="+ str +"&cid=" + crack);
           $.ajax({url: "/ajax/ground.php?site="+ str +"&cid=" + crack,
          success: function(result){
-            console.log(result);
+            // console.log(result);
             var jsonData = JSON.parse(result);
             var dvt = [];
             var vGraph =[] ;
