@@ -11,51 +11,99 @@
 			$this->load->model('accomplishment_model');
 		}
 
-		public function index()
+		public function index($page)
 		{
-			echo "Index of Accomplishment";
-		}
+			$this->is_logged_in();
 
-		public function showInstructions()
-		{
-			$result = $this->accomplishment_model->getInstructions();
-			//$this->load->view('gold/accomplishmentreport', $result);
-			//$this->load->view('gold/templates/header');
-			//$this->load->view('gold/templates/nav');
-			//$this->load->view('gold/' . $accomplishmentreport, $result);
-			//$this->load->view('gold/templates/footer');
+			$data['user_id'] = $this->session->userdata("id");
+			$data['first_name'] = $this->session->userdata('first_name');
+			$data['last_name'] = $this->session->userdata('last_name');
 			
-			if ($result == "[]") echo "Variable is empty<Br><Br>";
-			else echo "$result";
-		}
-
-		public function showSites()
-		{
-			$result = $this->accomplishment_model->getSites();
-			//$this->load->view('gold/accomplishmentreport', $result);
+			/*** TEMPORARY REQUIRED DATA (To be deleted soon) ***/
+			$data['title'] = $page;
+			$data['version'] = "gold";
+			$data['folder'] = "goldF";
+			$data['imgfolder'] = "images";
 			
-			if ($result == "[]") echo "Variable is empty<Br><Br>";
-			else echo "$result";
+			$data['charts'] = $data['tables'] = $data['forms'] = $data['bselements'] = '';
+			$data['bsgrid'] = $data['blank'] = $data['home'] = $data['monitoring'] = '';
+			$data['dropdown_chart'] = $data['site'] = $data['node'] = '';
+			$data['alert'] = $data['gmap'] = $data['commhealth'] = $data['analysisdyna'] = '';
+			$data['position'] = $data['presence'] = $data['customgmap'] = '';
+			$data['slider'] = $data['nodereport'] = $data['reportevent'] = '';
+			$data['sentnodetotal'] = $data['rainfall'] = $data['lsbchange'] = '';
+			$data['accel'] = $data['showplots'] = $data['showdateplots'] = '';
+			$data['sitesCoord'] = 0;
+			$data['datefrom'] = $data['dateto'] = '';
+			$data['ismap'] = false;
+			/*** End ***/
+
+			$data['withAlerts'] = $this->accomplishment_model->getSitesWithAlerts();
+
+			$this->load->view('gold/templates/header', $data);
+			$this->load->view('gold/templates/nav');
+			$this->load->view('gold/' . $page, $data);
+			$this->load->view('gold/templates/footer');
 		}
 
-		public function showAlerts()
+		public function getShiftReleases()
 		{
-			$result = $this->accomplishment_model->getAlerts();
-			//$this->load->view('gold/accomplishmentreport', $result);
+			$data = $this->accomplishment_model->getShiftReleases($_GET['start'], $_GET['end']);
 			
-			if ($result == "[]") echo "Variable is empty<Br><Br>";
-			else echo "$result";
+			echo "$data";
 		}
 
-		public function showReports()
+		public function getShiftTriggers()
 		{
-			$result = $this->accomplishment_model->getReport(0);
-			//$this->load->view('gold/accomplishmentreport', $result);
-			
-			if ($result == "[]") echo "Variable is empty<Br><Br>";
-			else echo "$result";
+			$data['shiftTriggers'] = $shift = $this->accomplishment_model->getShiftTriggers($_GET['releases']);
+
+			$data['allTriggers'] = $this->accomplishment_model->getAllTriggers($_GET['events']);
+
+			echo json_encode($data);
 		}
 
+		public function getNarratives($event_id)
+		{
+			$data = $this->accomplishment_model->getNarratives($event_id);
+			echo "$data";
+		}
+
+		public function getNarrativesForShift()
+		{
+			$data = $this->accomplishment_model->getNarrativesForShift($_GET['event_id'], $_GET['start'], $_GET['end']);
+			echo "$data";
+		}
+
+		public function insertNarratives()
+		{
+			$narratives = $_POST['narratives'];
+			$forUpdate = [];
+			$forInsert = [];
+
+			foreach ($narratives as $x) 
+			{
+				if(!isset($x['id'])) array_push($forInsert, $x);
+				else if(isset($x['isEdited']))
+				{
+					unset($x['isEdited']);
+					array_push($forUpdate, $x);
+				}
+			}			
+
+			if(count($forInsert) > 0)
+			{
+				foreach ($forInsert as $x) {
+					$this->accomplishment_model->insert('narratives', $x);
+				}
+			}
+
+			if(count($forUpdate) > 0)
+			{
+				foreach ($forUpdate as $x) {
+					$this->accomplishment_model->update('id', $x['id'], 'narratives', $x);
+				}
+			}
+		}
 
 		public function insertData()
 		{
@@ -80,13 +128,6 @@
     		echo "$id";
 		}
 
-		public function showShiftReleases()
-		{
-			$data = $this->accomplishment_model->getShiftReleases($_GET['start'], $_GET['end']);
-
-			echo "$data";
-		}
-
 		public function showBasis()
 		{
 			$result = $this->accomplishment_model->getBasis();
@@ -101,6 +142,18 @@
 			
 			if ($result == "[]") echo "Variable is empty<Br><Br>";
 			else echo "$result";
+		}
+
+		public function is_logged_in() 
+		{
+			$is_logged_in = $this->session->userdata('is_logged_in');
+			
+			if(!isset($is_logged_in) || ($is_logged_in !== TRUE)) {
+				echo 'You don\'t have permission to access this page. <a href="../lin">Login</a>';
+				die();
+			}
+			else {
+			}
 		}
 
 	}
