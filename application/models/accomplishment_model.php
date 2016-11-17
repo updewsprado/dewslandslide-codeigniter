@@ -13,6 +13,94 @@
 			$this->load->database();
 		}
 
+		public function getShiftReleases($start, $end)
+		{
+
+			$this->db->select('public_alert_release.*, public_alert_event.*, site.name, membership.first_name AS mt_first, membership.last_name AS mt_last, m.first_name AS ct_first, m.last_name AS ct_last');
+			$this->db->from('public_alert_release');
+			$this->db->join('public_alert_event', 'public_alert_event.event_id = public_alert_release.event_id');
+			$this->db->join('site', 'public_alert_event.site_id = site.id');
+			$this->db->join('membership', 'membership.id = public_alert_release.reporter_id_mt');
+			$this->db->join('membership m', 'm.id = public_alert_release.reporter_id_ct');
+			$this->db->where('public_alert_release.data_timestamp >', $start);
+			$this->db->where('public_alert_release.data_timestamp <=', $end);
+			$this->db->where('public_alert_event.status !=', 'routine ');
+			$this->db->order_by("data_timestamp", "desc");
+			$query = $this->db->get();
+			$result = $query->result_array();
+			return json_encode($result);
+		}
+
+		public function getShiftTriggers($releases)
+		{
+			$this->db->where_in('release_id', $releases);
+			$this->db->order_by("timestamp", "desc");
+			$query = $this->db->get('public_alert_trigger');
+			$result = $query->result_array();
+			return json_encode($result);
+		}
+
+		public function getAllTriggers($events)
+		{
+			$this->db->where_in('event_id', $events);
+			$this->db->order_by("timestamp", "desc");
+			$query = $this->db->get('public_alert_trigger');
+			$result = $query->result_array();
+			return json_encode($result);
+		}
+
+
+		public function getSitesWithAlerts()
+		{
+			$this->db->select('public_alert_event.*, site.*');
+			$this->db->from('public_alert_event');
+			$this->db->join('site', 'public_alert_event.site_id = site.id');
+			$this->db->where('status', 'on-going');
+			$this->db->or_where('status', 'extended');
+			$query = $this->db->get();
+			return json_encode($query->result_object());
+		}
+
+		public function getNarratives($event_id)
+		{
+			$this->db->where_in('event_id', $event_id);
+			$query = $this->db->get('narratives');
+			$result = $query->result_array();
+			return json_encode($result);
+		}
+
+		public function getNarrativesForShift($event_id, $start, $end)
+		{
+			$this->db->where_in('event_id', $event_id);
+			$this->db->where('timestamp >=', $start);
+			$this->db->where('timestamp <=', $end);
+			$this->db->order_by("timestamp", "asc");
+			$query = $this->db->get('narratives');
+			$result = $query->result_array();
+			return json_encode($result);
+		}
+
+		public function insert($table, $data)
+		{
+        	$this->db->insert($table, $data);
+        	$id = $this->db->insert_id();
+        	return $id;
+    	}
+
+    	public function update($column, $key, $table, $data)
+		{
+			$this->db->where($column, $key);
+			$this->db->update($table, $data);
+		}
+
+
+		// TEST CASE
+		/*SELECT r.*, e.* FROM public_alert_release r INNER JOIN public_alert_event e ON e.event_id = r.event_id WHERE r.data_timestamp > '2016-09-30 07:30:00' AND r.data_timestamp <= '2016-09-30 20:00:00' AND e.status != 'routine'*/
+
+
+
+		/**************************************/
+
 		public function getInstructions()
 		{
 			$sql = "SELECT overtime_type, instruction FROM lut_accomplishment";
@@ -87,15 +175,6 @@
 
 			return json_encode($result);
 		}
-
-		public function insert($table, $data)
-		{
-        	$this->db->insert($table, $data);
-        	$id = $this->db->insert_id();
-        	return $id;
-    	}
-
-
 
     	/**
     	 * Gets info from database to be viewed on
@@ -197,36 +276,6 @@
 			}
 
 			return json_encode($result);
-		}
-
-		public function getShiftReleases($start, $end)
-		{
-
-			$sql = "SELECT 
-						p.*, 
-						x.comments,
-						l.public_alert_level
-					FROM public_alert p
-					INNER JOIN
-					(
-					    SELECT site, MAX(entry_timestamp) AS max_entry
-					    FROM public_alert
-					    WHERE entry_timestamp > '$start'
-						AND entry_timestamp <=  '$end'
-					    GROUP BY site
-					) max_range
-					ON p.site = max_range.site 
-					AND p.entry_timestamp = max_range.max_entry
-					INNER JOIN public_alert_extra x
-					ON p.public_alert_id = x.public_alert_id
-					INNER JOIN lut_alerts l 
-					ON p.internal_alert_level = l.internal_alert_level";
-			
-			$query = $this->db->query($sql);
-			$result = $query->result_array();
-			$data = $result;
-
-			return json_encode($data);
 		}
 
 		public function checkDuty($start, $end)
