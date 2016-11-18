@@ -834,6 +834,7 @@
 	    // Remove extended monitoring releases
 	    if( type == 'releases')
 	    {
+	    	let start = $("#shift_start").val();
 	    	let end = $("#shift_end").val();
 	    	result = result.filter( function (x) {
 	    		return ( x[0].status == 'extended' && moment(x[0].validity).isAfter(moment(start).add(30,'minutes')) && moment(x[0].validity).isSameOrBefore(moment(end).subtract(30,'minutes')) ) || x[0].status == 'on-going';
