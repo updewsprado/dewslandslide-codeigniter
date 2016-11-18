@@ -352,6 +352,23 @@
 		    </form>
 
 		</div>
+
+		 <div class="modal fade js-loading-bar" role="dialog">
+			<div class="modal-dialog">
+   				<div class="modal-content">
+	   				<div class="modal-header" hidden>
+					</div>
+    				<div class="modal-body">
+       					<div class="progress progress-popup">
+        					<div class="progress-bar progress-bar-striped active" style="width: 100%">Saving...</div>
+       					</div>
+     				</div>
+     				<div class="modal-footer" hidden>
+		   			</div>
+   				</div>
+ 			</div>
+		</div>
+
 	</div>
 
 	</div> <!-- End of div container-fluid -->
@@ -428,6 +445,11 @@
 	$('#saveNarrativeModal').on('show.bs.modal', reposition);
     $(window).on('resize', function() {
         $('#saveNarrativeModal:visible').each(reposition);
+    });
+
+    $('.js-loading-bar').on('show.bs.modal', reposition);
+    $(window).on('resize', function() {
+        $('.js-loading-bar:visible').each(reposition);
     });
 
 	$("#event_id").change(function () {
@@ -749,30 +771,40 @@
 
 	$("#save_narrative").click(function () 
 	{
-		let data = { narratives: narratives };
-		$.ajax({
-		    url: "<?php echo base_url(); ?>accomplishment/insertNarratives",
-		    type: "POST",
-		    data : data,
-		    success: function(result, textStatus, jqXHR)
-		    {
-		        $("#saveNarrativeModal").modal('hide');
-		        console.log(result);
-		        setTimeout(function () 
-		        {
-		            $('#saveNarrativeSuccess').on('show.bs.modal', reposition);
-		            $(window).on('resize', function() {
-		                $('#saveNarrativeSuccess:visible').each(reposition);
-		            });
-		            $('#saveNarrativeSuccess').modal({ backdrop: 'static', keyboard: false });
-		        	$('#saveNarrativeSuccess').modal('show');
-		        }, 500);
-		    },
-		    error: function(xhr, status, error) {
-		      var err = eval("(" + xhr.responseText + ")");
-		      alert(err.Message);
-		    }
-		});
+		$("#saveNarrativeModal").modal('hide');
+		setTimeout(function () 
+		{
+			$(".progress-bar").text("Saving...");
+			$('.js-loading-bar').modal({
+			  	backdrop: 'static',
+			  	show: 'true'
+			});
+			let data = { narratives: narratives };
+			$.ajax({
+			    url: "<?php echo base_url(); ?>accomplishment/insertNarratives",
+			    type: "POST",
+			    data : data,
+			    success: function(result, textStatus, jqXHR)
+			    {
+			       	$('.js-loading-bar').modal('hide');
+			        console.log(result);
+			        setTimeout(function () 
+			        {
+			            $('#saveNarrativeSuccess').on('show.bs.modal', reposition);
+			            $(window).on('resize', function() {
+			                $('#saveNarrativeSuccess:visible').each(reposition);
+			            });
+			            $('#saveNarrativeSuccess').modal({ backdrop: 'static', keyboard: false });
+			        	$('#saveNarrativeSuccess').modal('show');
+			        }, 500);
+			    },
+			    error: function(xhr, status, error) {
+			      var err = eval("(" + xhr.responseText + ")");
+			      alert(err.Message);
+			    }
+			});
+		}, 500)
+		
 	});
 
 	$(".okay, #discard").click(function (argument) {
@@ -817,6 +849,12 @@
 	 */
 	var result, flag = 0, duties = [];
 	$("#generate").on("click", function (e) {
+
+		$(".progress-bar").text("Generating end-of-shift report...");
+		$('.js-loading-bar').modal({
+		  	backdrop: 'static',
+		  	show: 'true'
+		});
 
 		if( checkTimestamp($("#shift_end").val(), $("#shift_end")[0] ) )
 		{
@@ -1008,6 +1046,9 @@
 			        		CKEDITOR.instances['report'].insertHtml(report);
 			        		CKEDITOR.instances['report'].focus();
 			        	});
+
+			        	$('.js-loading-bar').modal('hide');
+
             		});
 
             	});
