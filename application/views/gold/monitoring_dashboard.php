@@ -40,7 +40,6 @@
 
     .panel-body {
     	font-size: 14px;
-    	text-align: center;
     	vertical-align: middle;
     	color: black;
     }
@@ -87,6 +86,107 @@
 	}
 
 	#primer { font-size: 13px; }
+
+
+
+/*	body {
+		font-family: 'Arial', sans-serif;
+		color: #000;
+	} */
+
+	.text-area {
+		margin: 0.5in;
+	}
+
+	.center-text {
+		text-align: center;
+	}
+
+	#phivolcs, #dost{
+		width: 66px; //165px*0.50
+		height: 77.6px; //194px*0.50
+	}
+
+	#header-text div {
+		margin: 0;
+	}
+
+	#header-text > div:nth-child(1) {
+		font-size: 10px;
+		font-weight: bold;
+		color: blue;
+	}
+
+	#header-text > div:nth-child(2) {
+		font-size: 12px;
+		font-weight: bold;
+		color: red !important;
+	}
+
+	#header-text > div:nth-child(3) {
+		font-size: 16px;
+		font-weight: bold;
+		color: #000080 !important;
+	}
+
+	#header-text > div:nth-child(4), #header-text > :nth-child(5), #header-text > :nth-child(6), #header-text > :nth-child(7) {
+		font-size: 8px;
+		color: blue !important;
+	}
+
+	#title {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+
+	h2 {
+		font-size: 20px;
+	}
+
+	/*.panel-default {
+		border-color: black;
+	}*/
+
+	#bulletin, #areaSituation, #footer {
+		font-size: 16px;
+	}
+
+	#bulletin .row {
+		margin: 8px 0;
+	}
+
+	#areaSituation .row {
+		margin: 15px 0;
+	}
+
+	#bulletin .col-sm-8 {
+		padding-left: 0;
+		font-weight: bold;
+	}
+
+	#areaSituation h3 {
+		font-size: 18px;
+		margin-top: 0;
+	}
+
+	#areaSituation p {
+		text-indent: 60px;
+	}
+
+	.rowIndent {
+		padding-left: 60px;
+	}
+
+	#footer	{
+		margin-top: 15px;
+	}
+
+	#info {
+		font-size: 18px;
+		font-weight: bold;
+	}
+
+	#sendBulletinModal .modal-body { padding-bottom: 0; }
 
 </style>
 
@@ -226,12 +326,8 @@
 						                        echo "<td>".$row->internal_alert_level."</td>";
 						                        echo "<td>". date("j F Y\<\b\\r\>H:i:s" , strtotime($row->validity)) ."</td>";
 						                        echo "<td>". $row->release_time . "</td>";
-						                        echo "<td><a onclick='sendViaAlertMonitor(" . json_encode($row) . ")'><span class='glyphicon glyphicon-envelope'></span></td>";
-						                       // echo "<td><button class='btn-success' onclick='sendViaAlertMonitor(" .json_encode($row) . ")'>EWI</button></td>";
+						                        echo "<td><a onclick='sendViaAlertMonitor(" . json_encode($row) . ")'><span class='glyphicon glyphicon-phone'></span></a>&ensp;<a><span class='glyphicon glyphicon-envelope' id='". $row->latest_release_id ."'></span></a></td>";
 						                        echo "</tr>";
-
-						                        // $row->time_released = date("j F Y\ H:i:s" , $row->time_released);
-                              					// $row->validity = date("j F Y\ H:i:s" , $row->validity);
 						                    }
 						                }
 					                ?>
@@ -394,6 +490,61 @@
 			</div>
 		</div>
 
+		<!-- MODAL AREA -->
+	    <div class="modal fade" id="sendBulletinModal" role="dialog">
+	    	<div class="modal-dialog modal-md">
+	            <!-- Modal content-->
+	            <div class="modal-content">
+	              	<div class="modal-header">
+	                	<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+	                	<h4 class="modal-title">Send Bulletin and EWI</h4>
+	              	</div>
+	              	<div class="modal-body">
+	              		<div id="info"></div>
+						<hr>
+	              		<div id="bulletin_modal"></div>
+	              	</div>
+	              	<div class="modal-footer">
+	              		<button id="cancel" class="btn btn-info" data-dismiss="modal" role="button">Cancel</button>
+	                    <button id="send" class="btn btn-danger" role="button" type="submit">Send</button>
+	            	</div>
+	            </div>
+	      	</div>
+	    </div> <!-- End of MODAL AREA -->
+
+	    <div class="modal fade js-loading-bar" role="dialog">
+			<div class="modal-dialog">
+   				<div class="modal-content">
+	   				<div class="modal-header" id="modalTitle" hidden>
+					</div>
+    				<div class="modal-body" id="modalBody">
+       					<div class="progress progress-popup">
+        					<div class="progress-bar progress-bar-striped active" style="width: 100%">Rendering Bulletin PDF...</div>
+       					</div>
+     				</div>
+     				<div class="modal-footer" id="modalTitle" hidden>
+		   			</div>
+   				</div>
+ 			</div>
+		</div>
+
+	    <div class="modal fade" id="emailResultModal" role="dialog">
+			<div class="modal-dialog">
+   				<div class="modal-content">
+	   				<div class="modal-header">
+	   					<button type="button" class="close" data-dismiss="modal" hidden>&times;</button>
+						<h4>Early Warning Information for <span id="site"></span></h4>
+					</div>
+    				<div class="modal-body">
+    					Early warning information and bulletin successfully sent through mail!
+     				</div>
+     				<div class="modal-footer">
+		        		<button id="okay" class="btn btn-info" data-dismiss="modal" role="button">Okay</button>
+		   			</div>
+   				</div>
+ 			</div>
+		</div>
+
 	</div> <!-- End of Container -->
 </div> <!-- End of Page Wrapper -->
 
@@ -541,5 +692,117 @@
 	}   
 
 	google.maps.event.addDomListener(window, 'load', initialize_map);
+
+	let id = null, text = null, filename = null, subject = null;;
+
+	$('.js-loading-bar').on('show.bs.modal', reposition);
+    $(window).on('resize', function() {
+        $('.js-loading-bar:visible').each(reposition);
+    });
+
+    $('#emailResultModal').on('show.bs.modal', reposition);
+    $(window).on('resize', function() {
+        $('#emailResultModal:visible').each(reposition);
+    });
+
+	$(".glyphicon-envelope").click(function (x) 
+	{
+		id = $(this).prop('id');
+		loadBulletin(id);
+	})
+
+	$("#send").click(function () {
+		$('#sendBulletinModal').modal('hide');
+		$('.progress-bar').text('Rendering Bulletin PDF...');
+		$('.js-loading-bar').modal({ backdrop: 'static', show: 'true'});
+		$.ajax({
+	        url: '<?php echo base_url(); ?>bulletin/run_script/' + id, 
+	        type: 'POST',
+	        success: function(data)
+	        {
+	        	if(data == "Success.")
+	        	{
+	        		console.log("PDF RENDERED");
+	        		sendMail();
+	        	}
+	        }
+	    });
+	});
+
+	function sendMail() {
+
+		$('.progress-bar').text('Sending EWI and Bulletin...');
+
+		let form = {
+			text: text,
+			subject: subject,
+			filename: filename
+		};
+
+		$.ajax({
+            url: '<?php echo base_url(); ?>bulletin/mail/', 
+            type: 'POST',
+            data: form,
+            success: function(data)
+            {
+            	$('.js-loading-bar').modal('hide');
+            	setTimeout(function () {
+            		if(data == "Sent.")
+		        	{
+		        		console.log('Email sent');
+		        		$("#emailResultModal .modal-body").text('Early warning information and bulletin successfully sent through mail!');
+		        		$("#emailResultModal").modal('show');
+		        	}
+		        	else
+		        	{
+		        		console.log('EMAIL SENDING FAILED', data);
+		        		$("#emailResultModal .modal-body").text('Error: Early warning information and bulletin sending failed');
+		        		$("#emailResultModal").modal('show');
+	        		}	
+            	}, 500);
+	        	
+        	},
+	    	error: function(xhr, status, error) 
+	    	{
+              let err = eval("(" + xhr.responseText + ")");
+              alert(err.Message);
+            }
+	    }); 
+	}
+
+	function loadBulletin(id) {
+	    $.ajax({
+            url: '<?php echo base_url(); ?>gold/bulletin-main/' + id + '/0', 
+            type: 'POST',
+	            success: function(data){
+            	//console.log(data);
+            	// console.log(data.search('Location:'));
+            	
+            	$("#sendBulletinModal .modal-dialog").css('width', '900px');
+            	$("#bulletin_modal").html(data);
+
+            	let loc = $("#location").text();
+            	let alert = $("#alert_level_released").text().replace(/\s+/g,' ').trim().slice(0,2);
+            	let datetime = $("#datetime").text();
+            	filename = $("#filename").text();
+            	subject = $("#subject").text();
+            	text = "<b>DEWS-L Bulletin for " + datetime + "<br/>" + alert + " - " + loc + "</b>";
+	        	$("#info").html(text);
+            	$('#sendBulletinModal').modal('show');
+            }
+	    }); 
+	}
+
+	function reposition() 
+	{
+        var modal = $(this),
+            dialog = modal.find('.modal-dialog');
+        
+        modal.css('display', 'block');
+        
+        // Dividing by two centers the modal exactly, but dividing by three 
+        // or four works better for larger screens.
+        dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+    }
 
 </script>

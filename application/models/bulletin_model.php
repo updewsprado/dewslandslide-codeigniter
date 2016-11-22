@@ -117,6 +117,12 @@
 			return count($query->result_array()) > 0 ? json_encode($query->result_array()[0]) : null;
 		}
 
+		public function getEmailCredentials($username)
+		{
+			$query = $this->db->get_where('membership', array('username' => $username));
+			return $query->result_array()[0];
+		}
+
 	}
 
 
