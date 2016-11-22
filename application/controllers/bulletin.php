@@ -242,7 +242,7 @@
 			    'allow_self_signed' => true
 			));
 
-			$mail->SMTPDebug = 0;
+			$mail->SMTPDebug = 2;
 			$mail->isSMTP();   // Set mailer to use SMTP
 			$mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
 			$mail->SMTPAuth = true;
