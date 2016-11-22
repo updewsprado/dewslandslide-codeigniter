@@ -231,7 +231,7 @@
 			// FOR LINUX
 			//require_once("/usr/share/php/PHPMailer/PHPMailerAutoload.php");
 			
-			$cred = $this->bulletin_model->getEmailCredentials('dewslmonitoring');s
+			$cred = $this->bulletin_model->getEmailCredentials('dewslmonitoring');
 
 			$mail = new PHPMailer;
 
