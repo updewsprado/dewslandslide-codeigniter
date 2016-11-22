@@ -162,7 +162,7 @@ Contacts
           <div class="row">
           <p>Early Warning Information Recipients:</p>
           <div id="modal-select-recipients">
-            <label class="opt-ewi-recipients"><input type="radio" name="opt-ewi-recipients" value="false" checked>All</label>
+            <label class="opt-ewi-recipients"><input type="radio" name="opt-ewi-recipients" value="false">All</label>
             <label class="opt-ewi-recipients"><input type="radio" name="opt-ewi-recipients" value="true">Only selected EWI Receivers</label>
           </div>
         </div>
