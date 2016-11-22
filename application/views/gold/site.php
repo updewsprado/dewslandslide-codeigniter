@@ -1083,13 +1083,26 @@ $listAnnotationAlert = [];
                                     },
                                     title: {
                                         text: 'Date'
+                                    },
+                                    labels: {
+                                        style:{
+                                            color: 'white'
+                                        }
+
+                                    },
+                                    title: {
+                                        text: 'Date',
+                                        style:{
+                                            color: 'white'
+                                        }
                                     }
                                 },
 
                                 yAxis:{
                                     plotBands: [{ // visualize the weekend
                                         value: max/2,
-                                        color: colordata[128],
+                                        // color: colordata[128],
+                                        color: '#82b1ff',
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
@@ -1098,15 +1111,28 @@ $listAnnotationAlert = [];
                                         }
                                      },{
                                         value: max,
-                                        color: colordata[255],
+                                        // color: colordata[255],
+                                        color: '#448aff',
                                         dashStyle: 'shortdash',
                                         width: 2,
                                         label: {
                                             text: '72hrs threshold (' + max +')',
                                            style: { color: '#fff',}
                                         }
-                                    }]
+                                    }],
+                                    labels: {
+                                        style:{
+                                            color: 'white'
+                                        }
 
+                                    },
+                                    title: {
+                                        text: 'Accumulated Rainfall (mm)',
+                                        style:{
+                                            color: 'white'
+                                        }
+                                    },
+                                    gridLineColor: '#8b8b8d'
                                 },
                            
                                 tooltip: {
@@ -1171,27 +1197,31 @@ $listAnnotationAlert = [];
                                     step: true,
                                     data:   DataSeriesRain,
                                     id: 'dataseries',
-                                    fillOpacity: 0.4,
+                                    fillOpacity: 0.9,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[0],
+                                    // color: colordata[0],
+                                    color: '#EBF5FB',
                                     zIndex:3
                                    
                                 },{
                                     name:  '24hrs',
                                     data:   DataSeries24h,
-                                    fillOpacity: 0.4,
+                                    fillOpacity: 0.9,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[128],
+                                    // color: colordata[128],
+                                    color: '#82b1ff',
                                     zIndex:2
                                  },{
                                     name:  '72hrs',
                                     data:   DataSeries72h,
-                                    fillOpacity: 0.4,
+                                    fillOpacity: 0.9,
                                     zIndex: 0,
                                     lineWidth: 1,
-                                    color: colordata[255],
+                                    // color: colordata[255],
+                                    color: '#448aff',
+
                                     zIndex:1
                                 },{
                                     type: 'flags',
