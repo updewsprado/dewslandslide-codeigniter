@@ -253,7 +253,7 @@
 			$mail->setFrom($cred['email'], 'DEWS-L Monitoring');
 			$mail->addAddress('hyunbin_vince@yahoo.com');
 			$mail->addReplyTo($cred['email'], 'DEWS-L Monitoring');
-			$mail->addCustomHeader( 'In-Reply-To', $cred['email'] );
+			$mail->addCustomHeader( 'In-Reply-To', '<' . $cred['email'] . '>' );
 			$mail->isHTML(true);
 
 			$mail->Subject = $_POST['subject'];
