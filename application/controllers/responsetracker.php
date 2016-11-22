@@ -56,7 +56,7 @@ class Responsetracker extends CI_Controller {
 		$result = $this->responsetracker_model->getPersonSite($firstname,$lastname,$number);
 
 		foreach ($result->result() as $site) {
-			$chatTimeStamps = $this->getAnalyticsPerson($firstname,$lastname,$site,$data->period,$data->current_date,$number);
+			$chatTimeStamps = $this->getAnalyticsPerson($firstname,$lastname,$site,$data->period,$data->current_date,$number[0]);
 			$timestamp_collections[$site->sitename] = $chatTimeStamps;
 		}
 		print json_encode($timestamp_collections);
@@ -73,11 +73,8 @@ class Responsetracker extends CI_Controller {
 			$timestampHolder = [];
 			array_push($siteNames,$sitenames->sitename);
 			$targetContacts = $this->responsetracker_model->getTargetContacts($sitenames->sitename);
-
-			for ($i=0; $i < sizeof($targetContacts); $i++) { 
-				$chatTimeStamps =  $this->getAnalyticsAllSite($targetContacts[$i]->firstname,$targetContacts[$i]->lastname,$sitenames,$data->period,$data->current_date,$targetContacts[$i]->number);
-				array_push($timestampHolder, $chatTimeStamps);
-			}
+			$chatTimeStamps =  $this->getAnalyticsAllSite($sitenames,$data->period,$data->current_date,$targetContacts);
+			array_push($timestampHolder, $chatTimeStamps);
 			$temp_collections[$sitenames->sitename] = $timestampHolder;
 		}
 		array_push($timestamp_collections,$temp_collections);
@@ -89,16 +86,14 @@ class Responsetracker extends CI_Controller {
 		$timestamp_collections = [];
 		$result = $this->responsetracker_model->getSitePersons($data->filterKey);
 		foreach ($result->result() as $person) {
-			$chatTimeStamps = $this->getAnalyticsSite($person->firstname,$person->lastname,$person->number,$data->period,$data->current_date,$data->filterKey);
+			$chatTimeStamps = $this->getAnalyticsSite($person->number,$data->period,$data->current_date,$data->filterKey);
 			$timestamp_collections[$person->firstname." ".$person->lastname] = $chatTimeStamps;
 		}
 		print json_encode($timestamp_collections);
 	}
 
-	public function getAnalyticsSite($firstname,$lastname,$number,$period,$current_date,$site){
-		$data['firstname'] = $firstname;
-		$data['lastname'] = $lastname;
-		$data['number'] = [$number];
+	public function getAnalyticsSite($number,$period,$current_date,$site){
+		$data['number'] = [(object) array('number'=> $number)];
 		$data['period'] = $period;
 		$data['site'] = $site;
 		$data['current_date'] = $current_date;
@@ -106,11 +101,8 @@ class Responsetracker extends CI_Controller {
 		return $timeStamps;
 	}
 
-	public function getAnalyticsAllSite($firstname,$lastname,$sitenames,$period,$current_date,$numbers){
-
-		$data['firstname'] = $firstname;
-		$data['lastname'] = $lastname;
-		$data['number'] = [$numbers];
+	public function getAnalyticsAllSite($sitenames,$period,$current_date,$numbers){
+		$data['number'] = $numbers;
 		$data['period'] = $period;
 		$data['site'] = $sitenames;
 		$data['current_date'] = $current_date;
@@ -124,7 +116,7 @@ class Responsetracker extends CI_Controller {
 		$data['sitename'] = $site;
 		$data['period'] = $period;
 		$data['current_date'] = $current_date;
-		$data['number'] = $number;
+		$data['number'] = [(object) array('number'=> $number)];
 		$timeStamps = $this->responsetracker_model->getChatTimeStamps($data);
 		return $timeStamps;	
 	}

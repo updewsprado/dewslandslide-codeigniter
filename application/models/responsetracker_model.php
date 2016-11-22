@@ -45,41 +45,42 @@ class Responsetracker_model extends CI_Model {
 	}
 
 	public function getChatTimeStamps($data){
+		
+		$period = $data['period'];
+		$current_date = $data['current_date'];
 
+		error_log(print_r($data['number'],true));
 		if (sizeof($data['number']) > 1){
 			for ($i = 0;$i < sizeof($data['number']);$i++){
-				$number = substr($data['number'][$i],1);
+				$number = substr($data['number'][$i]->number,1);
 				if ($i == 0) {
-					$recipients = "recepients LIKE '%$number'";
-					$sim_num = "sim_num LIKE '%$number'";
+					$recipients = "(recepients LIKE '%$number' AND (timestamp_written BETWEEN '$period' AND '$current_date'))";
+					$sim_num = "(sim_num  LIKE '%$number' AND (timestamp BETWEEN '$period' AND '$current_date'))";
 				} else {
-					$recipients = $recipients. " OR recepients LIKE '%$number'";
-					$sim_num = $sim_num. " OR sim_num LIKE '%$number'";
+					$recipients = $recipients. " OR (recepients LIKE '%$number' AND (timestamp_written BETWEEN '$period' AND '$current_date'))";
+					$sim_num = $sim_num. " OR (sim_num  LIKE '%$number' AND (timestamp BETWEEN '$period' AND '$current_date'))";
 				}
 			}
 		} else {
-			$number = substr($data['number'][0],1);
-			$recipients = "recepients LIKE '%$number'";
-			$sim_num = "sim_num LIKE '%$number'";
+			$number = substr($data['number'][0]->number,1);
+			$recipients = "(recepients LIKE '%$number' AND (timestamp_written BETWEEN '$period' AND '$current_date'))";
+			$sim_num = "(sim_num  LIKE '%$number' AND (timestamp BETWEEN '$period' AND '$current_date'))";
 		}
 
-		$period = $data['period'];
-		$current_date = $data['current_date'];
 		$sql = "SELECT 'You' as user,timestamp_written as 
-			timestamp FROM smsoutbox WHERE $recipients 
-			AND (timestamp_written BETWEEN '$period' AND '$current_date') UNION 
-			SELECT sim_num as user,timestamp as timestamp FROM smsinbox WHERE $sim_num 
-			AND (timestamp BETWEEN '$period' AND '$current_date') ORDER BY timestamp ASC";
+			timestamp FROM smsoutbox WHERE $recipients UNION ALL 
+			SELECT sim_num as user,timestamp as timestamp FROM smsinbox WHERE $sim_num ORDER BY timestamp ASC";
 			
 		$query = $this->db->query($sql);
-		
+
 		return $query->result();
 
 	}
 
 	public function getTargetContacts($sitename){
 		$contact = [];
-		$sql = "SELECT firstname,lastname,sitename,number FROM communitycontacts WHERE sitename = '$sitename'";
+		// $sql = "SELECT firstname,lastname,sitename,number FROM communitycontacts WHERE sitename = '$sitename'";
+		$sql = "SELECT number FROM communitycontacts WHERE sitename = '$sitename'";
 		$query = $this->db->query($sql);
 
 		foreach ($query->result() as $contacts) {
