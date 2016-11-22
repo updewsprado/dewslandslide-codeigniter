@@ -4,7 +4,7 @@
       <div id="search-contacts" class="col-md-3">
         <label>Search for contact:</label><Br/>
         <input class="dropdown-input" placeholder="Type name..." data-multiple />
-        <button type="button" class="btn btn-xs btn-primary" id="go-chat">Go Chat!</button><Br/>
+        <button type="button" class="btn btn-xs btn-primary" id="go-chat" data-toggle="tooltip" title="">Go Chat!</button><Br/>
 
         <!-- Uncomment to enable bootstrap type button -->
 <!--                             <div class="input-group">
@@ -16,16 +16,15 @@
 </div>
 <div id="div-advanced-search" class="col-md-6">
   <button type="button" class="btn btn-link btn-sm" id="btn-advanced-search" 
-  data-toggle="modal" data-target="#advanced-search" title="Quick Community Group Selection">
+  data-toggle="modal" data-target="#advanced-search" data-toggle="tooltip" title="Quick Community Group Selection">
   <span class="glyphicon glyphicon-list-alt"></span>
 </button>
 
 <button type="button" class="btn btn-link btn-sm" id="btn-contact-settings" 
-data-toggle="modal" data-target="#contact-settings" title="Contact Settings"><span class="glyphicon glyphicon-user"></span>
+data-toggle="modal" data-target="#contact-settings" data-toggle="tooltip" title="Contact Settings"><span class="glyphicon glyphicon-user"></span>
 </button>
 
-<button type="button" class="btn btn-link btn-sm" id="btn-gbl-search" title="Search Message"><span class="glyphicon glyphicon-search"></span></button>
-
+<button type="button" class="btn btn-link btn-sm" id="btn-gbl-search" title="Search Message" data-toggle="tooltip" title="Search Message" ><span class="glyphicon glyphicon-search"></span></button>
 </div>
 
 <div id="current-contacts" class="col-md-8 col-sm-6 col-xs-8">
@@ -34,17 +33,7 @@ data-toggle="modal" data-target="#contact-settings" title="Contact Settings"><sp
       <h4 ></h4> <span class="glyphicon glyphicon-search" id="btn-standard-search"></span>
     </div>
     <input type="text" id="search-key" class="form-control" placeholder="Search for..." hidden>
-  </div>
-<!--         
-<div class="bg-white">
-<div class="input-group">
-<input type="text" id="searchbox" name="searchbox" class="form-control border no-shadow no-rounded dropdown-input" placeholder="Search contacts here" data-multiple />
-<span class="input-group-btn">
-<button class="btn btn-success no-rounded" type="button" id="go-chat">Go Chat!</button>
-</span>
-</div>
-</div>   
--->        
+  </div>    
 </div>
 
 <div class="row">
@@ -99,7 +88,9 @@ Contacts
         <textarea id="msg" name="msg" class="form-control border no-shadow no-rounded" placeholder="Type your message here" rows="4"></textarea>
       </div>
       <div class="col-xs-2" id="chat-commands">
+      <span id="sms-msg-wrapper" data-toggle="tooltip" title="">
         <button class="btn btn-success no-rounded" type="button" id="send-msg">Send</button>
+      </span>
       </div>
       <div class="col-xs-2" id="chat-commands">
         <button class="btn btn-primary no-rounded" type="button" id="btn-ewi"
@@ -183,8 +174,10 @@ Contacts
         </div>
       </div>
       <div class="modal-footer">
-        <button id="go-load-groups" type="button" class="btn btn-success" data-dismiss="modal">Okay</button>
-        <button id="exit-load-group" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      <span id="load-groups-wrapper" data-toggle="tooltip" title="">
+        <button id="go-load-groups" type="button" class="btn btn-success" data-dismiss="modal" >Okay</button>
+      </span>
+      <button id="exit-load-group" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>   
       </div>
     </div>
   </div>
