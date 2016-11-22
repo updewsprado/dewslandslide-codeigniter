@@ -232,6 +232,7 @@
 			require_once("/usr/share/php/PHPMailer/PHPMailerAutoload.php");
 			
 			$cred = $this->bulletin_model->getEmailCredentials('dewslmonitoring');
+			print_r($cred);
 
 			$mail = new PHPMailer;
 
