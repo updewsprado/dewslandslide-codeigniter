@@ -89,6 +89,7 @@ $route['gold/sample_view'] = "sample/index";
 $route['gold/bulletin/(:any)'] = "bulletin/view/$1";
 $route['gold/bulletin-builder/(:num)'] = "bulletin/build/$1";
 $route['gold/bulletin-editor/(:num)'] = "bulletin/edit/$1";
+$route['gold/bulletin-main/(:num)/(:any)'] = "bulletin/main/$1/$2";
 
 $route['gold/(:any)'] = "gold/view/$1";
 
