@@ -187,6 +187,7 @@
 	}
 
 	#sendBulletinModal .modal-body { padding-bottom: 0; }
+	#emailResultModal .modal-body { font-size: 14px; }
 
 </style>
 
@@ -536,7 +537,7 @@
 						<h4>Early Warning Information for <span id="site"></span></h4>
 					</div>
     				<div class="modal-body">
-    					Early warning information and bulletin successfully sent through mail!
+    					<strong>SUCCESS:</strong> Early warning information and bulletin successfully sent through mail!
      				</div>
      				<div class="modal-footer">
 		        		<button id="okay" class="btn btn-info" data-dismiss="modal" role="button">Okay</button>
@@ -711,6 +712,7 @@
 		loadBulletin(id);
 	})
 
+
 	$("#send").click(function () {
 		$('#sendBulletinModal').modal('hide');
 		$('.progress-bar').text('Rendering Bulletin PDF...');
@@ -746,17 +748,18 @@
             success: function(data)
             {
             	$('.js-loading-bar').modal('hide');
+            	$("#site").text(subject.slice(0,3));
             	setTimeout(function () {
             		if(data == "Sent.")
 		        	{
 		        		console.log('Email sent');
-		        		$("#emailResultModal .modal-body").text('Early warning information and bulletin successfully sent through mail!');
+		        		$("#emailResultModal .modal-body").html('<strong>SUCCESS:</strong> Early warning information and bulletin successfully sent through mail!');
 		        		$("#emailResultModal").modal('show');
 		        	}
 		        	else
 		        	{
 		        		console.log('EMAIL SENDING FAILED', data);
-		        		$("#emailResultModal .modal-body").text('Error: Early warning information and bulletin sending failed');
+		        		$("#emailResultModal .modal-body").html('<strong>ERROR:</strong> Early warning information and bulletin sending failed');
 		        		$("#emailResultModal").modal('show');
 	        		}	
             	}, 500);
