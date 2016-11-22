@@ -230,6 +230,8 @@
 			//require_once("C:\\xampp\PHPMailer\PHPMailerAutoload.php");
 			// FOR LINUX
 			require_once("usr/share/php/PHPMailer/PHPMailerAutoload.php");
+
+			echo file_exists('/usr/share/php/PHPMailer/PHPMailerAutoload.php');
 			
 			$cred = $this->bulletin_model->getEmailCredentials('dewslmonitoring');s
 
