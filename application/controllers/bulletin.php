@@ -242,7 +242,7 @@
 			    'allow_self_signed' => true
 			));
 
-			$mail->SMTPDebug = 2;
+			$mail->SMTPDebug = 0;
 			$mail->isSMTP();   // Set mailer to use SMTP
 			$mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
 			$mail->SMTPAuth = true;
@@ -251,7 +251,8 @@
 			$mail->SMTPSecure = 'ssl';
 			$mail->Port = 465;
 			$mail->setFrom($cred['email'], 'DEWS-L Monitoring');
-			$mail->addAddress('hyunbin_vince@yahoo.com');
+			$mail->addAddress('rusolidum@phivolcs.dost.gov.ph');
+			$mail->addAddress('asdaag@yahoo.com');
 			$mail->addReplyTo($cred['email'], 'DEWS-L Monitoring');
 			$mail->addCustomHeader( 'In-Reply-To', $cred['email'] );
 			$mail->isHTML(true);
