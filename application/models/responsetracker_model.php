@@ -40,7 +40,7 @@ class Responsetracker_model extends CI_Model {
 	}
 
 	public function getSitePersons($sitename){
-		$query = $this->db->query("SELECT DISTINCT lastname,firstname,number FROM communitycontacts WHERE sitename = '$sitename'");
+		$query = $this->db->query("SELECT DISTINCT lastname,firstname,number,office FROM communitycontacts WHERE sitename = '$sitename'");
 		return $query;
 	}
 
@@ -49,7 +49,6 @@ class Responsetracker_model extends CI_Model {
 		$period = $data['period'];
 		$current_date = $data['current_date'];
 
-		error_log(print_r($data['number'],true));
 		if (sizeof($data['number']) > 1){
 			for ($i = 0;$i < sizeof($data['number']);$i++){
 				$number = substr($data['number'][$i]->number,1);
@@ -87,10 +86,6 @@ class Responsetracker_model extends CI_Model {
 			array_push($contact,$contacts);
 		}
 		return $contact;
-	}
-
-	public function getAllSitesPersons(){
-
 	}
 
 }
