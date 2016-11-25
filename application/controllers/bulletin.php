@@ -253,8 +253,7 @@
 			$mail->setFrom($cred['email'], 'DEWS-L Monitoring');
 			$mail->addAddress('rusolidum@phivolcs.dost.gov.ph');
 			$mail->addAddress('asdaag@yahoo.com');
-			$mail->addAddress('asdaag@yahoo.com');
-			$mail->AddCC('kevindhaledelacruz@gmail.com');
+			$mail->addAddress('kevindhaledelacruz@gmail.com');
 			$mail->addReplyTo($cred['email'], 'DEWS-L Monitoring');
 			$mail->addCustomHeader( 'In-Reply-To', '<' . $cred['email'] . '>' );
 			$mail->isHTML(true);
