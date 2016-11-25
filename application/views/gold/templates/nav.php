@@ -185,6 +185,9 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                     <a href="<?php echo base_url() . $version; ?>/responsetracker"><i class="fa fa-fw fa-bar-chart-o"> </i>Chatterbox Response Tracker</a>
+                    </li>
 
                     <li></li>
             </nav>
