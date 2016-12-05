@@ -88,4 +88,11 @@ class Responsetracker_model extends CI_Model {
 		return $contact;
 	}
 
+	public function getAllRegions(){
+		$sql = "SELECT DISTINCT UPPER(SUBSTRING(name,1,3)) as name,region FROM site_column ORDER BY name";
+		$query = $this->db->query($sql);
+
+		return $query->result();
+	}
+
 }

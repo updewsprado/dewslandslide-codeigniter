@@ -121,4 +121,9 @@ class Responsetracker extends CI_Controller {
 		return $timeStamps;	
 	}
 
+	public function getRegions(){
+		$regions = $this->responsetracker_model->getAllRegions();
+		print json_encode($regions);
+	}
+
 }

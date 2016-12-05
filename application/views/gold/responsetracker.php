@@ -3,6 +3,8 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.4.1/bootstrap-slider.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.4.1/css/bootstrap-slider.min.css" />
 <link rel="stylesheet" href="/goldF/css/dewslandslide/dewsresponsetracker.css" />
 <link rel="stylesheet" type="text/css" href="/goldF/css/awesomplete.css">
@@ -25,8 +27,9 @@
 
 						<div class="form-group">
 							<div class="input-group">
-								<input class="awesomeplete form-control" type="text" placeholder="Search" id="filter-key" list="filterlist">
-								<datalist id="filterlist"></datalist>
+								<!-- <input class="form-control" type="text" placeholder="Search" id="filter-key" list="filterlist"> -->
+								<input class="form-control" type="text" placeholder="Search" id="filter-key">
+								<!-- <datalist id="filterlist"></datalist> -->
 								<div class="input-group-btn">
 									<select class="form-control" name="category" id="category-selection">
 										<option disabled selected>ex. Site</option>
@@ -83,7 +86,14 @@
 				<div class="panel panel-info" id="reliability-panel">
 					<div class="panel-heading">Reliability</div>
 					<div class="panel-body">
-						<div id="reliability-chart-container"></div>
+						<div id="reliability-chart-container">
+
+							<div id="panel-per-region" class="panel panel-default">
+							  <div class="panel-heading">REGION SAMPLE</div>
+							  <div class="panel-body"></div>
+							</div>
+
+						</div>
 						<div id="div-data-resolution" style="opacity: 0" disabled>
 					        <label for="data-resolution">Data Resolution</label>
 					        <input id="data-resolution" type="text"
