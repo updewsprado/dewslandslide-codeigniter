@@ -3,8 +3,8 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.4.1/bootstrap-slider.min.js"></script>
-<!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> -->
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.4.1/css/bootstrap-slider.min.css" />
 <link rel="stylesheet" href="/goldF/css/dewslandslide/dewsresponsetracker.css" />
 <link rel="stylesheet" type="text/css" href="/goldF/css/awesomplete.css">
@@ -119,6 +119,10 @@
 						<div class="alert alert-info" id="ntc-data-resolution" hidden>
 						  <strong>Info!</strong> The Default Data resolution is set as per day.
 						</div>
+						<div id="div-data-validator" hidden>
+					        <label for="data-validator"><h5><strong>4 Hours Validation : </strong></h5></label>
+					        <input id="data-validator" type="checkbox" checked data-toggle="toggle" data-style="ios">
+					    </div>
 						<div id="detailed-info-container">
 						</div>
 					</div>
