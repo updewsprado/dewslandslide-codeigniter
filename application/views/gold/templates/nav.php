@@ -146,9 +146,12 @@
                         <li>
                             <a href="<?php echo base_url() . $version; ?>/node">Node Level</a>
                         </li>
-                        <li  >
+                        <li>
                          <a href="<?php echo base_url() . $version; ?>/GroundMeas"> Ground Measurement</a>
-                     </li>
+                    	</li>
+                    	<li>
+                              <a href="<?php echo base_url() . $version; ?>/chartlist">Sub-Surface Analysis</a>
+                        </li>
                  </ul>
              </li>
              <li <?php echo $reportevent; ?> >
