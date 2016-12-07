@@ -87,7 +87,7 @@ class Responsetracker extends CI_Controller {
 		$result = $this->responsetracker_model->getSitePersons($data->filterKey);
 		foreach ($result->result() as $person) {
 			$chatTimeStamps = $this->getAnalyticsSite($person->number,$data->period,$data->current_date,$data->filterKey);
-			$timestamp_collections[$person->firstname." ".$person->lastname] = $chatTimeStamps;
+			$timestamp_collections[$person->office." - ".$person->firstname." ".$person->lastname] = $chatTimeStamps;
 		}
 		print json_encode($timestamp_collections);
 	}
@@ -119,6 +119,11 @@ class Responsetracker extends CI_Controller {
 		$data['number'] = [(object) array('number'=> $number)];
 		$timeStamps = $this->responsetracker_model->getChatTimeStamps($data);
 		return $timeStamps;	
+	}
+
+	public function getRegions(){
+		$regions = $this->responsetracker_model->getAllRegions();
+		print json_encode($regions);
 	}
 
 }
