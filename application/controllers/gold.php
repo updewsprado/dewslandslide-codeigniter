@@ -272,29 +272,26 @@ class Gold extends CI_Controller {
 			case 'GroundMeas':
 				$this->load->model('gndforms_model');
 				$this->load->model('annotation_model');	
-			
 				$data['site'] = $site;
-				$data['annotation'] = $this->uri->segment(4);
 				$data['siteURL'] = $this->uri->segment(3);
-				
-				//Data for Alert Map
-				if ($site) {
-					$data['nodeAlerts'] = $this->gndforms_model->getSingleAlert($site);
-					$data['siteMaxNodes'] = $this->gndforms_model->getSingleMaxNode($site);
-					$data['nodeStatus'] = $this->gndforms_model->getSingleNodeStatus($site);						
-				}
-				else {
-					$data['nodeAlerts'] = 0;
-					$data['siteMaxNodes'] = 0;
-					$data['nodeStatus'] = 0;						
-				}				
-				
+				$data['nodeAlerts'] = 0;
+				$data['siteMaxNodes'] = 0;
+				$data['nodeStatus'] = 0;						
 				$data['showplots'] = 'redirectGndPlots(this.form)';
 				$data['showdateplots'] = "showAccel(getMainForm())";
-				
-				$data['dropdown_chart'] = 'class="active"';
+				$data['dropdown_chart'] = 'class="active"';	
 				$page = 'GroundMeas';
-				
+				break;
+			case 'chartlist':
+				$data['site'] = $site;
+				$data['from'] = $this->uri->segment(4);
+				$data['to'] = $this->uri->segment(5);
+				$data['nodeAlerts'] = 0;
+				$data['siteMaxNodes'] = 0;
+				$data['nodeStatus'] = 0;						
+				$data['showplots'] = 'redirectGndPlots(this.form)';
+				$data['showdateplots'] = "showAccel(getMainForm())";
+				$data['dropdown_chart'] = 'class="active"';	
 				break;
 
 

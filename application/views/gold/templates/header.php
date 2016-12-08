@@ -57,15 +57,14 @@
     <!-- Serif Font -->
     <link href='http://fonts.googleapis.com/css?family=Lato|Droid+Serif|Open+Sans' rel='stylesheet' type='text/css'>
 
-    <!-- jQuery Skins -->
-    <link href="/js/development-bundle/themes/south-street/jquery-ui.css" rel="stylesheet">
-
     <!-- jQuery Version 1.11.0 -->
     <script src="/js/jquery-1.11.0.js"></script>
     <script src="/js/jquery.growl.js"></script>
     
     <!-- jQuery Development Bundle -->
-    <script src="/js/development-bundle/ui/jquery.ui.core.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <!-- <script src="/js/development-bundle/ui/jquery.ui.core.js"></script> -->
     <script src="/js/development-bundle/ui/jquery.ui.widget.js"></script>
     <script src="/js/development-bundle/ui/jquery.ui.datepicker.js"></script>
 
