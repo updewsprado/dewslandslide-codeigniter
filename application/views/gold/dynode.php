@@ -100,7 +100,6 @@ if ($result->num_rows > 0) {
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.0/dygraph-combined.js"></script>
     <script type="text/javascript" src="http://fgnass.github.io/spin.js/spin.min.js"></script>
     <script type="text/javascript" src="/goldF/js/dewslandslide/dewsaccel-dy.js"></script>
-    <script type="text/javascript" src="/goldF/js/dewslandslide/dewslsbchange.js"></script>
     <script type="text/javascript" src="/goldF/js/dewslandslide/dewsalertmini.js"></script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
@@ -215,22 +214,7 @@ if ($result->num_rows > 0) {
                             </div>
                         </div>
                     </div>                                       
-                </div>
-                <!-- /.row -->   
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> <b>LSB Change Plot</b></h3>
-                            </div>
-                            <div class="panel-body">
-                                <div id="container"></div>
-                            </div>
-                        </div>
-                    </div>                                   
-                </div>
-                <!-- /.row -->                             
+                </div>              
 
                 <!-- Heading for Date Dependent Charts -->
                 <div class="row">
@@ -499,7 +483,6 @@ if ($result->num_rows > 0) {
 			showAccel(getMainForm());
 			showSoms(getMainForm());
 			showLSBChange(getMainForm());
-            $("#loading").modal("show");
 		}
 		else {
             $("#loading").modal("show");
