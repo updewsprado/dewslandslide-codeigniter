@@ -16,7 +16,7 @@
 </div>
 <div id="div-advanced-search" class="col-md-6">
   <button type="button" class="btn btn-link btn-sm" id="btn-advanced-search" 
-  data-toggle="modal" data-target="#advanced-search" data-toggle="tooltip" title="Quick Community Group Selection">
+  data-toggle="modal" data-target="#advanced-search" data-toggle="tooltip" title="Quick Group Selection">
   <span class="glyphicon glyphicon-list-alt"></span>
 </button>
 
@@ -66,12 +66,7 @@ data-toggle="modal" data-target="#contact-settings" data-toggle="tooltip" title=
         <!-- end of inbox display for Unknown Numbers -->
       </div>
     </div>
-<!--             
-<div class=" row border-bottom padding-sm friend-list-header" style="height: 40px;">
-Contacts
-</div> -->
-
-</div>
+  </div>
 
 <!--=========================================================-->
 <!-- selected chat -->
@@ -133,45 +128,71 @@ Contacts
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title text-info">Quick Community Group Selection of Recipients</h4>
+        <h4 class="modal-title text-info">Quick Group Selection of Recipients</h4>
       </div>
       <div class="modal-body row-fluid">
-        <div class="row">
-          <p>Select Offices:
-            <button id="checkAllOffices" type="button" class="btn btn-primary btn-xs">Check All</button>
-            <button id="uncheckAllOffices" type="button" class="btn btn-info btn-xs">Uncheck All</button>
-          </p>
-          <div id="modal-select-offices">
-            <div id="offices-0" class="col-md-2 col-sm-2 col-xs-2"></div>
-            <div id="offices-1" class="col-md-2 col-sm-2 col-xs-2"></div>
-            <div id="offices-2" class="col-md-2 col-sm-2 col-xs-2"></div>
-            <div id="offices-3" class="col-md-2 col-sm-2 col-xs-2"></div>
-            <div id="offices-4" class="col-md-2 col-sm-2 col-xs-2"></div>
-            <div id="offices-5" class="col-md-2 col-sm-2 col-xs-2"></div>
-          </div>
-        </div>
+
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#comm-group" id="comm-grp-flag">Community Group Selection</a></li>
+        <li><a data-toggle="tab" href="#emp-group" id="emp-grp-flag">Employee Group Selection</a></li>
+      </ul>
+
+      <div class="tab-content grp-selection">
+        <div id="comm-group" class="tab-pane fade in active">
           <div class="row">
-          <p>Early Warning Information Recipients:</p>
-          <div id="modal-select-recipients">
-            <label class="opt-ewi-recipients"><input type="radio" name="opt-ewi-recipients" value="false">All</label>
-            <label class="opt-ewi-recipients"><input type="radio" name="opt-ewi-recipients" value="true">Only selected EWI Receivers</label>
+            <p>Select Offices:
+              <button id="checkAllOffices" type="button" class="btn btn-primary btn-xs">Check All</button>
+              <button id="uncheckAllOffices" type="button" class="btn btn-info btn-xs">Uncheck All</button>
+            </p>
+            <div id="modal-select-offices">
+              <div id="offices-0" class="col-md-2 col-sm-2 col-xs-2"></div>
+              <div id="offices-1" class="col-md-2 col-sm-2 col-xs-2"></div>
+              <div id="offices-2" class="col-md-2 col-sm-2 col-xs-2"></div>
+              <div id="offices-3" class="col-md-2 col-sm-2 col-xs-2"></div>
+              <div id="offices-4" class="col-md-2 col-sm-2 col-xs-2"></div>
+              <div id="offices-5" class="col-md-2 col-sm-2 col-xs-2"></div>
+            </div>
+          </div>
+            <div class="row">
+            <p>Early Warning Information Recipients:</p>
+            <div id="modal-select-recipients">
+              <label class="opt-ewi-recipients"><input type="radio" name="opt-ewi-recipients" value="false">All</label>
+              <label class="opt-ewi-recipients"><input type="radio" name="opt-ewi-recipients" value="true">Only selected EWI Receivers</label>
+            </div>
+          </div>
+          <Br/>
+          <div class="row">
+            <p>Select Site Names:
+              <button id="checkAllSitenames" type="button" class="btn btn-primary btn-xs">Check All</button>
+              <button id="uncheckAllSitenames" type="button" class="btn btn-info btn-xs">Uncheck All</button>
+            </p>
+            <div id="modal-select-sitenames">
+              <div id="sitenames-0" class="col-md-2 col-sm-2 col-xs-2"></div>
+              <div id="sitenames-1" class="col-md-2 col-sm-2 col-xs-2"></div>
+              <div id="sitenames-2" class="col-md-2 col-sm-2 col-xs-2"></div>
+              <div id="sitenames-3" class="col-md-2 col-sm-2 col-xs-2"></div>
+              <div id="sitenames-4" class="col-md-2 col-sm-2 col-xs-2"></div>
+              <div id="sitenames-5" class="col-md-2 col-sm-2 col-xs-2"></div>
+            </div>
           </div>
         </div>
-        <Br/>
-        <div class="row">
-          <p>Select Site Names:
-            <button id="checkAllSitenames" type="button" class="btn btn-primary btn-xs">Check All</button>
-            <button id="uncheckAllSitenames" type="button" class="btn btn-info btn-xs">Uncheck All</button>
-          </p>
-          <div id="modal-select-sitenames">
-            <div id="sitenames-0" class="col-md-2 col-sm-2 col-xs-2"></div>
-            <div id="sitenames-1" class="col-md-2 col-sm-2 col-xs-2"></div>
-            <div id="sitenames-2" class="col-md-2 col-sm-2 col-xs-2"></div>
-            <div id="sitenames-3" class="col-md-2 col-sm-2 col-xs-2"></div>
-            <div id="sitenames-4" class="col-md-2 col-sm-2 col-xs-2"></div>
-            <div id="sitenames-5" class="col-md-2 col-sm-2 col-xs-2"></div>
+        <div id="emp-group" class="tab-pane fade">
+          <div class="row">
+            <p>Select Team:
+              <button id="checkAllTags" type="button" class="btn btn-primary btn-xs">Check All</button>
+              <button id="uncheckAllTags" type="button" class="btn btn-info btn-xs">Uncheck All</button>
+            </p>
+            <div id="modal-select-grp-tags">
+              <div id="tag-0" class="col-md-3 col-sm-2 col-xs-2"></div>
+              <div id="tag-1" class="col-md-3 col-sm-2 col-xs-2"></div>
+              <div id="tag-2" class="col-md-3 col-sm-2 col-xs-2"></div>
+              <div id="tag-3" class="col-md-3 col-sm-2 col-xs-2"></div>
+              <div id="tag-4" class="col-md-3 col-sm-2 col-xs-2"></div>
+              <div id="tag-5" class="col-md-3 col-sm-2 col-xs-2"></div>
+            </div>
           </div>
         </div>
+      </div>
       </div>
       <div class="modal-footer">
       <span id="load-groups-wrapper" data-toggle="tooltip" title="">

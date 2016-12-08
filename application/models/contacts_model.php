@@ -106,4 +106,9 @@ public function addNewContactEmployee($data,$category){
 		$query = $this->db->query("SELECT DISTINCT sitio,barangay,municipality,province FROM site_column WHERE name LIKE '%".$site."%'");
 		return $query;
 	}
+
+	public function employeeTags(){
+		$query = $this->db->query("SELECT DISTINCT grouptags FROM dewslcontacts WHERE grouptags !='' ");
+		return $query;
+	}
 }
