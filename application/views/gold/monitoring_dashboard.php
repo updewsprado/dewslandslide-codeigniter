@@ -359,7 +359,7 @@
                                     <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control"></textarea>
                                     <button type="button" id="send-btn-ewi-amd" class="btn btn-success" onclick="templateSendViaAMD()">Send</button>
                                     <input type="hidden" name="site_abbr" id="site-abbr">
-                                    <input type="hidden" name="footer_ewi" id="footer-ewi">
+                                    <input type="hidden" name="footer_ewi" id="footer-ewi" value=<?php echo $first_name; ?>>
                                 </div>
                             </div>  
                         </div>
