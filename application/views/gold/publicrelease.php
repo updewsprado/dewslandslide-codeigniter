@@ -679,7 +679,9 @@
                     <div class="panel-heading">
                         <b>Sites Area</b>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-check"></span> <span class="glyphicon glyphicon-unchecked"></button>
+                            <button type="button" class="btn btn-primary btn-xs" id="all"><span class="glyphicon glyphicon-check"></span> <span class="glyphicon glyphicon-unchecked"></button>
+                            <button type="button" class="btn btn-primary btn-xs" id="wet">WET</button>
+                            <button type="button" class="btn btn-primary btn-xs" id="dry">DRY</button>
                         </div>
                     </div>
                     <div class="panel-body form-group" hidden="hidden">
@@ -695,7 +697,7 @@
                                         if($active_sites[$key]['status'] == 'on-going') echo "class='active' disabled='disabled'";
                                         else if($active_sites[$key]['status'] == 'extended') echo "class='extended' disabled='disabled'";
                                     }
-                                    else echo "name='routine_sites[]'"; ?> value="<?php echo $sites[$i]->id; ?>"><?php echo strtoupper($sites[$i]->name); ?>
+                                    else echo "name='routine_sites[]' " . "season='" . $sites[$i]->season . "'"; ?> value="<?php echo $sites[$i]->id; ?>"><?php echo strtoupper($sites[$i]->name); ?>
                                 </label>
                             <?php if($i % 9 == 8 || $i == count($sites) - 1 ): ?>
                             </div>
@@ -1306,8 +1308,28 @@
          *  Control details on Sites Area (Routine)
          * 
          *******************************************/
-         $("#sites_area .panel-heading button").click(function () {
+        // Outside array pertains to season group [season 1, season 2]
+        // Inside arrays contains months (0 - January, 11 - December)
+        let wet = [[0,1,5,6,7,8,9,10,11], [4,5,6,7,8,9]],
+            dry = [[2,3,4], [0,1,2,3,10,11]];
+
+
+         $("#sites_area .panel-heading button#all").click(function () {
             $("#sites_area input[type=checkbox]:enabled").trigger("click");
+         });
+
+         $("#sites_area .panel-heading button#wet").click(function () {
+            let month = moment($("#timestamp_entry").val()).get('month');
+            [1,2].forEach(function (i) {
+                if(wet[i-1].indexOf(month) > -1) $("#sites_area input[type=checkbox][season="+ i +"]:enabled").trigger("click");
+            });
+         });
+
+         $("#sites_area .panel-heading button#dry").click(function () {
+            let month = moment($("#timestamp_entry").val()).get('month');
+            [1,2].forEach(function (i) {
+                if(dry[i-1].indexOf(month) > -1) $("#sites_area input[type=checkbox][season="+ i +"]:enabled").trigger("click");
+            });
          });
 
 
@@ -1690,130 +1712,6 @@
         dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
     }
 
-
-   /* function getRecentRelease(site, callback) 
-    {
-        $.ajax ({
-            url: "<?php echo base_url(); ?>pubrelease/showRecentRelease/" + site,
-            type: "GET",
-            dataType: "json",
-        })
-        .done( function (result) {
-            callback(result);
-        });
-    }
-
-    function suggestInput(result)
-    {
-        var commentsLookUp = [
-            ["comments", "timestamp_initial_trigger", "timestamp_retrigger", "validity", "previous_alert"],
-            ["alertGroups", "request_reason", "comments", "timestamp_initial_trigger", "timestamp_retrigger", "validity"],
-            ["magnitude", "epicenter", "timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"],
-            ["timestamp_initial_trigger", "comments", "timestamp_retrigger", "validity"],
-            ["timestamp_initial_trigger", "timestamp_retrigger", "comments", "validity"]
-        ];
-
-        var suggestions = {};
-        switch(result.internal_alert_level)
-        {
-            case "A0": case "ND": 
-                //if comments is ;;;;; ROUTINE else if ;x;x;x;x; EXTENDED
-                // if (typeof temp[4] != 'undefined')
-                // {
-                //     suggestions = parser(commentsLookUp[0], result.comments, result.internal_alert_level); break;
-                // }
-                suggestions = parser(commentsLookUp[0], result.comments, result.internal_alert_level); break;
-                break;
-            case "A1-D": case "ND-D": suggestions = parser(commentsLookUp[1], result.comments, result.internal_alert_level); break;
-            case "A1-E": case "ND-E": suggestions = parser(commentsLookUp[2], result.comments, result.internal_alert_level); break;
-            case "A1-R": case "ND-R": suggestions = parser(commentsLookUp[3], result.comments, result.internal_alert_level); break;
-            case "A2": case "A3": case "ND-L": case "ND-L2": suggestions = parser(commentsLookUp[4], result.comments, result.internal_alert_level); break;
-        }
-
-        return suggestions;
-    }
-
-    function getValidity(initial, retrigger, alert_level) 
-    {
-        var validity = retrigger != null ? retrigger : initial;
-
-        validity = moment(validity);
-        switch (alert_level)
-        {
-            case 'A1': 
-            case 'A2': validity.add(1, "days"); break;
-            case 'A3': validity.add(2, "days"); break;
-        }
-
-        if( validity.hour() % 4 != 0 )
-        {
-            remainder = Math.abs((validity.hour() % 4) - 4);
-            validity.add(remainder, "hours");
-        } else {
-            validity.add(4, "hours");
-        }
-
-        validity.set('minutes', 0);
-        
-        return validity;
-    }
-
-    function recipientChecker (recipientID, timeID) 
-    {
-        if($(recipientID).is(':checked')) {
-            $(timeID).prop("disabled", false);
-            return true;  //You can get the time data
-        }
-        else {
-            $(timeID).prop("disabled", true);
-            return false; //You can NOT get the time data
-        }
-    }
-
-
-    function recipientData ()
-    {
-        var recipients = ""; 
-        var acktime = "";
-
-        var listRecipients = ["#cbox1","#cbox2","#cbox3","#cbox4","#cbox5"];
-        var listAckTime = ["#entryTime1","#entryTime2","#entryTime3","#entryTime4","#entryTime5"];
-
-        for (var i = 0; i < listRecipients.length; i++) 
-        { 
-            if (recipientChecker(listRecipients[i], listAckTime[i])) 
-            {
-                recipients = recipients + $(listRecipients[i]).val() + ";";
-                var singleAckTime = $(listAckTime[i]).val();
-                if (singleAckTime == "") 
-                {
-                    acktime = acktime + "none;";
-                } else {
-                    acktime = acktime + $(listAckTime[i]).val() + ";";
-                };
-            }        
-        }
-        
-        return {entryRecipient: recipients, entryAckTime: acktime};
-    }
-
-    function alertGroupData () 
-    {
-        var checkboxes = document.getElementsByName("alertGroups[]");
-        var checkboxesChecked = [];
-        // loop over them all
-        for (var i=0; i<checkboxes.length; i++) 
-        {
-            // And stick the checked ones onto an array...
-            if (checkboxes[i].checked)
-            {
-                checkboxesChecked.push(checkboxes[i].value);
-            }
-        }
-        // Return the array if it is non-empty, or null
-        return checkboxesChecked.length > 0 ? checkboxesChecked : null;
-    }
-*/
 </script>
 
 <script src='http://codepen.io/assets/editor/live/css_live_reload_init.js'></script>
