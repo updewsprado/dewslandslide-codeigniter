@@ -134,7 +134,7 @@ data-toggle="modal" data-target="#contact-settings" data-toggle="tooltip" title=
 
       <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#comm-group" id="comm-grp-flag">Community Group Selection</a></li>
-        <li><a data-toggle="tab" href="#emp-group" id="emp-grp-flag">Employee Group Selection</a></li>
+        <li><a data-toggle="tab" href="#emp-group" id="emp-grp-flag">Employee Group Selection<i class="text-warning"> *BETA*</i></a></li>
       </ul>
 
       <div class="tab-content grp-selection">
@@ -178,7 +178,7 @@ data-toggle="modal" data-target="#contact-settings" data-toggle="tooltip" title=
         </div>
         <div id="emp-group" class="tab-pane fade">
           <div class="row">
-            <p>Select Team:
+            <p>Select Tag:
               <button id="checkAllTags" type="button" class="btn btn-primary btn-xs">Check All</button>
               <button id="uncheckAllTags" type="button" class="btn btn-info btn-xs">Uncheck All</button>
             </p>
