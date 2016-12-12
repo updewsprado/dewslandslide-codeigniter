@@ -133,7 +133,7 @@
                                 <a href="<?php echo base_url() . $version; ?>/chatterbox"><i class="fa fa-fw fa-comment"></i> Chatter Box <i class="text-warning">*NEW*</i> </a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url() . $version; ?>/responsetracker"><i class="fa fa-fw fa-bar-chart-o"> </i>Response Tracker <i class="text-warning">*NEW*</i></a>
+                                <a href="<?php echo base_url() . $version; ?>/responsetracker"><i class="fa fa-fw fa-bar-chart-o"> </i>Response Tracker <i class="text-warning">*BETA*</i></a>
                             </li>
                      </ul>
                  </li>

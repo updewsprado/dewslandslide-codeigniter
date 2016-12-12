@@ -334,4 +334,9 @@ class Chatterbox extends CI_Controller {
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.");
 		print json_encode($ewi_template);
 	}
+
+	public function getEmployeeTags(){
+		$result = $this->contacts_model->employeeTags();
+		print json_encode($result->result());
+	}
 }
