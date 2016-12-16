@@ -752,8 +752,8 @@ mysqli_close($conn);
           // console.log(alldatacomputation[a][b-1] +"/"+ datealltotal+"="+roundoff2);
 
             if(roundoff2 == roundoff2){
-                // $('#td-'+a+(b+1)).attr('data-original-title',alldatacomputation[a][b] +"/"+ datealltotal+"="+roundoff2);
-                $('#td-'+a+(b+1)).attr('data-original-title',alldatacomputation[a][b]);
+                $('#td-'+a+(b+1)).attr('data-original-title',alldatacomputation[a][b] +"(cm)  /  "+ datealltotal+"(hrs) ="+roundoff2);
+                // $('#td-'+a+(b+1)).attr('data-original-title',alldatacomputation[a][b]);
                 if( roundoff2 <= 0.249 ){
                   $('#td-'+a+(b+1)).attr('bgcolor','#99ff99');
                   if((b+1) == (alldatacomputation[0].length-1) ){
@@ -1662,7 +1662,6 @@ mysqli_close($conn);
             var GndName = allWS[x]["site_id"];
             var crack = allWS2[y]["crack_id"];
             $('#extra').hide();
-
             if(GndName && crack) {
                 if (GndName != prevWS) {
                     groundSuperimpose(GndName);
@@ -1798,10 +1797,10 @@ mysqli_close($conn);
         } else {
           var y = document.getElementById("mySelect2").value;
           var crack = allWS2[y]["crack_id"];
-            // console.log("/ajax/ground.php?site="+ str +"&cid=" + crack);
+           
           $.ajax({url: "/ajax/ground.php?site="+ str +"&cid=" + crack,
          success: function(result){
-            // console.log(result);
+            console.log("/ajax/ground.php?site="+ str +"&cid=" + crack);
             var jsonData = JSON.parse(result);
             var dvt = [];
             var vGraph =[] ;
