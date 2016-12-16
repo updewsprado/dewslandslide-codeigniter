@@ -493,7 +493,7 @@
 
 		<!-- MODAL AREA -->
 	    <div class="modal fade" id="sendBulletinModal" role="dialog">
-	    	<div class="modal-dialog modal-md">
+	    	<div class="modal-dialog modal-lg">
 	            <!-- Modal content-->
 	            <div class="modal-content">
 	              	<div class="modal-header">
@@ -781,7 +781,7 @@
             	//console.log(data);
             	// console.log(data.search('Location:'));
             	
-            	$("#sendBulletinModal .modal-dialog").css('width', '900px');
+            	//$("#sendBulletinModal .modal-dialog").css('min-width', '900px').css("overflow-x", "auto");
             	$("#bulletin_modal").html(data);
 
             	let loc = $("#location").text();
