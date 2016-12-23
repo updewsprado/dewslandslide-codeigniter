@@ -801,7 +801,6 @@
 	        	{
 	            	"data": "start",
 	            	"render": function (data, type, full) {
-	            		console.log("FULL", full);
 	            		return moment.unix(full.start).format("DD MMMM YYYY HH:mm");
 	            	},
 	            	"name": "start"
