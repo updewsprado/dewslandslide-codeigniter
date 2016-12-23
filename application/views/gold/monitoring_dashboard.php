@@ -798,17 +798,18 @@
 	            	},
 	            	"name": "validity"
 	        	},
-	        	{ 
+	        	{
 	            	"data": "start",
 	            	"render": function (data, type, full) {
-	            		return moment(full.start).format("DD MMMM YYYY HH:mm");
+	            		console.log("FULL", full);
+	            		return moment.unix(full.start).format("DD MMMM YYYY HH:mm");
 	            	},
 	            	"name": "start"
 	        	},
 	        	{ 
 	            	"data": "end",
 	            	"render": function (data, type, full) {
-	            		return moment(full.end).format("DD MMMM YYYY HH:mm");
+	            		return moment.unix(full.end).format("DD MMMM YYYY HH:mm");
 	            	},
 	            	"name": "end"
 	        	},
