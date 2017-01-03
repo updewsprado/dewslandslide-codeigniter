@@ -1167,6 +1167,7 @@
 					}
 					
 				}
+
 				if(k) final.push(x);
 			}
 		});
@@ -1182,6 +1183,9 @@
 	}
 
 	let entry = {};
+
+	setInterval( function () { $("#release_time").val(moment().format("HH:mm:00")); }, 1000);
+
 	$("#candidate tbody").on( "click", 'tr .glyphicon-ok', function(x) {
 		entry = {};
 		let i = $(this).parents("tr");
@@ -1216,7 +1220,6 @@
 		}
 
 		$("#timestamp_entry").val(row.timestamp);
-		$("#release_time").val(moment().format("HH:mm:ss"));
 		$("#internal_alert_level").val(row.internal_alert);
 		$("#site option:contains("+ row.site.toUpperCase() +")").attr('selected', true);
 		$("#comments").val("");
@@ -1316,7 +1319,8 @@
         	let data = $( "#modalForm" ).serializeArray();
             let temp = {};
             data.forEach(function (value) { temp[value.name] = value.value == "" ? null : value.value; });
-            temp.public_alert_level = temp.internal_alert_level.slice(0,2);
+            let aX = temp.internal_alert_level.slice(0,2);
+            temp.public_alert_level = aX == "ND" ? "A1" : aX;
             temp.status = entry.status;
             temp.trigger_list = entry.trigger_list.length == 0 ? null : entry.trigger_list;
             temp.reporter_1 = "<?php echo $user_id; ?>";
