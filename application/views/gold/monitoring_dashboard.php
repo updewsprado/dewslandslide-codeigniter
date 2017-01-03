@@ -747,7 +747,7 @@
 		        	},
 		        	{
 		        		"render": function (data, type, full) {
-		            		return "<a onclick='sendViaAlertMonitor(" + full + ")'><span class='glyphicon glyphicon-phone'></span></a>&ensp;<a><span class='glyphicon glyphicon-envelope' id='" + full.latest_release_id + "'></span></a>";
+		            		return "<a onclick='sendViaAlertMonitor("+JSON.stringify(full)+")'><span class='glyphicon glyphicon-phone'></span></a> &ensp; <a><span class='glyphicon glyphicon-envelope' id='" + full.latest_release_id + "'></span></a>";
 		            	}
 		        	}
 		    	],
