@@ -10,6 +10,7 @@
  -->
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
+<script src="/goldF/js/dewslandslide/dewschatterbox.js"></script>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/u/bs/dt-1.10.12,b-1.2.0,fh-3.1.2,r-2.1.0/datatables.min.css"/>
 
@@ -290,7 +291,7 @@
                                 <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control"></textarea>
                                 <button type="button" id="send-btn-ewi-amd" class="btn btn-success" onclick="templateSendViaAMD()">Send</button>
                                 <input type="hidden" name="site_abbr" id="site-abbr">
-                                <input type="hidden" name="footer_ewi" id="footer-ewi">
+                                <input type="hidden" name="footer_ewi" id="footer-ewi" value="<?php echo $first_name; ?>">
                             </div>
                         </div>  
                     </div>
@@ -749,7 +750,7 @@
 		        	},
 		        	{
 		        		"render": function (data, type, full) {
-		            		return "<a onclick='sendViaAlertMonitor(" + full + ")'><span class='glyphicon glyphicon-phone'></span></a>&ensp;&ensp;<a><span class='glyphicon glyphicon-envelope' id='" + full.latest_release_id + "'></span></a>";
+		            		return "<a onclick='sendViaAlertMonitor("+JSON.stringify(full)+")'><span class='glyphicon glyphicon-phone'></span></a> &ensp; <a><span class='glyphicon glyphicon-envelope' id='" + full.latest_release_id + "'></span></a>";
 		            	}
 		        	}
 		    	],
@@ -1552,5 +1553,3 @@
  //    console.log(temp);
 
 </script>
-
-
