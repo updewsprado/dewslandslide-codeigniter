@@ -231,7 +231,7 @@
 
 		    	<div class="row">
 			    	<div class="panel panel-default">
-						<div class="panel-heading">Latest Candidate Triggers (BETA)</div>
+						<div class="panel-heading">Latest Candidate Triggers and Releases</div>
 						<div class="panel-body clearfix">
 							<div class="col-md-12"><div class="table-responsive">
 				                <table class="table" id="candidate">
@@ -266,7 +266,7 @@
 				                            <th class="col-sm-1">Internal Alert</th>
 				                            <th class="col-sm-2">Validity</th>
 				                            <th class="col-sm-2">Last Alert Release</th>
-				                            <th class="col-sm-1">Send EWI</th>
+				                            <th class="col-sm-2">Send EWI</th>
 				                        </tr>
 				                    </thead>
 				                    <tbody>
@@ -295,26 +295,27 @@
                             </div>  
                         </div>
                     </div>
+                </div>
 
-                    <!-- END OF EWI MODAL -->
+                <!-- END OF EWI MODAL -->
 
-                    <!-- SUCCESS EWI MODAL -->
+                <!-- SUCCESS EWI MODAL -->
 
-                    <div class="modal fade col-lg-10" id="success-ewi-modal" role="dialog">
-                        <div class="modal-dialog modal-md" id="ewi-modal-cs-dialog">
-                            <div class="modal-content" id="ewi-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4>EARLY WARNING INFORMATION</h4>
-                                </div>
-                                <div class="modal-body row-fluid"> 
-                                    <h2><span id="result-ewi-message"></span></h2>
-                                </div>
-                            </div>  
-                        </div>
+                <div class="modal fade col-lg-10" id="success-ewi-modal" role="dialog">
+                    <div class="modal-dialog modal-md" id="ewi-modal-cs-dialog">
+                        <div class="modal-content" id="ewi-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4>EARLY WARNING INFORMATION</h4>
+                            </div>
+                            <div class="modal-body row-fluid"> 
+                                <h2><span id="result-ewi-message"></span></h2>
+                            </div>
+                        </div>  
                     </div>
+                </div>
 
-                    <!-- END OF EWI MODAL -->
+                <!-- END OF EWI MODAL -->
 
 				<div class="row">
 			    	<div class="panel panel-default">
@@ -325,10 +326,11 @@
 				                <table class="table" id="extended">
 				                    <thead>
 				                        <tr>
-				                            <th>Site Name</th>
-				                            <th>End of Event</th>
-				                            <th>Monitoring Start</th>
-				                            <th>Monitoring End</th>
+				                            <th class="col-sm-1">Site Name</th>
+				                            <th class="col-sm-3">End of Event</th>
+				                            <th class="col-sm-3">Monitoring Start</th>
+				                            <th class="col-sm-3">Monitoring End</th>
+				                            <th class="col-sm-2">Send EWI</th>
 				                        </tr>
 				                    </thead>
 				                    <tbody>
@@ -700,7 +702,8 @@
 				"data": dataX,
 				"columnDefs": [
 					{ className: "text-left", "targets": [ 0, 3 ] },
-			 		{ className: "text-right", "targets": [ 1, 2, 4, 5 ] }
+			 		{ className: "text-right", "targets": [ 1, 2, 4, 5 ] },
+			 		{ className: "text-center", "targets": [6] }
 				],
 				"columns": [
 		            {
@@ -781,7 +784,8 @@
 	    	"data": extended,
 			"columnDefs": [
 				{ className: "text-left", "targets": [ 0 ] },
-		 		{ className: "text-right", "targets": [ 1, 2, 3 ] }
+		 		{ className: "text-right", "targets": [ 1, 2, 3 ] },
+		 		{ className: "text-center", "targets": [4] }
 			],
 			"columns": [
 	            {
@@ -812,7 +816,12 @@
 	            	},
 	            	"name": "end"
 	        	},
-	    	],
+	        	{
+	        		"render": function (data, type, full) {
+	            		return "<a onclick='sendViaAlertMonitor(" + full + ")'><span class='glyphicon glyphicon-phone'></span></a>&ensp;&ensp;<a><span class='glyphicon glyphicon-envelope' id='" + full.latest_release_id + "'></span></a>";
+	            	}
+	        	}
+    		],
 	    	"order" : [[3, "asc"]],
 	    	"processing": true,
 	    	"filter": false,
@@ -868,7 +877,8 @@
 	            { 
 	            	"data": "validity",
 	            	"render": function (data, type, full) {
-	            		return moment(full.validity).format("DD MMMM YYYY HH:mm");
+	            		if ( full.validity == null ) return "END OF VALIDITY"
+	            		else return moment(full.validity).format("DD MMMM YYYY HH:mm");
 	            	},
 	            	"name": "validity"
 	        	},
@@ -962,7 +972,13 @@
 
 	/********** END OF MAP INITIALIZATION **********/ 
 
-	let id = null, text = null, filename = null, subject = null;;
+	/*****************************************
+	 * 
+	 * 		AUTOMATED PDF SENDING
+	 * 
+	******************************************/
+
+	let id = null, text = null, filename = null, subject = null;
 
 	$('.js-loading-bar').on('show.bs.modal', reposition);
     $(window).on('resize', function() {
@@ -974,7 +990,7 @@
         $('#resultModal:visible').each(reposition);
     });
 
-    $("#latest").on( "click", 'tbody tr .glyphicon-envelope', function(x) {
+    $("#latest, #extended").on( "click", 'tbody tr .glyphicon-envelope', function(x) {
     	id = $(this).prop('id');
 		loadBulletin(id);
     });
@@ -1044,13 +1060,9 @@
 	    $.ajax({
             url: '<?php echo base_url(); ?>gold/bulletin-main/' + id + '/0', 
             type: 'POST',
-	            success: function(data){
-            	//console.log(data);
-            	// console.log(data.search('Location:'));
-            	
-            	//$("#sendBulletinModal .modal-dialog").css('min-width', '900px').css("overflow-x", "auto");
-            	$("#bulletin_modal").html(data);
+	            success: function(data) {
 
+            	$("#bulletin_modal").html(data);
             	let loc = $("#location").text();
             	let alert = $("#alert_level_released").text().replace(/\s+/g,' ').trim().slice(0,2);
             	let datetime = $("#datetime").text();
@@ -1075,8 +1087,18 @@
         dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
     }
 
+    /********** END OF AUTOMATED PDF SENDING **********/ 
 
-	/****** AUTO RECOMMENDATION ******/
+
+	/*****************************************
+	 * 
+	 * 		AUTOMATED EWI SITE RELEASE
+	 * 
+	******************************************/
+	$('#releaseModal').on('show.bs.modal', reposition);
+    $(window).on('resize', function() {
+        $('#releaseModal:visible').each(reposition);
+    });
 
 	let realtime_cache = [],
 		ongoing = [], candidate_triggers = [];
@@ -1092,10 +1114,17 @@
 			if( realtime_cache.length == 0 || ( typeof realtime_cache.alerts !== 'undefined' && realtime_cache.alerts[0].timestamp !== data[0].alerts[0].timestamp))
 			{
 				realtime_cache = data.slice(0).pop();
+				
+				// Save sites with no alerts
+				realtime_cache.no_alerts = realtime_cache.alerts.filter(function (x) {
+					return x.alert == "A0";
+				});
+
 				// Get only alerts with alerts
 				realtime_cache.alerts = realtime_cache.alerts.filter(function (x) {
 					return x.alert != "A0";
 				});
+
 				return realtime_cache;
 			}
 			else {
@@ -1123,11 +1152,13 @@
 	function checkCandidateTriggers(cache) {
 		let alerts = cache.alerts,
 			invalids = cache.invalids,
+			no_alerts = cache.no_alerts,
 			final = [];
 
+		// Get all the latest and overdue releases on site
 		let merged_arr = jQuery.merge(jQuery.merge([], ongoing.latest), ongoing.overdue);
 
-		alerts.forEach(function (x) {
+		alerts.forEach( function (x) {
 			let index = invalids.map( y => y.site ).indexOf(x.site);
 			if(index > -1)
 			{
@@ -1154,6 +1185,10 @@
 					//console.log(merged_arr[i]);
 					if( merged_arr[i].name == x.site )
 					{
+						// Tag the site on merged_arr as cleared
+						// else if not, it is candidate for lowering already
+						merged_arr[i].checked = true;
+
 						if( moment(merged_arr[i].data_timestamp).isSame(x.timestamp) )
 						{
 							k = false; break;
@@ -1169,6 +1204,20 @@
 				}
 
 				if(k) final.push(x);
+			}
+		});
+
+		merged_arr.forEach(function (a) {
+			if ( typeof a.checked == "undefined" )
+			{
+				let index = no_alerts.map( x => x.site ).indexOf(a.name);
+				let x = no_alerts[index];
+				console.log(x);
+
+				x.latest_trigger_timestamp = null;
+				x.trigger = "No new triggers";
+				x.validity = null;
+				final.push(x);
 			}
 		});
 
@@ -1203,7 +1252,8 @@
 			entry.previous_validity = previous.validity;
 
 			// Put internal alert checker here if there's invalid trigger
-			entry.status = "on-going";
+			if( row.internal_alert == "A0" ) entry.status = "extended";
+			else entry.status = "on-going";
 			entry.event_id = previous.event_id;
 		}
 		else
@@ -1325,10 +1375,10 @@
             temp.trigger_list = entry.trigger_list.length == 0 ? null : entry.trigger_list;
             temp.reporter_1 = "<?php echo $user_id; ?>";
 
+            if (entry.status != "new") temp.current_event_id = entry.event_id;
+
             if(entry.status == "on-going")
             {
-            	temp.current_event_id = entry.event_id;
-
             	let extend = false;
 
             	if( temp.internal_alert_level.indexOf("ND") > -1 || temp.internal_alert_level.indexOf("g0") > -1 || temp.internal_alert_level.indexOf("s0") > -1 )
