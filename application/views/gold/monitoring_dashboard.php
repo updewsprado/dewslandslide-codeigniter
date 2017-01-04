@@ -279,21 +279,20 @@
 
 				<!-- EWI MODAL -->
 
-                    <div class="modal fade col-lg-10" id="ewi-asap-modal" role="dialog">
-                        <div class="modal-dialog modal-md" id="ewi-modal-cs-dialog">
-                            <div class="modal-content" id="ewi-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4>EARLY WARNING INFORMATION</h4>
-                                </div>
-                                <div class="modal-body row-fluid"> 
-                                    <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control"></textarea>
-                                    <button type="button" id="send-btn-ewi-amd" class="btn btn-success" onclick="templateSendViaAMD()">Send</button>
-                                    <input type="hidden" name="site_abbr" id="site-abbr">
-                                    <input type="hidden" name="footer_ewi" id="footer-ewi" value=<?php echo $first_name; ?>>
-                                </div>
-                            </div>  
-                        </div>
+                <div class="modal fade col-lg-10" id="ewi-asap-modal" role="dialog">
+                    <div class="modal-dialog modal-md" id="ewi-modal-cs-dialog">
+                        <div class="modal-content" id="ewi-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4>EARLY WARNING INFORMATION</h4>
+                            </div>
+                            <div class="modal-body row-fluid"> 
+                                <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control"></textarea>
+                                <button type="button" id="send-btn-ewi-amd" class="btn btn-success" onclick="templateSendViaAMD()">Send</button>
+                                <input type="hidden" name="site_abbr" id="site-abbr">
+                                <input type="hidden" name="footer_ewi" id="footer-ewi" value="<?php echo $first_name; ?>">
+                            </div>
+                        </div>  
                     </div>
                 </div>
 
