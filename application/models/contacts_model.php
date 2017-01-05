@@ -61,14 +61,15 @@ public function addNewContactEmployee($data,$category){
 	}
 
 	public function updateContactsEmployee($data){
-		$this->db->where('eid', $data["eid"]);
-		$res = $this->db->update('dewslcontacts',$data);
+
+		$sql = "UPDATE dewslcontacts SET eid='".$data->id."',lastname='".$data->lastname."',firstname='".$data->firstname."',nickname='".$data->nickname."',birthday='".$data->birthdate."',email='".$data->email."',numbers='".$data->numbers."',grouptags='".$data->grouptags."' WHERE eid='".$data->id."'";
+		$res = $this->db->query($sql);
 		return $res;
 	}
 
 	public function updateContactsCommunity($data){
-		$this->db->where('c_id', $data["c_id"]);
-		$res = $this->db->update('communitycontacts',$data);
+		$sql = "UPDATE communitycontacts SET c_id='".$data->id."',lastname='".$data->lastname."',firstname='".$data->firstname."',prefix='".$data->prefix."',office='".$data->office."',sitename='".$data->sitename."',number='".$data->number."',rel='".$data->rel."',ewirecipient='".$data->ewirecipient."' WHERE c_id='".$data->id."'";
+		$res = $this->db->query($sql);
 		return $res;
 	}
 

@@ -29,67 +29,21 @@ class Chatterbox extends CI_Controller {
 	}
 
 	public function updatecontacts(){
-		if ($_POST["category"][0] == "e") {
-			$data['eid'] = substr($_POST["category"],2);
-			$data['lastname'] = $_POST["lastname"];
-			$data['firstname'] = $_POST["firstname"];
-			$data['nickname'] = $_POST["nickname"];
-			$data['birthday'] = $_POST["birthdate"];
-			$data['email'] = $_POST["email"];
-			$data['numbers'] = $_POST["numbers"];
-			$data['grouptags'] = $_POST["grouptags"];
-			$isValid = $this->validate_employee_data($data);
-			if ($isValid == true) {
-				try {
-					$query = $this->contacts_model->updateContactsEmployee($data);
-					if ($query == true ) {
-						redirect('/gold/chatterbox');
-					} else {
-						echo "<script>alert(Error Occured, Please check if neccessary fields are correct.)</script>";
-						redirect('/gold/chatterbox');
-					}
-				} catch (Exception $e) {
-					echo $e->getMessage(),"\n";
-					redirect('/gold/chatterbox');
-				}
-			} else {
-				echo validation_errors();
-				echo "<a href='../gold/chatterbox'>Go back..</a>";
-			}
-		} else {
-			$data['c_id'] = substr($_POST["category"],2);
-			$data['lastname'] = $_POST["lastname"];
-			$data['firstname'] = $_POST["firstname"];
-			$data['prefix'] = $_POST["prefix"];
-			$data['office'] = strtoupper($_POST["office"]);
-			$data['sitename'] = strtoupper($_POST["sitename"]);
-			$data['number'] = $_POST["number"];
-			$data['rel'] = strtoupper($_POST["rel"]);
-			if ($_POST["ewirecipient"] == "Yes") {
-				$data['ewirecipient'] = true;
-			} else {
-				$data['ewirecipient'] = false;
-			}
-			$isValid = $this->validate_community_data($data);
-			if ($isValid == true) {
-				try {
-					$query = $this->contacts_model->updateContactsCommunity($data);
-					if ($query == true) {
-						redirect('/gold/chatterbox');
-					} else {
-						echo validation_errors();
-						redirect('/gold/chatterbox');
-					}
 
-				} catch (Exception $e) {
-					echo $e->getMessage(),"\n";
-					redirect('/gold/chatterbox');
-				}
-			} else {
-				echo validation_errors();
-				echo "<a href='../gold/chatterbox'>Go back..</a>";
-			}
+		$data = json_decode($_POST['contact']);
+
+		if ($data->id[0] == "e") {
+			$data->id = substr($data->id,2);
+			$query = $this->contacts_model->updateContactsEmployee($data);
+			print json_encode($query);
+		} else if ($data->id[0] == "c"){
+			$data->id = substr($data->id,2);
+			$query = $this->contacts_model->updateContactsCommunity($data);
+			print json_encode($query);
+		} else {
+			echo "Invalid Request";
 		}
+
 	}
 
 	// Fetch the Sitio,Barangay,Province and Municipality.

@@ -206,12 +206,6 @@
         <h4 class="modal-title text-info">Contact Settings</h4>
       </div>
 
-<!--       <button type="button" class="btn btn-link btn-sm" id="btn-contact-settings" 
-      data-toggle="modal" data-dismiss="modal" data-target="#edit-contact-settings">
-      <span class="glyphicon glyphicon-search"></span>
-      Edit Contact
-    </button> -->
-
     <div class="modal-body row-fluid">
       <div class="contact-settings-container">
 
@@ -238,34 +232,49 @@
 
         <hr>
 
-<!--         <div id="contact-wrapper">
-          
-        </div> -->
+        <div id="update-contact-container" hidden>
+          <div>
+           <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
+           <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
+          </div>
+        </div>
+
+        <table id="response-contact-container" class="display" cellspacing="0" width="100%" hidden>
+          <thead>
+            <tr>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>Name</th>
+            </tr>
+          </tfoot>
+        </table>
 
         <div id="employee-contact-wrapper" hidden>
-
           <div class="row">
             <div class="col-md-6">
-              <label for="firstname">Firstname:</label>
-              <input type="text" class="form-control" id="firstname" name="firstname" maxlength="16" required>
+              <label for="firstname_ec">Firstname:</label>
+              <input type="text" class="form-control" id="firstname_ec" name="firstname_ec" maxlength="16" required>
             </div>
 
             <div class="col-md-6">
-              <label for="firstname">Lastname:</label>
-              <input type="text" class="form-control" id="lastname" name="lastname" maxlength="16" required>
+              <label for="firstname_ec">Lastname:</label>
+              <input type="text" class="form-control" id="lastname_ec" name="lastname_ec" maxlength="16" required>
             </div>
           </div>
 
           <div class="row">
             <div class="col-md-6">
-              <label for="nickname">Nickname:</label>
-              <input type="text" class="form-control" id="nickname" name="nickname" maxlength="16" required>
+              <label for="nickname_ec">Nickname:</label>
+              <input type="text" class="form-control" id="nickname_ec" name="nickname_ec" maxlength="16" required>
             </div>
 
             <div class="col-md-6">
-              <label for="birthdate">Birthdate:</label>
+              <label for="birthdate_ec">Birthdate:</label>
               <div class="input-group date datetime">
-                <input type="date" class="form-control" id="birthdate" aria-required="true" aria-invalid="false">
+                <input type="date" class="form-control" id="birthdate_ec" aria-required="true" aria-invalid="false">
                 <span class="input-group-addon">
                   <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -275,19 +284,19 @@
 
           <div class="row">
             <div class="col-md-6">
-              <label for="email">Email:</label>
-              <input type="email" class="form-control" id="email" name="email" required>
+              <label for="email_ec">Email:</label>
+              <input type="email" class="form-control" id="email_ec" name="email_ec" required>
             </div>
             <div class="col-md-6">
-              <label for="numbers">Contact #:</label>
-              <input type="text" class="form-control" id="numbers" name="numbers" required>
+              <label for="numbers_ec">Contact #:</label>
+              <input type="number" class="form-control" id="numbers_ec" name="numbers_ec" lrequired>
             </div>
           </div>
 
           <div class="row">
             <div class="col-md-6">
-              <label for="grouptags">Group tags:</label>
-              <input type="text" class="form-control" id="grouptags" name="grouptags" placeholder="Ex. senslope,dynaslope" title="Notes: If group tag is more than one seprate it by a comma." required>
+              <label for="grouptags_ec">Group tags:</label>
+              <input type="text" class="form-control" id="grouptags_ec" name="grouptags_ec" placeholder="Ex. senslope,dynaslope" title="Notes: If group tag is more than one seprate it by a comma." required>
             </div>
           </div>
           <hr>
@@ -300,39 +309,39 @@
         <div id="community-contact-wrapper" hidden>
           <div class="row">
             <div class="col-md-6">
-              <label for="firstname">Firstname:</label>
-              <input type="text" class="form-control" id="firstname" name="firstname" maxlength="16" required>
+              <label for="firstname_cc">Firstname:</label>
+              <input type="text" class="form-control" id="firstname_cc" name="firstname_cc" maxlength="16" required>
             </div>
 
             <div class="col-md-6">
-              <label for="firstname">Lastname:</label>
-              <input type="text" class="form-control" id="lastname" name="lastname" maxlength="16" required>
+              <label for="lastname_cc">Lastname:</label>
+              <input type="text" class="form-control" id="lastname_cc" name="lastname_cc" maxlength="16" required>
             </div>
           </div>
 
           <div class="row">
             <div class="col-md-4">
-              <label for="prefix">Prefix:</label>
-              <input type="text" class="form-control" id="nickname" name="nickname" maxlength="16" required>
+              <label for="prefix_cc">Prefix:</label>
+              <input type="text" class="form-control" id="prefix_cc" name="prefix_cc" maxlength="16" required>
             </div>
 
             <div class="col-md-4">
-              <label for="office">Office:</label>
-              <select name="office" id="office"></select>
+              <label for="office_cc">Office:</label>
+              <select name="office_cc" id="office_cc"></select>
               <input type="text" class="form-control" id="other-officename" name="other_officename" placeholder="Office" hidden>
             </div>
 
             <div class="col-md-4">
-              <label for="sitename">Sitename:</label>
-              <select name="sitename" id="sitename"></select>
+              <label for="sitename_cc">Sitename:</label>
+              <select name="sitename_cc" id="sitename_cc"></select>
               <input type="text" class="form-control" id="other-sitename" name="other_sitename" placeholder="Sitename" hidden>
             </div>
           </div> 
 
           <div class="row">
             <div class="col-md-5">
-              <label for="numbers">Contact #:</label>
-              <input type="text" class="form-control" id="numbers" name="numbers" required>
+              <label for="numbers_cc">Contact #:</label>
+              <input type="number" class="form-control" id="numbers_cc" name="numbers" required>
             </div>
 
             <div class="col-md-4">
@@ -356,7 +365,7 @@
           <hr>
           <div id="comm-settings-cmd">
             <button type="submit" value="submit" class="btn btn-primary">Save</button>
-            <button type="reset" class="btn btn-danger" id="btn-clear-ec" >Reset</button>
+            <button type="reset" class="btn btn-danger" id="btn-clear-cc" >Reset</button>
           </div>
         </div>
 
@@ -368,63 +377,6 @@
 
 </div>
 <!-- /#page-wrapper -->
-
-<!-- Search contacts Modal -->
-
-<div class="modal fade col-lg-10" id="edit-contact-settings" role="dialog">
-  <div class="modal-dialog modal-md" id="modal-cs-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title text-info">Edit Contacts</h4>
-      </div>
-      <div class="modal-body row-fluid"> 
-        <h4>SEARCH CONTACTS</h4>
-        <div class="search-category">
-          <label class="radio-inline"><input type="radio" id="optcommunity_contacts" name="category" value="community_contacts_radio">Community Contacts</label>
-          <label class="radio-inline"><input type="radio" id="optemployee_contacts" name="category" value="employee_contacts_radio">Employee Contacts</label>
-        </div>
-        <table id="response-contact-container" class="display" cellspacing="0" width="100%" hidden>
-          <thead>
-            <tr>
-              <th>Name</th>
-            </tr>
-          </thead>
-          <tfoot>
-            <tr>
-              <th>Name</th>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- end modal -->
-
-<div class="modal fade col-lg-10" id="edit-contact" role="dialog">
-  <div class="modal-dialog modal-md" id="modal-cs-dialog">
-    <div class="modal-content" id="update-contact-content">
-      <div class="modal-header">
-        <button type="button" class="close" id="btn-close-edit-settings">&times;</button>
-        <h4>EDIT CONTACT</h4>
-      </div>
-      <div class="modal-body row-fluid"> 
-       <form action="../chatterbox/updatecontacts" method="post" onsubmit="return confirm('Are you sure you want to add this contact?');">
-        <div id="contact-settings-wrapper">
-        </div>
-        <div>
-         <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
-         <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
-       </div>
-     </form>
-   </div>
- </div>
-</div>
-</div>
-
-<!-- EWI MODAL -->
 
 <div class="modal fade col-lg-10" id="early-warning-modal" role="dialog">
   <div class="modal-dialog modal-md" id="ewi-modal-cs-dialog">
