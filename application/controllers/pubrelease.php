@@ -131,6 +131,7 @@ class Pubrelease extends CI_Controller {
 		$status = $_POST['status'];
 		$latest_trigger_id = NULL;
 		$site_id = $_POST['site'];
+		$event_validity = NULL;
 
 		if( $status == 'new' )
 		{
@@ -153,7 +154,7 @@ class Pubrelease extends CI_Controller {
 			$release_id = $this->pubrelease_model->insert('public_alert_release', $release);
 			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', array('latest_release_id' => $release_id) );
 
-			$this->saveTriggers($_POST, $event_id, $release_id);
+			$this->saveTriggers($_POST, $event_id, $release_id, $event_validity);
 
 			// This $event_id came from EXTENDED to NEW event
 			if( isset($_POST['previous_event_id']) && $_POST['previous_event_id'] != NULL &&  $_POST['previous_event_id'] != '' ) $this->pubrelease_model->update('event_id', $_POST['previous_event_id'], 'public_alert_event', array( 'status' => 'finished' ));
@@ -176,12 +177,14 @@ class Pubrelease extends CI_Controller {
 			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', array('latest_release_id' => $release_id) );
 			
 			$a = $this->pubrelease_model->getEventValidity($event_id);
+			$event_validity = $a[0]->validity;
+
 			if( isset($_POST['extend_ND']) )
 			{
-    			$data['validity'] = date("Y-m-d H:i:s", strtotime($a[0]->validity) + 4 * 3600);
+    			$data['validity'] = date("Y-m-d H:i:s", strtotime($event_validity) + 4 * 3600);
     			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', $data);
 			}
-			else $this->saveTriggers($_POST, $event_id, $release_id);
+			else $this->saveTriggers($_POST, $event_id, $release_id, $event_validity);
 
 			if($status == 'extended' || $status == 'invalid' || $status == 'finished')
 			{
@@ -273,7 +276,7 @@ class Pubrelease extends CI_Controller {
 		return $timestamp;
 	}
 
-	public function saveTriggers($post, $event_id, $release_id)
+	public function saveTriggers($post, $event_id, $release_id, $event_validity)
 	{
 		$lookup = array( "g" => "trigger_ground_1", "G" => "trigger_ground_2", "s" => "trigger_sensor_1", "S" => "trigger_sensor_2", "R" => "trigger_rain", "E" => "trigger_eq", "D" => "trigger_od" );
 		$list = [];
@@ -321,7 +324,13 @@ class Pubrelease extends CI_Controller {
 
 			// Update event entry's latest_trigger_id and validity
 			$data['latest_trigger_id'] = $latest_trigger_id;
-			$data['validity'] = $this->getValidity( $last_timestamp, $post['public_alert_level'] );
+
+			// Check if latest trigger validity is greater than saved validity
+			// Safeguard for entering late triggers
+			$generated_validity = $this->getValidity( $last_timestamp, $post['public_alert_level'] );
+			if( !is_null($event_validity) ) $data['validity'] = strtotime($generated_validity) > strtotime($event_validity) ? $generated_validity : $event_validity;
+			else $data['validity'] = $generated_validity;
+			
 			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', $data);
 		}
 	}
