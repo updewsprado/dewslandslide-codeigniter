@@ -10,6 +10,7 @@
  -->
 <script src="/goldF/js/dewslandslide/dewschatterbox.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
+<script src="/goldF/js/dewslandslide/dewschatterbox.js"></script>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/u/bs/dt-1.10.12,b-1.2.0,fh-3.1.2,r-2.1.0/datatables.min.css"/>
 
@@ -190,6 +191,12 @@
 
 	#sendBulletinModal .modal-body { padding-bottom: 0; }
 	#resultModal .modal-body { font-size: 14px; }
+
+	label.error {
+        font-size: 12px;
+        font-style: italic;
+        margin: 10px 0 0 10px;
+    }
 
 </style>
 
@@ -853,7 +860,7 @@
 	            {
 	            	data: "site", 
 	            	"render": function (data, type, full) {
-	            		return "<b><a href='<?php echo base_url(); ?>gold/publicrelease/event/individual/" + full.event_id + "'>" + full.site.toUpperCase() + "</a></b>";
+	            		return "<b>" + full.site.toUpperCase() + "</b>";
 	            	},
 	        		"name": 'site',
 	            },
@@ -1251,7 +1258,12 @@
 			entry.previous_validity = previous.validity;
 
 			// Put internal alert checker here if there's invalid trigger
-			if( row.internal_alert == "A0" ) entry.status = "extended";
+			if( row.internal_alert == "A0" )
+			{
+				if( moment(previous.validity).isAfter( moment(row.timestamp).add(30, 'minutes') ) )
+					entry.status = "invalid";
+				else entry.status = "extended";
+			}
 			else entry.status = "on-going";
 			entry.event_id = previous.event_id;
 		}
@@ -1309,6 +1321,10 @@
     	return retriggers;
     }
 
+    jQuery.validator.addMethod("isInvalid", function(value, element, param) {
+            return entry.status != "invalid";
+        }, "");
+
     $("#modalForm").validate(
     {
         debug: true,
@@ -1328,9 +1344,28 @@
             trigger_ground_2_info: "required",
             trigger_sensor_1_info: "required",
             trigger_sensor_2_info: "required",
-            reporter_2: "required"
+            reporter_2: "required",
+            comments: {
+            	"isInvalid": true
+            }
+        },
+        messages: {
+        	comments: "Provide a reason to invalidate this event. If the event is not invalid and is really an end of event EWI, release it on the indicated end of validity."
         },
         errorPlacement: function ( error, element ) {
+
+        	var placement = $(element).closest('.form-group');
+            //console.log(placement);
+            
+            if( $(element).hasClass("cbox_trigger_switch") )
+            {
+                $("#errorLabel").append(error).show();
+            }
+            else if (placement) {
+                $(placement).append(error)
+            } else {
+                error.insertAfter(placement);
+            } //remove on success
 
             element.parents( ".form-group" ).addClass( "has-feedback" );
 
@@ -1374,9 +1409,13 @@
             temp.trigger_list = entry.trigger_list.length == 0 ? null : entry.trigger_list;
             temp.reporter_1 = "<?php echo $user_id; ?>";
 
-            if (entry.status != "new") temp.current_event_id = entry.event_id;
+            if (entry.status == "new")
+            {
+            	if( typeof entry.previous_event_id != 'undefined' ) temp.previous_event_id = entry.previous_event_id;
+            }
+            else temp.current_event_id = entry.event_id;
 
-            if(entry.status == "on-going")
+            if (entry.status == "on-going")
             {
             	let extend = false;
 
@@ -1552,5 +1591,3 @@
  //    console.log(temp);
 
 </script>
-
-

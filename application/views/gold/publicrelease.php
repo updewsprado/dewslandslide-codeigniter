@@ -1527,7 +1527,7 @@
                 },
             },
             messages: {
-                comments: "Provide a reason to invalidate this event."
+                comments: "Provide a reason to invalidate this event. If the event is not invalid and is really an end of event EWI, release it on the indicated end of validity."
             },
             errorPlacement: function ( error, element ) {
 
