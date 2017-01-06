@@ -16,44 +16,42 @@ public function addNewContactEmployee($data,$category){
 		$result = $this->contactExists($data,$category);
 		if ($result == false) {
 			try {
-				$query = $this->db->insert('dewslcontacts',$data);
-				$resMessage =  "<script>alert('Contact successfully added!, returning to chatterbox...')</script>";
+				$query = $this->db->query("INSERT INTO dewslcontacts VALUES('','$data->lastname','$data->firstname','$data->nickname','$data->birthday','$data->email','$data->numbers','$data->grouptags')");
 			} catch (Exception $e) {
 				echo $e->getMessage(),"\n";
 			}	
 		} else {
-			$resMessage =  "<script>alert('User Already Exist, returning to chatterbox...')</script>";
+			$query =  "User Already Exist, returning to chatterbox...";
 		}
-		return $resMessage;
+		return $query;
 	}
 
 	public function addNewContactCommunity($data,$category){
 		$result = $this->contactExists($data,$category);
 		if ($result == false) {
 			try {
-				$query = $this->db->insert('communitycontacts',$data);
-				$resMessage =  "<script>alert('Contact successfully added!, returning to chatterbox...')</script>";
+				$query = $this->db->query("INSERT INTO communitycontacts VALUES('','$data->lastname','$data->firstname','$data->prefix','$data->office','$data->sitename','$data->number','$data->rel','$data->ewirecipient')");
 			} catch (Exception $e) {
 				echo $e->getMessage(),"\n";
 			}	
 		} else {
-			$resMessage =  "<script>alert('User Already Exist, returning to chatterbox...')</script>";
+			$query =  "User Already Exist, returning to chatterbox...";
 		}
-		return $resMessage;
+		return $query;
 	}
 
 	public function contactExists($data,$category){
 		$flag = false;
 		if ($category == "communitycontacts"){
-			$query = $this->db->query("SELECT * FROM ".$category." WHERE firstname='".$data["firstname"]."' AND lastname='".$data["lastname"]."' AND office='".$data["office"]."' AND sitename='".$data["sitename"]."'");
+			$query = $this->db->query("SELECT * FROM ".$category." WHERE firstname='".$data->firstname."' AND lastname='".$data->lastname."' AND office='".$data->office."' AND sitename='".$data->sitename."'");
 			if ($query->num_rows >= 1) {
 				$flag = true;
 			}
 		} else {
 			$this->db->select('*');
 			$this->db->from($category);
-			$this->db->where('firstname', $data["firstname"]);
-			$this->db->where('lastname', $data["lastname"]);
+			$this->db->where('firstname', $data->firstname);
+			$this->db->where('lastname', $data->lastname);
 			$query = $this->db->get();
 			if ($query->num_rows >= 1) {
 				$flag = true;
@@ -63,14 +61,15 @@ public function addNewContactEmployee($data,$category){
 	}
 
 	public function updateContactsEmployee($data){
-		$this->db->where('eid', $data["eid"]);
-		$res = $this->db->update('dewslcontacts',$data);
+
+		$sql = "UPDATE dewslcontacts SET eid='".$data->id."',lastname='".$data->lastname."',firstname='".$data->firstname."',nickname='".$data->nickname."',birthday='".$data->birthdate."',email='".$data->email."',numbers='".$data->numbers."',grouptags='".$data->grouptags."' WHERE eid='".$data->id."'";
+		$res = $this->db->query($sql);
 		return $res;
 	}
 
 	public function updateContactsCommunity($data){
-		$this->db->where('c_id', $data["c_id"]);
-		$res = $this->db->update('communitycontacts',$data);
+		$sql = "UPDATE communitycontacts SET c_id='".$data->id."',lastname='".$data->lastname."',firstname='".$data->firstname."',prefix='".$data->prefix."',office='".$data->office."',sitename='".$data->sitename."',number='".$data->number."',rel='".$data->rel."',ewirecipient='".$data->ewirecipient."' WHERE c_id='".$data->id."'";
+		$res = $this->db->query($sql);
 		return $res;
 	}
 
