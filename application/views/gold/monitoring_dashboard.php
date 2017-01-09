@@ -245,6 +245,7 @@
 				                    <thead>
 				                        <tr>
 				                            <th>Site Name</th>
+				                            <th>Data Timestamp</th>
 				                            <th>Latest Trigger Timestamp</th>
 				                            <th>Trigger Type</th>
 				                            <th>Validity</th>
@@ -852,9 +853,9 @@
 	    candidate_table = $('#candidate').DataTable({
 	    	"data": candidate,
 			"columnDefs": [
-				{ className: "text-left", "targets": [ 0, 2 ] },
-		 		{ className: "text-right", "targets": [ 1, 3 ] },
-		 		{ className: "text-center", "targets": [ 4 ] }
+				{ className: "text-left", "targets": [ 0, 3 ] },
+		 		{ className: "text-right", "targets": [ 1, 2, 4 ] },
+		 		{ className: "text-center", "targets": [ 5 ] }
 			],
 			"columns": [
 	            {
@@ -864,6 +865,14 @@
 	            	},
 	        		"name": 'site',
 	            },
+	            { 
+	            	"data": "data_timestamp",
+	            	"render": function (data, type, full) {
+	 					if( full.timestamp == null )	return "No new triggers";
+	            		else return moment(full.timestamp).format("DD MMMM YYYY HH:mm");
+	            	},
+	            	"name": "data_timestamp"
+	        	},
 	            { 
 	            	"data": "latest_trigger_timestamp",
 	            	"render": function (data, type, full) {
