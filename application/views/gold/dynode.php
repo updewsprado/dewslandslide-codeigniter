@@ -22,7 +22,27 @@ if ($result->num_rows > 0) {
     
     }
 }
-  $listAnnotationM = [];
+
+    $var1 = [];
+    if(strlen($site) == 4){
+        $sql = "SELECT * FROM senslopedb.$site where id = $node and timestamp between '$datefrom' and '$dateto 23:59:59'";
+        $result = mysqli_query($conn, $sql);
+
+        $numSites = 0;
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while($row = mysqli_fetch_assoc($result)) {
+                $var1[$numSites]["ts"] = $row["timestamp"]; 
+                $var1[$numSites]["id"] = $row["id"];  
+                $var1[$numSites]["xvalue"] = $row["xvalue"];   
+                $var1[$numSites]["yvalue"] = $row["yvalue"];  
+                $var1[$numSites]["zvalue"] = $row["zvalue"];  
+                $var1[$numSites++]["mvalue"] = $row["mvalue"];     
+            }
+        }  
+    }
+    
+    $listAnnotationM = [];
     $annotationDateM =[];
     $sql = "SELECT sm_id , start_date FROM senslopedb.maintenance_report where site ='$site'";
     $result = mysqli_query($conn, $sql);
@@ -36,11 +56,6 @@ if ($result->num_rows > 0) {
              
         }
     } 
-
- 
-
-
-
     $listAnnotationAlert = [];
     $sql = "SELECT UNIX_TIMESTAMP(entry_timestamp),internal_alert_level,public_alert_id FROM senslopedb.public_alert where site = '$newSite' and entry_timestamp between '$datefrom' and '$dateto 23:59:59'";
     $result = mysqli_query($conn, $sql);
@@ -324,6 +339,7 @@ if ($result->num_rows > 0) {
     var fromDate = "<?php echo $datefrom; ?>";
     var alertReport = <?php echo json_encode($listAnnotationAlert);  ?>;
     var maintenaceReport = <?php echo json_encode($listAnnotationM); ?>;
+    var version1 = <?php echo json_encode($var1); ?>;
     var extraReport = <?php echo json_encode($reportAnnform); ?>;
     var annValue = "<?php echo $annotation; ?>";
     var baseURL = "<?php echo $_SERVER['SERVER_NAME']; ?>";
