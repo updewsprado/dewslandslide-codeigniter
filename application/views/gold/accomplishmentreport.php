@@ -294,7 +294,7 @@
 			    <div id="generateField">
 			    	<div class="form-group col-md-12">
 			    		<hr>
-			   			<button type="button" class="btn btn-info btn-sm pull-right" id="generate">Generate Report</button>
+			   			<button type="button" class="btn btn-danger btn-sm pull-right" id="generate" disabled="disabled">Generate Report</button>
 			   		</div>
 			    </div> <!-- End of Generate Field Group -->
 
@@ -414,7 +414,7 @@
 		    }
 		});
 		$('.shift_start').datetimepicker({
-		    format: 'YYYY-MM-DD HH:mm:ss',
+		    format: 'YYYY-MM-DD HH:30:00',
 		    allowInputToggle: true,
 		    widgetPositioning: {
 		    	horizontal: 'right',
@@ -422,7 +422,7 @@
 		    }
 		});
 		$('.shift_end').datetimepicker({
-			format: 'YYYY-MM-DD HH:mm:ss',
+			format: 'YYYY-MM-DD HH:30:00',
 			allowInputToggle: true,
 			widgetPositioning: {
 		    	horizontal: 'right',
@@ -848,6 +848,12 @@
 	 * MAIN FUNCTION FOR REPORT CREATION
 	 * Get the releases for the shift period
 	 */
+
+	$("#shift_start").focusout(function (x) {
+		if(this.value == "") $("#generate").prop('disabled', true).removeClass('btn-info').addClass('btn-danger');
+		else $("#generate").prop('disabled', false).removeClass('btn-danger').addClass('btn-info');
+	});
+
 	var result, flag = 0, duties = [];
 	$("#generate").on("click", function (e) {
 
@@ -1110,9 +1116,11 @@
 				});
 				a = a + "</ul>";
 			} else { a = a + "No new alert triggers encountered.<br/>"; }
-			let con = "Monitoring will continue until <b>" + moment(x.validity).format("MMMM DD, YYYY, hh:mm A") + "</b>.";
+			let con = "Monitoring will continue until <b>" + moment(x.validity).format("MMMM DD, YYYY, hh:mm A") + "</b>.<br/>";
 
-			end_info = a + "- " + con;
+			let expert_info = "<b>OTHER INFO:</b><br/>- <i>Subsurface data: </i><br/>- <i>Surficial data: </i><br/>- <i>Rainfall data: </i>"
+
+			end_info = a + "- " + con + "<br/>" + expert_info;
 		}
 
 		let narratives = null;
