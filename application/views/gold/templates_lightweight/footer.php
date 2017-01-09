@@ -23,8 +23,8 @@
             </span>
             <div class="chat-body clearfix">
                 <div class="header">
-                    <strong class="primary-font">{{user}}</strong>
-                    <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> {{timestamp}}</small>
+                    <strong class="primary-font" id="chat-user" >{{user}}</strong>
+                    <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> <span id="timestamp-written" title="Timestamp: Written">{{timestamp}}</span>, <span id="timestamp-sent" title="Timestamp: GSM Sent">{{timestamp_sent}}</span></small>
                 </div>
                 <p>
                     {{msg}}
