@@ -1246,11 +1246,16 @@
 	    ["latest", "extended", "overdue", "candidate"].forEach(function (data) { tableCSSifEmpty(data); });
 	}
 
-	let entry = {};
+	let modalForm = null, entry = {};
 
 	setInterval( function () { $("#release_time").val(moment().format("HH:mm:00")); }, 1000);
 
-	$("#candidate tbody").on( "click", 'tr .glyphicon-ok', function(x) {
+	$("#candidate tbody").on( "click", 'tr .glyphicon-ok', function(x) 
+	{
+		$('#modalForm .form-group').removeClass('has-feedback').removeClass('has-error').removeClass('has-success');
+		$('#modalForm .glyphicon.form-control-feedback').remove();
+		modalForm.resetForm();
+
 		entry = {};
 		let i = $(this).parents("tr");
 		let row = candidate_table.row(i).data();
@@ -1331,10 +1336,13 @@
     }
 
     jQuery.validator.addMethod("isInvalid", function(value, element, param) {
-            return entry.status != "invalid";
+            if (entry.status == "invalid") { 
+            	if (value != "") return true;
+            	else return false; }
+            else return true;
         }, "");
 
-    $("#modalForm").validate(
+    modalForm = $("#modalForm").validate(
     {
         debug: true,
         rules: {
@@ -1477,58 +1485,88 @@
         }
     });
 
+	// Contains last release id for refreshing test
+	let last_id = null;
 
-	function getTimeReal() {
-		let d = new Date();
-		return d.getTime();
+	function getLastRelease() {
+		return $.get( "<?php echo base_url(); ?>monitoring/getLastRelease", function( data ) {}, "json");
 	}
 
-	function main()
+	function main(toRefresh)
 	{
+		getLastRelease().done( function (x) {
+			last_id = x.release_id;
+		});
+
 		let f1 = getRealtimeAlerts(),
 			f2 = getOnGoingAndExtended();
 
-		$.when(f1)
-		.fail(function (a) {
-			console.log("FAIL", a);
-		})
+		if( toRefresh )
+		{
+			$.when(f1)
+			.then(
+				function (a) {
+					console.log("DONE", a);
+					console.log("Cache", realtime_cache);
+				},
+
+				function (a) {
+					console.log("FAIL", a);
+				}
+			);
+		}
+		
+		$.when(f2)
 		.done(function (a) 
 		{
-			console.log("DONE", a);
-			console.log("Cache", realtime_cache);
-			$.when(f2)
-			.done(function (a) 
+			candidate = checkCandidateTriggers(realtime_cache);
+			console.log("CANDI", candidate);
+
+			if(isTableInitialized) 
 			{
-				candidate = checkCandidateTriggers(realtime_cache);
-				console.log("CANDI",candidate);
+				reloadTable(latest_table, ongoing.latest);
+				reloadTable(extended_table, ongoing.extended);
+				reloadTable(overdue_table, ongoing.overdue);
+				reloadTable(candidate_table, candidate);
+			}
+			else buildTable(ongoing.latest, ongoing.extended, ongoing.overdue, candidate);
 
-				if(isTableInitialized) 
-				{
-					reloadTable(latest_table, ongoing.latest);
-					reloadTable(extended_table, ongoing.extended);
-					reloadTable(overdue_table, ongoing.overdue);
-					reloadTable(candidate_table, candidate);
-				}
-				else buildTable(ongoing.latest, ongoing.extended, ongoing.overdue, candidate);
-
-				initialize_map();
-			})
+			initialize_map();
 		});
 	}
 
-	main();
+	main(true);
 	setInterval(function () 
 	{
+		let second = moment().second();
 		let minute = moment().minute();
-		switch(minute)
-		{
-			case 15: case 25:
-			case 45: case 55:
-			console.log("MINUTES", minute);
-			main(); break;
-			default: console.log("NOT YET TIME");
-		} 
-	}, 60000);
+		let toRefresh = false;
+
+		getLastRelease().done(function (data) 
+		{ 
+			let x = data.release_id;
+			if(x > last_id) {
+				toRefresh = true;
+				last_id = x;
+			}
+			console.log(toRefresh);
+		
+			if( second == 0 || toRefresh )
+			{
+				if(toRefresh) console.log("TOREFRESH")
+				switch(minute)
+				{
+					case 15: case 25:
+					case 45: case 55:
+					console.log("MINUTES", minute);
+					main(toRefresh); break;
+					default: if(toRefresh) main(toRefresh);
+					console.log("Not yet time");
+				} 
+			}
+		});
+
+	}, 1000);
 	
 
 	// let data = $( "#publicReleaseForm" ).serializeArray();
