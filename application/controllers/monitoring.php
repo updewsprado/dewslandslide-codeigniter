@@ -116,6 +116,12 @@ class Monitoring extends CI_Controller
 		return $timestamp;
 	}
 
+	public function getLastRelease()
+	{
+		$data = $this->monitoring_model->getLastRelease();
+		echo "$data";
+	}
+
 	public function showSavedAlerts()
 	{
 		$data = $this->monitoring_model->getAlertsForVerification();

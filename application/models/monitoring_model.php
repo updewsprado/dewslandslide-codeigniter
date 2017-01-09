@@ -87,6 +87,12 @@ class Monitoring_Model extends CI_Model
 		return json_encode($query->result_array());
 	}
 
+	public function getLastRelease()
+	{
+		$data = $this->db->select('release_id')->order_by('release_id', 'desc')->limit(1)->get('public_alert_release')->row();
+		return json_encode($data);
+	}
+
 	/**
 	 * Gets data from alert_verification table
 	 * 
