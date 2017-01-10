@@ -513,7 +513,7 @@
                                         </div>
                                         <div class="col-sm-12 form-group">
                                             <label for="trigger_rain_info">Technical Info:</label>
-                                            <textarea class="form-control trigger_info" rows="1" id="trigger_rain_info" name="trigger_rain_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_rain_info" name="trigger_rain_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                         </div>
                                     </div>
                                 </div> 
@@ -552,7 +552,7 @@
                             <div class="row">
                                 <div class="col-sm-12 form-group">
                                     <label for="trigger_eq_info">Technical Info:</label>
-                                    <textarea class="form-control trigger_info" rows="1" id="trigger_eq_info" name="trigger_eq_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                    <textarea class="form-control trigger_info" rows="1" id="trigger_eq_info" name="trigger_eq_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                 </div>      
                             </div>
                                           
@@ -586,11 +586,11 @@
                                     <div class="row">
                                         <div class="form-group col-sm-6">
                                             <label for="trigger_ground_1_info">Technical Info:</label>
-                                            <textarea class="form-control trigger_info" rows="1" id="trigger_ground_1_info" name="trigger_ground_1_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_ground_1_info" name="trigger_ground_1_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="trigger_ground_2_info">Technical Info:</label>
-                                            <textarea class="form-control trigger_info" rows="1" id="trigger_ground_2_info" name="trigger_ground_2_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_ground_2_info" name="trigger_ground_2_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -625,11 +625,11 @@
                                     <div class="row">
                                         <div class="form-group col-sm-6">
                                             <label for="trigger_sensor_1_info">Technical Info:</label>
-                                            <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_1_info" name="trigger_sensor_1_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_1_info" name="trigger_sensor_1_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="trigger_sensor_2_info">Technical Info:</label>
-                                            <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_2_info" name="trigger_sensor_2_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_2_info" name="trigger_sensor_2_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -1491,7 +1491,7 @@
 	function getLastRelease() {
 		return $.get( "<?php echo base_url(); ?>monitoring/getLastRelease", function( data ) {}, "json");
 	}
-
+	
 	function main(toRefresh)
 	{
 		getLastRelease().done( function (x) {
@@ -1516,6 +1516,7 @@
 			);
 		}
 		
+		setTimeout( () =>
 		$.when(f2)
 		.done(function (a) 
 		{
@@ -1532,7 +1533,7 @@
 			else buildTable(ongoing.latest, ongoing.extended, ongoing.overdue, candidate);
 
 			initialize_map();
-		});
+		}), 500);
 	}
 
 	main(true);
@@ -1567,74 +1568,5 @@
 		});
 
 	}, 1000);
-	
-
-	// let data = $( "#publicReleaseForm" ).serializeArray();
- //    let temp = {};
- //    data.forEach(function (value) { temp[value.name] = value.value == "" ? null : value.value; })
- //    temp.status = status;
-	//    temp.reporter_1 = <?php /*echo "$user_id"*/; ?>;
- //    temp.trigger_list = $(".cbox_trigger:checked").map( function () { return this.value }).get();
- //    temp.trigger_list = temp.trigger_list.length == 0 ? null : temp.trigger_list;
-
- //    if( status == 'new' )
- //    {
- //        if(temp.public_alert_level == 'A0')
- //        {
- //            temp.routine_list = [temp.site];
- //            temp.status = 'routine';
- //        } 
- //    }
- //    else if( status == "on-going" ) 
- //    {
- //        temp.current_event_id = current_event.event_id;
-
- //        // Check if needed for 4-hour extension if ND
- //        if( toExtendND && temp.trigger_list == null && moment(current_event.validity).isSame(moment(temp.timestamp_entry).add(30, 'minutes')) )
- //        {
- //            console.log("ND EXTEND");
- //            temp.extend_ND = true;
- //        }
- //        // If A0, check if legit lowered or invalid
- //        else if( temp.public_alert_level == "A0")
- //        {
- //            if( moment(current_event.validity).isSame(moment(temp.timestamp_entry).add(30, 'minutes')) )
- //                temp.status = "extended";
- //            else
- //                temp.status = "invalid";
- //        }
- //    }
- //    else if (status == "invalid") { temp.current_event_id = current_event.event_id; }
- //    else if (status == "routine")
- //    {
- //        temp.routine_list = [];
- //        $("input[name='routine_sites[]']:checked").each(function () {
- //            if(!this.disabled) 
- //                temp.routine_list.push(this.value); 
- //            else console.log("DIS");
- //        });
- //    }
- //    else if ( status == "extended" )
- //    {
- //        // Status is either "extended" or "finished"
- //        if( temp.public_alert_level == "A0")
- //        {
- //            temp.current_event_id = current_event.event_id;
- //            let base = moment(temp.timestamp_entry).add(30, "minutes");
- //            let extended_start = moment(current_event.validity).add(1, "day").hour(12);
- //            let extended_end = moment(extended_start).add(2, "day");
-
- //            if( moment(base).isAfter(extended_start) && moment(base).isBefore(extended_end ) ) temp.status = "extended";
- //            else if ( moment(base).isAfter(extended_start) && moment(base).isSameOrAfter(extended_end ) ) temp.status = "finished";
- //        }
- //        // Alert heightened so status is "new" and change current event to "finished"
- //        else
- //        {
- //            temp.status = 'new';
- //            temp.previous_event_id = current_event.event_id;
- //        }
- //    }
-
- //    console.log(temp);
 
 </script>
