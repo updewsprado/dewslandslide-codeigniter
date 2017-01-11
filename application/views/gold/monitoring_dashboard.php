@@ -1532,7 +1532,7 @@
 			else buildTable(ongoing.latest, ongoing.extended, ongoing.overdue, candidate);
 
 			initialize_map();
-		}), 500);
+		}), 1000);
 	}
 
 	main(true);
@@ -1549,7 +1549,7 @@
 				toRefresh = true;
 				last_id = x;
 			}
-			console.log(toRefresh);
+			//console.log(toRefresh);
 		
 			if( second == 0 || toRefresh )
 			{

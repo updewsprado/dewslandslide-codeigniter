@@ -1118,10 +1118,11 @@
 			} else { a = a + "No new alert triggers encountered.<br/>"; }
 			let con = "Monitoring will continue until <b>" + moment(x.validity).format("MMMM DD, YYYY, hh:mm A") + "</b>.<br/>";
 
-			let expert_info = "<b>OTHER INFO:</b><br/>- <i>Subsurface data: </i><br/>- <i>Surficial data: </i><br/>- <i>Rainfall data: </i>"
-
-			end_info = a + "- " + con + "<br/>" + expert_info;
+			end_info = a + "- " + con;
 		}
+
+		let expert_info = "<b>OTHER INFO:</b><br/>- <i>Subsurface data: </i><br/>- <i>Surficial data: </i><br/>- <i>Rainfall data: </i>"
+		end_info += "<br/>" + expert_info;
 
 		let narratives = null;
 		narratives = "<b>NARRATIVE:</b><br/>";
