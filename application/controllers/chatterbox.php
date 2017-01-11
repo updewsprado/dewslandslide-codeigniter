@@ -163,19 +163,19 @@ class Chatterbox extends CI_Controller {
 										"Salamat.",
 			"A1-R" => "Magandang %%PANAHON%% po.\n\n".
 							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Maaaring magkaroon ng landslide dahil sa nakaraan o kasalukuyang ulan.\n\n". // %%CURRENT_TIME%% - <HH> <AM,NN,PM,MN>
-							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS (A2 or A3).\n".
+							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS.\n".
 							"Inaasahan namin ang pagpapadala ng LLMC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n". //%%GROUND_DATA_TIME%% - <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n". //%%NEXT_EWI%% - <HH> <AM, NN, PM, MN>
 							"Salamat.",
 			"A1-E" => "Magandang %%PANAHON%% po.\n\n".
 								"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Maaring magkaroon ng landslide dahil sa nakaraang lindol o earthquake.\n\n".
-								"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS (A2 or A3).\n".
+								"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS.\n".
 								"Inaasahan po namin ang pagpapadala ng LLMC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n".
 								"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 								"Salamat.",
 			"A1-D" => "Magandang %%PANAHON%% po.\n\n".
 							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Nag-request ang LLMC/LGU ng monitoring sa site dahil sa <situation>.\n\n".
-							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS (A2 or A3).\n".
+							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS.\n".
 							"Inaasahan namin ang pagpapadala ng LLMC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 							"Salamat.",
