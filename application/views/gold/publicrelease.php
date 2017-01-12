@@ -413,9 +413,9 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-2 form-group no-data">
-                                        <!-- <div class="checkbox">
+                                        <div class="checkbox">
                                             <label data-toggle="tooltip" data-placement="top" title="Check this if there is lack of rainfall data. If you are referring to lack of ground AND sensor data, check ND"><input class="cbox_trigger_nd" name="cbox_trigger_nd_r0" type="checkbox" value="R0" disabled="disabled"><b>No Data (R&#8320;)</b></label>
-                                        </div> -->
+                                        </div>
                                     </div>
                                     <div class="col-sm-4 previous_info" id="rain_desc">
                                        <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
