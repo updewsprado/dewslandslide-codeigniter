@@ -144,10 +144,10 @@
 	h2 {
 		font-size: 20px;
 	}
-
-	/*.panel-default {
-		border-color: black;
-	}*/
+	
+	#ewi-modal-cs-dialog h2 {
+		text-align: center;
+	}
 
 	#bulletin, #areaSituation, #footer {
 		font-size: 16px;
@@ -310,11 +310,8 @@
                 <div class="modal fade col-lg-10" id="success-ewi-modal" role="dialog">
                     <div class="modal-dialog modal-md" id="ewi-modal-cs-dialog">
                         <div class="modal-content" id="ewi-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4>EARLY WARNING INFORMATION</h4>
-                            </div>
                             <div class="modal-body row-fluid"> 
+                           	<button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h2><span id="result-ewi-message"></span></h2>
                             </div>
                         </div>  

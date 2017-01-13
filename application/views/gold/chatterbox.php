@@ -387,26 +387,37 @@
       </div>
       <div class="modal-body row-fluid"> 
         <div class="ewi-container">
-          <div class="alert-site-container">
+        <div class="row">
+          <div class="col-sm-6">
             <div class="form-group" id="alert-group">
               <label for="alert-lvl">Alert Level :</label>
               <select name="" id="alert-lvl" class="form-control">
               </select>
             </div>
+          </div>
+          <div class="col-sm-6">
             <div class="form-group" id="site-group">
               <label for="sites">Sites :</label>
               <select name="" id="sites" name="sites" class="form-control">
               </select>
             </div>
           </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-6">
           <div class="form-group">
             <label for="ewi-date-picker">Schedules :</label>
             <input type="date" id="ewi-date-picker" class="form-control"/>
           </div>
-          <div class="form-group">
+        </div>
+
+        <div class="col-sm-6">
+          <div class="form-group cmd-ewi-chatterbox">
             <button type="submit" value="submit" id="confirm-ewi" class="btn btn-primary" data-dismiss="modal">Confirm</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-          </div>
+          </div>   
+        </div>
+        </div>
         </div>
       </div>
     </div>  
