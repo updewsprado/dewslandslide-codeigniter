@@ -159,37 +159,37 @@ class Chatterbox extends CI_Controller {
 		$ewi_template = array(
 			"A0" => "Magandang %%PANAHON%% po.\n\n".
 										"A0 ang alert level sa %%SBMP%% ngayong %%DATE%% 12NN.\n".
-										"Inaasahan namin ang pagpapadala ng LLMC ng ground data bukas <DD Month> bago mag-11:30 AM para sa pangalawang araw ng 3-day extended monitoring.\n\n".
+										"Inaasahan namin ang pagpapadala ng LEWC ng ground data bukas <DD Month> bago mag-11:30 AM para sa pangalawang araw ng 3-day extended monitoring.\n\n".
 										"Salamat.",
 			"A1-R" => "Magandang %%PANAHON%% po.\n\n".
 							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Maaaring magkaroon ng landslide dahil sa nakaraan o kasalukuyang ulan.\n\n". // %%CURRENT_TIME%% - <HH> <AM,NN,PM,MN>
 							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS.\n".
-							"Inaasahan namin ang pagpapadala ng LLMC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n". //%%GROUND_DATA_TIME%% - <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>
+							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n". //%%GROUND_DATA_TIME%% - <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n". //%%NEXT_EWI%% - <HH> <AM, NN, PM, MN>
 							"Salamat.",
 			"A1-E" => "Magandang %%PANAHON%% po.\n\n".
 								"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Maaring magkaroon ng landslide dahil sa nakaraang lindol o earthquake.\n\n".
 								"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS.\n".
-								"Inaasahan po namin ang pagpapadala ng LLMC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n".
+								"Inaasahan po namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n".
 								"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 								"Salamat.",
 			"A1-D" => "Magandang %%PANAHON%% po.\n\n".
-							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Nag-request ang LLMC/LGU ng monitoring sa site dahil sa <situation>.\n\n".
+							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Nag-request ang LEWC/LGU ng monitoring sa site dahil sa <situation>.\n\n".
 							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS.\n".
-							"Inaasahan namin ang pagpapadala ng LLMC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n".
+							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 							"Salamat.",
 			"A2-S" => "Magandang %%PANAHON%% po.\n\n".
 							"A2 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Naka-detect ang sensor ng significant ground movement.\n\n".
 							"Ang recommended response ay PREPARE TO EVACUATE THE HOUSEHOLDS AT RISK.\n".
-							"Inaasahan namin ang pagpapadala ng LLMC ng ground data %%NOW_TOM%%, %%GROUND_DATA_TIME%%.\n".
+							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%%, %%GROUND_DATA_TIME%%.\n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 							"Salamat.\n".
 							"DEWSL-PHIVOLCS",
 			"A2-G" => "Magandang %%PANAHON%% po.\n\n".
-							"A2 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Nakapagsukat ng significant ground movement ang LLMC.\n\n".
+							"A2 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Nakapagsukat ng significant ground movement ang LEWC.\n\n".
 							"Ang recommended response ay PREPARE TO EVACUATE THE HOUSEHOLDS AT RISK.\n".
-							"Inaasahan namin ang pagpapadala ng LLMC ng ground data %%NOW_TOM%%, %%GROUND_DATA_TIME%%. \n".
+							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%%, %%GROUND_DATA_TIME%%. \n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 							"Salamat.",
 			"A3-S" => "Magandang %%PANAHON%% po.\n\n".
@@ -200,21 +200,21 @@ class Chatterbox extends CI_Controller {
 			"A3-G" => "Magandang %%PANAHON%% po.\n\n".
 							"A3 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%.\n".
 							"EVACUATE THE HOUSEHOLDS AT RISK ang recommended response. \n".
-							"Nakapagsukat ang LLMC ng critical ground movement.\n\n".
+							"Nakapagsukat ang LEWC ng critical ground movement.\n\n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.",
 			"Remind to send Ground Data" => "Magandang %%PANAHON%% po.\n\n".
-											"Inaasahan namin ang pagpapadala ng LLMC ng ground data %%NOW_TOM%%, %%GROUND_DATA_TIME%%.\n\n".
+											"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%%, %%GROUND_DATA_TIME%%.\n\n".
 											"Salamat.",
 			"A2" => "Magandang %%PANAHON%% po.\n\n".
-							"A2 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Naka-detect ang sensor ng significant ground movement at Nakapagsukat ng significant ground movement ang LLMC.\n\n".
+							"A2 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Naka-detect ang sensor ng significant ground movement at Nakapagsukat ng significant ground movement ang LEWC.\n\n".
 							"Ang recommended response ay PREPARE TO EVACUATE THE HOUSEHOLDS AT RISK.\n".
-							"Inaasahan namin ang pagpapadala ng LLMC ng ground data %%NOW_TOM%%, %%GROUND_DATA_TIME%%. \n".
+							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%%, %%GROUND_DATA_TIME%%. \n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 							"Salamat.",
 			"A3" => "Magandang %%PANAHON%% po.\n\n".
 							"A3 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%.\n".
 							"EVACUATE THE HOUSEHOLDS AT RISK ang recommended response. \n".
-							"Nakapagsukat ang LLMC ng critical ground movement.\n\n".
+							"Nakapagsukat ang LEWC ng critical ground movement.\n\n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.");
 		print json_encode($ewi_template);
 	}
@@ -222,5 +222,9 @@ class Chatterbox extends CI_Controller {
 	public function getEmployeeTags(){
 		$result = $this->contacts_model->employeeTags();
 		print json_encode($result->result());
+	}
+
+	public function getSystemTime(){
+		print json_encode date("h:i:sa");
 	}
 }
