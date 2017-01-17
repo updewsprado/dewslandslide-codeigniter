@@ -124,8 +124,8 @@
 							$description = $description . ")";
 						} else if ($release->internal_alert_level === "A1-D")
 						{
-							if ($triggers[0]->od_info->is_llmc && $triggers[0]->od_info->is_lgu) $group = "LLMC/LGU";
-							else if ($triggers[0]->od_info->is_llmc) $group = "LLMC"; else $group = "LGU";
+							if ($triggers[0]->od_info->is_llmc && $triggers[0]->od_info->is_lgu) $group = "LEWC/LGU";
+							else if ($triggers[0]->od_info->is_llmc) $group = "LEWC"; else $group = "LGU";
 							$description = str_replace("[requester]", $group, $description);
 							$description = str_replace("[reason]", $triggers[0]->od_info->reason, $description) . ")";
 						} 
@@ -237,8 +237,8 @@
 								else if($a === 'D')
 								{
 									$temp = $ordered[count($ordered)-1];
-									if ($temp->od_info->is_llmc && $temp->od_info->is_lgu) $group = "LLMC/LGU";
-									else if ($temp->od_info->is_llmc) $group = "LLMC"; else $group = "LGU";
+									if ($temp->od_info->is_llmc && $temp->od_info->is_lgu) $group = "LEWC/LGU";
+									else if ($temp->od_info->is_llmc) $group = "LEWC"; else $group = "LGU";
 									$desc = str_replace("[group]", $group, $desc);
 									$desc = str_replace("[reason]", $temp->od_info->reason, $desc);
 								}
@@ -382,7 +382,7 @@
 				?>
 
 				<div class="row">
-					<div class="col-sm-12 text-justify"><b id="llmc">For the Local Landslide Monitoring Committee (LLMC):</b> <?php echo $llmc_lgu; ?></div>
+					<div class="col-sm-12 text-justify"><b id="llmc">For the Local Early Warning Committee (LEWC):</b> <?php echo $llmc_lgu; ?></div>
 				</div>
 
 				<div class="row">
