@@ -609,7 +609,7 @@
                         
                             <div class="form-group col-sm-6">
                                 <label for="request_reason">Reason for Request</label>
-                                <textarea class="form-control" rows="3" id="request_reason" name="request_reason" maxlength="128" disabled="disabled"></textarea>
+                                <textarea class="form-control" rows="3" id="request_reason" name="request_reason" maxlength="200" disabled="disabled"></textarea>
                             </div>
                         </div>
 
@@ -630,7 +630,7 @@
                                         </div>
                                         <div class="col-sm-12 form-group">
                                             <label for="trigger_rain_info">Technical Info:</label>
-                                            <textarea class="form-control trigger_info" rows="1" id="trigger_rain_info" name="trigger_rain_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_rain_info" name="trigger_rain_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                         </div>
                                     </div>
                                 </div> 
@@ -669,7 +669,7 @@
                             <div class="row">
                                 <div class="col-sm-12 form-group">
                                     <label for="trigger_eq_info">Technical Info:</label>
-                                    <textarea class="form-control trigger_info" rows="1" id="trigger_eq_info" name="trigger_eq_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                    <textarea class="form-control trigger_info" rows="1" id="trigger_eq_info" name="trigger_eq_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                 </div>      
                             </div>
                                           
@@ -703,11 +703,11 @@
                                     <div class="row">
                                         <div class="form-group col-sm-6">
                                             <label for="trigger_ground_1_info">Technical Info:</label>
-                                            <textarea class="form-control trigger_info" rows="1" id="trigger_ground_1_info" name="trigger_ground_1_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_ground_1_info" name="trigger_ground_1_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="trigger_ground_2_info">Technical Info:</label>
-                                            <textarea class="form-control trigger_info" rows="1" id="trigger_ground_2_info" name="trigger_ground_2_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_ground_2_info" name="trigger_ground_2_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -742,11 +742,11 @@
                                     <div class="row">
                                         <div class="form-group col-sm-6">
                                             <label for="trigger_sensor_1_info">Technical Info:</label>
-                                            <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_1_info" name="trigger_sensor_1_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_1_info" name="trigger_sensor_1_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="trigger_sensor_2_info">Technical Info:</label>
-                                            <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_2_info" name="trigger_sensor_2_info" placeholder="Enter basic technical detail" maxlength="140" disabled="disabled"></textarea>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_2_info" name="trigger_sensor_2_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                         </div>
                                     </div>
                                 </div>
