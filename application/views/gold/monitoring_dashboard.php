@@ -1558,7 +1558,7 @@
 				switch(minute)
 				{
 					case 15: case 25:
-					case 45: case 55:
+					case 45: case 51:
 					console.log("MINUTES", minute);
 					main(toRefresh); break;
 					default: if(toRefresh) main(toRefresh);
