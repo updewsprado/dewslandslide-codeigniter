@@ -223,8 +223,4 @@ class Chatterbox extends CI_Controller {
 		$result = $this->contacts_model->employeeTags();
 		print json_encode($result->result());
 	}
-
-	public function getSystemTime(){
-		print json_encode date("h:i:sa");
-	}
 }
