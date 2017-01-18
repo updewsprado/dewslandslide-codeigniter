@@ -289,7 +289,7 @@
             </div>
             <div class="col-md-6">
               <label for="numbers_ec">Contact #:</label>
-              <input type="number" class="form-control" id="numbers_ec" name="numbers_ec" lrequired>
+              <input type="text" class="form-control" id="numbers_ec" name="numbers_ec" lrequired>
             </div>
           </div>
 
@@ -341,7 +341,7 @@
           <div class="row">
             <div class="col-md-5">
               <label for="numbers_cc">Contact #:</label>
-              <input type="number" class="form-control" id="numbers_cc" name="numbers" required>
+              <input type="text" class="form-control" id="numbers_cc" name="numbers" required>
             </div>
 
             <div class="col-md-4">
