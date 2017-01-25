@@ -1,3 +1,17 @@
+<!-- 
+You can create a separate view (header_<your_page>) to link the css and js 
+files that are used only for your specific pages and add them to the page 
+composition using the controller
+
+- Prado Arturo Bognot
+ -->
+
+</head>
+
+<body>
+    
+    <div id="wrapper">
+
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -167,42 +181,8 @@
 	                     </div>	
                     </li> 
                     </FORM>
-                    
-<!--                    
-                    <li <?php echo $home; ?> >
-                        <a href="<?php echo base_url(); ?>dashboard"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
-                    </li>                                 
-                    <li <?php echo $charts; ?> >
-                        <a href="<?php echo base_url(); ?>charts"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
-                    </li>
-                    <li <?php echo $tables?> >
-                        <a href="<?php echo base_url(); ?>tables"><i class="fa fa-fw fa-table"></i> Tables</a>
-                    </li>
-                    <li <?php echo $forms; ?> >
-                        <a href="<?php echo base_url(); ?>forms"><i class="fa fa-fw fa-edit"></i> Forms</a>
-                    </li>
-                    <li <?php echo $bselements; ?> >
-                        <a href="<?php echo base_url(); ?>bselements"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                    </li>
-                    <li <?php echo $bsgrid; ?> >
-                        <a href="<?php echo base_url(); ?>bsgrid"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-                    </li>
-                    <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="demo" class="collapse">
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li <?php echo $blank; ?> >
-                        <a href="<?php echo base_url(); ?>blank"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li>
--->                  
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
         </nav>
+
