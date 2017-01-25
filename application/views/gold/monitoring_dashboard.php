@@ -637,7 +637,7 @@
                         <div class="row">
                             <div class="form-group col-sm-12">
                                 <label for="comments">Comments</label>
-                                <textarea class="form-control" rows="3" id="comments" name="comments" maxlength="256" ></textarea>
+                                <textarea class="form-control" rows="3" id="comments" name="comments" maxlength="360" ></textarea>
                             </div>
                         </div>
 
