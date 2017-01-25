@@ -41,10 +41,10 @@ class Monitoring extends CI_Controller
 		$data['sites'] = $this->monitoring_model->getSites();
 		$data['staff'] = $this->monitoring_model->getStaff();
 
-		$this->load->view('gold/templates/header', $data);
-		$this->load->view('gold/templates/nav');
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/nav');
 		$this->load->view('gold/' . $page, $data);
-		$this->load->view('gold/templates/footer');
+		$this->load->view('templates/footer');
 	}
 
 	public function getOnGoingAndExtended()

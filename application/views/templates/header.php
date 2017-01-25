@@ -21,7 +21,7 @@
     <link href="/css/third-party/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- jQuery Version 3.1.1 -->
-    <script type="text/javascript" src="/js/third-party/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/js/third-party/jquery-1.12.1.min.js"></script>
     
 	<!-- Spinner -->
 	<script type="text/javascript" src="/js/third-party/spin.min.js"></script>
