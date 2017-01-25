@@ -11,7 +11,7 @@
 
     <title><?php echo $title; ?></title>
 
-    <!-- Bootstrap Core CSS v4.0.0 Alpha 6 -->
+    <!-- Bootstrap Core CSS v3.3.7 -->
     <link href="/css/third-party/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom Bootstrap Admin Theme -->
@@ -20,8 +20,26 @@
     <!-- Font Awesome -->
     <link href="/css/third-party/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <!-- jQuery Version 3.1.1 -->
-    <script type="text/javascript" src="/js/third-party/jquery-3.1.1.min.js"></script>
+    <!-- jQuery Version 1.12.4 -->
+    <script type="text/javascript" src="/js/third-party/jquery-1.12.4.min.js"></script>
     
 	<!-- Spinner -->
 	<script type="text/javascript" src="/js/third-party/spin.min.js"></script>
+
+    <!-- Moment.js -->
+    <script type="text/javascript" src="/js/third-party/moment.js"></script>
+
+    <!-- jQuery Validate -->
+    <script type="text/javascript" src="/js/third-party/jquery.validate.min.js"></script>
+
+    <!-- Datatables JS-->
+    <script type="text/javascript" src="/js/third-party/datatables.min.js"></script>
+
+    <!-- Datatables CSS -->
+    <link href="/css/third-party/datatables.css" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap DateTimePicker JS-->
+    <script type="text/javascript" src="/js/third-party/bootstrap-datetimepicker.min.js"></script>
+
+    <!-- Bootstrap DateTimePicker CSS-->
+    <link href="/css/third-party/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
