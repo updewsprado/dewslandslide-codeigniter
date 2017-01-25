@@ -18,24 +18,7 @@ class Example extends CI_Controller
 		$data['last_name'] = $this->session->userdata('last_name');
 		$data['user_id'] = $this->session->userdata("id");
 		
-		/*** TEMPORARY REQUIRED DATA (To be deleted soon) ***/
 		$data['title'] = $page;
-		$data['version'] = "gold";
-		$data['folder'] = "goldF";
-		$data['imgfolder'] = "images";
-		
-		$data['charts'] = $data['tables'] = $data['forms'] = $data['bselements'] = '';
-		$data['bsgrid'] = $data['blank'] = $data['home'] = $data['monitoring'] = '';
-		$data['dropdown_chart'] = $data['site'] = $data['node'] = '';
-		$data['alert'] = $data['gmap'] = $data['commhealth'] = $data['analysisdyna'] = '';
-		$data['position'] = $data['presence'] = $data['customgmap'] = '';
-		$data['slider'] = $data['nodereport'] = $data['reportevent'] = '';
-		$data['sentnodetotal'] = $data['rainfall'] = $data['lsbchange'] = '';
-		$data['accel'] = $data['showplots'] = $data['showdateplots'] = '';
-		$data['sitesCoord'] = 0;
-		$data['datefrom'] = $data['dateto'] = '';
-		$data['ismap'] = false;
-		/*** End ***/
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
