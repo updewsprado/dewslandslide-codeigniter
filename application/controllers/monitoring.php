@@ -24,7 +24,7 @@ class Monitoring extends CI_Controller
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
-		$this->load->view('gold/monitoring_dashboard', $data);
+		$this->load->view('public_alert/monitoring_dashboard', $data);
 		$this->load->view('templates/footer');
 	}
 
