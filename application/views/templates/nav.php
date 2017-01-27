@@ -34,13 +34,13 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Analysis</a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-header">Sensors and Rain Gauges</li>
-                        <li><a href="<?php echo base_url(); ?>gold/monitoring">Overview</a></li>
-                        <li><a href="<?php echo base_url(); ?>gold/site">Site Level</a></li>
-                        <li><a href="<?php echo base_url(); ?>gold/node">Node Level</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/monitoring">Overview</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/site">Site Level</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/node">Node Level</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>gold/chartlist">Subsurface Data</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/chartlist">Subsurface Data</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>gold/GroundMeas">Surficial Data</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/GroundMeas">Surficial Data</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
                         <li><a href="<?php echo base_url(); ?>gold/responsetracker">Response Tracker</a></li>
@@ -76,3 +76,13 @@
         </div>
     </div>
 </nav>
+<div class="modal fade" id="loading" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+              <p > <img src="/images/box.gif" style="display: block; margin: auto;"></img> <br>
+                <b style="margin-left: 100px;">Loading . . . </b></p>
+            </div>
+        </div>
+    </div>
+</div>
