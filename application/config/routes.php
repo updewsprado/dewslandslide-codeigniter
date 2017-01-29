@@ -38,6 +38,8 @@
 |
 */
 
+
+//Public Alert Section
 $route['home'] = "monitoring/index";
 $route['dashboard'] = "monitoring/index";
 $route['public_alert/release_form'] = "pubrelease/index/alert_release_form";
@@ -48,6 +50,10 @@ $route['public_alert/bulletin/view/(:any)'] = "bulletin/view/$1";
 $route['public_alert/bulletin/build/(:num)'] = "bulletin/build/$1";
 $route['public_alert/bulletin/edit/(:num)'] = "bulletin/edit/$1";
 $route['public_alert/bulletin/main/(:num)/(:any)'] = "bulletin/main/$1/$2";
+
+//Communication Section
+$route['communications/chatterbox'] = "chatterbox/index";
+$route['communications/responsetracker'] = "responsetracker/index";
 
 //Gold
 //$route['gold'] = "monitoring/index";
