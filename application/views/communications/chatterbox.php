@@ -2,15 +2,16 @@
 <link rel="stylesheet" type="text/css" href="/css/third-party/awesomplete.css">
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewschatterbox.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/ju/jqc-1.12.4/dt-1.10.13/datatables.min.css"/>
 
 <!-- ChatterBox JS Requirements -->
+<script type="text/javascript" src="https://cdn.datatables.net/v/ju/jqc-1.12.4/dt-1.10.13/datatables.min.js"></script>
 <script src="/js/dewslandslide/dewschatterbox.js"></script>
 <script src="/js/third-party/awesomplete.js"></script>
 <script src="/js/third-party/handlebars.js"></script>
 <script src="/js/third-party/moment-locales.js"></script>
 <script src="/js/third-party/bootstrap-tagsinput.js"></script>
 <script src="/js/third-party/bootstrap.min.js"></script>
-
 
 <div id="chatterbox-page-wrapper">
   <div class="row">

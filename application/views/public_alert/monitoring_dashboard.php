@@ -7,6 +7,7 @@
 
 <link rel="stylesheet" type="text/css" href="css/dewslandslide/public_alert/monitoring_dashboard.css">
 <script type="text/javascript" src="js/dewslandslide/public_alert/monitoring_dashboard.js"></script>
+<script src="/js/dewslandslide/dewschatterbox.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
 
 <?php  
@@ -105,7 +106,7 @@
                             </div>
                             <div class="modal-body row-fluid"> 
                                 <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control"></textarea>
-                                <button type="button" id="send-btn-ewi-amd" class="btn btn-success" onclick="templateSendViaAMD()">Send</button>
+                                <button type="button" id="send-btn-ewi-amd" class="btn btn-success">Send</button>
                                 <input type="hidden" name="site_abbr" id="site-abbr">
                                 <input type="hidden" name="footer_ewi" id="footer-ewi" value="<?php echo $first_name; ?>">
                             </div>

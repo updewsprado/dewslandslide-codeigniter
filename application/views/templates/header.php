@@ -47,8 +47,4 @@
     <!-- Bootstrap DateTimePicker CSS-->
     <link href="/css/third-party/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
 
-    <!-- Chatterbox Exclusive Imports -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/ju/jqc-1.12.4/dt-1.10.13/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/ju/jqc-1.12.4/dt-1.10.13/datatables.min.js"></script>
-
 </head>
