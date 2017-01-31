@@ -287,7 +287,7 @@
           <hr>
           <div id="emp-settings-cmd">
             <button type="submit" value="submit" class="btn btn-primary">Save</button>
-            <button type="reset" class="btn btn-danger" id="btn-clear-ec" >Reset</button>
+            <button class="btn btn-danger" id="btn-clear-ec" >Reset</button>
           </div>
         </div>
 
@@ -324,12 +324,12 @@
           </div> 
 
           <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-6">
               <label for="numbers_cc">Contact #:</label>
-              <input type="text" class="form-control" id="numbers_cc" name="numbers" required>
+              <input type="text" class="form-control" id="numbers_cc" name="numbers"  data-role="tagsinput" required>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
               <label for="rel">Reliability:</label>
               <select name="rel" id="rel" class="form-control">
                 <option value="Y">Yes</option>
@@ -350,7 +350,7 @@
           <hr>
           <div id="comm-settings-cmd">
             <button type="submit" value="submit" class="btn btn-primary">Save</button>
-            <button type="reset" class="btn btn-danger" id="btn-clear-cc" >Reset</button>
+            <button class="btn btn-danger" id="btn-clear-cc" >Reset</button>
           </div>
         </div>
 

@@ -54,7 +54,7 @@ $route['public_alert/bulletin/main/(:num)/(:any)'] = "bulletin/main/$1/$2";
 //Communication Section
 $route['communications/chatterbox'] = "chatterbox/index";
 $route['communications/responsetracker'] = "responsetracker/index";
-
+$route['communications/chatterbox/updatecontacts'] = "chatterbox/updatecontacts";
 //Gold
 //$route['gold'] = "monitoring/index";
 $route['logout'] = "gold/logout";
