@@ -1,13 +1,13 @@
-<script src="/goldF/js/dewslandslide/dewsresponsetracker.js"></script>
-<script src="/goldF/js/awesomplete.min.js"></script>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.4.1/bootstrap-slider.min.js"></script>
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.4.1/css/bootstrap-slider.min.css" />
-<link rel="stylesheet" href="/goldF/css/dewslandslide/dewsresponsetracker.css" />
-<link rel="stylesheet" type="text/css" href="/goldF/css/awesomplete.css">
+<script src="/js/dewslandslide/dewsresponsetracker.js"></script>
+<script src="/js/third-party/awesomplete.min.js"></script>
+<script src="/js/third-party/highcharts.js"></script>
+<script src="/js/third-party/exporting.js"></script>
+<script src="/js/third-party/bootstrap-slider.min.js"></script>
+<link href="/css/third-party/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="/js/third-party/bootstrap-toggle.min.js"></script>
+<link rel="stylesheet" href="/css/third-party/bootstrap-slider.min.css" />
+<link rel="stylesheet" href="/css/dewslandslide/dewsresponsetracker.css" />
+<link rel="stylesheet" type="text/css" href="/css/third-party/awesomplete.css">
 
 <div class="page-wrapper">
 	<div class="container-fluid">
