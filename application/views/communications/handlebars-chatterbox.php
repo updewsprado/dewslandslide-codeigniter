@@ -5,15 +5,17 @@
         {{#each messages}}
         {{#if isyou}}
         <li class="right clearfix">
+        <input type="text" id="msg_details" value="{{type}}<split>{{user}}<split>{{timestamp}}<split>{{msg}}" hidden>
             <span class="chat-img pull-right">
                 <img src="/images/Chatterbox/dewsl_03.png" alt="User Avatar">
                 {{else}}
                 <li class="left clearfix">
+                <input type="text" id="msg_details" value="{{type}}<split>{{user}}<split>{{timestamp}}<split>{{numbers}}<split>{{msg}}" hidden>
                     <span class="chat-img pull-left">
                         <img src="/images/Chatterbox/boy_avatar.png" alt="User Avatar">
                         {{/if}}
                     </span>
-                    <div class="chat-body clearfix">
+                    <div class="chat-body clearfix" id="id_{{timestamp}}">
                         <div class="header">
                             <strong class="primary-font" id="chat-user" >{{user}}</strong>
                             {{#if isyou}}
@@ -33,7 +35,7 @@
             <script id="quick-inbox-template" type="text/x-handlebars-template">
                 {{#each quick_inbox_messages}}
                 <li>
-                    <input id="'{{user}}'" type="text" value="'{{name}}' + ' - ' + '{{user}}'" hidden>
+                    <input id="'{{user}}'" type="text" value="{{name}} - {{user}}" hidden>
                     <a href="#" class="clearfix">   
                         <img src="/images/Chatterbox/boy_avatar.png" alt="" class="img-circle">
                         <div class="friend-name">   
