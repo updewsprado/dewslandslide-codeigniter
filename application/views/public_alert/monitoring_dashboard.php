@@ -7,6 +7,7 @@
 
 <link rel="stylesheet" type="text/css" href="css/dewslandslide/public_alert/monitoring_dashboard.css">
 <script type="text/javascript" src="js/dewslandslide/public_alert/monitoring_dashboard.js"></script>
+<script type="text/javascript" src="js/dewslandslide/public_alert/bulletin.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
 
 <?php  
@@ -38,7 +39,7 @@
 		    		<div class="alert alert-danger " id="primer">
 			            <strong>TO ALL MONITORING DUTY PERSONS</strong>: 
 			            <ul>
-			            	<li>Allot some time to read the <strong><a href="<?php echo base_url(); ?>gold/publicrelease/faq">Monitoring Primer and Frequently Asked Questions (FAQ)</a></strong> page.</li>
+			            	<li>Allot some time to read the <strong><a href="<?php echo base_url(); ?>monitoring/faq">Monitoring Primer and Frequently Asked Questions (FAQ)</a></strong> page.</li>
 			            	<li>The <strong>'Latest Candidate Triggers'</strong> table and <strong>'Action'</strong> feature is in <strong>BETA MODE</strong>. Make sure to <strong>check the inputs EVERYTIME</strong> before releasing. Elevate any encountered bugs and errors immediately. If in doubt in using the feature, use the old 'Early Warning Release Form'. </li>
 			            </ul>
 			            
@@ -182,7 +183,7 @@
 		</div>
 
 		<!-- MODAL AREA -->
-	    <div class="modal fade" id="sendBulletinModal" role="dialog">
+	    <div class="modal fade" id="bulletinModal" role="dialog">
 	    	<div class="modal-dialog modal-lg">
 	            <!-- Modal content-->
 	            <div class="modal-content">

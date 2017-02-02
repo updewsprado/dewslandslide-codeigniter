@@ -418,7 +418,7 @@
                                     <div class="col-sm-4 form-group">
                                         <label for="trigger_od_info">Requested by</label>
                                         <div class="input-group">
-                                            <label class="checkbox-inline"><input type="checkbox" class="od_group" name="llmc" value="llmc" disabled="disabled">LLMC</label>
+                                            <label class="checkbox-inline"><input type="checkbox" class="od_group" name="llmc" value="llmc" disabled="disabled">LEWC</label>
                                             <label class="checkbox-inline"><input type="checkbox" class="od_group" name="lgu" value="lgu" disabled="disabled">LGU</label>
                                         </div>
                                     </div>
@@ -433,9 +433,8 @@
                                         <div class="input-group">
                                             <span class="input-group-addon" id="basic-addon3">Monitoring requested due to</span>
                                             <textarea class="form-control" rows="1" id="reason" name="reason" placeholder="Enter reason for request." maxlength="140" aria-describedby="basic-addon3" disabled="disabled"></textarea>
-                                            <!-- <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3"> -->
+                                            <!-- <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" maxlength="140"> -->
                                         </div>
-                                        <!-- <textarea class="form-control" rows="1" id="reason" name="reason" placeholder="Enter reason for request." maxlength="140"></textarea> -->
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="trigger_od_info">Current Site Info:</label>
@@ -500,7 +499,7 @@
                             <div class="row">
                                 <div class="form-group col-sm-12">
                                     <label for="reporter_1">Reporter 1</label>
-                                    <input type="text" class="form-control" id="reporter_1" name="reporter_1" value="<?php echo $last_name . ", " . $first_name; ?>" placeholder="---" readonly="readonly">
+                                    <input type="text" class="form-control" id="reporter_1" name="reporter_1" value="<?php echo $last_name . ", " . $first_name; ?>" reporter_id = "<?php echo $user_id; ?>" placeholder="---" readonly="readonly">
                                 </div>
                             </div>
                             <div class="row">
@@ -557,7 +556,7 @@
                         <p>Successfully Inserted the Entry!</p>
                     </div>
                     <div class="modal-footer">
-                        <a href="<?php echo base_url();?>public_alert/monitoring_events" class="btn btn-info" role="button">Add More Entries</a>
+                        <a href="<?php echo base_url();?>monitoring/events" class="btn btn-info" role="button">Add More Entries</a>
                         <a href="#" id="view" class="btn btn-success" role="button">View Recent Entry</a>
                     </div>
                 </div>

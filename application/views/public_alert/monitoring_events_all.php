@@ -55,7 +55,7 @@
                             $name = $name . " " . $row->barangay . ", " . $row->municipality . ", " . $row->province;
 
                             echo "<tr class='". $row->status ."'>";
-                            echo "<td><a href='" . base_url() . "public_alert/monitoring_events/" . $row->event_id . "'>" . $row->event_id."</a></td>";
+                            echo "<td><a href='" . base_url() . "monitoring/events/" . $row->event_id . "'>" . $row->event_id."</a></td>";
                             echo "<td>".$name."</td>";
                             echo "<td>".strtoupper($row->status)."</td>";
                             echo "<td>".$row->internal_alert_level."</td>";

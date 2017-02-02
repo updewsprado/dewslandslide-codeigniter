@@ -18,13 +18,13 @@
                     <ul class="dropdown-menu">
                         <li class="dropdown-header">Site Alerts</li>
                         <li><a href="<?php echo base_url(); ?>dashboard">Monitoring Dashboard</a></li>
-                        <li><a href="<?php echo base_url(); ?>public_alert/release_form">Early Warning Release Form</a></li>
-                        <li><a href="<?php echo base_url(); ?>public_alert/monitoring_events">Monitoring Events Table</a></li>
+                        <li><a href="<?php echo base_url(); ?>monitoring/release_form">Early Warning Release Form</a></li>
+                        <li><a href="<?php echo base_url(); ?>monitoring/events">Monitoring Events Table</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
                         <li><a href="<?php echo base_url(); ?>gold/chatterbox">Chatter Box</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>gold/publicrelease/faq">Primer and FAQs</a></li>
+                        <li><a href="<?php echo base_url(); ?>monitoring/faq">Primer and FAQs</a></li>
                     </ul>
                 </li>
                 
@@ -52,7 +52,7 @@
                         <li><a href="<?php echo base_url(); ?>gold/nodereport">Update Form</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Accomplishment and Narratives</li>
-                        <li><a href="<?php echo base_url(); ?>gold/accomplishmentreport">Filing Form and Report Generator</a></li>
+                        <li><a href="<?php echo base_url(); ?>reports/accomplishment/form">Filing Form and Report Generator</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Site Maintenance</li>
                         <li><a href="<?php echo base_url(); ?>gold/sitemaintenancereport">Filing Form</a></li>

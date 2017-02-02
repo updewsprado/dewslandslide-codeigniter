@@ -11,7 +11,7 @@
 			$this->load->model('accomplishment_model');
 		}
 
-		public function index($page)
+		public function index()
 		{
 			$this->is_logged_in();
 
@@ -19,31 +19,14 @@
 			$data['first_name'] = $this->session->userdata('first_name');
 			$data['last_name'] = $this->session->userdata('last_name');
 			
-			/*** TEMPORARY REQUIRED DATA (To be deleted soon) ***/
-			$data['title'] = $page;
-			$data['version'] = "gold";
-			$data['folder'] = "goldF";
-			$data['imgfolder'] = "images";
-			
-			$data['charts'] = $data['tables'] = $data['forms'] = $data['bselements'] = '';
-			$data['bsgrid'] = $data['blank'] = $data['home'] = $data['monitoring'] = '';
-			$data['dropdown_chart'] = $data['site'] = $data['node'] = '';
-			$data['alert'] = $data['gmap'] = $data['commhealth'] = $data['analysisdyna'] = '';
-			$data['position'] = $data['presence'] = $data['customgmap'] = '';
-			$data['slider'] = $data['nodereport'] = $data['reportevent'] = '';
-			$data['sentnodetotal'] = $data['rainfall'] = $data['lsbchange'] = '';
-			$data['accel'] = $data['showplots'] = $data['showdateplots'] = '';
-			$data['sitesCoord'] = 0;
-			$data['datefrom'] = $data['dateto'] = '';
-			$data['ismap'] = false;
-			/*** End ***/
+			$data['title'] = "DEWS-Landslide Accomplishment Report Filing Form";
 
 			$data['withAlerts'] = $this->accomplishment_model->getSitesWithAlerts();
 
-			$this->load->view('gold/templates/header', $data);
-			$this->load->view('gold/templates/nav');
-			$this->load->view('gold/' . $page, $data);
-			$this->load->view('gold/templates/footer');
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/nav');
+			$this->load->view('reports/accomplishment_report', $data);
+			$this->load->view('templates/footer');
 		}
 
 		public function getShiftReleases()

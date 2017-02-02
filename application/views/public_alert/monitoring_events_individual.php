@@ -11,7 +11,7 @@
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/public_alert/monitoring_events_individual.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/public_alert/temp.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/public_alert/bulletin.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/dewslandslide/public_alert/monitoring_events_individual.css">
 
 <?php  
@@ -74,7 +74,7 @@
                     <div id="bread">
                         <ol class="breadcrumb">
                             <li><a href="<?php echo base_url() . 'home'; ?>">Home</a></li>
-                            <li><a href="<?php echo base_url() . 'public_alert/monitoring_events'; ?>">DEWS-Landslide All Events</a></li>
+                            <li><a href="<?php echo base_url() . 'monitoring/events'; ?>">DEWS-Landslide All Events</a></li>
                             <li class="active">Event No. <?php echo $event->event_id; ?></li>
                         </ol>
                     </div>

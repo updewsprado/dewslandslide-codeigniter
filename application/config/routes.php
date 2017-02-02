@@ -40,14 +40,20 @@
 
 $route['home'] = "monitoring/index";
 $route['dashboard'] = "monitoring/index";
-$route['public_alert/release_form'] = "pubrelease/index/alert_release_form";
-$route['public_alert/monitoring_events'] = "pubrelease/index/monitoring_events_all";
-$route['public_alert/monitoring_events/(:num)'] = "pubrelease/index/monitoring_events_individual/$1";
+$route['monitoring/release_form'] = "pubrelease/index/alert_release_form";
+$route['monitoring/events'] = "pubrelease/index/monitoring_events_all";
+$route['monitoring/events/(:num)'] = "pubrelease/index/monitoring_events_individual/$1";
 
-$route['public_alert/bulletin/view/(:any)'] = "bulletin/view/$1";
-$route['public_alert/bulletin/build/(:num)'] = "bulletin/build/$1";
-$route['public_alert/bulletin/edit/(:num)'] = "bulletin/edit/$1";
-$route['public_alert/bulletin/main/(:num)/(:any)'] = "bulletin/main/$1/$2";
+$route['monitoring/bulletin/view/(:any)'] = "bulletin/view/$1";
+$route['monitoring/bulletin/build/(:num)'] = "bulletin/build/$1";
+$route['monitoring/bulletin/edit/(:num)'] = "bulletin/edit/$1";
+$route['monitoring/bulletin/main/(:num)/(:any)'] = "bulletin/main/$1/$2";
+
+$route['monitoring/faq'] = "pubrelease/index/monitoring_faq";
+
+$route['reports/accomplishment/form'] = "accomplishment/index";
+$route['reports/site_maintenance/form'] = "sitemaintenance/index";
+
 
 //Gold
 //$route['gold'] = "monitoring/index";

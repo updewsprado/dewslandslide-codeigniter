@@ -6,17 +6,36 @@
 
 		public function __construct() {
 			parent::__construct();
-			// $this->is_logged_in();
+			$this->is_logged_in();
 			$this->load->helper('url');
 			$this->load->model('sitemaintenance_model');
 		}
 
 		public function index()
 		{
-			echo "Index of Sitemaintenance";
+			$data['user_id'] = $this->session->userdata("id");
+			$data['first_name'] = $this->session->userdata('first_name');
+			$data['last_name'] = $this->session->userdata('last_name');
+			
+			$data['title'] = "DEWS-Landslide Site Maintenance Report Filing Form";
+
+			$data['site'] = $this->sitemaintenance_model->getSites();
+			$data['staff'] = $this->sitemaintenance_model->getStaff();
+			$data['activity'] = $this->sitemaintenance_model->getActivity();
+
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/nav');
+			$this->load->view('reports/sitemaintenance_report', $data);
+			$this->load->view('templates/footer');
 		}
 
-		public function showSites()
+		public function getStaff()
+		{
+			$result = $this->sitemaintenance_model->getStaff();
+			echo $result;
+		}
+
+		public function getSites()
 		{
 			$result = $this->sitemaintenance_model->getSites();
 			
@@ -25,10 +44,9 @@
 		}
 
 
-		public function showActivity()
+		public function getActivity()
 		{
 			$result = $this->sitemaintenance_model->getActivity();
-			//$this->load->view('gold/accomplishmentreport', $result);
 			
 			if ($result == "[]") echo "Variable is empty<Br><Br>";
 			else echo "$result";
@@ -79,6 +97,18 @@
 			
 			if ($result == "[]") echo "Variable is empty<Br><Br>";
 			else echo "$result";
+		}
+
+		public function is_logged_in() 
+		{
+			$is_logged_in = $this->session->userdata('is_logged_in');
+			
+			if(!isset($is_logged_in) || ($is_logged_in !== TRUE)) {
+				echo 'You don\'t have permission to access this page. <a href="../lin">Login</a>';
+				die();
+			}
+			else {
+			}
 		}
 
 	}
