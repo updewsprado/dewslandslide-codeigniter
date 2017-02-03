@@ -10,7 +10,7 @@
                 <img src="/images/Chatterbox/dewsl_03.png" alt="User Avatar">
                 {{else}}
                 <li class="left clearfix">
-                <input type="text" id="msg_details" value="{{type}}<split>{{user}}<split>{{timestamp}}<split>{{numbers}}<split>{{msg}}" hidden>
+                <input type="text" id="msg_details" value="{{type}}<split>{{user}}<split>{{timestamp}}<split>{{user_number}}<split>{{msg}}" hidden>
                     <span class="chat-img pull-left">
                         <img src="/images/Chatterbox/boy_avatar.png" alt="User Avatar">
                         {{/if}}
