@@ -92,95 +92,12 @@ class Chatterbox extends CI_Controller {
 
 	public function get_employee_contacts(){
 		$result = $this->contacts_model->getEmployeeContacts();
-		echo "<thead>";
-		echo "<tr>";
-		echo "<th style='display:none;'>eid</th>";
-		echo "<th>First name</th>";
-		echo "<th>Last name</th>";
-		echo "<th>Nickname</th>";
-		echo "<th>Birthdate</th>";
-		echo "<th>Email</th>";
-		echo "<th>Contact #</th>";
-		echo "<th>Group Tags</th>";
-		echo "</tr>";
-		echo "</thead>";
-		echo "<tfoot>";
-		echo "<tr>";
-		echo "<th style='display:none;'>eid</th>";
-		echo "<th>First name</th>";
-		echo "<th>Last name</th>";
-		echo "<th>Nickname</th>";
-		echo "<th>Birthdate</th>";
-		echo "<th>Email</th>";
-		echo "<th>Contact #</th>";
-		echo "<th>Group Tags</th>";
-		echo "</tr>";
-		echo "</tfoot>";
-		echo "<tbody>";
-		foreach ($result->result() as $data) {
-			echo "<tr>";
-			echo "<td style='display:none;'>e_".$data->eid."</td>";
-			echo "<td>".$data->firstname."</td>";
-			echo "<td>".$data->lastname."</td>";
-			echo "<td>".$data->nickname."</td>";
-			echo "<td>".$data->birthday."</td>";
-			echo "<td>".$data->email."</td>";
-			echo "<td>".$data->numbers."</td>";
-			echo "<td>".$data->grouptags."</td>";
-			echo "</tr>";
-		}
-		echo "</tbody>";
+		print json_encode($result->result());
 	}
 
 	public function get_community_contacts(){
 		$result = $this->contacts_model->getCommunityContacts();
-		echo "<thead>";
-		echo "<tr>";
-		echo "<th style='display:none;'>c_id</th>";
-		echo "<th>First name</th>";
-		echo "<th>Last name</th>";
-		echo "<th>Prefix</th>";
-		echo "<th>Office</th>";
-		echo "<th>Sitename</th>";
-		echo "<th>Contact #</th>";
-		echo "<th>Rel</th>";
-		echo "<th>EWI Recipient</th>";
-		echo "</tr>";
-		echo "</thead>";
-		echo "<tfoot>";
-		echo "<tr>";
-		echo "<th style='display:none;'>c_id</th>";
-		echo "<th>First name</th>";
-		echo "<th>Last name</th>";
-		echo "<th>Prefix</th>";
-		echo "<th>Office</th>";
-		echo "<th>Sitename</th>";
-		echo "<th>Contact #</th>";
-		echo "<th>Rel</th>";
-		echo "<th>EWI Recipient</th>";
-		echo "</tr>";
-		echo "</tfoot>";
-		echo "<tbody>";
-		foreach ($result->result() as $data) {
-			$ewirecipient = "";
-			echo "<tr>";
-			echo "<td style='display:none;'>c_".$data->c_id."</td>";
-			echo "<td>".$data->firstname."</td>";
-			echo "<td>".$data->lastname."</td>";
-			echo "<td>".$data->prefix."</td>";
-			echo "<td>".$data->office."</td>";
-			echo "<td>".$data->sitename."</td>";
-			echo "<td>".$data->number."</td>";
-			echo "<td>".$data->rel."</td>";
-			if ($data->ewirecipient == true ) {
-				$ewirecipient = "Yes";
-			} else {
-				$ewirecipient = "No";
-			}
-			echo "<td>".$ewirecipient."</td>";
-			echo "</tr>";
-		}
-		echo "</tbody>";
+		print json_encode($result->result());
 	}
 
 	public function getewi(){

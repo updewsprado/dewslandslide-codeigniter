@@ -7,7 +7,7 @@
 
 <link rel="stylesheet" type="text/css" href="css/dewslandslide/public_alert/monitoring_dashboard.css">
 <script type="text/javascript" src="js/dewslandslide/public_alert/monitoring_dashboard.js"></script>
-<script src="/js/dewslandslide/dewschatterbox.js"></script>
+<script src="/js/dewslandslide/communications/dewschatterbox.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
 
 <?php  
