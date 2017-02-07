@@ -22,6 +22,9 @@
 
     <!-- jQuery Version 1.12.4 -->
     <script type="text/javascript" src="/js/third-party/jquery-1.12.4.min.js"></script>
+
+    <!-- jQuery UI Version 1.12.1 -->
+    <script type="text/javascript" src="/js/third-party/jquery-ui-1.12.1.min.js"></script>
     
 	<!-- Spinner -->
 	<script type="text/javascript" src="/js/third-party/spin.min.js"></script>
@@ -43,3 +46,5 @@
 
     <!-- Bootstrap DateTimePicker CSS-->
     <link href="/css/third-party/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+
+</head>

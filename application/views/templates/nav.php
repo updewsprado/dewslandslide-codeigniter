@@ -1,5 +1,3 @@
-</head>
-
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -10,7 +8,7 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="<?php echo base_url(); ?>gold"><span><img src="/images/DEWSL.png" /></span> <strong>DEWS-L Project</strong></a>
+            <a class="navbar-brand" href="<?php echo base_url(); ?>home"><span><img src="/images/DEWSL.png" /></span> <strong>DEWS-L Project</strong></a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -19,12 +17,12 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Monitoring</a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-header">Site Alerts</li>
-                        <li><a href="<?php echo base_url(); ?>gold/monitoring_dashboard">Monitoring Dashboard</a></li>
-                        <li><a href="<?php echo base_url(); ?>gold/publicrelease">Alert Release Form</a></li>
-                        <li><a href="<?php echo base_url(); ?>gold/publicrelease">Monitoring Events Table</a></li>
+                        <li><a href="<?php echo base_url(); ?>dashboard">Monitoring Dashboard</a></li>
+                        <li><a href="<?php echo base_url(); ?>public_alert/release_form">Early Warning Release Form</a></li>
+                        <li><a href="<?php echo base_url(); ?>public_alert/monitoring_events">Monitoring Events Table</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
-                        <li><a href="<?php echo base_url(); ?>gold/chatterbox">Chatter Box</a></li>
+                        <li><a href="<?php echo base_url(); ?>communications/chatterbox">Chatter Box</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="<?php echo base_url(); ?>gold/publicrelease/faq">Primer and FAQs</a></li>
                     </ul>
@@ -34,16 +32,16 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Analysis</a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-header">Sensors and Rain Gauges</li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/monitoring">Overview</a></li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/site">Site Level</a></li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/node">Node Level</a></li>
+                        <li><a href="<?php echo base_url(); ?>gold/monitoring">Overview</a></li>
+                        <li><a href="<?php echo base_url(); ?>gold/site">Site Level</a></li>
+                        <li><a href="<?php echo base_url(); ?>gold/node">Node Level</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/chartlist">Subsurface Data</a></li>
+                        <li><a href="<?php echo base_url(); ?>gold/chartlist">Subsurface Data</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/GroundMeas">Surficial Data</a></li>
+                        <li><a href="<?php echo base_url(); ?>gold/GroundMeas">Surficial Data</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
-                        <li><a href="<?php echo base_url(); ?>gold/responsetracker">Response Tracker</a></li>
+                        <li><a href="<?php echo base_url(); ?>communications/responsetracker">Response Tracker</a></li>
                     </ul>
                 </li>
 
@@ -69,13 +67,14 @@
                         <li><a href="#"><small><span class="glyphicon glyphicon-envelope"></span></small>&ensp;Inbox</a></li>
                         <li><a href="#"><small><span class="glyphicon glyphicon-cog"></span></small>&ensp;Settings</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="logout"><small><span class="glyphicon glyphicon-off"></span></small>&ensp;Log Out</a></li>
+                        <li><a href="../../../../logout"><small><span class="glyphicon glyphicon-off"></span></small>&ensp;Log Out</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
 <div class="modal fade" id="loading" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">

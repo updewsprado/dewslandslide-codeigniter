@@ -6,6 +6,7 @@ class Example extends CI_Controller
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper('url');
+		$this->load->model('monitoring_model');
 	}
 
 	public function index()
@@ -20,13 +21,7 @@ class Example extends CI_Controller
 		$data['title'] = $page;
 
 		$this->load->view('templates/header', $data);
-
-		// <Insert your specific library dependencies here>
-		// $this->load->view('templates/my-extra-dependencies');
-
 		$this->load->view('templates/nav');
-
-		// Replace "gold/blank" with your assigned page
 		$this->load->view('gold/blank');
 		$this->load->view('templates/footer');
 	}
