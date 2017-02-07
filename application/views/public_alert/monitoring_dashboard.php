@@ -473,7 +473,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="release" class="btn btn-info" role="button" type="submit">Release Alert</button>
+                        <button id="release" class="btn btn-danger" role="button" type="submit">Release Alert</button>
                     </div>
                     </form>
                 </div>
