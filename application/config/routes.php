@@ -66,6 +66,13 @@ $route['reports/site_maintenance/form'] = "sitemaintenance/index";
 $route['reports/site_maintenance/all'] = "sitemaintenance/all";
 $route['reports/site_maintenance/(:num)'] = "sitemaintenance/individual/$1";
 
+/**
+ * Communications Pages Routes
+ */
+$route['communications/chatterbox'] = "chatterbox/index";
+$route['communications/responsetracker'] = "responsetracker/index";
+$route['communications/chatterbox/updatecontacts'] = "chatterbox/updatecontacts";
+
 //Gold
 //$route['gold'] = "monitoring/index";
 $route['logout'] = "gold/logout";

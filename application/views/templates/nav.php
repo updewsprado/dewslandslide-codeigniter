@@ -22,7 +22,7 @@
                         <li><a href="<?php echo base_url(); ?>monitoring/events">Monitoring Events Table</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
-                        <li><a href="<?php echo base_url(); ?>gold/chatterbox">Chatter Box</a></li>
+                        <li><a href="<?php echo base_url(); ?>communications/chatterbox">Chatter Box</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="<?php echo base_url(); ?>monitoring/faq">Primer and FAQs</a></li>
                     </ul>
@@ -41,7 +41,7 @@
                         <li><a href="<?php echo base_url(); ?>gold/GroundMeas">Surficial Data</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
-                        <li><a href="<?php echo base_url(); ?>gold/responsetracker">Response Tracker</a></li>
+                        <li><a href="<?php echo base_url(); ?>communications/responsetracker">Response Tracker</a></li>
                     </ul>
                 </li>
 
@@ -75,3 +75,14 @@
         </div>
     </div>
 </nav>
+
+<div class="modal fade" id="loading" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+              <p > <img src="/images/box.gif" style="display: block; margin: auto;"></img> <br>
+                <b style="margin-left: 100px;">Loading . . . </b></p>
+            </div>
+        </div>
+    </div>
+</div>
