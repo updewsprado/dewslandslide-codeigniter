@@ -103,40 +103,15 @@
 		public function insertData()
 		{
 		 	$data  = array (
-
+		 		'staff_id' => $_POST['staff_id'],
 		 		'shift_start' => $_POST['shift_start'],
 		 		'shift_end' => $_POST['shift_end'],
-		 		'overtime_type' => $_POST['overtime_type'],
-		 		'on_duty' => $_POST['on_duty']
+		 		'summary' => $_POST['summary']
 		 	);
-
-		 	$type = $_POST['overtime_type'];
 
 		 	$id = $this->accomplishment_model->insert('accomplishment_report', $data);
 
-  			if( $type == "Others" )
-    		{
-    			$data3 = array( 'ar_id' => $id , 'info' => $_POST['summary'] );
-    			$this->accomplishment_model->insert('accomplishment_report_extra', $data3);
-    		}
-
     		echo "$id";
-		}
-
-		public function showBasis()
-		{
-			$result = $this->accomplishment_model->getBasis();
-			
-			if ($result == "[]") echo "Variable is empty<Br><Br>";
-			else echo "$result";
-		}
-
-		public function showDuty()
-		{
-			$result = $this->accomplishment_model->checkDuty($_GET['start'], $_GET['end']);
-			
-			if ($result == "[]") echo "Variable is empty<Br><Br>";
-			else echo "$result";
 		}
 
 		public function is_logged_in() 

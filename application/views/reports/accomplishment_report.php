@@ -20,6 +20,8 @@
 
 <div id="page-wrapper" style="height: 100%;">
 	
+	<div id="staff_id" value="<?php echo $user_id; ?>" hidden="hidden"></div>
+
 	<div class="container">
 
 	<!-- Page Heading -->
@@ -293,6 +295,24 @@
 			    	</div>
 			    </div> <!-- End of Submit Field Group -->
 		    </form>
+
+		    <!-- MODAL AREA -->
+		    <div class="modal fade" id="othersModal" role="dialog">
+		    	<div class="modal-dialog modal-md">
+		            <!-- Modal content-->
+		            <div class="modal-content">
+		              	<div class="modal-header">
+		                	<h4 class="modal-title">Save Accomplishment Report</h4>
+		              	</div>
+		              	<div class="modal-body">
+		              		Accomplishment report successfully saved!
+		              	</div>
+		              	<div class="modal-footer">
+		              		<button id="othersSubmit" class="btn btn-info okay" data-dismiss="modal" role="button">Okay</button>
+		            	</div>
+		            </div>
+		      	</div>
+		    </div> <!-- End of MODAL AREA -->
 
 		</div>
 
