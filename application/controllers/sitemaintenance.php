@@ -29,6 +29,44 @@
 			$this->load->view('templates/footer');
 		}
 
+		public function all()
+		{
+			$data['user_id'] = $this->session->userdata("id");
+			$data['first_name'] = $this->session->userdata('first_name');
+			$data['last_name'] = $this->session->userdata('last_name');
+			
+			$data['title'] = "DEWS-Landslide Site Maintenance Reports Table";
+
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/nav');
+			$this->load->view('reports/sitemaintenance_report_all', $data);
+			$this->load->view('templates/footer');
+		}
+
+		public function individual($report_id)
+		{
+			$data['user_id'] = $this->session->userdata("id");
+			$data['first_name'] = $this->session->userdata('first_name');
+			$data['last_name'] = $this->session->userdata('last_name');
+			
+			$data['title'] = "DEWS-Landslide Site Maintenance Individual Report";
+
+			$report = $this->sitemaintenance_model->getReport($report_id);
+			$data['id'] = $report_id;
+			$data['report'] = $report;
+			if( $report == null ) {
+				show_404();
+				break;
+			}
+			$temp = json_decode($report);
+			$data['map'] = $this->sitemaintenance_model->getMap($temp->site);
+
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/nav');
+			$this->load->view('reports/sitemaintenance_report_individual', $data);
+			$this->load->view('templates/footer');
+		}
+
 		public function getStaff()
 		{
 			$result = $this->sitemaintenance_model->getStaff();
@@ -91,7 +129,7 @@
 
 		 }
 
-		public function showAllReports()
+		public function getAllReports()
 		{
 			$result = $this->sitemaintenance_model->getAllReports();
 			

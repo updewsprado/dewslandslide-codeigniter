@@ -191,7 +191,7 @@
                 </div>
                 <div id="collapseZ" class="panel-collapse collapse">
                     <div class="panel-body">
-                        <p>Contact the database manager for the Early Warning Info Releases and Bulletin. Message Kevin through Facebook or through mobile at 09773922070.</p>
+                        <p>Contact the database manager for the Early Warning Info Releases and Bulletin. Message Kevin through Facebook or for more immediate response, call mobile at 09773922070.</p>
                     </div>
                 </div>
             </div>

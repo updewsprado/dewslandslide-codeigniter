@@ -15,7 +15,6 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/dewslandslide/public_alert/monitoring_events_individual.css">
 
 <?php  
-
 	$event = array_pop(json_decode($event));
 	$releases = json_decode($releases);
 	$triggers = json_decode($triggers);
@@ -50,6 +49,9 @@
 <div id="page-wrapper">
 	<div class="container">
 		<!-- Page Heading -->
+
+        <div id="to_highlight" value="<?php echo $to_highlight ?>" hidden="hidden"></div>
+
         <div class="row">
             <div class="col-sm-12" id="header">
                 <h2 class="page-header">
@@ -67,7 +69,7 @@
             		<div id="reveal" class="text-center"> 
             			<?php echo strtoupper($status); ?> MONITORTING PAGE FOR <br>
             			<?php $temp = $event->sitio == null ? "" : $event->sitio . ", "; echo strtoupper("$temp$event->barangay,<br>$event->municipality, $event->province") . " (" . strtoupper($event->name) . ")"; ?><br>
-                    	<small><?php echo date("M j, Y, g:i A", strtotime($event->event_start)). "<br>";
+                    	<small><?php echo date("M j, Y, g:i A", strtotime($event->event_start));
                     	if(!is_null($event->validity)) echo " to " . date("M j, Y, g:i A", strtotime($event->validity)); ?></small> 
                     </div>
 
@@ -161,7 +163,7 @@
 			        		else { $class = "warning"; $title = "Early Warning Release for"; $glyph = "file"; }
 			        	?>
         				<div class="timeline-badge <?php echo $class; ?>"><i class="glyphicon glyphicon-<?php echo $glyph; ?>"></i></div>
-        				<div class="timeline-panel">
+        				<div class="timeline-panel <?php if($to_highlight != null && $to_highlight == $release->release_id) { echo "highlight" . '"'; echo 'tabindex="-1"';} ?> id="<?php echo $release->release_id; ?>">
             				<div class="timeline-heading">
             					<div class="row">
 	              					<div class="col-sm-11">

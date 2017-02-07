@@ -38,22 +38,33 @@
 |
 */
 
+/**
+ * Monitoring/Public Alert Routes
+ */
 $route['home'] = "monitoring/index";
 $route['dashboard'] = "monitoring/index";
 $route['monitoring/release_form'] = "pubrelease/index/alert_release_form";
 $route['monitoring/events'] = "pubrelease/index/monitoring_events_all";
+$route['monitoring/events/(:num)/(:num)'] = "pubrelease/index/monitoring_events_individual/$1/$2";
 $route['monitoring/events/(:num)'] = "pubrelease/index/monitoring_events_individual/$1";
+$route['monitoring/faq'] = "pubrelease/index/monitoring_faq";
 
+/**
+ * Bulletin Pages Routes
+ */
 $route['monitoring/bulletin/view/(:any)'] = "bulletin/view/$1";
 $route['monitoring/bulletin/build/(:num)'] = "bulletin/build/$1";
 $route['monitoring/bulletin/edit/(:num)'] = "bulletin/edit/$1";
 $route['monitoring/bulletin/main/(:num)/(:any)'] = "bulletin/main/$1/$2";
 
-$route['monitoring/faq'] = "pubrelease/index/monitoring_faq";
-
+/**
+ * Reports Pages Routes
+ */
 $route['reports/accomplishment/form'] = "accomplishment/index";
+$route['reports/accomplishment/checker'] = "accomplishment/checker";
 $route['reports/site_maintenance/form'] = "sitemaintenance/index";
-
+$route['reports/site_maintenance/all'] = "sitemaintenance/all";
+$route['reports/site_maintenance/(:num)'] = "sitemaintenance/individual/$1";
 
 //Gold
 //$route['gold'] = "monitoring/index";

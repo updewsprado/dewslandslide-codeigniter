@@ -553,7 +553,7 @@
                         <h4 class="modal-title">Entry Insertion Notice</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Successfully Inserted the Entry!</p>
+                        <p>Successfully inserted the entry!</p>
                     </div>
                     <div class="modal-footer">
                         <a href="<?php echo base_url();?>monitoring/events" class="btn btn-info" role="button">Add More Entries</a>
