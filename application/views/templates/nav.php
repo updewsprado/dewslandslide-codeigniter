@@ -31,14 +31,14 @@
                 <li class="dropdown dropdown-nav">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Analysis</a>
                     <ul class="dropdown-menu">
-                        <li class="dropdown-header">Sensors and Rain Gauges</li>
-                        <li><a href="<?php echo base_url(); ?>gold/monitoring">Overview</a></li>
-                        <li><a href="<?php echo base_url(); ?>gold/site">Site Level</a></li>
-                        <li><a href="<?php echo base_url(); ?>gold/node">Node Level</a></li>
+                       <li class="dropdown-header">Sensors and Rain Gauges</li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/sensor_overview">Overview</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/site">Site Level</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/node">Node Level</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>gold/chartlist">Subsurface Data</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/subsurface">Subsurface Data</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>gold/GroundMeas">Surficial Data</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/surficial">Surficial Data</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
                         <li><a href="<?php echo base_url(); ?>communications/responsetracker">Response Tracker</a></li>
