@@ -38,31 +38,49 @@
 |
 */
 
-
-//Public Alert Section
+/**
+ * Monitoring/Public Alert Routes
+ */
 $route['home'] = "monitoring/index";
 $route['dashboard'] = "monitoring/index";
-$route['public_alert/release_form'] = "pubrelease/index/alert_release_form";
-$route['public_alert/monitoring_events'] = "pubrelease/index/monitoring_events_all";
-$route['public_alert/monitoring_events/(:num)'] = "pubrelease/index/monitoring_events_individual/$1";
+$route['monitoring/release_form'] = "pubrelease/index/alert_release_form";
+$route['monitoring/events'] = "pubrelease/index/monitoring_events_all";
+$route['monitoring/events/(:num)/(:num)'] = "pubrelease/index/monitoring_events_individual/$1/$2";
+$route['monitoring/events/(:num)'] = "pubrelease/index/monitoring_events_individual/$1";
+$route['monitoring/faq'] = "pubrelease/index/monitoring_faq";
 
-$route['public_alert/bulletin/view/(:any)'] = "bulletin/view/$1";
-$route['public_alert/bulletin/build/(:num)'] = "bulletin/build/$1";
-$route['public_alert/bulletin/edit/(:num)'] = "bulletin/edit/$1";
-$route['public_alert/bulletin/main/(:num)/(:any)'] = "bulletin/main/$1/$2";
+/**
+ * Bulletin Pages Routes
+ */
+$route['monitoring/bulletin/view/(:any)'] = "bulletin/view/$1";
+$route['monitoring/bulletin/build/(:num)'] = "bulletin/build/$1";
+$route['monitoring/bulletin/edit/(:num)'] = "bulletin/edit/$1";
+$route['monitoring/bulletin/main/(:num)/(:any)'] = "bulletin/main/$1/$2";
 
-//Communication Section
+/**
+ * Reports Pages Routes
+ */
+$route['reports/accomplishment/form'] = "accomplishment/index";
+$route['reports/accomplishment/checker'] = "accomplishment/checker";
+$route['reports/site_maintenance/form'] = "sitemaintenance/index";
+$route['reports/site_maintenance/all'] = "sitemaintenance/all";
+$route['reports/site_maintenance/(:num)'] = "sitemaintenance/individual/$1";
+
+/**
+ * Communications Pages Routes
+ */
 $route['communications/chatterbox'] = "chatterbox/index";
 $route['communications/responsetracker'] = "responsetracker/index";
 $route['communications/chatterbox/updatecontacts'] = "chatterbox/updatecontacts";
 
-//Data analysis
+/**
+ * Data Analysis Pages Routes
+ */
 $route['data_analysis/node'] = "node_level_page";
 $route['data_analysis/site'] = "site_level_page";
 $route['data_analysis/surficial'] = "surficial_page";
 $route['data_analysis/subsurface'] = "subsurface_page";
 $route['data_analysis/sensor_overview'] = "sensor_overview_page";
-
 
 //Gold
 //$route['gold'] = "monitoring/index";

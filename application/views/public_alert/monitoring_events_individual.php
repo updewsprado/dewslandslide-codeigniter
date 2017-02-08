@@ -11,11 +11,10 @@
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/public_alert/monitoring_events_individual.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/public_alert/temp.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/public_alert/bulletin.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/dewslandslide/public_alert/monitoring_events_individual.css">
 
 <?php  
-
 	$event = array_pop(json_decode($event));
 	$releases = json_decode($releases);
 	$triggers = json_decode($triggers);
@@ -50,6 +49,9 @@
 <div id="page-wrapper">
 	<div class="container">
 		<!-- Page Heading -->
+
+        <div id="to_highlight" value="<?php echo $to_highlight ?>" hidden="hidden"></div>
+
         <div class="row">
             <div class="col-sm-12" id="header">
                 <h2 class="page-header">
@@ -67,14 +69,14 @@
             		<div id="reveal" class="text-center"> 
             			<?php echo strtoupper($status); ?> MONITORTING PAGE FOR <br>
             			<?php $temp = $event->sitio == null ? "" : $event->sitio . ", "; echo strtoupper("$temp$event->barangay,<br>$event->municipality, $event->province") . " (" . strtoupper($event->name) . ")"; ?><br>
-                    	<small><?php echo date("M j, Y, g:i A", strtotime($event->event_start)). "<br>";
+                    	<small><?php echo date("M j, Y, g:i A", strtotime($event->event_start));
                     	if(!is_null($event->validity)) echo " to " . date("M j, Y, g:i A", strtotime($event->validity)); ?></small> 
                     </div>
 
                     <div id="bread">
                         <ol class="breadcrumb">
                             <li><a href="<?php echo base_url() . 'home'; ?>">Home</a></li>
-                            <li><a href="<?php echo base_url() . 'public_alert/monitoring_events'; ?>">DEWS-Landslide All Events</a></li>
+                            <li><a href="<?php echo base_url() . 'monitoring/events'; ?>">DEWS-Landslide All Events</a></li>
                             <li class="active">Event No. <?php echo $event->event_id; ?></li>
                         </ol>
                     </div>
@@ -161,7 +163,7 @@
 			        		else { $class = "warning"; $title = "Early Warning Release for"; $glyph = "file"; }
 			        	?>
         				<div class="timeline-badge <?php echo $class; ?>"><i class="glyphicon glyphicon-<?php echo $glyph; ?>"></i></div>
-        				<div class="timeline-panel">
+        				<div class="timeline-panel <?php if($to_highlight != null && $to_highlight == $release->release_id) { echo "highlight" . '"'; echo 'tabindex="-1"';} ?> id="<?php echo $release->release_id; ?>">
             				<div class="timeline-heading">
             					<div class="row">
 	              					<div class="col-sm-11">
@@ -450,7 +452,7 @@
             </div>
         </div> <!-- End of MODAL AREA -->
 
-        <div class="modal fade js-loading-bar" role="dialog">
+        <div class="modal fade js-loading-bar" id="bulletinLoadingModal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header" id="modalTitle" hidden>

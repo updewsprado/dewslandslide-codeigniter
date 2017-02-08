@@ -167,7 +167,7 @@
 					
 					function boilerplate($title, $description)
 					{
-						if($title == "SENSOR" || $title == "GROUND MEASUREMENT")
+						if($title == "SUBSURFACE DATA" || $title == "SURFICIAL DATA")
 							echo '<div class="row rowIndent">';
 						else echo '<div class="row">';
 						echo '<div class="col-sm-12"><b>' . $title . '</b></div>';
@@ -237,7 +237,7 @@
 								else if($a === 'D')
 								{
 									$temp = $ordered[count($ordered)-1];
-									if ($temp->od_info->is_llmc && $temp->od_info->is_lgu) $group = "LEWC/LGU";
+									if ($temp->od_info->is_llmc && $temp->od_info->is_lgu) $group = "LEWC and LGU";
 									else if ($temp->od_info->is_llmc) $group = "LEWC"; else $group = "LGU";
 									$desc = str_replace("[group]", $group, $desc);
 									$desc = str_replace("[reason]", $temp->od_info->reason, $desc);
@@ -283,10 +283,10 @@
 								case 'R': boilerplate("RAINFALL", $desc); break;
 								case 'E': boilerplate("EARTHQUAKE", $desc); break;
 								case 'D': boilerplate("ON-DEMAND", $desc); break;
-								case 'g': case 'G': boilerplate("GROUND MOVEMENT", "", ""); boilerplate("<i class='rowIndent'><u>GROUND MEASUREMENT</u></i>", $desc); break;
+								case 'g': case 'G': boilerplate("GROUND MOVEMENT", "", ""); boilerplate("<i class='rowIndent'><u>SURFICIAL DATA</u></i>", $desc); break;
 								case 's': case 'S': 
 									if( count(array_intersect( ['g','G'], $list) ) <= 0 ) boilerplate("GROUND MOVEMENT", "", ""); 
-									boilerplate("<i class='rowIndent'><u>SENSOR</u></i>", $desc); break;
+									boilerplate("<i class='rowIndent'><u>SUBSURFACE DATA</u></i>", $desc); break;
 							}
 						}
 					}
@@ -295,8 +295,8 @@
 					// boilerplate("RAINFALL", "[description]");
 					// boilerplate("EARTHQUAKE", "[description]");
 					// boilerplate("GROUND MOVEMENT:", '');
-					// boilerplate("SENSOR", "[description]");
-					// boilerplate("GROUND MEASUREMENT", "[description]");
+					// boilerplate("SUBSURFACE DATA", "[description]");
+					// boilerplate("SURFICIAL DATA", "[description]");
 
 					switch ($public_alert_level) {
 						case 'A0':

@@ -18,20 +18,24 @@
                     <ul class="dropdown-menu">
                         <li class="dropdown-header">Site Alerts</li>
                         <li><a href="<?php echo base_url(); ?>dashboard">Monitoring Dashboard</a></li>
-                        <li><a href="<?php echo base_url(); ?>public_alert/release_form">Early Warning Release Form</a></li>
-                        <li><a href="<?php echo base_url(); ?>public_alert/monitoring_events">Monitoring Events Table</a></li>
+                        <li><a href="<?php echo base_url(); ?>monitoring/release_form">Early Warning Release Form</a></li>
+                        <li><a href="<?php echo base_url(); ?>monitoring/events">Monitoring Events Table</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
                         <li><a href="<?php echo base_url(); ?>communications/chatterbox">Chatter Box</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>gold/publicrelease/faq">Primer and FAQs</a></li>
+                        <li><a href="<?php echo base_url(); ?>monitoring/faq">Primer and FAQs</a></li>
                     </ul>
                 </li>
                 
                 <li class="dropdown dropdown-nav">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Analysis</a>
                     <ul class="dropdown-menu">
+<<<<<<< HEAD
                         <li class="dropdown-header">Sensors and Rain Gauges</li>
+=======
+                       <li class="dropdown-header">Sensors and Rain Gauges</li>
+>>>>>>> 6969be3eb92b16943ab7fa18228e87ece0d2fb51
                         <li><a href="<?php echo base_url(); ?>data_analysis/sensor_overview">Overview</a></li>
                         <li><a href="<?php echo base_url(); ?>data_analysis/site">Site Level</a></li>
                         <li><a href="<?php echo base_url(); ?>data_analysis/node">Node Level</a></li>
@@ -52,11 +56,12 @@
                         <li><a href="<?php echo base_url(); ?>gold/nodereport">Update Form</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Accomplishment and Narratives</li>
-                        <li><a href="<?php echo base_url(); ?>gold/accomplishmentreport">Filing Form and Report Generator</a></li>
+                        <li><a href="<?php echo base_url(); ?>reports/accomplishment/form">Filing Form and Report Generator</a></li>
+                        <li><a href="<?php echo base_url(); ?>reports/accomplishment/checker">Shift Events and Releases Checker</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Site Maintenance</li>
-                        <li><a href="<?php echo base_url(); ?>gold/sitemaintenancereport">Filing Form</a></li>
-                        <li><a href="<?php echo base_url(); ?>gold/sitemaintenancereport/all">All Reports Table</a></li>
+                        <li><a href="<?php echo base_url(); ?>reports/site_maintenance/form">Filing Form</a></li>
+                        <li><a href="<?php echo base_url(); ?>reports/site_maintenance/all">All Reports Table</a></li>
                     </ul>
                 </li>
 
@@ -75,12 +80,13 @@
     </div>
 </nav>
 
-<div class="modal fade" id="loading" role="dialog" data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog modal-sm">
+<div class="modal fade js-loading-bar" id="loading" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-              <p > <img src="/images/box.gif" style="display: block; margin: auto;"></img> <br>
-                <b style="margin-left: 100px;">Loading . . . </b></p>
+                <div class="progress progress-popup">
+                    <div class="progress-bar progress-bar-striped active" style="width: 100%">Loading...</div>
+                </div>
             </div>
         </div>
     </div>
