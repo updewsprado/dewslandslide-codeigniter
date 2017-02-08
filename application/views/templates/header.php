@@ -47,4 +47,7 @@
     <!-- Bootstrap DateTimePicker CSS-->
     <link href="/css/third-party/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
 
+    <!-- Modal Reposition JS-->
+    <script type="text/javascript" src="/js/third-party/modal-reposition.js"></script>
+
 </head>

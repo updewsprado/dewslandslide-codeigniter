@@ -28,13 +28,16 @@ class Pubrelease extends CI_Controller {
 
 			case 'monitoring_events_individual':
 				$id = $this->uri->segment(3);
-				//echo $id;
-				//$id = 3;
+				$release_id = $this->uri->segment(4);
+				if($release_id != NULL) $data['to_highlight'] = $release_id;
+				else $data['to_highlight'] = null;
+
 				$data['event'] = $this->pubrelease_model->getEvent($id);
-				// if( $data['event'] == "[]") {
-				// 	show_404();
-				// 	break;
-				// }
+				if( $data['event'] == "[]") {
+				 	show_404();
+				 	break;
+				}
+
 				$data['title'] = "DEWS-Landslide Individual Monitoring Event Page";
 				$data['releases'] = $this->pubrelease_model->getAllRelease($id);
 				$data['triggers'] = $this->pubrelease_model->getAllEventTriggers($id);

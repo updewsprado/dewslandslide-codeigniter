@@ -15,7 +15,6 @@
 
 		public function getShiftReleases($start, $end)
 		{
-
 			$this->db->select('public_alert_release.*, public_alert_event.*, site.name, membership.first_name AS mt_first, membership.last_name AS mt_last, m.first_name AS ct_first, m.last_name AS ct_last');
 			$this->db->from('public_alert_release');
 			$this->db->join('public_alert_event', 'public_alert_event.event_id = public_alert_release.event_id');
@@ -25,6 +24,7 @@
 			$this->db->where('public_alert_release.data_timestamp >', $start);
 			$this->db->where('public_alert_release.data_timestamp <=', $end);
 			$this->db->where('public_alert_event.status !=', 'routine ');
+			$this->db->where('public_alert_event.status !=', 'invalid ');
 			$this->db->order_by("data_timestamp", "desc");
 			$query = $this->db->get();
 			$result = $query->result_array();
@@ -92,6 +92,16 @@
 			$this->db->where($column, $key);
 			$this->db->update($table, $data);
 		}
+
+		// SELECT r.release_id, r.event_id, r.data_timestamp, r.reporter_id_mt, r.reporter_id_ct 
+		// FROM senslopedb.`public_alert_release` r
+		// WHERE r.event_id IN
+		// (
+		//     SELECT e.event_id FROM senslopedb.public_alert_event e
+		//     WHERE e.status != 'routine' OR e.status != 'invalid'
+		// )
+		// AND r.data_timestamp > '2017-01-12 07:30:00' and r.data_timestamp < '2017-01-12 20:00:00'
+		// ORDER BY r.release_id DESC
 
 
 		// TEST CASE
