@@ -189,7 +189,7 @@
 	            <!-- Modal content-->
 	            <div class="modal-content">
 	              	<div class="modal-header">
-	                	<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+	                	<button type="button" class="close" data-dismiss="modal">&times;</button>
 	                	<h4 class="modal-title">Send Bulletin and EWI</h4>
 	              	</div>
 	              	<div class="modal-body">
@@ -205,7 +205,7 @@
 	      	</div>
 	    </div> <!-- End of MODAL AREA -->
 
-	    <div class="modal fade js-loading-bar" role="dialog">
+	    <div class="modal fade js-loading-bar" id="bulletinLoadingModal" role="dialog">
 			<div class="modal-dialog">
    				<div class="modal-content">
 	   				<div class="modal-header" id="modalTitle" hidden>

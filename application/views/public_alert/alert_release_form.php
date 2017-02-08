@@ -563,25 +563,6 @@
             </div>
         </div>
 
-        <div class="modal fade js-loading-bar" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" hidden>
-                        <button type="button" class="close" data-dismiss="modal" hidden>&times;</button>
-                        <h4 class="modal-title">Bulletin PDF Rendering Complete</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="progress progress-popup">
-                            <div class="progress-bar progress-bar-striped active" style="width: 100%">Submitting early warning releases... Please wait.</div>
-                        </div>
-                    </div>
-                    <div class="modal-footer" hidden>
-                        <a type="submit" class="btn btn-info btn-md pull-right" id="download">Download Bulletin PDF</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="modal fade" id="nd_modal" role="dialog">
             <div class="modal-dialog modal-md">
                 <!-- Modal content-->

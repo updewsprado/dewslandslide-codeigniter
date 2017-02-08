@@ -79,7 +79,7 @@
 	          	</div>
 
 	          	<div class="form-group col-sm-5">
-					<label for="narrative">Narrative</label>
+					<label class="control-label" for="narrative">Narrative</label>
 					<textarea class="form-control" rows="1" id="narrative" name="narrative" placeholder="Minimum of 20 characters" maxlength="500"></textarea>
                 </div>
 
@@ -236,20 +236,21 @@
 	          	</div>
 
 		        <!-- Generate Field Group -->
-			    <div id="generateField">
+			    <div class="row" id="generateField">
 			    	<div class="form-group col-md-12">
 			    		<hr>
 			   			<button type="button" class="btn btn-danger btn-sm pull-right" id="generate" disabled="disabled">Generate Report</button>
 			   		</div>
 			    </div> <!-- End of Generate Field Group -->
 
-			    <div id="reportField" ><div class="row">
+			    <div id="reportField" class="row">
 		   			<div class="col-md-12">
+		   				<hr style="margin-top: 5px;">
 		   				<div class="form-group">
 							<textarea class="form-control" rows="7" id="report"></textarea>
 						</div>
 		   			</div>
-		   		</div></div>
+		   		</div>
 			</form>
 		</div>
 
@@ -280,7 +281,7 @@
 		        	</div>
 		        	<div class="col-sm-6">
 		        		<div class="form-group col-sm-12">
-							<label for="summary">Summary</label>
+							<label class="control-label" for="summary">Summary</label>
 							<textarea class="form-control" rows="5" id="summary" name="summary" placeholder="Minimum of 20 characters" maxlength="500"></textarea>
 		                </div>
 		        	</div>
@@ -314,22 +315,6 @@
 		      	</div>
 		    </div> <!-- End of MODAL AREA -->
 
-		</div>
-
-		 <div class="modal fade js-loading-bar" role="dialog">
-			<div class="modal-dialog">
-   				<div class="modal-content">
-	   				<div class="modal-header" hidden>
-					</div>
-    				<div class="modal-body">
-       					<div class="progress progress-popup">
-        					<div class="progress-bar progress-bar-striped active" style="width: 100%">Saving...</div>
-       					</div>
-     				</div>
-     				<div class="modal-footer" hidden>
-		   			</div>
-   				</div>
- 			</div>
 		</div>
 
 	</div>

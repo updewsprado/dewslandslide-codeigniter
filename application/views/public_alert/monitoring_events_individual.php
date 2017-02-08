@@ -452,7 +452,7 @@
             </div>
         </div> <!-- End of MODAL AREA -->
 
-        <div class="modal fade js-loading-bar" role="dialog">
+        <div class="modal fade js-loading-bar" id="bulletinLoadingModal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header" id="modalTitle" hidden>
