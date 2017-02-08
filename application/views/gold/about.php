@@ -1,6 +1,6 @@
 
     <!-- Header -->
-    <div class="intro-header">
+    <div class="page-wrapper">
 
         <div class="container">
 

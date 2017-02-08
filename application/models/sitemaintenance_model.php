@@ -35,18 +35,10 @@
 
 		public function getStaff()
 		{
-			$sql = "SELECT first_name, last_name FROM membership ORDER BY last_name ASC";
-			
-			$query = $this->db->query($sql);
-			$result = [];
-			$i = 0;
-			foreach ($query->result() as $row) {
-				$result[$i]["first_name"] = $row->first_name;
-				$result[$i]["last_name"] = $row->last_name;
-				$i = $i + 1;
-			}
-
-			return json_encode($result);
+			$this->db->select('id, first_name, last_name');
+			$this->db->order_by('last_name', 'asc');
+			$result = $this->db->get('membership');
+			return json_encode($result->result_object());
 		}
 
 		public function getActivity()
@@ -91,13 +83,16 @@
 				$result["site"] = $row->site;
 			}
 
-			$sql = "SELECT staff_name FROM maintenance_report_staff WHERE sm_id = '$id'";
+			$sql = "SELECT m.first_name, m.last_name FROM maintenance_report_staff s
+				JOIN membership m ON s.staff_id = m.id
+				WHERE s.sm_id = '$id'
+			";
 
 			$query = $this->db->query($sql);
 			$staff_name = [];
 			$i = 0;
 			foreach ($query->result() as $row) {
-				$staff_name[$i] = $row->staff_name;
+				$staff_name[$i] = $row->last_name . ", " . $row->first_name;
 				$i = $i + 1;
 			}
 			$result["staff_name"] = $staff_name;
