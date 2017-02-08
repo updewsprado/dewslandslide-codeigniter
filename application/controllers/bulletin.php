@@ -13,12 +13,11 @@
 
 		public function index()
 		{	
-			
+			echo "Bulletin index";
 		}
 
 		public function main($release_id, $bool = 1)
 		{
-			$page = 'bulletin-main';
 			$data['first_name'] = $this->session->userdata('first_name');
 			$data['last_name'] = $this->session->userdata('last_name');
 
@@ -68,166 +67,45 @@
 				$data['validity'] = $flag == true ? date( "Y-m-d H:i:s", strtotime($temp->data_timestamp) + 4.5 * 3600) : $computed_validity;
 			}
 
-			return $this->load->view('gold/' . $page, $data, $bool);
+			return $this->load->view('public_alert/bulletin_main', $data, $bool);
 		}
 
 		public function edit($release_id)
 		{
 			$this->is_logged_in();
 
-			$page = 'bulletin-editor';
 			$data['bulletin'] = $this->main($release_id, TRUE);
-			// $data['first_name'] = $this->session->userdata('first_name');
-			// $data['last_name'] = $this->session->userdata('last_name');
-			
-			/*** TEMPORARY REQUIRED DATA (To be deleted soon) ***/
 			$data['title'] = $page;
-			$data['version'] = "gold";
-			$data['folder'] = "goldF";
-			$data['imgfolder'] = "images";
-			
-			$data['charts'] = $data['tables'] = $data['forms'] = $data['bselements'] = '';
-			$data['bsgrid'] = $data['blank'] = $data['home'] = $data['monitoring'] = '';
-			$data['dropdown_chart'] = $data['site'] = $data['node'] = '';
-			$data['alert'] = $data['gmap'] = $data['commhealth'] = $data['analysisdyna'] = '';
-			$data['position'] = $data['presence'] = $data['customgmap'] = '';
-			$data['slider'] = $data['nodereport'] = $data['reportevent'] = '';
-			$data['sentnodetotal'] = $data['rainfall'] = $data['lsbchange'] = '';
-			$data['accel'] = $data['showplots'] = $data['showdateplots'] = '';
-			$data['sitesCoord'] = 0;
-			$data['datefrom'] = $data['dateto'] = '';
-			$data['ismap'] = false;
-			/*** End ***/
 
-			// if( $release_id == '' ) {
-			// 	show_404();
-			// 	break;
-			// }
-
-			// $temp = json_decode($this->bulletin_model->getRelease($release_id));
-			// if( $temp == null) {
-			// 	show_404();
-			// 	break;
-			// }
-
-			// $data['release'] = json_encode($temp);
-			
-			// $x = substr($temp->internal_alert_level, 0, 2);
-			// $x = $x == "ND" ? ( strlen($temp->internal_alert_level) > 3 ? "A1" : "A0" ) : $x;
-			// $data['public_alert_level'] = $x;
-			// $data['triggers'] = $this->bulletin_model->getAllEventTriggers($temp->event_id);
-			// $temp_2 = json_decode($data['triggers']);
-			// $data['event'] = $this->bulletin_model->getEvent($temp->event_id);
-			// $data['reporters'] = array(
-			// 	'reporter_mt' => $this->bulletin_model->getName($temp->reporter_id_mt),
-			// 	'reporter_ct' => $this->bulletin_model->getName($temp->reporter_id_ct),  
-			// );
-			// $data['responses'] = $this->bulletin_model->getResponses($data['public_alert_level'], $temp->internal_alert_level);
-
-			// // Get most recent validity for the said release
-			// foreach ($temp_2 as $trigger) 
-			// {
-			// 	if( $temp->release_id >= $trigger->release_id )
-			// 	{ 
-			// 		$computed_validity = $this->getValidity($trigger->timestamp, $x);
-			// 		break;
-			// 	}
-			// }
-
-			// $isND = substr($temp->internal_alert_level, 0, 2);
-			// if( $x != 'A0' )
-			// {
-			// 	$data['validity'] = $computed_validity;
-			// 	$flag = false;
-				
-			// 	// Adjust timestamps if ND or X0 if end of validity
-			// 	if( $isND == "ND" || strpos($temp->internal_alert_level, 'g0') !== false || strpos($temp->internal_alert_level, 's0') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
-			// 	$data['validity'] = $flag == true ? date( "Y-m-d H:i:s", strtotime($temp->data_timestamp) + 4.5 * 3600) : $computed_validity;
-			// }
-
-			// $data['builder'] = $this->load->view('gold/bulletin-builder', $data);
-
-			$this->load->view('gold/templates/header', $data);
-			$this->load->view('gold/templates/nav');
-			$this->load->view('gold/' . $page, $data);
-			$this->load->view('gold/templates/footer');	
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/nav');
+			$this->load->view('public_alert/bulletin_editor', $data);
+			$this->load->view('templates/footer');	
 		}
 
 		public function build($release_id)
 		{
-
 			if( $release_id == '' ) {
 				show_404();
 				break;
 			}
 
-			$page = 'bulletin-builder';
+			$data['title'] = 'DEWS-Landslide Bulletin Builder Page';
 			$data['bulletin'] = $this->main($release_id, true);
 
-			// $temp = $this->bulletin_model->getRelease($release_id);
-			// if( $temp == null) {
-			// 	show_404();
-			// 	break;
-			// }
-			// $temp = json_decode($temp);
-			// $data['release'] = json_encode($temp);
-			
-			// $x = substr($temp->internal_alert_level, 0, 2);
-			// $x = $x == "ND" ? ( strlen($temp->internal_alert_level) > 3 ? "A1" : "A0" ) : $x;
-			// $data['public_alert_level'] = $x;
-			// $data['triggers'] = $this->bulletin_model->getAllEventTriggers($temp->event_id);
-			// $temp_2 = json_decode($data['triggers']);
-			// $data['event'] = $this->bulletin_model->getEvent($temp->event_id);
-			// $data['reporters'] = array(
-			// 	'reporter_mt' => $this->bulletin_model->getName($temp->reporter_id_mt),
-			// 	'reporter_ct' => $this->bulletin_model->getName($temp->reporter_id_ct),  
-			// );
-			// $data['responses'] = $this->bulletin_model->getResponses($data['public_alert_level'], $temp->internal_alert_level);
-			
-			// // Get most recent validity for the said release
-			// foreach ($temp_2 as $trigger) 
-			// {
-			// 	if( $temp->release_id >= $trigger->release_id )
-			// 	{ 
-			// 		$computed_validity = $this->getValidity($trigger->timestamp, $x);
-			// 		break;
-			// 	}
-			// }
-
-			// $isND = substr($temp->internal_alert_level, 0, 2);
-			// if( $x != 'A0' )
-			// {
-			// 	$data['validity'] = $computed_validity;
-			// 	$flag = false;
-				
-			// 	// Adjust timestamps if ND or X0 if end of validity
-			// 	if( $isND == "ND" || strpos($temp->internal_alert_level, 'g0') !== false || strpos($temp->internal_alert_level, 's0') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
-			// 	$data['validity'] = $flag == true ? date( "Y-m-d H:i:s", strtotime($temp->data_timestamp) + 4.5 * 3600) : $computed_validity;
-			// }
-
-			$this->load->view('gold/bulletin-builder', $data);
+			$this->load->view('public_alert/bulletin_builder', $data);
 		}
 
 		public function view($str)
 		{
-			/*if( $id == '' ) {
-				show_404();
-				break;
-			}*/
-			
-			/*$data['data'] = $this->bulletin_model->getPublicRelease($id);
-			if( $data['data'] == "[]") {
-				show_404();
-				break;
-			}*/
 			$data['str'] = $str;
-			$this->load->view('gold/bulletin-viewer', $data);
+			$this->load->view('public_alert/bulletin_viewer', $data);
 		}
 
 		public function mail()
 		{
 			// FOR WINDOWS
-			//require_once("C:\\xampp\PHPMailer\PHPMailerAutoload.php");
+			// require_once("C:\\xampp\PHPMailer\PHPMailerAutoload.php");
 			// FOR LINUX
 			require_once("/usr/share/php/PHPMailer/PHPMailerAutoload.php");
 			
@@ -327,14 +205,14 @@
 
 			if (base_url() == "http://localhost/") 
 			{
-				$command = $_SERVER['DOCUMENT_ROOT'] . "/js/phantomjs/phantomjs" . " " . $_SERVER['DOCUMENT_ROOT'] . "/js/bulletin-maker.js " . base_url() . "gold/bulletin-builder/" . $id;
+				$command = $_SERVER['DOCUMENT_ROOT'] . "/js/third-party/phantomjs/phantomjs" . " " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "public_alert/bulletin/build/" . $id;
 
 				$response = exec( $command );
 
 			} 
 			else 
 			{
-				$command = "phantomjs " . $_SERVER['DOCUMENT_ROOT'] . "/js/bulletin-maker.js " . base_url() . "gold/bulletin-builder/" . $id;
+				$command = "phantomjs " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "public_alert/bulletin/build/" . $id;
 
 				$response = exec( $command );
 			}
