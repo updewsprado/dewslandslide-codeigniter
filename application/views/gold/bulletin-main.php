@@ -227,14 +227,14 @@
 
 								$desc = $responses->trigger_desc->$a;
 								$desc = str_replace("[timestamp]", "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($ordered[count($ordered) - 1]->timestamp))) . "</b>", $desc);
-								if($a === 'E')
+								if($a == 'E')
 								{
 									$temp = $ordered[count($ordered)-1];
 									$desc = str_replace("[magnitude]", $temp->eq_info->magnitude, $desc);
 									$desc = str_replace("[lat]", rtrim($temp->eq_info->latitude, '0') . "&deg;", $desc);
 									$desc = str_replace("[lon]", rtrim($temp->eq_info->longitude, '0') . "&deg;", $desc);
 								}
-								else if($a === 'D')
+								else if($a == 'D')
 								{
 									$temp = $ordered[count($ordered)-1];
 									if ($temp->od_info->is_llmc && $temp->od_info->is_lgu) $group = "LEWC/LGU";
