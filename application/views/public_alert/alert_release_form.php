@@ -242,7 +242,7 @@
                                                 <label for="latitude">Latitude</label>
                                                 <input type="number" step="0.1" min="0" class="form-control" id="latitude" name="latitude" disabled="disabled">
                                             </div>
-                                            <div class="col-sm-3 form-group">
+                                            <div class="col-sm-3 form-group number">
                                                 <label for="longitude">Longitude</label>
                                                 <input type="number" step="0.1" min="0" class="form-control" id="longitude" name="longitude" disabled="disabled">
                                             </div>

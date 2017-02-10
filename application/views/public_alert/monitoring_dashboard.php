@@ -456,11 +456,11 @@
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label for="reporter_1">Reporter 1</label>
-                                <input type="text" class="form-control" id="reporter_1" name="reporter_1" value="<?php echo $last_name . ", " . $first_name; ?>" placeholder="---" readonly="readonly">
+                                <input type="text" class="form-control" id="reporter_1" name="reporter_1" value-id="<?php echo $user_id; ?>" value="<?php echo $last_name . ", " . $first_name; ?>" placeholder="---" readonly="readonly">
                             </div>
                             <div class="form-group col-sm-6">
                                 <label for="reporter_2">Reporter 2</label>
-                                <select class="form-control" id="reporter_2" name="reporter_2" onchange="">
+                                <select class="form-control" id="reporter_2" name="reporter_2">
                                     <option value="">---</option>
                                     <?php foreach($staff as $person): ?>
                                         <?php if( $person->id != $user_id): ?>
