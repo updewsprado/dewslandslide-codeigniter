@@ -28,7 +28,7 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-            	Accomplishment Report <small>Filing Form and Report Generator (Beta)</small>
+            	Accomplishment Report <small>Filing Form and Report Generator</small>
             </h1>
         </div>
     </div>
