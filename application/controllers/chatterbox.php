@@ -5,6 +5,7 @@ class Chatterbox extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('contacts_model');
+		$this->load->model('gintags_helper_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
 	}
@@ -19,6 +20,7 @@ class Chatterbox extends CI_Controller {
 		
 		$data['title'] = $page;
 
+		$this->gintags_helper_model->initialize();
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
 		$this->load->view('communications/chatterbox');
@@ -57,7 +59,6 @@ class Chatterbox extends CI_Controller {
 	}
 
 	public function updatecontacts(){
-
 		$data = json_decode($_POST['contact']);
 
 		if ($data->id[0] == "e") {
@@ -167,5 +168,15 @@ class Chatterbox extends CI_Controller {
 	public function getEmployeeTags(){
 		$result = $this->contacts_model->employeeTags();
 		print json_encode($result->result());
+	}
+
+	public function ginTagsEntry(){
+		$data['tag_name'] = "firstEvahTag";
+		$data['tag_description'] = "Tags first description";
+		$data['timestamp'] = "0000-00-00 00:00";
+		$data['tagger'] = 57;
+		$data['remarks'] = "First Tag Evah";
+		$data['database'] = "smsinbox"; // sample for now
+		$result = $this->gintags_helper_model->insertGinTagEntry($data);
 	}
 }

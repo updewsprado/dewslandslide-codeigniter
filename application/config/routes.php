@@ -41,7 +41,6 @@
 /**
  * Monitoring/Public Alert Routes
  */
->>>>>>> 6969be3eb92b16943ab7fa18228e87ece0d2fb51
 $route['home'] = "monitoring/index";
 $route['dashboard'] = "monitoring/index";
 $route['monitoring/release_form'] = "pubrelease/index/alert_release_form";
@@ -73,6 +72,7 @@ $route['reports/site_maintenance/(:num)'] = "sitemaintenance/individual/$1";
 $route['communications/chatterbox'] = "chatterbox/index";
 $route['communications/responsetracker'] = "responsetracker/index";
 $route['communications/chatterbox/updatecontacts'] = "chatterbox/updatecontacts";
+$route['communications/chatterbox/gen_tags'] = "chatterbox/ginTagsEntry";
 
 /**
  * Data Analysis Pages Routes
