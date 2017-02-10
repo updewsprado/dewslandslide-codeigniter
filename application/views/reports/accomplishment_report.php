@@ -214,7 +214,13 @@
 
 		<div id="generatorTab" class="tab-pane fade">
 			<h3></h3>
+
+			<div class="alert alert-danger">
+				<strong>Note:</strong> The End-Of-Shift Report Generator can only generate reports for any on-going event monitoring at the moment of report generation. It <strong>CANNOT</strong> re-create previous reports for any finished event monitoring and/or previous shifts.
+			</div>
+
 			<form role="form" id="accomplishmentForm" method="get">
+				<hr>
 				<div class="form-group col-sm-6">
 		            <label class="control-label" for="shift_start">Start of Shift</label>
 		            <div class='input-group date datetime shift_start'>
