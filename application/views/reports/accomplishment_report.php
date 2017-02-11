@@ -133,7 +133,7 @@
 		                        <div class="form-group col-sm-12">
 		                            <label class="control-label" for="timestamp_edit">Timestamp</label>
 		                            <div class='input-group date datetime timestamp'>
-		                                <input type='text' class="form-control" id="timestamp_edit" name="timestamp_edit" readonly="readonly" />
+		                                <input type='text' class="form-control" id="timestamp_edit" name="timestamp_edit" />
 		                                <span class="input-group-addon">
 		                                    <span class="glyphicon glyphicon-calendar"></span>
 		                                </span>
