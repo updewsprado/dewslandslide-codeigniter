@@ -189,7 +189,7 @@
 	}
 
 	#sendBulletinModal .modal-body { padding-bottom: 0; }
-	#resultModal .modal-body { font-size: 14px; }
+	#resultModal .modal-body, #errorModal .modal-body  { font-size: 14px; }
 
 	label.error {
         font-size: 12px;
@@ -286,7 +286,7 @@
 
 				<!-- EWI MODAL -->
 
-                <div class="modal fade col-lg-10" id="ewi-asap-modal" role="dialog">
+                <div class="modal fade col-lg-12" id="ewi-asap-modal" role="dialog">
                     <div class="modal-dialog modal-md" id="ewi-modal-cs-dialog">
                         <div class="modal-content" id="ewi-content">
                             <div class="modal-header">
@@ -669,6 +669,23 @@
             </div>
         </div> <!-- End of EDIT Modal -->
 
+        <div class="modal fade" id="errorModal" role="dialog">
+			<div class="modal-dialog">
+   				<div class="modal-content">
+	   				<div class="modal-header">
+	   					<button type="button" class="close" data-dismiss="modal" hidden>&times;</button>
+	   					<h4><strong>Error!</strong></h4>
+					</div>
+    				<div class="modal-body">
+    					<p style="color:red;">There is an error loading the file PublicAlert.JSON. Use the Alert Release Form instead.</p>
+     				</div>
+     				<div class="modal-footer">
+		        		<button class="btn btn-info" data-dismiss="modal" role="button">Okay</button>
+		   			</div>
+   				</div>
+ 			</div>
+		</div>
+
 	</div> <!-- End of Container -->
 </div> <!-- End of Page Wrapper -->
 
@@ -920,15 +937,23 @@
 		  	// }
 	    });
 
-	    ["latest", "extended", "overdue", "candidate"].forEach(function (data) { tableCSSifEmpty(data); });
+	    ["latest", "extended", "overdue", "candidate"].forEach(function (data) { tableCSSifEmpty(data, candidate); });
 
 	    isTableInitialized = true;
 	}
 
-	function tableCSSifEmpty( table ) 
+	function tableCSSifEmpty( table, candidate ) 
 	{
 		if ($("#" + table).dataTable().fnSettings().aoData.length == 0)
 	    {
+	    	if( table == "candidate" && candidate == null ) {
+	    		$('#errorModal').on('show.bs.modal', reposition);
+			    $(window).on('resize', function() {
+			        $('#errorModal:visible').each(reposition);
+			    });
+			    $("#errorModal").modal("show");
+	    	}
+
 	        $("#" + table + " .dataTables_empty").css({"font-size": "20px", "padding": "20px", "width": "600px"})
 	        $("#" + table + " thead").remove();
 	    }
@@ -1237,9 +1262,11 @@
 
 	function reloadTable(table, data) {
 		table.clear();
+		let x = data;
+		if( data == null ) { data = []; x = null; }
 	    table.rows.add(data).draw();
 
-	    ["latest", "extended", "overdue", "candidate"].forEach(function (data) { tableCSSifEmpty(data); });
+	    ["latest", "extended", "overdue", "candidate"].forEach(function (table) { tableCSSifEmpty(table, x); });
 	}
 
 	let modalForm = null, entry = {};
@@ -1455,8 +1482,13 @@
                     $.when(f2)
 					.done(function (a) 
 					{
-						candidate = checkCandidateTriggers(realtime_cache);
-
+						try {
+							candidate = checkCandidateTriggers(realtime_cache);
+						} catch (err) {
+							console.log(err);
+							candidate = null;
+						}
+						
 						reloadTable(latest_table, ongoing.latest);
 						reloadTable(extended_table, ongoing.extended);
 						reloadTable(overdue_table, ongoing.overdue);
@@ -1516,8 +1548,13 @@
 		$.when(f2)
 		.done(function (a) 
 		{
-			candidate = checkCandidateTriggers(realtime_cache);
-			console.log("CANDI", candidate);
+			try {
+				candidate = checkCandidateTriggers(realtime_cache);
+				console.log("CANDI", candidate);
+			} catch (err) {
+				console.log(err);
+				candidate = null;
+			}
 
 			if(isTableInitialized) 
 			{
