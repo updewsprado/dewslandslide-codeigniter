@@ -677,7 +677,7 @@
 	   					<h4><strong>Error!</strong></h4>
 					</div>
     				<div class="modal-body">
-    					<p style="color:red;">There is an error loading the file PublicAlert.JSON. Use the Alert Release Form instead.</p>
+    					<p style="color:red;">There is an error loading the file PublicAlert.JSON. Please refresh the page and see if that solves the problem. If the loading problem persists, use the Alert Release Form for releasing EWI instead.</p>
      				</div>
      				<div class="modal-footer">
 		        		<button class="btn btn-info" data-dismiss="modal" role="button">Okay</button>
