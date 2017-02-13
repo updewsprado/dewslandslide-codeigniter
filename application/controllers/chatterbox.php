@@ -171,12 +171,17 @@ class Chatterbox extends CI_Controller {
 	}
 
 	public function ginTagsEntry(){
-		$data['tag_name'] = "firstEvahTag";
+		$data['tag_name'] = "firstEvahTag1";
 		$data['tag_description'] = "Tags first description";
 		$data['timestamp'] = "0000-00-00 00:00";
-		$data['tagger'] = 57;
+		$data['tagger'] = $this->session->userdata["id"];
 		$data['remarks'] = "First Tag Evah";
 		$data['database'] = "smsinbox"; // sample for now
 		$result = $this->gintags_helper_model->insertGinTagEntry($data);
+	}
+
+	public function getGinTags(){
+		$result = $this->gintags_helper_model->fetchGinTags();
+		var_dump($result);
 	}
 }
