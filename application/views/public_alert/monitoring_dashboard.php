@@ -136,7 +136,7 @@
 			    	<div class="panel panel-default">
 						<div class="panel-heading">Sites Under 3-Day Extended Monitoring</div>
 						<div class="panel-body clearfix">
-							<div class="col-md-12" style="text-align:center; font-size: 12px;"><b>Legend: &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-one-square"></span> First Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-two-square"></span> Second Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-three-square"></span> Third Day</b></div>
+							<div class="col-md-12" style="text-align:center; font-size: 12px;"><b>Legend: &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-one-square"></span> First Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-two-square"></span> Second Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-three-square"></span> Third Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-overdue-square"></span> Overdue</b></div>
 							<div class="col-md-12"><div class="table-responsive">
 				                <table class="table" id="extended">
 				                    <thead>

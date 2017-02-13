@@ -63,13 +63,13 @@ class Monitoring extends CI_Controller
 				date_default_timezone_set('Asia/Manila');
 				$start = strtotime('tomorrow noon', strtotime($event->validity));
 	 			$end = strtotime('+2 days', $start);
-	 			if (strtotime('now') <= $end + 3600*12)
-				{
+	 		// 	if (strtotime('now') <= $end + 3600*12)
+				// {
 					$event->start = $start;
 					$event->end = $end;
 					$event->day = 3 - ceil(($end - (60*60*12) - strtotime('now'))/(60*60*24));
 					array_push($extended, $event);
-				}
+				// }
 			}
 		}
 
