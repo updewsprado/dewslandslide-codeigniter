@@ -20,7 +20,6 @@ class Chatterbox extends CI_Controller {
 		
 		$data['title'] = $page;
 
-		$this->gintags_helper_model->initialize();
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
 		$this->load->view('communications/chatterbox');
@@ -59,6 +58,7 @@ class Chatterbox extends CI_Controller {
 	}
 
 	public function updatecontacts(){
+
 		$data = json_decode($_POST['contact']);
 
 		if ($data->id[0] == "e") {
