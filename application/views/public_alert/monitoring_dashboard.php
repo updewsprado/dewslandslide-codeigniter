@@ -221,6 +221,23 @@
  			</div>
 		</div>
 
+		<div class="modal fade" id="errorModal" role="dialog">
+			<div class="modal-dialog">
+   				<div class="modal-content">
+	   				<div class="modal-header">
+	   					<button type="button" class="close" data-dismiss="modal" hidden>&times;</button>
+	   					<h4><strong>Error!</strong></h4>
+					</div>
+    				<div class="modal-body">
+    					<p style="color:red;">There is an error loading the file PublicAlert.JSON. Please refresh the page and see if that solves the problem. If the loading problem persists, use the Alert Release Form for releasing EWI instead.</p>
+     				</div>
+     				<div class="modal-footer">
+		        		<button class="btn btn-info" data-dismiss="modal" role="button">Okay</button>
+		   			</div>
+   				</div>
+ 			</div>
+		</div>
+
 	    <div class="modal fade" id="resultModal" role="dialog">
 			<div class="modal-dialog">
    				<div class="modal-content">
