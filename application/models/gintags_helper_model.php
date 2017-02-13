@@ -80,12 +80,30 @@ class Gintags_helper_model extends CI_Model {
             echo $ginRefs;
             echo $ginTags;
         } else {
-            echo "Tag does exist";
+            $doGintagExist = $this->checkEntryExist($data,$doExist);
+            if(sizeof($doGintagExist) == 0) {
+                echo "Tag does not exist";
+                $gintag_ref_exist["tag_name"] = $doExist[0]->tag_name;
+                $gintag_ref_exist["tagger"] = $data["tagger"];
+                $gintag_ref_exist["remarks"] = $data["remarks"];
+                $gintag_ref_exist["table_used"] = $data["table_used"];
+                $gintag_ref_exist["timestamp"] = $data["timestamp"];
+                $result = $this->insertIntoGintags($gintag_ref_exist);
+                echo $result;
+            } else {
+                echo "Tag exists";
+            }
         }
     }
 
     public function checkTagExist($data){
         $sql = "SELECT * FROM gintags_reference WHERE tag_name='".$data['tag_name']."'";
+        $query_result = $this->db->query($sql);
+        return $query_result->result();
+    }
+
+    public function checkEntryExist($data,$doExist){
+        $sql = "SELECT * FROM gintags WHERE tag_id_fk = ".$doExist[0]->tag_id." AND table_element_id = ".$data['remarks']."";
         $query_result = $this->db->query($sql);
         return $query_result->result();
     }
@@ -101,7 +119,7 @@ class Gintags_helper_model extends CI_Model {
         $result = $this->db->query($sql);
         $tag_id_fk = $result->result();
 
-        $sql = "INSERT INTO gintags VALUES (0,".$tag_id_fk[0]->tag_id.",'".$data["tagger"]."','".$data["remarks"]."','".$data["database"]."','".$data["timestamp"]."')";
+        $sql = "INSERT INTO gintags VALUES (0,".$tag_id_fk[0]->tag_id.",'".$data["tagger"]."','".$data["remarks"]."','".$data["table_used"]."','".$data["timestamp"]."')";
         $result = $this->db->query($sql);
         return $result;
     }

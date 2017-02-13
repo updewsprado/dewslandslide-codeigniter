@@ -96,6 +96,7 @@
 </div>
 <script type="text/javascript">
   first_name = "<?php echo $first_name; ?>";
+  tagger_user_id = "<?php echo $user_id; ?>";
 </script>
 
 <!-- Modal: Advanced Search Options -->
@@ -468,6 +469,10 @@
       </div>
       <div class="modal-body row-fluid"> 
        <input type="text" class="form-control" id="gintags" name="gintags"  data-role="tagsinput" required>
+        <div class="form-group" id="submit-gintag">
+          <button type="submit" value="submit" id="confirm-gintags" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+          <button type="reset" class="btn btn-danger" data-dismiss="modal">Reset</button>
+        </div>  
       </div>
     </div>  
   </div>
