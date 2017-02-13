@@ -109,19 +109,19 @@ class Chatterbox extends CI_Controller {
 										"Salamat.",
 			"A1-R" => "Magandang %%PANAHON%% po.\n\n".
 							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Maaaring magkaroon ng landslide dahil sa nakaraan o kasalukuyang ulan.\n\n". // %%CURRENT_TIME%% - <HH> <AM,NN,PM,MN>
-							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS.\n".
+							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO A HIGHER ALERT (A2 or A3).\n".
 							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n". //%%GROUND_DATA_TIME%% - <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n". //%%NEXT_EWI%% - <HH> <AM, NN, PM, MN>
 							"Salamat.",
 			"A1-E" => "Magandang %%PANAHON%% po.\n\n".
 								"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Maaring magkaroon ng landslide dahil sa nakaraang lindol o earthquake.\n\n".
-								"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS.\n".
+								"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO A HIGHER ALERT (A2 or A3).\n".
 								"Inaasahan po namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n".
 								"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 								"Salamat.",
 			"A1-D" => "Magandang %%PANAHON%% po.\n\n".
 							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Nag-request ang LEWC/LGU ng monitoring sa site dahil sa <situation>.\n\n".
-							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS.\n".
+							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO A HIGHER ALERT (A2 or A3).\n".
 							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 							"Salamat.",
@@ -171,7 +171,7 @@ class Chatterbox extends CI_Controller {
 	}
 
 	public function ginTagsEntry(){
-		$data['tag_name'] = "firstEvahTag1";
+		$data['tag_name'] = "firstEvahTag2";
 		$data['tag_description'] = "Tags first description";
 		$data['timestamp'] = "0000-00-00 00:00";
 		$data['tagger'] = $this->session->userdata["id"];
