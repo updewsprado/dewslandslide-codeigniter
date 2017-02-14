@@ -1,0 +1,109 @@
+<script type="text/javascript" src="/js/dewslandslide/data_analysis/node_level.js"></script>
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script type="text/javascript" src="/js/third-party/daterangepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/third-party/daterangepicker.css" />
+<link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/node.css" />
+<div id="page-wrapper">
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header" id="header-site">Node Overview</h1>
+            </div>
+        </div>                                        
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li class="active">
+                        <i class="fa fa-dashboard"></i> Monitoring
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3" >
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class=""></i> Search Tool</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table" id="searchtool" >
+                            <tr>
+                                <th> Site: </th>
+                                <td>  <select class="form-control"  name="sitegeneral" id="sitegeneral" style=" width: auto;" >
+                                </td>
+                            </tr>
+                            <tr class="nodetable">
+                                <th class="nodetable"> Node: </th>
+                                <td class="nodetable"> <input class="form-control" name="node" id="node" type="number" min="1" max="41"  maxlength="2" size="2" ></td>
+                            </tr>
+                            <tr class="datetable">
+                                <th class="datetable"> Date: </th>
+                                <td class="datetable">  <div id="reportrange" class="pull-left form-control cols-xs-7" >
+                                    <i class=""></i>&nbsp;
+                                    <span id="dateAnnotation"></span> <b class="caret"></b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <td> <input id="submit"  type="button" value="Submit"  style=" width: 226.22222px;" ></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class=""></i> Mini Alert Map</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="mini-alert-canvas">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="moisture-panel">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"> Column Chart</h3>
+                    </div>
+                    <div class="panel-body" >
+                        <div id="accel-1" ></div><br>
+                        <div id="accel-2" ></div><br>
+                        <div id="accel-3"></div><br>
+                        <div id="accel-c" ></div><br>
+                        <div id="accel-r" ></div><br>
+                        <div id="accel-v" ></div>
+                    </div>
+                </div>
+            </div>                                     
+        </div> 
+    </div>
+</div>
+<div class="modal fade" id="errorMsg" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <p > <h4 style="text-align: center;"> Please Select Site / Node ID ....</h4></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="errorMsg2" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <p > <h4 style="text-align: center;"> Select node from 1 to 40 ....</h4></p>
+            </div>
+        </div>
+    </div>
+</div>
+
