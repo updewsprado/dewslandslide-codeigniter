@@ -25,7 +25,7 @@
 	        </div>
 	        <!-- /.row -->
 
-	        <div class="well well-sm"><span class="glyphicon glyphicon-list-alt"></span><b>&nbsp;&nbsp;For the list of all Site Maintenance Reports, click <a href="<?php echo base_url(); ?>gold/sitemaintenancereport/all">here.</a></b></div>
+	        <div class="well well-sm"><span class="glyphicon glyphicon-list-alt"></span><b>&nbsp;&nbsp;For the list of all Site Maintenance Reports, click <a href="<?php echo base_url(); ?>reports/site_maintenance/all">here.</a></b></div>
 
 	        <div class="row">
 	        	<div class="col-sm-5">
@@ -188,9 +188,6 @@
 		    		</div>
 		    	</div>
 			</div>
-
-		</div> <!-- End of div container-fluid -->
-
-	</form>
-
+		</form>
+	</div> <!-- End of div container-fluid -->
 </div> <!-- End of div page-wrapper -->

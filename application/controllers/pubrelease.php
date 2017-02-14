@@ -57,6 +57,8 @@ class Pubrelease extends CI_Controller {
 				$data['events'] = $this->pubrelease_model->getAllEvents();
 		    	$data['releases'] = $this->pubrelease_model->getAllReleasesWithSite();
 				break;
+
+			case 'monitoring_faq': $data['title'] = "DEWS-Landslide Monitoring FAQ";
 		}
 
 		$this->load->view('templates/header', $data);

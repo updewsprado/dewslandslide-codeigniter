@@ -205,14 +205,14 @@
 
 			if (base_url() == "http://localhost/") 
 			{
-				$command = $_SERVER['DOCUMENT_ROOT'] . "/js/third-party/phantomjs/phantomjs" . " " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "public_alert/bulletin/build/" . $id;
+				$command = $_SERVER['DOCUMENT_ROOT'] . "/js/third-party/phantomjs/phantomjs" . " " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/build/" . $id;
 
 				$response = exec( $command );
 
 			} 
 			else 
 			{
-				$command = "phantomjs " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "public_alert/bulletin/build/" . $id;
+				$command = "phantomjs " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/build/" . $id;
 
 				$response = exec( $command );
 			}

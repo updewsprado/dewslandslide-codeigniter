@@ -242,7 +242,7 @@
                                                 <label for="latitude">Latitude</label>
                                                 <input type="number" step="0.1" min="0" class="form-control" id="latitude" name="latitude" disabled="disabled">
                                             </div>
-                                            <div class="col-sm-3 form-group">
+                                            <div class="col-sm-3 form-group number">
                                                 <label for="longitude">Longitude</label>
                                                 <input type="number" step="0.1" min="0" class="form-control" id="longitude" name="longitude" disabled="disabled">
                                             </div>
@@ -556,7 +556,7 @@
                         <p>Successfully inserted the entry!</p>
                     </div>
                     <div class="modal-footer">
-                        <a href="<?php echo base_url();?>monitoring/events" class="btn btn-info" role="button">Add More Entries</a>
+                        <a href="<?php echo base_url();?>monitoring/release_form" class="btn btn-info" role="button">Add More Entries</a>
                         <a href="#" id="view" class="btn btn-success" role="button">View Recent Entry</a>
                     </div>
                 </div>

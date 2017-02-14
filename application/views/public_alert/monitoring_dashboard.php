@@ -136,7 +136,7 @@
 			    	<div class="panel panel-default">
 						<div class="panel-heading">Sites Under 3-Day Extended Monitoring</div>
 						<div class="panel-body clearfix">
-							<div class="col-md-12" style="text-align:center; font-size: 12px;"><b>Legend: &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-one-square"></span> First Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-two-square"></span> Second Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-three-square"></span> Third Day</b></div>
+							<div class="col-md-12" style="text-align:center; font-size: 12px;"><b>Legend: &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-one-square"></span> First Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-two-square"></span> Second Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-three-square"></span> Third Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-overdue-square"></span> Overdue</b></div>
 							<div class="col-md-12"><div class="table-responsive">
 				                <table class="table" id="extended">
 				                    <thead>
@@ -216,6 +216,23 @@
        					</div>
      				</div>
      				<div class="modal-footer" id="modalTitle" hidden>
+		   			</div>
+   				</div>
+ 			</div>
+		</div>
+
+		<div class="modal fade" id="errorModal" role="dialog">
+			<div class="modal-dialog">
+   				<div class="modal-content">
+	   				<div class="modal-header">
+	   					<button type="button" class="close" data-dismiss="modal" hidden>&times;</button>
+	   					<h4><strong>Error!</strong></h4>
+					</div>
+    				<div class="modal-body">
+    					<p style="color:red;">There is an error loading the file PublicAlert.JSON. Please refresh the page and see if that solves the problem. If the loading problem persists, use the Alert Release Form for releasing EWI instead.</p>
+     				</div>
+     				<div class="modal-footer">
+		        		<button class="btn btn-info" data-dismiss="modal" role="button">Okay</button>
 		   			</div>
    				</div>
  			</div>
@@ -456,11 +473,11 @@
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label for="reporter_1">Reporter 1</label>
-                                <input type="text" class="form-control" id="reporter_1" name="reporter_1" value="<?php echo $last_name . ", " . $first_name; ?>" placeholder="---" readonly="readonly">
+                                <input type="text" class="form-control" id="reporter_1" name="reporter_1" value-id="<?php echo $user_id; ?>" value="<?php echo $last_name . ", " . $first_name; ?>" placeholder="---" readonly="readonly">
                             </div>
                             <div class="form-group col-sm-6">
                                 <label for="reporter_2">Reporter 2</label>
-                                <select class="form-control" id="reporter_2" name="reporter_2" onchange="">
+                                <select class="form-control" id="reporter_2" name="reporter_2">
                                     <option value="">---</option>
                                     <?php foreach($staff as $person): ?>
                                         <?php if( $person->id != $user_id): ?>
