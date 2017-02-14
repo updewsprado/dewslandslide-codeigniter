@@ -38,24 +38,52 @@
 |
 */
 
-$route['test'] = "test";
-$route['test/(:any)'] = "test/$1";
+/**
+ * Monitoring/Public Alert Routes
+ */
+$route['home'] = "monitoring/index";
+$route['dashboard'] = "monitoring/index";
+$route['monitoring/release_form'] = "pubrelease/index/alert_release_form";
+$route['monitoring/events'] = "pubrelease/index/monitoring_events_all";
+$route['monitoring/events/(:num)/(:num)'] = "pubrelease/index/monitoring_events_individual/$1/$2";
+$route['monitoring/events/(:num)'] = "pubrelease/index/monitoring_events_individual/$1";
+$route['monitoring/faq'] = "pubrelease/index/monitoring_faq";
 
-$route['pubrelease'] = "pubrelease";
-$route['pubrelease/(:any)'] = "pubrelease/$1";
+/**
+ * Bulletin Pages Routes
+ */
+$route['monitoring/bulletin/view/(:any)'] = "bulletin/view/$1";
+$route['monitoring/bulletin/build/(:num)'] = "bulletin/build/$1";
+$route['monitoring/bulletin/edit/(:num)'] = "bulletin/edit/$1";
+$route['monitoring/bulletin/main/(:num)/(:any)'] = "bulletin/main/$1/$2";
 
-$route['dice'] = "dice/view";
-$route['dice/(:any)'] = "dice/view/$1";
+/**
+ * Reports Pages Routes
+ */
+$route['reports/accomplishment/form'] = "accomplishment/index";
+$route['reports/accomplishment/checker'] = "accomplishment/checker";
+$route['reports/site_maintenance/form'] = "sitemaintenance/index";
+$route['reports/site_maintenance/all'] = "sitemaintenance/all";
+$route['reports/site_maintenance/(:num)'] = "sitemaintenance/individual/$1";
 
-//V3 Alpha
-$route['v3alpha'] = "v3alpha/view";
-$route['v3alpha/logout'] = "v3alpha/logout";
-$route['v3alpha/node/(:any)/(:num)'] = "v3alpha/view/node/$1/$2";
-$route['v3alpha/site/(:any)'] = "v3alpha/view/site/$1";
-$route['v3alpha/(:any)'] = "v3alpha/view/$1";
+/**
+ * Communications Pages Routes
+ */
+$route['communications/chatterbox'] = "chatterbox/index";
+$route['communications/responsetracker'] = "responsetracker/index";
+$route['communications/chatterbox/updatecontacts'] = "chatterbox/updatecontacts";
+
+/**
+ * Data Analysis Pages Routes
+ */
+$route['data_analysis/node'] = "node_level_page";
+$route['data_analysis/site'] = "site_level_page";
+$route['data_analysis/surficial'] = "surficial_page";
+$route['data_analysis/subsurface'] = "subsurface_page";
+$route['data_analysis/sensor_overview'] = "sensor_overview_page";
 
 //Gold
-$route['gold'] = "monitoring/index";
+//$route['gold'] = "monitoring/index";
 $route['logout'] = "gold/logout";
 $route['gold/logout'] = "gold/logout";
 $route['gold/node/(:any)/(:num)/(:num)/(:num)'] = "gold/view/node/$1/$2/$3/$4";
@@ -65,9 +93,6 @@ $route['gold/site/(:any)/(:num)'] = "gold/view/node/$1/$2";
 $route['gold/site/(:any)'] = "gold/view/site/$1";
 $route['gold/monitoring'] = "gold/view/monitoring";
 
-/*$route['gold/publicrelease/individual/(:num)'] = "gold/view/publicrelease_individual/$1";
-$route['gold/publicrelease/all'] = "gold/view/publicrelease_all";
-$route['gold/publicrelease/edit'] = "gold/view/publicrelease_edit";*/
 
 $route['gold/publicrelease'] = "pubrelease/index/publicrelease";
 $route['gold/publicrelease/individual/(:num)'] = "pubrelease/index/publicrelease_individual/$1";
@@ -81,8 +106,6 @@ $route['gold/accomplishmentreport/all'] = "gold/view/accomplishmentreport_all";
 
 $route['gold/sitemaintenancereport/individual/(:num)'] = "gold/view/sitemaintenancereport_individual/$1";
 $route['gold/sitemaintenancereport/all'] = "gold/view/sitemaintenancereport_all";
-
-
 $route['gold/monitoring_dashboard'] = "monitoring/index";
 
 $route['gold/sample_view'] = "sample/index";
@@ -91,27 +114,8 @@ $route['gold/bulletin-builder/(:num)'] = "bulletin/build/$1";
 $route['gold/bulletin-editor/(:num)'] = "bulletin/edit/$1";
 $route['gold/bulletin-main/(:num)/(:any)'] = "bulletin/main/$1/$2";
 
-$route['gold/(:any)'] = "gold/view/$1";
-
-
-
-//Beta
-$route['beta'] = "beta/view";
-$route['beta/site/(:any)/(:num)'] = "beta/view/node/$1/$2";
-$route['beta/site/(:any)'] = "beta/view/site/$1";
-$route['beta/(:any)'] = "beta/view/$1";
-
-//Alpha
-$route['alpha'] = "alpha/view";
-$route['alpha/(:any)'] = "alpha/view/$1";
-$route['mempage'] = "mempage";
-$route['mempage/(:any)'] = "mempage/$1";
-//$route['default_controller'] = "alpha/view";
-$route['(:any)'] = "$1";
-//$route['default_controller'] = "gold/view";
 $route['default_controller'] = "lin";
 $route['404_override'] = '';
-
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

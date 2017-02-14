@@ -1,6 +1,8 @@
+        
+
         <div id="page-wrapper">
 
-            <div class="container-fluid">
+            <div class="container">
 
                 <!-- Page Heading -->
                 <div class="row">
@@ -21,4 +23,7 @@
                 <!-- /.row -->
 
             </div>
-            <!-- /#page-wrapper -->
+            <!-- Container Fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->

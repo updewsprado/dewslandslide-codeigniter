@@ -13,38 +13,19 @@ class Monitoring extends CI_Controller
 	{
 		$this->is_logged_in();
 
-		$page = 'monitoring_dashboard';
+		$data['title'] = 'DEWS-L Monitoring Dashboard';
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
 		$data['user_id'] = $this->session->userdata("id");
-		
-		/*** TEMPORARY REQUIRED DATA (To be deleted soon) ***/
-		$data['title'] = $page;
-		$data['version'] = "gold";
-		$data['folder'] = "goldF";
-		$data['imgfolder'] = "images";
-		
-		$data['charts'] = $data['tables'] = $data['forms'] = $data['bselements'] = '';
-		$data['bsgrid'] = $data['blank'] = $data['home'] = $data['monitoring'] = '';
-		$data['dropdown_chart'] = $data['site'] = $data['node'] = '';
-		$data['alert'] = $data['gmap'] = $data['commhealth'] = $data['analysisdyna'] = '';
-		$data['position'] = $data['presence'] = $data['customgmap'] = '';
-		$data['slider'] = $data['nodereport'] = $data['reportevent'] = '';
-		$data['sentnodetotal'] = $data['rainfall'] = $data['lsbchange'] = '';
-		$data['accel'] = $data['showplots'] = $data['showdateplots'] = '';
-		$data['sitesCoord'] = 0;
-		$data['datefrom'] = $data['dateto'] = '';
-		$data['ismap'] = false;
-		/*** End ***/
 
 		$data['events'] = $this->monitoring_model->getOnGoingAndExtended();
 		$data['sites'] = $this->monitoring_model->getSites();
 		$data['staff'] = $this->monitoring_model->getStaff();
 
-		$this->load->view('gold/templates/header', $data);
-		$this->load->view('gold/templates/nav');
-		$this->load->view('gold/' . $page, $data);
-		$this->load->view('gold/templates/footer');
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/nav');
+		$this->load->view('public_alert/monitoring_dashboard', $data);
+		$this->load->view('templates/footer');
 	}
 
 	public function getOnGoingAndExtended()
@@ -82,13 +63,13 @@ class Monitoring extends CI_Controller
 				date_default_timezone_set('Asia/Manila');
 				$start = strtotime('tomorrow noon', strtotime($event->validity));
 	 			$end = strtotime('+2 days', $start);
-	 			if (strtotime('now') <= $end + 3600*12)
-				{
+	 		// 	if (strtotime('now') <= $end + 3600*12)
+				// {
 					$event->start = $start;
 					$event->end = $end;
 					$event->day = 3 - ceil(($end - (60*60*12) - strtotime('now'))/(60*60*24));
 					array_push($extended, $event);
-				}
+				// }
 			}
 		}
 

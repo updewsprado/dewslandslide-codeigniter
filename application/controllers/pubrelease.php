@@ -11,72 +11,40 @@ class Pubrelease extends CI_Controller {
 
 	public function index($page)
 	{
-
 		$this->is_logged_in();
 
 		$data['user_id'] = $this->session->userdata("id");
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
 		
-		/*** TEMPORARY REQUIRED DATA (To be deleted soon) ***/
-		$data['title'] = $page;
-		$data['version'] = "gold";
-		$data['folder'] = "goldF";
-		$data['imgfolder'] = "images";
-		
-		$data['charts'] = $data['tables'] = $data['forms'] = $data['bselements'] = '';
-		$data['bsgrid'] = $data['blank'] = $data['home'] = $data['monitoring'] = '';
-		$data['dropdown_chart'] = $data['site'] = $data['node'] = '';
-		$data['alert'] = $data['gmap'] = $data['commhealth'] = $data['analysisdyna'] = '';
-		$data['position'] = $data['presence'] = $data['customgmap'] = '';
-		$data['slider'] = $data['nodereport'] = $data['reportevent'] = '';
-		$data['sentnodetotal'] = $data['rainfall'] = $data['lsbchange'] = '';
-		$data['accel'] = $data['showplots'] = $data['showdateplots'] = '';
-		$data['sitesCoord'] = 0;
-		$data['datefrom'] = $data['dateto'] = '';
-		$data['ismap'] = false;
-		/*** End ***/
-
-		switch ($page) 
+		switch ($page)
 		{
-			case 'publicrelease':
+			case 'alert_release_form':
+				$data['title'] = "DEWS-Landslide Early Warning Release Form";
 				$data['sites'] = $this->pubrelease_model->getSites();
 				$data['staff'] = $this->pubrelease_model->getStaff();
 				$data['active'] = $this->pubrelease_model->getOnGoingAndExtended();
 				break;
 
-			case 'publicrelease_all':
-	
-				//$data['releases'] = $this->pubrelease_model->getAllPublicReleases();
+			case 'monitoring_events_individual':
+				$id = $this->uri->segment(3);
+				$release_id = $this->uri->segment(4);
+				if($release_id != NULL) $data['to_highlight'] = $release_id;
+				else $data['to_highlight'] = null;
 
-				//Load the pubrelease.php controller
-				$this->load->library('../controllers/pubrelease');
-				$data['releases'] = $this->pubrelease->testAllReleasesCached();
-
-				break;
-
-			case 'publicrelease_individual':
-				$id = $this->uri->segment(4);
-				$data['event'] = $temp = $this->pubrelease_model->getSinglePublicRelease($id);
-
-				$temp = json_decode($temp);
-				$site = $temp[0]->site;
-				$data['alert_history'] = $this->pubrelease_model->getAlertHistory($site);
-				break;
-
-			case 'publicrelease_event_individual':
-				$id = $this->uri->segment(5);
 				$data['event'] = $this->pubrelease_model->getEvent($id);
 				if( $data['event'] == "[]") {
-					show_404();
-					break;
+				 	show_404();
+				 	break;
 				}
+
+				$data['title'] = "DEWS-Landslide Individual Monitoring Event Page";
 				$data['releases'] = $this->pubrelease_model->getAllRelease($id);
 				$data['triggers'] = $this->pubrelease_model->getAllEventTriggers($id);
 				$data['staff'] = $this->pubrelease_model->getStaff();
 				break;
 
-			case 'publicrelease_event_all':
+			case 'monitoring_events_all':
 	
 				//$data['releases'] = $this->pubrelease_model->getAllPublicReleases();
 				//$this->load->library('../controllers/pubrelease');
@@ -85,15 +53,18 @@ class Pubrelease extends CI_Controller {
 				// $data['events'] = $temp['events'];
 				// $data['releases'] = $temp['releases'];				
 				
+				$data['title'] = "DEWS-Landslide Monitoring Events Table";
 				$data['events'] = $this->pubrelease_model->getAllEvents();
 		    	$data['releases'] = $this->pubrelease_model->getAllReleasesWithSite();
 				break;
+
+			case 'monitoring_faq': $data['title'] = "DEWS-Landslide Monitoring FAQ";
 		}
 
-		$this->load->view('gold/templates/header', $data);
-		$this->load->view('gold/templates/nav');
-		$this->load->view('gold/' . $page, $data);
-		$this->load->view('gold/templates/footer');
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/nav');
+		$this->load->view('public_alert/' . $page, $data);
+		$this->load->view('templates/footer');
 	}
 
 	public function getLastSiteEvent($site_id)
