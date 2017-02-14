@@ -77,10 +77,12 @@ $route['communications/chatterbox/updatecontacts'] = "chatterbox/updatecontacts"
  * Data Analysis Pages Routes
  */
 $route['data_analysis/node'] = "node_level_page";
+// $route['data_analysis/node/all/(:any)'] = "node_level_page";
 $route['data_analysis/site'] = "site_level_page";
 $route['data_analysis/surficial'] = "surficial_page";
 $route['data_analysis/subsurface'] = "subsurface_page";
 $route['data_analysis/sensor_overview'] = "sensor_overview_page";
+$route['data_analysis/nodereport'] = "node_report_page";
 
 //Gold
 //$route['gold'] = "monitoring/index";

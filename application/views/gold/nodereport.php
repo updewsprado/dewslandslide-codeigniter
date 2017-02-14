@@ -1,9 +1,9 @@
-
+<script type="text/javascript" src="/js/dewslandslide/dewspresence.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewspresence.css">
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
         <div id="page-wrapper">
-
-            <div class="container-fluid">
-
-                <!-- Page Heading -->
+            <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
@@ -22,8 +22,7 @@
                         </ol>
                     </div>
                 </div>
-                <!-- /.row -->
-
+                
                 <div class="row">
                     <div class="col-lg-12">
                     	<div class="panel panel-default">
@@ -46,25 +45,13 @@
                             </div>
                               <div class="panel-body" id="panelbody">
   							              	<div id="alert-canvas">	</div>
-                                <br><br><br><br>
-                                 <br><br><br><br>
-                                  <br><br><br><br>
-                                   <br><br><br><br>
-                                    <br><br><br><br>
-                                 <br><br><br><br>
-                                  <br><br><br><br>
-                                   <br><br><br><br>
                               </div>
                           </div>
                     </div>
                 </div>
-                <!-- /.row -->
-
             </div>
-            <!-- /.container-fluid -->
-
         </div>
-        <!-- /#page-wrapper -->
+
 
 <!-- Modal -->
 <?php echo validation_errors(); ?>
@@ -115,9 +102,6 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <input type="submit" class="btn btn-primary" name="submit" value="Send message"/>
-          <!--
-          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="sendMessage()">Send message</button>
-          -->
         </div>
       </div>
     </div>
@@ -131,15 +115,9 @@ window.onload = function() {
 	nodeAlertJSON = <?php echo $nodeAlerts; ?>;
 	maxNodesJSON = <?php echo $siteMaxNodes; ?>;
 	nodeStatusJSON = <?php echo $nodeStatus; ?>;
-
-	$('#formGeneral').hide();
-	$('#formDate').hide();
-  $('#button_right').hide();
-
 	initAlertPlot();
 }
 </script>
 
-<script src='http://codepen.io/assets/editor/live/css_live_reload_init.js'></script>
 
-<!-- feature updates -->
+

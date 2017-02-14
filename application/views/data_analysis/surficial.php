@@ -128,7 +128,6 @@
           <div class="panel panel-default">
             <div class="tab-content">
               <div class="tab-pane fade in active" id="graphS1" role="tabpanel">
-                <table id="ground_table" class="display table" cellspacing="0" width="100%"></table>
               </div>
               <div class="tab-pane " id="graphS2" role="tabpanel"> 
                 <div id="ground_graph" ></div>

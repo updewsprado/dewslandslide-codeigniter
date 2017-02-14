@@ -17,6 +17,10 @@ class Node_level_page extends CI_Controller {
 		$data['user_id'] = $this->session->userdata("id");
 		
 		$data['title'] = $page;
+		$data['current_site'] = $this->uri->segment(3);
+		$data['node_id'] = $this->uri->segment(4);
+		$data['from'] = $this->uri->segment(4);
+		$data['to'] = $this->uri->segment(5);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
@@ -31,6 +35,13 @@ class Node_level_page extends CI_Controller {
 		print json_encode($result);
 	}
 
+	public function getAllSingleAlert(){
+		$data_result = $_POST['data'];
+		$data['nodeAlerts'] = $this->Alert_model->getSingleAlert($data_result['site']);
+		$data['siteMaxNodes'] = $this->Alert_model->getSingleMaxNode($data_result['site']);
+		$data['nodeStatus'] = $this->Alert_model->getSingleNodeStatus($data_result['site']);	
+		print json_encode($data);
+	}
 
 
 }
