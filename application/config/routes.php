@@ -41,6 +41,7 @@
 /**
  * Monitoring/Public Alert Routes
  */
+>>>>>>> 6969be3eb92b16943ab7fa18228e87ece0d2fb51
 $route['home'] = "monitoring/index";
 $route['dashboard'] = "monitoring/index";
 $route['monitoring/release_form'] = "pubrelease/index/alert_release_form";
