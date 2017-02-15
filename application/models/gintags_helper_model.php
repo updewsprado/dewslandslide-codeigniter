@@ -74,22 +74,17 @@ class Gintags_helper_model extends CI_Model {
     public function insertGinTagEntry($data){
         $doExist = $this->checkTagExist($data);
         if(sizeof($doExist) == 0) {
-            echo "Tag does not exist";
             $ginRefs = $this->insertIntoGinRef($data);
             $ginTags = $this->insertIntoGintags($data);
-            echo $ginRefs;
-            echo $ginTags;
         } else {
             $doGintagExist = $this->checkEntryExist($data,$doExist);
             if(sizeof($doGintagExist) == 0) {
-                echo "Tag does not exist";
                 $gintag_ref_exist["tag_name"] = $doExist[0]->tag_name;
                 $gintag_ref_exist["tagger"] = $data["tagger"];
                 $gintag_ref_exist["remarks"] = $data["remarks"];
                 $gintag_ref_exist["table_used"] = $data["table_used"];
                 $gintag_ref_exist["timestamp"] = $data["timestamp"];
                 $result = $this->insertIntoGintags($gintag_ref_exist);
-                echo $result;
             } else {
                 echo "Tag exists";
             }
@@ -124,8 +119,12 @@ class Gintags_helper_model extends CI_Model {
         return $result;
     }
 
-    public function fetchGinTags(){
-        $sql = "SELECT gintags.gintags_id,gintags_reference.tag_name,gintags_reference.tag_description,membership.first_name as tagger_firstname,membership.last_name as tagger_lastname,gintags.table_element_id,gintags.table_used,gintags.timestamp from gintags inner join gintags_reference ON gintags.tag_id_fk=gintags_reference.tag_id inner join membership ON gintags.tagger_eid_fk = membership.id";
+    public function fetchGinTags($data = null){
+        if ($data == null) {
+            $sql = "SELECT gintags.gintags_id,gintags_reference.tag_name,gintags_reference.tag_description,membership.first_name as tagger_firstname,membership.last_name as tagger_lastname,gintags.table_element_id,gintags.table_used,gintags.timestamp from gintags inner join gintags_reference ON gintags.tag_id_fk=gintags_reference.tag_id inner join membership ON gintags.tagger_eid_fk = membership.id";   
+        } else {
+            $sql = "SELECT gintags.gintags_id,gintags_reference.tag_name,gintags_reference.tag_description,membership.first_name as tagger_firstname,membership.last_name as tagger_lastname,gintags.table_element_id,gintags.table_used,gintags.timestamp from gintags inner join gintags_reference ON gintags.tag_id_fk=gintags_reference.tag_id inner join membership ON gintags.tagger_eid_fk = membership.id WHERE gintags.table_element_id = ".$data."";   
+        }
         $result = $this->db->query($sql);
         return $result->result();
     }

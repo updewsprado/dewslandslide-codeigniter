@@ -103,6 +103,10 @@ class Chatterbox extends CI_Controller {
 
 	public function getewi(){
 		$ewi_template = array(
+			"ROUTINE" => "Magandang %%PANAHON%% po.\n\n".
+										"A0 ang alert level sa %%SBMP%% ngayong %%DATE%% 12NN.\n".
+										"Inaasahan namin ang pagpapadala ng LEWC ng ground data para sa susunod na routine monitoring.\n\n".
+										"Salamat.",
 			"A0" => "Magandang %%PANAHON%% po.\n\n".
 										"A0 ang alert level sa %%SBMP%% ngayong %%DATE%% 12NN.\n".
 										"Inaasahan namin ang pagpapadala ng LEWC ng ground data bukas %%EXT_NEXT_DAY%% bago mag-11:30 AM para sa %%EXT_DAY%% ng 3-day extended monitoring.\n\n".
@@ -174,7 +178,7 @@ class Chatterbox extends CI_Controller {
 		$gintags = json_decode($_POST['gintags']);
 		$data['tag_name'] = $gintags->tag_name;
 		$data['tag_description'] = $gintags->tag_description;
-		$data['timestamp'] = "0000-00-00 00:00";
+		$data['timestamp'] = $gintags->timestamp;
 		$data['tagger'] = $gintags->tagger;
 		$data['remarks'] = $gintags->remarks;
 		$data['table_used'] = $gintags->table_used;
@@ -182,7 +186,8 @@ class Chatterbox extends CI_Controller {
 	}
 
 	public function getGinTags(){
-		$result = $this->gintags_helper_model->fetchGinTags();
-		var_dump($result);
+		$gintags = json_decode($_POST['gintags']);
+		$result = $this->gintags_helper_model->fetchGinTags($gintags);
+		print json_encode($result);
 	}
 }
