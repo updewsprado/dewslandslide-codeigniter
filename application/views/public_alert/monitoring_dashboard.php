@@ -17,6 +17,11 @@
 	$events = json_decode($events);
 ?>
 
+<script type="text/javascript">
+  first_name = "<?php echo $first_name; ?>";
+  tagger_user_id = "<?php echo $user_id; ?>";
+</script>
+
 <div id="page-wrapper" style="height: 100%;">
 	<div class="container">
 		<!-- Page Heading -->
