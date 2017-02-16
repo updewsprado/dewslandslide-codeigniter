@@ -140,6 +140,28 @@
 
 		}
 
+		public function AccelfilteredVersion1($site,$fdate,$tdate,$nid){// example http://localhost/api/AccelfilteredVersion1/blcb/2014-05-25/2016-06-25/1
+			$os = PHP_OS;
+
+			if (strpos($os,'WIN') !== false) {
+				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
+				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\accelfiteredVersion1.py';
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
+				$fileName = '/var/www/updews-pycodes/Liaison/accelfiteredVersion1.py';
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
+			
+			$command =$pythonPath.' '.$fileName.' '.$site.' '.$fdate.' '.$tdate.' '.$nid;
+			exec($command, $output, $return);
+			print json_encode($output);
+
+		}
+
 		public function SomsfilteredData($site,$fdate,$tdate,$nid,$mode){ //example http://localhost/api/SomsfilteredData/laysb/2014-05-25/2016-06-25/2/0
 
 			$os = PHP_OS;

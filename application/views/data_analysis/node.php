@@ -32,7 +32,7 @@
                             </tr>
                             <tr class="nodetable">
                                 <th class="nodetable"> Node: </th>
-                                <td class="nodetable"> <input class="form-control" name="node" id="node" type="number" min="1" max="41"  maxlength="2" size="2" ></td>
+                                <td class="nodetable" id="nodetable"> <input class="form-control" name="node" id="node" type="number" min="1" max="41"  maxlength="2" size="2" value=""></td>
                             </tr>
                             <tr class="datetable">
                                 <th class="datetable"> Date: </th>

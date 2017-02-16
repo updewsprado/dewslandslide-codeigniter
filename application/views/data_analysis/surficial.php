@@ -3,55 +3,7 @@
 <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
-
-
-<style type="text/css">
-  .rainPlot {
-    margin-left: auto;
-    margin-right: auto;
-    min-width: 100%;
-    height: auto;
-  }
-  .server-action-menu {
-    font-size: 15px;
-    background-image: ;
-    border-radius:10px;
-    padding: 5px;
-  }
-  #green0{
-    background-image: linear-gradient(to bottom, #99ff99 0%, rgba(125, 185, 232, 0) 100%)
-  }
-
-  .dygraphDefaultAnnotation {
-    color:#000;
-
-  }
-  .annotationA1 {
-   background-color: #FFFF99;
- }
- .annotationA2 {
-   background-color:  #FFCC00;
- }
- .annotationA3 {
-   background-color:  #FF3333;
- }
- .annotationND {
-   background-color: #66FF99;
- }
- .annotationC {
-  background-color:  #66FFFF;
-}
-.annotationM {
-  background-color:   #FFFFCC;
-}
-#submit{     
-  height: 32px;
-  margin-top: 5px;
-  width: 156px;
-}
-</style>
-
-
+<link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/surficial.css">
 <div id="page-wrapper">
   <div class="container">
     <div class="row">
@@ -115,13 +67,17 @@
           </div>
         </div>
         <div class="col-lg-12">
-          <div class="panel-heading">
+          <div class="panel-heading" >
+            <div id="alert_div"></div>
             <ul class="nav nav-tabs" role="tablist">
               <li class="active">
                 <a class="nav-link active" data-toggle="tab" href="#graphS1" role="tab" aria-expanded="false"><i class=""></i> Surficial Measurement  </a>
               </li>
               <li class="nav-item" >
                 <a class="nav-link active" data-toggle="tab" href="#graphS2" role="tab"><i class=""></i> Surficial Measurement Graph </a>
+              </li>
+              <li class="nav-item" >
+                <a class="nav-link active" data-toggle="tab" href="#graphS3" role="tab"><i class=""></i> Surficial Measurement Form </a>
               </li>
             </ul>
           </div>
@@ -130,6 +86,9 @@
               <div class="tab-pane fade in active" id="graphS1" role="tabpanel">
               </div>
               <div class="tab-pane " id="graphS2" role="tabpanel"> 
+                <div id="ground_graph" ></div>
+              </div>
+              <div class="tab-pane " id="graphS3" role="tabpanel"> 
                 <div id="ground_graph" ></div>
               </div>
             </div>
