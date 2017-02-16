@@ -1,5 +1,7 @@
 	<footer>
-		
+		<p>
+			&copy; Copyright  by PradoArturo
+		</p>
 	</footer>
 	
 	<script type="text/javascript" charset="UTF-8">

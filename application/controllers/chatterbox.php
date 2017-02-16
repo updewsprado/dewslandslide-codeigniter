@@ -9,34 +9,6 @@ class Chatterbox extends CI_Controller {
 		$this->load->library('form_validation');
 	}
 
-	public function index() {
-		$this->is_logged_in();
-
-		$page = 'Chatterbox';
-		$data['first_name'] = $this->session->userdata('first_name');
-		$data['last_name'] = $this->session->userdata('last_name');
-		$data['user_id'] = $this->session->userdata("id");
-		
-		$data['title'] = $page;
-
-		$this->load->view('templates/header', $data);
-		$this->load->view('templates/nav');
-		$this->load->view('communications/chatterbox');
-		$this->load->view('communications/handlebars-chatterbox');
-		$this->load->view('templates/footer');
-	}
-
-	public function is_logged_in() {
-		$is_logged_in = $this->session->userdata('is_logged_in');
-		
-		if(!isset($is_logged_in) || ($is_logged_in !== TRUE)) {
-			echo 'You don\'t have permission to access this page. <a href="../lin">Login</a>';
-			die();
-		}
-		else {
-		}
-	}
-
 	public function addcontacts() {
 		$data = json_decode($_POST['contact']);
 		if ($data->category == "dewslcontacts") {
@@ -92,19 +64,102 @@ class Chatterbox extends CI_Controller {
 
 	public function get_employee_contacts(){
 		$result = $this->contacts_model->getEmployeeContacts();
-		print json_encode($result->result());
+		echo "<thead>";
+		echo "<tr>";
+		echo "<th style='display:none;'>eid</th>";
+		echo "<th>First name</th>";
+		echo "<th>Last name</th>";
+		echo "<th>Nickname</th>";
+		echo "<th>Birthdate</th>";
+		echo "<th>Email</th>";
+		echo "<th>Contact #</th>";
+		echo "<th>Group Tags</th>";
+		echo "</tr>";
+		echo "</thead>";
+		echo "<tfoot>";
+		echo "<tr>";
+		echo "<th style='display:none;'>eid</th>";
+		echo "<th>First name</th>";
+		echo "<th>Last name</th>";
+		echo "<th>Nickname</th>";
+		echo "<th>Birthdate</th>";
+		echo "<th>Email</th>";
+		echo "<th>Contact #</th>";
+		echo "<th>Group Tags</th>";
+		echo "</tr>";
+		echo "</tfoot>";
+		echo "<tbody>";
+		foreach ($result->result() as $data) {
+			echo "<tr>";
+			echo "<td style='display:none;'>e_".$data->eid."</td>";
+			echo "<td>".$data->firstname."</td>";
+			echo "<td>".$data->lastname."</td>";
+			echo "<td>".$data->nickname."</td>";
+			echo "<td>".$data->birthday."</td>";
+			echo "<td>".$data->email."</td>";
+			echo "<td>".$data->numbers."</td>";
+			echo "<td>".$data->grouptags."</td>";
+			echo "</tr>";
+		}
+		echo "</tbody>";
 	}
 
 	public function get_community_contacts(){
 		$result = $this->contacts_model->getCommunityContacts();
-		print json_encode($result->result());
+		echo "<thead>";
+		echo "<tr>";
+		echo "<th style='display:none;'>c_id</th>";
+		echo "<th>First name</th>";
+		echo "<th>Last name</th>";
+		echo "<th>Prefix</th>";
+		echo "<th>Office</th>";
+		echo "<th>Sitename</th>";
+		echo "<th>Contact #</th>";
+		echo "<th>Rel</th>";
+		echo "<th>EWI Recipient</th>";
+		echo "</tr>";
+		echo "</thead>";
+		echo "<tfoot>";
+		echo "<tr>";
+		echo "<th style='display:none;'>c_id</th>";
+		echo "<th>First name</th>";
+		echo "<th>Last name</th>";
+		echo "<th>Prefix</th>";
+		echo "<th>Office</th>";
+		echo "<th>Sitename</th>";
+		echo "<th>Contact #</th>";
+		echo "<th>Rel</th>";
+		echo "<th>EWI Recipient</th>";
+		echo "</tr>";
+		echo "</tfoot>";
+		echo "<tbody>";
+		foreach ($result->result() as $data) {
+			$ewirecipient = "";
+			echo "<tr>";
+			echo "<td style='display:none;'>c_".$data->c_id."</td>";
+			echo "<td>".$data->firstname."</td>";
+			echo "<td>".$data->lastname."</td>";
+			echo "<td>".$data->prefix."</td>";
+			echo "<td>".$data->office."</td>";
+			echo "<td>".$data->sitename."</td>";
+			echo "<td>".$data->number."</td>";
+			echo "<td>".$data->rel."</td>";
+			if ($data->ewirecipient == true ) {
+				$ewirecipient = "Yes";
+			} else {
+				$ewirecipient = "No";
+			}
+			echo "<td>".$ewirecipient."</td>";
+			echo "</tr>";
+		}
+		echo "</tbody>";
 	}
 
 	public function getewi(){
 		$ewi_template = array(
 			"A0" => "Magandang %%PANAHON%% po.\n\n".
 										"A0 ang alert level sa %%SBMP%% ngayong %%DATE%% 12NN.\n".
-										"Inaasahan namin ang pagpapadala ng LEWC ng ground data bukas %%EXT_NEXT_DAY%% bago mag-11:30 AM para sa %%EXT_DAY%% ng 3-day extended monitoring.\n\n".
+										"Inaasahan namin ang pagpapadala ng LEWC ng ground data bukas <DD Month> bago mag-11:30 AM para sa pangalawang araw ng 3-day extended monitoring.\n\n".
 										"Salamat.",
 			"A1-R" => "Magandang %%PANAHON%% po.\n\n".
 							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Maaaring magkaroon ng landslide dahil sa nakaraan o kasalukuyang ulan.\n\n". // %%CURRENT_TIME%% - <HH> <AM,NN,PM,MN>
