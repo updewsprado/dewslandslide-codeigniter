@@ -14,13 +14,15 @@ class Gintagshelper extends CI_Controller {
 
 	public function ginTagsEntry(){
 		$gintags = json_decode($_POST['gintags']);
-		$data['tag_name'] = $gintags->tag_name;
-		$data['tag_description'] = $gintags->tag_description;
-		$data['timestamp'] = $gintags->timestamp;
-		$data['tagger'] = $gintags->tagger;
-		$data['remarks'] = $gintags->remarks;
-		$data['table_used'] = $gintags->table_used;
-		$result = $this->gintags_helper_model->insertGinTagEntry($data);
+		for ($i = 0; $i < sizeof($gintags);$i++) {
+			$data['tag_name'] = $gintags[$i]->tag_name;
+			$data['tag_description'] = $gintags[$i]->tag_description;
+			$data['timestamp'] = $gintags[$i]->timestamp;
+			$data['tagger'] = $gintags[$i]->tagger;
+			$data['remarks'] = $gintags[$i]->remarks;
+			$data['table_used'] = $gintags[$i]->table_used;
+			$result = $this->gintags_helper_model->insertGinTagEntry($data);
+		}
 	}
 
 	public function getGinTags(){

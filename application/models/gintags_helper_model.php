@@ -13,7 +13,10 @@
 class Gintags_helper_model extends CI_Model {
 
 	public function createGintagsTable() {
-        $sql = "CREATE TABLE `gintags` (
+        $sql = "SHOW TABLES LIKE 'gintags'";
+        $res = $this->db->query($sql);
+        if ($res->num_rows == 0) {
+            $sql = "CREATE TABLE `gintags` (
                   `gintags_id` int(11) NOT NULL AUTO_INCREMENT,
                   `tag_id_fk` int(11) NOT NULL,
                   `tagger_eid_fk` varchar(45) NOT NULL,
@@ -26,30 +29,34 @@ class Gintags_helper_model extends CI_Model {
                   CONSTRAINT `tag_id` FOREIGN KEY (`tag_id_fk`) REFERENCES `gintags_reference` (`tag_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
                 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8";
 
-        if ($this->db->query($sql) === TRUE) {
-            echo "Table 'gintags' exists!\n";
+            $res = $this->db->query($sql);
+            echo "Table 'gintags' Created!\n";
         } else {
-            die("Error creating table 'gintags': " . $this->dbconn->error);
+            // echo "Table 'gintags' exists!\n";
         }
 	}
 
 	public function createGintagsReferenceTable() {
-        $sql = "CREATE TABLE `gintags_reference` (
-                  `tag_id` int(11) NOT NULL AUTO_INCREMENT,
-                  `tag_name` varchar(200) NOT NULL,
-                  `tag_description` longtext,
-                  PRIMARY KEY (`tag_id`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8";
+       $sql = "SHOW TABLES LIKE 'gintags_reference'";
+       $res = $this->db->query($sql);
+        if ($res->num_rows == 0) {
+            $sql = "CREATE TABLE `gintags_reference` (
+              `tag_id` int(11) NOT NULL AUTO_INCREMENT,
+              `tag_name` varchar(200) NOT NULL,
+              `tag_description` longtext,
+              PRIMARY KEY (`tag_id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8";
 
-        if ($this->db->query($sql) === TRUE) {
-            echo "Table 'gintags_reference' exists!\n";
+            $res = $this->db->query($sql);
+            echo "Table 'gintags_reference' Created!\n";
         } else {
-            die("Error creating table 'gintags_reference': " . $this->dbconn->error);
+            // echo "Table 'gintags_reference' exists!\n";
         }
 	}
 
     public function insertGinTagEntry($data){
         $doExist = $this->checkTagExist($data);
+        var_dump($doExist);
         if(sizeof($doExist) == 0) {
             $ginRefs = $this->insertIntoGinRef($data);
             $ginTags = $this->insertIntoGintags($data);
