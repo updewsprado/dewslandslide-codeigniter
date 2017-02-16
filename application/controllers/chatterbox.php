@@ -173,21 +173,4 @@ class Chatterbox extends CI_Controller {
 		$result = $this->contacts_model->employeeTags();
 		print json_encode($result->result());
 	}
-
-	public function ginTagsEntry(){
-		$gintags = json_decode($_POST['gintags']);
-		$data['tag_name'] = $gintags->tag_name;
-		$data['tag_description'] = $gintags->tag_description;
-		$data['timestamp'] = $gintags->timestamp;
-		$data['tagger'] = $gintags->tagger;
-		$data['remarks'] = $gintags->remarks;
-		$data['table_used'] = $gintags->table_used;
-		$result = $this->gintags_helper_model->insertGinTagEntry($data);
-	}
-
-	public function getGinTags(){
-		$gintags = json_decode($_POST['gintags']);
-		$result = $this->gintags_helper_model->fetchGinTags($gintags);
-		print json_encode($result);
-	}
 }
