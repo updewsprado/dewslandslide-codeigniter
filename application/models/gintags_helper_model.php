@@ -11,45 +11,22 @@
  * @package codeigniter.application.models
  */
 class Gintags_helper_model extends CI_Model {
-	public function initialize() {
-        //Create a DB Connection
-        $host = "localhost";
-        $usr = "root";
-        $pwd = "senslope";
-        $dbname = "senslopedb";
-
-        $this->dbconn = new \mysqli($host, $usr, $pwd);
-        $this->connectSenslopeDB();
-        $this->createGintagsReferenceTable();
-        $this->createGintagsTable();
-	}
-
-    //Connect to senslopedb
-    public function connectSenslopeDB() {
-        //$success = $this->dbconn->mysqli_select_db("senslopedb");
-        $success = mysqli_select_db($this->dbconn, "senslopedb");
-
-        if (!$success) {
-            $this->createSenslopeDB();
-        }
-    }
 
 	public function createGintagsTable() {
-        $sql = "CREATE TABLE IF NOT EXISTS `gintags` (
-				  `gintags_id` int(11) NOT NULL,
-				  `tag_id` int(11) NOT NULL,
-				  `tagger` int(10) unsigned NOT NULL,
-				  `remarks` varchar(200) DEFAULT NULL,
-				  `database` varchar(45) DEFAULT NULL,
-				  `timestamp` varchar(45) DEFAULT NULL,
-				  PRIMARY KEY (`gintags_id`),
-				  KEY `tag_id_idx` (`tag_id`),
-				  KEY `tagger_idx` (`tagger`),
-				  CONSTRAINT `tag_id` FOREIGN KEY (`tag_id`) REFERENCES `gintags_reference` (`tag_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-				  CONSTRAINT `tagger` FOREIGN KEY (`tagger`) REFERENCES `dewslcontacts` (`eid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-				) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+        $sql = "CREATE TABLE `gintags` (
+                  `gintags_id` int(11) NOT NULL AUTO_INCREMENT,
+                  `tag_id_fk` int(11) NOT NULL,
+                  `tagger_eid_fk` varchar(45) NOT NULL,
+                  `table_element_id` varchar(200) DEFAULT NULL,
+                  `table_used` varchar(45) DEFAULT NULL,
+                  `timestamp` varchar(45) DEFAULT NULL,
+                  PRIMARY KEY (`gintags_id`),
+                  KEY `tag_id_idx` (`tag_id_fk`),
+                  KEY `tagger_idx` (`tagger_eid_fk`),
+                  CONSTRAINT `tag_id` FOREIGN KEY (`tag_id_fk`) REFERENCES `gintags_reference` (`tag_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+                ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8";
 
-        if ($this->dbconn->query($sql) === TRUE) {
+        if ($this->db->query($sql) === TRUE) {
             echo "Table 'gintags' exists!\n";
         } else {
             die("Error creating table 'gintags': " . $this->dbconn->error);
@@ -57,14 +34,14 @@ class Gintags_helper_model extends CI_Model {
 	}
 
 	public function createGintagsReferenceTable() {
-        $sql = "CREATE TABLE IF NOT EXISTS `gintags_reference` (
-				  `tag_id` int(11) NOT NULL AUTO_INCREMENT,
-				  `tag_name` varchar(200) NOT NULL,
-				  `tag_description` longtext,
-				  PRIMARY KEY (`tag_id`)
-				) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+        $sql = "CREATE TABLE `gintags_reference` (
+                  `tag_id` int(11) NOT NULL AUTO_INCREMENT,
+                  `tag_name` varchar(200) NOT NULL,
+                  `tag_description` longtext,
+                  PRIMARY KEY (`tag_id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8";
 
-        if ($this->dbconn->query($sql) === TRUE) {
+        if ($this->db->query($sql) === TRUE) {
             echo "Table 'gintags_reference' exists!\n";
         } else {
             die("Error creating table 'gintags_reference': " . $this->dbconn->error);

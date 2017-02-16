@@ -78,6 +78,7 @@ $route['communications/chatterbox/updatecontacts'] = "chatterbox/updatecontacts"
 */
 $route['generalinformation/inserGinTags'] = "gintagshelper/ginTagsEntry";
 $route['generalinformation/getGinTags'] = "gintagshelper/getGinTags";
+$route['generalinformation/initialize'] = "gintagshelper/initialize";
 
 /**
  * Data Analysis Pages Routes
