@@ -54,6 +54,13 @@ class site_level_model extends CI_Model {
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
+
+	public function getPiezometer($site){
+		$this->db->select('*');
+		$this->db->from($site);
+		$query = $this->db->get();
+		return $query->result();
+	}
 	
 
 }

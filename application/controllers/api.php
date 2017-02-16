@@ -8,6 +8,11 @@
 			$this->load->model('comm_health_model');
 		}
 
+		public function PiezometerAllData($site){ // example  http://localhost/api/ltesapzpz/agbsb
+			$result = $this->site_level_model->getPiezometer($site);
+			print json_encode($result);
+		}
+
 		public function CommunicationHealthColumn($site){ // example  http://localhost/api/CommunicationHealthColumn/agbsb
 			$result = $this->comm_health_model->getHealth($site);
 			print json_encode($result);
