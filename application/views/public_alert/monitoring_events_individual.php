@@ -167,7 +167,7 @@
             				<div class="timeline-heading">
             					<div class="row">
 	              					<div class="col-sm-11">
-	              						<h4 class="timeline-title"><b><?php echo $title; ?> <?php echo date("F jS Y, g:i A", strtotime($release->data_timestamp) + 1800); ?></h4>
+	              						<h4 class="timeline-title"><b><?php echo $title; ?> <?php if($release === end(array_reverse($releases))) echo date("F jS Y, g:i A", strtotime($release->data_timestamp)); else echo date("F jS Y, g:i A", strtotime($release->data_timestamp) + 1800); ?></h4>
 	              					</b></div>
 	              					<div class="col-sm-1 text-right">
 	              						<span class="glyphicon glyphicon-edit" id="<?php echo "$release->release_id"; ?>"></span>
@@ -256,19 +256,47 @@
                         </div>
 
                         <div class="row" id="od_area" hidden="hidden">
-                        	<div class="row line"><hr></div>
-                            <div class="form-group col-sm-6">
-                                <label for="alertGroups[]">Group(s) Involved:</label>
-                                <div class="checkbox a1d"><label><input id="groupLGU" name="alertGroups[]" type="checkbox" value="LGU" onclick='' disabled="disabled" />LGU</label></div>
-                                <div class="checkbox a1d"><label><input id="groupLLMC" name="alertGroups[]" type="checkbox" value="LLMC" onclick='' disabled="disabled"/>LLMC</label></div>
-                                <div class="checkbox a1d"><label><input id="groupCommunity" name="alertGroups[]" type="checkbox" value="Community" onclick='' disabled="disabled"/>Community</label></div>
+                            <div class="row line"><hr></div>
+                            <div class="col-sm-3 text-center area_label"><h4><b>ON-DEMAND</b></h4></div>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-12 form-group">
+                                        <label class="control-label" for="trigger_od">Request Timestamp</label>
+                                        <div class='input-group date datetime'>
+                                            <input type='text' class="form-control trigger_time" id="trigger_od" name="trigger_od" placeholder="Enter timestamp" disabled="disabled" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 form-group">
+                                        <label for="trigger_od_info">Requested by</label>
+                                        <div class="input-group">
+                                            <label class="checkbox-inline"><input type="checkbox" class="od_group" name="llmc" value="llmc" disabled="disabled">LEWC</label>
+                                            <label class="checkbox-inline"><input type="checkbox" class="od_group" name="lgu" value="lgu" disabled="disabled">LGU</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 form-group">
+                                        <label for="reason">Reason for Request</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon3">Monitoring requested due to</span>
+                                            <textarea class="form-control" rows="1" id="reason" name="reason" placeholder="Enter reason for request." maxlength="200" aria-describedby="basic-addon3" disabled="disabled"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 form-group">
+                                        <label for="trigger_od_info">Current Site Info:</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_od_info" name="trigger_od_info" placeholder="Enter basic site details" maxlength="200" disabled="disabled"></textarea>
+                                    </div>
+                                </div>
                             </div>
-                        
-                            <div class="form-group col-sm-6">
-                                <label for="request_reason">Reason for Request</label>
-                                <textarea class="form-control" rows="3" id="request_reason" name="request_reason" maxlength="200" disabled="disabled"></textarea>
-                            </div>
-                        </div>
+                            
+                        </div> <!------ END OF ON-DEMAND ------>
 
                         <div id="rain_area" hidden="hidden">
                         	<div class="row line"><hr></div>
@@ -310,11 +338,11 @@
 	                            </div>
                         	</div>
                         	<div class="row">
-	                        	<div class="col-sm-4 form-group number">
+	                        	<div class="col-sm-4 form-group">
 	                                <label for="magnitude">Magnitude</label>
 	                                <input type="number" step="0.1" min="0" class="form-control" id="magnitude" name="magnitude" disabled="disabled">
 	                            </div>
-	                            <div class="col-sm-4 form-group number">
+	                            <div class="col-sm-4 form-group">
 	                                <label for="latitude">Latitude</label>
 	                                <input type="number" step="0.1" min="0" class="form-control" id="latitude" name="latitude" disabled="disabled">
 	                            </div>

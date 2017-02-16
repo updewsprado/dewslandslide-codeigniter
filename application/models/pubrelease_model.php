@@ -118,6 +118,12 @@ class Pubrelease_Model extends CI_Model
 
 				$arr['eq_info'] = $query->result_array();
 				break;
+			} else if($arr['trigger_type'] == 'D') {
+				$this->db->where('trigger_id', $arr['trigger_id']);
+				$query = $this->db->get('public_alert_on_demand');
+
+				$arr['od_info'] = $query->result_array();
+				break;
 			}
 		}
 
