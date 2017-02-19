@@ -87,6 +87,31 @@ public function addNewContactEmployee($data,$category){
 		return $query;
 	}
 
+	public function getGintagContacts($data){
+		$site = "";
+		$office = "";
+
+		for ($i = 0; $i < sizeof($data->office); $i++){
+			if ($i == 0) {
+				$office = "office='".$data->office[$i]."' ";
+			} else {
+				$office = $office."OR office ='".$data->office[$i]."'";
+			}
+		}
+
+		for ($i = 0; $i < sizeof($data->site); $i++){
+			if ($i == 0) {
+				$site = "sitename='".$data->site[$i]."' ";
+			} else {
+				$site = $site."OR sitename='".$data->site[$i]."'";
+			}
+		}
+
+		$query = "SELECT * FROM communitycontacts WHERE ($office) AND ($site)";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
+
 	public function getDistinctSites(){
 		$this->db->distinct();
 		$this->db->select('sitename');

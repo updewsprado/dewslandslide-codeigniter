@@ -101,6 +101,20 @@ class Chatterbox extends CI_Controller {
 		print json_encode($result->result());
 	}
 
+	public function get_comm_contacts_gintag(){
+		$data = json_decode($_POST['gintags']);
+		$result = $this->contacts_model->getGintagContacts($data);
+		$this->get_sms_gintag_id($result,$data->data[2],$data->data[4]);
+		// print json_encode($result->result());
+	}
+
+	public function get_sms_gintag_id($data,$timestamp,$msg){
+		var_dump(sizeof($data));
+		echo $timestamp;
+		echo $msg;
+		// SELECT sms_id FROM smsoutbox WHERE timestamp_written LIKE '%2017-01-29 20:00:05%' and recepients LIKE '%9214289524%'
+	}
+
 	public function getewi(){
 		$ewi_template = array(
 			"ROUTINE" => "Magandang %%PANAHON%% po.\n\n".
