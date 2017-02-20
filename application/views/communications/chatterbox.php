@@ -14,6 +14,14 @@
 <script src="/js/third-party/bootstrap.min.js"></script>
 
 <div id="chatterbox-page-wrapper">
+<!-- WEBSITE SERVER INDICATOR -->
+<div class="row" id="testing-site-indicator">
+  <div class="col-md-3">
+      <span>TEST SITE</span>
+  </div>
+</div>
+<!-- WEBSITE SERVER INDICATOR -->
+
   <div class="row">
     <div id="search-contacts" class="col-md-3">
       <label>Search for contact:</label><Br/>
@@ -96,6 +104,7 @@
 </div>
 <script type="text/javascript">
   first_name = "<?php echo $first_name; ?>";
+  tagger_user_id = "<?php echo $user_id; ?>";
 </script>
 
 <!-- Modal: Advanced Search Options -->
@@ -457,3 +466,24 @@
   </div>
 </div>
 <!-- END EWI MODAL -->
+
+<!-- GINTAGS MODAL -->
+<div class="modal fade col-lg-10" id="gintag-modal" role="dialog">
+  <div class="modal-dialog modal-md" id="gintag-modal-dialog">
+    <div class="modal-content" id="gintag-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4>General Information Tag</h4>
+      </div>
+      <div class="modal-body row-fluid"> 
+       <input type="text" class="form-control" id="gintags" name="gintags"  data-role="tagsinput" required>
+        <div class="form-group" id="submit-gintag">
+          <button type="submit" value="submit" id="confirm-gintags" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+          <button type="reset" class="btn btn-danger" data-dismiss="modal">Reset</button>
+        </div>  
+      </div>
+    </div>  
+  </div>
+</div>
+<!-- END GINTAGS MODAL -->
+
