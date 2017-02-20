@@ -17,7 +17,7 @@
 <!-- WEBSITE SERVER INDICATOR -->
 <div class="row" id="testing-site-indicator">
   <div class="col-md-3">
-      <span>TEST SITE</span>
+      <strong><span>TEST SITE</span></strong>
   </div>
 </div>
 <!-- WEBSITE SERVER INDICATOR -->

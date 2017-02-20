@@ -4,7 +4,11 @@
     <script id="messages-template-both" type="text/x-handlebars-template">
         {{#each messages}}
         {{#if isyou}}
-        <li class="right clearfix">
+        {{#if hasTag}}
+            <li class="right clearfix tagged" title="Tagged Messaged">
+        {{else}}
+            <li class="right clearfix">
+        {{/if}}
         <input type="text" id="msg_details" value="{{type}}<split>{{user}}<split>{{timestamp}}<split>{{user_number}}<split>{{msg}}<split>{{sms_id}}<split>{{table_used}}" hidden>
             <span class="chat-img pull-right" id="badge-id-you">
                 <img src="/images/Chatterbox/dewsl_03.png" alt="User Avatar">
@@ -15,7 +19,7 @@
                         <img src="/images/Chatterbox/boy_avatar.png" alt="User Avatar">
                         {{/if}}
                     </span>
-                    <div class="chat-body clearfix" id="id_{{timestamp}}">
+                    <div class="chat-body clearfix tagged" id="id_{{hasTag}}">
                         <div class="header">
                             <strong class="primary-font" id="chat-user" >{{user}}</strong>
                             {{#if isyou}}
