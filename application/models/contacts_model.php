@@ -107,9 +107,14 @@ public function addNewContactEmployee($data,$category){
 			}
 		}
 
-		$query = "SELECT * FROM communitycontacts WHERE ($office) AND ($site)";
+		$query = "SELECT number FROM communitycontacts WHERE ($office) AND ($site)";
 		$result = $this->db->query($query);
 		return $result->result();
+	}
+
+	public function getGintagsSmsId($contact,$timestamp){
+		$query = $this->db->query("SELECT sms_id FROM smsoutbox WHERE timestamp_written='".$timestamp."' AND recepients LIKE '%".$contact."%'");
+		return $query->result();
 	}
 
 	public function getDistinctSites(){

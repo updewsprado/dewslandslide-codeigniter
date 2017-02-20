@@ -104,15 +104,28 @@ class Chatterbox extends CI_Controller {
 	public function get_comm_contacts_gintag(){
 		$data = json_decode($_POST['gintags']);
 		$result = $this->contacts_model->getGintagContacts($data);
-		$this->get_sms_gintag_id($result,$data->data[2],$data->data[4]);
-		// print json_encode($result->result());
+		$sms_ids = $this->get_sms_gintag_id($result,$data->data[2]);
+		print json_encode($sms_ids);
 	}
 
-	public function get_sms_gintag_id($data,$timestamp,$msg){
-		var_dump(sizeof($data));
-		echo $timestamp;
-		echo $msg;
-		// SELECT sms_id FROM smsoutbox WHERE timestamp_written LIKE '%2017-01-29 20:00:05%' and recepients LIKE '%9214289524%'
+	public function get_sms_gintag_id($data,$timestamp){
+		$contact_person = "";
+		$sms_collection = [];
+		foreach ($data as $contact) {
+			if (strlen($contact->number) == 11) {
+				$contact_person = substr($contact->number, 1);
+			} else if (strlen($contact->number) == 12) {
+				$contact_person = substr($contact->number, 2);
+			} else if (strlen($contact->number) == 13) {
+				$contact_person = substr($contact->number, 3);
+			} else {
+				$contact_person = $contact->number;
+			}
+			$result = $this->contacts_model->getGintagsSmsId($contact_person,$timestamp);
+			array_push($sms_collection, $result);
+			$sms_collection = array_filter($sms_collection);
+		}
+		return $sms_collection;
 	}
 
 	public function getewi(){

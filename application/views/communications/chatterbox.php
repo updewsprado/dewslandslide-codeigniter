@@ -14,6 +14,14 @@
 <script src="/js/third-party/bootstrap.min.js"></script>
 
 <div id="chatterbox-page-wrapper">
+<!-- WEBSITE SERVER INDICATOR -->
+<div class="row" id="testing-site-indicator">
+  <div class="col-md-3">
+      <span>TEST SITE</span>
+  </div>
+</div>
+<!-- WEBSITE SERVER INDICATOR -->
+
   <div class="row">
     <div id="search-contacts" class="col-md-3">
       <label>Search for contact:</label><Br/>
@@ -478,3 +486,4 @@
   </div>
 </div>
 <!-- END GINTAGS MODAL -->
+
