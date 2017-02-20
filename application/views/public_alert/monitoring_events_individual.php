@@ -255,47 +255,48 @@
                             </div>
                         </div>
 
-                        <div class="row" id="od_area" hidden="hidden">
+                        <div id="od_area" hidden="hidden">
                             <div class="row line"><hr></div>
-                            <div class="col-sm-3 text-center area_label"><h4><b>ON-DEMAND</b></h4></div>
-                            <div class="col-sm-9">
-                                <div class="row">
-                                    <div class="col-sm-12 form-group">
-                                        <label class="control-label" for="trigger_od">Request Timestamp</label>
-                                        <div class='input-group date datetime'>
-                                            <input type='text' class="form-control trigger_time" id="trigger_od" name="trigger_od" placeholder="Enter timestamp" disabled="disabled" />
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
+                            <div class="row">
+                                <div class="col-sm-3 text-center area_label"><h4><b>ON-DEMAND</b></h4></div>
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="col-sm-12 form-group">
+                                            <label class="control-label" for="trigger_od">Request Timestamp</label>
+                                            <div class='input-group date datetime'>
+                                                <input type='text' class="form-control trigger_time" id="trigger_od" name="trigger_od" placeholder="Enter timestamp" disabled="disabled" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 form-group">
-                                        <label for="trigger_od_info">Requested by</label>
-                                        <div class="input-group">
-                                            <label class="checkbox-inline"><input type="checkbox" class="od_group" name="llmc" value="llmc" disabled="disabled">LEWC</label>
-                                            <label class="checkbox-inline"><input type="checkbox" class="od_group" name="lgu" value="lgu" disabled="disabled">LGU</label>
+                                    <div class="row">
+                                        <div class="col-sm-12 form-group">
+                                            <label for="trigger_od_info">Requested by</label>
+                                            <div class="input-group">
+                                                <label class="checkbox-inline"><input type="checkbox" class="od_group" name="llmc" value="llmc" disabled="disabled">LEWC</label>
+                                                <label class="checkbox-inline"><input type="checkbox" class="od_group" name="lgu" value="lgu" disabled="disabled">LGU</label>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 form-group">
-                                        <label for="reason">Reason for Request</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="basic-addon3">Monitoring requested due to</span>
-                                            <textarea class="form-control" rows="1" id="reason" name="reason" placeholder="Enter reason for request." maxlength="200" aria-describedby="basic-addon3" disabled="disabled"></textarea>
+                                    <div class="row">
+                                        <div class="col-sm-12 form-group">
+                                            <label for="reason">Reason for Request</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-addon3">Monitoring requested due to</span>
+                                                <textarea class="form-control" rows="1" id="reason" name="reason" placeholder="Enter reason for request." maxlength="200" aria-describedby="basic-addon3" disabled="disabled"></textarea>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 form-group">
-                                        <label for="trigger_od_info">Current Site Info:</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="trigger_od_info" name="trigger_od_info" placeholder="Enter basic site details" maxlength="200" disabled="disabled"></textarea>
+                                    <div class="row">
+                                        <div class="col-sm-12 form-group">
+                                            <label for="trigger_od_info">Current Site Info:</label>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_od_info" name="trigger_od_info" placeholder="Enter basic site details" maxlength="200" disabled="disabled"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            
                         </div> <!------ END OF ON-DEMAND ------>
 
                         <div id="rain_area" hidden="hidden">
