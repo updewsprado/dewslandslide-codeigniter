@@ -8,7 +8,7 @@
 			$this->load->model('comm_health_model');
 		}
 
-		public function PiezometerAllData($site){ // example  http://localhost/api/ltesapzpz/agbsb
+		public function PiezometerAllData($site){ // example  http://localhost/api/PiezometerAllData/ltesapzpz
 			$result = $this->site_level_model->getPiezometer($site);
 			print json_encode($result);
 		}
@@ -35,6 +35,12 @@
 
 		public function SiteDetails($site){ // example http://localhost/api/SiteDetails/agb
 		   $result = $this->site_level_model->getSiteColumn($site);
+		   print json_encode($result);
+		   
+		}
+
+		public function NodeNumberPerSite($site){ // example http://localhost/api/NodeNumberPerSite/agbta
+		   $result = $this->site_level_model->getSiteNodeNumber($site);
 		   print json_encode($result);
 		   
 		}

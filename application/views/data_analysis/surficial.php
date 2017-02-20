@@ -79,6 +79,9 @@
               <li class="nav-item" >
                 <a class="nav-link active" data-toggle="tab" href="#graphS3" role="tab"><i class=""></i> Surficial Measurement Form </a>
               </li>
+              <li class="nav-item" >
+                <a class="nav-link active" data-toggle="tab" href="#graphS4" role="tab"><i class=""></i> Piezometer </a>
+              </li>
             </ul>
           </div>
           <div class="panel panel-default">
@@ -90,6 +93,8 @@
               </div>
               <div class="tab-pane " id="graphS3" role="tabpanel"> 
                 <div id="ground_graph" ></div>
+              </div>
+              <div class="tab-pane " id="graphS4" role="tabpanel"> 
               </div>
             </div>
           </div>

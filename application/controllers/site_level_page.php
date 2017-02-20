@@ -34,6 +34,11 @@ class Site_level_page extends CI_Controller {
 		print json_encode($result);
 	}
 
+	public function getAllSiteNodeNumber($site){
+		$result = $this->site_level_model->getSiteNodeNumber($site);
+		print json_encode($result);
+	}
+
 	public function getDatafromRainProps(){
 		$data_result = $_POST['data'];
 		$result = $this->site_level_model->getRainProps($data_result ['site']);
@@ -59,21 +64,14 @@ class Site_level_page extends CI_Controller {
 		$data_result  = $_POST['data'];
 		$result = $this->site_level_model->getSiteMaintenance($data_result ['site']);
 		print json_encode($result);
-
 	}
 
-	public function getDatafromSingleMaxNode(){ // alertmini display data of how many node per site
-		$data_result  = $_POST['data'];
-		$result = $this->Alert_model->getSingleMaxNode($data_result ['site']);
+	public function getDatafromSiteDataPresence($site,$from,$to){
+		// $data_result  = $_POST['data'];
+		$result = $this->site_level_model->getSiteDataPresence($site,$from,$to);
 		print json_encode($result);
-
 	}
-	public function getDatafromNodeStatus(){ // alertmini display data of node status per site
-		$data_result  = $_POST['data'];
-		$result = $this->Alert_model->getNodeStatus($data_result ['site']);
-		print json_encode($result);
-
-	}
+	
 
 
 
