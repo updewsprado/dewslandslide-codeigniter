@@ -471,10 +471,10 @@
                                     $key = array_search($sites[$i]->id, array_column($active_sites, 'site_id'));
                                     if($key > -1)
                                     {
-                                        if($active_sites[$key]['status'] == 'on-going') echo "class='active' disabled='disabled'";
-                                        else if($active_sites[$key]['status'] == 'extended') echo "class='extended' disabled='disabled'";
+                                        if($active_sites[$key]['status'] == 'on-going') echo "class='active routine-checkboxes' disabled='disabled'";
+                                        else if($active_sites[$key]['status'] == 'extended') echo "class='extended routine-checkboxes' disabled='disabled'";
                                     }
-                                    else echo "name='routine_sites[]' " . "season='" . $sites[$i]->season . "'"; ?> value="<?php echo $sites[$i]->id; ?>"><?php echo strtoupper($sites[$i]->name); ?>
+                                    else echo "class='routine-checkboxes' name='routine_sites[]' " . "season='" . $sites[$i]->season . "'"; ?> value="<?php echo $sites[$i]->id; ?>"><?php echo strtoupper($sites[$i]->name); ?>
                                 </label>
                             <?php if($i % 9 == 8 || $i == count($sites) - 1 ): ?>
                             </div>

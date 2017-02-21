@@ -131,10 +131,13 @@ class Pubrelease_Model extends CI_Model
 
 	public function getSentRoutine($timestamp)
 	{
-		$this->db->select('site_id');
-		$array = array('status' => 'routine', 'event_start' => $timestamp);
-		$this->db->where($array);
-		$query = $this->db->get('public_alert_event');
+		$this->db->select('public_alert_event.site_id');
+		$this->db->from('public_alert_event');
+		$array2 = array('routine', 'extended', 'finished');
+		$this->db->join('public_alert_release', 'public_alert_event.event_id = public_alert_release.event_id');
+		$this->db->where_in('public_alert_event.status', $array2);
+		$this->db->where('public_alert_release.data_timestamp', $timestamp);
+		$query = $this->db->get();
 		return json_encode($query->result_object());
 	}	
 
