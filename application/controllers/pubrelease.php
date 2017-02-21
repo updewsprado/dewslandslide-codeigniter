@@ -326,7 +326,7 @@ class Pubrelease extends CI_Controller {
 					$this->pubrelease_model->update('trigger_id', $trigger[1], 'public_alert_on_demand', $data2);	
 				}
 				else if( $trigger[0] == "trigger_eq") {
-					$data2['magnitude'] = $_POST['mganitude'];
+					$data2['magnitude'] = $_POST['magnitude'];
 					$data2['latitude'] = $_POST['latitude'];
 					$data2['longitude'] = $_POST['longitude'];
 					$this->pubrelease_model->update('trigger_id', $trigger[1], 'public_alert_eq', $data2);

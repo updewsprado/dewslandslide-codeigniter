@@ -198,8 +198,9 @@
 	              		<div id="bulletin_modal"></div>
 	              	</div>
 	              	<div class="modal-footer">
+	              		<button id="edit-bulletin" class="btn btn-warning" role="button" type="submit">Edit</button>
+	              		<button id="send" class="btn btn-danger" role="button" type="submit">Send</button>
 	              		<button id="cancel" class="btn btn-info" data-dismiss="modal" role="button">Cancel</button>
-	                    <button id="send" class="btn btn-danger" role="button" type="submit">Send</button>
 	            	</div>
 	            </div>
 	      	</div>
