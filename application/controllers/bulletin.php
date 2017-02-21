@@ -197,7 +197,7 @@
 			fclose($file);
 		}
 
-		public function run_script($id, $isEdited, $edits)
+		public function run_script($id, $isEdited, $edits = 0)
 		{
 
 			if (base_url() == "http://localhost/") 
