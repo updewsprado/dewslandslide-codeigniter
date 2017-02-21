@@ -36,7 +36,6 @@ class Pubrelease_Model extends CI_Model
 	        $site[$i]["season"] = $row["season"];
 	        $site[$i++]["address"] = $address;
 	    }
-
 	    	return json_encode($site);
 	}
 

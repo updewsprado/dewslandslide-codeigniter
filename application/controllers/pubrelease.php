@@ -67,6 +67,12 @@ class Pubrelease extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	public function getEvent($event_id)
+	{
+		$result = $this->pubrelease_model->getEvent($event_id);
+		echo "$result";
+	}
+
 	public function getLastSiteEvent($site_id)
 	{
 		$result = $this->pubrelease_model->getLastSiteEvent($site_id);
