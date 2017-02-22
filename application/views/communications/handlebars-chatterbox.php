@@ -13,7 +13,11 @@
             <span class="chat-img pull-right" id="badge-id-you">
                 <img src="/images/Chatterbox/dewsl_03.png" alt="User Avatar">
                 {{else}}
-                <li class="left clearfix">
+                {{#if hasTag}}
+                    <li class="left clearfix tagged" title="Tagged Messaged">
+                {{else}}
+                    <li class="left clearfix">
+                {{/if}}
                 <input type="text" id="msg_details" value="{{type}}<split>{{user}}<split>{{timestamp}}<split>{{user_number}}<split>{{msg}}<split>{{sms_id}}<split>{{table_used}}" hidden>
                     <span class="chat-img pull-left" id="badge-id-user">
                         <img src="/images/Chatterbox/boy_avatar.png" alt="User Avatar">

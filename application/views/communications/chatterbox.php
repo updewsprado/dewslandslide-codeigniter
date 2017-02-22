@@ -14,6 +14,7 @@
 <script src="/js/third-party/bootstrap.min.js"></script>
 
 <div id="chatterbox-page-wrapper">
+
 <!-- WEBSITE SERVER INDICATOR -->
 <div class="row" id="testing-site-indicator">
   <div class="col-md-3">
