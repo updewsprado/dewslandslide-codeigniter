@@ -67,6 +67,12 @@ class Pubrelease extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	public function getEvent($event_id)
+	{
+		$result = $this->pubrelease_model->getEvent($event_id);
+		echo "$result";
+	}
+
 	public function getLastSiteEvent($site_id)
 	{
 		$result = $this->pubrelease_model->getLastSiteEvent($site_id);
@@ -318,6 +324,19 @@ class Pubrelease extends CI_Controller {
 				$data['timestamp'] = $_POST[ $trigger[0] ];
 				$data['info'] = $_POST[ $trigger[0] . "_info" ];
 				$this->pubrelease_model->update('trigger_id', $trigger[1], 'public_alert_trigger', $data);
+
+				if( $trigger[0] == "trigger_od") {
+					$data2['is_llmc'] = isset($_POST['llmc']) ? true : false; 
+					$data2['is_lgu'] = isset($_POST['lgu']) ? true : false;
+					$data2['reason'] = $_POST['reason'];
+					$this->pubrelease_model->update('trigger_id', $trigger[1], 'public_alert_on_demand', $data2);	
+				}
+				else if( $trigger[0] == "trigger_eq") {
+					$data2['magnitude'] = $_POST['magnitude'];
+					$data2['latitude'] = $_POST['latitude'];
+					$data2['longitude'] = $_POST['longitude'];
+					$this->pubrelease_model->update('trigger_id', $trigger[1], 'public_alert_eq', $data2);
+				}
 			}
 		}
 	}

@@ -81,10 +81,14 @@
 <div class="row">
 
 	<div class="col-sm-12 center-text">
-		<h2 id="title"><b>DEWS-L PROGRAM LANDSLIDE ALERT LEVEL INFORMATION: <?php echo strtoupper($event->name) . "-" . date('Y', strtotime($release_time)) . "-" . sprintf("%03d", $release->bulletin_number); ?>
+		<h2 id="title"><b>DEWS-L PROGRAM LANDSLIDE ALERT LEVEL INFORMATION: <?php echo strtoupper($event->name) . "-" . date('Y', strtotime($release_time)) . "-<span class='editable' id='bulletin_number'>" . sprintf("%03d", $release->bulletin_number) . "</span>"; ?> 
 		</b></h2>
 	</div>
 
+</div>
+
+<div id="edit-reminder" class="row" hidden="hidden">
+	<div class="col-sm-12 center-text" id="reminder">*Other parts of the bulletin that needs editing that is not available in the edit module must be reported immediately to the developers for a permanent fix.</div>
 </div>
 
 <br/>
@@ -108,12 +112,12 @@
 
 				<div class="row">
 					<div class="col-sm-4">Date/Time</div>
-					<div class="col-sm-8" id='datetime'><?php echo amPmConverter(date("j F Y, h:i A" , strtotime($release_time))); ?></div>
+					<div class="col-sm-8 edit-event-page" id='datetime'><?php echo amPmConverter(date("j F Y, h:i A" , strtotime($release_time))); ?></div>
 				</div>
 
 				<div class="row">
 					<div class="col-sm-4">Alert Level Released:</div>
-					<div class="col-sm-8 text-justify" id="alert_level_released">
+					<div class="col-sm-8 text-justify" id="alert_level_released" class="editable">
 					<?php 
 						$description = $responses->description->description;
 						if( $public_alert_level == "A0" )
@@ -121,17 +125,24 @@
 							$option = explode("***OR***", $description);
 							if( $event->status == "finished" || $event->status == "extended" ) $description = $option[1];
 							else if ( $event->status == "routine" || $event->status == "invalid" ) $description = $option[0];
-							$description = $description . ")";
-						} else if ($release->internal_alert_level === "A1-D")
+							$description = $description;
+						} else
 						{
-							if ($triggers[0]->od_info->is_llmc && $triggers[0]->od_info->is_lgu) $group = "LEWC/LGU";
-							else if ($triggers[0]->od_info->is_llmc) $group = "LEWC"; else $group = "LGU";
-							$description = str_replace("[requester]", $group, $description);
-							$description = str_replace("[reason]", $triggers[0]->od_info->reason, $description) . ")";
-						} 
-						else $description = $description . "), valid until " . amPmConverter(date("j F Y, h:i A" , strtotime($event->validity)));
+							if ( strpos( substr($release->internal_alert_level, 3), "D") !== false )
+							{
+								if ($triggers[0]->od_info->is_llmc && $triggers[0]->od_info->is_lgu) $group = "LEWC/LGU";
+								else if ($triggers[0]->od_info->is_llmc) $group = "LEWC"; else $group = "LGU";
+								$description = str_replace("[requester]", $group, $description);
+								$description = str_replace("[reason]", $triggers[0]->od_info->reason, $description);
+							}
 
-						echo $public_alert_level . " (" . $description;
+							$valid_until = "<span id='validity' class='editable'>" . amPmConverter(date("j F Y, h:i A" , strtotime($event->validity))) . "</span>";
+						}
+
+						$description = "<span id='alert_description' class='editable'>" . $description . "</span>";
+
+						echo $public_alert_level . " (" . $description . ")";
+						if( $public_alert_level != "A0" ) echo ", valid until " . $valid_until;
 					?>
 					</div>
 				</div>
@@ -173,14 +184,12 @@
 						echo '<div class="col-sm-12"><b>' . $title . '</b></div>';
 						echo '</div>';
 
-						/*echo '<div class="row rowIndent">';
-						echo '<div class="col-sm-12"><textarea name="' . $title . '" class="form-control" rows="2" style="width:90%">' . $description . '</textarea></div>';
-						echo '</div>';*/
-
 						if( $description != '')
 						{
 							echo '<div class="row rowIndent">';
-							echo '<div class="col-sm-12 text-justify">' . $description . '</div>';
+							if( $title == "GROUND MOVEMENT" ) echo '<div class="col-sm-12 text-justify">';
+							else echo '<div class="col-sm-12 text-justify descriptions edit-event-page">';
+							echo $description . '</div>';
 							echo '</div>';
 						}
 						
@@ -231,8 +240,8 @@
 								{
 									$temp = $ordered[count($ordered)-1];
 									$desc = str_replace("[magnitude]", $temp->eq_info->magnitude, $desc);
-									$desc = str_replace("[lat]", rtrim($temp->eq_info->latitude, '0') . "&deg;", $desc);
-									$desc = str_replace("[lon]", rtrim($temp->eq_info->longitude, '0') . "&deg;", $desc);
+									$desc = str_replace("[lat]", (float) $temp->eq_info->latitude . "&deg; N", $desc);
+									$desc = str_replace("[lon]", (float) $temp->eq_info->longitude . "&deg; E", $desc);
 								}
 								else if($a === 'D')
 								{
@@ -290,13 +299,6 @@
 							}
 						}
 					}
-
-					// boilerplate("ON-DEMAND", "[description]");
-					// boilerplate("RAINFALL", "[description]");
-					// boilerplate("EARTHQUAKE", "[description]");
-					// boilerplate("GROUND MOVEMENT:", '');
-					// boilerplate("SUBSURFACE DATA", "[description]");
-					// boilerplate("SURFICIAL DATA", "[description]");
 
 					switch ($public_alert_level) {
 						case 'A0':
@@ -368,15 +370,14 @@
 					{
 						case 'A0':
 							$option = explode("***OR***", $llmc_lgu);
-							if( $event->status == "finished" || $event->status == "extended" ) $llmc_lgu = $option[1];
-							else if ( $event->status == "routine" || $event->status == "invalid") $llmc_lgu = $option[0];
-							//else if ($event->status == "extended") $llmc_lgu = $option[2];
+							if( $event->status == "extended" ) $llmc_lgu = $option[1];
+							else if ( $event->status == "finished" || $event->status == "routine" || $event->status == "invalid") $llmc_lgu = $option[0];
 							break;
 						case 'A1': case 'A2':
-							$llmc_lgu = str_replace("[date and time of next reporting]", "<b>" . $datetime . "</b>", $llmc_lgu);
+							$llmc_lgu = str_replace("[date and time of next reporting]", "<b><span id='next_reporting' class='editable'>" . $datetime . "</span></b>", $llmc_lgu);
 							break;
 						case 'A3':
-							$llmc_lgu = str_replace("[end of A3 validity period]", "<b>" . $datetime . "</b>", $llmc_lgu);
+							$llmc_lgu = str_replace("[end of A3 validity period]", "<b><span id='next_reporting' class='editable'>" . $datetime . "</span></b>", $llmc_lgu);
 							break;
 					}
 				?>
@@ -409,7 +410,7 @@
 		<div class="row">
     		<?php
     			$next_release = isInstantaneous(strtotime($release->data_timestamp)) ? roundTime(strtotime($release->data_timestamp)) : roundTime(strtotime($release->data_timestamp)) + 4 * 3600;
-    			if( $public_alert_level != 'A0') echo '<b>Next bulletin on: </b>' . amPmConverter(date("j F Y, h:i A" , $next_release)); 
+    			if( $public_alert_level != 'A0') echo "<b>Next bulletin on: </b><span id='next_bulletin' class='editable'>" . amPmConverter(date("j F Y, h:i A" , $next_release)) . '</span>'; 
     		?>
 		</div>    
     	<div class="row" style="margin-top: 5px; margin-bottom: 5px;"><b>Prepared by: </b>

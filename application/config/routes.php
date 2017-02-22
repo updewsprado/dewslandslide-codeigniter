@@ -54,7 +54,7 @@ $route['monitoring/faq'] = "pubrelease/index/monitoring_faq";
  */
 $route['monitoring/bulletin/view/(:any)'] = "bulletin/view/$1";
 $route['monitoring/bulletin/build/(:num)'] = "bulletin/build/$1";
-$route['monitoring/bulletin/edit/(:num)'] = "bulletin/edit/$1";
+$route['monitoring/bulletin/edit/(:num)/(:any)'] = "bulletin/edit/$1/$2/$3";
 $route['monitoring/bulletin/main/(:num)/(:any)'] = "bulletin/main/$1/$2";
 
 /**
