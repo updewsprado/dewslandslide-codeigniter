@@ -45,11 +45,12 @@
     padding-left: 0px;
   }
   #map-canvas {
-    width: 200px;
-    height: 600px;
+    width: 250px;
+    height: 500px;
     min-width: 5%!important;
     min-height: 5%!important;
   }
+  
   #mTable_wrapper{
     margin-top: 15px;
   }
@@ -157,6 +158,10 @@ h4{
             <label for="nodegeneral">Node</label>
             <select class="selectpicker"  id="nodegeneral" multiple data-live-search="true"></select>
           </div>
+          <div class="form-group crackgeneral">
+            <label for="crackgeneral">Cracks</label>
+            <select class="selectpicker"  id="crackgeneral" data-live-search="true"></select>
+          </div>
         </form>
       </div>
       <div class="panel-body">
@@ -181,9 +186,21 @@ h4{
             </label>
           </div>
           <div class="checkbox">
+            <input id="data_presence_checkbox" type="checkbox" class="site_level_checkbox">
+            <label for="data_presence_checkbox">
+              Data Presence
+            </label>
+          </div>
+          <div class="checkbox">
             <input id="ground_measurement_checkbox" type="checkbox" class="site_level_checkbox">
             <label for="ground_measurement_checkbox">
               Surficial Measurement
+            </label>
+          </div>
+          <div class="checkbox">
+            <input id="rain_graph_checkbox" type="checkbox" class="site_level_checkbox">
+            <label for="rain_graph_checkbox">
+              Rainfall Plots
             </label>
           </div>
           <div class="checkbox">
