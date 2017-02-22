@@ -72,6 +72,14 @@ $route['reports/site_maintenance/(:num)'] = "sitemaintenance/individual/$1";
 $route['communications/chatterbox'] = "chatterbox/index";
 $route['communications/responsetracker'] = "responsetracker/index";
 $route['communications/chatterbox/updatecontacts'] = "chatterbox/updatecontacts";
+$route['communications/chatterbox/gintagcontacts'] = "chatterbox/get_comm_contacts_gintag";
+
+/**
+* General Information Tagging
+*/
+$route['generalinformation/insertGinTags'] = "gintagshelper/ginTagsEntry";
+$route['generalinformation/getGinTags'] = "gintagshelper/getGinTags";
+$route['generalinformation/initialize'] = "gintagshelper/initialize";
 
 /**
  * Data Analysis Pages Routes
