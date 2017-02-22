@@ -12,11 +12,43 @@
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewsalert.css">
 <script src="/js/dewslandslide/dewscommhealth-d3.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewscommhealth.css">
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <style type="text/css">
+
+  #reportrange{
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #e6e6e6;
+    width: 100%
+  }
+  .analysis{
+    height: 937px;
+  }
+  .divData-colmd8{
+    padding-left: 5px;
+  }
+  #analysis_panel_body{
+    padding: 0px
+  }
+  .analysis_divDta{
+    padding-left: 5px;
+    padding-right: 0px;
+  }
+  .container .col-md-9 .panel-body{
+    background: #f4f4f4 url(../../images/dews-l-logo.png);
+    background-blend-mode: overlay;
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size:contain;
+    opacity: 4;
+    font-family: Arial;
+    padding-left: 0px;
+  }
   #map-canvas {
-    width: 25%;
-    /*    height: 500px;*/
-    min-width: 0%!important;
+    width: 200px;
+    height: 600px;
+    min-width: 5%!important;
+    min-height: 5%!important;
   }
   #mTable_wrapper{
     margin-top: 15px;
@@ -25,6 +57,7 @@
    margin: 0px;
    text-align: right;
  }
+
  #site_info_sub{
    margin: 0px;
    text-align: right;
@@ -33,176 +66,230 @@
    margin: 5px;
    text-align: right;
  }
- h3{
-  margin: 0px;
+ .header_level{
+   margin: 0px;
+   text-align: right;
+ }
+
+ text.mono {
+  font-size: 6pt;
+}
+text.axes {
+  font-size: 12pt;
+}
+h4{
+  margin:0px;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
 }
 
+.bar {
+  fill: orange;
+}
 
+.bar:hover {
+  fill: orangered ;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+#data_presence_div{
+  width: 50%;
+  height: 10px;
+  position: absolute;
+}
 </style>
-<div id="body-container">
-  <div class="container">
+<br>
+<div class="container">
+  <div class="page-header">
     <h1>INTEGRATED SITE ANALYSIS PAGE</h1>
   </div>
-  <div class="container" id="container-nav">
-    <div class="row">
-      <div class="col-sm-3" id="container-nav-size">
-        <nav class="nav-sidebar ">
-          <ul class="nav">
-            <li class="active"><a href="">Filter Options:</a></li>
-            <li>
-             <table class="table" id="searchtool" >
-              <tr>
-               <th colspan="2"><b>SITE DETAILS :</b>
-               </th>
-             </tr>
-             <tr>
-              <th>&nbsp;&nbsp; Site:
-              </th>
-              <td><select class="selectpicker"  id="sitegeneral" data-live-search="true" title="Choose one of the following...">
-              </td>
-            </tr>
-            <tr id="columngeneral-tr">
-              <th> Column: </th>
-              <td><select class="selectpicker"  id="columngeneral" data-live-search="true"></td>
-            </tr>
-            <tr id="nodegeneral-tr">
-              <th>&nbsp;&nbsp; Node: </th>
-              <td><select class="selectpicker"  id="nodegeneral" multiple data-live-search="true"></select>
-              </td>
-            </tr>
-            <tr class="daterange-tr">
-             <th colspan="2"><b>DATE RANGE :</b></th>
-           </tr>
-           <tr class="datetable daterange-tr" >
-            <th class="datetable">&nbsp;&nbsp; Date:</th>
-            <td class="datetable">
-              <div id="reportrange"  class="pull-left selectpicker " style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-               <span></span> <b class="caret"></b>
-             </div>
-           </td>
-         </tr>
-         <tr class="charts-graphs-tr">
-           <th colspan="2"><b>CHARTS &#38; GRAPHS :</b></th>
-         </tr>
-         <tr class="charts-graphs-tr">
-          <th>&nbsp;&nbsp; Site: </th>
-          <td>
-            <div class="checkbox">
-              <input id="rain_graph_checkbox" type="checkbox">
-              <label for="rain_graph_checkbox">
-                Rain Graph
-              </label>
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">Filter Option <span class="glyphicon glyphicon-menu-left pull-right" aria-hidden="true"></span></div>
+      <div class="panel-body">
+        <label>&nbsp;&nbsp;SITE DETAILS:</label>
+        <br>
+        <form class="col-xs-2">
+          <div class="form-group sitegeneral">
+            <label for="sitegeneral">Site:</label><br>
+            <select class="selectpicker"  id="sitegeneral" data-live-search="true" title="Choose one of the following..."></select>
+          </div>
+          <div class="form-group columngeneral">
+            <label for="columngeneral">Column</label><br>
+            <select class="selectpicker"  id="columngeneral" data-live-search="true"></select>
+          </div>
+          <div class="form-group nodegeneral">
+            <label for="nodegeneral">Node</label>
+            <select class="selectpicker"  id="nodegeneral" multiple data-live-search="true"></select>
+          </div>
+        </form>
+      </div>
+      <div class="panel-body">
+        <label>&nbsp;&nbsp;Date Range:</label>
+        <br>
+        <form class="col-xs-12">
+          <div class="form-group">
+            <label for="reportrange">Date:</label><br>
+            <div id="reportrange" class="pull-right">
+              <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+              <span></span> <b class="caret"></b>
             </div>
-            <div class="checkbox">
-              <input id="ground_measurement_checkbox" type="checkbox">
-              <label for="ground_measurement_checkbox">
-                Surficial Measurement
-              </label>
-            </div>
-            <div class="checkbox">
-              <input id="surficial_velocity_checkbox" type="checkbox">
-              <label for="surficial_velocity_checkbox">
-                Velocity Analysis Graph (Surficial)
-              </label>
-            </div>
-            <div class="checkbox">
-              <input id="surficial_displacement_checkbox" type="checkbox">
-              <label for="surficial_displacement_checkbox">
-                Displacement Analysis Graph (Surficial)
-              </label>
-            </div>
-          </td>
-        </tr >
-        <tr class="charts-graphs-tr">
-          <th>&nbsp; Column: </th>
-          <td>
-            <div class="checkbox">
-              <input id="x_accel_checkbox" type="checkbox">
-              <label for="x_accel_checkbox">
-                X Accel
-              </label>
-            </div>
-            <div class="checkbox">
-              <input id="y_accel_checkbox" type="checkbox">
-              <label for="y_accel_checkbox">
-               Y Accel
-             </label>
-           </div>
-           <div class="checkbox">
-            <input id="z_accel_checkbox" type="checkbox">
-            <label for="z_accel_checkbox">
-              Z Accel
+          </div>
+        </form>
+      </div>
+      <div class="panel-body">
+        <label>&nbsp;&nbsp;CHARTS &#38; GRAPHS :</label>
+        <br>
+        <form class="col-xs-12">
+          <div class="form-group ">
+            <label for="exampleInputFile">&nbsp; SITE LEVEL:
             </label>
           </div>
           <div class="checkbox">
-            <input id="soms_checkbox" type="checkbox">
-            <label for="soms_checkbox">
-              Soms
+            <input id="ground_measurement_checkbox" type="checkbox" class="site_level_checkbox">
+            <label for="ground_measurement_checkbox">
+              Surficial Measurement
             </label>
           </div>
           <div class="checkbox">
-            <input id="batt_checkbox" type="checkbox">
-            <label for="batt_checkbox">
-              Battery
+          <input id="data_presence_checkbox" type="checkbox" class="site_level_checkbox">
+            <label for="data_presence_checkbox">
+              Data Presence
             </label>
           </div>
           <div class="checkbox">
-            <input id="piezo_checkbox" type="checkbox">
+            <input id="surficial_velocity_checkbox" type="checkbox" class="site_level_checkbox">
+            <label for="surficial_velocity_checkbox">
+              Velocity Graph (Surficial)
+            </label>
+          </div>
+          <div class="checkbox">
+            <input id="surficial_displacement_checkbox" type="checkbox" class="site_level_checkbox">
+            <label for="surficial_displacement_checkbox">
+              Displacement Graph (Surficial)
+            </label>
+          </div>
+          <div class="checkbox">
+            <input id="piezo_checkbox" type="checkbox" class="col_level_checkbox">
             <label for="piezo_checkbox">
               Piezometer
             </label>
           </div>
-          <div class="checkbox">
-            <input id="heatmap_checkbox" type="checkbox">
-            <label for="heatmap_checkbox">
-              Heat Map
+          <div class="form-group">
+            <label for="exampleInputFile">&nbsp; COLUMN LEVEL:
             </label>
           </div>
           <div class="checkbox">
-            <input id="sub_surface_column_checkbox" type="checkbox">
-            <label for="sub_surface_column_checkbox">
-              Column Position (Sub-Surface)
+            <input id="sub_surface_displacement_checkbox" type="checkbox" class="col_level_checkbox">
+            <label for="sub_surface_displacement_checkbox"> Displacement(Sub-Surface)</label>
+          </div>
+          <div class="checkbox">
+            <input id="sub_surface_velocity_checkbox" type="checkbox" class="col_level_checkbox">
+            <label for="sub_surface_velocity_checkbox">Velocity(Sub-Surface)</label>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputFile">&nbsp; NODE LEVEL:
             </label>
           </div>
           <div class="checkbox">
-            <input id="sub_surface_displacement_checkbox" type="checkbox">
-            <label for="sub_surface_displacement_checkbox">
-              Displacement Chart (Sub-Surface)
+            <input id="node_summary_checkbox" type="checkbox" class="col_level_checkbox">
+            <label for="node_summary_checkbox">
+              Node Summary
             </label>
           </div>
           <div class="checkbox">
-            <input id="sub_surface_velocity_checkbox" type="checkbox">
-            <label for="sub_surface_velocity_checkbox">
-              Velocity Chart (Sub-Surface)
-            </label>
-          </div>
-        </td>
-      </tr>
-      <!-- <tr class="charts-graphs-tr">
-        <th>&nbsp;&nbsp; Node: </th>
-        <td>
-          <div class="checkbox">
-            <input id="checkbox7" type="checkbox">
-            <label for="checkbox7">
-              Simply Rounded
+            <input id="communication_health_checkbox" type="checkbox" class="col_level_checkbox">
+            <label for="communication_health_checkbox">
+              Node Summary
             </label>
           </div>
           <div class="checkbox">
-            <input id="checkbox8" type="checkbox">
-            <label for="checkbox8">
-              Me too
+            <input id="x_accel_checkbox" type="checkbox" class="col_level_checkbox">
+            <label for="x_accel_checkbox">
+              X Accel
             </label>
           </div>
-        </td>
-      </tr> -->
-    </table>
-  </li>
-</ul>
-</nav>
+          <div class="checkbox">
+            <input id="y_accel_checkbox" type="checkbox" class="col_level_checkbox">
+            <label for="y_accel_checkbox">
+             Y Accel
+           </label>
+         </div>
+         <div class="checkbox">
+           <input id="z_accel_checkbox" type="checkbox" class="col_level_checkbox">
+           <label for="z_accel_checkbox">
+            Z Accel
+          </label>
+        </div>
+        <div class="checkbox">
+          <input id="soms_raw_checkbox" type="checkbox" class="col_level_checkbox">
+          <label for="soms_raw_checkbox">
+            Soms(raw)
+          </label>
+        </div>
+        <div class="checkbox">
+          <input id="soms_cal_checkbox" type="checkbox" class="col_level_checkbox">
+          <label for="soms_cal_checkbox">
+            Soms(cal)
+          </label>
+        </div>
+        <div class="checkbox">
+          <input id="batt_checkbox" type="checkbox" class="col_level_checkbox">
+          <label for="batt_checkbox">
+            Battery
+          </label>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
-<div class="container col-sm-9">
-  <hr>
-  <div id="divData" class="col-sm-9">
+<div class="col-md-9" id="analysis_panel_body">
+  <small id="small_header"><a >&nbsp;Analysis Page</a></small>
+  <div class="panel panel-default ">
+    <div class="panel-body  analysis"> 
+    </div>
   </div>
 </div>
 </div>
+
+
+
+
+
+
+
