@@ -56,7 +56,6 @@ class Gintags_helper_model extends CI_Model {
 
     public function insertGinTagEntry($data){
         $doExist = $this->checkTagExist($data);
-        var_dump($doExist);
         if(sizeof($doExist) == 0) {
             $ginRefs = $this->insertIntoGinRef($data);
             $ginTags = $this->insertIntoGintags($data);
@@ -69,6 +68,7 @@ class Gintags_helper_model extends CI_Model {
                 $gintag_ref_exist["table_used"] = $data["table_used"];
                 $gintag_ref_exist["timestamp"] = $data["timestamp"];
                 $result = $this->insertIntoGintags($gintag_ref_exist);
+                var_dump($result);
             } else {
                 echo "Tag exists";
             }
@@ -109,6 +109,12 @@ class Gintags_helper_model extends CI_Model {
         } else {
             $sql = "SELECT gintags.gintags_id,gintags_reference.tag_name,gintags_reference.tag_description,membership.first_name as tagger_firstname,membership.last_name as tagger_lastname,gintags.table_element_id,gintags.table_used,gintags.timestamp from gintags inner join gintags_reference ON gintags.tag_id_fk=gintags_reference.tag_id inner join membership ON gintags.tagger_eid_fk = membership.id WHERE gintags.table_element_id = ".$data."";   
         }
+        $result = $this->db->query($sql);
+        return $result->result();
+    }
+
+    public function fetchGinTagsViaTag($data = null){
+        $sql = "SELECT gintags.gintags_id,gintags_reference.tag_name,gintags_reference.tag_description,membership.first_name as tagger_firstname,membership.last_name as tagger_lastname,gintags.table_element_id,gintags.table_used,gintags.timestamp from gintags inner join gintags_reference ON gintags.tag_id_fk=gintags_reference.tag_id inner join membership ON gintags.tagger_eid_fk = membership.id WHERE gintags_reference.tag_name = ".$data."";   
         $result = $this->db->query($sql);
         return $result->result();
     }

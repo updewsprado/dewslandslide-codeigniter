@@ -25,13 +25,23 @@ class Gintagshelper extends CI_Controller {
 		}
 	}
 
-	public function getGinTags(){
+	public function getGinTagsViaTableElement(){
 		if (isset($_POST['gintags']) && !empty($_POST["gintags"])) {
 			$gintags = json_decode($_POST['gintags']);
 		} else {
 			$gintags = null;
 		}
 		$result = $this->gintags_helper_model->fetchGinTags($gintags);
+		print json_encode($result);
+	}
+
+	public function getGintagsViaTag(){
+		if (isset($_POST['gintags']) && !empty($_POST["gintags"])) {
+			$gintags = json_decode($_POST['gintags']);
+		} else {
+			$gintags = null;
+		}
+		$result = $this->gintags_helper_model->fetchGinTagsViaTag($gintags);
 		print json_encode($result);
 	}
 }

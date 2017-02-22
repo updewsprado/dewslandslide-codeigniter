@@ -78,8 +78,10 @@ $route['communications/chatterbox/gintagcontacts'] = "chatterbox/get_comm_contac
 * General Information Tagging
 */
 $route['generalinformation/insertGinTags'] = "gintagshelper/ginTagsEntry";
-$route['generalinformation/getGinTags'] = "gintagshelper/getGinTags";
+$route['generalinformation/getGintagsViaTag'] = "gintagshelper/getGintagsViaTag";
+$route['generalinformation/getGinTagsViaTableElement'] = "gintagshelper/getGinTagsViaTableElement";
 $route['generalinformation/initialize'] = "gintagshelper/initialize";
+$route['narrativeAutomation/insert'] = "narrative_generator/insertEwiNarrative";
 
 /**
  * Data Analysis Pages Routes

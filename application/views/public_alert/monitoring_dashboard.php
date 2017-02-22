@@ -110,6 +110,7 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4>EARLY WARNING INFORMATION</h4>
                             </div>
+                            <input type="hidden" id="event_details">
                             <div class="modal-body row-fluid"> 
                                 <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control" disabled></textarea>
                                 <button type="button" id="edit-btn-ewi-amd" class="btn btn-warning" value="edit">Edit</button>
