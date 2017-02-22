@@ -136,7 +136,7 @@
 			    	<div class="panel panel-default">
 						<div class="panel-heading">Sites Under 3-Day Extended Monitoring</div>
 						<div class="panel-body clearfix">
-							<div class="col-md-12" style="text-align:center; font-size: 12px;"><b>Legend: &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-one-square"></span> First Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-two-square"></span> Second Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-three-square"></span> Third Day</b></div>
+							<div class="col-md-12" style="text-align:center; font-size: 12px;"><b>Legend: &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-one-square"></span> First Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-two-square"></span> Second Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-three-square"></span> Third Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-overdue-square"></span> Overdue</b></div>
 							<div class="col-md-12"><div class="table-responsive">
 				                <table class="table" id="extended">
 				                    <thead>
@@ -198,8 +198,9 @@
 	              		<div id="bulletin_modal"></div>
 	              	</div>
 	              	<div class="modal-footer">
+	              		<button id="edit-bulletin" class="btn btn-warning" role="button" type="submit">Edit</button>
+	              		<button id="send" class="btn btn-danger" role="button" type="submit">Send</button>
 	              		<button id="cancel" class="btn btn-info" data-dismiss="modal" role="button">Cancel</button>
-	                    <button id="send" class="btn btn-danger" role="button" type="submit">Send</button>
 	            	</div>
 	            </div>
 	      	</div>
@@ -216,6 +217,23 @@
        					</div>
      				</div>
      				<div class="modal-footer" id="modalTitle" hidden>
+		   			</div>
+   				</div>
+ 			</div>
+		</div>
+
+		<div class="modal fade" id="errorModal" role="dialog">
+			<div class="modal-dialog">
+   				<div class="modal-content">
+	   				<div class="modal-header">
+	   					<button type="button" class="close" data-dismiss="modal" hidden>&times;</button>
+	   					<h4><strong>Error!</strong></h4>
+					</div>
+    				<div class="modal-body">
+    					<p style="color:red;">There is an error loading the file PublicAlert.JSON. Please refresh the page and see if that solves the problem. If the loading problem persists, use the Alert Release Form for releasing EWI instead.</p>
+     				</div>
+     				<div class="modal-footer">
+		        		<button class="btn btn-info" data-dismiss="modal" role="button">Okay</button>
 		   			</div>
    				</div>
  			</div>
@@ -289,20 +307,49 @@
                         	</div>
                         </div>
 
-                        <div class="row" id="od_area" hidden="hidden">
-                        	<div class="row line"><hr></div>
-                            <div class="form-group col-sm-6">
-                                <label for="alertGroups[]">Group(s) Involved:</label>
-                                <div class="checkbox a1d"><label><input id="groupLGU" name="alertGroups[]" type="checkbox" value="LGU" onclick='' disabled="disabled" />LGU</label></div>
-                                <div class="checkbox a1d"><label><input id="groupLLMC" name="alertGroups[]" type="checkbox" value="LLMC" onclick='' disabled="disabled"/>LLMC</label></div>
-                                <div class="checkbox a1d"><label><input id="groupCommunity" name="alertGroups[]" type="checkbox" value="Community" onclick='' disabled="disabled"/>Community</label></div>
+                        <div id="od_area" hidden="hidden">
+                            <div class="row line"><hr></div>
+                            <div class="row">
+                            	<div class="col-sm-3 text-center area_label"><h4><b>ON-DEMAND</b></h4></div>
+	                            <div class="col-sm-9">
+	                                <div class="row">
+	                                    <div class="col-sm-12 form-group">
+	                                        <label class="control-label" for="trigger_od">Request Timestamp</label>
+	                                        <div class='input-group date datetime'>
+	                                            <input type='text' class="form-control trigger_time" id="trigger_od" name="trigger_od" placeholder="Enter timestamp" disabled="disabled" />
+	                                            <span class="input-group-addon">
+	                                                <span class="glyphicon glyphicon-calendar"></span>
+	                                            </span>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <div class="row">
+	                                    <div class="col-sm-12 form-group">
+	                                        <label for="trigger_od_info">Requested by</label>
+	                                        <div class="input-group">
+	                                            <label class="checkbox-inline"><input type="checkbox" class="od_group" name="od_group" value="llmc" disabled="disabled">LEWC</label>
+	                                            <label class="checkbox-inline"><input type="checkbox" class="od_group" name="od_group" value="lgu" disabled="disabled">LGU</label>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <div class="row">
+	                                    <div class="col-sm-12 form-group">
+	                                        <label for="reason">Reason for Request</label>
+	                                        <div class="input-group">
+	                                            <span class="input-group-addon" id="basic-addon3">Monitoring requested due to</span>
+	                                            <textarea class="form-control" rows="1" id="reason" name="reason" placeholder="Enter reason for request." maxlength="200" aria-describedby="basic-addon3" disabled="disabled"></textarea>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <div class="row">
+	                                    <div class="col-sm-12 form-group">
+	                                        <label for="trigger_od_info">Current Site Info:</label>
+	                                        <textarea class="form-control trigger_info" rows="1" id="trigger_od_info" name="trigger_od_info" placeholder="Enter basic site details" maxlength="200" disabled="disabled"></textarea>
+	                                    </div>
+	                                </div>
+	                            </div>
                             </div>
-                        
-                            <div class="form-group col-sm-6">
-                                <label for="request_reason">Reason for Request</label>
-                                <textarea class="form-control" rows="3" id="request_reason" name="request_reason" maxlength="128" disabled="disabled"></textarea>
-                            </div>
-                        </div>
+                        </div> <!------ END OF ON-DEMAND ------>
 
                         <div id="rain_area" hidden="hidden">
                         	<div class="row line"><hr></div>
@@ -344,11 +391,11 @@
 	                            </div>
                         	</div>
                         	<div class="row">
-	                        	<div class="col-sm-4 form-group number">
+	                        	<div class="col-sm-4 form-group">
 	                                <label for="magnitude">Magnitude</label>
 	                                <input type="number" step="0.1" min="0" class="form-control" id="magnitude" name="magnitude" disabled="disabled">
 	                            </div>
-	                            <div class="col-sm-4 form-group number">
+	                            <div class="col-sm-4 form-group">
 	                                <label for="latitude">Latitude</label>
 	                                <input type="number" step="0.1" min="0" class="form-control" id="latitude" name="latitude" disabled="disabled">
 	                            </div>
@@ -456,11 +503,11 @@
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label for="reporter_1">Reporter 1</label>
-                                <input type="text" class="form-control" id="reporter_1" name="reporter_1" value="<?php echo $last_name . ", " . $first_name; ?>" placeholder="---" readonly="readonly">
+                                <input type="text" class="form-control" id="reporter_1" name="reporter_1" value-id="<?php echo $user_id; ?>" value="<?php echo $last_name . ", " . $first_name; ?>" placeholder="---" readonly="readonly">
                             </div>
                             <div class="form-group col-sm-6">
                                 <label for="reporter_2">Reporter 2</label>
-                                <select class="form-control" id="reporter_2" name="reporter_2" onchange="">
+                                <select class="form-control" id="reporter_2" name="reporter_2">
                                     <option value="">---</option>
                                     <?php foreach($staff as $person): ?>
                                         <?php if( $person->id != $user_id): ?>

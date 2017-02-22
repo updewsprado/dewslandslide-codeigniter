@@ -70,17 +70,14 @@
 			return $this->load->view('public_alert/bulletin_main', $data, $bool);
 		}
 
-		public function edit($release_id)
+		public function edit($release_id, $edits)
 		{
-			$this->is_logged_in();
-
 			$data['bulletin'] = $this->main($release_id, TRUE);
-			$data['title'] = $page;
+			$data['title'] = 'DEWS-Landslide Bulletin Edit Page';
 
-			$this->load->view('templates/header', $data);
-			$this->load->view('templates/nav');
-			$this->load->view('public_alert/bulletin_editor', $data);
-			$this->load->view('templates/footer');	
+			$data['edits'] = $edits;
+
+			$this->load->view('public_alert/bulletin_editor', $data);	
 		}
 
 		public function build($release_id)
@@ -200,19 +197,23 @@
 			fclose($file);
 		}
 
-		public function run_script($id)
+		public function run_script($id, $isEdited, $edits = 0)
 		{
 
 			if (base_url() == "http://localhost/") 
 			{
-				$command = $_SERVER['DOCUMENT_ROOT'] . "/js/third-party/phantomjs/phantomjs" . " " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "public_alert/bulletin/build/" . $id;
-
+				if( $isEdited == 0 )
+					$command = $_SERVER['DOCUMENT_ROOT'] . "/js/third-party/phantomjs/phantomjs" . " " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/build/" . $id;
+				else $command = $_SERVER['DOCUMENT_ROOT'] . "/js/third-party/phantomjs/phantomjs" . " " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/edit/" . $id . "/" . $edits;
+				
 				$response = exec( $command );
 
 			} 
 			else 
 			{
-				$command = "phantomjs " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "public_alert/bulletin/build/" . $id;
+				if( $isEdited == 0 )
+					$command = "phantomjs " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/build/" . $id;
+				else $command = "phantomjs " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/edit/" . $id . "/" . $edits;
 
 				$response = exec( $command );
 			}
