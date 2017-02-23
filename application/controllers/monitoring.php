@@ -37,8 +37,12 @@ class Monitoring extends CI_Controller
 
 		foreach (json_decode($events) as $event)
 		{
-			 $temp = $this->roundTime(strtotime($event->data_timestamp));
-			 $event->release_time = date("j F Y\<\b\\r\>" , $temp) . date("H:i" , strtotime($event->release_time));
+			$temp = strtotime($event->data_timestamp);
+			$hour = date("H" , $temp);
+			if( $hour = '23' && (int) date("H" , strtotime($event->release_time)) < 4 )
+				$temp = $this->roundTime(strtotime($event->data_timestamp));
+
+			$event->release_time = date("j F Y\<\b\\r\>" , $temp) . date("H:i" , strtotime($event->release_time));
 
 			if( $event->status == 'on-going' )
 			{
