@@ -17,6 +17,11 @@
 	$events = json_decode($events);
 ?>
 
+<script type="text/javascript">
+  first_name = "<?php echo $first_name; ?>";
+  tagger_user_id = "<?php echo $user_id; ?>";
+</script>
+
 <div id="page-wrapper" style="height: 100%;">
 	<div class="container">
 		<!-- Page Heading -->
@@ -105,9 +110,11 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4>EARLY WARNING INFORMATION</h4>
                             </div>
+                            <input type="hidden" id="event_details">
                             <div class="modal-body row-fluid"> 
-                                <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control"></textarea>
-                                <button type="button" id="send-btn-ewi-amd" class="btn btn-success" onclick="templateSendViaAMD()">Send</button>
+                                <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control" disabled></textarea>
+                                <button type="button" id="edit-btn-ewi-amd" class="btn btn-warning" value="edit">Edit</button>
+                                <button type="button" id="send-btn-ewi-amd" class="btn btn-success">Send</button>
                                 <input type="hidden" name="site_abbr" id="site-abbr">
                                 <input type="hidden" name="footer_ewi" id="footer-ewi" value="<?php echo $first_name; ?>">
                             </div>

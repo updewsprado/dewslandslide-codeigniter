@@ -5,6 +5,7 @@ class Chatterbox extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('contacts_model');
+		$this->load->model('gintags_helper_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
 	}
@@ -100,27 +101,58 @@ class Chatterbox extends CI_Controller {
 		print json_encode($result->result());
 	}
 
+	public function get_comm_contacts_gintag(){
+		$data = json_decode($_POST['gintags']);
+		$result = $this->contacts_model->getGintagContacts($data);
+		$sms_ids = $this->get_sms_gintag_id($result,$data->data[2]);
+		print json_encode($sms_ids);
+	}
+
+	public function get_sms_gintag_id($data,$timestamp){
+		$contact_person = "";
+		$sms_collection = [];
+		foreach ($data as $contact) {
+			if (strlen($contact->number) == 11) {
+				$contact_person = substr($contact->number, 1);
+			} else if (strlen($contact->number) == 12) {
+				$contact_person = substr($contact->number, 2);
+			} else if (strlen($contact->number) == 13) {
+				$contact_person = substr($contact->number, 3);
+			} else {
+				$contact_person = $contact->number;
+			}
+			$result = $this->contacts_model->getGintagsSmsId($contact_person,$timestamp);
+			array_push($sms_collection, $result);
+			$sms_collection = array_filter($sms_collection);
+		}
+		return $sms_collection;
+	}
+
 	public function getewi(){
 		$ewi_template = array(
+			"ROUTINE" => "Magandang %%PANAHON%% po.\n\n".
+										"A0 ang alert level sa %%SBMP%% ngayong %%DATE%% 12NN.\n".
+										"Inaasahan namin ang pagpapadala ng LEWC ng ground data para sa susunod na routine monitoring.\n\n".
+										"Salamat.",
 			"A0" => "Magandang %%PANAHON%% po.\n\n".
 										"A0 ang alert level sa %%SBMP%% ngayong %%DATE%% 12NN.\n".
 										"Inaasahan namin ang pagpapadala ng LEWC ng ground data bukas %%EXT_NEXT_DAY%% bago mag-11:30 AM para sa %%EXT_DAY%% ng 3-day extended monitoring.\n\n".
 										"Salamat.",
 			"A1-R" => "Magandang %%PANAHON%% po.\n\n".
 							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Maaaring magkaroon ng landslide dahil sa nakaraan o kasalukuyang ulan.\n\n". // %%CURRENT_TIME%% - <HH> <AM,NN,PM,MN>
-							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS.\n".
+							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO A HIGHER ALERT (A2 or A3).\n".
 							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n". //%%GROUND_DATA_TIME%% - <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n". //%%NEXT_EWI%% - <HH> <AM, NN, PM, MN>
 							"Salamat.",
 			"A1-E" => "Magandang %%PANAHON%% po.\n\n".
 								"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Maaring magkaroon ng landslide dahil sa nakaraang lindol o earthquake.\n\n".
-								"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS.\n".
+								"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO A HIGHER ALERT (A2 or A3).\n".
 								"Inaasahan po namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n".
 								"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 								"Salamat.",
 			"A1-D" => "Magandang %%PANAHON%% po.\n\n".
 							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Nag-request ang LEWC/LGU ng monitoring sa site dahil sa <situation>.\n\n".
-							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO HIGHER ALERTS.\n".
+							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO A HIGHER ALERT (A2 or A3).\n".
 							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 							"Salamat.",
@@ -167,5 +199,9 @@ class Chatterbox extends CI_Controller {
 	public function getEmployeeTags(){
 		$result = $this->contacts_model->employeeTags();
 		print json_encode($result->result());
+	}
+
+	public function ewiGintagsNarrativeGenerator(){
+
 	}
 }
