@@ -474,7 +474,7 @@
     <div class="modal-content" id="gintag-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4>General Information Tag</h4>
+        <h4>General Information Tag <i class="text-warning"> *BETA*</i></h4>
       </div>
       <div class="modal-body row-fluid"> 
        <input type="text" class="form-control" id="gintags" name="gintags"  data-role="tagsinput" required>
