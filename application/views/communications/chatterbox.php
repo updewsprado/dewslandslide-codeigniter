@@ -399,14 +399,18 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4>Search Result</h4>
+      </div>
+      <div class="modal-body row-fluid">
+        <div class="input-group search-opt">
+          <label class="radio-inline"><input type="radio" name="optradio" checked >Global Search Message</label>
+          <label class="radio-inline"><input type="radio" name="optradio">GINTag Search</label>  
+        </div>
         <div class="input-group">
           <input type="text" id="search-global-keyword" class="form-control" placeholder="Search for...">
           <span class="input-group-btn">
             <button class="btn btn-default" type="button" id="btn-search-global" ><span class="glyphicon glyphicon-search"></span></button>
           </span>
         </div>
-      </div>
-      <div class="modal-body row-fluid"> 
         <div class="search-global-message-container">
           <div class="result-message">
             <ul id="search-global-result" class="chat">
@@ -477,7 +481,8 @@
         <h4>General Information Tag <i class="text-warning"> *BETA*</i></h4>
       </div>
       <div class="modal-body row-fluid"> 
-       <input type="text" class="form-control" id="gintags" name="gintags"  data-role="tagsinput" required>
+      <div class="alert alert-info" role="alert"><strong>New Feature!</strong> You can now tag messages in chatterbox!.</div>
+       <input type="text" class="form-control" id="gintags" name="gintags"  data-role="tagsinput" placeholder="E.g #EwiMessage" required>
         <div class="form-group" id="submit-gintag">
           <button type="submit" value="submit" id="confirm-gintags" class="btn btn-primary" data-dismiss="modal">Confirm</button>
           <button type="reset" class="btn btn-danger" data-dismiss="modal">Reset</button>
