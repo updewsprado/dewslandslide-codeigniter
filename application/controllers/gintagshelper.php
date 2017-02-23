@@ -19,8 +19,9 @@ class Gintagshelper extends CI_Controller {
 			$data['tag_description'] = $gintags[$i]->tag_description;
 			$data['timestamp'] = $gintags[$i]->timestamp;
 			$data['tagger'] = $gintags[$i]->tagger;
-			$data['remarks'] = $gintags[$i]->remarks;
+			$data['table_element_id'] = $gintags[$i]->table_element_id;
 			$data['table_used'] = $gintags[$i]->table_used;
+			$data['remarks'] = $gintags[$i]->remarks;
 			$result = $this->gintags_helper_model->insertGinTagEntry($data);
 		}
 	}

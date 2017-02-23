@@ -64,11 +64,11 @@ class Gintags_helper_model extends CI_Model {
             if(sizeof($doGintagExist) == 0) {
                 $gintag_ref_exist["tag_name"] = $doExist[0]->tag_name;
                 $gintag_ref_exist["tagger"] = $data["tagger"];
-                $gintag_ref_exist["remarks"] = $data["remarks"];
+                $gintag_ref_exist["table_element_id"] = $data["table_element_id"];
                 $gintag_ref_exist["table_used"] = $data["table_used"];
                 $gintag_ref_exist["timestamp"] = $data["timestamp"];
+                $gintag_ref_exist["remarks"] = $data["remarks"];
                 $result = $this->insertIntoGintags($gintag_ref_exist);
-                var_dump($result);
             } else {
                 echo "Tag exists";
             }
@@ -82,7 +82,7 @@ class Gintags_helper_model extends CI_Model {
     }
 
     public function checkEntryExist($data,$doExist){
-        $sql = "SELECT * FROM gintags WHERE tag_id_fk = ".$doExist[0]->tag_id." AND table_element_id = ".$data['remarks']."";
+        $sql = "SELECT * FROM gintags WHERE tag_id_fk = ".$doExist[0]->tag_id." AND table_element_id = ".$data['table_element_id']."";
         $query_result = $this->db->query($sql);
         return $query_result->result();
     }
@@ -98,16 +98,16 @@ class Gintags_helper_model extends CI_Model {
         $result = $this->db->query($sql);
         $tag_id_fk = $result->result();
 
-        $sql = "INSERT INTO gintags VALUES (0,".$tag_id_fk[0]->tag_id.",'".$data["tagger"]."','".$data["remarks"]."','".$data["table_used"]."','".$data["timestamp"]."')";
+        $sql = "INSERT INTO gintags VALUES (0,".$tag_id_fk[0]->tag_id.",'".$data["tagger"]."','".$data["table_element_id"]."','".$data["table_used"]."','".$data["timestamp"]."','".$data["remarks"]."')";
         $result = $this->db->query($sql);
         return $result;
     }
 
     public function fetchGinTags($data = null){
         if ($data == null) {
-            $sql = "SELECT gintags.gintags_id,gintags_reference.tag_name,gintags_reference.tag_description,membership.first_name as tagger_firstname,membership.last_name as tagger_lastname,gintags.table_element_id,gintags.table_used,gintags.timestamp from gintags inner join gintags_reference ON gintags.tag_id_fk=gintags_reference.tag_id inner join membership ON gintags.tagger_eid_fk = membership.id";   
+            $sql = "SELECT gintags.gintags_id,gintags_reference.tag_name,gintags_reference.tag_description,membership.first_name as tagger_firstname,membership.last_name as tagger_lastname,gintags.table_element_id,gintags.table_used,gintags.timestamp,gintags.remarks from gintags inner join gintags_reference ON gintags.tag_id_fk=gintags_reference.tag_id inner join membership ON gintags.tagger_eid_fk = membership.id";   
         } else {
-            $sql = "SELECT gintags.gintags_id,gintags_reference.tag_name,gintags_reference.tag_description,membership.first_name as tagger_firstname,membership.last_name as tagger_lastname,gintags.table_element_id,gintags.table_used,gintags.timestamp from gintags inner join gintags_reference ON gintags.tag_id_fk=gintags_reference.tag_id inner join membership ON gintags.tagger_eid_fk = membership.id WHERE gintags.table_element_id = ".$data."";   
+            $sql = "SELECT gintags.gintags_id,gintags_reference.tag_name,gintags_reference.tag_description,membership.first_name as tagger_firstname,membership.last_name as tagger_lastname,gintags.table_element_id,gintags.table_used,gintags.timestamp,gintags.remarks from gintags inner join gintags_reference ON gintags.tag_id_fk=gintags_reference.tag_id inner join membership ON gintags.tagger_eid_fk = membership.id WHERE gintags.table_element_id = ".$data."";   
         }
         $result = $this->db->query($sql);
         return $result->result();

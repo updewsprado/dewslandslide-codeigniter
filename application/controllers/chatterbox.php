@@ -128,6 +128,17 @@ class Chatterbox extends CI_Controller {
 		return $sms_collection;
 	}
 
+	public function getOnGoingEventsForGintags(){
+		$result = $this->contacts_model->getOngoingEvents();
+		print json_encode($result->result());
+	}
+
+	public function getSiteForNarrative(){
+		$site_name = json_decode($_POST['site_details']);
+		$result = $this->contacts_model->getSitesForNarratives($site_name);
+		print json_encode($result->result());
+	}
+
 	public function getewi(){
 		$ewi_template = array(
 			"ROUTINE" => "Magandang %%PANAHON%% po.\n\n".
@@ -199,9 +210,5 @@ class Chatterbox extends CI_Controller {
 	public function getEmployeeTags(){
 		$result = $this->contacts_model->employeeTags();
 		print json_encode($result->result());
-	}
-
-	public function ewiGintagsNarrativeGenerator(){
-
 	}
 }

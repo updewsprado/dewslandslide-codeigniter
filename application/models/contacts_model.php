@@ -140,4 +140,14 @@ public function addNewContactEmployee($data,$category){
 		$query = $this->db->query("SELECT DISTINCT grouptags FROM dewslcontacts WHERE grouptags !='' ");
 		return $query;
 	}
+
+	public function getOngoingEvents(){
+		$query = $this->db->query("SELECT * from public_alert_event WHERE status='on-going' OR status='extended'");
+		return $query;
+	}
+
+	public function getSitesForNarratives($site_name){
+		$query = $this->db->query("SELECT id from site WHERE name='".$site_name."'");
+		return $query;
+	}
 }
