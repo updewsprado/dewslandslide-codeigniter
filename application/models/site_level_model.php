@@ -35,7 +35,7 @@ class site_level_model extends CI_Model {
 
 	public function getSiteRainProps($site){
 		$this->db->select('*');
-		$this->db->from('site_rain_props');
+		$this->db->from('rain_props');
 		$this->db->where("name", $site);
 		$query = $this->db->get();
 		return $query->result();
