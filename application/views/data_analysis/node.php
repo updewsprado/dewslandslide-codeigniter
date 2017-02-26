@@ -1,3 +1,7 @@
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/data_analysis/alertmini.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewsalert.css">
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/node_level.js"></script>
 <script src="https://code.highcharts.com/stock/highstock.js"></script>
 <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
@@ -14,16 +18,6 @@
             </div>
         </div>                                        
         <div class="row">
-            <div class="col-lg-12">
-                <ol class="breadcrumb">
-                    <li class="active">
-                        <i class="fa fa-dashboard"></i> Monitoring
-                    </li>
-                </ol>
-            </div>
-        </div>
-
-        <div class="row">
             <div class="col-lg-3" >
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -38,7 +32,7 @@
                             </tr>
                             <tr class="nodetable">
                                 <th class="nodetable"> Node: </th>
-                                <td class="nodetable"> <input class="form-control" name="node" id="node" type="number" min="1" max="41"  maxlength="2" size="2" ></td>
+                                <td class="nodetable" id="nodetable"> <input class="form-control" name="node" id="node" type="number" min="1" max="41"  maxlength="2" size="2" value=""></td>
                             </tr>
                             <tr class="datetable">
                                 <th class="datetable"> Date: </th>
@@ -58,12 +52,9 @@
             <div class="col-lg-9">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><i class=""></i> Mini Alert Map</h3>
+                        <h3 class="panel-title"><i class=""></i> Node Summary </h3>
                     </div>
-                    <div class="panel-body">
-                        <div id="mini-alert-canvas">
-                        </div>
-                    </div>
+                    <div class="panel-body mini-alert-canvas"></div>
                 </div>
             </div>
         </div>

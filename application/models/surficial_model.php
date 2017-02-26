@@ -28,6 +28,4 @@ class surficial_model extends CI_Model {
 	}
 
 	
-	
-
 }

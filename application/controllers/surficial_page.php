@@ -41,6 +41,12 @@ class Surficial_page extends CI_Controller {
 		print json_encode($result);
 	}
 
+	public function getAllGroundData(){
+		$data_result = $_POST['data'];
+		$result = $this->surficial_model->AllGroundData($data_result['site']);
+		print json_encode($result);
+	}
+
 
 }
 ?>

@@ -8,6 +8,11 @@
 			$this->load->model('comm_health_model');
 		}
 
+		public function PiezometerAllData($site){ // example  http://localhost/api/PiezometerAllData/ltesapzpz
+			$result = $this->site_level_model->getPiezometer($site);
+			print json_encode($result);
+		}
+
 		public function CommunicationHealthColumn($site){ // example  http://localhost/api/CommunicationHealthColumn/agbsb
 			$result = $this->comm_health_model->getHealth($site);
 			print json_encode($result);
@@ -30,6 +35,12 @@
 
 		public function SiteDetails($site){ // example http://localhost/api/SiteDetails/agb
 		   $result = $this->site_level_model->getSiteColumn($site);
+		   print json_encode($result);
+		   
+		}
+
+		public function NodeNumberPerSite($site){ // example http://localhost/api/NodeNumberPerSite/agbta
+		   $result = $this->site_level_model->getSiteNodeNumber($site);
 		   print json_encode($result);
 		   
 		}
@@ -135,6 +146,28 @@
 			}
 			
 			$command =$pythonPath.' '.$fileName.' '.$site.' '.$fdate.' '.$tdate.' '.$nid.' '.$ms;
+			exec($command, $output, $return);
+			print json_encode($output);
+
+		}
+
+		public function AccelfilteredVersion1($site,$fdate,$tdate,$nid){// example http://localhost/api/AccelfilteredVersion1/blcb/2014-05-25/2016-06-25/1
+			$os = PHP_OS;
+
+			if (strpos($os,'WIN') !== false) {
+				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
+				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\accelfiteredVersion1.py';
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
+				$fileName = '/var/www/updews-pycodes/Liaison/accelfiteredVersion1.py';
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
+			
+			$command =$pythonPath.' '.$fileName.' '.$site.' '.$fdate.' '.$tdate.' '.$nid;
 			exec($command, $output, $return);
 			print json_encode($output);
 
@@ -328,6 +361,29 @@
 			exec($command, $output, $return);
 			print json_encode($output[0]);
 			
+		}
+
+		public function last10GroundData($site){ //example http://localhost/api/last10GroundData/agb
+			$os = PHP_OS;
+
+			if (strpos($os,'WIN') !== false) {
+				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
+				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\lastGroundData.py';
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
+				$fileName = '/var/www/updews-pycodes/Liaison/lastGroundData.py';
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
+			
+			$command = $pythonPath.' '.$fileName.' '.$site;
+
+			exec($command, $output, $return);
+			print json_encode($output[0]);
+
 		}
 
 

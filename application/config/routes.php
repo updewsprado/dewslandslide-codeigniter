@@ -86,10 +86,13 @@ $route['narrativeAutomation/insert'] = "narrative_generator/insertEwiNarrative";
  * Data Analysis Pages Routes
  */
 $route['data_analysis/node'] = "node_level_page";
+$route['data_analysis/node/(:any)/(:any)/(:any)/(:any)'] = "node_level_page";
 $route['data_analysis/site'] = "site_level_page";
 $route['data_analysis/surficial'] = "surficial_page";
 $route['data_analysis/subsurface'] = "subsurface_page";
 $route['data_analysis/sensor_overview'] = "sensor_overview_page";
+$route['data_analysis/nodereport'] = "node_report_page";
+$route['data_analysis/site_analysis'] = "site_analysis_page";
 
 //Gold
 //$route['gold'] = "monitoring/index";

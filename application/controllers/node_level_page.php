@@ -3,6 +3,7 @@ class Node_level_page extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
+		$this->load->model('site_level_model');
 		$this->load->model('node_level_model');
 		$this->load->model('Alert_model');
 		$this->load->helper('url');
@@ -17,7 +18,6 @@ class Node_level_page extends CI_Controller {
 		$data['user_id'] = $this->session->userdata("id");
 		
 		$data['title'] = $page;
-
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
 		$this->load->view('templates/footer');
@@ -31,6 +31,25 @@ class Node_level_page extends CI_Controller {
 		print json_encode($result);
 	}
 
+	public function getAllSingleAlertwithSite($site){
+		$data['nodeAlerts'] = $this->Alert_model->getSingleAlert($site);
+		$data['siteMaxNodes'] = $this->Alert_model->getSingleMaxNode($site);
+		$data['nodeStatus'] = $this->Alert_model->getSingleNodeStatus($site);	
+		print json_encode($data);
+	}
+
+	public function getDatafromSiteColumn($site){
+		$result = $this->site_level_model->getSiteColumn($site);
+		print json_encode($result);
+	}
+
+	public function getAllSingleAlert(){
+		$data_result = $_POST['data'];
+		$data['nodeAlerts'] = $this->Alert_model->getSingleAlert($data_result['site']);
+		$data['siteMaxNodes'] = $this->Alert_model->getSingleMaxNode($data_result['site']);
+		$data['nodeStatus'] = $this->Alert_model->getSingleNodeStatus($data_result['site']);	
+		print json_encode($data);
+	}
 
 
 }
