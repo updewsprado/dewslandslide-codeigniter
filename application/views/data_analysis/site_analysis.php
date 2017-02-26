@@ -302,8 +302,7 @@ h4{
               </div>
               <div class="checkbox sub_surface_analysis_checkbox">
                 <input id="sub_surface_analysis_checkbox" type="checkbox" class="checkbox">
-                <label for="sub_surface_analysis_checkbox">
-                 SubSurface Analysis Graph</label>
+                <label for="sub_surface_analysis_checkbox"> SubSurface Analysis Graph</label>
               </div>
               <div class="checkbox communication_health_checkbox">
                 <input id="communication_health_checkbox" type="checkbox" class="checkbox">
