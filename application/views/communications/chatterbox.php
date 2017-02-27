@@ -402,8 +402,8 @@
       </div>
       <div class="modal-body row-fluid">
         <div class="input-group search-opt">
-          <label class="radio-inline"><input type="radio" name="optradio" checked >Global Search Message</label>
-          <label class="radio-inline"><input type="radio" name="optradio">GINTag Search</label>  
+          <label class="radio-inline"><input type="radio" value="global-search" name="optradio" checked >Global Search Message</label>
+          <label class="radio-inline"><input type="radio" value="gintag-search" name="optradio">GINTag Search</label>  
         </div>
         <div class="input-group">
           <input type="text" id="search-global-keyword" class="form-control" placeholder="Search for...">
