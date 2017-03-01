@@ -27,12 +27,12 @@
     </div>
     <div id="div-advanced-search" class="col-md-6">
       <button type="button" class="btn btn-link btn-sm" id="btn-advanced-search" 
-      data-toggle="modal" data-target="#advanced-search" data-toggle="tooltip" title="Quick Group Selection">
+      data-toggle="modal" data-toggle="tooltip" title="Quick Group Selection">
       <span class="glyphicon glyphicon-list-alt"></span>
       </button>
 
       <button type="button" class="btn btn-link btn-sm" id="btn-contact-settings" 
-      data-toggle="modal" data-target="#contact-settings" data-toggle="tooltip" title="Contact Settings"><span class="glyphicon glyphicon-user"></span>
+      data-toggle="modal" data-toggle="tooltip" title="Contact Settings"><span class="glyphicon glyphicon-user"></span>
       </button>
       
       <button type="button" class="btn btn-link btn-sm" id="btn-gbl-search" title="Search Message"><span class="glyphicon glyphicon-search"></span></button>
