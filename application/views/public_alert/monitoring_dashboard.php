@@ -201,12 +201,31 @@
 	              	</div>
 	              	<div class="modal-footer">
 	              		<button id="edit-bulletin" class="btn btn-warning" role="button" type="submit">Edit</button>
-	              		<button id="send" class="btn btn-danger" role="button" type="submit">Send</button>
+	              		<button id="send_to_mail" class="btn btn-danger" role="button" type="submit">Send</button>
 	              		<button id="cancel" class="btn btn-info" data-dismiss="modal" role="button">Cancel</button>
 	            	</div>
 	            </div>
 	      	</div>
 	    </div> <!-- End of MODAL AREA -->
+
+	     <!-- Modal for Email Recipients -->
+        <div class="modal fade" id="recipientsModal" role="dialog">
+            <div class="modal-dialog modal-md">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Send to Recipients</h4>
+                    </div>
+                    <div class="modal-body row-fluid">
+                        <input type="text" class="form-control" id="recipients" name="recipients" data-role="tagsinput" />
+                    </div>
+                    <div class="modal-footer">
+                        <button id="send" class="btn btn-danger" role="button" type="submit">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- End of Email Recipients Modal -->
 
 	    <div class="modal fade js-loading-bar" id="bulletinLoadingModal" role="dialog">
 			<div class="modal-dialog">
