@@ -23,7 +23,7 @@
                         <img src="/images/Chatterbox/boy_avatar.png" alt="User Avatar">
                         {{/if}}
                     </span>
-                    <div class="chat-body clearfix tagged" id="id_{{hasTag}}">
+                    <div class="chat-body clearfix tagged" id="id_{{timestamp}}">
                         <div class="header">
                             <strong class="primary-font" id="chat-user" >{{user}}</strong>
                             {{#if isyou}}
