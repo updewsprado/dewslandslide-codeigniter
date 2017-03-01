@@ -17,17 +17,18 @@ class Gintags_helper_model extends CI_Model {
         $res = $this->db->query($sql);
         if ($res->num_rows == 0) {
             $sql = "CREATE TABLE `gintags` (
-                  `gintags_id` int(11) NOT NULL AUTO_INCREMENT,
-                  `tag_id_fk` int(11) NOT NULL,
-                  `tagger_eid_fk` varchar(45) NOT NULL,
-                  `table_element_id` varchar(200) DEFAULT NULL,
-                  `table_used` varchar(45) DEFAULT NULL,
-                  `timestamp` varchar(45) DEFAULT NULL,
-                  PRIMARY KEY (`gintags_id`),
-                  KEY `tag_id_idx` (`tag_id_fk`),
-                  KEY `tagger_idx` (`tagger_eid_fk`),
-                  CONSTRAINT `tag_id` FOREIGN KEY (`tag_id_fk`) REFERENCES `gintags_reference` (`tag_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-                ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8";
+                      `gintags_id` int(11) NOT NULL AUTO_INCREMENT,
+                      `tag_id_fk` int(11) NOT NULL,
+                      `tagger_eid_fk` varchar(45) NOT NULL,
+                      `table_element_id` varchar(10) DEFAULT NULL,
+                      `table_used` varchar(45) DEFAULT NULL,
+                      `timestamp` varchar(45) DEFAULT NULL,
+                      `remarks` varchar(200) DEFAULT NULL,
+                      PRIMARY KEY (`gintags_id`),
+                      KEY `tag_id_idx` (`tag_id_fk`),
+                      KEY `tagger_idx` (`tagger_eid_fk`),
+                      CONSTRAINT `tag_id` FOREIGN KEY (`tag_id_fk`) REFERENCES `gintags_reference` (`tag_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+                    ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8";
 
             $res = $this->db->query($sql);
             echo "Table 'gintags' Created!\n";
@@ -41,11 +42,11 @@ class Gintags_helper_model extends CI_Model {
        $res = $this->db->query($sql);
         if ($res->num_rows == 0) {
             $sql = "CREATE TABLE `gintags_reference` (
-              `tag_id` int(11) NOT NULL AUTO_INCREMENT,
-              `tag_name` varchar(200) NOT NULL,
-              `tag_description` longtext,
-              PRIMARY KEY (`tag_id`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8";
+                      `tag_id` int(11) NOT NULL AUTO_INCREMENT,
+                      `tag_name` varchar(200) NOT NULL,
+                      `tag_description` longtext,
+                      PRIMARY KEY (`tag_id`)
+                    ) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8";
 
             $res = $this->db->query($sql);
             echo "Table 'gintags_reference' Created!\n";
