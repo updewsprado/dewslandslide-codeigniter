@@ -101,12 +101,34 @@
 
 		public function mail()
 		{
-			// FOR WINDOWS
-			// require_once("C:\\xampp\PHPMailer\PHPMailerAutoload.php");
-			// FOR LINUX
-			require_once("/usr/share/php/PHPMailer/PHPMailerAutoload.php");
-			
-			$cred = $this->bulletin_model->getEmailCredentials('dewslmonitoring');
+			if (base_url() == "http://www.dewslandslide.com/") {
+				// FOR LINUX
+				$path = "/usr/share/php/PHPMailer/PHPMailerAutoload.php";
+				$cred = $this->bulletin_model->getEmailCredentials('dewslmonitoring');
+			}	
+			else
+			{
+				if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+				{
+					// FOR WINDOWS
+					$path = "C:\\xampp\PHPMailer\PHPMailerAutoload.php";
+				}
+				else $path = "/usr/share/php/PHPMailer/PHPMailerAutoload.php";
+				$cred = $this->bulletin_model->getEmailCredentials('dynaslopeswat');
+			}
+
+			if(is_string($cred)) {echo $cred; return;};
+
+			if (file_exists($path) && is_readable($path)) {
+				require_once($path);
+			} else {
+				if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') $path = "C:\\xampp";
+				else $path = "/usr/share/php/";
+				echo "PHPMailer does not exists. Please download and put PHPMailer folder on " . $path;
+				return;
+			}
+
+			if(count($_POST['recipients']) == 0) { echo "No email recipients entered."; return; }
 
 			$mail = new PHPMailer;
 
@@ -126,9 +148,11 @@
 			$mail->SMTPSecure = 'ssl';
 			$mail->Port = 465;
 			$mail->setFrom($cred['email'], 'DEWS-L Monitoring');
-			$mail->addAddress('rusolidum@phivolcs.dost.gov.ph');
-			$mail->addAddress('asdaag@yahoo.com');
-			$mail->addAddress('kevindhaledelacruz@gmail.com');
+
+			foreach ($_POST['recipients'] as $recipient) {
+				$mail->addAddress($recipient);				
+			}
+
 			$mail->addReplyTo($cred['email'], 'DEWS-L Monitoring');
 			$mail->addCustomHeader( 'In-Reply-To', '<' . $cred['email'] . '>' );
 			$mail->isHTML(true);

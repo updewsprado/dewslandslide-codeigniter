@@ -11,7 +11,6 @@
 <script src="/js/third-party/handlebars.js"></script>
 <script src="/js/third-party/moment-locales.js"></script>
 <script src="/js/third-party/bootstrap-tagsinput.js"></script>
-<script src="/js/third-party/bootstrap.min.js"></script>
 
 <div id="chatterbox-page-wrapper">
 

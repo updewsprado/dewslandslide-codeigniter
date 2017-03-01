@@ -25,6 +25,9 @@
 
     <!-- jQuery UI Version 1.12.1 -->
     <script type="text/javascript" src="/js/third-party/jquery-ui-1.12.1.min.js"></script>
+
+    <!-- Bootstrap JS v3.3.7 -->
+    <script src="/js/third-party/bootstrap.min.js"></script>
     
 	<!-- Spinner -->
 	<script type="text/javascript" src="/js/third-party/spin.min.js"></script>

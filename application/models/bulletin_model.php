@@ -120,7 +120,9 @@
 		public function getEmailCredentials($username)
 		{
 			$query = $this->db->get_where('membership', array('username' => $username));
-			return $query->result_array()[0];
+			if( $query->num_rows() == 0 ) $result = "No '" . $username . "' username on the database.";
+			else $result = $query->result_array()[0];
+			return $result;
 		}
 
 	}
