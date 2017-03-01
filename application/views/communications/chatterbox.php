@@ -2,10 +2,7 @@
 <link rel="stylesheet" type="text/css" href="/css/third-party/awesomplete.css">
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewschatterbox.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/ju/jqc-1.12.4/dt-1.10.13/datatables.min.css"/>
 
-<!-- ChatterBox JS Requirements -->
-<script type="text/javascript" src="https://cdn.datatables.net/v/ju/jqc-1.12.4/dt-1.10.13/datatables.min.js"></script>
 <script src="/js/dewslandslide/communications/dewschatterbox.js"></script>
 <script src="/js/third-party/awesomplete.js"></script>
 <script src="/js/third-party/handlebars.js"></script>
@@ -233,7 +230,7 @@
           </div>
         </div>
 
-        <table id="response-contact-container" class="display" cellspacing="0" width="100%" hidden>
+        <table id="response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
           <thead>
             <tr>
               <th>Name</th>
