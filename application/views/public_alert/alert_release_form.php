@@ -11,6 +11,7 @@
 
  <script type="text/javascript" src="../js/dewslandslide/public_alert/alert_release_form.js"></script>
  <link rel="stylesheet" type="text/css" href="../css/dewslandslide/public_alert/alert_release_form.css">
+ <script src="<?php echo base_url();?>js/dewslandslide/public_alert/dashboard_server.js"></script>
 
 <?php
     $sites = json_decode($sites);
