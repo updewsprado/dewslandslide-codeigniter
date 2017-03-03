@@ -76,6 +76,20 @@ class Gintags_helper_model extends CI_Model {
         }
     }
 
+    public function removeGinTagEntry($data){
+        if ($data["db_used"] == "smsoutbox") {
+            $sql = "SELECT sms_id from ".$data["db_used"]." WHERE recepients LIKE '%".$data["contact"]."%' AND timestamp_written='".$data["timestamp"]."'";
+        } else {
+            $sql = "SELECT sms_id from ".$data["db_used"]." WHERE sim_num LIKE '%".$data["contact"]."%' AND timestamp='".$data["timestamp"]."'";
+        }
+
+        return $sql; 
+       // $query_result = $this->db->query($sql);
+       // foreach ($query_result->result() as $row) {
+       //     return $row->sms_id;
+       // }
+    }
+
     public function checkTagExist($data){
         $sql = "SELECT * FROM gintags_reference WHERE tag_name='".$data['tag_name']."'";
         $query_result = $this->db->query($sql);

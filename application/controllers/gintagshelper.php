@@ -27,6 +27,32 @@ class Gintagshelper extends CI_Controller {
 		}
 	}
 
+	public function removeGintagsEntry(){
+		$gintags = $_POST['gintags'];
+		$person = "";
+		for ($counter = 0 ; $counter < sizeof($gintags["contact"]); $counter++) {
+			if (strlen($gintags["contact"][$counter]["number"]) == 11) {
+				$person = substr($gintags["contact"][$counter]["number"], 1);
+			} else if (strlen($gintags["contact"][$counter]["number"]) == 12) {
+				$person = substr($gintags["contact"][$counter]["number"], 2);
+			} else if (strlen($gintags["contact"][$counter]["number"]) == 13) {
+				$person = substr($gintags["contact"][$counter]["number"], 3);
+			} else {
+				$person = $gintags["contact"][$counter]["number"];
+			}
+
+			$data['contact'] = $person;
+			$data['timestamp'] = $gintags["details"]["data"][2];
+			if ($gintags["details"]["data"][1] != "You") {
+				$data['db_used'] = "smsinbox";
+			} else {
+				$data['db_used'] = "smsoutbox";
+			}
+			$result = $this->gintags_helper_model->removeGinTagEntry($data);
+			var_dump($result);
+		}
+	}
+
 	public function getGinTagsViaTableElement( $table_element_id ) {
 		$result = $this->gintags_helper_model->fetchGinTags($table_element_id);
 		print json_encode($result);
