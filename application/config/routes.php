@@ -73,6 +73,7 @@ $route['communications/chatterbox'] = "chatterbox/index";
 $route['communications/responsetracker'] = "responsetracker/index";
 $route['communications/chatterbox/updatecontacts'] = "chatterbox/updatecontacts";
 $route['communications/chatterbox/gintagcontacts'] = "chatterbox/get_comm_contacts_gintag";
+$route['communications/chatterbox/addcontact'] = "chatterbox/addcontacts";
 
 /**
 * General Information Tagging

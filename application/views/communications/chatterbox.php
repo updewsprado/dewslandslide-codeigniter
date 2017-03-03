@@ -347,8 +347,8 @@
             <div class="col-md-3">
               <label for="ewirecipient">EWI Recipient:</label>
               <select name="ewirecipient" id="ewirecipient" class="form-control">
-                <option value="Y">Yes</option>
-                <option value="N">No</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
               </select>
             </div>
 
