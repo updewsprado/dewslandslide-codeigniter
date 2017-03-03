@@ -16,7 +16,8 @@ public function addNewContactEmployee($data,$category){
 		$result = $this->contactExists($data,$category);
 		if ($result == false) {
 			try {
-				$query = $this->db->query("INSERT INTO dewslcontacts VALUES('','$data->lastname','$data->firstname','$data->nickname','$data->birthday','$data->email','$data->numbers','$data->grouptags')");
+				$sql = "INSERT INTO dewslcontacts VALUES(0,'$data->lastname','$data->firstname','$data->nickname','$data->birthday','$data->email','$data->numbers','$data->grouptags')";
+				$query = $this->db->query($sql);
 			} catch (Exception $e) {
 				echo $e->getMessage(),"\n";
 			}	
@@ -30,7 +31,7 @@ public function addNewContactEmployee($data,$category){
 		$result = $this->contactExists($data,$category);
 		if ($result == false) {
 			try {
-				$query = $this->db->query("INSERT INTO communitycontacts VALUES('','$data->lastname','$data->firstname','$data->prefix','$data->office','$data->sitename','$data->number','$data->rel','$data->ewirecipient')");
+				$query = $this->db->query("INSERT INTO communitycontacts VALUES(0,'$data->lastname','$data->firstname','$data->prefix','$data->office','$data->sitename','$data->number','$data->rel','$data->ewirecipient')");
 			} catch (Exception $e) {
 				echo $e->getMessage(),"\n";
 			}	

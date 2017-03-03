@@ -40,27 +40,29 @@ class Chatterbox extends CI_Controller {
 
 	public function addcontacts() {
 		$data = json_decode($_POST['contact']);
-		if ($data->category == "dewslcontacts") {
-			try {
-				$query = $this->contacts_model->addNewContactEmployee($data,$data->category);
-				print $query;
-			} catch (Exception $e) {
-				echo $e->getMessage(),"\n";
+		try {
+			if ($data->category == "dewslcontacts") {
+				try {
+					$query = $this->contacts_model->addNewContactEmployee($data,$data->category);
+					print $query;
+				} catch (Exception $e) {
+					echo $e->getMessage(),"\n";
+				}
+			} else if ($data->category  == "communitycontacts"){
+				try {
+					$query = $this->contacts_model->addNewContactCommunity($data,$data->category);
+					print $query;
+				} catch (Exception $e) {
+					echo $e->getMessage(),"\n";
+				}
 			}
-		} else if ($data->category  == "communitycontacts"){
-			try {
-				$query = $this->contacts_model->addNewContactCommunity($data,$data->category);
-				print $query;
-			} catch (Exception $e) {
-				echo $e->getMessage(),"\n";
-			}
+		} catch (Exception $e) {
+			echo $e->getMessage(),"\n";
 		}
 	}
 
 	public function updatecontacts(){
-
 		$data = json_decode($_POST['contact']);
-
 		if ($data->id[0] == "e") {
 			$data->id = substr($data->id,2);
 			$query = $this->contacts_model->updateContactsEmployee($data);
@@ -72,7 +74,6 @@ class Chatterbox extends CI_Controller {
 		} else {
 			echo "Invalid Request";
 		}
-
 	}
 
 	// Fetch the Sitio,Barangay,Province and Municipality.
