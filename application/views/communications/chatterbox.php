@@ -86,7 +86,7 @@
           </div>
           <div class="col-xs-2" id="chat-commands">
             <button class="btn btn-primary no-rounded" type="button" id="btn-ewi"
-            data-toggle="modal" data-dismiss="modal" data-target="#early-warning-modal">EWI</button>
+            data-toggle="modal" data-dismiss="modal">EWI</button>
           </div>
         </div>
         <p>Remaining characters: <b id="remaining_chars">800</b></p>
@@ -481,7 +481,7 @@
        <input type="text" class="form-control" id="gintags" name="gintags"  data-role="tagsinput" placeholder="E.g #EwiMessage" required>
         <div class="form-group" id="submit-gintag">
           <button type="submit" value="submit" id="confirm-gintags" class="btn btn-primary" data-dismiss="modal">Confirm</button>
-          <button type="reset" class="btn btn-danger" data-dismiss="modal">Reset</button>
+          <button type="reset" class="btn btn-danger" id="reset-gintags">Reset</button>
         </div>  
       </div>
     </div>  
