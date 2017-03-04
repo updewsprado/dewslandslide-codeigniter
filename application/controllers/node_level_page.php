@@ -31,6 +31,19 @@ class Node_level_page extends CI_Controller {
 		print json_encode($result);
 	}
 
+	public function getAllAccelVersion1In(){
+		$data_result = $_POST['data'];
+		$result = $this->node_level_model->getAccelVersion1In($data_result['site'],
+			$data_result['fdate'],$data_result['tdate'],$data_result['nid']);
+		print json_encode($result);
+	}
+
+	public function AccelUnfilteredDataIn($site,$fdate,$tdate,$nid,$ms){
+		$new_nid = str_replace("-", ',', $nid);
+		$result = $this->node_level_model->getAccelRawIn($site,$fdate,$tdate,$ms,$new_nid);
+		print json_encode($result);
+	}
+
 	public function getAllSingleAlertwithSite($site){
 		$data['nodeAlerts'] = $this->Alert_model->getSingleAlert($site);
 		$data['siteMaxNodes'] = $this->Alert_model->getSingleMaxNode($site);
