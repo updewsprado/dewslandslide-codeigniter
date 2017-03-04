@@ -6,6 +6,7 @@
  -->
 
 <link rel="stylesheet" type="text/css" href="css/dewslandslide/public_alert/monitoring_dashboard.css">
+<script src="<?php echo base_url();?>js/dewslandslide/public_alert/dashboard_server.js"></script>
 <script type="text/javascript" src="js/dewslandslide/public_alert/monitoring_dashboard.js"></script>
 <script type="text/javascript" src="js/dewslandslide/public_alert/bulletin.js"></script>
 <script src="/js/dewslandslide/communications/dewschatterbox.js"></script>
