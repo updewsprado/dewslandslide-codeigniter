@@ -1,206 +1,34 @@
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script><script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHuLBzeBR6eA_z70NOabE-uov9jg46Azc"></script>
-<script type="text/javascript" src="/js/dewslandslide/data_analysis/site_analysis.js"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
-<script src="https://code.highcharts.com/stock/highstock.js"></script>
-<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/site_analysis.css">
-<script type="text/javascript" src="/js/dewslandslide/data_analysis/alertmini.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/third-party/daterangepicker.css">
+<link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-select.min.css">
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewsalert.css">
-<script src="/js/dewslandslide/dewscommhealth-d3.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewscommhealth.css">
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="/js/third-party/highstock.js"></script>
+<script src="/js/third-party/exporting.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHuLBzeBR6eA_z70NOabE-uov9jg46Azc"></script>
 
+<script src="/js/third-party/d3.v3.min.js"></script>
+<script src="/js/third-party/heatmap.js"></script>
+<script src="/js/third-party/daterangepicker.js"></script>
+<script src="/js/third-party/d3.tip.v0.6.3.js"></script>
+<script src="/js/third-party/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/data_analysis/alertmini.js"></script>
+<script src="/js/dewslandslide/data_analysis/site_analysis.js"></script>
+<script src="/js/dewslandslide/dewscommhealth-d3.js"></script>
 <style type="text/css">
-  #divData{
-    padding-right: 0px;
-  }
-  .container .col-md-9 .panel-default {
-    border-right-width: 0px;
-    border-left-width: 0px;
-  }
-  #alert_div{
-    height: 30px;
-  }
-  #A0 {
-   background-color: #99ff99;
-   padding-bottom: 0px;
-   padding-top: 0px;
-   padding: 0px
- }
- #A1 {
-   background-color: #ffb366;
-   padding-bottom: 0px;
-   padding-top: 0px;
-   padding: 0px
- }
-
- #A2 {
-   background-color: #ff6666;
-   padding-bottom: 0px;
-   padding: 0px
-   padding-top: 0px;
- }
- #ground_table thead tr th:nth-child(2) {
-  display: none;
-}
-
-#ground_table tbody tr td:nth-child(2){
-  display:none;
-}
-
-.modal-content{
-  width: 952px;
-}
-#reportrange{
-  cursor: pointer;
-  padding: 5px 10px;
-  border: 1px solid #e6e6e6;
-  width: 100%
-}
-.analysis{
-  height: 937px;
-}
-
-ol{
-  text-align: center;
-}
-.col-md-12 .col-md-6{
-  padding-bottom: 15px;
-}
-.divData-colmd8{
-  padding-left: 5px;
-}
-#analysis_panel_body{
-  padding: 0px
-}
-.analysis_divDta{
-  padding-left: 5px;
-  padding-right: 0px;
-}
-.container .col-md-9 .panel-body{
- /* background: #f4f4f4 url(../../images/dews-l-logo.png);
-  background-blend-mode: overlay;
-  background-repeat: no-repeat;
-  background-position: center; 
-  background-size:contain;
-  opacity: 4;
-  font-family: Arial;*/
-  padding-left: 0px;
-}
-#map-canvas {
+  #map-canvas {
   width: 250px;
-  height: 500px;
+  height: 450px;
   min-width: 5%!important;
   min-height: 5%!important;
 }
-
-#mTable_wrapper{
-  margin-top: 15px;
-}
-.glyphicon .glyphicon-menu-down{
-  text-align: right;
-}
-#site_info{
- margin: 0px;
- text-align: center;
-}
-
-#site_info_sub{
- margin: 0px;
- text-align: center;
-}
-#site_info_sub_sub{
- margin: 5px;
- text-align: center;
-}
-.header_level{
- margin: 0px;
- text-align: center;
-}
-.header_right_level{
-  margin: 0px;
-  text-align: right;
-}
-.header_left_level{
-  margin: 0px;
-  text-align: right;
-}
-text.mono {
-  font-size: 6pt;
-}
-text.axes {
-  font-size: 12pt;
-}
-h4{
-  margin:0px;
-}
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.bar {
-  fill: orange;
-}
-
-.bar:hover {
-  fill: orangered ;
-}
-
-.x.axis path {
-  display: none;
-}
-
-.d3-tip {
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
-}
-
-/* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  position: absolute;
-  text-align: center;
-}
-
-/* Style northward tooltips differently */
-.d3-tip.n:after {
-  margin: -1px 0 0 0;
-  top: 100%;
-  left: 0;
-}
-#data_presence_div{
-  width: 50%;
-  height: 10px;
-  position: absolute;
-}
-/*.container .col-sm-3{
-
-}*/
 </style>
 <br>
 <div class="container">
   <div class="page-header">
     <h1>INTEGRATED SITE ANALYSIS PAGE</h1>
   </div>
-  <div class="col-sm-3 col-md-3">
+  <div class="col-sm-3 col-md-3" id="sidebar">
     <div class="panel-group">
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -266,12 +94,6 @@ h4{
                 <label for="exampleInputFile">&nbsp; SITE LEVEL:
                 </label>
               </div>
-              <div class="checkbox data_presence_checkbox">
-                <input id="data_presence_checkbox" type="checkbox" class="checkbox">
-                <label for="data_presence_checkbox">
-                  Data Presence
-                </label>
-              </div>
               <div class="checkbox ground_measurement_checkbox">
                 <input id="ground_measurement_checkbox" type="checkbox" class="checkbox">
                 <label for="ground_measurement_checkbox">
@@ -283,6 +105,7 @@ h4{
                 <label for="rain_graph_checkbox">
                   Rainfall Graphs
                 </label>
+
               </div>
               <div class="checkbox surficial_velocity_checkbox">
                 <input id="surficial_velocity_checkbox" type="checkbox" class="checkbox">
@@ -300,6 +123,12 @@ h4{
                 <label for="exampleInputFile">&nbsp; COLUMN LEVEL:
                 </label>
               </div>
+              <div class="checkbox data_presence_checkbox">
+                <input id="data_presence_checkbox" type="checkbox" class="checkbox">
+                <label for="data_presence_checkbox">
+                  Data Presence
+                </label>
+              </div>
               <div class="checkbox sub_surface_analysis_checkbox">
                 <input id="sub_surface_analysis_checkbox" type="checkbox" class="checkbox">
                 <label for="sub_surface_analysis_checkbox"> SubSurface Analysis Graph</label>
@@ -310,14 +139,14 @@ h4{
                   Communication Health
                 </label>
               </div>
-              <div class="form-group">
-                <label for="exampleInputFile">&nbsp; NODE LEVEL:
-                </label>
-              </div>
               <div class="checkbox node_summary_checkbox">
                 <input id="node_summary_checkbox" type="checkbox" class="checkbox">
                 <label for="node_summary_checkbox">
                   Node Summary
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputFile">&nbsp; NODE LEVEL:
                 </label>
               </div>
               <div class="checkbox x_accel_checkbox">
@@ -338,34 +167,35 @@ h4{
                 Z Accel Graph
               </label>
             </div>
-            <div class="checkbox soms_raw_checkbox">
-              <input id="soms_raw_checkbox" type="checkbox" class="checkbox">
-              <label for="soms_raw_checkbox">
-                Soms Raw Graph
+            <div class="checkbox soms_checkbox">
+              <input id="soms_checkbox" type="checkbox" class="checkbox">
+              <label for="soms_checkbox">
+                Soms Graph
               </label>
             </div>
-            <div class="checkbox soms_cal_checkbox">
-              <input id="soms_cal_checkbox" type="checkbox" class="checkbox">
-              <label for="soms_cal_checkbox">
-               Soms Raw Graph
-             </label>
-           </div>
-           <div class="checkbox batt_checkbox">
-            <input id="batt_checkbox" type="checkbox" class="checkbox">
-            <label for="batt_checkbox">
-              Battery Graph
-            </label>
-          </div>
-        </form>
+            <div class="checkbox batt_checkbox">
+              <input id="batt_checkbox" type="checkbox" class="checkbox">
+              <label for="batt_checkbox">
+                Battery Graph
+              </label>
+            </div>
+            <div class="checkbox heatmap_checkbox">
+              <input id="heatmap_checkbox" type="checkbox" class="checkbox">
+              <label for="heatmap_checkbox">
+                Soms Heatmap
+              </label>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 <div class="col-sm-9 col-md-9" id="analysis_panel_body">
   <small id="small_header"><a >&nbsp;Analysis Page</a></small>
   <div class="panel panel-default ">
     <div class="panel-body  analysis"> 
+      <div id="container" style="height: 700px; min-width: 310px; max-width: 800px; margin: 0 auto"></div>
     </div>
   </div>
 </div>
@@ -385,11 +215,6 @@ h4{
     </div>
   </div>
 </div>
-
-
-
-
-
 
 
 

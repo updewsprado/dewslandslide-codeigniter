@@ -1,12 +1,12 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-    class API extends CI_Controller {
+class API extends CI_Controller {
 
-    	public function __construct() {
-			parent::__construct();
-			$this->load->model('site_level_model');
-			$this->load->model('node_level_model');
-			$this->load->model('comm_health_model');
-		}
+	public function __construct() {
+		parent::__construct();
+		$this->load->model('site_level_model');
+		$this->load->model('node_level_model');
+		$this->load->model('comm_health_model');
+	}
 
 		public function PiezometerAllData($site){ // example  http://localhost/api/PiezometerAllData/ltesapzpz
 			$result = $this->site_level_model->getPiezometer($site);
@@ -34,21 +34,21 @@
 		}
 
 		public function SiteDetails($site){ // example http://localhost/api/SiteDetails/agb
-		   $result = $this->site_level_model->getSiteColumn($site);
-		   print json_encode($result);
-		   
+			$result = $this->site_level_model->getSiteColumn($site);
+			print json_encode($result);
+
 		}
 
 		public function NodeNumberPerSite($site){ // example http://localhost/api/NodeNumberPerSite/agbta
-		   $result = $this->site_level_model->getSiteNodeNumber($site);
-		   print json_encode($result);
-		   
+			$result = $this->site_level_model->getSiteNodeNumber($site);
+			print json_encode($result);
+
 		}
 
 		public function AllSiteDetails(){ // example http://localhost/api/AllSiteDetails
-		   $result = $this->site_level_model->getAllSiteColumn();
-		   print json_encode($result);
-		   
+			$result = $this->site_level_model->getAllSiteColumn();
+			print json_encode($result);
+
 		}
 		public function RainSenslope($rsite,$fdate,$tdate){ // example http://localhost/api/RainSenslope/blcw/2016-05-25/2016-06-25
 			$os = PHP_OS;
@@ -124,6 +124,8 @@
 			print json_encode($result);
 		}
 
+
+
 		public function SomsUnfilteredData($site,$fdate,$tdate,$nid,$ms){ // example http://localhost/api/SomsUnfilteredData/laysb/2014-05-25/2016-06-25/1/11
 			$result = $this->node_level_model->getSomsRaw($site,$fdate,$tdate,$ms,$nid);
 			print json_encode($result);
@@ -151,6 +153,27 @@
 
 		}
 
+		public function AccelfilteredDataIn($site,$fdate,$tdate,$nid,$ms){// example http://localhost/api/AccelfilteredDataIn/cudtb/2014-05-25/2016-06-25/1-2-3/32
+			$os = PHP_OS;
+
+			if (strpos($os,'WIN') !== false) {
+				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
+				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\accelfilteredDataIn.py';
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
+				$fileName = '/var/www/updews-pycodes/Liaison/accelfilteredDataIn.py';
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
+			
+			$command =$pythonPath.' '.$fileName.' '.$site.' '.$fdate.' '.$tdate.' '.$nid.' '.$ms;
+			exec($command, $output, $return);
+			print json_encode($output);
+
+		}
 		public function AccelfilteredVersion1($site,$fdate,$tdate,$nid){// example http://localhost/api/AccelfilteredVersion1/blcb/2014-05-25/2016-06-25/1
 			$os = PHP_OS;
 
@@ -161,6 +184,28 @@
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
 				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
 				$fileName = '/var/www/updews-pycodes/Liaison/accelfiteredVersion1.py';
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
+			
+			$command =$pythonPath.' '.$fileName.' '.$site.' '.$fdate.' '.$tdate.' '.$nid;
+			exec($command, $output, $return);
+			print json_encode($output);
+
+		}
+
+		public function AccelfilteredVersion1In($site,$fdate,$tdate,$nid){// example http://localhost/api/AccelfilteredVersion1In/blcb/2014-05-25/2016-06-25/1-2-3
+			$os = PHP_OS;
+
+			if (strpos($os,'WIN') !== false) {
+				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
+				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\accelfiteredVersion1In.py';
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
+				$fileName = '/var/www/updews-pycodes/Liaison/accelfiteredVersion1In.py';
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";
@@ -191,6 +236,31 @@
 			}
 			
 			$command = $pythonPath.' '.$fileName.' '.$site.' '.$fdate.' '.$tdate.' '.$nid.' '.$mode;
+
+			exec($command, $output, $return);
+			print json_encode($output);
+
+			
+		}
+
+		public function SomsfilteredDataIn($site,$fdate,$tdate,$mode){ //example http://localhost/api/SomsfilteredData/laysb/2014-05-25/2016-06-25/0
+
+			$os = PHP_OS;
+
+			if (strpos($os,'WIN') !== false) {
+				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
+				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\somsFilterIn.py';
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
+				$fileName = '/var/www/updews-pycodes/Liaison/somsFilterIn.py';
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
+			
+			$command = $pythonPath.' '.$fileName.' '.$site.' '.$fdate.' '.$tdate.' '.$mode;
 
 			exec($command, $output, $return);
 			print json_encode($output);
@@ -386,6 +456,29 @@
 
 		}
 
+		public function heatmap($site,$tdate,$days){ //example http://localhost/api/heatmap/agb
+			$os = PHP_OS;
 
-    }
-?>
+			if (strpos($os,'WIN') !== false) {
+				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
+				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\heatmap-visual.py';
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
+				$fileName = '/var/www/updews-pycodes/Liaison/heatmap-visual.py';
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
+			
+			$command = $pythonPath.' '.$fileName.' '.$site.' '.$tdate.' '.$days;
+
+			exec($command, $output, $return);
+			print json_encode($output[0]);
+
+		}
+
+
+	}
+	?>
