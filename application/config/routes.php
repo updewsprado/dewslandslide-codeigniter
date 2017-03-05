@@ -70,7 +70,7 @@ $route['reports/site_maintenance/(:num)'] = "sitemaintenance/individual/$1";
  * Communications Pages Routes
  */
 $route['communications/chatterbox'] = "chatterbox/index";
-$route['communications/responsetracker'] = "responsetracker/index";
+$route['communicationws/responsetracker'] = "responsetracker/index";
 $route['communications/chatterbox/updatecontacts'] = "chatterbox/updatecontacts";
 $route['communications/chatterbox/gintagcontacts'] = "chatterbox/get_comm_contacts_gintag";
 $route['communications/chatterbox/addcontact'] = "chatterbox/addcontacts";
@@ -79,6 +79,7 @@ $route['communications/chatterbox/addcontact'] = "chatterbox/addcontacts";
 * General Information Tagging
 */
 $route['generalinformation/insertGinTags'] = "gintagshelper/ginTagsEntry";
+$route['generalinformation/removeGintagsEntry'] = "gintagshelper/removeGintagsEntry";
 $route['generalinformation/getGintagsViaTag'] = "gintagshelper/getGintagsViaTag";
 $route['generalinformation/initialize'] = "gintagshelper/initialize";
 $route['narrativeAutomation/insert'] = "narrative_generator/insertEwiNarrative";

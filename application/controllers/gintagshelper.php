@@ -14,7 +14,6 @@ class Gintagshelper extends CI_Controller {
 
 	public function ginTagsEntry(){
 		$gintags = $_POST['gintags'];
-		var_dump($gintags);
 		for ($i = 0; $i < sizeof($gintags);$i++) {
 			$data['tag_name'] = $gintags[$i]["tag_name"];
 			$data['tag_description'] = $gintags[$i]["tag_description"];
@@ -24,6 +23,31 @@ class Gintagshelper extends CI_Controller {
 			$data['table_used'] = $gintags[$i]["table_used"];
 			$data['remarks'] = $gintags[$i]["remarks"];
 			$result = $this->gintags_helper_model->insertGinTagEntry($data);
+		}
+	}
+
+	public function removeGintagsEntry(){
+		$tag_details = $_POST['gintags'];
+		$person = "";
+		for ($counter = 0 ; $counter < sizeof($tag_details["contact"]); $counter++) {
+			if (strlen($tag_details["contact"][$counter]) == 11) {
+				$person = substr($tag_details["contact"][$counter], 1);
+			} else if (strlen($tag_details["contact"][$counter]) == 12) {
+				$person = substr($tag_details["contact"][$counter], 2);
+			} else if (strlen($tag_details["contact"][$counter]) == 13) {
+				$person = substr($tag_details["contact"][$counter], 3);
+			} else {
+				$person = $tag_details["contact"][$counter];
+			}
+			$data['contact'] = $person;
+			$data['timestamp'] = $tag_details["details"]["data"][2];
+			$data['tags'] = $tag_details["details"]["tags"];
+			if ($tag_details["details"]["data"][1] != "You") {
+				$data['db_used'] = "smsinbox";
+			} else {
+				$data['db_used'] = "smsoutbox";
+			}
+			$result = $this->gintags_helper_model->removeGinTag($data);
 		}
 	}
 
