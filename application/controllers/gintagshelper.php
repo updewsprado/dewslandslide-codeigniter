@@ -26,7 +26,7 @@ class Gintagshelper extends CI_Controller {
 		}
 	}
 
-	public function removeGintagsEntry(){
+	public function removeGintagsEntryViaChatterbox(){
 		$tag_details = $_POST['gintags'];
 		$person = "";
 		for ($counter = 0 ; $counter < sizeof($tag_details["contact"]); $counter++) {
