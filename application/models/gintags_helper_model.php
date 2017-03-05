@@ -12,7 +12,7 @@
  */
 class Gintags_helper_model extends CI_Model {
 
-	public function createGintagsTable() {
+  public function createGintagsTable() {
         $sql = "SHOW TABLES LIKE 'gintags'";
         $res = $this->db->query($sql);
         if ($res->num_rows == 0) {
@@ -35,9 +35,9 @@ class Gintags_helper_model extends CI_Model {
         } else {
             // echo "Table 'gintags' exists!\n";
         }
-	}
+  }
 
-	public function createGintagsReferenceTable() {
+  public function createGintagsReferenceTable() {
        $sql = "SHOW TABLES LIKE 'gintags_reference'";
        $res = $this->db->query($sql);
         if ($res->num_rows == 0) {
@@ -53,7 +53,7 @@ class Gintags_helper_model extends CI_Model {
         } else {
             // echo "Table 'gintags_reference' exists!\n";
         }
-	}
+  }
 
     public function insertGinTagEntry($data){
         $doExist = $this->checkTagExist($data);
