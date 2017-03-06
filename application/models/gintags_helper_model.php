@@ -12,7 +12,7 @@
  */
 class Gintags_helper_model extends CI_Model {
 
-	public function createGintagsTable() {
+  public function createGintagsTable() {
         $sql = "SHOW TABLES LIKE 'gintags'";
         $res = $this->db->query($sql);
         if ($res->num_rows == 0) {
@@ -35,9 +35,9 @@ class Gintags_helper_model extends CI_Model {
         } else {
             // echo "Table 'gintags' exists!\n";
         }
-	}
+  }
 
-	public function createGintagsReferenceTable() {
+  public function createGintagsReferenceTable() {
        $sql = "SHOW TABLES LIKE 'gintags_reference'";
        $res = $this->db->query($sql);
         if ($res->num_rows == 0) {
@@ -53,7 +53,7 @@ class Gintags_helper_model extends CI_Model {
         } else {
             // echo "Table 'gintags_reference' exists!\n";
         }
-	}
+  }
 
     public function insertGinTagEntry($data){
         $doExist = $this->checkTagExist($data);
@@ -74,6 +74,40 @@ class Gintags_helper_model extends CI_Model {
                 echo "Tag exists";
             }
         }
+    }
+
+    public function removeGinTag($data){
+      if ($data["db_used"] == "smsoutbox") {
+        $sql = "SELECT sms_id from ".$data["db_used"]." WHERE recepients LIKE '%".$data["contact"]."%' AND timestamp_written='".$data["timestamp"]."'";
+      } else {
+        $sql = "SELECT sms_id from ".$data["db_used"]." WHERE sim_num LIKE '%".$data["contact"]."%' AND timestamp='".$data["timestamp"]."'";
+      }
+      $query_result = $this->db->query($sql);
+
+      for ($counter = 0;$counter < sizeof($data["tags"]);$counter++) {
+        if ($counter == 0) {
+          $tag_query = "refs.tag_name='".$data["tags"][$counter]."' ";
+        } else {
+          $tag_query = $tag_query." OR refs.tag_name='".$data["tags"][$counter]."'";
+        }
+      }
+
+      foreach ($query_result->result() as $row) {
+        $remove_query = "DELETE tags FROM gintags tags INNER JOIN gintags_reference refs ON tags.tag_id_fk=refs.tag_id WHERE tags.table_element_id='".$row->sms_id."' AND ".$tag_query.";";
+        $query_result = $this->db->query($remove_query);
+      }
+    }
+
+    public function removeSenderGintag($data) {
+        for ($counter = 0;$counter < sizeof($data["tags"]);$counter++) {
+            if ($counter == 0) {
+              $tag_query = "refs.tag_name='".$data["tags"][$counter]."' ";
+            } else {
+              $tag_query = $tag_query." OR refs.tag_name='".$data["tags"][$counter]."'";
+            }
+        }
+        $remove_query = "DELETE tags FROM gintags tags INNER JOIN gintags_reference refs ON tags.tag_id_fk=refs.tag_id WHERE tags.table_element_id='".$data["sms_id"]."' AND ".$tag_query.";";
+        $query_result = $this->db->query($remove_query);
     }
 
     public function checkTagExist($data){

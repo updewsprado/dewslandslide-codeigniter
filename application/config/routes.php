@@ -79,6 +79,8 @@ $route['communications/chatterbox/addcontact'] = "chatterbox/addcontacts";
 * General Information Tagging
 */
 $route['generalinformation/insertGinTags'] = "gintagshelper/ginTagsEntry";
+$route['generalinformation/removeGintagsEntryViaChatterbox'] = "gintagshelper/removeGintagsEntryViaChatterbox";
+$route['generalinformation/removeIndividualGintagEntryViaChatterbox'] = "gintagshelper/removeIndiGintagsChatterbox";
 $route['generalinformation/getGintagsViaTag'] = "gintagshelper/getGintagsViaTag";
 $route['generalinformation/initialize'] = "gintagshelper/initialize";
 $route['narrativeAutomation/insert'] = "narrative_generator/insertEwiNarrative";

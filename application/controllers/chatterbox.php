@@ -105,8 +105,12 @@ class Chatterbox extends CI_Controller {
 	public function get_comm_contacts_gintag(){
 		$data = json_decode($_POST['gintags']);
 		$result = $this->contacts_model->getGintagContacts($data);
-		$sms_ids = $this->get_sms_gintag_id($result,$data->data[2]);
-		print json_encode($sms_ids);
+		if ($data->cmd == "delete"){
+ 			print json_encode($result);
+ 		} else {
+ 			$sms_ids = $this->get_sms_gintag_id($result,$data->data[2]);
+ 			print json_encode($sms_ids);	
+ 		}
 	}
 
 	public function get_sms_gintag_id($data,$timestamp){
