@@ -218,7 +218,6 @@
               <option value="updatecontact">Update Existing Contact</option>
             </select>  
           </div>
-
         </div>
 
         <hr>
@@ -488,4 +487,51 @@
   </div>
 </div>
 <!-- END GINTAGS MODAL -->
+
+
+<!-- General Info MODAL -->
+<div class="modal fade col-lg-2" id="GenInfo-modal" role="dialog">
+  <div class="modal-dialog modal-md" id="GenInfo-modal-dialog">
+    <div class="modal-content" id="GenInfo-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4>CHATTERBOX PATCH NOTES<i class="text-warning"> *BETA*</i></h4>
+      </div>
+      <div class="notes">
+        <h4><strong>Bug Fixes:</strong></h4>
+        <strong><p>• Contact Settings Revamp</p>
+        <p>• Chatterbox Revamp</p>
+        <p>• Early warning information templates : Added Extended Monitoring message composition</p>
+        <p>• Early warning information templates : Corrected timestamps</p>
+        <p>• Chatterbox: Dashboard not sending for MSL and MSU</p></strong>
+        <h4><strong>Enhancements:</strong></h4>
+        <strong><p>• Chatterbox: UI / UX Improvements for Individual / Group conversation</p>
+        <p>• Chatterbox: UI/UX Improvements for "Create and Edit Contacts List"</p>
+        <p>• Chatterbox: Employee / Staff SMS Bomb</p>
+        <p>• Chatterbox: UI Display of "Timestamp Written" and "Timestamp Sent" on every outgoing message</p>
+        <p>• Added GINTAGs (General Information Tags) Feature</p>
+        <p>• Monitoring dashboard: #EwiMessage Automated tagging</p>
+        <p>• Narrative Report: Automated inclusion of all #EwiMessage tagged sms (EWI Releases)</p> </strong>
+      </div>
+      <div class="modal-body"> 
+          <img src="../../../images/dews-l-logo.png" id="bg-image-info">
+      </div>
+    </div>  
+  </div>
+</div>
+<!-- General Info MODAL -->
+
+<script>
+  // LocalStorage test
+  var localStorage = window.localStorage;
+  console.log(localStorage['myKey']);
+  if (localStorage['myKey'] == null) {
+    reposition('#GenInfo-modal');
+    localStorage['myKey'] = "Informed";
+    $('#GenInfo-modal').modal('toggle');
+
+  } else {
+    $('#GenInfo-modal').modal('hide');
+  }
+</script>
 
