@@ -204,7 +204,7 @@
           <div class="col-md-6">
             <label for="contact-category">Contact Category</label>
             <select id="contact-category" class="btn btn-default" name="contact-category" title="Contact Category">
-              <option disabled selected value="default">Ex. Employee Contacts</option>
+              <option disabled selected value="default">--</option>
               <option value="econtacts">Employee Contacts</option>
               <option value="ccontacts">Community Contacts</option>
             </select>  
@@ -213,7 +213,7 @@
           <div class="col-md-6">
             <label for="settings-cmd">What do you want to do?</label>
             <select id="settings-cmd" class="btn btn-default" disabled>
-              <option disabled selected value="default">Ex. Add Contact</option>
+              <option disabled selected value="default">--</option>
               <option value="addcontact">Add Contact</option>
               <option value="updatecontact">Update Existing Contact</option>
             </select>  
