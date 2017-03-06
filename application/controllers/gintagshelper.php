@@ -28,27 +28,39 @@ class Gintagshelper extends CI_Controller {
 
 	public function removeGintagsEntryViaChatterbox(){
 		$tag_details = $_POST['gintags'];
-		$person = "";
-		for ($counter = 0 ; $counter < sizeof($tag_details["contact"]); $counter++) {
-			if (strlen($tag_details["contact"][$counter]) == 11) {
-				$person = substr($tag_details["contact"][$counter], 1);
-			} else if (strlen($tag_details["contact"][$counter]) == 12) {
-				$person = substr($tag_details["contact"][$counter], 2);
-			} else if (strlen($tag_details["contact"][$counter]) == 13) {
-				$person = substr($tag_details["contact"][$counter], 3);
-			} else {
-				$person = $tag_details["contact"][$counter];
-			}
-			$data['contact'] = $person;
-			$data['timestamp'] = $tag_details["details"]["data"][2];
-			$data['tags'] = $tag_details["details"]["tags"];
-			if ($tag_details["details"]["data"][1] != "You") {
-				$data['db_used'] = "smsinbox";
-			} else {
+		if ($tag_details["details"]["data"][1] == "You") {
+			$person = "";
+			for ($counter = 0 ; $counter < sizeof($tag_details["contact"]); $counter++) {
+				if (strlen($tag_details["contact"][$counter]) == 11) {
+					$person = substr($tag_details["contact"][$counter], 1);
+				} else if (strlen($tag_details["contact"][$counter]) == 12) {
+					$person = substr($tag_details["contact"][$counter], 2);
+				} else if (strlen($tag_details["contact"][$counter]) == 13) {
+					$person = substr($tag_details["contact"][$counter], 3);
+				} else {
+					$person = $tag_details["contact"][$counter];
+				}
+				$data['contact'] = $person;
+				$data['timestamp'] = $tag_details["details"]["data"][2];
+				$data['tags'] = $tag_details["details"]["tags"];
 				$data['db_used'] = "smsoutbox";
+				$result = $this->gintags_helper_model->removeGinTag($data);
 			}
-			$result = $this->gintags_helper_model->removeGinTag($data);
+		} else {
+			// Group
+			$data['sms_id'] = $tag_details["details"]["data"][5];
+			$data['tags'] = $tag_details["details"]["tags"];
+			$data['db_used'] = "smsinbox";
+			$result = $this->gintags_helper_model->removeSenderGintag($data);
 		}
+	}
+
+	public function removeIndiGintagsChatterbox(){
+		$tag_details = $_POST['gintags'];
+		$data['sms_id'] = $tag_details["data"][5];
+		$data['tags'] = $tag_details["tags"];
+		$data['db_used'] = $tag_details["db_used"];
+		$result = $this->gintags_helper_model->removeSenderGintag($data);
 	}
 
 	public function getGinTagsViaTableElement( $table_element_id ) {

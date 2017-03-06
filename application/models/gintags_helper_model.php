@@ -98,6 +98,18 @@ class Gintags_helper_model extends CI_Model {
       }
     }
 
+    public function removeSenderGintag($data) {
+        for ($counter = 0;$counter < sizeof($data["tags"]);$counter++) {
+            if ($counter == 0) {
+              $tag_query = "refs.tag_name='".$data["tags"][$counter]."' ";
+            } else {
+              $tag_query = $tag_query." OR refs.tag_name='".$data["tags"][$counter]."'";
+            }
+        }
+        $remove_query = "DELETE tags FROM gintags tags INNER JOIN gintags_reference refs ON tags.tag_id_fk=refs.tag_id WHERE tags.table_element_id='".$data["sms_id"]."' AND ".$tag_query.";";
+        $query_result = $this->db->query($remove_query);
+    }
+
     public function checkTagExist($data){
         $sql = "SELECT * FROM gintags_reference WHERE tag_name='".$data['tag_name']."'";
         $query_result = $this->db->query($sql);
