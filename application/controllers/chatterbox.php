@@ -116,17 +116,34 @@ class Chatterbox extends CI_Controller {
 	public function get_sms_gintag_id($data,$timestamp){
 		$contact_person = "";
 		$sms_collection = [];
+		$contact_collection = [];
 		foreach ($data as $contact) {
 			if (strlen($contact->number) == 11) {
-				$contact_person = substr($contact->number, 1);
+				array_push($contact_collection,substr($contact->number, 1));
 			} else if (strlen($contact->number) == 12) {
-				$contact_person = substr($contact->number, 2);
+				array_push($contact_collection,substr($contact->number, 2));
 			} else if (strlen($contact->number) == 13) {
-				$contact_person = substr($contact->number, 3);
-			} else {
+				array_push($contact_collection,substr($contact->number, 3));
+			} else if (strlen($contact->number) >= 14){
+				$exploded_contact = explode(',',$contact->number);
+				foreach ($exploded_contact as $expd_con) {
+					if (strlen($expd_con) == 11) {
+						array_push($contact_collection,substr($expd_con, 1));
+					} else if (strlen($expd_con) == 12) {
+						array_push($contact_collection,substr($expd_con, 2));
+					} else if (strlen($expd_con) == 13) {
+						array_push($contact_collection,substr($expd_con, 3));
+					} else {
+						array_push($contact_collection,$expd_con);
+					}
+				}
+			}else {
 				$contact_person = $contact->number;
 			}
-			$result = $this->contacts_model->getGintagsSmsId($contact_person,$timestamp);
+		}
+
+		foreach ($contact_collection as $contact) {
+			$result = $this->contacts_model->getGintagsSmsId($contact,$timestamp);
 			array_push($sms_collection, $result);
 			$sms_collection = array_filter($sms_collection);
 		}
