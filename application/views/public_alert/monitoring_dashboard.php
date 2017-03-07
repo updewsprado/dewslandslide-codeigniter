@@ -97,44 +97,6 @@
 					</div>
 				</div>
 
-				<!-- EWI MODAL -->
-
-                <div class="modal fade col-lg-10" id="ewi-asap-modal" role="dialog">
-                    <div class="modal-dialog modal-md" id="ewi-modal-cs-dialog">
-                        <div class="modal-content" id="ewi-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4>EARLY WARNING INFORMATION</h4>
-                            </div>
-                            <input type="hidden" id="event_details">
-                            <div class="modal-body row-fluid"> 
-                                <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control" disabled></textarea>
-                                <button type="button" id="edit-btn-ewi-amd" class="btn btn-warning" value="edit">Edit</button>
-                                <button type="button" id="send-btn-ewi-amd" class="btn btn-success">Send</button>
-                                <input type="hidden" name="site_abbr" id="site-abbr">
-                                <input type="hidden" name="footer_ewi" id="footer-ewi" value="<?php echo $first_name; ?>">
-                            </div>
-                        </div>  
-                    </div>
-                </div>
-
-                <!-- END OF EWI MODAL -->
-
-                <!-- SUCCESS EWI MODAL -->
-
-                <div class="modal fade col-lg-10" id="success-ewi-modal" role="dialog">
-                    <div class="modal-dialog modal-md" id="ewi-modal-cs-dialog">
-                        <div class="modal-content" id="ewi-content">
-                            <div class="modal-body row-fluid"> 
-                           	<button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h2><span id="result-ewi-message"></span></h2>
-                            </div>
-                        </div>  
-                    </div>
-                </div>
-
-                <!-- END OF EWI MODAL -->
-
 				<div class="row">
 			    	<div class="panel panel-default">
 						<div class="panel-heading">Sites Under 3-Day Extended Monitoring</div>
@@ -186,7 +148,41 @@
 			</div>
 		</div>
 
-		<!-- MODAL AREA -->
+		<!------------- MODALS AREA ------------>
+
+		<!-- SMS EWI MODAL -->
+        <div class="modal fade col-lg-10" id="ewi-asap-modal" role="dialog">
+            <div class="modal-dialog modal-md" id="ewi-modal-cs-dialog">
+                <div class="modal-content" id="ewi-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4>EARLY WARNING INFORMATION</h4>
+                    </div>
+                    <input type="hidden" id="event_details">
+                    <div class="modal-body row-fluid"> 
+                        <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control" disabled></textarea>
+                        <button type="button" id="edit-btn-ewi-amd" class="btn btn-warning" value="edit">Edit</button>
+                        <button type="button" id="send-btn-ewi-amd" class="btn btn-success">Send</button>
+                        <input type="hidden" name="site_abbr" id="site-abbr">
+                        <input type="hidden" name="footer_ewi" id="footer-ewi" value="<?php echo $first_name; ?>">
+                    </div>
+                </div>  
+            </div>
+        </div> <!-- END OF SMS EWI MODAL -->
+
+        <!-- SUCCESS SMS EWI MODAL -->
+        <div class="modal fade col-lg-10" id="success-ewi-modal" role="dialog">
+            <div class="modal-dialog modal-md" id="ewi-modal-cs-dialog">
+                <div class="modal-content" id="ewi-content">
+                    <div class="modal-body row-fluid"> 
+                   	<button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h2><span id="result-ewi-message"></span></h2>
+                    </div>
+                </div>  
+            </div>
+        </div> <!-- END OF SMS EWI MODAL -->
+
+		<!-- BULLETIN MODAL AREA -->
 	    <div class="modal fade" id="bulletinModal" role="dialog">
 	    	<div class="modal-dialog modal-lg">
 	            <!-- Modal content-->
@@ -207,9 +203,9 @@
 	            	</div>
 	            </div>
 	      	</div>
-	    </div> <!-- End of MODAL AREA -->
+	    </div> <!-- End of BULLETIN MODAL AREA -->
 
-	     <!-- Modal for Email Recipients -->
+	     <!-- EMAIL RECIPIENTS MODAL -->
         <div class="modal fade" id="recipientsModal" role="dialog">
             <div class="modal-dialog modal-md">
                 <!-- Modal content-->
@@ -226,8 +222,9 @@
                     </div>
                 </div>
             </div>
-        </div> <!-- End of Email Recipients Modal -->
+        </div> <!-- End of EMAIL RECIPIENTS MODAL -->
 
+        <!-- LOADING AND RENDERING MODAL AREA -->
 	    <div class="modal fade js-loading-bar" id="bulletinLoadingModal" role="dialog">
 			<div class="modal-dialog">
    				<div class="modal-content">
@@ -242,8 +239,9 @@
 		   			</div>
    				</div>
  			</div>
-		</div>
+		</div><!-- End of LOADING AND RENDERING MODAL AREA -->
 
+		<!-- JSON ERROR MODAL AREA -->
 		<div class="modal fade" id="errorModal" role="dialog">
 			<div class="modal-dialog">
    				<div class="modal-content">
@@ -259,8 +257,9 @@
 		   			</div>
    				</div>
  			</div>
-		</div>
+		</div> <!-- End of JSON ERROR MODAL AREA -->
 
+		<!-- RESULT MODAL AREA -->
 	    <div class="modal fade" id="resultModal" role="dialog">
 			<div class="modal-dialog">
    				<div class="modal-content">
@@ -274,8 +273,9 @@
 		   			</div>
    				</div>
  			</div>
-		</div>
+		</div> <!-- End of RESULT MODAL AREA -->
 
+		<!-- RELEASE MODAL AREA -->
 		<div class="modal fade" id="releaseModal" role="dialog">
             <div class="modal-dialog modal-md">
                 <!-- Modal content-->
@@ -548,7 +548,25 @@
                     </form>
                 </div>
             </div>
-        </div> <!-- End of EDIT Modal -->
+        </div> <!-- End of RELEASE MODAL AREA -->
+
+        <!-- MANUAL INPUT MODAL AREA -->
+		<div class="modal fade" id="manualInputModal" role="dialog">
+			<div class="modal-dialog">
+   				<div class="modal-content">
+	   				<div class="modal-header">
+	   					<button type="button" class="close" data-dismiss="modal" hidden>&times;</button>
+	   					<h4><strong>Early Warning Information Release</strong></h4>
+					</div>
+    				<div class="modal-body">
+    					<p style="color:red;">The data from the trigger source of this site alert has been invalidated, and thus manual source checking must be performed. Release the Early Warning Information using the Alert Release Form.</p>
+     				</div>
+     				<div class="modal-footer">
+		        		<button class="btn btn-info" data-dismiss="modal" role="button">Okay</button>
+		   			</div>
+   				</div>
+ 			</div>
+		</div> <!-- End of MANUAL INPUT MODAL AREA -->
 
 	</div> <!-- End of Container -->
 </div> <!-- End of Page Wrapper -->
