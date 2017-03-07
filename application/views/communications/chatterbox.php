@@ -7,6 +7,7 @@
 <script src="/js/third-party/awesomplete.js"></script>
 <script src="/js/third-party/handlebars.js"></script>
 <script src="/js/third-party/moment-locales.js"></script>
+<script src="/js/third-party/typeahead.js"></script>
 <script src="/js/third-party/bootstrap-tagsinput.js"></script>
 <script src="/js/third-party/notify.min.js"></script>
 
@@ -479,7 +480,7 @@
       </div>
       <div class="modal-body row-fluid"> 
       <div class="alert alert-info" role="alert"><strong>New Feature!</strong> You can now tag messages in chatterbox!.</div>
-       <input type="text" class="form-control" id="gintags" name="gintags"  data-role="tagsinput" placeholder="E.g #EwiMessage" required>
+       <input type="text" class="form-control" id="gintags" name="gintags"  data-role="tagsinput" data-provide="typeahead" placeholder="E.g #EwiMessage" required>
         <div class="form-group" id="submit-gintag">
           <button type="submit" value="submit" id="confirm-gintags" class="btn btn-primary" data-dismiss="modal">Confirm</button>
           <button type="reset" class="btn btn-danger" id="reset-gintags">Reset</button>

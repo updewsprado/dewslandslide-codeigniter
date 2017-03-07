@@ -153,4 +153,10 @@ class Gintags_helper_model extends CI_Model {
         $result = $this->db->query($sql);
         return $result->result();
     }
+
+    public function fetchAllGintags(){
+      $this->db->select('tag_name');
+      $result = $this->db->get('gintags_reference');
+      return $result->result();
+    }
 }

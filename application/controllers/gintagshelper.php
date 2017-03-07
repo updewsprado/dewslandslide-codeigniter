@@ -63,7 +63,7 @@ class Gintagshelper extends CI_Controller {
 		$result = $this->gintags_helper_model->removeSenderGintag($data);
 	}
 
-	public function getGinTagsViaTableElement( $table_element_id ) {
+	public function getGinTagsViaTableElement($table_element_id) {
 		$result = $this->gintags_helper_model->fetchGinTags($table_element_id);
 		print json_encode($result);
 	}
@@ -75,6 +75,11 @@ class Gintagshelper extends CI_Controller {
 			$gintags = null;
 		}
 		$result = $this->gintags_helper_model->fetchGinTagsViaTag($gintags);
+		print json_encode($result);
+	}
+
+	public function getAllGinTags(){
+		$result = $this->gintags_helper_model->fetchAllGintags();
 		print json_encode($result);
 	}
 }
