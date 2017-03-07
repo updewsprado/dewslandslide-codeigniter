@@ -1,4 +1,4 @@
-<script src="/js/dewslandslide/dewsresponsetracker.js"></script>
+<script src="/js/dewslandslide/communications/dewsresponsetracker.js"></script>
 <script src="/js/third-party/awesomplete.min.js"></script>
 <script src="/js/third-party/highcharts.js"></script>
 <script src="/js/third-party/exporting.js"></script>
