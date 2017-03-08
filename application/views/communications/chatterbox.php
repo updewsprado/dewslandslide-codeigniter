@@ -524,6 +524,31 @@
 </div>
 <!-- General Info MODAL -->
 
+
+<!-- Save Narratives MODAL -->
+<div class="modal fade col-lg-2" id="save-narrative-modal" role="dialog">
+  <div class="modal-dialog modal-md" id="save-narrative-modal-dialog">
+    <div class="modal-content" id="save-narrative-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4>Narratives <i class="text-warning"> *BETA*</i></h4>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="gintag_details_container" hidden>
+        <div class="alert alert-info" role="alert"><strong>Notice!</strong> Saving an #EwiMessage tagged message will be permanently save to narratives.</div>
+        <textarea class="form-control" name="ewi-tagged-msg" id="ewi-tagged-msg" cols="30" rows="10" style="resize:none" disabled>SAMPLE EWI</textarea>
+        <div class="form-group" id="submit-gintag">
+          <button class="btn btn-warning" id="cancel-narrative">Cancel</button>
+          <button id="confirm-narrative" class="btn btn-primary" data-dismiss="modal">Confirm</button> 
+        </div> 
+      </div>
+    </div>  
+  </div>
+</div>
+<!-- Save Narratives MODAL -->
+
+
+
 <script>
   // LocalStorage test
   var localStorage = window.localStorage;
