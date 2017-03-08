@@ -93,7 +93,7 @@
 		    	<ul class="timeline">
 			        <li class="timeline-inverted">
 			        	<div class="timeline-badge <?php if($status == 'Event-Based') echo 'danger'; else echo 'success'; ?>"><i class="glyphicon glyphicon-<?php if($status == 'Event-Based') echo 'alert'; else echo 'ok'; ?>"></i></div>
-			        	<div class="timeline-panel">
+			        	<div class="timeline-panel">re
 			            	<div class="timeline-heading">
 			            		<h4 class="timeline-title"><b>
 			            			<?php if($status == "Event-Based") echo "Start of "; else echo "Routine "; ?> Monitorting: <?php echo date("F jS Y, g:i A", strtotime($event->event_start)); ?></b></h4>
@@ -472,11 +472,17 @@
                     <div class="modal-body">
                         <div id="info"></div>
                         <hr>
+                        <div class="form-group">
+                            <label for="recipients">Recipients:&emsp;</label>
+                            <input type="text" class="form-control" id="recipients" name="recipients" data-role="tagsinput" />
+                            &emsp;<span id="recipients_span"></span>
+                        </div>
+                        <hr>
                         <div id="bulletin_modal"></div>
                     </div>
                     <div class="modal-footer">
                         <button id="edit-bulletin" class="btn btn-warning" role="button" type="submit">Edit</button>
-                        <button id="send_to_mail" class="btn btn-danger" role="button" type="submit">Send to Mail</button>
+                        <button id="send" class="btn btn-danger" role="button" type="submit">Send to Mail</button>
                         <button id="download" class="btn btn-danger" role="button" type="submit">Download</button>
                         <button id="cancel" class="btn btn-primary" data-dismiss="modal" role="button">Cancel</button>
                     </div>
@@ -534,25 +540,6 @@
                 </div>
             </div>
         </div> <!-- End of SUCCESS Modal -->
-
-        <!-- Modal for Email Recipients -->
-        <div class="modal fade" id="recipientsModal" role="dialog">
-            <div class="modal-dialog modal-md">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Send to Recipients</h4>
-                    </div>
-                    <div class="modal-body row-fluid">
-                        <input type="text" class="form-control" id="recipients" name="recipients" data-role="tagsinput" />
-                    </div>
-                    <div class="modal-footer">
-                        <button id="send" class="btn btn-danger" role="button" type="submit">Send</button>
-                    </div>
-                </div>
-            </div>
-        </div> <!-- End of Email Recipients Modal -->
 
 	</div>
 </div>

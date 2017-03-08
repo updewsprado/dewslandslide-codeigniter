@@ -116,17 +116,34 @@ class Chatterbox extends CI_Controller {
 	public function get_sms_gintag_id($data,$timestamp){
 		$contact_person = "";
 		$sms_collection = [];
+		$contact_collection = [];
 		foreach ($data as $contact) {
 			if (strlen($contact->number) == 11) {
-				$contact_person = substr($contact->number, 1);
+				array_push($contact_collection,substr($contact->number, 1));
 			} else if (strlen($contact->number) == 12) {
-				$contact_person = substr($contact->number, 2);
+				array_push($contact_collection,substr($contact->number, 2));
 			} else if (strlen($contact->number) == 13) {
-				$contact_person = substr($contact->number, 3);
-			} else {
+				array_push($contact_collection,substr($contact->number, 3));
+			} else if (strlen($contact->number) >= 14){
+				$exploded_contact = explode(',',$contact->number);
+				foreach ($exploded_contact as $expd_con) {
+					if (strlen($expd_con) == 11) {
+						array_push($contact_collection,substr($expd_con, 1));
+					} else if (strlen($expd_con) == 12) {
+						array_push($contact_collection,substr($expd_con, 2));
+					} else if (strlen($expd_con) == 13) {
+						array_push($contact_collection,substr($expd_con, 3));
+					} else {
+						array_push($contact_collection,$expd_con);
+					}
+				}
+			}else {
 				$contact_person = $contact->number;
 			}
-			$result = $this->contacts_model->getGintagsSmsId($contact_person,$timestamp);
+		}
+
+		foreach ($contact_collection as $contact) {
+			$result = $this->contacts_model->getGintagsSmsId($contact,$timestamp);
 			array_push($sms_collection, $result);
 			$sms_collection = array_filter($sms_collection);
 		}
@@ -154,6 +171,12 @@ class Chatterbox extends CI_Controller {
 										"A0 ang alert level sa %%SBMP%% ngayong %%DATE%% 12NN.\n".
 										"Inaasahan namin ang pagpapadala ng LEWC ng ground data bukas %%EXT_NEXT_DAY%% bago mag-11:30 AM para sa %%EXT_DAY%% ng 3-day extended monitoring.\n\n".
 										"Salamat.",
+			"A1" => "Magandang %%PANAHON%% po.\n\n".
+							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Maaaring magkaroon ng landslide dahil sa nakaraan o kasalukuyang ulan at lindol.\n\n". // %%CURRENT_TIME%% - <HH> <AM,NN,PM,MN>
+							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO A HIGHER ALERT (A2 or A3).\n".
+							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n". //%%GROUND_DATA_TIME%% - <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>
+							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n". //%%NEXT_EWI%% - <HH> <AM, NN, PM, MN>
+							"Salamat.",
 			"A1-R" => "Magandang %%PANAHON%% po.\n\n".
 							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Maaaring magkaroon ng landslide dahil sa nakaraan o kasalukuyang ulan.\n\n". // %%CURRENT_TIME%% - <HH> <AM,NN,PM,MN>
 							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO A HIGHER ALERT (A2 or A3).\n".
