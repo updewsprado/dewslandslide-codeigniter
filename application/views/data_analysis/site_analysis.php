@@ -17,11 +17,11 @@
 <script src="/js/dewslandslide/dewscommhealth-d3.js"></script>
 <style type="text/css">
   #map-canvas {
-  width: 250px;
-  height: 450px;
-  min-width: 5%!important;
-  min-height: 5%!important;
-}
+    width: 250px;
+    height: 450px;
+    min-width: 5%!important;
+    min-height: 5%!important;
+  }
 </style>
 <br>
 <div class="container">
@@ -97,7 +97,13 @@
               <div class="checkbox ground_measurement_checkbox">
                 <input id="ground_measurement_checkbox" type="checkbox" class="checkbox">
                 <label for="ground_measurement_checkbox">
-                  Surficial Measurement Graph /Data Table
+                  Surficial Measurement Graph 
+                </label>
+              </div>
+              <div class="checkbox ground_table_checkbox">
+                <input id="ground_table_checkbox" type="checkbox" class="checkbox">
+                <label for="ground_table_checkbox">
+                Surficial Measurement Data Table
                 </label>
               </div>
               <div class="checkbox rain_graph_checkbox">
@@ -210,7 +216,7 @@
         <table id="ground_table" class="display table" cellspacing="0"></table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default close" data-dismiss="modal" >Close</button>
       </div>
     </div>
   </div>

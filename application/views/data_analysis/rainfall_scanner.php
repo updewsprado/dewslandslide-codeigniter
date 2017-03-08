@@ -1,26 +1,45 @@
-<link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/site_analysis.css">
-<link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-select.min.css">
-<link rel="stylesheet" href="http://kevinduong.net/boost/assets/css/bootstrap.css">
-<link rel="stylesheet" href="http://kevinduong.net/boost/assets/css/slider.css">
-
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="/js/third-party/exporting.js"></script>
 <script src="/js/dewslandslide/data_analysis/rainfall_scanner.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-select.min.css">
+<script src="/js/third-party/highcharts.js"></script>
+<script src="/js/third-party/exporting.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHuLBzeBR6eA_z70NOabE-uov9jg46Azc"></script>
 <script src="/js/third-party/bootstrap-select.min.js"></script>
-<script src="http://kevinduong.net/boost/assets/js/jquery-2.1.0.js"></script>
-<script src="http://kevinduong.net/boost/assets/js/bootstrap.min.js"></script>
-<script src="http://kevinduong.net/boost/assets/js/bootstrap-slider.js"></script>
+
+<script src="/js/third-party/bootstrap-slider.min.js"></script>
+<link rel="stylesheet" href="/css/third-party/bootstrap-slider.min.css" />
 <script>
-$(function(){
+  $(function(){
    $('#ex1').slider({
-  formater: function(value) {
-    return 'Current value: ' + value;
-  }
-});
+    formater: function(value) {
+      return 'Current value: ' + value;
+    }
+  });
 
  });
-     </script>
+</script>
+<style>
+  .input-group-addon{
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+  .slider.slider-horizontal{
+    width:100px ;
+    height:20px
+  }
+  .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
+    width: 70px !important
+  }
+  .container_all{
+    min-width: 310px;
+    height: 1250px;
+    margin: 0 auto
+  }
+  .container_region{
+    min-width: 310px;
+    height: 500px;
+    margin: 0 auto
+  }
+</style>
 <br>
 <div class="container">
   <div class="page-header">
@@ -31,33 +50,86 @@ $(function(){
       <div class="panel-heading">Filter Option:</div>
       <div class="panel-body">
         <form class="form-inline">
-
           <label >Chart view:</label>
-          <select class="selectpicker"  id="" ></select>
-          &nbsp;
-          <label >|</label>
-          &nbsp;
-          <label >Operands :</label>
-         <select class="selectpicker"  id="" ></select>
-
-          <label>Rainfall Value :</label>
-          <div class="input-group mb-2 mr-sm-2 mb-sm-0 col-md-2">
-            <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Username">
-            <div class="input-group-addon">mm/hr</div>
+          <div style="display:inline-block;width:70px;">
+            <select class="selectpicker"  id="chart_view" >
+              <option>....</option>
+              <option>All Sites</option>
+              <option>Region</option>
+            </select>
           </div>
-          <label >Percentage :</label>
-          <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50"/>
+          <label class="region_view" id="region_id" >&nbsp;&nbsp;Region</label>
+          <div class="region_view" style="display:inline-block;width:70px;">
+            <select class="selectpicker region_view"  id="region_view" >
+            </select>
+          </div>
+          &nbsp;
 
-        </form>
-      </div>
-    </div>
-    <div class="col-sm-12 col-md-12" id="analysis_panel_body">
-      <br>
-      <small id="small_header"><a >&nbsp;Rainfall Scanner Page</a></small>
-      <hr>
-      <div id="container" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+          <label>|&nbsp;</label>
+          <label  >Criteria:</label>
+          <div  class="criteria" style="display:inline-block;width:70px;">
+            <select class="selectpicker"  id="criteria1" >
+              <option>....</option>
+              <option> 24 hours</option>
+              <option> 72 hours </option>
+            </select>
+          </div>
+          <label >&nbsp;Operands : &nbsp;</label>
+          <div style="display:inline-block;width:70px;">
+            <select class="selectpicker"  id="operands_value" >
+             <option>....</option>
+             <option value="="> <b> =  </b></option>
+             <option value="< ="> <b> < = </b> </option>
+             <option value="<"> <b> <  </b></option>
+             <option value="> ="> <b> > = </b></option>
+             <option value=">"> <b> > </b> </option>
+           </select>
+         </div>
+         <label  >Value:</label>
+         <div  class="val_rain" style="display:inline-block;width:110px;">
+           <div class="input-group"> 
+            <input id="value_rain_num" type="number" min="0" step="1" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
+            <span class="input-group-addon"><small>mm/hr</small></span>
+          </div>
+        </div>
+        <label>&nbsp;|&nbsp;</label>
+        <label  >Criteria:</label>
+        <div  class="criteria" style="display:inline-block;width:70px;">
+          <select class="selectpicker"  id="criteria" >
+            <option>....</option>
+            <option> 2 year max half</option>
+            <option> 2 year max </option>
+          </select>
+        </div>
+        &nbsp;
+        <div style="display:inline-block;">
+        </div>
+        <label >Percentage :</label>
+        <div style="display:inline-block;width:70px;">
+          <div id="reliability-chart-container"></div>
+          <div id="div-data-resolution" >
+            <input id="data-resolution" type="text"
+            data-provide="slider"
+            data-slider-min="0"
+            data-slider-max="100"
+            data-slider-step="1"
+            data-slider-value="2"
+            data-slider-tooltip="show"/>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
+  <div class="col-sm-12 col-md-12" id="analysis_panel_body">
+    <br>
+    <small id="small_header">&nbsp;Rainfall Scanner Page</small>
+    <hr>
+    <h2 id="rain_header">RAINFALL LEVEL PER SITE</h2>
+    <div id="container" class="container_all"></div>
+    <div id="container_region" class="container_region"></div>
+  </div>
+</div>
+</div>
 
 
 
