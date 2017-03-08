@@ -196,9 +196,10 @@
 	              	<div class="modal-body">
 	              		<div id="info"></div>
 						<hr>
-						<div id="recipients_div" class="form-group">
+						<div class="form-group">
 							<label for="recipients">Recipients:&emsp;</label>
 							<input type="text" class="form-control" id="recipients" name="recipients" data-role="tagsinput" />
+							&emsp;<span id="recipients_span"></span>
 						</div>
 						<hr>
 	              		<div id="bulletin_modal"></div>

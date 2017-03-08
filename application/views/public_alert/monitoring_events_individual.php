@@ -93,7 +93,7 @@
 		    	<ul class="timeline">
 			        <li class="timeline-inverted">
 			        	<div class="timeline-badge <?php if($status == 'Event-Based') echo 'danger'; else echo 'success'; ?>"><i class="glyphicon glyphicon-<?php if($status == 'Event-Based') echo 'alert'; else echo 'ok'; ?>"></i></div>
-			        	<div class="timeline-panel">
+			        	<div class="timeline-panel">re
 			            	<div class="timeline-heading">
 			            		<h4 class="timeline-title"><b>
 			            			<?php if($status == "Event-Based") echo "Start of "; else echo "Routine "; ?> Monitorting: <?php echo date("F jS Y, g:i A", strtotime($event->event_start)); ?></b></h4>
@@ -472,9 +472,10 @@
                     <div class="modal-body">
                         <div id="info"></div>
                         <hr>
-                        <div id="recipients_div" class="form-group">
+                        <div class="form-group">
                             <label for="recipients">Recipients:&emsp;</label>
                             <input type="text" class="form-control" id="recipients" name="recipients" data-role="tagsinput" />
+                            &emsp;<span id="recipients_span"></span>
                         </div>
                         <hr>
                         <div id="bulletin_modal"></div>
