@@ -7,6 +7,7 @@
 <script src="/js/third-party/awesomplete.js"></script>
 <script src="/js/third-party/handlebars.js"></script>
 <script src="/js/third-party/moment-locales.js"></script>
+<script src="/js/third-party/typeahead.js"></script>
 <script src="/js/third-party/bootstrap-tagsinput.js"></script>
 <script src="/js/third-party/notify.min.js"></script>
 
@@ -479,7 +480,7 @@
       </div>
       <div class="modal-body row-fluid"> 
       <div class="alert alert-info" role="alert"><strong>New Feature!</strong> You can now tag messages in chatterbox!.</div>
-       <input type="text" class="form-control" id="gintags" name="gintags"  data-role="tagsinput" placeholder="E.g #EwiMessage" required>
+       <input type="text" class="form-control" id="gintags" name="gintags"  data-role="tagsinput" data-provide="typeahead" placeholder="E.g #EwiMessage" required>
         <div class="form-group" id="submit-gintag">
           <button type="submit" value="submit" id="confirm-gintags" class="btn btn-primary" data-dismiss="modal">Confirm</button>
           <button type="reset" class="btn btn-danger" id="reset-gintags">Reset</button>
@@ -522,6 +523,31 @@
   </div>
 </div>
 <!-- General Info MODAL -->
+
+
+<!-- Save Narratives MODAL -->
+<div class="modal fade col-lg-2" id="save-narrative-modal" role="dialog">
+  <div class="modal-dialog modal-md" id="save-narrative-modal-dialog">
+    <div class="modal-content" id="save-narrative-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4>Narratives <i class="text-warning"> *BETA*</i></h4>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="gintag_details_container" hidden>
+        <div class="alert alert-info" role="alert"><strong>Notice!</strong> Saving an #EwiMessage tagged message will be permanently save to narratives.</div>
+        <textarea class="form-control" name="ewi-tagged-msg" id="ewi-tagged-msg" cols="30" rows="10" style="resize:none" disabled>SAMPLE EWI</textarea>
+        <div class="form-group" id="submit-gintag">
+          <button class="btn btn-warning" id="cancel-narrative">Cancel</button>
+          <button id="confirm-narrative" class="btn btn-primary" data-dismiss="modal">Confirm</button> 
+        </div> 
+      </div>
+    </div>  
+  </div>
+</div>
+<!-- Save Narratives MODAL -->
+
+
 
 <script>
   // LocalStorage test
