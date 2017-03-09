@@ -479,7 +479,10 @@
         <h4>General Information Tag <i class="text-warning"> *BETA*</i></h4>
       </div>
       <div class="modal-body row-fluid"> 
-      <div class="alert alert-info" role="alert"><strong>New Feature!</strong> You can now tag messages in chatterbox!.</div>
+      <div class="alert alert-info" role="alert">
+      <p><strong>New Feature!</strong> You can now tag messages in chatterbox!.</p>
+      <p><strong> &nbsp &nbsp • Important Tags: </strong>#EwiMessage,#EwiResponse</p>
+      </div>
        <input type="text" class="form-control" id="gintags" name="gintags"  data-role="tagsinput" data-provide="typeahead" placeholder="E.g #EwiMessage" required>
         <div class="form-group" id="submit-gintag">
           <button type="submit" value="submit" id="confirm-gintags" class="btn btn-primary" data-dismiss="modal">Confirm</button>

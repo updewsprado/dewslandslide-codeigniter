@@ -161,7 +161,11 @@
                         <h4>EARLY WARNING INFORMATION</h4>
                     </div>
                     <input type="hidden" id="event_details">
-                    <div class="modal-body row-fluid"> 
+                    <div class="modal-body row-fluid">
+						<div id="ewi-recipients-container">
+	                    	<label for="ewi-recipients-dashboard">Recipients: </label>
+	                    	<input class="form-control" type="text" id="ewi-recipients-dashboard">
+						</div>
                         <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control" disabled></textarea>
                         <button type="button" id="edit-btn-ewi-amd" class="btn btn-warning" value="edit">Edit</button>
                         <button type="button" id="send-btn-ewi-amd" class="btn btn-success">Send</button>
