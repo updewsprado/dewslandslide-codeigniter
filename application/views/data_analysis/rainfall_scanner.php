@@ -4,7 +4,6 @@
 <script src="/js/third-party/exporting.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHuLBzeBR6eA_z70NOabE-uov9jg46Azc"></script>
 <script src="/js/third-party/bootstrap-select.min.js"></script>
-
 <script src="/js/third-party/bootstrap-slider.min.js"></script>
 <link rel="stylesheet" href="/css/third-party/bootstrap-slider.min.css" />
 <script>
@@ -23,11 +22,11 @@
     padding-right: 2px;
   }
   .slider.slider-horizontal{
-    width:100px ;
+    width:150px ;
     height:20px
   }
   .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
-    width: 70px !important
+    width: 120px !important
   }
   .container_all{
     min-width: 310px;
@@ -38,6 +37,10 @@
     min-width: 310px;
     height: 500px;
     margin: 0 auto
+  }
+  .inlineDiv {
+    display:inline-block;
+    width:120px;
   }
 </style>
 <br>
@@ -51,7 +54,7 @@
       <div class="panel-body">
         <form class="form-inline">
           <label >Chart view:</label>
-          <div style="display:inline-block;width:70px;">
+          <div class ="inlineDiv">
             <select class="selectpicker"  id="chart_view" >
               <option>....</option>
               <option>All Sites</option>
@@ -59,23 +62,24 @@
             </select>
           </div>
           <label class="region_view" id="region_id" >&nbsp;&nbsp;Region</label>
-          <div class="region_view" style="display:inline-block;width:70px;">
-            <select class="selectpicker region_view"  id="region_view" >
-            </select>
+          <div class="region_view inlineDiv" id="region_view_div" >
+            <select class="selectpicker region_view"  id="region_view" ></select>
           </div>
           &nbsp;
 
           <label>|&nbsp;</label>
           <label  >Criteria:</label>
-          <div  class="criteria" style="display:inline-block;width:70px;">
+          <div  class="criteria inlineDiv" >
             <select class="selectpicker"  id="criteria1" >
               <option>....</option>
               <option> 24 hours</option>
               <option> 72 hours </option>
+              <option> 2 year max half</option>
+              <option> 2 year max </option>
             </select>
           </div>
           <label >&nbsp;Operands : &nbsp;</label>
-          <div style="display:inline-block;width:70px;">
+          <div class="inlineDiv">
             <select class="selectpicker"  id="operands_value" >
              <option>....</option>
              <option value="="> <b> =  </b></option>
@@ -85,27 +89,17 @@
              <option value=">"> <b> > </b> </option>
            </select>
          </div>
-         <label  >Value:</label>
-         <div  class="val_rain" style="display:inline-block;width:110px;">
+         <label class="val_rain"  >Value:</label>
+         <div  class="val_rain inlineDiv" >
            <div class="input-group"> 
             <input id="value_rain_num" type="number" min="0" step="1" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
             <span class="input-group-addon"><small>mm/hr</small></span>
           </div>
         </div>
-        <label>&nbsp;|&nbsp;</label>
-        <label  >Criteria:</label>
-        <div  class="criteria" style="display:inline-block;width:70px;">
-          <select class="selectpicker"  id="criteria" >
-            <option>....</option>
-            <option> 2 year max half</option>
-            <option> 2 year max </option>
-          </select>
-        </div>
-        &nbsp;
         <div style="display:inline-block;">
         </div>
-        <label >Percentage :</label>
-        <div style="display:inline-block;width:70px;">
+        <label class="percent_div" >Percentage :</label>
+        <div class="percent_div inlineDiv" >
           <div id="reliability-chart-container"></div>
           <div id="div-data-resolution" >
             <input id="data-resolution" type="text"
