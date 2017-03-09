@@ -538,7 +538,7 @@
       </div>
       <div class="modal-body">
         <input type="text" id="gintag_details_container" hidden>
-        <div class="alert alert-info" role="alert"><strong>Notice!</strong> Saving an #EwiMessage tagged message will be permanently save to narratives.</div>
+        <div class="alert alert-info" role="alert"><strong>Notice!</strong> <p>Saving an #TagGoesHere tagged message will be permanently save to narratives.</p></div>
         <textarea class="form-control" name="ewi-tagged-msg" id="ewi-tagged-msg" cols="30" rows="10" style="resize:none" disabled>SAMPLE EWI</textarea>
         <div class="form-group" id="submit-gintag">
           <button class="btn btn-warning" id="cancel-narrative">Cancel</button>
