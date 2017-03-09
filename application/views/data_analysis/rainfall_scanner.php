@@ -2,7 +2,6 @@
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-select.min.css">
 <script src="/js/third-party/highcharts.js"></script>
 <script src="/js/third-party/exporting.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHuLBzeBR6eA_z70NOabE-uov9jg46Azc"></script>
 <script src="/js/third-party/bootstrap-select.min.js"></script>
 <script src="/js/third-party/bootstrap-slider.min.js"></script>
 <link rel="stylesheet" href="/css/third-party/bootstrap-slider.min.css" />
@@ -107,7 +106,7 @@
             data-slider-min="0"
             data-slider-max="100"
             data-slider-step="1"
-            data-slider-value="2"
+            data-slider-value="80"
             data-slider-tooltip="show"/>
           </div>
         </div>
