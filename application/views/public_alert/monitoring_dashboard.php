@@ -164,11 +164,13 @@
                     <div class="modal-body row-fluid">
 						<div id="ewi-recipients-container">
 	                    	<label for="ewi-recipients-dashboard">Recipients: </label>
-	                    	<input class="form-control" type="text" id="ewi-recipients-dashboard">
+	                    	<input class="form-control" type="text" id="ewi-recipients-dashboard" data-role="tagsinput" style="display:none">
 						</div>
                         <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control" disabled></textarea>
-                        <button type="button" id="edit-btn-ewi-amd" class="btn btn-warning" value="edit">Edit</button>
-                        <button type="button" id="send-btn-ewi-amd" class="btn btn-success">Send</button>
+                        <div class="ewi-cmd-container">
+	                        <button type="button" id="edit-btn-ewi-amd" class="btn btn-warning" value="edit">Edit</button>
+	                        <button type="button" id="send-btn-ewi-amd" class="btn btn-success">Send</button>
+                        </div>
                         <input type="hidden" name="site_abbr" id="site-abbr">
                         <input type="hidden" name="footer_ewi" id="footer-ewi" value="<?php echo $first_name; ?>">
                     </div>
