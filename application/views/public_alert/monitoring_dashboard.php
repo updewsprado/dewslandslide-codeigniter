@@ -163,6 +163,7 @@
                     <input type="hidden" id="event_details">
                     <div class="modal-body row-fluid">
 						<div id="ewi-recipients-container">
+							<span>Default recipients:</span>
 	                    	<label for="ewi-recipients-dashboard">Recipients: </label>
 	                    	<input class="form-control" type="text" id="ewi-recipients-dashboard" data-role="tagsinput" style="display:none">
 						</div>
