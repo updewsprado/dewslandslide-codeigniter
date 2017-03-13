@@ -101,6 +101,12 @@ class Monitoring extends CI_Controller
 		return $timestamp;
 	}
 
+	public function getSites()
+	{
+		$data = $this->monitoring_model->getSites();
+		echo "$data";
+	}
+
 	public function getLastRelease()
 	{
 		$data = $this->monitoring_model->getLastRelease();
