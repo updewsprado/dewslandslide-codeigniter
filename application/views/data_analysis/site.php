@@ -12,14 +12,14 @@
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/site.css" />
 <link href="/css/dewslandslide/dewsalert.css" rel="stylesheet" type="text/css">
 <div id="page-wrapper">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header" id="header-site">Site Overview</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><i class=""></i> Search Tool</h3>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
             </div>
-             <div class="col-lg-9">
+            <div class="col-lg-8">
                 <div class="panel-heading">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
@@ -69,7 +69,6 @@
                                     <tr >
                                         <th>Site Name</th>
                                         <th>Version</th>
-                                        <th>DataLogger</th>
                                         <th>Date of Installation</th>
                                         <th>Date of Activation</th>
                                         <th>Region</th>
@@ -105,12 +104,7 @@
                     </div> 
                 </div>
             </div>
-
-
         </div>
-    </div>
-
-    <div class="row">
         <div class="col-lg-12">
             <ol class="breadcrumb">
                 <li class="active">
@@ -123,29 +117,16 @@
                 </li>
             </ol>
         </div>
-    </div>
-    <div class="row" id="healthbars-canvas-div">
-    </div>
-</div>
-</div>
-
-<div class="row" id="moisture-panel">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">  Rainfall Chart</h3>
-            </div>
-            <div class="panel-body"  id ="div-panel-body">
-                <div id="rain_arq" ></div><br>
-                <div id="rain_senslope" ></div><br>
-                <div id="rain1"></div><br>
-                <div id="rain2" ></div><br>
-                <div id="rain3" ></div><br>
-            </div>
-        </div>
-    </div>                                     
-</div>  
-</div>
+    <div  id="healthbars-canvas-div"></div>
+    <br>
+    <div>
+    <!-- <h3>Rainfall Chart</h3> -->
+    <div id="rain_arq" ></div><br>
+    <div id="rain_senslope" ></div><br>
+    <div id="rain1"></div><br>
+    <div id="rain2" ></div><br>
+    <div id="rain3" ></div><br>
+    </div>                                  
 </div>
 <div class="modal fade" id="errorMsg" role="dialog">
     <div class="modal-dialog modal-sm">
