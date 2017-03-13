@@ -6,7 +6,6 @@
 <script src="/js/third-party/highstock.js"></script>
 <script src="/js/third-party/exporting.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHuLBzeBR6eA_z70NOabE-uov9jg46Azc"></script>
-
 <script src="/js/third-party/d3.v3.min.js"></script>
 <script src="/js/third-party/heatmap.js"></script>
 <script src="/js/third-party/daterangepicker.js"></script>
