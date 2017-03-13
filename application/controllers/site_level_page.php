@@ -67,7 +67,6 @@ class Site_level_page extends CI_Controller {
 	}
 
 	public function getDatafromSiteDataPresence($site,$from,$to){
-		// $data_result  = $_POST['data'];
 		$result = $this->site_level_model->getSiteDataPresence($site,$from,$to);
 		print json_encode($result);
 	}

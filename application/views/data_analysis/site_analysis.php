@@ -13,8 +13,8 @@
 <script src="/js/third-party/d3.tip.v0.6.3.js"></script>
 <script src="/js/third-party/bootstrap-select.min.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/alertmini.js"></script>
-<script src="/js/dewslandslide/data_analysis/site_analysis.js"></script>
 <script src="/js/dewslandslide/dewscommhealth-d3.js"></script>
+<script src="/js/dewslandslide/data_analysis/site_analysis.js"></script>
 <style type="text/css">
   #map-canvas {
     width: 250px;
