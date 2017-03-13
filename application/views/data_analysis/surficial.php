@@ -1,8 +1,8 @@
+<script src="/js/third-party/highstock.js"></script>
+<script src="/js/third-party/exporting.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/surficial_level.js"></script>
-<script src="https://code.highcharts.com/stock/highstock.js"></script>
-<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+<link rel="stylesheet" type="text/css" href="/css/third-party/daterangepicker.css">
+<script src="/js/third-party/daterangepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/surficial.css">
 <div id="page-wrapper">
   <div class="container">
@@ -79,9 +79,7 @@
               <li class="nav-item" >
                 <a class="nav-link active" data-toggle="tab" href="#graphS3" role="tab"><i class=""></i> Surficial Measurement Form </a>
               </li>
-              <li class="nav-item" >
-                <a class="nav-link active" data-toggle="tab" href="#graphS4" role="tab"><i class=""></i> Piezometer </a>
-              </li>
+              
             </ul>
           </div>
           <div class="panel panel-default">
@@ -92,22 +90,55 @@
                 <div id="ground_graph" ></div>
               </div>
               <div class="tab-pane " id="graphS3" role="tabpanel"> 
-                <div id="ground_graph" ></div>
-              </div>
-              <div class="tab-pane " id="graphS4" role="tabpanel"> 
+                <div class="panel-heading">SURFICIAL MEASUREMENT FORM</div>
+                <div class="panel-body">
+                  <div id="education_fields">
+                  </div>
+                  <div class="col-sm-3 nopadding">
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="Schoolname" name="Schoolname[]" value="" placeholder="Crack ID">
+                    </div>
+                  </div>
+                  <div class="col-sm-3 nopadding">
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="Major" name="Major[]" value="" placeholder="Measurement">
+                    </div>
+                  </div>
+                  <div class="col-sm-3 nopadding">
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="Degree" name="Degree[]" value="" placeholder="Reliablity">
+                    </div>
+                  </div>
+                  <div class="col-sm-3 nopadding">
+                    <div class="form-group">
+                      <div class="input-group">
+                      <select class="form-control" id="educationDate" name="educationDate[]">
+                          <option value="">Date</option>
+                          <!-- <option value="2015">2015</option>
+                          <option value="2016">2016</option>
+                          <option value="2017">2017</option>
+                          <option value="2018">2018</option> -->
+                        </select>
+                        <div class="input-group-btn">
+                          <button class="btn btn-success" type="button"  onclick="education_fields();"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <input id="submit1"  type="button" value="Submit"   >
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="modal fade" id="errorMsg" role="dialog">
-        <div class="modal-dialog modal-sm">
-          <div class="modal-content">
-            <div class="modal-body">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <p > <h4 style="text-align: center;"> Please Select Site....</h4></p>
+        <div class="modal fade" id="errorMsg" role="dialog">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <p > <h4 style="text-align: center;"> Please Select Site....</h4></p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
