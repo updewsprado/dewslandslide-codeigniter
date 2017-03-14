@@ -1,6 +1,7 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/dewsnodereport.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/data_analysis/node_report.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewsalert.css">
 <script type="text/javascript" src="/js/third-party/daterangepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/daterangepicker.css" />
@@ -45,8 +46,7 @@
 
 
 <!-- Modal -->
-<?php echo validation_errors(); ?>
-<?php echo form_open('data_analysis/nodereport') ?>
+<!--  -->
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -103,15 +103,15 @@
     nodeStatusJSON = <?php echo $nodeStatus; ?>;
     initAlertPlot();
   }
-  $(function() {
-    $('#date-discovered').daterangepicker({
-      singleDatePicker: true,
-      showDropdowns: true
-    }, 
-    function(start, end, label) {
+  // $(function() {
+  //   $('#date-discovered').daterangepicker({
+  //     singleDatePicker: true,
+  //     showDropdowns: true
+  //   }, 
+  //   function(start, end, label) {
 
-    });
-  });
+  //   });
+  // });
 
 </script>
 

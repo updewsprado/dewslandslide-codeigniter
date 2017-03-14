@@ -5,6 +5,7 @@ class Node_report_page extends CI_Controller {
 		parent::__construct();
 		$this->load->helper('url');
 		$this->load->model('Alert_model');
+		$this->load->model('node_report_model');
 	}
 
 	public function index()
@@ -26,6 +27,12 @@ class Node_report_page extends CI_Controller {
 		$this->load->view('data_analysis/nodereport', $data);
 	}
 
+	public function getAllSubmitData(){
+		// $data_result = $_POST['data'];
+		// var_dump($data_result)
+		$result = $this->node_report_model->getSubmitData($dataSubmit);
+		print json_encode($result);
+	}
 
 
 }
