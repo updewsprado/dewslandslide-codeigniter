@@ -28,10 +28,9 @@ class Node_report_page extends CI_Controller {
 	}
 
 	public function getAllSubmitData(){
-		// $data_result = $_POST['data'];
-		// var_dump($data_result)
-		$result = $this->node_report_model->getSubmitData($dataSubmit);
-		print json_encode($result);
+		$data_result = $_POST['data'];
+		$result = $this->node_report_model->getSubmitData($data_result);
+		// print json_encode($result);
 	}
 
 

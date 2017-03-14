@@ -8,8 +8,8 @@
 <div id="page-wrapper">
   <div class="container">
     <div class="row">
-      <div class="col-lg-12">
-        <h1 class="page-header">
+      <div class="col-lg-12" >
+        <h1 class="page-header" id="page-header">
           Node Status Reports <small>Update Node Statuses</small>
         </h1>
       </div>
@@ -46,7 +46,8 @@
 
 
 <!-- Modal -->
-<!--  -->
+<?php echo validation_errors(); ?>
+<?php echo form_open('data_analysis/nodereport') ?>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -103,16 +104,6 @@
     nodeStatusJSON = <?php echo $nodeStatus; ?>;
     initAlertPlot();
   }
-  // $(function() {
-  //   $('#date-discovered').daterangepicker({
-  //     singleDatePicker: true,
-  //     showDropdowns: true
-  //   }, 
-  //   function(start, end, label) {
-
-  //   });
-  // });
-
 </script>
 
 
