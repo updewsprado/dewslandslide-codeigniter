@@ -171,7 +171,7 @@
 	                    	<input type="text" id="all-recipients" style="display:none">
 						</div>
 
-                    	<h4>Additional Recipients:</h4>
+                    	<h4>Optional Recipients:</h4>
 						<textarea class="form-control" name="additional_recipients" id="additional-recipients" cols="30" style="resize:none" disabled></textarea>
                         <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control" disabled></textarea>
                         <div class="ewi-cmd-container">
