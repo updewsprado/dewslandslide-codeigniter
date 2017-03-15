@@ -483,7 +483,7 @@
       <p><strong>New Feature!</strong> You can now tag messages in chatterbox!.</p>
       <p><strong> &nbsp &nbsp • Important Tags: </strong>#EwiMessage,#EwiResponse</p>
       </div>
-       <input type="text" class="form-control" id="gintags" name="gintags"  data-role="tagsinput" data-provide="typeahead" placeholder="E.g #EwiMessage" required>
+       <input type="text" class="form-control" id="gintags" name="gintags" data-role="tagsinput" data-provide="typeahead" placeholder="E.g #EwiMessage" style="display:none" required>
         <div class="form-group" id="submit-gintag">
           <button type="submit" value="submit" id="confirm-gintags" class="btn btn-primary" data-dismiss="modal">Confirm</button>
           <button type="reset" class="btn btn-danger" id="reset-gintags">Reset</button>

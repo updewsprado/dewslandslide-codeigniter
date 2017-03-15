@@ -9,8 +9,10 @@
 <script src="<?php echo base_url();?>js/dewslandslide/public_alert/dashboard_server.js"></script>
 <script type="text/javascript" src="js/dewslandslide/public_alert/monitoring_dashboard.js"></script>
 <script type="text/javascript" src="js/dewslandslide/public_alert/bulletin.js"></script>
-<script src="/js/dewslandslide/communications/dewschatterbox.js"></script>
+<script src="<?php echo base_url(); ?>/js/third-party/notify.min.js"></script>
+<script src="<?php echo base_url(); ?>/js/third-party/typeahead.js"></script>
 <script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
+<script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
 
@@ -162,11 +164,15 @@
                     </div>
                     <input type="hidden" id="event_details">
                     <div class="modal-body row-fluid">
+                    	<h4>Default Recipients:</h4>
 						<div id="ewi-recipients-container">
-							<span>Default recipients:</span>
-	                    	<label for="ewi-recipients-dashboard">Recipients: </label>
-	                    	<input class="form-control" type="text" id="ewi-recipients-dashboard" data-role="tagsinput" style="display:none">
+	                    	<input class="form-control" type="text" id="ewi-recipients-dashboard" data-role="tagsinput" data-provide="typeahead" style="display:none" required>
+	                    	<input type="text" id="default-recipients" style="display:none">
+	                    	<input type="text" id="all-recipients" style="display:none">
 						</div>
+
+                    	<h4>Additional Recipients:</h4>
+						<textarea class="form-control" name="additional_recipients" id="additional-recipients" cols="30" style="resize:none" disabled></textarea>
                         <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control" disabled></textarea>
                         <div class="ewi-cmd-container">
 	                        <button type="button" id="edit-btn-ewi-amd" class="btn btn-warning" value="edit">Edit</button>

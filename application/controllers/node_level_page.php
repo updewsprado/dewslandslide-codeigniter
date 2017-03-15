@@ -25,7 +25,9 @@ class Node_level_page extends CI_Controller {
 	}
 
 	public function getAllAccelVersion1(){
-		$data_result = $_POST['data'];
+		$data_result = $_POST['dataversion'];
+		var_dump($data_result);
+		exit();
 		$result = $this->node_level_model->getAccelVersion1($data_result['site'],
 			$data_result['fdate'],$data_result['tdate'],$data_result['nid']);
 		print json_encode($result);
