@@ -9,8 +9,10 @@
 <script src="<?php echo base_url();?>js/dewslandslide/public_alert/dashboard_server.js"></script>
 <script type="text/javascript" src="js/dewslandslide/public_alert/monitoring_dashboard.js"></script>
 <script type="text/javascript" src="js/dewslandslide/public_alert/bulletin.js"></script>
-<script src="/js/dewslandslide/communications/dewschatterbox.js"></script>
+<script src="<?php echo base_url(); ?>/js/third-party/notify.min.js"></script>
+<script src="<?php echo base_url(); ?>/js/third-party/typeahead.js"></script>
 <script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
+<script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
 
@@ -161,10 +163,21 @@
                         <h4>EARLY WARNING INFORMATION</h4>
                     </div>
                     <input type="hidden" id="event_details">
-                    <div class="modal-body row-fluid"> 
+                    <div class="modal-body row-fluid">
+                    	<h4>Default Recipients:</h4>
+						<div id="ewi-recipients-container">
+	                    	<input class="form-control" type="text" id="ewi-recipients-dashboard" data-role="tagsinput" data-provide="typeahead" style="display:none" required>
+	                    	<input type="text" id="default-recipients" style="display:none">
+	                    	<input type="text" id="all-recipients" style="display:none">
+						</div>
+
+                    	<h4>Optional Recipients:</h4>
+						<textarea class="form-control" name="additional_recipients" id="additional-recipients" cols="30" style="resize:none" disabled></textarea>
                         <textarea style="resize:none" name="constructed-ewi" id="constructed-ewi-amd" cols="30" rows="10" class="form-control" disabled></textarea>
-                        <button type="button" id="edit-btn-ewi-amd" class="btn btn-warning" value="edit">Edit</button>
-                        <button type="button" id="send-btn-ewi-amd" class="btn btn-success">Send</button>
+                        <div class="ewi-cmd-container">
+	                        <button type="button" id="edit-btn-ewi-amd" class="btn btn-warning" value="edit">Edit</button>
+	                        <button type="button" id="send-btn-ewi-amd" class="btn btn-success">Send</button>
+                        </div>
                         <input type="hidden" name="site_abbr" id="site-abbr">
                         <input type="hidden" name="footer_ewi" id="footer-ewi" value="<?php echo $first_name; ?>">
                     </div>
