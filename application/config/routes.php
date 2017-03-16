@@ -90,7 +90,8 @@ $route['narrativeAutomation/insert'] = "narrative_generator/insertEwiNarrative";
  */
 $route['data_analysis/node'] = "node_level_page";
 $route['data_analysis/node/(:any)/(:any)/(:any)/(:any)'] = "node_level_page";
-$route['data_analysis/site'] = "site_level_page";
+$route['data_analysis/column'] = "site_level_page";
+$route['data_analysis/column/(:any)'] = "site_level_page";
 $route['data_analysis/surficial'] = "surficial_page";
 $route['data_analysis/subsurface'] = "subsurface_page";
 $route['data_analysis/sensor_overview'] = "sensor_overview_page";

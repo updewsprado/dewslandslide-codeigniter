@@ -63,6 +63,12 @@ class Node_level_page extends CI_Controller {
 		print json_encode($data);
 	}
 
+	public function getAllSingleAlertGet($site){
+		$data['nodeAlerts'] = $this->Alert_model->getSingleAlert($site);
+		$data['siteMaxNodes'] = $this->Alert_model->getSingleMaxNode($site);
+		$data['nodeStatus'] = $this->Alert_model->getSingleNodeStatus($site);	
+		print json_encode($data);
+	}
 
 }
 ?>
