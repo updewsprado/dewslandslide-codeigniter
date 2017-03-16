@@ -14,9 +14,9 @@
 | path to your installation.
 |
 */
-//$config['base_url']	= '';
-$config['base_url']	= 'http://localhost/';
-// $config['base_url']	= 'http://www.dewslandslide.com/';
+
+//$config['base_url']	= 'http://localhost/';
+$config['base_url']	= 'http://www.dewslandslide.com/';
 
 $config['server_root'] = $_SERVER['DOCUMENT_ROOT'];
 
