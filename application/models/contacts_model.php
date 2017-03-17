@@ -12,7 +12,7 @@
  */
 class Contacts_model extends CI_Model {
 
-public function addNewContactEmployee($data,$category){
+	public function addNewContactEmployee($data,$category){
 		$result = $this->contactExists($data,$category);
 		if ($result == false) {
 			try {
@@ -150,5 +150,13 @@ public function addNewContactEmployee($data,$category){
 	public function getSitesForNarratives($site_name){
 		$query = $this->db->query("SELECT id from site WHERE name='".$site_name."'");
 		return $query;
+	}
+
+	public function commContactViaDashboard($site) {
+		$this->db->select('lastname,firstname,office,number,ewirecipient');
+		$this->db->from('communitycontacts');
+		$this->db->where('sitename', $site);
+		$result = $this->db->get();
+		return $result->result();
 	}
 }
