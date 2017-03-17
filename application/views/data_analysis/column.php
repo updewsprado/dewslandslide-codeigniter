@@ -40,7 +40,7 @@
                                 <td> <input id="submit"  type="button" value="Submit"></td>
                             </tr>
                             <tr id="soms_search_tool">
-                                <th><br>Date:<br><br><br>Days:</th>
+                                <th><b><br>Date:<br></b><b class="daygeneral"><br><br>Days:</b></th>
                                 <td><label>Heatmap Search Tool</label><br><input id="reportrange3" class="form-control reportrange3" type="text" name="datefilter3" value="" placeholder="Nothing selected"/><br>
                                 <select class="form-control daygeneral" id="daygeneral"> <option value="">...</option><option value="1d">1 Day</option> <option value="3d">3 Days</option><option value="30d">30 Days</option></select></td>
                             </tr>
