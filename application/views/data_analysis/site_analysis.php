@@ -102,7 +102,7 @@
               <div class="checkbox ground_table_checkbox">
                 <input id="ground_table_checkbox" type="checkbox" class="checkbox">
                 <label for="ground_table_checkbox">
-                Surficial Measurement Data Table
+                  Surficial Measurement Data Table
                 </label>
               </div>
               <div class="checkbox rain_graph_checkbox">
@@ -150,6 +150,12 @@
                   Node Summary
                 </label>
               </div>
+              <div class="checkbox heatmap_checkbox">
+                <input id="heatmap_checkbox" type="checkbox" class="checkbox">
+                <label for="heatmap_checkbox">
+                  Soms Heatmap
+                </label>
+              </div>
               <div class="form-group">
                 <label for="exampleInputFile">&nbsp; NODE LEVEL:
                 </label>
@@ -182,12 +188,6 @@
               <input id="batt_checkbox" type="checkbox" class="checkbox">
               <label for="batt_checkbox">
                 Battery Graph
-              </label>
-            </div>
-            <div class="checkbox heatmap_checkbox">
-              <input id="heatmap_checkbox" type="checkbox" class="checkbox">
-              <label for="heatmap_checkbox">
-                Soms Heatmap
               </label>
             </div>
           </form>
