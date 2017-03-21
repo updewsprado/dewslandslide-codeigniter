@@ -505,19 +505,11 @@
       </div>
       <div class="notes">
         <h4><strong>Bug Fixes:</strong></h4>
-        <strong><p>• Contact Settings Revamp</p>
-        <p>• Chatterbox Revamp</p>
-        <p>• Early warning information templates : Added Extended Monitoring message composition</p>
-        <p>• Early warning information templates : Corrected timestamps</p>
-        <p>• Chatterbox: Dashboard not sending for MSL and MSU</p></strong>
+        <p>• #EwiMessage tagged message does not get automatically included in the narrative reports</p>
         <h4><strong>Enhancements:</strong></h4>
-        <strong><p>• Chatterbox: UI / UX Improvements for Individual / Group conversation</p>
-        <p>• Chatterbox: UI/UX Improvements for "Create and Edit Contacts List"</p>
-        <p>• Chatterbox: Employee / Staff SMS Bomb</p>
-        <p>• Chatterbox: UI Display of "Timestamp Written" and "Timestamp Sent" on every outgoing message</p>
-        <p>• Added GINTAGs (General Information Tags) Feature</p>
-        <p>• Monitoring dashboard: #EwiMessage Automated tagging</p>
-        <p>• Narrative Report: Automated inclusion of all #EwiMessage tagged sms (EWI Releases)</p> </strong>
+        <p>• Automatic sending of Event / Extended / Routine reminders</p>
+        <p>• #EwiResponse tagged messages will be automaticall included in the narrative reports</p>
+        <p>• Added new message notifcation</p>
       </div>
       <div class="modal-body"> 
           <img src="../../../images/dews-l-logo.png" id="bg-image-info">
