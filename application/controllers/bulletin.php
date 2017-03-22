@@ -117,7 +117,7 @@
 				$cred = $this->bulletin_model->getEmailCredentials('dynaslopeswat');
 			}
 
-			if(is_string($cred)) {echo $cred; return;};
+			if(is_string($cred)) { echo $cred; return; }
 
 			if (file_exists($path) && is_readable($path)) {
 				require_once($path);
@@ -161,10 +161,11 @@
 			$mail->Body    = $_POST['text'];
 			//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') $file = $_SERVER['DOCUMENT_ROOT'] . "/bulletin.pdf";
+			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' || base_url() == "http://www.dewslandslide.com/") $file = $_SERVER['DOCUMENT_ROOT'] . "/bulletin.pdf";
 			else $file = $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin.pdf";
-			$mail->addAttachment($file, $_POST['filename'], 'base64', 'application/pdf');
 
+			$mail->addAttachment($file, $_POST['filename'], 'base64', 'application/pdf');
+			
 			if(!$mail->send()) {
 			    echo 'Message could not be sent.';
 			    echo 'Mailer Error: ' . $mail->ErrorInfo;
