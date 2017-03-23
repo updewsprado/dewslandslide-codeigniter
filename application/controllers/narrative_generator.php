@@ -8,7 +8,7 @@ class Narrative_generator extends CI_Controller {
 	}
 
 	public function insertEwiNarrative(){
-		$narrative_details = json_decode($_POST['narratives']);
+		$narrative_details = $_POST['narratives'];
 		$result = $this->narrative_automation_model->insertNarrative($narrative_details);
 		return $result;
 	}
