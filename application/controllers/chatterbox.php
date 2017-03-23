@@ -174,7 +174,7 @@ class Chatterbox extends CI_Controller {
 			"A1" => "Magandang %%PANAHON%% po.\n\n".
 							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Maaaring magkaroon ng landslide dahil sa nakaraan o kasalukuyang ulan at lindol.\n\n". // %%CURRENT_TIME%% - <HH> <AM,NN,PM,MN>
 							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO A HIGHER ALERT (A2 or A3).\n".
-							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n". //%%GROUND_DATA_TIME%% - <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>
+							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% %%GROUND_DATA_TIME%%.\n". //%%GROUND_DATA_TIME%% - <DD Month> bago mag-<HH:MM> <AM, NN, PM, MN>
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n". //%%NEXT_EWI%% - <HH> <AM, NN, PM, MN>
 							"Salamat.",
 			"A1-R" => "Magandang %%PANAHON%% po.\n\n".
@@ -186,26 +186,26 @@ class Chatterbox extends CI_Controller {
 			"A1-E" => "Magandang %%PANAHON%% po.\n\n".
 								"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Maaring magkaroon ng landslide dahil sa nakaraang lindol o earthquake.\n\n".
 								"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO A HIGHER ALERT (A2 or A3).\n".
-								"Inaasahan po namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n".
+								"Inaasahan po namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% %%GROUND_DATA_TIME%%.\n".
 								"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 								"Salamat.",
 			"A1-D" => "Magandang %%PANAHON%% po.\n\n".
 							"A1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Nag-request ang LEWC/LGU ng monitoring sa site dahil sa <situation>.\n\n".
 							"Ang recommended response ay PREPARE TO ASSIST THE HOUSEHOLDS AT RISK IN RESPONDING TO A HIGHER ALERT (A2 or A3).\n".
-							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% , %%GROUND_DATA_TIME%%.\n".
+							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% %%GROUND_DATA_TIME%%.\n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 							"Salamat.",
 			"A2-S" => "Magandang %%PANAHON%% po.\n\n".
 							"A2 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Naka-detect ang sensor ng significant ground movement.\n\n".
 							"Ang recommended response ay PREPARE TO EVACUATE THE HOUSEHOLDS AT RISK.\n".
-							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%%, %%GROUND_DATA_TIME%%.\n".
+							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% %%GROUND_DATA_TIME%%.\n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 							"Salamat.\n".
 							"DEWSL-PHIVOLCS",
 			"A2-G" => "Magandang %%PANAHON%% po.\n\n".
 							"A2 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Nakapagsukat ng significant ground movement ang LEWC.\n\n".
 							"Ang recommended response ay PREPARE TO EVACUATE THE HOUSEHOLDS AT RISK.\n".
-							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%%, %%GROUND_DATA_TIME%%. \n".
+							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% %%GROUND_DATA_TIME%%. \n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 							"Salamat.",
 			"A3-S" => "Magandang %%PANAHON%% po.\n\n".
@@ -219,12 +219,12 @@ class Chatterbox extends CI_Controller {
 							"Nakapagsukat ang LEWC ng critical ground movement.\n\n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.",
 			"Remind to send Ground Data" => "Magandang %%PANAHON%% po.\n\n".
-											"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%%, %%GROUND_DATA_TIME%%.\n\n".
+											"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% %%GROUND_DATA_TIME%%.\n\n".
 											"Salamat.",
 			"A2" => "Magandang %%PANAHON%% po.\n\n".
 							"A2 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Naka-detect ang sensor ng significant ground movement at Nakapagsukat ng significant ground movement ang LEWC.\n\n".
 							"Ang recommended response ay PREPARE TO EVACUATE THE HOUSEHOLDS AT RISK.\n".
-							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%%, %%GROUND_DATA_TIME%%. \n".
+							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% %%GROUND_DATA_TIME%%. \n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
 							"Salamat.",
 			"A3" => "Magandang %%PANAHON%% po.\n\n".
