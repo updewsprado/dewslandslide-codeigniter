@@ -239,4 +239,10 @@ class Chatterbox extends CI_Controller {
 		$result = $this->contacts_model->employeeTags();
 		print json_encode($result->result());
 	}
+
+	public function getCommunityContactViaDashboard(){
+		$data = $_POST['site'];
+		$result = $this->contacts_model->commContactViaDashboard($data);
+		print json_encode($result);
+	}
 }

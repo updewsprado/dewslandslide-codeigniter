@@ -156,7 +156,7 @@ class Pubrelease extends CI_Controller {
 			$a = $this->pubrelease_model->getEventValidity($event_id);
 			$event_validity = $a[0]->validity;
 
-			if( isset($_POST['extend_ND']) )
+			if( isset($_POST['extend_ND']) || isset($_POST['extend_rain_x']) )
 			{
     			$data['validity'] = date("Y-m-d H:i:s", strtotime($event_validity) + 4 * 3600);
     			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', $data);

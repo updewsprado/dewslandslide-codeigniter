@@ -479,8 +479,11 @@
         <h4>General Information Tag <i class="text-warning"> *BETA*</i></h4>
       </div>
       <div class="modal-body row-fluid"> 
-      <div class="alert alert-info" role="alert"><strong>New Feature!</strong> You can now tag messages in chatterbox!.</div>
-       <input type="text" class="form-control" id="gintags" name="gintags"  data-role="tagsinput" data-provide="typeahead" placeholder="E.g #EwiMessage" required>
+      <div class="alert alert-info" role="alert">
+      <p><strong>New Feature!</strong> You can now tag messages in chatterbox!.</p>
+      <p><strong> &nbsp &nbsp • Important Tags: </strong>#EwiMessage,#EwiResponse</p>
+      </div>
+       <input type="text" class="form-control" id="gintags" name="gintags" data-role="tagsinput" data-provide="typeahead" placeholder="E.g #EwiMessage" style="display:none" required>
         <div class="form-group" id="submit-gintag">
           <button type="submit" value="submit" id="confirm-gintags" class="btn btn-primary" data-dismiss="modal">Confirm</button>
           <button type="reset" class="btn btn-danger" id="reset-gintags">Reset</button>
@@ -502,19 +505,11 @@
       </div>
       <div class="notes">
         <h4><strong>Bug Fixes:</strong></h4>
-        <strong><p>• Contact Settings Revamp</p>
-        <p>• Chatterbox Revamp</p>
-        <p>• Early warning information templates : Added Extended Monitoring message composition</p>
-        <p>• Early warning information templates : Corrected timestamps</p>
-        <p>• Chatterbox: Dashboard not sending for MSL and MSU</p></strong>
+        <p>• #EwiMessage tagged message does not get automatically included in the narrative reports</p>
         <h4><strong>Enhancements:</strong></h4>
-        <strong><p>• Chatterbox: UI / UX Improvements for Individual / Group conversation</p>
-        <p>• Chatterbox: UI/UX Improvements for "Create and Edit Contacts List"</p>
-        <p>• Chatterbox: Employee / Staff SMS Bomb</p>
-        <p>• Chatterbox: UI Display of "Timestamp Written" and "Timestamp Sent" on every outgoing message</p>
-        <p>• Added GINTAGs (General Information Tags) Feature</p>
-        <p>• Monitoring dashboard: #EwiMessage Automated tagging</p>
-        <p>• Narrative Report: Automated inclusion of all #EwiMessage tagged sms (EWI Releases)</p> </strong>
+        <p>• Automatic sending of Event / Extended / Routine reminders</p>
+        <p>• #EwiResponse tagged messages will be automaticall included in the narrative reports</p>
+        <p>• Added new message notifcation</p>
       </div>
       <div class="modal-body"> 
           <img src="../../../images/dews-l-logo.png" id="bg-image-info">
@@ -535,7 +530,7 @@
       </div>
       <div class="modal-body">
         <input type="text" id="gintag_details_container" hidden>
-        <div class="alert alert-info" role="alert"><strong>Notice!</strong> Saving an #EwiMessage tagged message will be permanently save to narratives.</div>
+        <div class="alert alert-info" role="alert"><strong>Notice!</strong> <p>Saving an #TagGoesHere tagged message will be permanently save to narratives.</p></div>
         <textarea class="form-control" name="ewi-tagged-msg" id="ewi-tagged-msg" cols="30" rows="10" style="resize:none" disabled>SAMPLE EWI</textarea>
         <div class="form-group" id="submit-gintag">
           <button class="btn btn-warning" id="cancel-narrative">Cancel</button>
