@@ -27,9 +27,9 @@
   <div class="page-header">
     <h1>INTEGRATED SITE ANALYSIS PAGE</h1>
   </div>
-  <div class="col-sm-3 col-md-3" id="sidebar">
-    <div class="panel-group">
-      <div class="panel panel-default" >
+  <div class="col-sm-3 col-md-3 " id="sidebar">
+    <div class="panel-group fixed1">
+      <div class="panel panel-default " >
         <div class="panel-heading">
           <h4 class="panel-title" >
             <a data-toggle="collapse"  href="#collapseTwo"><span class="glyphicon glyphicon-calendar">
@@ -85,7 +85,7 @@
                 Surficial Analysis Graph
               </label>
             </div>
-             <div class="checkbox ground_table_checkbox site_checkbox">
+            <div class="checkbox ground_table_checkbox site_checkbox">
               <input id="ground_table_checkbox" type="checkbox" class="checkbox">
               <label for="ground_table_checkbox">
                 Surficial Measurement Data Table
@@ -210,10 +210,11 @@
   </div>
 </div>
 <div class="col-sm-9 col-md-9 original" id="analysis_panel">
-    <div class="panel-body  analysis"> 
-    </div>
+  <div class="panel-body  analysis"> 
+  </div>
 </div>
-<div class="col-sm-9 col-md-9 original" id="analysis_panel_body"></div>
+<div class="col-sm-3 col-md-3 original "></div>
+<div class="col-sm-9 col-md-9 original analysis " id="analysis_panel_body"></div>
 <div class="modal fade" id="groundModal" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
