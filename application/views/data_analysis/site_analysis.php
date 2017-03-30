@@ -57,8 +57,7 @@
           </h4>
         </div>
         <div id="collapseSite" class="panel-collapse collapse collapseSite">
-          <div class="panel-body">
-            <form class="col-xs-2">
+          <div class="panel-body" >
               <div class="form-group sitegeneral" >
                 <label for="sitegeneral">Site</label><br>
                 <select class="selectpicker"  id="sitegeneral" data-live-search="true" title="Choose one of the following..."></select>
@@ -67,7 +66,6 @@
                 <label for="crackgeneral">Cracks</label>
                 <select class="selectpicker"  id="crackgeneral" data-live-search="true" disabled></select>
               </div>
-            </form>
             <div class="form-group " align="center">
               <div >
                 <label> SITE CHARTS and GRAPHS</label>
