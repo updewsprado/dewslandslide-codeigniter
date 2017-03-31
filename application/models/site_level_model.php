@@ -75,8 +75,6 @@ class site_level_model extends CI_Model {
 		FROM (SELECT * FROM $site WHERE timestamp >= '$from' AND timestamp <= '$to'
 		and xvalue IS NOT NULL) AS site
 		GROUP BY timeslice DESC LIMIT 48";
-		var_dump($sql);
-		exit();
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
