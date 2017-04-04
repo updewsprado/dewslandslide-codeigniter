@@ -27,6 +27,7 @@ class Lin extends CI_Controller {
 			
 			$this->session->set_userdata($data);
 			//redirect('mempage/members_area');
+
 			redirect('/home');
 		}
 		else {
@@ -67,35 +68,11 @@ class Lin extends CI_Controller {
 		}
 	}
 
+	public function mobile_login(){
+		$this->load->model('membership_model');
+		$query = $this->membership_model->validate();
+		$data["result"] = $query;
+		print json_encode($data);
+	}
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
