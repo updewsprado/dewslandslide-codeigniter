@@ -103,7 +103,7 @@
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <p > <h4 style="text-align: center;"> TAG FORM</h4></p>
-                <form>
+            
                     <div class="form-group">
                         <label for="formGroupExampleInput">Tags</label>
                         <input type="text" class="form-control" id="tag_ids" placeholder="Example: #AcellDrift">
@@ -116,7 +116,7 @@
                         <label for="formGroupExampleInput2">Comment</label>
                         <textarea class="form-control" rows="5" id="comment"></textarea>
                     </div>
-                 </form>
+                
                   <button type="button" class="close" class="btn-sm" id="tag_submit">SAVE</button>
                   <br>
             </div>
