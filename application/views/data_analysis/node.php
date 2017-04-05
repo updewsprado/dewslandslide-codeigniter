@@ -5,6 +5,8 @@
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/node_level.js"></script>
 <script src="https://code.highcharts.com/stock/highstock.js"></script>
 <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 <script type="text/javascript" src="/js/third-party/daterangepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/daterangepicker.css" />
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/node.css" />
@@ -104,9 +106,9 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <p > <h4 style="text-align: center;"> TAG FORM</h4></p>
             
-                    <div class="form-group">
-                        <label for="formGroupExampleInput">Tags</label>
-                        <input type="text" class="form-control" id="tag_ids" placeholder="Example: #AcellDrift">
+                    <div class="form-group tag_ids">
+                        <label>Tags</label>
+                        <input type="text" class="form-control" id="tag_ids" placeholder="Ex: #AccelDrift or #Drift" data-role="tagsinput" value="#NodeAnalysis">
                     </div>
                     <div class="form-group">
                         <label for="formGroupExampleInput">Timestamp</label>
@@ -116,7 +118,7 @@
                         <label for="formGroupExampleInput2">Comment</label>
                         <textarea class="form-control" rows="5" id="comment"></textarea>
                     </div>
-                
+                    <input type="text" class="form-control" id="tag_value" disabled="">
                   <button type="button" class="close" class="btn-sm" id="tag_submit">SAVE</button>
                   <br>
             </div>
