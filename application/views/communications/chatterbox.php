@@ -501,20 +501,72 @@
     <div class="modal-content" id="GenInfo-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4>CHATTERBOX PATCH NOTES<i class="text-warning"> *BETA*</i></h4>
+        <h4>GINTags<i class="text-warning"> *BETA*</i></h4>
       </div>
-      <div class="notes">
-        <h4><strong>Bug Fixes:</strong></h4>
-        <p>• #EwiMessage tagged message does not get automatically included in the narrative reports</p>
-        <h4><strong>Enhancements:</strong></h4>
-        <p>• Automatic sending of Event / Extended / Routine reminders</p>
-        <p>• #EwiResponse tagged messages will be automaticall included in the narrative reports</p>
-        <p>• Added new message notifcation</p>
+      <div id="notice-modal" class="modal-body">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+          </ol>
+
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner" role="listbox">
+            <div class="item active">
+              <img src="../../images/imgs_resources/step1.png" alt="Step1">
+              <div class="carousel-caption">
+                <h3>Quick Group Selection!</h3>
+                <p>Use the Quick Group Selection button to select a site for tagging.</p>
+              </div>
+            </div>
+
+            <div class="item">
+              <img src="../../images/imgs_resources/step2.png" alt="Step2">
+              <div class="carousel-caption">
+                <h3>Message bubble!</h3>
+                <p>Select a message (Ex."You" as the sender) by clicking the message bubble.</p>
+              </div>
+            </div>
+
+            <div class="item">
+              <img src="../../images/imgs_resources/step3.png" alt="Step3">
+              <div class="carousel-caption">
+                <h3>Must be blue!</h3>
+                <p>Enter a tag name for the selected message (Ex. #EwiMessage) and the tag must turn blue. HINT: You must hit "ENTER"</p>
+              </div>
+            </div>
+
+            <div class="item">
+              <img src="../../images/imgs_resources/step4.png" alt="Step4">
+            </div>
+
+            <div class="item">
+              <img src="../../images/imgs_resources/step5.png" alt="Step5">
+            </div>
+
+            <div class="item">
+              <img src="../../images/imgs_resources/step6.png" alt="Step6">
+              <div class="carousel-caption">
+                <h3>Be careful!</h3>
+                <p>Tagging with #EwiMessage / #EwiResponse message will be inserted to the narrative report and cannot be deleted.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Left and right controls -->
+          <a id="no-bg-img" class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a id="no-bg-img" class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
       </div>
-      <div class="modal-body"> 
-          <img src="../../../images/dews-l-logo.png" id="bg-image-info">
-      </div>
-    </div>  
   </div>
 </div>
 <!-- General Info MODAL -->
