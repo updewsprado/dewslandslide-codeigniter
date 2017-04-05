@@ -13,7 +13,7 @@ class Chatterbox extends CI_Controller {
 	public function index() {
 		$this->is_logged_in();
 
-		$page = 'Chatterbox';
+		$page = 'Gintag';
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
 		$data['user_id'] = $this->session->userdata("id");
@@ -22,8 +22,7 @@ class Chatterbox extends CI_Controller {
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
-		$this->load->view('communications/chatterbox');
-		$this->load->view('communications/handlebars-chatterbox');
+		$this->load->view('reports/gintags_report');
 		$this->load->view('templates/footer');
 	}
 
