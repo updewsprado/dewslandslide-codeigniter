@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewsalert.css">
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/overview.css">
 <div id="page-wrapper">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
@@ -46,10 +46,9 @@
                    </h3>
                    <div id="alertcanvaslegend"  style="width:300px; height:100px; visibility:hidden; display:none;">
                        <svg width="290px" height="95px">
-                          <rect x="0" y="0" width="12px" height="14px" fill="#03899C" /> <text x="14" y="12" style="font-size:14px;" fill="#03899C">0 axis alert</text>
-                          <rect x="0" y="20" width="12px" height="14px" fill="#55AEAF" /> <text x="14" y="32" style="font-size:14px;" fill="#55AEAF">1 axis alert</text>
-                          <rect x="0" y="40" width="12px" height="14px" fill="#AAAE5F" /> <text x="14" y="52" style="font-size:14px;" fill="#AAAE5F">2 axes alerts</text>
-                          <rect x="0" y="60" width="12px" height="14px" fill="#FFAE0F" /> <text x="14" y="72" style="font-size:14px;" fill="#FFAE0F">3 axes alerts</text>
+                          <rect x="0" y="0" width="12px" height="14px" fill="#4A6C6F" /> <text x="14" y="12" style="font-size:14px;" fill="#fff">0 axis alert</text>
+                          <rect x="0" y="20" width="12px" height="14px" fill="#846075" /> <text x="14" y="32" style="font-size:14px;" fill="#fff">1 axis alert</text>
+                          <rect x="0" y="40" width="12px" height="14px" fill="#AF5D63" /> <text x="14" y="52" style="font-size:14px;" fill="#fff">2 axes alerts</text>
                           <polygon points="120,10 120,20 130,10" fill="#FFF500" /> <text x="132" y="20" style="font-size:14px;" fill="#FFF500">Use with Caution</text>
                           <polygon points="120,30 120,40 130,30" fill="#EA0037" /> <text x="132" y="40" style="font-size:14px;" fill="#EA0037">Not OK</text>
                           <polygon points="120,50 120,60 130,50" fill="#0A64A4" /> <text x="132" y="60" style="font-size:14px;" fill="#0A64A4">Special Case</text>
