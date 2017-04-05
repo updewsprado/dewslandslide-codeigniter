@@ -63,7 +63,7 @@
                         <li class="dropdown-header">Site Maintenance</li>
                         <li><a href="<?php echo base_url(); ?>reports/site_maintenance/form">Filing Form</a></li>
                         <li><a href="<?php echo base_url(); ?>reports/site_maintenance/all">All Reports Table</a></li>
-                        <li><a href="<?php echo base_url(); ?>reports/gintags_report">General Information Tags</a></li>
+                        <li><a href="<?php echo base_url(); ?>generalinformation/index">General Information Tags</a></li>
                     </ul>
                 </li>
 
