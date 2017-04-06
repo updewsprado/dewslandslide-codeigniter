@@ -128,7 +128,7 @@
 							$description = $description;
 						} else
 						{
-							if ( strpos( substr($release->internal_alert_level, 3), "D") !== false )
+							if ( strpos( substr($release->internal_alert_level, 3), "D") !== false && $triggers[0]->trigger_type == 'D')
 							{
 								if ($triggers[0]->od_info->is_llmc && $triggers[0]->od_info->is_lgu) $group = "LEWC/LGU";
 								else if ($triggers[0]->od_info->is_llmc) $group = "LEWC"; else $group = "LGU";
