@@ -9,6 +9,7 @@
 <script src="<?php echo base_url();?>js/dewslandslide/public_alert/dashboard_server.js"></script>
 <script type="text/javascript" src="js/dewslandslide/public_alert/monitoring_dashboard.js"></script>
 <script type="text/javascript" src="js/dewslandslide/public_alert/bulletin.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/public_alert/issues_and_reminders.js"></script>
 <script src="<?php echo base_url(); ?>/js/third-party/notify.min.js"></script>
 <script src="<?php echo base_url(); ?>/js/third-party/typeahead.js"></script>
 <script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
@@ -43,10 +44,10 @@
 		    <div class="col-sm-9" id="column_2">
 		    	<div class="row">
 		    		<div class="alert alert-danger " id="primer">
-			            <strong>TO ALL MONITORING DUTY PERSONS</strong>: 
+			            <strong>Monitoring Modules Directory</strong>: 
 			            <ul>
+			            	<li>Read and file announcements on <a role="button" id="iar_modal_link"><strong>Monitoring Issues And Reminders Modal</strong></a>.</li>
 			            	<li>Allot some time to read the <strong><a href="<?php echo base_url(); ?>monitoring/faq">Monitoring Primer and Frequently Asked Questions (FAQ)</a></strong> page.</li>
-			            	<li>The <strong>'Latest Candidate Triggers'</strong> table and <strong>'Action'</strong> feature is in <strong>BETA MODE</strong>. Make sure to <strong>check the inputs EVERYTIME</strong> before releasing. Elevate any encountered bugs and errors immediately. If in doubt in using the feature, use the old 'Early Warning Release Form'. </li>
 			            </ul>
 			            
 			        </div>

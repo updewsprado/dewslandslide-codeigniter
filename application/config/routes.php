@@ -49,6 +49,8 @@ $route['monitoring/events/(:num)/(:num)'] = "pubrelease/index/monitoring_events_
 $route['monitoring/events/(:num)'] = "pubrelease/index/monitoring_events_individual/$1";
 $route['monitoring/faq'] = "pubrelease/index/monitoring_faq";
 
+$route['monitoring/issues_and_reminders'] = "issues_and_reminders";
+
 /**
  * Bulletin Pages Routes
  */

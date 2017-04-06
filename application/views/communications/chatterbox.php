@@ -516,7 +516,7 @@
           <!-- Wrapper for slides -->
           <div class="carousel-inner" role="listbox">
             <div class="item active">
-              <img src="../../images/imgs_resources/step1.png" alt="Chania">
+              <img src="../../images/imgs_resources/step1.png" alt="Step1">
               <div class="carousel-caption">
                 <h3>Quick Group Selection!</h3>
                 <p>Use the Quick Group Selection button to select a site for tagging.</p>
@@ -524,7 +524,7 @@
             </div>
 
             <div class="item">
-              <img src="../../images/imgs_resources/step2.png" alt="Chania">
+              <img src="../../images/imgs_resources/step2.png" alt="Step2">
               <div class="carousel-caption">
                 <h3>Message bubble!</h3>
                 <p>Select a message (Ex."You" as the sender) by clicking the message bubble.</p>
@@ -532,7 +532,7 @@
             </div>
 
             <div class="item">
-              <img src="../../images/imgs_resources/step3.png" alt="Flower">
+              <img src="../../images/imgs_resources/step3.png" alt="Step3">
               <div class="carousel-caption">
                 <h3>Must be blue!</h3>
                 <p>Enter a tag name for the selected message (Ex. #EwiMessage) and the tag must turn blue. HINT: You must hit "ENTER"</p>
@@ -540,15 +540,19 @@
             </div>
 
             <div class="item">
-              <img src="../../images/imgs_resources/step4.png" alt="Flower">
+              <img src="../../images/imgs_resources/step4.png" alt="Step4">
             </div>
 
             <div class="item">
-              <img src="../../images/imgs_resources/step5.png" alt="Flower">
+              <img src="../../images/imgs_resources/step5.png" alt="Step5">
             </div>
 
             <div class="item">
-              <img src="../../images/imgs_resources/step6.png" alt="Flower">
+              <img src="../../images/imgs_resources/step6.png" alt="Step6">
+              <div class="carousel-caption">
+                <h3>Be careful!</h3>
+                <p>Tagging with #EwiMessage / #EwiResponse message will be inserted to the narrative report and cannot be deleted.</p>
+              </div>
             </div>
           </div>
 
