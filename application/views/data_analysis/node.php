@@ -119,6 +119,7 @@
                         <textarea class="form-control" rows="5" id="comment"></textarea>
                     </div>
                     <input type="text" class="form-control" id="tag_value" disabled="">
+                     <input type="text" class="form-control" id="tag_series" disabled="">
                   <button type="button" class="close" class="btn-sm" id="tag_submit">SAVE</button>
                   <br>
             </div>

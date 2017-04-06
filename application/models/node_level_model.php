@@ -38,8 +38,8 @@ class node_level_model extends CI_Model {
 		return $query->result();
 	}
 	
-	public function gintagsNodeTagID($data,$fdate,$tdate){
-		$sql = "SELECT gintags.gintags_id,gintags_reference.tag_name,gintags_reference.tag_description,membership.first_name as tagger_firstname,membership.last_name as tagger_lastname,gintags.table_element_id,gintags.table_used,gintags.timestamp,gintags.remarks from gintags inner join gintags_reference ON gintags.tag_id_fk=gintags_reference.tag_id inner join membership ON gintags.tagger_eid_fk = membership.id WHERE gintags.table_used = '$data' and timestamp between '$fdate' and '$tdate'";
+	public function gintagsNodeTagID($data,$fdate,$tdate,$node){
+		$sql = "SELECT gintags.gintags_id,gintags_reference.tag_name,gintags_reference.tag_description,membership.first_name as tagger_firstname,membership.last_name as tagger_lastname,gintags.table_element_id,gintags.table_used,gintags.timestamp,gintags.remarks from gintags inner join gintags_reference ON gintags.tag_id_fk=gintags_reference.tag_id inner join membership ON gintags.tagger_eid_fk = membership.id WHERE gintags.table_used = '$data' and gintags.remarks LIKE '%$node%' and timestamp between '$fdate' and '$tdate'";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}

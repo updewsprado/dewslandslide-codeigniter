@@ -69,8 +69,8 @@ class Node_level_page extends CI_Controller {
 		$data['nodeStatus'] = $this->Alert_model->getSingleNodeStatus($site);	
 		print json_encode($data);
 	}
-	public function getAllgintagsNodeTagID($data,$fdate,$tdate){
-		$result = $this->node_level_model->gintagsNodeTagID($data,$fdate,$tdate);
+	public function getAllgintagsNodeTagID($data,$fdate,$tdate,$node){
+		$result = $this->node_level_model->gintagsNodeTagID($data,$fdate,$tdate,$node);
 		print json_encode($result);
 	}
 }
