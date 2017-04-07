@@ -113,6 +113,7 @@ class Gintagshelper extends CI_Controller {
 	}
 
 	public function getAllGintagDetails(){
-		print "Hello from me";
+		$result = $this->gintags_helper_model->getGintagsAndReference();
+		print json_encode($result);
 	}
 }

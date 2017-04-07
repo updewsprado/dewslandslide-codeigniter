@@ -10,14 +10,10 @@
 		    <div class="panel-body">
 		    	<table id="gintag_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
 		          <thead>
-		            <tr>
-		              <th>Name</th>
-		            </tr>
+		            <tr></tr>
 		          </thead>
 		          <tfoot>
-		            <tr>
-		              <th>Name</th>
-		            </tr>
+		            <tr></tr>
 		          </tfoot>
 			    </table>
 		    </div>
