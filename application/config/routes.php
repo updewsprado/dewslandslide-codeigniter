@@ -78,6 +78,12 @@ $route['communications/chatterbox/gintagcontacts'] = "chatterbox/get_comm_contac
 $route['communications/chatterbox/addcontact'] = "chatterbox/addcontacts";
 
 /**
+ * NEW Chatterbox **BETA**
+ */
+
+$route['communications/chatterbox_beta'] = "chatterbox_beta/index";
+
+/**
 * General Information Tagging
 */
 $route['generalinformation/index'] = "gintagshelper/index";

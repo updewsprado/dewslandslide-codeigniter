@@ -23,6 +23,7 @@
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
                         <li><a href="<?php echo base_url(); ?>communications/chatterbox">Chatter Box</a></li>
+                        <li><a href="<?php echo base_url(); ?>communications/chatterbox_beta">**BETA** Chatter Box</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Miscellaneous</li>
                         <li><a href="<?php echo base_url(); ?>monitoring/faq">Primer and FAQs</a></li>

@@ -8,15 +8,17 @@
         </div>
         
         <div class="row">
-            <div class="col-md-12"><div class="table-responsive">          
-                <table class="table" id="gintag_table">
-                    <thead>
-                        <tr></tr>
-                    </thead>
-                    <tfoot>
-                        <tr></tr>
-                    </tfoot>
-                </table>
+            <div class="col-md-12">
+                <div class="table-responsive">          
+                    <table class="table" id="gintag_table">
+                        <thead>
+                            <tr></tr>
+                        </thead>
+                        <tfoot>
+                            <tr></tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
