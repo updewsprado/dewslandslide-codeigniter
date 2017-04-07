@@ -108,7 +108,7 @@
             
                     <div class="form-group tag_ids">
                         <label>Tags</label>
-                        <input type="text" class="form-control" id="tag_ids" placeholder="Ex: #AccelDrift or #Drift" data-role="tagsinput" value="#NodeAnalysis">
+                        <input type="text" class="form-control" id="tag_ids" placeholder="Ex: #AccelDrift or #Drift" data-role="tagsinput" value="#newffd">
                     </div>
                     <div class="form-group">
                         <label for="formGroupExampleInput">Timestamp</label>
@@ -120,6 +120,7 @@
                     </div>
                     <input type="text" class="form-control" id="tag_value" disabled="">
                      <input type="text" class="form-control" id="tag_series" disabled="">
+                     <input type="text" class="form-control" id="tag_version" disabled="">
                   <button type="button" class="close" class="btn-sm" id="tag_submit">SAVE</button>
                   <br>
             </div>
