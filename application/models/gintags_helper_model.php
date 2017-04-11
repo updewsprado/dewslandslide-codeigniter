@@ -117,7 +117,7 @@ class Gintags_helper_model extends CI_Model {
     }
 
     public function checkEntryExist($data,$doExist){
-        $sql = "SELECT * FROM gintags WHERE tag_id_fk = ".$doExist[0]->tag_id." AND table_element_id = '".$data['table_element_id']."'";
+        $sql = "SELECT * FROM gintags WHERE tag_id_fk = ".$doExist[0]->tag_id." AND table_element_id = ".$data['table_element_id']."";
         $query_result = $this->db->query($sql);
         return $query_result->result();
     }
