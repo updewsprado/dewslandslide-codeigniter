@@ -315,8 +315,8 @@ ChatterBox CSS -->
 	            <div class="row form-group">
 	              <p>Early Warning Information Recipients:</p>
 	              <div id="modal-select-recipients">
-	                <label class="opt-ewi-recipients"><input type="radio" name="opt-ewi-recipients" value="false" checked="true">All</label>
-	                <label class="opt-ewi-recipients"><input type="radio" name="opt-ewi-recipients" value="true">Only selected EWI Receivers</label>
+	              	<label class="radio-inline"><input type="radio" name="opt-ewi-recipients" value="false" checked="true">All</label>
+	              	<label class="radio-inline"><input type="radio" name="opt-ewi-recipients" value="true" checked="true">Only selected EWI Receivers</label>
 	              </div>
 	            </div>
 	            <Br/>

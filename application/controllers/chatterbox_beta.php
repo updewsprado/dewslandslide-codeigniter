@@ -22,8 +22,8 @@ class Chatterbox_beta extends CI_Controller {
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
-		$this->load->view('communications/chatterbox_beta');
 		$this->load->view('communications/handlebars-chatterbox_beta');
+		$this->load->view('communications/chatterbox_beta');
 		$this->load->view('templates/footer');
 	}
 
