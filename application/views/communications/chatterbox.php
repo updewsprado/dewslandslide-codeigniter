@@ -14,13 +14,13 @@
 
 <div id="chatterbox-page-wrapper">
 
-<!-- WEBSITE SERVER INDICATOR -->
-<div class="row" id="testing-site-indicator">
-  <div class="col-md-3">
+  <!-- WEBSITE SERVER INDICATOR -->
+  <div class="row" id="testing-site-indicator">
+    <div class="col-md-3">
       <strong><span>TEST SITE</span></strong>
+    </div>
   </div>
-</div>
-<!-- WEBSITE SERVER INDICATOR -->
+  <!-- WEBSITE SERVER INDICATOR -->
 
   <div class="row">
     <div id="search-contacts" class="col-md-3">
@@ -32,15 +32,15 @@
       <button type="button" class="btn btn-link btn-sm" id="btn-advanced-search" 
       data-toggle="modal" data-toggle="tooltip" title="Quick Group Selection">
       <span class="glyphicon glyphicon-list-alt"></span>
-      </button>
+    </button>
 
-      <button type="button" class="btn btn-link btn-sm" id="btn-contact-settings" 
-      data-toggle="modal" data-toggle="tooltip" title="Contact Settings"><span class="glyphicon glyphicon-user"></span>
-      </button>
-      
-      <button type="button" class="btn btn-link btn-sm" id="btn-gbl-search" title="Search Message"><span class="glyphicon glyphicon-search"></span></button>
-    </div>
-  </div>
+    <button type="button" class="btn btn-link btn-sm" id="btn-contact-settings" 
+    data-toggle="modal" data-toggle="tooltip" title="Contact Settings"><span class="glyphicon glyphicon-user"></span>
+  </button>
+
+  <button type="button" class="btn btn-link btn-sm" id="btn-gbl-search" title="Search Message"><span class="glyphicon glyphicon-search"></span></button>
+</div>
+</div>
 
 <div class="row">
   <div class="col-md-3">
@@ -200,39 +200,39 @@
         <h4 class="modal-title text-info">Contact Settings</h4>
       </div>
 
-    <div class="modal-body row-fluid">
-      <div class="contact-settings-container">
+      <div class="modal-body row-fluid">
+        <div class="contact-settings-container">
 
-        <div class="row">
-          <div class="col-md-6">
-            <label for="contact-category">Contact Category</label>
-            <select id="contact-category" class="btn btn-default" name="contact-category" title="Contact Category">
-              <option disabled selected value="default">--</option>
-              <option value="econtacts">Employee Contacts</option>
-              <option value="ccontacts">Community Contacts</option>
-            </select>  
+          <div class="row">
+            <div class="col-md-6">
+              <label for="contact-category">Contact Category</label>
+              <select id="contact-category" class="btn btn-default" name="contact-category" title="Contact Category">
+                <option disabled selected value="default">--</option>
+                <option value="econtacts">Employee Contacts</option>
+                <option value="ccontacts">Community Contacts</option>
+              </select>  
+            </div>
+
+            <div class="col-md-6">
+              <label for="settings-cmd">What do you want to do?</label>
+              <select id="settings-cmd" class="btn btn-default" disabled>
+                <option disabled selected value="default">--</option>
+                <option value="addcontact">Add Contact</option>
+                <option value="updatecontact">Update Existing Contact</option>
+              </select>  
+            </div>
           </div>
 
-          <div class="col-md-6">
-            <label for="settings-cmd">What do you want to do?</label>
-            <select id="settings-cmd" class="btn btn-default" disabled>
-              <option disabled selected value="default">--</option>
-              <option value="addcontact">Add Contact</option>
-              <option value="updatecontact">Update Existing Contact</option>
-            </select>  
-          </div>
-        </div>
+          <hr>
 
-        <hr>
+          <div id="update-contact-container" hidden>
+            <div>
+             <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
+             <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
+           </div>
+         </div>
 
-        <div id="update-contact-container" hidden>
-          <div>
-           <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
-           <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
-          </div>
-        </div>
-
-        <table id="response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
+         <table id="response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
           <thead>
             <tr>
               <th>Name</th>
@@ -432,37 +432,37 @@
       </div>
       <div class="modal-body row-fluid"> 
         <div class="ewi-container">
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="form-group" id="alert-group">
-              <label for="alert-lvl">Alert Level :</label>
-              <select name="" id="alert-lvl" class="form-control">
-              </select>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group" id="alert-group">
+                <label for="alert-lvl">Alert Level :</label>
+                <select name="" id="alert-lvl" class="form-control">
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group" id="site-group">
+                <label for="sites">Sites :</label>
+                <select name="" id="sites" name="sites" class="form-control">
+                </select>
+              </div>
             </div>
           </div>
-          <div class="col-sm-6">
-            <div class="form-group" id="site-group">
-              <label for="sites">Sites :</label>
-              <select name="" id="sites" name="sites" class="form-control">
-              </select>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="ewi-date-picker">Schedules :</label>
+                <input type="date" id="ewi-date-picker" class="form-control"/>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label for="ewi-date-picker">Schedules :</label>
-            <input type="date" id="ewi-date-picker" class="form-control"/>
-          </div>
-        </div>
 
-        <div class="col-sm-6">
-          <div class="form-group cmd-ewi-chatterbox">
-            <button type="submit" value="submit" id="confirm-ewi" class="btn btn-primary" data-dismiss="modal">Confirm</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-          </div>   
-        </div>
-        </div>
+            <div class="col-sm-6">
+              <div class="form-group cmd-ewi-chatterbox">
+                <button type="submit" value="submit" id="confirm-ewi" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+              </div>   
+            </div>
+          </div>
         </div>
       </div>
     </div>  
@@ -479,21 +479,20 @@
         <h4>General Information Tag <i class="text-warning"> *BETA*</i></h4>
       </div>
       <div class="modal-body row-fluid"> 
-      <div class="alert alert-info" role="alert">
-      <p><strong>New Feature!</strong> You can now tag messages in chatterbox!.</p>
-      <p><strong> &nbsp &nbsp • Important Tags: </strong>#EwiMessage,#EwiResponse</p>
-      </div>
-       <input type="text" class="form-control" id="gintags" name="gintags" data-role="tagsinput" data-provide="typeahead" placeholder="E.g #EwiMessage" style="display:none" required>
+        <div class="alert alert-info" role="alert">
+          <p><strong>New Feature!</strong> You can now tag messages in chatterbox!.</p>
+          <p><strong> &nbsp &nbsp • Important Tags: </strong>#EwiMessage,#EwiResponse</p>
+        </div>
+        <input type="text" class="form-control" id="gintags" name="gintags" data-role="tagsinput" data-provide="typeahead" placeholder="E.g #EwiMessage" style="display:none" required>
         <div class="form-group" id="submit-gintag">
-          <button type="submit" value="submit" id="confirm-gintags" class="btn btn-primary" data-dismiss="modal">Confirm</button>
-          <button type="reset" class="btn btn-danger" id="reset-gintags">Reset</button>
+          <button type="submit" value="submit" id="confirm-gintags" class="btn btn-primary">Confirm</button>
+          <button type="reset" class="btn btn-danger" id="reset-gintags" data-dismiss="modal">Reset</button>
         </div>  
       </div>
     </div>  
   </div>
 </div>
 <!-- END GINTAGS MODAL -->
-
 
 <!-- General Info MODAL -->
 <div class="modal fade col-lg-2" id="GenInfo-modal" role="dialog">
@@ -567,36 +566,35 @@
           </a>
         </div>
       </div>
+    </div>
   </div>
 </div>
-<!-- General Info MODAL -->
-
-
-<!-- Save Narratives MODAL -->
-<div class="modal fade col-lg-2" id="save-narrative-modal" role="dialog">
-  <div class="modal-dialog modal-md" id="save-narrative-modal-dialog">
-    <div class="modal-content" id="save-narrative-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4>Narratives <i class="text-warning"> *BETA*</i></h4>
-      </div>
-      <div class="modal-body">
-        <input type="text" id="gintag_details_container" hidden>
-        <div class="alert alert-info" role="alert"><strong>Notice!</strong> <p>Saving an #TagGoesHere tagged message will be permanently save to narratives.</p></div>
-        <textarea class="form-control" name="ewi-tagged-msg" id="ewi-tagged-msg" cols="30" rows="10" style="resize:none" disabled>SAMPLE EWI</textarea>
-        <div class="form-group" id="submit-gintag">
-          <button class="btn btn-warning" id="cancel-narrative">Cancel</button>
-          <button id="confirm-narrative" class="btn btn-primary" data-dismiss="modal">Confirm</button> 
-        </div> 
-      </div>
-    </div>  
+  <!-- General Info MODAL -->
+  <!-- Save Narratives MODAL -->
+  <div class="modal fade col-lg-2" id="save-narrative-modal" role="dialog">
+    <div class="modal-dialog modal-md" id="save-narrative-modal-dialog">
+      <div class="modal-content" id="save-narrative-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4>Narratives <i class="text-warning"> *BETA*</i></h4>
+        </div>
+        <div class="modal-body">
+          <input type="text" id="gintag_details_container" hidden>
+          <div class="alert alert-info" role="alert"><strong>Notice!</strong> <p>Saving an #TagGoesHere tagged message will be permanently save to narratives.</p></div>
+          <textarea class="form-control" name="ewi-tagged-msg" id="ewi-tagged-msg" cols="30" rows="10" style="resize:none" disabled>SAMPLE EWI</textarea>
+          <div class="form-group" id="submit-gintag">
+            <button class="btn btn-warning" id="cancel-narrative" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-primary" id="confirm-narrative" data-dismiss="modal">Confirm</button> 
+          </div> 
+        </div>
+      </div>  
+    </div>
   </div>
-</div>
-<!-- Save Narratives MODAL -->
+  <!-- Save Narratives MODAL -->
 
 
 
-<script>
+  <script>
   // LocalStorage test
   var localStorage = window.localStorage;
   console.log(localStorage['myKey']);

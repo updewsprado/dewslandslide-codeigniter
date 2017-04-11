@@ -74,3 +74,4 @@ class Lin extends CI_Controller {
 		$data["result"] = $query;
 		print json_encode($data);
 	}
+}
