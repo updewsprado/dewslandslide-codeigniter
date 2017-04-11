@@ -208,7 +208,10 @@
 	                	<h4 class="modal-title">Send Bulletin and EWI</h4>
 	              	</div>
 	              	<div class="modal-body">
-	              		<div id="info"></div>
+	              		<div class="form-group">
+							<label for="info">Mail Body:</label>
+							<textarea class="form-control" rows="3" id="info" name="info"></textarea>
+						</div>
 						<hr>
 						<div class="form-group">
 							<label for="recipients">Recipients:&emsp;</label>

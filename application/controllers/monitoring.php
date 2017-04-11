@@ -107,9 +107,9 @@ class Monitoring extends CI_Controller
 		echo "$data";
 	}
 
-	public function getLastRelease()
+	public function getFirstEventRelease($event_id)
 	{
-		$data = $this->monitoring_model->getLastRelease();
+		$data = $this->monitoring_model->getFirstEventRelease($event_id);
 		echo "$data";
 	}
 
