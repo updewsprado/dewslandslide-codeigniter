@@ -26,6 +26,8 @@
 
 		public function modal()
 		{
+			$this->load->model('monitoring_model');
+			$data['events'] = $this->monitoring_model->getOnGoingEvents();
 			$data['locked'] = isset($_GET['locked']) ? json_encode($_GET['locked']) : $this->issues_model->getAllRowsByStatus('locked');
 			$data['normal'] = isset($_GET['normal']) ? json_encode($_GET['normal']) : $this->issues_model->getAllRowsByStatus('normal');
 			return $this->load->view('public_alert/issues_and_reminders_modal', $data);
@@ -33,11 +35,20 @@
 
 		public function panel_div()
 		{
+			$this->load->model('monitoring_model');
+			$data['events'] = $this->monitoring_model->getOnGoingEvents();
 			$locked = isset($_GET['locked']) ? $_GET['locked'] : $this->issues_model->getAllRowsByStatus('locked');
 			$normal = isset($_GET['normal']) ? $_GET['normal'] : $this->issues_model->getAllRowsByStatus('normal');
 			$data['locked_and_normal'] = json_encode(array_merge($locked, $normal));
 			$data['archived'] = isset($_GET['archived']) ? json_encode($_GET['archived']) : $this->issues_model->getAllRowsByStatus('archived');
 			return $this->load->view('public_alert/issues_and_reminders_builder', $data);
+		}
+
+		public function archiveIssuesFromLoweredEvents()
+		{
+			$event_id = $_POST['event_id'];
+			$hasUpdated = $this->issues_model->update_row("event_id", $event_id, "issues_and_reminders", array('status' => 'archived'));
+			if($hasUpdated) echo "true"; else echo 'false';
 		}
 
 		public function test()
@@ -77,7 +88,7 @@
 				'detail' => $_POST['issue_detail'],
 				'ts_posted' => $_POST['ts_posted'],
 				'user_id' => $_POST['poster_id'],
-				'validity' => $_POST['isLocked'] == 1 ? null : $_POST['issue_validity'],
+				'event_id' => $_POST['isLocked'] == 1 ? null : $_POST['issue_event'],
 				'status' => $_POST['isLocked'] == 1 ? "locked" : "normal"
 			);
 
@@ -91,7 +102,7 @@
 			$data = array(
 				'detail' => $_POST['issue_detail'],
 				'user_id' => $_POST['poster_id'],
-				'validity' => $_POST['isLocked'] == 1 ? null : $_POST['issue_validity'],
+				'event_id' => $_POST['isLocked'] == 1 ? null : $_POST['issue_event'],
 				'status' => $_POST['isLocked'] == 1 ? "locked" : "normal"
 			);
 
