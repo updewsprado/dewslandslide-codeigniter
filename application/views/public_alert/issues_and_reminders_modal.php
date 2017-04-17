@@ -52,6 +52,8 @@
 
 </style>
 
+<?php $events = json_decode($events); ?>
+
 <div class="modal fade" id="issuesAndRemindersModal" role="dialog" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -60,35 +62,6 @@
 				<h3 class="text-center"><strong style="color:maroon;">DEWS-L Monitoring Issues and Reminders</strong></h3>
 			</div>
 			<div class="modal-body overflow">
-
-				<div id="locked-row" class="row">
-					<div class="col-sm-12">
-						<?php if(count(json_decode($locked)) == 0): ?>
-							<div class="alert alert-danger">
-								<div class="row"><div class="col-sm-12 text-center"><strong>No locked issues/reminders</strong></div></div>
-							</div>
-						<?php endif; ?>
-						<?php foreach (json_decode($locked) as $post): ?>
-							<div class="alert alert-danger">
-								<div class="row">
-									<div class="col-sm-10"><?php echo date("j F Y, g:i A", strtotime($post->ts_posted)); ?></div>
-									<div class="col-sm-2"><span class="glyphicon glyphicon-edit col-sm-offset-5" title="Edit" data-iar-id="<?php echo $post->iar_id; ?>"></span> <span class="glyphicon glyphicon-lock pull-right" title="Locked Announcement" data-iar-id="<?php echo $post->iar_id; ?>"></span> </div>
-								</div>
-								<br/>
-								<div class="row">
-									<div class="col-sm-12 text-justify"><strong><?php echo nl2br($post->detail); ?></strong></div>
-								</div>
-								<br/>
-								<div class="row">
-									<div class="col-sm-12"><span class="pull-right"><?php echo "$post->first_name $post->last_name"; ?></span></div>
-								</div>
-							</div>
-						<?php endforeach; ?>
-					</div>
-				</div>
-
-				<hr/>
-
 				<div id="normal-row" class="row">
 					<div class="col-sm-12">
 						<?php if(count(json_decode($normal)) == 0): ?>
@@ -104,17 +77,40 @@
 								</div>
 								<br/>
 								<div class="row">
-									<div class="col-sm-12 text-justify"><strong><?php echo nl2br($post->detail); ?></strong></div>
+									<div class="col-sm-12 text-justify"><strong>Event Monitoring for <?php echo strtoupper($post->name); ?></strong></div>
+								</div>
+								<div class="row">
+									<div class="col-sm-12 text-justify">&emsp;&emsp;&emsp;<?php echo nl2br($post->detail); ?></div>
 								</div>
 								<br/>
 								<div class="row">
-									<?php 
-										date_default_timezone_set("Asia/Manila");
-										if( strtotime("now") >= strtotime($post->validity) ) $expired = true;
-										else $expired = false;
-									?>
-									<div class="col-sm-7"><span style='<?php if($expired) echo "color:red"; ?>'><?php if($expired) echo "<strong>Lapsed " . date("j F Y, g:i A", strtotime($post->validity)) . "</strong>"; else echo "Valid until " . date("j F Y, g:i A", strtotime($post->validity)); ?></span></div>
-									<div class="col-sm-5"><span class="pull-right"><?php echo "$post->first_name $post->last_name"; ?></span></div>
+									<div class="col-sm-12"><span class="pull-right"><?php echo "$post->first_name $post->last_name"; ?></span></div>
+								</div>
+							</div>
+						<?php endforeach; ?>
+					</div>
+				</div>
+				<hr/>
+				<div id="locked-row" class="row">
+					<div class="col-sm-12">
+						<?php if(count(json_decode($locked)) == 0): ?>
+							<div class="alert alert-danger">
+								<div class="row"><div class="col-sm-12 text-center"><strong>No locked issues/reminders</strong></div></div>
+							</div>
+						<?php endif; ?>
+						<?php foreach (json_decode($locked) as $post): ?>
+							<div class="alert alert-danger">
+								<div class="row">
+									<div class="col-sm-10"><?php echo date("j F Y, g:i A", strtotime($post->ts_posted)); ?></div>
+									<div class="col-sm-2"><span class="glyphicon glyphicon-edit col-sm-offset-5" title="Edit" data-iar-id="<?php echo $post->iar_id; ?>"></span> <span class="glyphicon glyphicon-lock pull-right" title="Locked Announcement" data-iar-id="<?php echo $post->iar_id; ?>"></span> </div>
+								</div>
+								<br/>
+								<div class="row">
+									<div class="col-sm-12 text-justify">&emsp;&emsp;&emsp;<?php echo nl2br($post->detail); ?></div>
+								</div>
+								<br/>
+								<div class="row">
+									<div class="col-sm-12"><span class="pull-right"><?php echo "$post->first_name $post->last_name"; ?></span></div>
 								</div>
 							</div>
 						<?php endforeach; ?>
@@ -135,7 +131,7 @@
 					</div>
 					<div class="col-sm-6">
 						<div class="row">
-							<div class="form-group col-sm-12">
+							<!-- <div class="form-group col-sm-12">
 	                            <label class="control-label" for="issue_validity">Validity</label>
 	                            <div class='input-group datetime-issue'>
 	                                <input type='text' class="form-control" id="issue_validity" name="issue_validity" placeholder="Input validity or lock" />
@@ -143,16 +139,21 @@
 	                                    <span class="glyphicon glyphicon-calendar"></span>
 	                                </span>
 	                            </div>        
-	                        </div>
+	                        </div> -->
+	                        <div class="form-group col-sm-12">
+                                <label for="issue_event">Event Site</label>
+                                <select class="form-control" id="issue_event" name="issue_event">
+                                    <option value="">Choose event or lock if general</option>
+                                    <?php foreach( $events as $event): ?>
+                                        <option value="<?php echo $event->event_id; ?>">
+                                        <?php echo strtoupper($event->name); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
-								<!-- <button id="lock" class="btn btn-info btn-md" type="button" role="button" data-button-lock="0">
-						        	<span class="fa fa-lock fa-md"></span> Lock
-						        </button> -->
-								<!-- <button id="add-issue-modal" class="btn btn-info pull-right" type="submit" role="button">Add</button>
-								<button id="archive-issue-modal" class="btn btn-info pull-right" type="submit" role="button">Archive</button>
-	                        	<button id="edit-issue-modal" class="btn btn-info pull-right" type="submit" role="button" style="display: none !important;">Submit</button> -->
 	                        	<div class="btn-group pull-right">
 	                 				<button id="lock" class="btn btn-info btn-md" type="button" role="button" data-button-lock="0">
 							        	<span class="fa fa-lock fa-md"></span> Lock
