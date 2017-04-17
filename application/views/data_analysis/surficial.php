@@ -1,6 +1,6 @@
 <script src="/js/third-party/highstock.js"></script>
 <script src="/js/third-party/exporting.js"></script>
-<!-- <script src="https://code.highcharts.com/highcharts-more.js"></script> -->
+<script src="/js/third-party/highcharts-more.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/surficial_level.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/daterangepicker.css">
 <script src="/js/third-party/daterangepicker.js"></script>
