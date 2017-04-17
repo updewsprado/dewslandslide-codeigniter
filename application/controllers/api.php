@@ -475,6 +475,29 @@ class API extends CI_Controller {
 
 		}
 
+		public function last10Computation($site){ //example http://localhost/api/last10Computation/agb
+			$os = PHP_OS;
+
+			if (strpos($os,'WIN') !== false) {
+				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
+				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\gndmeasComputation.py';
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
+				$fileName = '/var/www/updews-pycodes/Liaison/gndmeasComputation.py';
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
+			
+			$command = $pythonPath.' '.$fileName.' '.$site;
+
+			exec($command, $output, $return);
+			print json_encode($output[0]);
+
+		}
+
 		public function heatmap($site,$tdate,$days){ //example http://localhost/api/heatmap/agb
 			$os = PHP_OS;
 
