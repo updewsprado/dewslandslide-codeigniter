@@ -5,6 +5,7 @@ ChatterBox CSS -->
 
 <!-- Chatterbox Scripts -->
 <script src="/js/dewslandslide/communications/dewschatterbox.js"></script>
+<script src="/js/dewslandslide/communications/dewsresponsive.js"></script>
 <script src="/js/third-party/awesomplete.js"></script>
 <script src="/js/third-party/handlebars.js"></script>
 <script src="/js/third-party/moment-locales.js"></script>
@@ -46,7 +47,7 @@ ChatterBox CSS -->
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-7 division">
+		<div class="col-xs-7 division hidden" id="main-container">
 			<div id="convo-header" class="panel panel-success">
 				<div class="panel-heading">Sitename: [SAMPLE] Office: [Sample]</div>
 				<div class="panel-body">Panel Content</div>
@@ -55,6 +56,9 @@ ChatterBox CSS -->
 			<div class="panel panel-success">
 				<div class="panel-body">
 					<div class="form-group">
+						<div class="chat-message">
+							<ul id="messages" class="chat"></ul>
+						</div>
 						<textarea id="msg" name="msg" class="form-control" rows="5" id="#"></textarea>
 						<p>Remaining characters: <b id="remaining_chars">800</b></p>
 					</div>
@@ -364,4 +368,4 @@ ChatterBox CSS -->
 	</div>
 	<!-- END OF SITE SELECTION MODAL -->
 
-<!-- END OF MODAL SECTION
+<!-- END OF MODAL SECTION -->
