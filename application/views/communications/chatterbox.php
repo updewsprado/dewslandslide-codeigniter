@@ -340,8 +340,8 @@
             <div class="col-md-3">
               <label for="rel">Reliability:</label>
               <select name="rel" id="rel" class="form-control">
-                <option value="Y">Yes</option>
-                <option value="N">No</option>
+                <option value="Y">Y</option>
+                <option value="N">N</option>
                 <option value="Q">Q</option>
               </select>
             </div>
@@ -451,8 +451,14 @@
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="ewi-date-picker">Schedules :</label>
-                <input type="date" id="ewi-date-picker" class="form-control"/>
+<!--                 <label for="ewi-date-picker">Schedules :</label>
+                <input type="time" id="ewi-date-picker" class="form-control"/> -->
+                <div class='input-group date' id='ewi-date-picker'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
               </div>
             </div>
 
