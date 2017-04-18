@@ -82,8 +82,12 @@ class Monitoring_Model extends CI_Model
 	}
 
 	public function getOnGoingEvents()
-	{;
-		$query = $this->db->get_where('public_alert_event', array('status' => 'on-going'));
+	{
+		$this->db->select("site.*, public_alert_event.*");
+		$this->db->from('public_alert_event');
+		$this->db->join('site', 'site.id = public_alert_event.site_id');
+		$this->db->where('public_alert_event.status', 'on-going');
+		$query = $this->db->get();
 		return json_encode($query->result_array());
 	}
 

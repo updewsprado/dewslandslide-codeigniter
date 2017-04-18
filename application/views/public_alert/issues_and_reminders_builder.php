@@ -34,18 +34,18 @@
                         <div class="col-sm-3"><div class="pull-right"><?php if($post->status == 'locked'): ?><span class="glyphicon glyphicon-lock" title="Locked Announcement" data-iar-id="<?php echo $post->iar_id; ?>"></span><?php endif; ?>&ensp;<span class="glyphicon glyphicon-edit" title="Edit" data-iar-id="<?php echo $post->iar_id; ?>"></span>&ensp;<span class="glyphicon glyphicon-trash" title="Archive" data-iar-id="<?php echo $post->iar_id; ?>"></span></div></div>
                     </div>
                     <br/>
+                    <?php
+                        if( $post->event_id != null ): ?>
+                         <div class="row">
+                            <div class="col-sm-12 text-justify"><strong>Event Monitoring for <?php echo strtoupper($post->name); ?></strong></div>
+                        </div>
+                    <?php endif; ?>
                     <div class="row">
-                        <div class="col-sm-12 text-justify"><strong><?php echo nl2br($post->detail); ?></strong></div>
+                        <div class="col-sm-12 text-justify">&emsp;&emsp;<?php echo nl2br($post->detail); ?></div>
                     </div>
                     <br/>
                     <div class="row">
-                        <?php 
-                            date_default_timezone_set("Asia/Manila");
-                            if( strtotime("now") >= strtotime($post->validity) ) $expired = true;
-                            else $expired = false;
-                        ?>
-                        <div class="col-sm-7"><?php if($post->validity != null): ?><span style='<?php if($expired) echo "color:red"; ?>'><?php if($expired) echo "<strong>Lapsed " . date("j F Y, g:i A", strtotime($post->validity)) . "</strong>"; else echo "Valid until " . date("j F Y, g:i A", strtotime($post->validity)); ?></span><?php endif; ?></div>
-                        <div class="col-sm-5"><span class="pull-right"><?php echo "$post->first_name $post->last_name"; ?></span></div>
+                        <div class="col-sm-12"><span class="pull-right"><?php echo "$post->first_name $post->last_name"; ?></span></div>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
     <div class="panel-heading"><h4><strong>&nbsp;Archived Issues and Reminders</strong></h4></div>
     <div class="panel-body">
         <div id="archived-row" class="row">
-            <?php if(count($archived) == 0): ?>
+            <?php if(count(json_decode($archived)) == 0): ?>
                 <div class="text-center">
                     <strong>No archived issues/reminders</strong></div>
                 </div>
@@ -72,13 +72,18 @@
                         <div class="col-sm-2"><div class="pull-right"><span class="glyphicon glyphicon-lock" title="Archived Announcement"></span></div></div>
                     </div>
                     <br/>
+                    <?php
+                        if( $post->event_id != null ): ?>
+                         <div class="row">
+                            <div class="col-sm-12 text-justify"><strong>Event Monitoring for <?php echo strtoupper($post->name); ?></strong></div>
+                        </div>
+                    <?php endif; ?>
                     <div class="row">
-                        <div class="col-sm-12 text-justify"><strong><?php echo nl2br($post->detail); ?></strong></div>
+                        <div class="col-sm-12 text-justify">&emsp;&emsp;&emsp;<?php echo nl2br($post->detail); ?></div>
                     </div>
                     <br/>
                     <div class="row">
-                        <div class="col-sm-7"><span><?php if($post->validity != null) echo "Valid until " . date("j F Y, g:i A", strtotime($post->validity)); ?></span></div>
-                        <div class="col-sm-5"><span class="pull-right"><?php echo "$post->first_name $post->last_name"; ?></span></div>
+                        <div class="col-sm-12"><span class="pull-right"><?php echo "$post->first_name $post->last_name"; ?></span></div>
                     </div>
                 </div>
             </div>
