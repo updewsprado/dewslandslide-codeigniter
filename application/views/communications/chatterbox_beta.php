@@ -1,9 +1,4 @@
-ChatterBox CSS -->
-<link rel="stylesheet" type="text/css" href="/css/third-party/awesomplete.css">
-<link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
-<link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewschatterbox_beta.css">
-
-<!-- Chatterbox Scripts -->
+Chatterbox Scripts -->
 <script src="/js/dewslandslide/communications/dewschatterbox.js"></script>
 <script src="/js/dewslandslide/communications/dewsresponsive.js"></script>
 <script src="/js/third-party/awesomplete.js"></script>
@@ -12,6 +7,13 @@ ChatterBox CSS -->
 <script src="/js/third-party/typeahead.js"></script>
 <script src="/js/third-party/bootstrap-tagsinput.js"></script>
 <script src="/js/third-party/notify.min.js"></script>
+
+
+<!-- ChatterBox CSS --> -->
+<link rel="stylesheet" type="text/css" href="/css/third-party/awesomplete.css">
+<link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
+<link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewschatterbox_beta.css">
+
 
 <img id="bg-img-chatterbox" src="../../../images/dews-l-logo.png" >
 <div class="container-fluid">
@@ -59,7 +61,7 @@ ChatterBox CSS -->
 						<div class="chat-message">
 							<ul id="messages" class="chat"></ul>
 						</div>
-						<textarea id="msg" name="msg" class="form-control" rows="5" id="#"></textarea>
+						<textarea id="msg" name="msg" class="form-control" rows="5"></textarea>
 						<p>Remaining characters: <b id="remaining_chars">800</b></p>
 					</div>
 
@@ -69,7 +71,7 @@ ChatterBox CSS -->
 						</div>
 
 						<div class="col-xs-6 right-content">
-							<button type="button" class="btn btn-primary">Send</button>
+							<button type="button" class="btn btn-primary" id="send-msg">Send</button>
 						</div>
 					</div>
 				</div>
@@ -368,4 +370,54 @@ ChatterBox CSS -->
 	</div>
 	<!-- END OF SITE SELECTION MODAL -->
 
-<!-- END OF MODAL SECTION -->
+	<!-- GINTAGS MODAL -->
+	<div class="modal fade" id="gintag-modal" role="dialog">
+	  <div class="modal-dialog" id="gintag-modal-dialog">
+	    <div class="modal-content" id="gintag-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4>General Information Tag <i class="text-warning"> *BETA*</i></h4>
+	      </div>
+	      <div class="modal-body"> 
+	        <div class="alert alert-info" role="alert">
+	          <p style="padding: 0px;"><strong>New Feature!</strong> You can now tag messages in chatterbox! </br>.&nbsp &nbsp • <strong>Important Tags: </strong>#EwiMessage,#EwiResponse</p>
+	        </div>
+	        <div class="form-group">
+	        	<input type="text" class="form-control" id="gintags" name="gintags" data-role="tagsinput" data-provide="typeahead" placeholder="E.g #EwiMessage" style="display:none" required>
+	        </div>
+	        <div class="form-group right-content" id="submit-gintag">
+	          <button type="reset" class="btn btn-danger" id="reset-gintags" data-dismiss="modal">Reset</button>
+	          <button type="submit" value="submit" id="confirm-gintags" class="btn btn-primary">Confirm</button>
+	        </div>  
+	      </div>
+	    </div>  
+	  </div>
+	</div> 
+	<!-- END GINTAGS MODAL -->
+	<!-- Save Narratives MODAL -->
+	<div class="modal fade" id="save-narrative-modal" role="dialog">
+	<div class="modal-dialog" id="save-narrative-modal-dialog">
+	  <div class="modal-content" id="save-narrative-content">
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      <h4>Narratives <i class="text-warning"> *BETA*</i></h4>
+	    </div>
+	    <div class="modal-body">
+	    <div class="form-group">
+			<input type="text" id="gintag_details_container" hidden>
+			<div class="alert alert-info" role="alert"><strong>Notice!</strong> <p>Saving an #TagGoesHere tagged message will be permanently save to narratives.</p></div>
+	    </div>
+		<div class="form-group">
+			<textarea class="form-control" name="ewi-tagged-msg" id="ewi-tagged-msg" cols="30" rows="10" style="resize:none" disabled>SAMPLE EWI</textarea>
+		</div>
+	      <div class="form-group" id="submit-gintag">
+	        <button class="btn btn-warning" id="cancel-narrative" data-dismiss="modal">Cancel</button>
+	        <button class="btn btn-primary" id="confirm-narrative" data-dismiss="modal">Confirm</button> 
+	      </div> 
+	    </div>
+	  </div>  
+	</div>
+	</div>
+	<!-- Save Narratives MODAL -->
+
+<!-- END OF MODAL SECTION
