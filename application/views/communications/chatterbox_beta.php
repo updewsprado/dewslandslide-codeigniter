@@ -50,7 +50,7 @@ ChatterBox CSS -->
 		<div class="col-xs-7 division hidden" id="main-container">
 			<div id="convo-header" class="panel panel-success">
 				<div class="panel-heading">Sitename: [SAMPLE] Office: [Sample]</div>
-				<div class="panel-body">Panel Content</div>
+				<div class="panel-body"></div>
 			</div>
 			<hr>
 			<div class="panel panel-success">
