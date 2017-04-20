@@ -169,7 +169,7 @@ class Chatterbox extends CI_Controller {
 										"Salamat.",
 			"A0" => "Magandang %%PANAHON%% po.\n\n".
 										"A0 ang alert level sa %%SBMP%% ngayong %%DATE%% 12NN.\n".
-										"Inaasahan namin ang pagpapadala ng LEWC ng ground data bukas %%EXT_NEXT_DAY%% bago mag-11:30 AM para sa %%EXT_DAY%% ng 3-day extended monitoring.\n\n".
+										"Inaasahan namin ang pagpapadala ng LEWC ng ground data bukas %%EXT_NEXT_DAY%% bago mag-11:30 AM para sa %%EXT_DAY%%ng 3-day extended monitoring.\n\n".
 										"Salamat.",
 			"A1" => "Magandang %%PANAHON%% po.\n\n".
 							"ALERT 1 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Maaaring magkaroon ng landslide dahil sa nakaraan o kasalukuyang ulan at lindol.\n\n". // %%CURRENT_TIME%% - <HH> <AM,NN,PM,MN>
