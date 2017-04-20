@@ -94,7 +94,9 @@ Chatterbox Scripts -->
 			</div>
 			<div class="panel panel-primary">
 				<div class="panel-heading">QUICK ACCESS</div>
-				<div class="panel-body">NEW FEATURE COMING SOON</div>
+				<div class="panel-body no-padding">
+					<ul id="quick-release-display" class="friend-list"></ul>
+				</div>
 			</div>
 		</div>
 	</div>
