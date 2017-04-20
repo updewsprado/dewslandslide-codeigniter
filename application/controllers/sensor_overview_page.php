@@ -10,7 +10,7 @@ class Sensor_overview_page extends CI_Controller {
 
 	public function index()
 	{
-
+		$this->is_logged_in();
 		$page = 'Sensor Overview';
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
@@ -32,12 +32,16 @@ class Sensor_overview_page extends CI_Controller {
 		print json_encode($result);
 	}
 
-	// public function getAllAlert(){
-	// 	$data['nodeAlerts'] = $this->Alert_model->getAlert();
-	// 	$data['siteMaxNodes'] = $this->Alert_model->getSiteMaxNodes();
-	// 	$data['nodeStatus'] = $this->Alert_model->getNodeStatus();
-	// 	print json_encode($data);
-	// }
+	public function is_logged_in() {
+		$is_logged_in = $this->session->userdata('is_logged_in');
+		
+		if(!isset($is_logged_in) || ($is_logged_in !== TRUE)) {
+			echo 'You don\'t have permission to access this page. <a href="../lin">Login</a>';
+			die();
+		}
+		else {
+		}
+	}
 	
 }
 ?>
