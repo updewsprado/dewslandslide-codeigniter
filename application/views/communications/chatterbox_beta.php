@@ -1,4 +1,4 @@
-Chatterbox Scripts -->
+<!-- Chatterbox Scripts -->
 <script src="/js/dewslandslide/communications/dewschatterbox.js"></script>
 <script src="/js/dewslandslide/communications/dewsresponsive.js"></script>
 <script src="/js/third-party/awesomplete.js"></script>
@@ -88,7 +88,7 @@ Chatterbox Scripts -->
 						<a href="#" id="btn-advanced-search" data-toggle="modal" title="Quick Site Selection"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Quick Site Selection</a>
 					</div>
 					<div class="row form-group">
-						<a href="#"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Global Search</a>
+						<a href="#" id="btn-gbl-search" data-toggle="modal" title="Quick Search"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Quick Search</a>
 					</div>
 				</div>
 			</div>
@@ -416,6 +416,31 @@ Chatterbox Scripts -->
 	        <button class="btn btn-warning" id="cancel-narrative" data-dismiss="modal">Cancel</button>
 	        <button class="btn btn-primary" id="confirm-narrative" data-dismiss="modal">Confirm</button> 
 	      </div> 
+	    </div>
+	  </div>  
+	</div>
+	</div>
+	<!-- Save Narratives MODAL -->
+
+	<!-- Save Narratives MODAL -->
+	<div class="modal fade" id="search-global-message-modal" role="dialog">
+	<div class="modal-dialog" id="save-narrative-modal-dialog">
+	  <div class="modal-content" id="save-narrative-content">
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      <h4>Quick Search</h4>
+	    </div>
+	    <div class="modal-body">
+		<div class="form-group">
+			<label class="radio-inline"><input type="radio" name="opt-search" value="gintag-search" checked="true">Via Gintag</label>
+			<label class="radio-inline"><input type="radio" name="opt-search" value="global-search" checked="true">Via Message</label>
+		</div>
+		    <div class="form-group">
+		    	<input type="text" id="search-global-keyword" class="form-control">
+		    </div>
+			<div class="form-group right-content">
+				<button class="btn btn-primary" id="btn-search-global">Search</button> 
+			</div> 
 	    </div>
 	  </div>  
 	</div>
