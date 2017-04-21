@@ -86,8 +86,6 @@ class Node_level_page extends CI_Controller {
 	public function getAllgintagsNodeTagIDTry(){
 		$data_result = $_POST['data'];
 		$result = $this->node_level_model->gintagsNodeTagIDTry($data_result['table'],$data_result['date']);
-		// var_dump($result);
-		// exit;
 		print json_encode($result);
 	}
 }
