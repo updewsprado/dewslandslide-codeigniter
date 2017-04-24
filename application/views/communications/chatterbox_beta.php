@@ -1,5 +1,5 @@
 <!-- Chatterbox Scripts -->
-<script src="/js/dewslandslide/communications/dewschatterbox.js"></script>
+<script src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
 <script src="/js/dewslandslide/communications/dewsresponsive.js"></script>
 <script src="/js/third-party/awesomplete.js"></script>
 <script src="/js/third-party/handlebars.js"></script>
@@ -27,7 +27,7 @@
 							<div class="input-group">
 								<input type="text" class="form-control dropdown-input" placeholder="Type name..." data-multiple />
 								<span class="input-group-btn">
-							    	<button class="btn btn-default" type="button">Go!</button>
+							    	<button class="btn btn-default" id="go-chat" type="button">Go!</button>
 						        </span>
 							</div>
 						</div>
@@ -438,9 +438,17 @@
 		    <div class="form-group">
 		    	<input type="text" id="search-global-keyword" class="form-control">
 		    </div>
+	    	<div class="search-global-message-container">
+	          <div class="result-message">
+	            <ul id="search-global-result" class="chat">
+
+	            </ul>
+	          </div>
+	        </div>
+	        <hr>
 			<div class="form-group right-content">
 				<button class="btn btn-primary" id="btn-search-global">Search</button> 
-			</div> 
+			</div>
 	    </div>
 	  </div>  
 	</div>
