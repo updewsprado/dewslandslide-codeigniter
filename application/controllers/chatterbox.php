@@ -200,8 +200,7 @@ class Chatterbox extends CI_Controller {
 							"Ang recommended response ay PREPARE TO EVACUATE THE HOUSEHOLDS AT RISK.\n".
 							"Inaasahan namin ang pagpapadala ng LEWC ng ground data %%NOW_TOM%% %%GROUND_DATA_TIME%%.\n".
 							"Ang susunod na Early Warning Information ay %%N_NOW_TOM%% %%NEXT_EWI%%.\n\n".
-							"Salamat.\n".
-							"DEWSL-PHIVOLCS",
+							"Salamat.\n",
 			"A2-G" => "Magandang %%PANAHON%% po.\n\n".
 							"ALERT 2 ang alert level sa %%SBMP%% ngayong %%DATE%% %%CURRENT_TIME%%. Nakapagsukat ng significant ground movement ang LEWC.\n\n".
 							"Ang recommended response ay PREPARE TO EVACUATE THE HOUSEHOLDS AT RISK.\n".
