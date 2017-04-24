@@ -2,11 +2,10 @@
 
 class node_level_model extends CI_Model {
 
-	public function getAccelVersion1($site,$fdate,$tdate,$nid){
-		$sql = "SELECT * from senslopedb.$site where timestamp between '$fdate' and '$tdate' and id='$nid'";
+	public function getAccelVersion1($site,$tdate,$nid,$fdate){
+		$sql = "SELECT * from senslopedb.$site where  id='$nid' and timestamp between '$fdate' and '$tdate'";
 		$query = $this->db->query($sql);
 		return $query->result();
-
 	}
 
 	public function getAccelVersion1In($site,$fdate,$tdate,$nid){

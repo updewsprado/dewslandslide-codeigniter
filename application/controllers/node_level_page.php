@@ -24,12 +24,9 @@ class Node_level_page extends CI_Controller {
 		$this->load->view('data_analysis/node', $data);
 	}
 
-	public function getAllAccelVersion1(){
-		$data_result = $_POST['dataversion'];
-		var_dump($data_result);
-		exit();
-		$result = $this->node_level_model->getAccelVersion1($data_result['site'],
-			$data_result['fdate'],$data_result['tdate'],$data_result['nid']);
+	public function getAllAccelVersion1($site,$nid,$fdate,$tdate){
+		$result = $this->node_level_model->getAccelVersion1($site,
+			$fdate,$tdate,$nid);
 		print json_encode($result);
 	}
 
@@ -66,6 +63,12 @@ class Node_level_page extends CI_Controller {
 		print json_encode($data);
 	}
 
+	public function getAllSingleAlertGet($site){
+		$data['nodeAlerts'] = $this->Alert_model->getSingleAlert($site);
+		$data['siteMaxNodes'] = $this->Alert_model->getSingleMaxNode($site);
+		$data['nodeStatus'] = $this->Alert_model->getSingleNodeStatus($site);	
+		print json_encode($data);
+	}
 
 }
 ?>

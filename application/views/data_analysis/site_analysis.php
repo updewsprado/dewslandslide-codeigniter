@@ -6,15 +6,14 @@
 <script src="/js/third-party/highstock.js"></script>
 <script src="/js/third-party/exporting.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHuLBzeBR6eA_z70NOabE-uov9jg46Azc"></script>
-
 <script src="/js/third-party/d3.v3.min.js"></script>
 <script src="/js/third-party/heatmap.js"></script>
 <script src="/js/third-party/daterangepicker.js"></script>
 <script src="/js/third-party/d3.tip.v0.6.3.js"></script>
 <script src="/js/third-party/bootstrap-select.min.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/alertmini.js"></script>
-<script src="/js/dewslandslide/data_analysis/site_analysis.js"></script>
 <script src="/js/dewslandslide/dewscommhealth-d3.js"></script>
+<script src="/js/dewslandslide/data_analysis/site_analysis.js"></script>
 <style type="text/css">
   #map-canvas {
     width: 250px;
@@ -103,7 +102,7 @@
               <div class="checkbox ground_table_checkbox">
                 <input id="ground_table_checkbox" type="checkbox" class="checkbox">
                 <label for="ground_table_checkbox">
-                Surficial Measurement Data Table
+                  Surficial Measurement Data Table
                 </label>
               </div>
               <div class="checkbox rain_graph_checkbox">
@@ -151,6 +150,12 @@
                   Node Summary
                 </label>
               </div>
+              <div class="checkbox heatmap_checkbox">
+                <input id="heatmap_checkbox" type="checkbox" class="checkbox">
+                <label for="heatmap_checkbox">
+                  Soms Heatmap
+                </label>
+              </div>
               <div class="form-group">
                 <label for="exampleInputFile">&nbsp; NODE LEVEL:
                 </label>
@@ -183,12 +188,6 @@
               <input id="batt_checkbox" type="checkbox" class="checkbox">
               <label for="batt_checkbox">
                 Battery Graph
-              </label>
-            </div>
-            <div class="checkbox heatmap_checkbox">
-              <input id="heatmap_checkbox" type="checkbox" class="checkbox">
-              <label for="heatmap_checkbox">
-                Soms Heatmap
               </label>
             </div>
           </form>

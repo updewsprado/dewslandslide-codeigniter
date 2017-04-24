@@ -32,6 +32,12 @@ class Sensor_overview_page extends CI_Controller {
 		print json_encode($result);
 	}
 
+	// public function getAllAlert(){
+	// 	$data['nodeAlerts'] = $this->Alert_model->getAlert();
+	// 	$data['siteMaxNodes'] = $this->Alert_model->getSiteMaxNodes();
+	// 	$data['nodeStatus'] = $this->Alert_model->getNodeStatus();
+	// 	print json_encode($data);
+	// }
 	
 }
 ?>

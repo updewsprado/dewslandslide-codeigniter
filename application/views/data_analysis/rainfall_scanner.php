@@ -21,8 +21,8 @@
     <div class="panel panel-default">
       <div class="panel-heading">Filter Option:</div>
       <div class="panel-body">
-        <form class="form-inline">
-          <div class ="inlineDiv col-md-3">
+        <form class="form-inline" >
+          <div class ="inlineDiv col-md-3" align="center">
           <label >Chart view:</label>
             <select class="selectpicker"  id="chart_view" >
               <option>....</option>

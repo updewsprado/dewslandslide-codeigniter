@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/node.css" />
 <div id="page-wrapper">
 
-    <div class="container-fluid">
+    <div class="container">
 
         <div class="row">
             <div class="col-lg-12">
@@ -18,7 +18,7 @@
             </div>
         </div>                                        
         <div class="row">
-            <div class="col-lg-3" >
+            <div class="col-lg-4" >
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><i class=""></i> Search Tool</h3>
@@ -32,7 +32,7 @@
                             </tr>
                             <tr class="nodetable">
                                 <th class="nodetable"> Node: </th>
-                                <td class="nodetable" id="nodetable"> <input class="form-control" name="node" id="node" type="number" min="1" max="41"  maxlength="2" size="2" value=""></td>
+                                <td class="nodetable" id="nodetable"> <input class="form-control" name="node" id="node" type="number" min="1" max="41"  maxlength="2" size="2" value="" ></td>
                             </tr>
                             <tr class="datetable">
                                 <th class="datetable"> Date: </th>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9">
+            <div class="col-lg-8">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><i class=""></i> Node Summary </h3>
