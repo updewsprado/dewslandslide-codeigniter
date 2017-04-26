@@ -11,7 +11,7 @@ class Node_level_page extends CI_Controller {
 
 	public function index()
 	{
-
+		$this->is_logged_in();
 		$page = 'Node Level';
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
@@ -24,6 +24,16 @@ class Node_level_page extends CI_Controller {
 		$this->load->view('data_analysis/node', $data);
 	}
 
+	public function is_logged_in() {
+		$is_logged_in = $this->session->userdata('is_logged_in');
+		
+		if(!isset($is_logged_in) || ($is_logged_in !== TRUE)) {
+			echo 'You don\'t have permission to access this page. <a href="../lin">Login</a>';
+			die();
+		}
+		else {
+		}
+	}
 	public function getAllAccelVersion1($site,$nid,$fdate,$tdate){
 		$result = $this->node_level_model->getAccelVersion1($site,
 			$fdate,$tdate,$nid);
@@ -71,6 +81,11 @@ class Node_level_page extends CI_Controller {
 	}
 	public function getAllgintagsNodeTagID($data,$fdate,$tdate,$node){
 		$result = $this->node_level_model->gintagsNodeTagID($data,$fdate,$tdate,$node);
+		print json_encode($result);
+	}
+	public function getAllgintagsNodeTagIDTry(){
+		$data_result = $_POST['data'];
+		$result = $this->node_level_model->gintagsNodeTagIDTry($data_result['table'],$data_result['date']);
 		print json_encode($result);
 	}
 }

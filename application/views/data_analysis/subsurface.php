@@ -1,11 +1,9 @@
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/subsurface_level.js"></script>
-<!--  <script src="http://d3js.org/d3.v3.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script> -->
-<script src="https://code.highcharts.com/stock/highstock.js"></script>
-<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="/js/third-party/highstock.js"></script>
+<script src="/js/third-party/exporting.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/third-party/daterangepicker.css">
+<script src="/js/third-party/daterangepicker.js"></script>
+<!-- <script src="/js/third-party/d3.tip.v0.6.3.js"></script> -->
 <style type="text/css">
  #submit{     
   height: 32px;
