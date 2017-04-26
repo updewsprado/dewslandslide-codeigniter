@@ -57,6 +57,20 @@
                 {{/each}}
             </script>
 
+            <script id="quick-release-template" type="text/x-handlebars-template">
+                {{#each quick_release}}
+                <li>
+                    <a href="#" class="clearfix">   
+                        <img src="/images/Chatterbox/dewsl_03.png" alt="" class="img-circle">
+                        <div class="friend-name">   
+                            <strong style="text-transform: uppercase;">{{name}} - Region ({{region}}) - {{internal_alert_level}}</strong>
+                        </div>
+                        <div class="last-message text-muted">{{barangay}}, {{municipality}},{{province}}</div>
+                    </a>
+                </li>  
+                {{/each}}
+            </script>
+
             <script id="selected-contact-template" type="text/x-handlebars-template">
                 <div class="alert alert-danger">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
