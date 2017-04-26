@@ -1,10 +1,12 @@
 <script src="/js/third-party/highstock.js"></script>
 <script src="/js/third-party/exporting.js"></script>
-<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="/js/third-party/highcharts-more.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/surficial_level.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/daterangepicker.css">
 <script src="/js/third-party/daterangepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/surficial.css">
+<script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 <div id="page-wrapper">
   <div class="container">
     <div class="row">
@@ -125,4 +127,41 @@
             </div>
           </div>
         </div>
-
+<div class="modal fade" id="annModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <p > <h4 style="text-align: center;"> TAG FORM</h4></p>
+            
+                    <div class="form-group tag_ids">
+                        <label>Tags</label>
+                        <input type="text" class="form-control" id="tag_ids" placeholder="Ex: #AccelDrift or #Drift" data-role="tagsinput" value="#newffd">
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Timestamp</label>
+                        <input type="text" class="form-control" id="tag_time" disabled="">
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">Comment</label>
+                        <textarea class="form-control" rows="5" id="comment"></textarea>
+                    </div>
+                    <input type="text" class="form-control" id="tag_value" disabled="">
+                     <input type="text" class="form-control" id="tag_crack" disabled="">
+                     <input type="text" class="form-control" id="tag_series" disabled="">
+                  <button type="button" class="close" class="btn-sm" id="tag_submit">SAVE</button>
+                  <br>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="tagModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <p > <h4 id="comment-model" style="text-align: center;"> TAG FORM</h4></p>
+            </div>
+        </div>
+    </div>
+</div>
