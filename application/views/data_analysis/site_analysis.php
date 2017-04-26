@@ -30,6 +30,7 @@
   <div class="page-header">
     <h1>INTEGRATED SITE ANALYSIS PAGE</h1>
   </div>
+
   <div class="col-sm-3 col-md-3 " id="sidebar">
     <div class="panel-group fixed1">
       <div class="panel panel-default " >
@@ -61,14 +62,14 @@
         </div>
         <div id="collapseSite" class="panel-collapse collapse collapseSite">
           <div class="panel-body" >
-              <div class="form-group sitegeneral" >
-                <label for="sitegeneral">Site</label><br>
-                <select class="selectpicker"  id="sitegeneral" data-live-search="true" title="Choose one of the following..."></select>
-              </div>
-              <div class="form-group crackgeneral">
-                <label for="crackgeneral">Cracks</label>
-                <select class="selectpicker"  id="crackgeneral" data-live-search="true" disabled></select>
-              </div>
+            <div class="form-group sitegeneral" >
+              <label for="sitegeneral">Site</label><br>
+              <select class="selectpicker"  id="sitegeneral" data-live-search="true" title="Choose one of the following..."></select>
+            </div>
+            <div class="form-group crackgeneral">
+              <label for="crackgeneral">Cracks</label>
+              <select class="selectpicker"  id="crackgeneral" data-live-search="true" disabled></select>
+            </div>
             <div class="form-group " align="center">
               <div >
                 <label> SITE CHARTS and GRAPHS</label>
@@ -209,6 +210,9 @@
       </div>
     </div>
   </div>
+  <button type="button" class="btn-primary btn-lg  btn-block download text-center" id="download" style="cursor: pointer" data-toggle="tooltip" title="Download the Unified Single Attachment" data-placement="bottom"> 
+    <span class="glyphicon glyphicon-save"></span> DOWNLOAD 
+  </button>
 </div>
 <div class="col-sm-9 col-md-9 original" id="analysis_panel">
   <div class="panel-body  analysis"> 
@@ -233,42 +237,44 @@
   </div>
 </div>
 <div class="modal fade" id="annModal" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <p > <h4 style="text-align: center;"> TAG FORM</h4></p>
-            
-                    <div class="form-group tag_ids">
-                        <label>Tags</label>
-                        <input type="text" class="form-control" id="tag_ids" placeholder="Ex: #AccelDrift or #Drift" data-role="tagsinput" value="#newffd">
-                    </div>
-                    <div class="form-group">
-                        <label for="formGroupExampleInput">Timestamp</label>
-                        <input type="text" class="form-control" id="tag_time" disabled="">
-                    </div>
-                    <div class="form-group">
-                        <label for="formGroupExampleInput2">Comment</label>
-                        <textarea class="form-control" rows="5" id="comment"></textarea>
-                    </div>
-                    <input type="text" class="form-control" id="tag_value" disabled="">
-                     <input type="text" class="form-control" id="tag_crack" disabled="">
-                     <input type="text" class="form-control" id="tag_series" disabled="">
-                  <button type="button" class="close" class="btn-sm" id="tag_submit">SAVE</button>
-                  <br>
-            </div>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <p > <h4 style="text-align: center;"> TAG FORM</h4></p>
+
+        <div class="form-group tag_ids">
+          <label>Tags</label>
+          <input type="text" class="form-control" id="tag_ids" placeholder="Ex: #AccelDrift or #Drift" data-role="tagsinput" value="#newffd">
         </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput">Timestamp</label>
+          <input type="text" class="form-control" id="tag_time" disabled="">
+        </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput2">Comment</label>
+          <textarea class="form-control" rows="5" id="comment"></textarea>
+        </div>
+        <input type="text" class="form-control tag" id="tag_value" disabled="">
+        <input type="text" class="form-control tag" id="tag_crack" disabled="">
+        <input type="text" class="form-control tag" id="tag_series" disabled="">
+        <input type="text" class="form-control tag" id="tag_description" disabled="">
+        <input type="text" class="form-control tag" id="tag_tableused" disabled="">
+        <button type="button" class="close" class="btn-sm" id="tag_submit">SAVE</button>
+        <br>
+      </div>
     </div>
+  </div>
 </div>
 <div class="modal fade" id="tagModal" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <p > <h4 id="comment-model" style="text-align: center;"> TAG FORM</h4></p>
-            </div>
-        </div>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <p > <h4 id="comment-model" style="text-align: center;"> TAG FORM</h4></p>
+      </div>
     </div>
+  </div>
 </div>
 
 
