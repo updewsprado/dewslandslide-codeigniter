@@ -55,7 +55,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports</a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-header">Node Status</li>
-                        <li><a href="<?php echo base_url(); ?>gold/nodereport">Update Form</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/nodereport">Update Form</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Accomplishment and Narratives</li>
                         <li><a href="<?php echo base_url(); ?>reports/accomplishment/form">Filing Form and Report Generator</a></li>
