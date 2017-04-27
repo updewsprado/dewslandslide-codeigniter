@@ -47,7 +47,7 @@
 
 						<div class="col-md-3" id="date-selector-rtracker">
 							<div class="input-group date datetime" id="entry">
-                                <input type="text" class="form-control" id="to-date" name="to-date" placeholder="Enter To timestamp" aria-required="true" aria-invalid="false">
+                                <input type="text" class="form-control" id="to-date" name="to-date" placeholder="End date" aria-required="true" aria-invalid="false">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -67,7 +67,7 @@
 					<div class="panel-heading">Reliability</div>
 					<div class="panel-body">
 						<div id="reliability-chart-container"></div>
-						<div id="div-data-resolution" style="opacity: 0" disabled>
+						<div id="div-data-resolution">
 					        <label for="data-resolution">Data Resolution</label>
 					        <input id="data-resolution" type="text"
 					              data-provide="slider"
