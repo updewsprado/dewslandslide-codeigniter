@@ -43,7 +43,7 @@
 
 		    <div class="col-sm-9" id="column_2">
 		    	<div class="row">
-		    		<div class="alert alert-danger " id="primer">
+		    		<div class="alert alert-danger" id="primer">
 			            <strong>Monitoring Modules Directory</strong>: 
 			            <ul>
 			            	<li>Read and file announcements on <a role="button" id="iar_modal_link"><strong>Monitoring Issues And Reminders Modal</strong></a>.</li>
@@ -52,6 +52,23 @@
 			            
 			        </div>
 		    	</div>
+
+		    	<div id="automation-row" hidden="hidden">
+		    		<div class="row">
+			    		<div class="col-sm-12 text-center" style="background-color:red;color:white;">
+			    			NOTE: These automation features are experimental!
+			    		</div>
+			    	</div>
+			    	<div class="row">
+			    		<div class="col-sm-6" style="background-color:red;color:white;">
+			    			<label class="checkbox-inline"><input id="alert_release" type="checkbox">Automate Alert Release <span id="alert_release_staff"></span></label>
+			    		</div>
+			    		<div class="col-sm-6" style="background-color:red;color:white;">
+			    			<label class="checkbox-inline"><input id="bulletin_sending" type="checkbox">Automate Bulletin Release <span id="bulletin_sending_staff"></span></label>
+			    		</div>
+			    	</div>
+		    	</div>
+		    	
 
 		    	<div class="row">
 			    	<div class="panel panel-default">
@@ -248,7 +265,7 @@
 		</div><!-- End of LOADING AND RENDERING MODAL AREA -->
 
 		<!-- JSON ERROR MODAL AREA -->
-		<div class="modal fade" id="errorModal" role="dialog">
+		<div class="modal fade" id="errorProcessingModal" role="dialog">
 			<div class="modal-dialog">
    				<div class="modal-content">
 	   				<div class="modal-header">

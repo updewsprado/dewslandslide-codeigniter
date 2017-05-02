@@ -6,7 +6,6 @@
 
 		public function __construct() {
 			parent::__construct();
-			$this->is_logged_in();
 			$this->load->helper('url');
 			$this->load->model('accomplishment_model');
 		}
@@ -16,6 +15,7 @@
 			$data['user_id'] = $this->session->userdata("id");
 			$data['first_name'] = $this->session->userdata('first_name');
 			$data['last_name'] = $this->session->userdata('last_name');
+			$this->is_logged_in();
 			
 			$data['title'] = "DEWS-Landslide Accomplishment Report Filing Form";
 

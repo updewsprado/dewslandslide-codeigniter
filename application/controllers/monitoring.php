@@ -140,6 +140,13 @@ class Monitoring extends CI_Controller
 		echo "$id";
 	}
 
+	public function processAlerts()
+	{
+		$latest = $_POST['latest'];
+		$extended = $_POST['extended'];
+		$overdue = $_POST['overdue'];
+	}
+
 	public function is_logged_in() 
 	{
 		$is_logged_in = $this->session->userdata('is_logged_in');
