@@ -383,7 +383,7 @@
 				?>
 
 				<div class="row">
-					<div class="col-sm-12 text-justify"><b id="llmc">For the Local Early Warning Committee (LEWC):</b> <?php echo $llmc_lgu; ?></div>
+					<div class="col-sm-12 text-justify"><b id="llmc">For the Landslide Early Warning Committee (LEWC):</b> <?php echo $llmc_lgu; ?></div>
 				</div>
 
 				<div class="row">
