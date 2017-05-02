@@ -11,7 +11,7 @@
 
 <img id="bg-img-chatterbox" src="../../../images/dews-l-logo.png" >
 <div class="page-wrapper">
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row">
 	        <div class="page-header">
 	            <h1>DEWS-Landslide Response Tracker</h1>
@@ -23,12 +23,12 @@
 				<div class="panel panel-primary" id="tracker-filter-panel">
 					<div class="panel-heading">Filter Options</div>
 					<div class="panel-body">
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<div class="input-group">
 								<input class="form-control" type="text" placeholder="Search" id="filter-key">
 								<div class="input-group-btn">
 									<select class="form-control" name="category" id="category-selection">
-										<option disabled selected>ex. Site</option>
+										<option disabled selected>---</option>
 										<option value="site">Site</option>
 										<option value="allsites">All Sites</option>
 										<option value="person">Person</option>
@@ -36,7 +36,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-3" id="date-selector-rtracker">
+						<div class="col-md-2" id="date-selector-rtracker">
 							<div class="input-group date datetime" id="entry">
                                 <input type="text" class="form-control" id="from-date" name="from-date" placeholder="Start date" aria-required="true" aria-invalid="false">
                                 <span class="input-group-addon">
@@ -45,13 +45,25 @@
                             </div>
 						</div>
 
-						<div class="col-md-3" id="date-selector-rtracker">
+						<div class="col-md-2" id="date-selector-rtracker">
 							<div class="input-group date datetime" id="entry">
                                 <input type="text" class="form-control" id="to-date" name="to-date" placeholder="End date" aria-required="true" aria-invalid="false">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>
+						</div>
+						<div id="div-data-resolution" class="col-md-3">
+					        <label for="data-resolution">Data Resolution</label>
+					        <input id="data-resolution" type="text"
+					              data-provide="slider"
+					              data-slider-ticks="[1, 2, 3, 4]"
+					              data-slider-ticks-labels='["Hourly", "Daily", "Weekly","Monthly"]'
+					              data-slider-min="1"
+					              data-slider-max="4"
+					              data-slider-step="1"
+					              data-slider-value="2"
+					              data-slider-tooltip="hide"/>
 						</div>
 						<div class="col-md-2">
 							<button type="button" class="btn btn-success" id="confirm-filter-btn">Confirm</button>	
@@ -67,18 +79,6 @@
 					<div class="panel-heading">Reliability</div>
 					<div class="panel-body">
 						<div id="reliability-chart-container"></div>
-						<div id="div-data-resolution">
-					        <label for="data-resolution">Data Resolution</label>
-					        <input id="data-resolution" type="text"
-					              data-provide="slider"
-					              data-slider-ticks="[1, 2, 3, 4]"
-					              data-slider-ticks-labels='["Hourly", "Daily", "Weekly","Monthly"]'
-					              data-slider-min="1"
-					              data-slider-max="4"
-					              data-slider-step="1"
-					              data-slider-value="2"
-					              data-slider-tooltip="hide"/>
-						</div>
 					</div>
 				</div>		
 			</div>
