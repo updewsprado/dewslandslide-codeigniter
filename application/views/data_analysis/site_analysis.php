@@ -210,8 +210,8 @@
       </div>
     </div>
   </div>
-  <button type="button" class="btn-primary btn-lg  btn-block download text-center" id="download" style="cursor: pointer" data-toggle="tooltip" title="Download the Unified Single Attachment" data-placement="bottom"> 
-    <span class="glyphicon glyphicon-save"></span> DOWNLOAD 
+  <button type="button" class="btn-danger btn-block download text-center" id="download" style="cursor: pointer" data-toggle="tooltip" title="Download the Unified Single Attachment" data-placement="bottom"> 
+    <!-- <span class="glyphicon glyphicon-save"></span> --> DOWNLOAD 
   </button>
 </div>
 <div class="col-sm-9 col-md-9 original" id="analysis_panel">
