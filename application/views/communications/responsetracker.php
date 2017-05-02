@@ -23,7 +23,7 @@
 				<div class="panel panel-primary" id="tracker-filter-panel">
 					<div class="panel-heading">Filter Options</div>
 					<div class="panel-body">
-						<div class="col-md-3">
+						<div class="col-md-3" id="filter-category">
 							<div class="input-group">
 								<input class="form-control" type="text" placeholder="Search" id="filter-key">
 								<div class="input-group-btn">
@@ -65,7 +65,7 @@
 					              data-slider-value="2"
 					              data-slider-tooltip="hide"/>
 						</div>
-						<div class="col-md-2">
+						<div class="col-md-2" id="filter-category-submit">
 							<button type="button" class="btn btn-success" id="confirm-filter-btn">Confirm</button>	
 						</div>
 					</div>
