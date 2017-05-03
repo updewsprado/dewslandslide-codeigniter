@@ -285,7 +285,7 @@
         </div>
         <div class="modal-body">
           <div style="text-align: center;" id="pdfsvg">
-        <iframe src="/temp/charts_render/compiled.pdf" frameborder="0" style="width:1000px; height:500px;"></iframe>
+        <iframe src="/temp/charts_render/compiled.pdf" frameborder="0" style="width:800px; height:500px;"></iframe>
         </div>
         </div>
         <div class="modal-footer">
