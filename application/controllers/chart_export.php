@@ -48,7 +48,11 @@ class Chart_export extends CI_Controller
 
 	public function mergePDF($date)
 	{
-		$path = 'C:\\xampp\PDFMerger\PDFMerger.php';
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+		{
+			$path = 'C:\\xampp\PDFMerger\PDFMerger.php';
+		}
+		else $path = "/usr/share/php/PDFMerger/PDFMerger.php";
 
 		if( file_exists($path) && is_readable($path) ) { require_once($path); }
 		else { 
