@@ -285,11 +285,11 @@
         </div>
         <div class="modal-body">
           <div style="text-align: center;" id="pdfsvg">
-        <iframe src="/temp/charts_render/compiled.pdf" frameborder="0" style="width:800px; height:500px;"></iframe>
+        <!-- <iframe src="" frameborder="0" style="width:800px; height:500px;"></iframe> -->
         </div>
         </div>
         <div class="modal-footer">
-          <a href="/temp/charts_render/compiled.pdf" download="" id="renamePdf"><button type="button" class="btn btn-default" id="downloadPDF">Download</button></a>
+          <a href="" download="" id="renamePdf"><button type="button" class="btn btn-danger" id="downloadPDF">Download</button></a>
         </div>
       </div>
     </div>
