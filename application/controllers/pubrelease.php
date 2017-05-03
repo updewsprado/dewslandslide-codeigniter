@@ -108,7 +108,7 @@ class Pubrelease extends CI_Controller {
 		$status = $_POST['status'];
 		$latest_trigger_id = NULL;
 		$site_id = $_POST['site'];
-		if( !is_int($site_id) ) $site_id = $this->pubrelease_model->getSiteID($_POST['site']);
+		if( (int) $site_id == 0 ) $site_id = $this->pubrelease_model->getSiteID($_POST['site']);
 		$event_validity = NULL;
 
 		if( $status == 'new' )
