@@ -1,6 +1,6 @@
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/subsurface_level.js"></script>
- <script src="http://d3js.org/d3.v3.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<!--  <script src="http://d3js.org/d3.v3.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script> -->
 <script src="https://code.highcharts.com/stock/highstock.js"></script>
 <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
@@ -13,7 +13,7 @@
   width: 156px;
 
 }
-text.mono {
+/*text.mono {
   font-size: 6pt;
 }
 text.axes {
@@ -49,7 +49,7 @@ text.axes {
 }
 
 /* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
+/*.d3-tip:after {
   box-sizing: border-box;
   display: inline;
   font-size: 10px;
@@ -60,13 +60,11 @@ text.axes {
   position: absolute;
   text-align: center;
 }
-
-/* Style northward tooltips differently */
 .d3-tip.n:after {
   margin: -1px 0 0 0;
   top: 100%;
   left: 0;
-}
+}*/
 </style>
 <div id="page-wrapper">
   <div class="container">
@@ -74,35 +72,33 @@ text.axes {
       <div class="col-lg-12">
         <h1 class="page-header" id="header-site">Sub-Surface Analysis Charts
         </h1>
-        <div class="heatmap"></div>
       </div>
     </div>
-    <div class="col-lg-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title"><i class=""></i> Search Tool</h3>
-        </div>
-        <div class="panel-body">
-          <table class="table" id="searchtool" >
-            <tr>
-              <th> Site: </th>
-              <td><select class="form-control"  name="sitegeneral" id="sitegeneral" style=" width: auto;" ></td>
-            </tr>
-            <tr class="datetable">
-              <th class="datetable"> Date: </th>
-              <td class="datetable">  <div id="reportrange" class="pull-left form-control cols-xs-7" style="background: #fff;cursor: pointer;padding: 5px 10px;border: 1px solid #ccc;width: 226.22222px;" ;margin-bottom: 10px;">
-                <i class=""></i>&nbsp;
-                <span id="dateAnnotation"></span> <b class="caret"></b>
-              </td>
-            </tr>
-            <tr>
-              <th></th>
-              <td> <input id="submit"  type="button" value="Submit"  style=" width: 226.22222px;" ></td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
+    <div class="col-lg-12" align="center">
+       <div class="panel panel-default">
+            <div class="panel-heading pull-left"><b>SEARCH TOOL:</b></div>
+            <div class="panel-body">
+              <form class="form-inline" id="searchtool">
+                <div class="form-group">
+                  <label for="site">Site:</label>
+                  <select class="form-control"  name="sitegeneral" id="sitegeneral" style=" width: auto;" ></select>
+                  &nbsp;&nbsp;&nbsp;
+                </div>
+                <div class="form-group">
+                  <label for="pwd">Date Range:</label>
+                  <div id="reportrange" class=" form-control cols-xs-7" style="background: #fff;cursor: pointer;padding: 5px 10px;border: 1px solid #ccc;width: 226.22222px;" ;margin-bottom: 10px;">
+                    <i class=""></i>&nbsp;
+                    <span id="dateAnnotation"></span> <b class="caret"></b></div>
+                    &nbsp;&nbsp;&nbsp;
+                  </div>
+                  <div class="form-group">
+                  <button type="button" id="submit" class="btn btn-info" style="margin-top: 0px;">Submit</button>
+                   &nbsp;&nbsp;&nbsp;
+                 </div>
+               </form>
+             </div>
+           </div>
+         </div>
     <div class="col-lg-8">  
     </div>
     <div class="col-lg-12">
