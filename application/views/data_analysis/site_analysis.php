@@ -30,6 +30,9 @@
     padding-right: 0px;
     padding-left: 0px;
   }
+  .form-group{
+    text-align: -webkit-center;
+  }
 </style>
 <br>
 <div class="container">
@@ -50,7 +53,7 @@
           <div class="panel-body">
             <form class="col-xs-12">
               <div class="form-group reportrange0">
-                <label for="reportrange">Date:</label>
+                <label for="reportrange">Date</label>
                 <div id="reportrange0"  class="pull-right" style="background: #fff; cursor: pointer; padding: 0px 5px; border: 1px solid #ccc;width: 80%;font-family: sans-serif;font-size: 18px">
                   <span></span> <b class="caret pull-right" style="margin-top: 10px;"></b>
                 </div>
@@ -63,7 +66,7 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-toggle="collapse"  href="#collapseSite"><span class="glyphicon glyphicon-list">
-            </span>&nbsp;SITE  OPTION:</a>
+            </span>&nbsp;SITE OPTION:</a>
           </h4>
         </div>
         <div id="collapseSite" class="panel-collapse collapse collapseSite">
@@ -117,12 +120,12 @@
         </div>
         <div id="collapseColumn" class="panel-collapse collapse">
           <div class="panel-body">
-            <form class="col-xs-12">
+            
               <div class="form-group columngeneral">
                 <label for="columngeneral">Column</label><br>
                 <select class="selectpicker"  id="columngeneral" data-live-search="true"></select>
               </div>
-            </form>
+            
             <div class="form-group" align="center">
               <label>&nbsp; COLUMN CHARTS and GRAPHS:</label>
             </div>
@@ -172,7 +175,6 @@
         </div>
         <div id="collapseNode" class="panel-collapse collapse">
           <div class="panel-body">
-            <form class="col-xs-12">
               <div class="form-group nodegeneral" align="center">
                 <label for="nodegeneral">Node</label>
                 <select class="selectpicker"  id="nodegeneral" multiple data-live-search="true"></select>
@@ -211,7 +213,6 @@
                 Battery Graph
               </label>
             </div>
-          </form>
         </div>
       </div>
     </div>
