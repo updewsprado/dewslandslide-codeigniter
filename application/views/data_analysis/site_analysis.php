@@ -210,9 +210,9 @@
       </div>
     </div>
   </div>
-  <a href="" download="" id="renamePdf"> <button type="button" class="btn-danger btn-block download text-center download" id="download" style="cursor: pointer" data-toggle="tooltip" title="Download the Unified Single Attachment" data-placement="bottom"> 
+  <button type="button" class="btn-danger btn-block download text-center download" id="download" style="cursor: pointer" data-toggle="tooltip" title="Download the Unified Single Attachment" data-placement="bottom"> 
     <!-- <span class="glyphicon glyphicon-save"></span> --> DOWNLOAD 
-  </button></a>
+  </button>
 </div>
 <div class="col-sm-9 col-md-9 original" id="analysis_panel">
   <div class="panel-body  analysis"> 
@@ -276,7 +276,7 @@
     </div>
   </div>
 </div>
-<!-- <div class="modal fade" id="pdfModal" role="dialog">
+<div class="modal fade" id="pdfModal" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -294,5 +294,5 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>
 
