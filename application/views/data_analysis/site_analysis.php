@@ -210,9 +210,9 @@
       </div>
     </div>
   </div>
-  <button type="button" class="btn-danger btn-block download text-center download" id="download" style="cursor: pointer" data-toggle="tooltip" title="Download the Unified Single Attachment" data-placement="bottom"> 
+  <a href="" download="" id="renamePdf"> <button type="button" class="btn-danger btn-block download text-center download" id="download" style="cursor: pointer" data-toggle="tooltip" title="Download the Unified Single Attachment" data-placement="bottom"> 
     <!-- <span class="glyphicon glyphicon-save"></span> --> DOWNLOAD 
-  </button>
+  </button></a>
 </div>
 <div class="col-sm-9 col-md-9 original" id="analysis_panel">
   <div class="panel-body  analysis"> 
@@ -276,12 +276,16 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="pdfModal" role="dialog">
+<!-- <div class="modal fade" id="pdfModal" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Unified Single Attachment</h4>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;" id="pdfsvg">
+        <!-- <iframe src="" frameborder="0" style="width:800px; height:500px;"></iframe> -->
         </div>
         </div>
         <div class="modal-footer">
@@ -290,5 +294,5 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
