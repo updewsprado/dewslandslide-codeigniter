@@ -6,6 +6,7 @@
 <script src="/js/third-party/highstock.js"></script>
 <script src="/js/third-party/exporting.js"></script>
 <script src="/js/third-party/highcharts-more.js"></script>
+<script src="/js/third-party/inferno.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHuLBzeBR6eA_z70NOabE-uov9jg46Azc"></script>
 <script src="/js/third-party/d3.v3.min.js"></script>
 <script src="/js/third-party/heatmap.js"></script>
@@ -23,6 +24,11 @@
     height: 350px;
     min-width: 5%!important;
     min-height: 5%!important;
+    margin-left: 15px;
+  }
+  .sub{
+    padding-right: 0px;
+    padding-left: 0px;
   }
 </style>
 <br>
@@ -277,22 +283,22 @@
   </div>
 </div>
 <div class="modal fade" id="pdfModal" role="dialog">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Unified Single Attachment</h4>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Unified Single Attachment</h4>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;" id="pdfsvg">
+          <!-- <iframe src="" frameborder="0" style="width:800px; height:500px;"></iframe> -->
         </div>
-        <div class="modal-body">
-          <div style="text-align: center;" id="pdfsvg">
-        <!-- <iframe src="" frameborder="0" style="width:800px; height:500px;"></iframe> -->
-        </div>
-        </div>
-        <div class="modal-footer">
-          <a href="" download="" id="renamePdf"><button type="button" class="btn btn-danger" id="downloadPDF">Download</button></a>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="" download="" id="renamePdf"><button type="button" class="btn btn-danger" id="downloadPDF">Download</button></a>
       </div>
     </div>
   </div>
+</div>
 </div>
 
