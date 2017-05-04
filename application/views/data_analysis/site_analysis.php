@@ -210,7 +210,7 @@
       </div>
     </div>
   </div>
-  <button type="button" class="btn-danger btn-block download text-center" id="download" style="cursor: pointer" data-toggle="tooltip" title="Download the Unified Single Attachment" data-placement="bottom"> 
+  <button type="button" class="btn-danger btn-block download text-center download" id="download" style="cursor: pointer" data-toggle="tooltip" title="Download the Unified Single Attachment" data-placement="bottom"> 
     <!-- <span class="glyphicon glyphicon-save"></span> --> DOWNLOAD 
   </button>
 </div>
@@ -282,10 +282,6 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Unified Single Attachment</h4>
-        </div>
-        <div class="modal-body">
-          <div style="text-align: center;" id="pdfsvg">
-        <!-- <iframe src="" frameborder="0" style="width:800px; height:500px;"></iframe> -->
         </div>
         </div>
         <div class="modal-footer">
