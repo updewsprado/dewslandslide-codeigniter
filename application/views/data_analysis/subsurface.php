@@ -3,6 +3,7 @@
 <script src="/js/third-party/exporting.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/daterangepicker.css">
 <script src="/js/third-party/daterangepicker.js"></script>
+<script src="/js/third-party/inferno.js"></script>
 <style type="text/css">
  #submit{     
   height: 32px;
