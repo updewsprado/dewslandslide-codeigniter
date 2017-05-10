@@ -470,7 +470,10 @@
                         <h4 class="modal-title">Early Warning Information Bulletin for <?php echo strtoupper($event->name); ?></h4>
                     </div>
                     <div class="modal-body">
-                        <div id="info"></div>
+                        <div class="form-group">
+                            <label for="info">Mail Body:</label>
+                            <textarea class="form-control" rows="3" id="info" name="info"></textarea>
+                        </div>
                         <hr>
                         <div class="form-group">
                             <label for="recipients">Recipients:&emsp;</label>
