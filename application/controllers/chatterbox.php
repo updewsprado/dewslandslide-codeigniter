@@ -164,11 +164,11 @@ class Chatterbox extends CI_Controller {
 	public function getewi(){
 		$ewi_template = array(
 			"ROUTINE" => "Magandang %%PANAHON%% po.\n\n".
-										"ALERT 0 ang alert level sa %%SBMP%% ngayong %%DATE%% 12NN.\n".
+										"ALERT 0 ang alert level sa %%SBMP%% ngayong %%DATE%% 12:00 NN.\n".
 										"Inaasahan namin ang pagpapadala ng LEWC ng ground data para sa susunod na routine monitoring.\n\n".
 										"Salamat.",
 			"A0" => "Magandang %%PANAHON%% po.\n\n".
-										"ALERT 0 ang alert level sa %%SBMP%% ngayong %%DATE%% 12NN.\n".
+										"ALERT 0 ang alert level sa %%SBMP%% ngayong %%DATE%% %%LOWERING_EXTENDED%%.\n".
 										"Inaasahan namin ang pagpapadala ng LEWC ng ground data bukas %%EXT_NEXT_DAY%% bago mag-11:30 AM para sa %%EXT_DAY%%ng 3-day extended monitoring.\n\n".
 										"Salamat.",
 			"A1" => "Magandang %%PANAHON%% po.\n\n".
