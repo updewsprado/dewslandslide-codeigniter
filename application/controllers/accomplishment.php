@@ -72,15 +72,16 @@
 		public function insertNarratives()
 		{
 			$narratives = $_POST['narratives'];
+			$narratives = json_decode($narratives);
 			$forUpdate = [];
 			$forInsert = [];
 
 			foreach ($narratives as $x) 
 			{
-				if(!isset($x['id'])) array_push($forInsert, $x);
-				else if(isset($x['isEdited']))
+				if(!isset($x->id)) array_push($forInsert, $x);
+				else if(isset($x->isEdited))
 				{
-					unset($x['isEdited']);
+					unset($x->isEdited);
 					array_push($forUpdate, $x);
 				}
 			}			
@@ -88,7 +89,7 @@
 			if(count($forInsert) > 0)
 			{
 				foreach ($forInsert as $x) {
-					$this->accomplishment_model->insert('narratives', $x);
+					echo $this->accomplishment_model->insert('narratives', $x);
 				}
 			}
 
