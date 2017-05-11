@@ -74,7 +74,8 @@
 			$narratives = $_POST['narratives'];
 			$forUpdate = [];
 			$forInsert = [];
-
+			
+			var_dump($narratives);
 			foreach ($narratives as $x) 
 			{
 				if(!isset($x['id'])) array_push($forInsert, $x);
