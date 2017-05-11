@@ -76,12 +76,13 @@
 			$forUpdate = [];
 			$forInsert = [];
 
+			echo count($narratives) . " " . $narratives[count($narratives) - 1];
 			foreach ($narratives as $x) 
 			{
-				if(!isset($x['id'])) array_push($forInsert, $x);
-				else if(isset($x['isEdited']))
+				if(!isset($x->id)) array_push($forInsert, $x);
+				else if(isset($x->isEdited))
 				{
-					unset($x['isEdited']);
+					unset($x->isEdited);
 					array_push($forUpdate, $x);
 				}
 			}			
