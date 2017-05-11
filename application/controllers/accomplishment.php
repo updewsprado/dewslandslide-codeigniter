@@ -72,10 +72,10 @@
 		public function insertNarratives()
 		{
 			$narratives = $_POST['narratives'];
+			$narratives = json_decode($narratives);
 			$forUpdate = [];
 			$forInsert = [];
-			
-			var_dump($narratives);
+
 			foreach ($narratives as $x) 
 			{
 				if(!isset($x['id'])) array_push($forInsert, $x);
@@ -99,9 +99,9 @@
 					$this->accomplishment_model->update('id', $x['id'], 'narratives', $x);
 				}
 			}
-			echo "<br>FOR INSERT<br>";
+			echo "FOR INSERT\n";
 			var_dump($forInsert);
-			echo "<br>FOR UPDATE<br>";
+			echo "FOR UPDATE\n";
 			var_dump($forUpdate);
 		}
 
