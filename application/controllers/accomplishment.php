@@ -88,7 +88,7 @@
 			if(count($forInsert) > 0)
 			{
 				foreach ($forInsert as $x) {
-					$this->accomplishment_model->insert('narratives', $x);
+					echo $this->accomplishment_model->insert('narratives', $x);
 				}
 			}
 
@@ -98,6 +98,10 @@
 					$this->accomplishment_model->update('id', $x['id'], 'narratives', $x);
 				}
 			}
+			echo "<br>FOR INSERT<br>";
+			var_dump($forInsert);
+			echo "<br>FOR UPDATE<br>";
+			var_dump($forUpdate);
 		}
 
 		public function insertData()
