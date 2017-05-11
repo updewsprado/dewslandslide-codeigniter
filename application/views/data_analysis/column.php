@@ -65,7 +65,7 @@
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#com_graph" role="tab"><i class=""></i>Communication Health</a>
                     </li>
-                     <li class="nav-item">
+                     <li class="nav-item" id="heatmap_li">
                         <a class="nav-link" data-toggle="tab" href="#soms_heatmap" role="tab"><i class=""></i>Soms Heatmap</a>
                     </li>
                     <li class="nav-item">
