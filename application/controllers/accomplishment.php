@@ -76,7 +76,6 @@
 			$forUpdate = [];
 			$forInsert = [];
 
-			echo count($narratives) . " " . $narratives[count($narratives) - 1];
 			foreach ($narratives as $x) 
 			{
 				if(!isset($x->id)) array_push($forInsert, $x);
@@ -100,10 +99,6 @@
 					$this->accomplishment_model->update('id', $x['id'], 'narratives', $x);
 				}
 			}
-			echo "FOR INSERT\n";
-			var_dump($forInsert);
-			echo "FOR UPDATE\n";
-			var_dump($forUpdate);
 		}
 
 		public function insertData()
