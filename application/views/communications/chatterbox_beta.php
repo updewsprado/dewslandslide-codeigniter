@@ -62,16 +62,18 @@
 							<ul id="messages" class="chat"></ul>
 						</div>
 						<textarea id="msg" name="msg" class="form-control" rows="5"></textarea>
-						<p>Remaining characters: <b id="remaining_chars">800</b></p>
 					</div>
-
 					<div class="form-group">
-						<div class="col-xs-6 left-content">
-							<a href="">Load Message Templates</a>
-						</div>
-
+						<div class="col-xs-6">
+							<p>Remaining characters: <b id="remaining_chars">800</b></p>
+						</div>						
 						<div class="col-xs-6 right-content">
 							<button type="button" class="btn btn-primary" id="send-msg">Send</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-12 left-content" style="padding-left: 30px;margin-bottom: 5px;">
+							<a href="#" id="btn-ewi" data-toggle="modal" data-dismiss="modal">Load Message Templates</a>
 						</div>
 					</div>
 				</div>
@@ -454,5 +456,57 @@
 	</div>
 	</div>
 	<!-- Save Narratives MODAL -->
+
+	<!-- EWI MODAL -->
+	<div class="modal fade col-lg-12" id="early-warning-modal" role="dialog">
+	  <div class="modal-dialog modal-md" id="ewi-modal-cs-dialog">
+	    <div class="modal-content" id="ewi-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4>EARLY WARNING INFORMATION</h4>
+	      </div>
+	      <div class="modal-body row-fluid"> 
+	        <div class="ewi-container">
+	          <div class="row">
+	            <div class="col-sm-6">
+	              <div class="form-group" id="alert-group">
+	                <label for="alert-lvl">Alert Level :</label>
+	                <select name="" id="alert-lvl" class="form-control">
+	                </select>
+	              </div>
+	            </div>
+	            <div class="col-sm-6">
+	              <div class="form-group" id="site-group">
+	                <label for="sites">Sites :</label>
+	                <select name="" id="sites" name="sites" class="form-control">
+	                </select>
+	              </div>
+	            </div>
+	          </div>
+	          <div class="row">
+	            <div class="col-sm-6">
+	              <div class="form-group">
+	                <div class='input-group date' id='ewi-date-picker'>
+	                    <input type='text' class="form-control" />
+	                    <span class="input-group-addon">
+	                        <span class="glyphicon glyphicon-calendar"></span>
+	                    </span>
+	                </div>
+	              </div>
+	            </div>
+
+	            <div class="col-sm-6">
+	              <div class="form-group cmd-ewi-chatterbox right-content">
+	              	<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+	                <button type="submit" value="submit" id="confirm-ewi" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+	              </div>   
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>  
+	  </div>
+	</div>
+	<!-- END EWI MODAL -->
 
 <!-- END OF MODAL SECTION -->

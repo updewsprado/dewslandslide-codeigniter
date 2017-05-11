@@ -77,6 +77,10 @@
                     <strong>{{fullname}}</strong> {{numbers}}
                 </div>
             </script>
+
+            <script id="ewi-template" type="text/x-handlebars-template">
+                <!-- TODO -->
+            </script>
         </body>
 
         </html>
