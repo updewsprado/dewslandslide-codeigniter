@@ -95,7 +95,7 @@
 			if(count($forUpdate) > 0)
 			{
 				foreach ($forUpdate as $x) {
-					$this->accomplishment_model->update('id', $x['id'], 'narratives', $x);
+					$this->accomplishment_model->update('id', $x->id, 'narratives', $x);
 				}
 			}
 		}
