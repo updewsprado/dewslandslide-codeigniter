@@ -84,6 +84,9 @@ $route['communications/chatterbox/addcontact'] = "chatterbox/addcontacts";
 $route['communications/chatterbox_beta'] = "chatterbox_beta/index";
 $route['communications/ewi_template'] = "ewi_template/index";
 $route['communications/fetchalltemplate'] = "ewi_template/getAllTemplates";
+$route['communications/addtemplate'] = "ewi_template/addTemplate";
+$route['communications/updatetemplate'] = "ewi_template/updateTemplate";
+$route['communications/deletetemplate'] = "ewi_template/deleteTemplate";
 
 /**
 * General Information Tagging

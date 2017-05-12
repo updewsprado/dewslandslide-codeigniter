@@ -37,17 +37,35 @@ class Ewi_template extends CI_Controller {
 		}
 	}
 
-	public function getAllTemplates(){
+	public function getAllTemplates() {
 		$templates = [];
 		$result = $this->ewi_template_model->getAll();
 		for ($counter = 0; $counter < sizeof($result); $counter++) {
 			$result[$counter] = (array) $result[$counter];
 			$result[$counter]['functions'] = "<div>".
-											"<span class='updatePatient glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>".
-											"<span class='archiveData glyphicon glyphicon-trash' aria-hidden='true'></span>".
+											"<span class='update glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>".
+											"<span class='delete glyphicon glyphicon-trash' aria-hidden='true'></span>".
 											"</div>";
 		}
 		$templates['data'] = $result;
 		print json_encode($templates);
+	}
+
+	public function addTemplate() {
+		$data = json_decode($_POST['template']);
+		$result = $this->ewi_template_model->add($data);
+		print json_encode($result);
+	}
+
+	public function deleteTemplate() {
+		$data = json_decode($_POST['template']);
+		$result = $this->ewi_template_model->delete($data);
+		print json_encode($result);
+	}
+
+	public function updateTemplate() {
+		$data = json_decode($_POST['template']);
+		$result = $this->ewi_template_model->update($data);
+		print json_encode($result);
 	}
 }

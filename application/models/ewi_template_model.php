@@ -12,9 +12,36 @@
  */
 class Ewi_template_model extends CI_Model {
 
-	public function getAll(){
+	public function getAll() {
 		$query = "SELECT * FROM ewi_template";
 		$result = $this->db->query($query);
 		return $result->result();
+	}
+
+	public function add($data) {
+		$status = false;
+		if ($this->checkExistingTemplate($data) == 0) {
+			$query = "INSERT INTO ewi_template VALUES(0,'".$data->alert_lvl."','".$data->internal_alert."','".$data->scenario."','".$data->response."','".$data->last_modified."')";
+			$status = $this->db->query($query);
+		}
+		return $status;
+	}
+
+	public function update($data) {
+		$query = "UPDATE ewi_template SET alert_lvl='".$data->alert_lvl."',internal_alert='".$data->internal_alert."',possible_scenario='".$data->scenario."',recommended_response='".$data->response."',last_update_by='".$data->last_modified."' WHERE id='".$data->id."'";
+		$status = $this->db->query($query);
+		return $status;
+	}
+
+	public function delete($data) {
+		$query = "DELETE FROM ewi_template WHERE id='".$data->id."'";
+		$status = $this->db->query($query);
+		return $status;
+	}
+
+	public function checkExistingTemplate($data) {
+		$query = "SELECT * FROM ewi_template WHERE alert_lvl='".$data->alert_lvl."' && internal_alert='".$data->internal_alert."'";
+		$doesExist = $this->db->query($query);
+		return $doesExist->num_rows;
 	}
 }
