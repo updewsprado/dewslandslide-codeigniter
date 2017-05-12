@@ -19,6 +19,9 @@
 <script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 <style type="text/css">
+  .highcharts-container {
+        margin: auto;
+  }
   #map-canvas {
     width: 250px;
     height: 350px;
@@ -42,7 +45,7 @@
 
   <div class="col-sm-3 col-md-3 " id="sidebar">
     <div class="panel-group fixed1">
-      <div class="panel panel-default " >
+      <div class="panel panel-primary " >
         <div class="panel-heading">
           <h4 class="panel-title" >
             <a data-toggle="collapse"  href="#collapseTwo"><span class="glyphicon glyphicon-calendar">
@@ -62,7 +65,7 @@
           </div>
         </div>
       </div>
-      <div class="panel panel-default site-panel">
+      <div class="panel panel-primary site-panel">
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-toggle="collapse"  href="#collapseSite"><span class="glyphicon glyphicon-list">
@@ -111,7 +114,7 @@
           </div>
         </div>
       </div>
-      <div class="panel panel-default column-panel">
+      <div class="panel panel-primary column-panel">
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-toggle="collapse"  href="#collapseColumn"><span class="glyphicon glyphicon-list">
@@ -166,7 +169,7 @@
           </div>
         </div>
       </div>
-      <div class="panel panel-default node-panel">
+      <div class="panel panel-primary node-panel">
         <div class="panel-heading">
           <h4 class="panel-title">
             <a data-toggle="collapse"  href="#collapseNode"><span class="glyphicon glyphicon-list">

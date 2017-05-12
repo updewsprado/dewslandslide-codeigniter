@@ -31,7 +31,7 @@
         <!-- sidebar -->
         <div class="row">
             <div class="col-sm-12 col-md-12">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading">SEARCH TOOL</div>
                     <div class="panel-body" style="text-align: -webkit-center;">
                         <form class="form-inline">
@@ -112,7 +112,7 @@
                                             </div>
                                         </div>
                                      </div>  
-                                    <div class="col-sm-6 col-md-6" style="padding-right: 0px;">
+                                    <div class="col-sm-6 col-md-6" id="soms_panel" style="padding-right: 0px;">
                                         <div class="panel panel-warning">
                                             <div class="panel-heading">Soms Heatmap</div>
                                             <div class="panel-body" style="text-align: -webkit-center;">
