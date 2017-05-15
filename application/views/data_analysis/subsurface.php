@@ -3,7 +3,7 @@
 <script src="/js/third-party/exporting.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/daterangepicker.css">
 <script src="/js/third-party/daterangepicker.js"></script>
-<!-- <script src="/js/third-party/d3.tip.v0.6.3.js"></script> -->
+<script src="/js/third-party/inferno.js"></script>
 <style type="text/css">
  #submit{     
   height: 32px;
@@ -11,58 +11,6 @@
   width: 156px;
 
 }
-/*text.mono {
-  font-size: 6pt;
-}
-text.axes {
-  font-size: 12pt;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.bar {
-  fill: orange;
-}
-
-.bar:hover {
-  fill: orangered ;
-}
-
-.x.axis path {
-  display: none;
-}
-
-.d3-tip {
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
-}
-
-/* Creates a small triangle extender for the tooltip */
-/*.d3-tip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  position: absolute;
-  text-align: center;
-}
-.d3-tip.n:after {
-  margin: -1px 0 0 0;
-  top: 100%;
-  left: 0;
-}*/
 </style>
 <div id="page-wrapper">
   <div class="container">
@@ -90,7 +38,7 @@ text.axes {
                     &nbsp;&nbsp;&nbsp;
                   </div>
                   <div class="form-group">
-                  <button type="button" id="submit" class="btn btn-info" style="margin-top: 0px;">Submit</button>
+                  <!-- <button type="button" id="submit" class="btn btn-info" style="margin-top: 0px;">Submit</button> -->
                    &nbsp;&nbsp;&nbsp;
                  </div>
                </form>
