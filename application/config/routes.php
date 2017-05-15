@@ -84,9 +84,11 @@ $route['communications/chatterbox/addcontact'] = "chatterbox/addcontacts";
 $route['communications/chatterbox_beta'] = "chatterbox_beta/index";
 $route['communications/ewi_template'] = "ewi_template/index";
 $route['communications/fetchalltemplate'] = "ewi_template/getAllTemplates";
+$route['communications/fetchallbackbonetemplate'] = "ewi_template/getAllBackboneTemplates";
 $route['communications/addtemplate'] = "ewi_template/addTemplate";
 $route['communications/updatetemplate'] = "ewi_template/updateTemplate";
 $route['communications/deletetemplate'] = "ewi_template/deleteTemplate";
+$route['communications/getkeypointsviacategory'] = "ewi_template/getKeyViaCategory";
 
 /**
 * General Information Tagging

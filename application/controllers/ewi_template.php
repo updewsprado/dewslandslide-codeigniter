@@ -51,6 +51,26 @@ class Ewi_template extends CI_Controller {
 		print json_encode($templates);
 	}
 
+	public function getAllBackboneTemplates() {
+		$templates = [];
+		$result = $this->ewi_template_model->getAllBackbone();
+		for ($counter = 0; $counter < sizeof($result); $counter++) {
+			$result[$counter] = (array) $result[$counter];
+			$result[$counter]['functions'] = "<div>".
+											"<span class='update glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>".
+											"<span class='delete glyphicon glyphicon-trash' aria-hidden='true'></span>".
+											"</div>";
+		}
+		$templates['data'] = $result;
+		print json_encode($templates);
+	}
+
+	public function getKeyViaCategory() {
+		$data = json_decode($_POST['template_key']);
+		$result = $this->ewi_template_model->getKey($data);
+		print json_encode($result);
+	}
+
 	public function addTemplate() {
 		$data = json_decode($_POST['template']);
 		$result = $this->ewi_template_model->add($data);

@@ -18,17 +18,30 @@ class Ewi_template_model extends CI_Model {
 		return $result->result();
 	}
 
+	public function getAllBackbone() {
+		$query = "SELECT * FROM ewi_backbone_template";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
+
 	public function add($data) {
 		$status = false;
 		if ($this->checkExistingTemplate($data) == 0) {
-			$query = "INSERT INTO ewi_template VALUES(0,'".$data->alert_lvl."','".$data->internal_alert."','".$data->scenario."','".$data->response."','".$data->last_modified."')";
+			$query = "INSERT INTO ewi_template VALUES(0,'".$data->alert_lvl."','".$data->internal_alert."','".$data->scenario."','".$data->response."','".$data->last_modified."','".$data->bb_scenario."')";
 			$status = $this->db->query($query);
 		}
 		return $status;
 	}
 
+	public function getKey($data) {
+		$query = "SELECT * FROM ewi_template where bb_scenario='".$data->keypoint."'";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
+
 	public function update($data) {
-		$query = "UPDATE ewi_template SET alert_lvl='".$data->alert_lvl."',internal_alert='".$data->internal_alert."',possible_scenario='".$data->scenario."',recommended_response='".$data->response."',last_update_by='".$data->last_modified."' WHERE id='".$data->id."'";
+		$query = "UPDATE ewi_template SET alert_lvl='".$data->alert_lvl."',internal_alert='".$data->internal_alert."',possible_scenario='".$data->scenario."',recommended_response='".$data->response."',last_update_by='".$data->last_modified."',bb_scenario='".$data->bb_scenario."' WHERE id='".$data->id."'";
+
 		$status = $this->db->query($query);
 		return $status;
 	}
