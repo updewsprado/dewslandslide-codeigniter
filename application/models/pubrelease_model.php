@@ -148,6 +148,13 @@ class Pubrelease_Model extends CI_Model
 		return $query->result_object();
 	}
 
+	public function getSiteID($code)
+	{
+		$this->db->select("id");
+		$query = $this->db->get_where('site', array('name' => $code));
+		return $query->row()->id;
+	}
+
 	public function getBulletinNumber($site)
 	{
 		$sql = "SELECT bulletin_number
