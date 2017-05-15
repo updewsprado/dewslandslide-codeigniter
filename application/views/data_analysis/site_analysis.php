@@ -220,8 +220,10 @@
       </div>
     </div>
   </div>
+
   <button type="button" class="btn-danger btn-block download text-center download" id="download" style="cursor: pointer" data-toggle="tooltip" title="Download the Unified Single Attachment" data-placement="bottom"> 
     <!-- <span class="glyphicon glyphicon-save"></span> --> DOWNLOAD 
+
   </button>
 </div>
 <div class="col-sm-9 col-md-9 original" id="analysis_panel">
@@ -283,6 +285,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <p > <h4 id="comment-model" style="text-align: center;"> TAG FORM</h4></p>
       </div>
+
     </div>
   </div>
 </div>
@@ -304,5 +307,7 @@
     </div>
   </div>
 </div>
+
+
 </div>
 
