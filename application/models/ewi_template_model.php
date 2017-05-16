@@ -73,4 +73,10 @@ class Ewi_template_model extends CI_Model {
 		$result = $this->db->query($query);
 		return $result;
 	}
+
+	public function deleteBackbone($data) {
+		$query = "DELETE FROM ewi_backbone_template WHERE id='".$data->id."'";
+		$status = $this->db->query($query);
+		return $status;
+	}
 }

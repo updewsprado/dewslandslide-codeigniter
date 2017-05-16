@@ -88,6 +88,7 @@ $route['communications/fetchallbackbonetemplate'] = "ewi_template/getAllBackbone
 $route['communications/addtemplate'] = "ewi_template/addTemplate";
 $route['communications/updatetemplate'] = "ewi_template/updateTemplate";
 $route['communications/deletetemplate'] = "ewi_template/deleteTemplate";
+$route['communications/deletebackbone'] = "ewi_template/deleteBackboneMessage";
 $route['communications/getkeypointsviacategory'] = "ewi_template/getKeyViaCategory";
 $route['communications/addbackbonemessage'] = "ewi_template/addBackboneMessage";
 $route['communications/updatebackbonemessage'] = "ewi_template/updateBackboneMessage";
