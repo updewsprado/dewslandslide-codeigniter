@@ -88,4 +88,16 @@ class Ewi_template extends CI_Controller {
 		$result = $this->ewi_template_model->update($data);
 		print json_encode($result);
 	}
+
+	public function addBackboneMessage() {
+		$data = json_decode($_POST['backbone_message']);
+		$result = $this->ewi_template_model->addBackbone($data);
+		print json_encode($result);
+	}
+
+	public function updateBackboneMessage() {
+		$data = json_decode($_POST['backbone_message']);
+		$result = $this->ewi_template_model->updateBackbone($data);
+		print json_encode($result);
+	}
 }

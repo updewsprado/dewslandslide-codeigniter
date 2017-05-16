@@ -40,7 +40,7 @@
 			<div id="message-backbone" class="tab-pane fade in">
 				<div class="panel panel-danger">
 					<div class="panel-heading" style="text-align: center;">Please refrain from deleting the <b>"KEY INPUTS" (%%SBMP%%, %%NOW_TOM%%, %%PANAHON%%.. etc..)</b> of the template.<br>
-						For the list of Key Inputs you can refer <a href="#">to this link.</a>
+						For the list of Key Inputs you can refer <a href="#" id="show_key_inputs">to this link.</a>
 					</div>
 				</div>
 		        <div class="row" style="margin:10px;">
@@ -146,9 +146,13 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title" id="modal-title">Create Message Backbone</h4>
+				<h4 class="modal-title-backbone" id="modal-title-backbone">Create Message Backbone</h4>
 			</div>
 			<div class="modal-body">
+				<div class="panel panel-danger" id="no-key-input" hidden>
+					<div class="panel-heading" style="text-align: center;">There are no key inputs for this backbone message.</a>
+					</div>
+				</div>
 				<form action="#">
 					<div class="row form-group">
 						<div class="col-md-8">
@@ -171,12 +175,57 @@
 				</form>
 			</div>
 			<div class="modal-footer">
+				<h5><a href="#"><i>Click here to show Key Inputs</i></a></h5>
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 				<button type="button" class="btn btn-primary" id="submit_backbone">Create</button>
 			</div>
 		</div>
 	</div>
 </div>
+
+<div id="delete_backbone_modal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title" id="modal-title">Delete Backbone Message</h4>
+			</div>
+			<div class="modal-body">
+				<div class="panel panel-danger">
+					<div class="panel-heading">Are you sure you want to delete this backbone message?</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<textarea name="delete-backbone" id="delete-backbone" cols="30" rows="10" class="form-control" style="resize:none" disabled></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-danger" id="delete_backbone">DELETE</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="key_input_display" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title" id="modal-title">List of Key Inputs</h4>
+			</div>
+			<div class="modal-body">
+				<p>%%SBMP%%</p>
+				<p>%%PANAHON%%</p>
+				<p>%%RECOMMENDED_RESPONSE%%</p>
+				<p>%%POSSIBLE_SCENARIO%%</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 
 <script type="text/javascript">
   first_name = "<?php echo $first_name; ?>";

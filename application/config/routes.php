@@ -89,6 +89,8 @@ $route['communications/addtemplate'] = "ewi_template/addTemplate";
 $route['communications/updatetemplate'] = "ewi_template/updateTemplate";
 $route['communications/deletetemplate'] = "ewi_template/deleteTemplate";
 $route['communications/getkeypointsviacategory'] = "ewi_template/getKeyViaCategory";
+$route['communications/addbackbonemessage'] = "ewi_template/addBackboneMessage";
+$route['communications/updatebackbonemessage'] = "ewi_template/updateBackboneMessage";
 
 /**
 * General Information Tagging
