@@ -507,7 +507,7 @@ class API extends CI_Controller {
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
 				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
-				$fileName = '/var/www/updews-pycodes/Analysis/Soms/heatmap.py';
+				$fileName = '/var/www/updews-pycodes/Analysis/Soms/heatmap-visual.py';
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";

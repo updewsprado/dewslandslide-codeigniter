@@ -41,8 +41,6 @@
                         <li><a href="<?php echo base_url(); ?>data_analysis/column">Column Level</a></li>
                         <li><a href="<?php echo base_url(); ?>data_analysis/node">Node Level</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/subsurface">Subsurface Data</a></li>
-                        <li role="separator" class="divider"></li>
                         <li><a href="<?php echo base_url(); ?>data_analysis/surficial">Surficial Data</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="<?php echo base_url(); ?>data_analysis/rainfall_scanner">Rainfall Scanner</a></li>
