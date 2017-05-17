@@ -40,9 +40,12 @@ class Ewi_template_model extends CI_Model {
 	}
 
 	public function update($data) {
-		$query = "UPDATE ewi_template SET alert_lvl='".$data->alert_lvl."',internal_alert='".$data->internal_alert."',possible_scenario='".$data->scenario."',recommended_response='".$data->response."',last_update_by='".$data->last_modified."',bb_scenario='".$data->bb_scenario."' WHERE id='".$data->id."'";
+		$status = false;
+		if ($this->checkExistingTemplate($data) == 0) {
+			$query = "UPDATE ewi_template SET alert_lvl='".$data->alert_lvl."',internal_alert='".$data->internal_alert."',possible_scenario='".$data->scenario."',recommended_response='".$data->response."',last_update_by='".$data->last_modified."',bb_scenario='".$data->bb_scenario."' WHERE id='".$data->id."'";
 
-		$status = $this->db->query($query);
+			$status = $this->db->query($query);
+		}
 		return $status;
 	}
 
@@ -52,26 +55,40 @@ class Ewi_template_model extends CI_Model {
 		return $status;
 	}
 
-	public function checkExistingTemplate($data) {
-		$query = "SELECT * FROM ewi_template WHERE alert_lvl='".$data->alert_lvl."' && internal_alert='".$data->internal_alert."'";
+	public function checkExistingTemplate($data = null) {
+		if (!isset($data->id)) {
+			$data->id = "NULL";
+		}
+		$query = "SELECT * FROM ewi_template WHERE alert_lvl='".$data->alert_lvl."' && internal_alert='".$data->internal_alert."' && id <> ".$data->id."";
+		$doesExist = $this->db->query($query);
+		return $doesExist->num_rows;
+	}
+
+	public function checkExistingBackbone($data = null) {
+		if (!isset($data->id)) {
+			$data->id = "NULL";
+		}
+		$query = "SELECT * FROM ewi_backbone_template WHERE category='".$data->category."' && id <> ".$data->id."";
 		$doesExist = $this->db->query($query);
 		return $doesExist->num_rows;
 	}
 
 	public function addBackbone($data) {
-		$query = "INSERT INTO ewi_backbone_template VALUES(0,'".$data->category."','".$data->backbone_message."','".$data->last_modified."')";
-		$result = $this->db->query($query);
-		return $result;
-	}
-
-	public function checkExistingBackbone($data) {
-
+		$status = false;
+		if ($this->checkExistingBackbone($data) == 0) {
+			$query = "INSERT INTO ewi_backbone_template VALUES(0,'".$data->category."','".$data->backbone_message."','".$data->last_modified."')";
+			$status = $this->db->query($query);
+		}
+		return $status;
 	}
 
 	public function updateBackbone($data) {
-		$query = "UPDATE ewi_backbone_template SET category='".$data->category."',template='".$data->backbone_message."',last_modified_by='".$data->last_modified."' WHERE id='".$data->id."'";
-		$result = $this->db->query($query);
-		return $result;
+		$status = false;
+		if ($this->checkExistingBackbone($data) == 0) {
+			$query = "UPDATE ewi_backbone_template SET category='".$data->category."',template='".$data->backbone_message."',last_modified_by='".$data->last_modified."' WHERE id='".$data->id."'";
+			$status = $this->db->query($query);
+		}
+		return $status;
 	}
 
 	public function deleteBackbone($data) {

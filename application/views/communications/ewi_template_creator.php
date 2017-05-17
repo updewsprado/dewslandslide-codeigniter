@@ -1,10 +1,12 @@
 <!-- Chatterbox Scripts -->
 <link rel="stylesheet" type="text/css" href="../css/dewslandslide/public_alert/monitoring_events_all.css">
+<link rel="stylesheet" type="text/css" href="../css/third-party/awesomplete.css">
 
 <script src="/js/third-party/handlebars.js"></script>
 <script src="/js/third-party/moment-locales.js"></script>
 <script src="/js/third-party/notify.min.js"></script>
 <script src="/js/dewslandslide/communications/dewsewi_template.js"></script>
+<script src="/js/third-party/awesomplete.min.js"></script>
 
 <div id="page-wrapper">
     <div class="container-fluid">
@@ -79,19 +81,15 @@
 					<div class="row form-group">
 						<div class="col-md-4">
 							<label for="alert_lvl">Alert Level: </label>
-							<select class="btn btn-default form-control" name="alert_lvl" id="alert_lvl" required="true">
-							  <option value="Alert 1">Alert 1</option>
-							  <option value="Alert 2">Alert 2</option>
-							  <option value="Alert 3">Alert 3</option>
-							</select>
+							<input type="text" class="form-control" id="alert_lvl" required="true">
 						</div>
 						<div class="col-md-3">
 							<label for="internal_alert">Internal Alert: </label>
-							<input type="text" class="form-control" name="internal_alert" id="internal_alert" required="true">
+							<input type="text" class="form-control" id="internal_alert" required="true">
 						</div>
 						<div class="col-md-5">
-							<label for="internal_alert">Backbone Message Category: </label>
-							<input type="text" class="form-control" name="bb_scenario" id="bb_scenario" required="true">
+							<label for="bb_scenario">Backbone Message Category: </label>
+							<input type="text" class="form-control" id="bb_scenario" required="true">
 						</div>
 					</div>
 					<div class="row form-group">
