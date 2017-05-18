@@ -107,7 +107,10 @@
 		// TEST CASE
 		/*SELECT r.*, e.* FROM public_alert_release r INNER JOIN public_alert_event e ON e.event_id = r.event_id WHERE r.data_timestamp > '2016-09-30 07:30:00' AND r.data_timestamp <= '2016-09-30 20:00:00' AND e.status != 'routine'*/
 
-
+		public function delete($table, $array)
+		{
+			$this->db->delete($table, $array); 
+		}
 
 		/**************************************/
 
