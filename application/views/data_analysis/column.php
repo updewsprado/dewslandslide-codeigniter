@@ -93,7 +93,31 @@
                                     </div>
                                 </div>
                             </div>   
-
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12">
+                                    <div class="panel panel-info">
+                                          <div class="panel-heading">Column Maintenace History</div>
+                                          <div class="panel-body" style="padding-left: 5px;">
+                                              <table id="mTable" class="display table" cellspacing="0" width="100%">
+                                                <thead >
+                                                    <tr >
+                                                        <th>Id</th>
+                                                        <th>Site Name</th>
+                                                        <th>Start Date</th>
+                                                        <th>End Date</th>
+                                                        <th>Personel</th>
+                                                        <th>Activity</th>
+                                                        <th>Object(s)</th>
+                                                        <th>Remarks</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
                              <!-- GRAPHS -->
                             <div class="row">
                                 <div class="col-sm-12 col-md-12">
