@@ -41,7 +41,7 @@
 			</div>
 			<div id="message-backbone" class="tab-pane fade in">
 				<div class="panel panel-danger">
-					<div class="panel-heading" style="text-align: center;">Please refrain from deleting the <b>"KEY INPUTS" (%%SBMP%%, %%NOW_TOM%%, %%PANAHON%%.. etc..)</b> of the template.<br>
+					<div class="panel-heading" style="text-align: center;">Please refrain from deleting the <b>"KEY INPUTS" ({SBMP}, {ALERT_LVL}, {GREETINGS}.. etc..)</b> of the template.<br>
 						For the list of Key Inputs you can refer <a href="#" id="show_key_inputs">to this link.</a>
 					</div>
 				</div>
@@ -70,7 +70,7 @@
 </div>
 
 <div id="template_modal" class="modal fade" role="dialog">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -80,28 +80,65 @@
 				<form action="#">
 					<div class="row form-group">
 						<div class="col-md-4">
-							<label for="alert_lvl">Alert Level: </label>
-							<input type="text" class="form-control" id="alert_lvl" required="true">
+							<label for="side_code">Site code:</label>
+							<select class="form-control" name="site_code" id="site_code">
+							</select>	
+						</div>
+						<div class="col-md-4">
+							<label for="date-time-of-release">Time of release:</label>
+							<div class="input-group date datetime" id="date-time-of-release">		
+                                <input type="text" class="form-control" id="time_of_release" aria-required="true" aria-invalid="false">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+						</div>
+						<div class="col-md-4">
+							<label for="staff_duty">Staff on duty:</label>
+							<input class="form-control" type="text" id="staff_duty">
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-3 form-group">
+							<label for="alert_status" style="background-color: red;">Alert status:</label>
+							<input class="form-control" type="text" id="alert_status">
 						</div>
 						<div class="col-md-3">
-							<label for="internal_alert">Internal Alert: </label>
-							<input type="text" class="form-control" id="internal_alert" required="true">
+							<label for="alert_level" style="background-color: blue;">Alert level</label>
+							<input class="form-control" type="text" id="alert_level">
 						</div>
-						<div class="col-md-5">
-							<label for="bb_scenario">Backbone Message Category: </label>
-							<input type="text" class="form-control" id="bb_scenario" required="true">
+						<div class="col-md-3">
+							<label for="alert_symbols" style="background-color: yellow;">Alert symbol:</label>
+							<input class="form-control" type="text" id="alert_symbols">
+						</div>
+						<div class="col-md-3">
+							<label for="a0-option">Alert 0 Filters:</label>
+							<div id="a0-option">
+								<label class="radio-inline"><input type="radio" value="">Lowering</label>
+								<label class="radio-inline"><input type="radio" value="">Extended</label>
+							</div>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-6">
+							<label for="techinfo_template" style="background-color: yellow;">Technical info:</label>
+							<textarea class="form-control" id="techinfo_template" cols="30" rows="5" style="overflow:auto;resize:none"></textarea>
+						</div>
+						<div class="col-md-6">
+							<label for="response_template" style="background-color: blue;">Recommended response:</label>
+							<textarea class="form-control" id="response_template" cols="30" rows="5" style="overflow:auto;resize:none"></textarea>
 						</div>
 					</div>
 					<div class="row form-group">
 						<div class="col-md-12">
-							<label for="scenario">Possible Scenario</label>
-							<textarea name="scenario" id="scenario" cols="30" rows="10" class="form-control" style="overflow:auto;resize:none" required="true"></textarea>
+							<label for="backbone_template" style="background-color: red;">Backbone template:</label>
+							<textarea class="form-control" id="backbone_template" cols="30" rows="5" style="overflow:auto;resize:none"></textarea>	
 						</div>
 					</div>
 					<div class="row form-group">
 						<div class="col-md-12">
-							<label for="response">Recommended Response</label>
-							<textarea name="response" id="response" cols="30" rows="10" class="form-control" style="overflow:auto;resize:none" required="true"></textarea>		
+							<label for="template_view">Preview:</label>
+							<textarea class="form-control" id="template_view" cols="30" rows="10" style="overflow:auto;resize:none" disabled></textarea>
 						</div>
 					</div>
 				</form>
@@ -159,6 +196,20 @@
 						</div>
 					</div>
 					<div class="row form-group">
+						<div class="col-xs-12" id="key-input-container">
+							<button type="button" id="alert_lvl" class="btn btn-info" style="margin: 2px;" value="{ALERT_LVL}">+ ALERT LEVEL</button>
+							<button type="button" id="greetings" class="btn btn-info" style="margin: 2px;" value="{GREETINGS}">+ GREETINGS</button>
+							<button type="button" id="key_input" class="btn btn-info" style="margin: 2px;" value="{KEY_INPUT}">+ KEY INPUT </button>
+							<button type="button" id="sbmp" class="btn btn-info" style="margin: 2px;" value="{SBMP}">+ SBMP</button>
+							<button type="button" id="current_date" class="btn btn-info" style="margin: 2px;" value="{CURRENT_DATE}">+ CURRENT DATE</button>
+							<button type="button" id="current_time" class="btn btn-info" style="margin: 2px;" value="{CURRENT_TIME}">+ CURRENT TIME</button>
+							<button type="button" id="expected_date_gdata" class="btn btn-info" style="margin: 2px;" value="{EXPECTED_DATE_GDATA}">+ EXPECTED DATE GDATA</button>
+							<button type="button" id="expected_time_gdata" class="btn btn-info" style="margin: 2px;" value="{EXPECTED_TIME_GDATA}">+ EXPECTED TIME GDATA</button>
+							<button type="button" id="next_ewi_date" class="btn btn-info" style="margin: 2px;" value="{NEXT_EWI_DATE}">+ NEXT EWI DATE</button>
+							<button type="button" id="next_ewi_time" class="btn btn-info" style="margin: 2px;" value="{NEXT_EWI_TIME}">+ NEXT EWI TIME</button>
+							<button type="button" id="lowering_extended_time" class="btn btn-info" style="margin: 2px;" value="{LOWERING_EXTENDED_TIME}">+ LOWERING EXTENDED TIME</button>
+							<button type="button" id="ext_day" class="btn btn-info" style="margin: 2px;" value="{EXT_DAY}">+ EXTENDED nth-DAY</button>
+						</div>
 						<div class="col-md-12">
 							<label for="msg_backbone">Message Backbone: </label>
 							<textarea class="form-control" name="msg_backbone" id="msg_backbone" cols="30" rows="10" style="overflow:auto;resize:none"></textarea>
@@ -173,7 +224,7 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<h5><a href="#"><i>Click here to show Key Inputs</i></a></h5>
+				<h5><a href="#" id="show_key_input_display"><i>Click here to show Key Inputs</i></a></h5>
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 				<button type="button" class="btn btn-primary" id="submit_backbone">Create</button>
 			</div>
@@ -214,16 +265,20 @@
 				<h4 class="modal-title" id="modal-title">List of Key Inputs</h4>
 			</div>
 			<div class="modal-body">
-				<p>%%SBMP%%</p>
-				<p>%%PANAHON%%</p>
-				<p>%%RECOMMENDED_RESPONSE%%</p>
-				<p>%%POSSIBLE_SCENARIO%%</p>
+				<p><strong>{SBMP}</strong> - <i>sitio, barangay, municipality, province</i></p>
+				<p><strong>{GREETINGS}</strong> - <i>Greetings. (ex. Magandang <strong>Hapon</strong> po.)</i></p>
+				<p><strong>{KEY_INPUT}</strong> - <i>Key input</i></p>
+				<p><strong>{ALERT_LVL}</strong> - <i>Alert level</i></p>
+				<p><strong>{DATE}</strong> - <i>Current date</i></p>
+				<p><strong>{CURRENT_TIME}</strong> - <i>Current time</i></p>
+				<p><strong>{EXPECTED_DATE_GDATA}</strong> - <i>Date of submission for ground data</i></p>
+				<p><strong>{EXPECTED_TIME_GDATA}</strong> - <i>Time of submission for ground data</i></p>
+				<p><strong>{NEXT_EWI_DATE}</strong> - <i>Next Early warning information release date</i></p>
+				<p><strong>{NEXT_EWI_TIME}</strong> - <i>Next Early warning information release time</i></p>
 			</div>
 		</div>
 	</div>
 </div>
-
-
 
 <script type="text/javascript">
   first_name = "<?php echo $first_name; ?>";

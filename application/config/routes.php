@@ -92,6 +92,9 @@ $route['communications/deletebackbone'] = "ewi_template/deleteBackboneMessage";
 $route['communications/getkeypointsviacategory'] = "ewi_template/getKeyViaCategory";
 $route['communications/addbackbonemessage'] = "ewi_template/addBackboneMessage";
 $route['communications/updatebackbonemessage'] = "ewi_template/updateBackboneMessage";
+$route['communications/getkeyinputviatriggertype'] = "ewi_template/getKeyInputViaTriggerType";
+$route['communications/getbackboneviacategory'] = "ewi_template/getBackboneViaCategory";
+$route['communications/gettechinfo'] = "ewi_template/getTechInfo";
 
 /**
 * General Information Tagging

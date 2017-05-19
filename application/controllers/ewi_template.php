@@ -43,8 +43,8 @@ class Ewi_template extends CI_Controller {
 		for ($counter = 0; $counter < sizeof($result); $counter++) {
 			$result[$counter] = (array) $result[$counter];
 			$result[$counter]['functions'] = "<div>".
-											"<span class='update glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>".
-											"<span class='delete glyphicon glyphicon-trash' aria-hidden='true'></span>".
+											"<span class='update glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 25%;'></span>".
+											"<span class='delete glyphicon glyphicon-trash' aria-hidden='true' style='margin-right: 25%;'></span>".
 											"</div>";
 		}
 		$templates['data'] = $result;
@@ -58,7 +58,7 @@ class Ewi_template extends CI_Controller {
 			$result[$counter] = (array) $result[$counter];
 			$result[$counter]['functions'] = "<div>".
 											"<span class='update glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>".
-											"<span class='delete glyphicon glyphicon-trash' aria-hidden='true'></span>".
+											"<span class='delete glyphicon glyphicon-trash' aria-hidden='true' style='margin-right: 15%;'></span>".
 											"</div>";
 		}
 		$templates['data'] = $result;
@@ -74,6 +74,9 @@ class Ewi_template extends CI_Controller {
 	public function addTemplate() {
 		$data = json_decode($_POST['template']);
 		$result = $this->ewi_template_model->add($data);
+		if ($result == true) {
+			$result = $this->ewi_template_model->addBackbone($data);
+		}
 		print json_encode($result);
 	}
 
@@ -104,6 +107,24 @@ class Ewi_template extends CI_Controller {
 	public function deleteBackboneMessage() {
 		$data = json_decode($_POST['backbone_message']);
 		$result = $this->ewi_template_model->deleteBackbone($data);
+		print json_encode($result);
+	}
+
+	public function getKeyInputViaTriggerType() {
+		$data = $_POST['trigger_type'];
+		$result = $this->ewi_template_model->getKeyViaTriggerType($data);
+		print json_encode($result);
+	}
+
+	public function getBackboneViaCategory() {
+		$data = $_POST['category'];
+		$result = $this->ewi_template_model->getBbViaCategory($data);
+		print json_encode($result);
+	}
+
+	public function getTechInfo() {
+		$data = $_POST['alert_level'];
+		$result = $this->ewi_template_model->getTechInfo($data);
 		print json_encode($result);
 	}
 }
