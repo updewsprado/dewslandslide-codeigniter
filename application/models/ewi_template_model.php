@@ -49,7 +49,6 @@ class Ewi_template_model extends CI_Model {
 		$status = false;
 		if ($this->checkExistingTemplate($data) == 0) {
 			$query = "UPDATE ewi_template SET alert_symbol_level='".$data->alert_symbols."',key_input='".$data->key_input."',last_update_by='".$data->last_modified."',alert_status='".$data->alert_status."' WHERE id='".$data->id."'";
-
 			$status = $this->db->query($query);
 		}
 		return $status;
@@ -90,7 +89,7 @@ class Ewi_template_model extends CI_Model {
 		if (!isset($data->id)) {
 			$data->id = "NULL";
 		}
-		$query = "SELECT * FROM ewi_backbone_template WHERE alert_status='".$data->alert_status."' && id <> ".$data->id."";
+		$query = "SELECT * FROM ewi_backbone_template WHERE alert_status='".$data->alert_status."'";
 		$doesExist = $this->db->query($query);
 		return $doesExist->num_rows;
 	}
@@ -107,7 +106,7 @@ class Ewi_template_model extends CI_Model {
 	public function updateBackbone($data) {
 		$status = false;
 		if ($this->checkExistingBackbone($data) == 0) {
-			$query = "UPDATE ewi_backbone_template SET category='".$data->alert_status."',template='".$data->backbone_template."',last_modified_by='".$data->last_modified."' WHERE id='".$data->id."'";
+			$query = "UPDATE ewi_backbone_template SET alert_status='".$data->alert_status."',template='".$data->backbone_template."',last_modified_by='".$data->last_modified."' WHERE id='".$data->id."'";
 			$status = $this->db->query($query);
 		}
 		return $status;
@@ -125,8 +124,8 @@ class Ewi_template_model extends CI_Model {
 		return $result->result();
 	}
 
-	public function getBbViaCategory($data) {
-		$query = "SELECT * FROM ewi_backbone_template WHERE category='".$data."'";
+	public function getBbViaAlertStatus($data) {
+		$query = "SELECT * FROM ewi_backbone_template WHERE alert_status='".$data."'";
 		$result = $this->db->query($query);
 		return $result->result();
 	}

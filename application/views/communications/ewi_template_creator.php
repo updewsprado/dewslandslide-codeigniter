@@ -99,7 +99,7 @@
 						</div>
 					</div>
 					<div class="row form-group">
-						<div class="col-md-3 form-group">
+						<div class="col-md-3">
 							<label for="alert_status" style="background-color: red;">Alert status:</label>
 							<input class="form-control" type="text" id="alert_status">
 						</div>

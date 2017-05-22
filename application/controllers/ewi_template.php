@@ -73,9 +73,9 @@ class Ewi_template extends CI_Controller {
 
 	public function addTemplate() {
 		$data = json_decode($_POST['template']);
-		$result = $this->ewi_template_model->add($data);
+		$result['template'] = $this->ewi_template_model->add($data);
 		if ($result == true) {
-			$result = $this->ewi_template_model->addBackbone($data);
+			$result['backbone'] = $this->ewi_template_model->addBackbone($data);
 		}
 		print json_encode($result);
 	}
@@ -116,9 +116,9 @@ class Ewi_template extends CI_Controller {
 		print json_encode($result);
 	}
 
-	public function getBackboneViaCategory() {
+	public function getBbViaAlertStatus() {
 		$data = $_POST['category'];
-		$result = $this->ewi_template_model->getBbViaCategory($data);
+		$result = $this->ewi_template_model->getBbViaAlertStatus($data);
 		print json_encode($result);
 	}
 

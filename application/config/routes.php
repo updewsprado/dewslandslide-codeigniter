@@ -93,7 +93,7 @@ $route['communications/getkeypointsviacategory'] = "ewi_template/getKeyViaCatego
 $route['communications/addbackbonemessage'] = "ewi_template/addBackboneMessage";
 $route['communications/updatebackbonemessage'] = "ewi_template/updateBackboneMessage";
 $route['communications/getkeyinputviatriggertype'] = "ewi_template/getKeyInputViaTriggerType";
-$route['communications/getbackboneviacategory'] = "ewi_template/getBackboneViaCategory";
+$route['communications/getbackboneviastatus'] = "ewi_template/getBbViaAlertStatus";
 $route['communications/gettechinfo'] = "ewi_template/getTechInfo";
 
 /**
