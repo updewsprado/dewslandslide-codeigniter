@@ -95,44 +95,52 @@
 						</div>
 						<div class="col-md-4">
 							<label for="staff_duty">Staff on duty:</label>
-							<input class="form-control" type="text" id="staff_duty">
+							<input class="form-control" type="text" id="staff_duty" placeholder="E.g. John">
 						</div>
 					</div>
 					<div class="row form-group">
-						<div class="col-md-3">
-							<label for="alert_status" style="background-color: red;">Alert status:</label>
-							<input class="form-control" type="text" id="alert_status">
+						<div class="col-md-4">
+							<label for="alert_status">Alert status:</label>
+							<input class="form-control" type="text" id="alert_status" placeholder="E.g. Event">
 						</div>
-						<div class="col-md-3">
-							<label for="alert_level" style="background-color: blue;">Alert level</label>
-							<input class="form-control" type="text" id="alert_level">
+						<div class="col-md-4">
+							<label for="alert_level">Alert level:</label>
+							<input class="form-control" type="text" id="alert_level" placeholder="E.g. Alert 1">
 						</div>
-						<div class="col-md-3">
-							<label for="alert_symbols" style="background-color: yellow;">Alert symbol:</label>
-							<input class="form-control" type="text" id="alert_symbols">
-						</div>
-						<div class="col-md-3">
-							<label for="a0-option">Alert 0 Filters:</label>
-							<div id="a0-option">
-								<label class="radio-inline"><input type="radio" value="">Lowering</label>
-								<label class="radio-inline"><input type="radio" value="">Extended</label>
-							</div>
+						<div class="col-md-4">
+							<label for="alert_symbols">Alert symbol:</label>
+							<input class="form-control" type="text" id="alert_symbols" placeholder="E.g. R (R - Rainfall)">
 						</div>
 					</div>
 					<div class="row form-group">
 						<div class="col-md-6">
-							<label for="techinfo_template" style="background-color: yellow;">Technical info:</label>
+							<label for="techinfo_template">Technical info:</label>
 							<textarea class="form-control" id="techinfo_template" cols="30" rows="5" style="overflow:auto;resize:none"></textarea>
 						</div>
 						<div class="col-md-6">
-							<label for="response_template" style="background-color: blue;">Recommended response:</label>
+							<label for="response_template">Recommended response:</label>
 							<textarea class="form-control" id="response_template" cols="30" rows="5" style="overflow:auto;resize:none"></textarea>
 						</div>
 					</div>
 					<div class="row form-group">
 						<div class="col-md-12">
-							<label for="backbone_template" style="background-color: red;">Backbone template:</label>
-							<textarea class="form-control" id="backbone_template" cols="30" rows="5" style="overflow:auto;resize:none"></textarea>	
+							<label for="backbone_template">Backbone template:</label>
+							<textarea class="form-control" id="backbone_template" cols="30" rows="5" style="overflow:auto;resize:none"></textarea>
+							<a href="#" id="open_popover" data-toggle="popover" data-trigger="focus" data-html='true' title='List of Key inputs' data-content='<div class="col-xs-12">
+									<button type="button" id="alert_lvl" class="btn btn-info btn-xs" style="margin: 2px;" value="(alert_level)")">+ Alert Level</button>
+									<button type="button" id="greetings" class="btn btn-info btn-xs" style="margin: 2px;" value="(greetings)">+ Greetings</button>
+									<button type="button" id="tech_info" class="btn btn-info btn-xs" style="margin: 2px;" value="(technical_info)">+ Technical info</button>
+									<button type="button" id="recom_response" class="btn btn-info btn-xs" style="margin: 2px;" value="(recommened_response)">+ Recommended response</button>
+									<button type="button" id="location" class="btn btn-info btn-xs" style="margin: 2px;" value="(site_location)">+ Location</button>
+									<button type="button" id="current_date" class="btn btn-info btn-xs" style="margin: 2px;" value="(current_date)">+ Current date</button>
+									<button type="button" id="current_time" class="btn btn-info btn-xs" style="margin: 2px;" value="(current_time)">+ Current time</button>
+									<button type="button" id="gndmeas_date" class="btn btn-info btn-xs" style="margin: 2px;" value="(gndmeas_date_submission)">+ Gndmeas date submission</button>
+									<button type="button" id="gndmeas_time" class="btn btn-info btn-xs" style="margin: 2px;" value="(gndmeas_time_submission)">+ Gndmeas time submission</button>
+									<button type="button" id="next_ewi_date" class="btn btn-info btn-xs" style="margin: 2px;" value="(next_ewi_date)">+ Next EWI date</button>
+									<button type="button" id="next_ewi_time" class="btn btn-info btn-xs" style="margin: 2px;" value="(next_ewi_time)">+ Next EWI time</button>
+									<button type="button" id="nth-day" class="btn btn-info btn-xs" style="margin: 2px;" value="(nth-day-extended)">+ Extended nth-day</button>
+								</div>
+								'>List of Key inputs.<span class="glyphicon glyphicon-info-sign"></span></a>
 						</div>
 					</div>
 					<div class="row form-group">
@@ -188,40 +196,7 @@
 					<div class="panel-heading" style="text-align: center;">There are no key inputs for this backbone message.</a>
 					</div>
 				</div>
-				<form action="#">
-					<div class="row form-group">
-						<div class="col-md-8">
-						<label for="category">Category: </label>
-							<input class="form-control" type="text" id="category" placeholder="Ex. GroundMeasurement">
-						</div>
-					</div>
-					<div class="row form-group">
-						<div class="col-xs-12" id="key-input-container">
-							<button type="button" id="alert_lvl" class="btn btn-info" style="margin: 2px;" value="{ALERT_LVL}">+ ALERT LEVEL</button>
-							<button type="button" id="greetings" class="btn btn-info" style="margin: 2px;" value="{GREETINGS}">+ GREETINGS</button>
-							<button type="button" id="key_input" class="btn btn-info" style="margin: 2px;" value="{KEY_INPUT}">+ KEY INPUT </button>
-							<button type="button" id="sbmp" class="btn btn-info" style="margin: 2px;" value="{SBMP}">+ SBMP</button>
-							<button type="button" id="current_date" class="btn btn-info" style="margin: 2px;" value="{CURRENT_DATE}">+ CURRENT DATE</button>
-							<button type="button" id="current_time" class="btn btn-info" style="margin: 2px;" value="{CURRENT_TIME}">+ CURRENT TIME</button>
-							<button type="button" id="expected_date_gdata" class="btn btn-info" style="margin: 2px;" value="{EXPECTED_DATE_GDATA}">+ EXPECTED DATE GDATA</button>
-							<button type="button" id="expected_time_gdata" class="btn btn-info" style="margin: 2px;" value="{EXPECTED_TIME_GDATA}">+ EXPECTED TIME GDATA</button>
-							<button type="button" id="next_ewi_date" class="btn btn-info" style="margin: 2px;" value="{NEXT_EWI_DATE}">+ NEXT EWI DATE</button>
-							<button type="button" id="next_ewi_time" class="btn btn-info" style="margin: 2px;" value="{NEXT_EWI_TIME}">+ NEXT EWI TIME</button>
-							<button type="button" id="lowering_extended_time" class="btn btn-info" style="margin: 2px;" value="{LOWERING_EXTENDED_TIME}">+ LOWERING EXTENDED TIME</button>
-							<button type="button" id="ext_day" class="btn btn-info" style="margin: 2px;" value="{EXT_DAY}">+ EXTENDED nth-DAY</button>
-						</div>
-						<div class="col-md-12">
-							<label for="msg_backbone">Message Backbone: </label>
-							<textarea class="form-control" name="msg_backbone" id="msg_backbone" cols="30" rows="10" style="overflow:auto;resize:none"></textarea>
-						</div>
-					</div>
-					<div class="row form-group">
-						<div class="col-md-12">
-							<label for="backbone_preview">Preview: </label>
-							<textarea class="form-control" name="backbone_preview" id="backbone_preview" cols="30" rows="10" style="overflow:auto;resize:none" disabled></textarea>
-						</div>
-					</div>
-				</form>
+				
 			</div>
 			<div class="modal-footer">
 				<h5><a href="#" id="show_key_input_display"><i>Click here to show Key Inputs</i></a></h5>

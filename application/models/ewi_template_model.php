@@ -47,9 +47,38 @@ class Ewi_template_model extends CI_Model {
 
 	public function update($data) {
 		$status = false;
-		if ($this->checkExistingTemplate($data) == 0) {
-			$query = "UPDATE ewi_template SET alert_symbol_level='".$data->alert_symbols."',key_input='".$data->key_input."',last_update_by='".$data->last_modified."',alert_status='".$data->alert_status."' WHERE id='".$data->id."'";
-			$status = $this->db->query($query);
+		$query = "SELECT alert_symbol_level from ewi_template WHERE id='".$data->id."'";
+		$result = $this->db->query($query);
+		if ($data->response_template == "" && $data->techinfo_template != "") {
+			if ($result->result()[0]->alert_symbol_level != $data->alert_symbols) {
+				$query = "SELECT alert_symbol_level FROM ewi_template WHERE alert_symbol_level='".$data->alert_symbols."'";
+				$result = $this->db->query($query);
+				if ($result->num_rows == 0) {
+					$query = "UPDATE ewi_template SET alert_symbol_level='".$data->alert_symbols."',key_input='".$data->techinfo_template."', last_update_by='".$data->last_modified."' WHERE id='".$data->id."'";
+					$status = $this->db->query($query);
+				} else {
+					$query = "UPDATE ewi_template SET alert_symbol_level='".$data->alert_symbols."',key_input='".$data->techinfo_template."', last_update_by='".$data->last_modified."' WHERE id='".$data->id."'";
+					$status = $this->db->query($query);
+				}
+			} else {
+				$query = "UPDATE ewi_template SET key_input='".$data->techinfo_template."', last_update_by='".$data->last_modified."' WHERE id='".$data->id."'";
+				$status = $this->db->query($query);
+			}
+		} else if ($data->techinfo_template == "" && $data->response_template != "") {
+			if ($result->result()[0]->alert_symbol_level != $data->alert_level) {
+				$query = "SELECT alert_symbol_level FROM ewi_template WHERE alert_symbol_level='".$data->alert_level."'";
+				$result = $this->db->query($query);
+				if ($result->num_rows == 0) {
+					$query = "UPDATE ewi_template SET alert_symbol_level='".$data->alert_level."',key_input='".$data->response_template."', last_update_by='".$data->last_modified."' WHERE id='".$data->id."'";
+					$status = $this->db->query($query);
+				} else {
+					$query = "UPDATE ewi_template SET key_input='".$data->response_template."', last_update_by='".$data->last_modified."' WHERE id='".$data->id."'";
+					$status = $this->db->query($query);
+				}
+			} else {
+				$query = "UPDATE ewi_template SET key_input='".$data->response_template."', last_update_by='".$data->last_modified."' WHERE id='".$data->id."'";
+				$status = $this->db->query($query);
+			}
 		}
 		return $status;
 	}
@@ -67,7 +96,7 @@ class Ewi_template_model extends CI_Model {
 		}
 
 		if ($data->alert_symbols != "") {
-			$query = "SELECT * FROM ewi_template WHERE alert_symbol_level='".$data->alert_symbols."' && id <> ".$data->id."";
+			$query = "SELECT * FROM ewi_template WHERE alert_symbol_level='".$data->alert_symbols."' && alert_status='".$data->alert_status."'";
 			$doesSymExist = $this->db->query($query);
 			$response['symbol'] =  $doesSymExist->num_rows;
 		} else {
@@ -75,7 +104,7 @@ class Ewi_template_model extends CI_Model {
 		}
 
 		if ($data->alert_level != "") {
-			$query = "SELECT * FROM ewi_template WHERE alert_symbol_level='".$data->alert_level."' && id <> ".$data->id."";
+			$query = "SELECT * FROM ewi_template WHERE alert_symbol_level='".$data->alert_level."' && alert_status='".$data->alert_status."'";
 			$doesLevExist = $this->db->query($query);
 			$response['level'] =  $doesLevExist->num_rows;
 		} else {
