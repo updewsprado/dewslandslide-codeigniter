@@ -43,9 +43,9 @@ class Ewi_template extends CI_Controller {
 		for ($counter = 0; $counter < sizeof($result); $counter++) {
 			$result[$counter] = (array) $result[$counter];
 			$result[$counter]['functions'] = "<div>".
-											"<span class='update glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 25%;'></span>".
-											"<span class='delete glyphicon glyphicon-trash' aria-hidden='true' style='margin-right: 25%;'></span>".
-											"</div>";
+			"<span class='update glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 25%;'></span>".
+			"<span class='delete glyphicon glyphicon-trash' aria-hidden='true' style='margin-right: 25%;'></span>".
+			"</div>";
 		}
 		$templates['data'] = $result;
 		print json_encode($templates);
@@ -57,9 +57,9 @@ class Ewi_template extends CI_Controller {
 		for ($counter = 0; $counter < sizeof($result); $counter++) {
 			$result[$counter] = (array) $result[$counter];
 			$result[$counter]['functions'] = "<div>".
-											"<span class='update glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>".
-											"<span class='delete glyphicon glyphicon-trash' aria-hidden='true' style='margin-right: 15%;'></span>".
-											"</div>";
+			"<span class='update glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 15%;'></span>".
+			"<span class='delete glyphicon glyphicon-trash' aria-hidden='true' style='margin-right: 15%;'></span>".
+			"</div>";
 		}
 		$templates['data'] = $result;
 		print json_encode($templates);
@@ -112,19 +112,49 @@ class Ewi_template extends CI_Controller {
 
 	public function getKeyInputViaTriggerType() {
 		$data = $_POST['trigger_type'];
-		$result = $this->ewi_template_model->getKeyViaTriggerType($data);
-		print json_encode($result);
+		$template = "";
+		$keyinput = [];
+		for ($counter = 0; $counter < strlen($data); $counter++) {
+			$iterated = isset($data[$counter+(strlen($data)-(strlen($data)-1))]);
+			if (is_numeric($iterated) != null) {
+				$symbol = $data[$counter]."".$data[$counter+1];
+			} else {
+				$symbol = $data[$counter];
+			}
+			$result = $this->ewi_template_model->getKeyViaTriggerType($symbol);
+			array_push($keyinput,$result);
+		}
+
+		$template = $keyinput[0][0]->key_input;
+
+		// DO NOT DELETE. THIS CODE HAS A PURPOSE.
+		
+		// if (sizeof($keyinput) >= 2) {
+		// 	for ($counter = 0; $counter < sizeof($keyinput); $counter++) {
+		// 		for ($sec_counter =0; $sec_counter < sizeof($keyinput[$counter]);$sec_counter++) {
+		// 			$template = $template." at ".$keyinput[$counter][$sec_counter]->key_input;
+		// 		}
+		// 	}
+		// } else {
+		// 	for ($sec_counter =0; $sec_counter < sizeof($keyinput[0]);$sec_counter++) {
+		// 		$template = $template." at ".$keyinput[0][$sec_counter]->key_input;
+		// 	}
+		// }
+
+		$result[0]->key_input = $template;
+		$result[0]->alert_symbol_level = $data;
+		print json_encode($result[0]);
 	}
 
 	public function getBbViaAlertStatus() {
-		$data = $_POST['category'];
+		$data = $_POST['alert_status'];
 		$result = $this->ewi_template_model->getBbViaAlertStatus($data);
 		print json_encode($result);
 	}
 
-	public function getTechInfo() {
-		$data = $_POST['alert_level'];
-		$result = $this->ewi_template_model->getTechInfo($data);
+	public function getRecommendedResponse() {
+		$data = $_POST['recommended_response'];
+		$result = $this->ewi_template_model->getRecommendedResponse($data);
 		print json_encode($result);
 	}
 }

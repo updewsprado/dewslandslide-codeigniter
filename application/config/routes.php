@@ -94,7 +94,7 @@ $route['communications/addbackbonemessage'] = "ewi_template/addBackboneMessage";
 $route['communications/updatebackbonemessage'] = "ewi_template/updateBackboneMessage";
 $route['communications/getkeyinputviatriggertype'] = "ewi_template/getKeyInputViaTriggerType";
 $route['communications/getbackboneviastatus'] = "ewi_template/getBbViaAlertStatus";
-$route['communications/gettechinfo'] = "ewi_template/getTechInfo";
+$route['communications/getrecommendedresponse'] = "ewi_template/getRecommendedResponse";
 
 /**
 * General Information Tagging

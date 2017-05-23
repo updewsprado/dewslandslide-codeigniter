@@ -147,19 +147,19 @@ class Ewi_template_model extends CI_Model {
 		return $status;
 	}
 
-	public function getKeyViaTriggerType($data) {
-		$query = "SELECT * FROM ewi_template WHERE alert_symbol_level='".$data."'";
+	public function getKeyViaTriggerType($symbol) {
+		$query = "SELECT key_input,alert_symbol_level,alert_status FROM ewi_template WHERE alert_symbol_level='".$symbol."' GROUP BY key_input,alert_symbol_level";
 		$result = $this->db->query($query);
 		return $result->result();
 	}
 
 	public function getBbViaAlertStatus($data) {
-		$query = "SELECT * FROM ewi_backbone_template WHERE alert_status='".$data."'";
+		$query = "SELECT * FROM ewi_backbone_template WHERE alert_status LIKE '%".$data."%'";
 		$result = $this->db->query($query);
 		return $result->result();
 	}
 
-	public function getTechInfo($data) {
+	public function getRecommendedResponse($data) {
 		$query = "SELECT * FROM ewi_template WHERE alert_symbol_level='".$data."'";
 		$result = $this->db->query($query);
 		return $result->result();
