@@ -3,6 +3,7 @@
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-select.min.css">
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewsalert.css">
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewscommhealth.css">
+<script src="/js/third-party/inferno.js"></script>
 <script src="/js/third-party/highstock.js"></script>
 <script src="/js/third-party/exporting.js"></script>
 <script src="/js/third-party/highcharts-more.js"></script>
