@@ -15,10 +15,10 @@
       </div>
     </div>
     <div class="row">
-        <div class="col-lg-12" align="center">
-          <div class="panel panel-default">
-            <div class="panel-heading pull-left"><b>SEARCH TOOL:</b></div>
-            <div class="panel-body">
+        <div class="col-lg-12" >
+          <div class="panel panel-primary">
+            <div class="panel-heading"><b>SEARCH TOOL:</b></div>
+            <div class="panel-body" align="center">
               <form class="form-inline" id="searchtool">
                 <div class="form-group">
                   <label for="site">Site:</label>
