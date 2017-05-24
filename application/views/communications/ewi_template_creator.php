@@ -192,11 +192,35 @@
 				<h4 class="modal-title-backbone" id="modal-title-backbone">Create Message Backbone</h4>
 			</div>
 			<div class="modal-body">
-				<div class="panel panel-danger" id="no-key-input" hidden>
-					<div class="panel-heading" style="text-align: center;">There are no key inputs for this backbone message.</a>
+				<div class="panel panel-info">
+					<div class="panel-heading">Key Inputs</div>
+					<div class="panel-body">
+						<button type="button" id="alert_lvl_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(alert_level)")">+ Alert Level</button>
+						<button type="button" id="greetings_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(greetings)">+ Greetings</button>
+						<button type="button" id="tech_info_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(technical_info)">+ Technical info</button>
+						<button type="button" id="recom_response_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(recommened_response)">+ Recommended response</button>
+						<button type="button" id="location_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(site_location)">+ Location</button>
+						<button type="button" id="current_date_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(current_date)">+ Current date</button>
+						<button type="button" id="current_time_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(current_time)">+ Current time</button>
+						<button type="button" id="gndmeas_date_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(gndmeas_date_submission)">+ Gndmeas date submission</button>
+						<button type="button" id="gndmeas_time_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(gndmeas_time_submission)">+ Gndmeas time submission</button>
+						<button type="button" id="next_ewi_date_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(next_ewi_date)">+ Next EWI date</button>
+						<button type="button" id="next_ewi_time_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(next_ewi_time)">+ Next EWI time</button>
+						<button type="button" id="nth-day_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(nth-day-extended)">+ Extended nth-day</button>
 					</div>
 				</div>
-				
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label for="update-backbone">Backbone Template</label>
+						<textarea name="delete-backbone" id="update-backbone" cols="30" rows="10" class="form-control" style="resize:none"></textarea>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<label for="preview-backbone">Preview</label>
+						<textarea name="delete-backbone" id="preview-backbone" cols="30" rows="10" class="form-control" style="resize:none" disabled></textarea>
+					</div>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<h5><a href="#" id="show_key_input_display"><i>Click here to show Key Inputs</i></a></h5>
