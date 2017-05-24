@@ -23,6 +23,7 @@
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
                         <li><a href="<?php echo base_url(); ?>communications/chatterbox">Chatter Box</a></li>
+                        <li><a href="<?php echo base_url(); ?>communications/chatterbox_beta">**BETA** Chatter Box</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Miscellaneous</li>
                         <li><a href="<?php echo base_url(); ?>monitoring/faq">Primer and FAQs</a></li>
@@ -38,8 +39,6 @@
                         <li><a href="<?php echo base_url(); ?>data_analysis/site_analysis">Site Analysis</a></li>
                         <li><a href="<?php echo base_url(); ?>data_analysis/column">Column Level</a></li>
                         <li><a href="<?php echo base_url(); ?>data_analysis/node">Node Level</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/subsurface">Subsurface Data</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="<?php echo base_url(); ?>data_analysis/surficial">Surficial Data</a></li>
                         <li role="separator" class="divider"></li>
@@ -63,11 +62,12 @@
                         <li class="dropdown-header">Site Maintenance</li>
                         <li><a href="<?php echo base_url(); ?>reports/site_maintenance/form">Filing Form</a></li>
                         <li><a href="<?php echo base_url(); ?>reports/site_maintenance/all">All Reports Table</a></li>
+                        <li><a href="<?php echo base_url(); ?>generalinformation/index">General Information Tags</a></li>
                     </ul>
                 </li>
 
                  <li class="dropdown dropdown-nav">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span>&ensp;<?php echo $first_name; ?></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span>&ensp;<span id="user_name"><?php echo $first_name; ?></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#"><small><span class="glyphicon glyphicon-user"></span></small>&ensp;Profile</a></li>
                         <li><a href="#"><small><span class="glyphicon glyphicon-envelope"></span></small>&ensp;Inbox</a></li>

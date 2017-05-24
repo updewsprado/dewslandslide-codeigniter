@@ -576,6 +576,7 @@
   </div>
 </div>
   <!-- General Info MODAL -->
+  
   <!-- Save Narratives MODAL -->
   <div class="modal fade col-lg-2" id="save-narrative-modal" role="dialog">
     <div class="modal-dialog modal-md" id="save-narrative-modal-dialog">

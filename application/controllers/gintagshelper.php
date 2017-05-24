@@ -5,11 +5,40 @@ class Gintagshelper extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('gintags_helper_model');
+		$this->load->helper(array('form', 'url'));
+		$this->load->library('form_validation');
 	}
 
 	public function initialize(){
 		$this->gintags_helper_model->createGintagsReferenceTable();
 		$this->gintags_helper_model->createGintagsTable();
+	}
+
+	public function index() {
+		$this->is_logged_in();
+
+		$page = 'Gintags';
+		$data['first_name'] = $this->session->userdata('first_name');
+		$data['last_name'] = $this->session->userdata('last_name');
+		$data['user_id'] = $this->session->userdata("id");
+		
+		$data['title'] = $page;
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/nav');
+		$this->load->view('reports/gintags_report');
+		$this->load->view('templates/footer');
+	}
+
+	public function is_logged_in() {
+		$is_logged_in = $this->session->userdata('is_logged_in');
+		
+		if(!isset($is_logged_in) || ($is_logged_in !== TRUE)) {
+			echo 'You don\'t have permission to access this page. <a href="../lin">Login</a>';
+			die();
+		}
+		else {
+		}
 	}
 
 	public function ginTagsEntry(){
@@ -80,6 +109,11 @@ class Gintagshelper extends CI_Controller {
 
 	public function getAllGinTags(){
 		$result = $this->gintags_helper_model->fetchAllGintags();
+		print json_encode($result);
+	}
+
+	public function getAllGintagDetails(){
+		$result = $this->gintags_helper_model->getGintagsAndReference();
 		print json_encode($result);
 	}
 }
