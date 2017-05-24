@@ -108,6 +108,14 @@ $route['data_analysis/nodereport'] = "node_report_page";
 $route['data_analysis/site_analysis'] = "site_analysis_page";
 $route['data_analysis/rainfall_scanner'] = "rainfall_scanner_page";
 
+/**
+ * Data Analysis Pages Routes Sandbox
+ */
+
+$route['data_analysis/overview_sandbox'] = "overview";
+
+
+
 //Gold
 //$route['gold'] = "monitoring/index";
 $route['logout'] = "gold/logout";

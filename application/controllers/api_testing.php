@@ -1,47 +1,41 @@
-<?php
-// Database login information
-$servername = "localhost";
-$username = "updews";
-$password = "october50sites";
-$dbname = "senslopedb";
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+class api_testing extends CI_Controller {
 
-//Weather Stations
-$GndMeasurementFull;
-$GndMeasurement;
+	public function __construct() {
+		parent::__construct();
+		$this->load->model('api_modal');
+	}
 
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
+		public function SitesData(){ // example  http://localhost/api_testing/SitesData
+			$result = $this->api_modal->getSiteNames();
+			print json_encode($result);
+		}
 
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+		public function SpecificSiteDetails($site){ // example  http://localhost/api_testing/SpecificSiteDetails/agb
+			$result = $this->api_modal->getSpecificSiteDetails($site);
+			print json_encode($result);
+		}
 
-$sql = "SELECT DISTINCT site_id FROM senslopedb.gndmeas order by site_id asc";
-$result = mysqli_query($conn, $sql);
+		public function ColumnNames(){ // example  http://localhost/api_testing/ColumnNames
+			$result = $this->api_modal->getColumnNames();
+			print json_encode($result);
+		}
 
-$numSites = 0;
-if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-    while($row = mysqli_fetch_assoc($result)) {
-        $GndMeasurementFull[$numSites++]["site_id"] = $row["site_id"];
-    
-    }
-} 
+		public function SpecificColumnNames($site){ // example  http://localhost/api_testing/SpecificColumnNames/agb
+			$result = $this->api_modal->getSpecificColumnNames($site);
+			print json_encode($result);
+		}
+
+		public function PerNodeTimestamp($site,$from,$to){ // example  http://localhost/api_testing/PerNodeTimestamp/cudtb/2017-02-01 10:01:00/2017-02-01 13:31:00
+			$result = $this->api_modal->getPerNodeTimestamp($site,str_replace("%20"," ",$from),str_replace("%20"," ",$to));
+			print json_encode($result);
+		}
 
 
-$sql2 = "SELECT DISTINCT crack_id FROM senslopedb.gndmeas where site_id ='agb' order by site_id asc";
-$result2 = mysqli_query($conn, $sql2);
+		public function SpecificSiteRainGauge($site){ // example  http://localhost/api_testing/SpecificSiteRainGauge/agb
+			$result = $this->api_modal->getSpecificSiteRainGauge($site);
+			print json_encode($result);
+		}
 
-$numSites2 = 0;
-if (mysqli_num_rows($result2) > 0) {
-    // output data of each row
-    while($row = mysqli_fetch_assoc($result2)) {
-        $GndMeasurement[$numSites2++]["crack_id"] = $row["crack_id"];
-    
-    }
-} 
-
-echo json_encode($GndMeasurementFull);
-mysqli_close($conn);
+	}
 ?>
