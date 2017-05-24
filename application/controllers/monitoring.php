@@ -35,6 +35,7 @@ class Monitoring extends CI_Controller
 		$latest = []; $extended = [];
 		$overdue = []; $markers = [];
 
+		date_default_timezone_set('Asia/Manila');
 		foreach (json_decode($events) as $event)
 		{
 			$temp = strtotime($event->data_timestamp);
@@ -64,7 +65,6 @@ class Monitoring extends CI_Controller
 			}
 			else
 			{
-				date_default_timezone_set('Asia/Manila');
 				$start = strtotime('tomorrow noon', strtotime($event->validity));
 	 			$end = strtotime('+2 days', $start);
 	 		// 	if (strtotime('now') <= $end + 3600*12)
