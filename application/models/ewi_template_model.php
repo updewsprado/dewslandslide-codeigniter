@@ -96,7 +96,7 @@ class Ewi_template_model extends CI_Model {
 		}
 
 		if ($data->alert_symbols != "") {
-			$query = "SELECT * FROM ewi_template WHERE alert_symbol_level='".$data->alert_symbols."' && alert_status='".$data->alert_status."'";
+			$query = "SELECT * FROM ewi_template WHERE alert_symbol_level='".$data->alert_symbols."' AND alert_status='".$data->alert_status."'";
 			$doesSymExist = $this->db->query($query);
 			$response['symbol'] =  $doesSymExist->num_rows;
 		} else {
@@ -104,7 +104,7 @@ class Ewi_template_model extends CI_Model {
 		}
 
 		if ($data->alert_level != "") {
-			$query = "SELECT * FROM ewi_template WHERE alert_symbol_level='".$data->alert_level."' && alert_status='".$data->alert_status."'";
+			$query = "SELECT * FROM ewi_template WHERE alert_symbol_level='".$data->alert_level."' AND alert_status='".$data->alert_status."'";
 			$doesLevExist = $this->db->query($query);
 			$response['level'] =  $doesLevExist->num_rows;
 		} else {
@@ -126,7 +126,7 @@ class Ewi_template_model extends CI_Model {
 	public function addBackbone($data) {
 		$status = false;
 		if ($this->checkExistingBackbone($data) == 0) {
-			$query = "INSERT INTO ewi_backbone_template VALUES(0,'".$data->alert_status."','".$data->backbone_template."','".$data->last_modified."')";
+			$query = "INSERT INTO ewi_backbone_template VALUES(0,'".$data->alert_status."','".$data->backbone_message."','".$data->last_modified."')";
 			$status = $this->db->query($query);
 		}
 		return $status;
@@ -134,10 +134,8 @@ class Ewi_template_model extends CI_Model {
 
 	public function updateBackbone($data) {
 		$status = false;
-		if ($this->checkExistingBackbone($data) == 0) {
-			$query = "UPDATE ewi_backbone_template SET alert_status='".$data->alert_status."',template='".$data->backbone_template."',last_modified_by='".$data->last_modified."' WHERE id='".$data->id."'";
-			$status = $this->db->query($query);
-		}
+		$query = "UPDATE ewi_backbone_template SET alert_status='".$data->alert_status."',template='".$data->backbone_message."',last_modified_by='".$data->last_modified."' WHERE id='".$data->id."'";
+		$status = $this->db->query($query);
 		return $status;
 	}
 
@@ -148,7 +146,7 @@ class Ewi_template_model extends CI_Model {
 	}
 
 	public function getKeyViaTriggerType($symbol) {
-		$query = "SELECT key_input,alert_symbol_level,alert_status FROM ewi_template WHERE alert_symbol_level='".$symbol."' GROUP BY key_input,alert_symbol_level";
+		$query = "SELECT key_input,alert_symbol_level,alert_status FROM ewi_template WHERE alert_symbol_level='".strtoupper($symbol)."' OR alert_symbol_level='".strtolower($symbol)."' GROUP BY key_input,alert_symbol_level";
 		$result = $this->db->query($query);
 		return $result->result();
 	}
