@@ -18,7 +18,7 @@ class Narrative_generator extends CI_Controller {
 		$result = $this->narrative_automation_model->fetchMessagesFromLastRelease($ack_data);
 		$hasAck = [];
 		foreach ($result as $set) {
-			if (strpos($set->narrative,'no ack') != true) {
+			if (strpos(strtolower($set->narrative),'sms ack') != true) {
 				$hasAck['ack'] = "no_ack";
 			} else {
 				$hasAck['ack'] = "has_ack";
