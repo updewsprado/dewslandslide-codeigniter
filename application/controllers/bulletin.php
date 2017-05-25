@@ -39,40 +39,33 @@
 			$data['public_alert_level'] = $x;
 			$data['triggers'] = $this->bulletin_model->getAllEventTriggers($temp->event_id);
 			$temp_2 = json_decode($data['triggers']);
-			$temp_3 = $this->bulletin_model->getEvent($temp->event_id);
-			$data['event'] = $temp_3;
+			$data['event'] = $this->bulletin_model->getEvent($temp->event_id);
 			$data['reporters'] = array(
 				'reporter_mt' => $this->bulletin_model->getName($temp->reporter_id_mt),
 				'reporter_ct' => $this->bulletin_model->getName($temp->reporter_id_ct),  
 			);
-
-			$internal_alert = str_replace("0", "", substr($temp->internal_alert_level, 2));
-			$internal_alert = preg_replace('/r?x/', "", $internal_alert);
-
-			$data['responses'] = $this->bulletin_model->getResponses($data['public_alert_level'], $internal_alert);
+			$data['responses'] = $this->bulletin_model->getResponses($data['public_alert_level'], $temp->internal_alert_level);
 
 			// Get most recent validity for the said release
-			// foreach ($temp_2 as $trigger) 
-			// {
-			// 	if( $temp->release_id >= $trigger->release_id )
-			// 	{ 
-			// 		$computed_validity = $this->getValidity($trigger->timestamp, $x);
-			// 		break;
-			// 	}
-			// }
+			foreach ($temp_2 as $trigger) 
+			{
+				if( $temp->release_id >= $trigger->release_id )
+				{ 
+					$computed_validity = $this->getValidity($trigger->timestamp, $x);
+					break;
+				}
+			}
 
-			// $isND = substr($temp->internal_alert_level, 0, 2);
-			// if( $x != 'A0' )
-			// {
-			// 	$data['validity'] = $computed_validity;
-			// 	$flag = false;
+			$isND = substr($temp->internal_alert_level, 0, 2);
+			if( $x != 'A0' )
+			{
+				$data['validity'] = $computed_validity;
+				$flag = false;
 				
-			// 	// Adjust timestamps if ND or X0 if end of validity
-			// 	if( $isND == "ND" || strpos($temp->internal_alert_level, 'g0') !== false || strpos($temp->internal_alert_level, 's0') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
-			// 	$data['validity'] = $flag == true ? date( "Y-m-d H:i:s", strtotime($temp->data_timestamp) + 4.5 * 3600) : $computed_validity;
-			// }
-			
-			$data['validity'] = json_decode($temp_3)[0]->validity;
+				// Adjust timestamps if ND or X0 if end of validity
+				if( $isND == "ND" || strpos($temp->internal_alert_level, 'g0') !== false || strpos($temp->internal_alert_level, 's0') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
+				$data['validity'] = $flag == true ? date( "Y-m-d H:i:s", strtotime($temp->data_timestamp) + 4.5 * 3600) : $computed_validity;
+			}
 
 			return $this->load->view('public_alert/bulletin_main', $data, $bool);
 		}

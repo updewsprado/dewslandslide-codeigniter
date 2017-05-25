@@ -93,6 +93,31 @@
                                     </div>
                                 </div>
                             </div>   
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12">
+                                    <div class="panel panel-info">
+                                          <div class="panel-heading">Column Maintenace History</div>
+                                          <div class="panel-body" style="padding-left: 5px;">
+                                              <table id="mTable" class="display table" cellspacing="0" width="100%">
+                                                <thead >
+                                                    <tr >
+                                                        <th>Id</th>
+                                                        <th>Site Name</th>
+                                                        <th>Start Date</th>
+                                                        <th>End Date</th>
+                                                        <th>Personel</th>
+                                                        <th>Activity</th>
+                                                        <th>Object(s)</th>
+                                                        <th>Remarks</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
                              <!-- GRAPHS -->
                             <div class="row">
                                 <div class="col-sm-12 col-md-12">
@@ -116,7 +141,6 @@
                                             <div class="panel-heading">Soms Heatmap</div>
                                             <div class="panel-body" style="text-align: -webkit-center;">
                                                 <form class="form-inline">
-
                                                   <label  for="inlineFormInput">Date : </label>
                                                   <input id="reportrange3" class="form-control reportrange3 mb-2 mr-sm-2 mb-sm-0" type="text" name="datefilter3" value="" placeholder="Nothing selected"/>
 
