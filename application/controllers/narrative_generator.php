@@ -13,4 +13,19 @@ class Narrative_generator extends CI_Controller {
 		return $result;
 	}
 
+	public function checkForAcknowledgement() {
+		$ack_data = $_POST['last_release'];
+		$result = $this->narrative_automation_model->fetchMessagesFromLastRelease($ack_data);
+		$hasAck = [];
+		foreach ($result as $set) {
+			if (strpos($set->narrative,'no ack') != true) {
+				$hasAck['ack'] = "no_ack";
+			} else {
+				$hasAck['ack'] = "has_ack";
+				break;
+ 			}
+		}
+		print json_encode($hasAck);
+	}
+
 }

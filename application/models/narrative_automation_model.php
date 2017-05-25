@@ -17,4 +17,10 @@ class Narrative_automation_model extends CI_Model {
 		$result = $this->db->query($sql);
 		return $result;
 	}
+
+	public function fetchMessagesFromLastRelease($data) {
+		$query = "SELECT * FROM narratives WHERE timestamp <= '".$data['current_release_time']."' AND timestamp >= '".$data['last_release_time']."' AND event_id='".$data['event_id']."'";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
 }

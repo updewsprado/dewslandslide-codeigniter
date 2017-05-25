@@ -106,6 +106,7 @@ $route['generalinformation/removeIndividualGintagEntryViaChatterbox'] = "gintags
 $route['generalinformation/getGintagsViaTag'] = "gintagshelper/getGintagsViaTag";
 $route['generalinformation/initialize'] = "gintagshelper/initialize";
 $route['narrativeAutomation/insert'] = "narrative_generator/insertEwiNarrative";
+$route['narrativeautomation/checkack'] = "narrative_generator/checkForAcknowledgement";
 
 /**
  * Data Analysis Pages Routes
