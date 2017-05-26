@@ -1,4 +1,5 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
+<!-- <script src="/js/third-party/d3.tip.v0.6.3.js"></script> -->
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgTy7hTZqs58DR3fIWdjURY9TGcv2l9kY"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/sensor_overview.js"></script>
@@ -17,7 +18,7 @@
   .district_circle{
     position:absolute;
     z-index:-1;
-}
+  }
 </style>
 <div id="page-wrapper">
   <div class="container">
@@ -88,10 +89,10 @@
     // }
 
     // $(document).ready(function(e)
-      var names = []
-      var nodes_value= []
-      for (var i = 0; i < maxNodesJSON.length; i++) {
-        names.push((maxNodesJSON[(maxNodesJSON.length-1)-i].site).toUpperCase());
+    var names = []
+    var nodes_value= []
+    for (var i = 0; i < maxNodesJSON.length; i++) {
+      names.push((maxNodesJSON[(maxNodesJSON.length-1)-i].site).toUpperCase());
         // nodes_value.push(maxNodesJSON[i].site);
         for (var a = 1 ; a < parseFloat(maxNodesJSON[(maxNodesJSON.length-1)-i].nodes)+1; a++){
           nodes_value.push([parseFloat(i),parseFloat(a),10])
@@ -99,97 +100,115 @@
 
       }
 
-    Highcharts.chart('container', {
+      Highcharts.chart('container', {
 
-    chart: {
-        type: 'heatmap',
-        marginTop: 70,
-        marginBottom: 80,
-        plotBorderWidth: 1,
-        inverted: true,
+        chart: {
+          type: 'heatmap',
+          marginTop: 70,
+          marginBottom: 80,
+          plotBorderWidth: 1,
+          inverted: true,
 
-    },
+        },
 
 
-    title: {
-        text: ' Accelerometer Movement Alert Map'
-    },
+        title: {
+          text: ' Accelerometer Movement Alert Map'
+        },
 
-    xAxis: {
-        categories: names
-    },
+        xAxis: {
+          categories: names
+        },
 
-    yAxis: {
-        title: null
-    },
+        yAxis: {
+          title: null
+        },
 
-    colorAxis: {
-        min: 0,
-        max: 40,
-        minColor: '#FFFFFF',
-        maxColor: Highcharts.getOptions().colors[0]
-    },
+        colorAxis: {
+          min: 0,
+          max: 40,
+          minColor: '#FFFFFF',
+          maxColor: Highcharts.getOptions().colors[0]
+        },
 
-    legend: {
-       enabled:false
-    },
+        legend: {
+         enabled:false
+       },
 
-    tooltip: {
+       tooltip: {
         formatter: function () {
-            return '<b>Site : </b>' + this.series.xAxis.categories[this.point.x] + '</b><br><b>Node : </b>' +
-                 this.point.y;
+          return '<b>Site : </b>' + this.series.xAxis.categories[this.point.x] + '</b><br><b>Node : </b>' +
+          this.point.y;
         }
-    },
+      },
 
-    series: [{
+      series: [{
         name: 'Sales per employee',
         borderWidth: 1,
         data: nodes_value,
-    }]
+      }]
 
-},
+    },
 function (chart) { // on complete
-var svg = d3.select(".highcharts-root"); 
-var districts = svg.selectAll("rect"); 
+  var svg = d3.select(".highcharts-root"); 
+  var districts = svg.selectAll("rect"); 
 
-var district_data = []; 
-var _c = districts.each(function(d, i) { 
+  var district_data = []; 
+  var _c = districts.each(function(d, i) { 
     var bbox = this.getBBox(); 
     var centroid = [
-        bbox.x , 
-        bbox.y
+    bbox.x , 
+    bbox.y
     ];
     var ret = {centroid:centroid, position:bbox.x};
     district_data.push( ret );
     return ret;
-});
+  });
 
+  var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>timestamp:</strong> <span style='color:red'>accel1</span>";
+  }) 
 
+  var tip2 = d3.tip()
+  .attr('class', 'd3-tip1')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>timestamp:</strong> <span style='color:red'>accel2</span>";
+  }) 
 
-svg.selectAll("accel1")
+  svg.call(tip);
+
+  svg.selectAll("accel1")
   .data(district_data) 
   .enter()
   .append("rect")
-     .attr("class", "accel1")
-     .attr("x", function(d){ return d.centroid[0]})
-     .attr("y", function(d){ return d.centroid[1]})
-     .attr("width", 6)
-     .attr("height", 6)
-     .attr("transform",' translate(707,1920) rotate(90) scale(-1,1) scale(1 1)')
-     .attr("fill", function(d){ return "rgb("+d.position+",0,0)"});
-     
-svg.selectAll("accel2")
+  .attr("class", "accel1")
+  .attr("x", function(d){ return d.centroid[0]})
+  .attr("y", function(d){ return d.centroid[1]})
+  .attr("width", 6)
+  .attr("height", 6)
+  .attr("transform",' translate(707,1920) rotate(90) scale(-1,1) scale(1 1)')
+  .on('mouseover', tip.show)
+  .on('mouseout', tip.hide)
+  .attr("fill", function(d){ return "rgb("+d.position+",0,0)"});
+
+  svg.selectAll("accel2")
   .data(district_data)
   .enter()
   .append("rect")
-     .attr("class", "highcharts-point highcharts-color-0 highcharts-point-hover")
-     .attr("x", function(d){ return d.centroid[0]+13})
-     .attr("y", function(d){ return d.centroid[1]+11})
-     .attr("width", 6)
-     .attr("height", 6)
-     .attr("transform",' translate(707,1920) rotate(90) scale(-1,1) scale(1 1)')
-     .attr("fill", function(d){ return "rgb("+d.position+",0,0)"});
+  .attr("class", "highcharts-point highcharts-color-0 highcharts-point-hover")
+  .attr("x", function(d){ return d.centroid[0]+13})
+  .attr("y", function(d){ return d.centroid[1]+11})
+  .attr("width", 6)
+  .attr("height", 6)
+  .attr("transform",' translate(707,1920) rotate(90) scale(-1,1) scale(1 1)')
+  .on('mouseover', tip2.show)
+  .on('mouseout', tip2.hide)
+  .attr("fill", function(d){ return "rgb("+d.position+",0,0)"});
 });
 
-   }
+    }
   </script>
