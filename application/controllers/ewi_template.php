@@ -111,33 +111,46 @@ class Ewi_template extends CI_Controller {
 	}
 
 	public function getKeyInputViaTriggerType() {
-		$data = $_POST['trigger_type'];
-		$template = "";
-		$keyinput = [];
-		for ($counter = 0; $counter < strlen($data); $counter++) {
-			$iterated = isset($data[$counter+(strlen($data)-(strlen($data)-1))]);
-			if (is_numeric($iterated) != null) {
-				$symbol = $data[$counter]."".$data[$counter+1];
-			} else {
-				$symbol = $data[$counter];
-			}
-			$result = $this->ewi_template_model->getKeyViaTriggerType($symbol);
-			array_push($keyinput,$result);
-		}
+		if (isset($_POST['trigger_type'])) {
+			$data = $_POST['trigger_type'];
+			$template = "";
+			$keyinput = [];
 
-		$template = $keyinput[0][0]->key_input;
-
-		for ($counter = 0; $counter < sizeof($keyinput); $counter++) {
-			for ($sec_counter =0; $sec_counter < sizeof($keyinput[$counter]);$sec_counter++) {
-				if (is_numeric($data[0]) && is_numeric($keyinput[$counter][$sec_counter]->key_input)) {
-					$template = $keyinput[$counter][$sec_counter]->key_input;
-					break;
+			for ($counter = 0; $counter < strlen($data); $counter++) {
+				$iterated = isset($data[$counter+(strlen($data)-(strlen($data)-1))]);
+				if (is_numeric($iterated) != null) {
+					$symbol = $data[$counter]."".$data[$counter+1];
 				} else {
-					$template = $keyinput[$counter][$sec_counter]->key_input;
+					$symbol = $data[$counter];
+				}
+				$result = $this->ewi_template_model->getKeyViaTriggerType($symbol);
+				array_push($keyinput,$result);
+			}
+
+			$template = $keyinput[0][0]->key_input;
+
+			for ($counter = 0; $counter < sizeof($keyinput); $counter++) {
+				for ($sec_counter =0; $sec_counter < sizeof($keyinput[$counter]);$sec_counter++) {
+					if (is_numeric($data[0]) && is_numeric($keyinput[$counter][$sec_counter]->key_input)) {
+						$template = $keyinput[$counter][$sec_counter]->key_input;
+						break;
+					} else {
+						$template = $keyinput[$counter][$sec_counter]->key_input;
+					}
 				}
 			}
-		}
+			$result[0]->key_input = $template;
+			$result[0]->alert_symbol_level = $data;
+		} else {
+			$result = [];
+			$a0 = [
+				'key_input'=>'NA',
+				'alert_symbol_level'=>'A0'
+			];
 
+			array_push($result,$a0);
+		}
+		print json_encode($result[0]);
 		// DO NOT DELETE. THIS CODE HAS A PURPOSE.
 		
 		// if (sizeof($keyinput) >= 2) {
@@ -151,16 +164,18 @@ class Ewi_template extends CI_Controller {
 		// 		$template = $template." at ".$keyinput[0][$sec_counter]->key_input;
 		// 	}
 		// }
-
-		$result[0]->key_input = $template;
-		$result[0]->alert_symbol_level = $data;
-		print json_encode($result[0]);
 	}
 
 	public function getBbViaAlertStatus() {
-		$data = $_POST['alert_status'];
-		$result = $this->ewi_template_model->getBbViaAlertStatus($data);
-		print json_encode($result);
+		if (isset($_POST['alert_status'])){
+			$data = $_POST['alert_status'];
+			$result = $this->ewi_template_model->getBbViaAlertStatus($data);
+			print json_encode($result);
+		} else {
+			$data = "A0";
+			$result = $this->ewi_template_model->getBbViaAlertStatus($data);
+			print json_encode($result);
+		}
 	}
 
 	public function getRecommendedResponse() {
