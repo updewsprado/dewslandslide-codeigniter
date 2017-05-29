@@ -1,5 +1,6 @@
 <script src="/js/dewslandslide/reports/gintags_report.js"></script>
 <script src="/js/third-party/bootstrap-tagsinput.js"></script>
+<script src="/js/third-party/highcharts.js"></script>
 
 <link rel="stylesheet" type="text/css" href="../css/dewslandslide/public_alert/monitoring_events_all.css">
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
@@ -72,11 +73,9 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">Analytics</div>
                     <div class="panel-body">
-                        <div class="row" id="analytics-container">
-                            ANALYTICS GOES HERE
+                        <div class="row" id="analytics-container" style="padding-left: 20px;">
                         </div>
-                        <div class="row" id="chart-container">
-                            CHART GOES HERE
+                        <div class="row" id="chart-container" style="width: 35%; height: 45%; margin: 0px;">
                         </div>
                     </div>
                 </div>
