@@ -75,7 +75,7 @@
                     <div class="panel-body">
                         <div class="row" id="analytics-container" style="padding-left: 20px;">
                         </div>
-                        <div class="row" id="chart-container" style="width: 35%; height: 45%; margin: 0px;">
+                        <div class="row" id="chart-container">
                         </div>
                     </div>
                 </div>
