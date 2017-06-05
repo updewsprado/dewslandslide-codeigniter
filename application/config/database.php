@@ -70,39 +70,22 @@ $db['default']['stricton'] = FALSE;
  * Senslope Purged Database
  */
 
-// $db['purged']['hostname'] = 'localhost';
-// $db['purged']['username'] = 'updews';
-// $db['purged']['password'] = 'october50sites';
-// $db['purged']['database'] = 'senslopedb_purged';
-// $db['purged']['dbdriver'] = 'mysql';
-// $db['purged']['dbprefix'] = '';
-// $db['purged']['pconnect'] = TRUE;
-// $db['purged']['db_debug'] = TRUE;
-// $db['purged']['cache_on'] = FALSE;
-// $db['purged']['cachedir'] = '';
-// $db['purged']['char_set'] = 'utf8';
-// $db['purged']['dbcollat'] = 'utf8_general_ci';
-// $db['purged']['swap_pre'] = '';
-// $db['purged']['autoinit'] = TRUE;
-// $db['purged']['stricton'] = FALSE;
+$db['purged']['hostname'] = 'localhost';
+$db['purged']['username'] = 'updews';
+$db['purged']['password'] = 'october50sites';
+$db['purged']['database'] = 'senslopedb_purged';
+$db['purged']['dbdriver'] = 'mysql';
+$db['purged']['dbprefix'] = '';
+$db['purged']['pconnect'] = TRUE;
+$db['purged']['db_debug'] = TRUE;
+$db['purged']['cache_on'] = FALSE;
+$db['purged']['cachedir'] = '';
+$db['purged']['char_set'] = 'utf8';
+$db['purged']['dbcollat'] = 'utf8_general_ci';
+$db['purged']['swap_pre'] = '';
+$db['purged']['autoinit'] = TRUE;
+$db['purged']['stricton'] = FALSE;
 
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
-
-
-$db['sandbox']['hostname'] = '192.168.150.128';
-$db['sandbox']['username'] = 'root';
-$db['sandbox']['password'] = 'senslope';
-$db['sandbox']['database'] = 'senslopedb';
-$db['sandbox']['dbdriver'] = 'mysql';
-$db['sandbox']['dbprefix'] = '';
-$db['sandbox']['pconnect'] = TRUE;
-$db['sandbox']['db_debug'] = TRUE;
-$db['sandbox']['cache_on'] = FALSE;
-$db['sandbox']['cachedir'] = '';
-$db['sandbox']['char_set'] = 'utf8';
-$db['sandbox']['dbcollat'] = 'utf8_general_ci';
-$db['sandbox']['swap_pre'] = '';
-$db['sandbox']['autoinit'] = TRUE;
-$db['sandbox']['stricton'] = FALSE;

@@ -141,7 +141,6 @@
                                             <div class="panel-heading">Soms Heatmap</div>
                                             <div class="panel-body" style="text-align: -webkit-center;">
                                                 <form class="form-inline">
-
                                                   <label  for="inlineFormInput">Date : </label>
                                                   <input id="reportrange3" class="form-control reportrange3 mb-2 mr-sm-2 mb-sm-0" type="text" name="datefilter3" value="" placeholder="Nothing selected"/>
 
