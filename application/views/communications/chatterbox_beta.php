@@ -18,12 +18,12 @@
 <img id="bg-img-chatterbox" src="../../../images/dews-l-logo.png" >
 <div class="container-fluid">
 	<div class="row nav-margin">
-		<div class="col-xs-3 division">
+		<div class="col-sm-3 division">
 			<div class="panel panel-primary">
 				<div class="panel-heading">MESSAGES</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-xs-12 form-group">
+						<div class="col-sm-12 form-group">
 							<div class="input-group">
 								<input type="text" class="awesomplete form-control dropdown-input" placeholder="Type name..." data-multiple />
 								<span class="input-group-btn">
@@ -49,7 +49,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-7 division hidden" id="main-container">
+		<div class="col-sm-7 division hidden" id="main-container">
 			<div id="convo-header" class="panel panel-success">
 				<div class="panel-heading">Sitename: [SAMPLE] Office: [Sample]</div>
 				<div class="panel-body"></div>
@@ -63,23 +63,23 @@
 						</div>
 						<textarea id="msg" name="msg" class="form-control" rows="5"></textarea>
 					</div>
-					<div class="form-group">
-						<div class="col-xs-6">
+					<div class="form-group" id="send-char-remain">
+						<div class="col-sm-6">
 							<p>Remaining characters: <b id="remaining_chars">800</b></p>
 						</div>						
-						<div class="col-xs-6 right-content">
+						<div class="col-sm-6 right-content">
 							<button type="button" class="btn btn-primary" id="send-msg">Send</button>
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="col-xs-12 left-content" style="padding-left: 30px;margin-bottom: 5px;">
+						<div class="col-sm-12 left-content" style="padding-left: 30px;margin-bottom: 5px;">
 							<a href="#" id="btn-ewi" data-toggle="modal" data-dismiss="modal">Load Message Templates</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-2 division">
+		<div class="col-sm-2 division">
 			<div class="panel panel-primary">
 				<div class="panel-heading">OPTIONS</div>
 				<div class="panel-body align-center">

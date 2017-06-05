@@ -1,6 +1,7 @@
 <script src="/js/dewslandslide/reports/gintags_report.js"></script>
 <script src="/js/third-party/bootstrap-tagsinput.js"></script>
 <script src="/js/third-party/highcharts.js"></script>
+<script src="/js/third-party/notify.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="../css/dewslandslide/public_alert/monitoring_events_all.css">
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
