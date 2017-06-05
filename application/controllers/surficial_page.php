@@ -18,7 +18,7 @@ class Surficial_page extends CI_Controller {
 		
 		$data['title'] = $page;
 
-		$this->load->view('templates/header', $data);
+		// $this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
 		$this->load->view('templates/footer');
 		$this->load->view('data_analysis/surficial', $data);
@@ -39,6 +39,12 @@ class Surficial_page extends CI_Controller {
 		$result = $this->surficial_model->getGroundCrackName($data_result['site']);
 		print json_encode($result);
 	}
+
+	public function getDatafromGroundCrackNameUrl($site){
+		$result = $this->surficial_model->getGroundCrackName($site);
+		print json_encode($result);
+	} 
+
 	public function getDatafromGroundLatestTime(){
 		$data_result = $_POST['data'];
 		$result = $this->surficial_model->getGroundLatestTime($data_result['site']);
