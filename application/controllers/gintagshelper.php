@@ -116,4 +116,18 @@ class Gintagshelper extends CI_Controller {
 		$result = $this->gintags_helper_model->getGintagsAndReference();
 		print json_encode($result);
 	}
+
+	public function getAnalytics() {
+		$data = json_decode($_POST['data']);
+		$tag_collection = explode(",",$data->gintags);
+		$result_set = [];
+		$analytics_collection = [];
+		foreach ($tag_collection as $tag) {
+			$data->gintags = $tag;
+			$result = $this->gintags_helper_model->getAnalytics($data);
+			$result_set[str_replace("#","",$tag)] = $result;
+			array_push($analytics_collection,$result_set);
+		}
+		print json_encode($analytics_collection);
+	}
 }

@@ -165,4 +165,14 @@ class Gintags_helper_model extends CI_Model {
       $result = $this->db->query($sql);
       return $result->result();
     }
+
+    public function getAnalytics($data){
+      $query = "SELECT tag_id FROM gintags_reference WHERE tag_name LIKE '%".$data->gintags."%'";
+      $result = $this->db->query($query);
+      foreach ($result->result() as $tag_id) {
+        $query = "SELECT * FROM gintags WHERE timestamp >= '".$data->start_date." 00:00:00' AND timestamp <= '".$data->end_date." 23:59:59' AND tag_id_fk='".$tag_id->tag_id."'";
+        $result = $this->db->query($query);
+        return $result->result();
+      }
+    }
 }
