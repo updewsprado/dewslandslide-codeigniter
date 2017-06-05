@@ -122,7 +122,8 @@ $route['data_analysis/sensor_overview'] = "sensor_overview_page";
 $route['data_analysis/nodereport'] = "node_report_page";
 $route['data_analysis/site_analysis'] = "site_analysis_page";
 $route['data_analysis/rainfall_scanner'] = "rainfall_scanner_page";
-
+$route['data_analysis/Eos_onModal/(:any)/(:any)/(:any)/(:any)'] = "Eos_modal";
+$route['data_analysis/Eos_onModal/(:any)/(:any)/(:any)/(:any)/(:any)'] = "Eos_modal";
 //Gold
 //$route['gold'] = "monitoring/index";
 $route['logout'] = "gold/logout";
