@@ -129,6 +129,10 @@ $route['data_analysis/Eos_onModal/(:any)/(:any)/(:any)/(:any)/(:any)'] = "Eos_mo
  * Data Analysis Pages Routes /SANDBOX
  */
 $route['data_analysis/overview_sandbox'] = "overview";
+$route['data_analysis/earth_quake_scanner'] = "earth_quake_page";
+
+
+
 //Gold
 //$route['gold'] = "monitoring/index";
 $route['logout'] = "gold/logout";
