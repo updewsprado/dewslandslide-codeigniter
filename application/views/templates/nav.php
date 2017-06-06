@@ -22,9 +22,9 @@
                         <li><a href="<?php echo base_url(); ?>monitoring/events">Monitoring Events Table</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
-                        <li><a href="<?php echo base_url(); ?>communications/chatterbox_beta">Chatter Box <span class="text-warning"><i>*NEW*</i></span></a></li>
-                        <li><a href="<?php echo base_url(); ?>communications/chatterbox">Chatter Box <span class="text-warning"><i>*OLD*</i></span></a></li>
-                        <li><a href="<?php echo base_url(); ?>communications/ewi_template"><span class="text-info">Early Warning Information Template Creator <span class="text-warning"><i>*NEW*</i></span></span></a></li>
+                        <li><a href="<?php echo base_url(); ?>communications/chatterbox">Chatter Box <span><i>*OLD*</i></span></a></li>
+                        <li><a href="<?php echo base_url(); ?>communications/chatterbox_beta"><span class="text-primary">Chatter Box <span class="text-warning" style="color: #f2ff45"><i>*NEW*</i></span></span></a></li>
+                        <li><a href="<?php echo base_url(); ?>communications/ewi_template"><span class="text-primary">Early Warning Information Template Creator <span class="text-warning" style="color: #f2ff45"><i>*NEW*</i></span></span></a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Miscellaneous</li>
                         <li><a href="<?php echo base_url(); ?>monitoring/faq">Primer and FAQs</a></li>
@@ -47,6 +47,7 @@
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
                         <li><a href="<?php echo base_url(); ?>communications/responsetracker">Response Tracker</a></li>
+                        <li><a href="<?php echo base_url(); ?>generalinformation/index">Generic Information Tags</a></li>
                     </ul>
                 </li>
 
@@ -63,7 +64,6 @@
                         <li class="dropdown-header">Site Maintenance</li>
                         <li><a href="<?php echo base_url(); ?>reports/site_maintenance/form">Filing Form</a></li>
                         <li><a href="<?php echo base_url(); ?>reports/site_maintenance/all">All Reports Table</a></li>
-                        <li><a href="<?php echo base_url(); ?>generalinformation/index">Generic Information Tags</a></li>
                     </ul>
                 </li>
 
