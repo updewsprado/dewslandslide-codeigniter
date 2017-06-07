@@ -1,14 +1,19 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Site_analysis_page extends CI_Controller {
 
-	public function __construct() {
+class Chatterbox_beta extends CI_Controller {
+
+	public function __construct(){
 		parent::__construct();
-		$this->load->helper('url');
+		$this->load->model('contacts_model');
+		$this->load->model('gintags_helper_model');
+		$this->load->helper(array('form', 'url'));
+		$this->load->library('form_validation');
 	}
 
-	public function index(){
+	public function index() {
 		$this->is_logged_in();
-		$page = 'Integrated Site Analysis';
+
+		$page = 'Chatterbox';
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
 		$data['user_id'] = $this->session->userdata("id");
@@ -17,9 +22,11 @@ class Site_analysis_page extends CI_Controller {
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
+		$this->load->view('communications/handlebars-chatterbox_beta');
+		$this->load->view('communications/chatterbox_beta');
 		$this->load->view('templates/footer');
-		$this->load->view('data_analysis/site_analysis', $data);
 	}
+
 	public function is_logged_in() {
 		$is_logged_in = $this->session->userdata('is_logged_in');
 		
@@ -30,5 +37,6 @@ class Site_analysis_page extends CI_Controller {
 		else {
 		}
 	}
+
 }
 ?>

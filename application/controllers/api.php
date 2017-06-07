@@ -294,9 +294,7 @@ class API extends CI_Controller {
 		}
 
 		public function GroundDataFromLEWS($gsite){ // example http://localhost/api/GroundDataFromLEWS/AGB
-
 			$os = PHP_OS;
-
 			if (strpos($os,'WIN') !== false) {
 				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
 				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\gndmeasfull.py';
@@ -314,8 +312,29 @@ class API extends CI_Controller {
 
 			exec($command, $output, $return);
 			print json_encode($output);
-			
 		}
+
+		public function GroundDataFromLEWSInRange($gsite,$fdate,$tdate){ // example http://localhost/api/GroundDataFromLEWSInRange/AGB/2013-01-01/2017-01-01
+			$os = PHP_OS;
+			if (strpos($os,'WIN') !== false) {
+				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
+				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\gndmeasInRange.py';
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
+				$fileName = '/var/www/updews-pycodes/Liaison/gndmeasInRange.py';
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
+
+			$command = $pythonPath.' '.$fileName.' '.$gsite.' '.$fdate.' '.$tdate;
+
+			exec($command, $output, $return);
+			print json_encode($output);
+		}
+
 
 		public function GroundVelocityDisplacementData($site,$cid){ // example http://localhost/api/GroundVelocityDisplacementData/AGB/A
 
@@ -456,16 +475,39 @@ class API extends CI_Controller {
 
 		}
 
+		public function last10Computation($site){ //example http://localhost/api/last10Computation/agb
+			$os = PHP_OS;
+
+			if (strpos($os,'WIN') !== false) {
+				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
+				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\gndmeasComputation.py';
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
+				$fileName = '/var/www/updews-pycodes/Liaison/gndmeasComputation.py';
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
+			
+			$command = $pythonPath.' '.$fileName.' '.$site;
+
+			exec($command, $output, $return);
+			print json_encode($output[0]);
+
+		}
+
 		public function heatmap($site,$tdate,$days){ //example http://localhost/api/heatmap/agb
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
 				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
-				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\heatmap-visual.py';
+				$fileName = 'C:\xampp\updews-pycodes\Analysis\Soms\heatmap.py';
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
 				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
-				$fileName = '/var/www/updews-pycodes/Liaison/heatmap-visual.py';
+				$fileName = '/var/www/updews-pycodes/Analysis/Soms/heatmap.py';
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";

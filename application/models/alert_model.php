@@ -58,7 +58,7 @@ class Alert_Model extends CI_Model
 			$path = base_url() . 'temp/csvmonitoring/';
 		}
 		else {
-			$path = base_url() . 'ajax/csvmonitoring/';
+			$path = base_url() . 'temp/csvmonitoring/';
 		}
 		
 		// Set your CSV feed
@@ -132,7 +132,7 @@ class Alert_Model extends CI_Model
 			$path = base_url() . 'temp/csvmonitoring/';
 		}
 		else {
-			$path = base_url() . 'ajax/csvmonitoring/';
+			$path = base_url() . 'temp/csvmonitoring/';
 		}
 		
 		// Set your CSV feed

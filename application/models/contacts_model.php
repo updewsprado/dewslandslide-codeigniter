@@ -143,7 +143,7 @@ class Contacts_model extends CI_Model {
 	}
 
 	public function getOngoingEvents(){
-		$query = $this->db->query("SELECT * from public_alert_event WHERE status='on-going' OR status='extended'");
+		$query = $this->db->query("SELECT DISTINCT public_alert_event.event_id,public_alert_event.site_id from public_alert_event INNER JOIN public_alert_trigger ON public_alert_event.event_id=public_alert_trigger.event_id WHERE status='on-going' OR status='extended'");
 		return $query;
 	}
 

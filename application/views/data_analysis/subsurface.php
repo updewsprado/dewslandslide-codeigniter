@@ -1,71 +1,15 @@
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/subsurface_level.js"></script>
- <script src="http://d3js.org/d3.v3.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-<script src="https://code.highcharts.com/stock/highstock.js"></script>
-<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="/js/third-party/highstock.js"></script>
+<script src="/js/third-party/exporting.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/third-party/daterangepicker.css">
+<script src="/js/third-party/daterangepicker.js"></script>
+<script src="/js/third-party/inferno.js"></script>
 <style type="text/css">
  #submit{     
   height: 32px;
   margin-top: 5px;
   width: 156px;
 
-}
-text.mono {
-  font-size: 6pt;
-}
-text.axes {
-  font-size: 12pt;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.bar {
-  fill: orange;
-}
-
-.bar:hover {
-  fill: orangered ;
-}
-
-.x.axis path {
-  display: none;
-}
-
-.d3-tip {
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
-}
-
-/* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  position: absolute;
-  text-align: center;
-}
-
-/* Style northward tooltips differently */
-.d3-tip.n:after {
-  margin: -1px 0 0 0;
-  top: 100%;
-  left: 0;
 }
 </style>
 <div id="page-wrapper">
@@ -74,35 +18,33 @@ text.axes {
       <div class="col-lg-12">
         <h1 class="page-header" id="header-site">Sub-Surface Analysis Charts
         </h1>
-        <div class="heatmap"></div>
       </div>
     </div>
-    <div class="col-lg-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title"><i class=""></i> Search Tool</h3>
-        </div>
-        <div class="panel-body">
-          <table class="table" id="searchtool" >
-            <tr>
-              <th> Site: </th>
-              <td><select class="form-control"  name="sitegeneral" id="sitegeneral" style=" width: auto;" ></td>
-            </tr>
-            <tr class="datetable">
-              <th class="datetable"> Date: </th>
-              <td class="datetable">  <div id="reportrange" class="pull-left form-control cols-xs-7" style="background: #fff;cursor: pointer;padding: 5px 10px;border: 1px solid #ccc;width: 226.22222px;" ;margin-bottom: 10px;">
-                <i class=""></i>&nbsp;
-                <span id="dateAnnotation"></span> <b class="caret"></b>
-              </td>
-            </tr>
-            <tr>
-              <th></th>
-              <td> <input id="submit"  type="button" value="Submit"  style=" width: 226.22222px;" ></td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
+    <div class="col-lg-12" align="center">
+       <div class="panel panel-default">
+            <div class="panel-heading pull-left"><b>SEARCH TOOL:</b></div>
+            <div class="panel-body">
+              <form class="form-inline" id="searchtool">
+                <div class="form-group">
+                  <label for="site">Site:</label>
+                  <select class="form-control"  name="sitegeneral" id="sitegeneral" style=" width: auto;" ></select>
+                  &nbsp;&nbsp;&nbsp;
+                </div>
+                <div class="form-group">
+                  <label for="pwd">Date Range:</label>
+                  <div id="reportrange" class=" form-control cols-xs-7" style="background: #fff;cursor: pointer;padding: 5px 10px;border: 1px solid #ccc;width: 226.22222px;" ;margin-bottom: 10px;">
+                    <i class=""></i>&nbsp;
+                    <span id="dateAnnotation"></span> <b class="caret"></b></div>
+                    &nbsp;&nbsp;&nbsp;
+                  </div>
+                  <div class="form-group">
+                  <!-- <button type="button" id="submit" class="btn btn-info" style="margin-top: 0px;">Submit</button> -->
+                   &nbsp;&nbsp;&nbsp;
+                 </div>
+               </form>
+             </div>
+           </div>
+         </div>
     <div class="col-lg-8">  
     </div>
     <div class="col-lg-12">
