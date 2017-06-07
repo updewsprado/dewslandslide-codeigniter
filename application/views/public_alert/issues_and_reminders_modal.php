@@ -118,7 +118,7 @@
 				</div>
 			</div>
 			<div class="modal-body" id="issues-individual-view" hidden="hidden">
-				<div class="row"><div class="col-sm-12"><div id="issue-loader"></div></div></div>
+				<div class="row"><div class="col-sm-12"><div class="issue-loader"></div></div></div>
 			</div>
 			<div class="modal-body show-bar">
 				<div class="text-center"><a data-show="0">Add Issue/Reminder</a></div>
@@ -183,7 +183,14 @@
 			</div>
 			<div class="modal-body">
 				<div class="row"><div class="col-sm-12"><h4>Do you really want to <span id="action"></span> this reminder/issue?</h4></div></div>
-				<div class="row"><div class="col-sm-12"><div class="issue-loader"></div></div></div>
+				<!-- <div class="row"><div class="col-sm-12"><div class="issue-loader"></div></div></div> -->
+				<div id="resolution-div">
+					<hr/>
+					<div class="form-group">
+						<label for="resolution">Resolution (Optional):</label>
+						<textarea class="form-control" rows="3" id="resolution"></textarea>
+					</div>
+				</div>
 			</div>
 			<div class="modal-footer">
 	    		<button id="add-issue" class="btn btn-danger" role="button">Add</button>

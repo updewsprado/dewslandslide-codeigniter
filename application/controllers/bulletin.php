@@ -66,6 +66,8 @@
 				if( $isND == "ND" || strpos($temp->internal_alert_level, 'g0') !== false || strpos($temp->internal_alert_level, 's0') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
 				$data['validity'] = $flag == true ? date( "Y-m-d H:i:s", strtotime($temp->data_timestamp) + 4.5 * 3600) : $computed_validity;
 			}
+			
+			// $data['validity'] = json_decode($temp_3)[0]->validity;
 
 			return $this->load->view('public_alert/bulletin_main', $data, $bool);
 		}

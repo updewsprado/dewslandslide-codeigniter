@@ -27,7 +27,7 @@
                         <li><a href="<?php echo base_url(); ?>communications/ewi_template"><span class="text-primary">Early Warning Information Template Creator <span class="text-warning" style="color: #f2ff45"><i>*NEW*</i></span></span></a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Miscellaneous</li>
-                        <li><a href="<?php echo base_url(); ?>monitoring/faq">Primer and FAQs</a></li>
+                        <li><a href="<?php echo base_url(); ?>monitoring/faq">Manuals, Primer, and FAQs</a></li>
                         <li><a href="<?php echo base_url(); ?>monitoring/issues_and_reminders">Monitoring Issues and Reminders</a></li>
                     </ul>
                 </li>
