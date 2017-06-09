@@ -473,16 +473,24 @@
 	              </div>
 	            </div>
 	            <div class="col-sm-6">
+	              <div class="form-group" id="alert-group">
+	                <label for="internal-alert">Internal Alert :</label>
+	                <select name="" id="internal-alert" class="form-control">
+	                </select>
+	              </div>
+	            </div>
+	          </div>
+	          <div class="row">
+  	            <div class="col-sm-6">
 	              <div class="form-group" id="site-group">
 	                <label for="sites">Sites :</label>
 	                <select name="" id="sites" name="sites" class="form-control">
 	                </select>
 	              </div>
 	            </div>
-	          </div>
-	          <div class="row">
 	            <div class="col-sm-6">
 	              <div class="form-group">
+	              <label for="ewi-date-picker">Time of release :</label>
 	                <div class='input-group date' id='ewi-date-picker'>
 	                    <input type='text' class="form-control" />
 	                    <span class="input-group-addon">
@@ -491,16 +499,15 @@
 	                </div>
 	              </div>
 	            </div>
-
-	            <div class="col-sm-6">
-	              <div class="form-group cmd-ewi-chatterbox right-content">
-	              	<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-	                <button type="submit" value="submit" id="confirm-ewi" class="btn btn-primary" data-dismiss="modal">Confirm</button>
-	              </div>   
-	            </div>
 	          </div>
 	        </div>
 	      </div>
+			<div class="modal-footer">
+				<div class="form-group cmd-ewi-chatterbox right-content">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					<button type="submit" value="submit" id="confirm-ewi" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+				</div>   
+			</div>
 	    </div>  
 	  </div>
 	</div>
