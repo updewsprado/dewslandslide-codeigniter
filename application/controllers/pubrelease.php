@@ -54,8 +54,6 @@ class Pubrelease extends CI_Controller {
 				// $data['releases'] = $temp['releases'];				
 				
 				$data['title'] = "DEWS-Landslide Monitoring Events Table";
-				$data['events'] = $this->pubrelease_model->getAllEvents();
-		    	$data['releases'] = $this->pubrelease_model->getAllReleasesWithSite();
 				break;
 
 			case 'monitoring_faq': $data['title'] = "DEWS-Landslide Monitoring FAQ";
@@ -70,6 +68,87 @@ class Pubrelease extends CI_Controller {
 	public function getEvent($event_id)
 	{
 		$result = $this->pubrelease_model->getEvent($event_id);
+		echo "$result";
+	}
+
+	public function getAllEventsAsync()
+	{
+		$draw = $_POST["draw"];//counter used by DataTables to ensure that the Ajax returns from server-side processing requests are drawn in sequence by DataTables
+		$orderByColumnIndex  = $_POST['order'][0]['column'];// index of the sorting column (0 index based - i.e. 0 is the first record)
+		$orderBy = $_POST['columns'][$orderByColumnIndex]['data'];//Get name of the sorting column from its index
+		$orderType = $_POST['order'][0]['dir']; // ASC or DESC
+		$start  = $_POST["start"];//Paging first record indicator.
+		$length = $_POST['length'];//Number of records that the table can display in the 
+		                           //current draw
+		$extraFilter = $_POST['extra_filter'];
+
+		$recordsTotal = $this->pubrelease_model->getEventCount($status);
+
+		function addTableName($x)
+		{
+			switch ($x) {
+				case 'event_id':
+				case 'status':
+				case 'event_start':
+				case 'validity':
+					$x = "public_alert_event." . $x;
+					break;
+				case 'name':
+				case 'id':
+					$x = "site." . $x;
+					break;
+				case 'internal_alert_level': 
+					$x = "public_alert_release." . $x;
+					break;
+			}
+
+			return $x;
+		}
+
+		$orderBy = addTableName($orderBy);
+
+		if( !empty($_POST['search']['value']) || $extraFilter['hasFilter'] != false )
+		{
+			$search = [];
+			if( $_POST['search']['value'] != '' )
+			{
+				for( $i=0; $i<count( $_POST['columns'] ); $i++ ) 
+				{
+					$x = addTableName( $_POST['columns'][$i]['data'] );
+		            $search[ $x ] = $_POST['search']['value'];
+		        }
+		    }
+	        $search = count($search) == 0 ? null : $search;
+
+	        $filter = [];
+	        if( $extraFilter['status'] != null ) $filter[ addTableName('status') ] = $extraFilter['status'];
+	        if( $extraFilter['site'] != null ) $filter[ addTableName('id') ] = $extraFilter['site'];
+	        $filter = count($filter) == 0 ? null : $filter;
+
+	        $recordsFiltered = $this->pubrelease_model->getEventCount($search, $filter);
+
+	        $data = $this->pubrelease_model->getAllEvents($search, $filter, $orderBy, $orderType, $start, $length);
+		}
+		else {
+			$data = $this->pubrelease_model->getAllEvents(null, null, $orderBy, $orderType, $start, $length);
+
+			$recordsFiltered = $recordsTotal;
+		}
+
+		$response = array (
+	        "draw" => $draw,
+	        "recordsTotal" => $recordsTotal,
+	        "recordsFiltered" => $recordsFiltered,
+	        "data" => $data
+	    );
+
+		// $result = $this->pubrelease_model->getAllEvents();
+		echo json_encode($response);
+	}
+
+	public function getSites()
+	{
+		$result = $this->pubrelease_model->getSites();
 		echo "$result";
 	}
 
@@ -108,6 +187,7 @@ class Pubrelease extends CI_Controller {
 		$status = $_POST['status'];
 		$latest_trigger_id = NULL;
 		$site_id = $_POST['site'];
+		if( (int) $site_id == 0 ) $site_id = $this->pubrelease_model->getSiteID($_POST['site']);
 		$event_validity = NULL;
 
 		if( $status == 'new' )

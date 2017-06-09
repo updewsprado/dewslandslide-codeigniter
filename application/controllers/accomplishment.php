@@ -6,7 +6,6 @@
 
 		public function __construct() {
 			parent::__construct();
-			$this->is_logged_in();
 			$this->load->helper('url');
 			$this->load->model('accomplishment_model');
 		}
@@ -16,6 +15,7 @@
 			$data['user_id'] = $this->session->userdata("id");
 			$data['first_name'] = $this->session->userdata('first_name');
 			$data['last_name'] = $this->session->userdata('last_name');
+			$this->is_logged_in();
 			
 			$data['title'] = "DEWS-Landslide Accomplishment Report Filing Form";
 
@@ -96,20 +96,14 @@
 			if(count($forUpdate) > 0)
 			{
 				foreach ($forUpdate as $x) {
-					$this->accomplishment_model->update('id', $x->id, 'narratives', $x);
+					$this->accomplishment_model->update('id', $x['id'], 'narratives', $x);
 				}
 			}
 		}
 
-		public function deleteNarrative()
-		{
-			$data = array( 'id' => $_POST['narrative_id'] );
-			$this->accomplishment_model->delete('narratives', $data);
-		}
-
 		public function insertData()
 		{
-		 	$data = array (
+		 	$data  = array (
 		 		'staff_id' => $_POST['staff_id'],
 		 		'shift_start' => $_POST['shift_start'],
 		 		'shift_end' => $_POST['shift_end'],

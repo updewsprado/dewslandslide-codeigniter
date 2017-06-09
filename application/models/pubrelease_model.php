@@ -148,6 +148,13 @@ class Pubrelease_Model extends CI_Model
 		return $query->result_object();
 	}
 
+	public function getSiteID($code)
+	{
+		$this->db->select("id");
+		$query = $this->db->get_where('site', array('name' => $code));
+		return $query->row()->id;
+	}
+
 	public function getBulletinNumber($site)
 	{
 		$sql = "SELECT bulletin_number
@@ -213,14 +220,60 @@ class Pubrelease_Model extends CI_Model
 		return $query->result();
 	}
 
-	public function getAllEvents()
+	/*public function getAllEvents()
 	{
 		$this->db->select('public_alert_event.*, site.*, public_alert_release.*');
 		$this->db->from('public_alert_event');
 		$this->db->join('site', 'public_alert_event.site_id = site.id');
 		$this->db->join('public_alert_release', 'public_alert_event.latest_release_id = public_alert_release.release_id');
 		$query = $this->db->get();
-		return json_encode($query->result_object());
+		return $query->result_object();
+	}*/
+
+	public function getEventCount($search = null, $filter = null)
+	{
+		$this->db->select('COUNT(*)');
+		$this->db->from('public_alert_event');
+		$this->db->join('site', 'public_alert_event.site_id = site.id');
+		$this->db->join('public_alert_release', 'public_alert_event.latest_release_id = public_alert_release.release_id');
+		if( !is_null($filter) ) $this->db->where($filter);
+		if( !is_null($search) ) {
+			// $this->db->or_like($search);
+			$open = "("; $where = [];
+			foreach ($search as $key => $value) {
+				array_push($where, "$key LIKE '%$value%'");
+			}
+			$final = $open . implode(" OR ", $where) . ")";
+			$this->db->where($final);
+		}
+		$query = $this->db->get();
+		return $query->result_array()[0]["COUNT(*)"];
+	}
+
+	public function getAllEvents($search = null, $filter = null, $orderBy, $orderType, $start, $length)
+	{
+        $this->db->select('public_alert_event.*, site.*, public_alert_release.*');
+		$this->db->from('public_alert_event');
+		$this->db->join('site', 'public_alert_event.site_id = site.id');
+		$this->db->join('public_alert_release', 'public_alert_event.latest_release_id = public_alert_release.release_id');
+		if( !is_null($filter) ) $this->db->where($filter);
+		if( !is_null($search) ) {
+			// $this->db->or_like($search);
+			$open = "("; $where = [];
+			foreach ($search as $key => $value) {
+				array_push($where, "$key LIKE '%$value%'");
+			}
+			$final = $open . implode(" OR ", $where) . ")";
+			$this->db->where($final);
+		}
+		$this->db->order_by($orderBy, $orderType);
+		$this->db->limit($length, $start);
+		$query = $this->db->get();
+		// if( !is_null($search) ) {
+		// 	$x = $this->db->last_query();
+		// 	var_dump( $x );
+		// }
+		return $query->result_array();
 	}
 
 	public function getAllReleasesWithSite()

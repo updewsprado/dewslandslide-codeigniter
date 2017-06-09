@@ -78,14 +78,36 @@ $route['communications/chatterbox/gintagcontacts'] = "chatterbox/get_comm_contac
 $route['communications/chatterbox/addcontact'] = "chatterbox/addcontacts";
 
 /**
+ * NEW Chatterbox **BETA**
+ */
+
+$route['communications/chatterbox_beta'] = "chatterbox_beta/index";
+$route['communications/ewi_template'] = "ewi_template/index";
+$route['communications/fetchalltemplate'] = "ewi_template/getAllTemplates";
+$route['communications/fetchallbackbonetemplate'] = "ewi_template/getAllBackboneTemplates";
+$route['communications/addtemplate'] = "ewi_template/addTemplate";
+$route['communications/updatetemplate'] = "ewi_template/updateTemplate";
+$route['communications/deletetemplate'] = "ewi_template/deleteTemplate";
+$route['communications/deletebackbone'] = "ewi_template/deleteBackboneMessage";
+$route['communications/getkeypointsviacategory'] = "ewi_template/getKeyViaCategory";
+$route['communications/addbackbonemessage'] = "ewi_template/addBackboneMessage";
+$route['communications/updatebackbonemessage'] = "ewi_template/updateBackboneMessage";
+$route['communications/getkeyinputviatriggertype'] = "ewi_template/getKeyInputViaTriggerType";
+$route['communications/getbackboneviastatus'] = "ewi_template/getBbViaAlertStatus";
+$route['communications/getrecommendedresponse'] = "ewi_template/getRecommendedResponse";
+
+/**
 * General Information Tagging
 */
+$route['generalinformation/index'] = "gintagshelper/index";
 $route['generalinformation/insertGinTags'] = "gintagshelper/ginTagsEntry";
 $route['generalinformation/removeGintagsEntryViaChatterbox'] = "gintagshelper/removeGintagsEntryViaChatterbox";
 $route['generalinformation/removeIndividualGintagEntryViaChatterbox'] = "gintagshelper/removeIndiGintagsChatterbox";
 $route['generalinformation/getGintagsViaTag'] = "gintagshelper/getGintagsViaTag";
 $route['generalinformation/initialize'] = "gintagshelper/initialize";
+$route['generalinformation/getanalytics'] = "gintagshelper/getAnalytics";
 $route['narrativeAutomation/insert'] = "narrative_generator/insertEwiNarrative";
+$route['narrativeautomation/checkack'] = "narrative_generator/checkForAcknowledgement";
 
 /**
  * Data Analysis Pages Routes
@@ -100,7 +122,8 @@ $route['data_analysis/sensor_overview'] = "sensor_overview_page";
 $route['data_analysis/nodereport'] = "node_report_page";
 $route['data_analysis/site_analysis'] = "site_analysis_page";
 $route['data_analysis/rainfall_scanner'] = "rainfall_scanner_page";
-
+$route['data_analysis/Eos_onModal/(:any)/(:any)/(:any)/(:any)'] = "Eos_modal";
+$route['data_analysis/Eos_onModal/(:any)/(:any)/(:any)/(:any)/(:any)'] = "Eos_modal";
 //Gold
 //$route['gold'] = "monitoring/index";
 $route['logout'] = "gold/logout";

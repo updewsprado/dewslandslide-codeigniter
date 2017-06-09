@@ -503,7 +503,7 @@ class API extends CI_Controller {
 
 			if (strpos($os,'WIN') !== false) {
 				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
-				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\heatmap-visual.py';
+				$fileName = 'C:\xampp\updews-pycodes\Analysis\Soms\heatmap.py';
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
 				$pythonPath = '/home/ubuntu/anaconda2/bin/python';

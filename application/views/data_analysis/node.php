@@ -21,7 +21,7 @@
         </div>                                        
         <div class="row">
             <div class="col-lg-4" >
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title"><i class=""></i> Search Tool</h3>
                     </div>
@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div class="col-lg-8">
-                <div class="panel panel-default">
+                <div class="panel panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title"><i class=""></i> Node Summary </h3>
                     </div>
@@ -62,7 +62,7 @@
         </div>
         <div class="row" id="moisture-panel">
             <div class="col-lg-12">
-                <div class="panel panel-default">
+                <div class="panel panel-warning">
                     <div class="panel-heading">
                         <h3 class="panel-title"> Column Chart</h3>
                     </div>

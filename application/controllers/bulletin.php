@@ -39,17 +39,12 @@
 			$data['public_alert_level'] = $x;
 			$data['triggers'] = $this->bulletin_model->getAllEventTriggers($temp->event_id);
 			$temp_2 = json_decode($data['triggers']);
-			$temp_3 = $this->bulletin_model->getEvent($temp->event_id);
-			$data['event'] = $temp_3;
+			$data['event'] = $this->bulletin_model->getEvent($temp->event_id);
 			$data['reporters'] = array(
 				'reporter_mt' => $this->bulletin_model->getName($temp->reporter_id_mt),
 				'reporter_ct' => $this->bulletin_model->getName($temp->reporter_id_ct),  
 			);
-
-			$internal_alert = str_replace("0", "", substr($temp->internal_alert_level, 2));
-			$internal_alert = preg_replace('/r?x/', "", $internal_alert);
-
-			$data['responses'] = $this->bulletin_model->getResponses($data['public_alert_level'], $internal_alert);
+			$data['responses'] = $this->bulletin_model->getResponses($data['public_alert_level'], $temp->internal_alert_level);
 
 			// Get most recent validity for the said release
 			foreach ($temp_2 as $trigger) 
@@ -101,13 +96,31 @@
 		}
 
 		public function view($str)
-		{
-			$data['str'] = $str;
-			$this->load->view('public_alert/bulletin_viewer', $data);
+		{	
+			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' || base_url() == "http://www.dewslandslide.com/") $file = $_SERVER['DOCUMENT_ROOT'] . "/bulletin.pdf";
+			else $file = $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin.pdf";
+			header('HTTP/1.0 200 OK');  
+			header('Content-Type: application/pdf');
+			header('Content-Disposition: attachment; filename="' . $str . '"');
+			header('Content-Transfer-Encoding: binary');
+			header('Accept-Ranges: bytes');
+			readfile($file);
 		}
 
-		public function mail()
+		public function mail($array = null)
 		{
+			if( $array != null ) {
+				$recipients = $array->recipients;
+				$subject = $array->subject;
+				$text = $array->text;
+				$filename = $array->filename;
+			} else {
+				$recipients = $_POST['recipients'];
+				$subject = $_POST['subject'];
+				$text = $_POST['text'];
+				$filename = $_POST['filename'];
+			}
+
 			if (base_url() == "http://www.dewslandslide.com/") {
 				// FOR LINUX
 				$path = "/usr/share/php/PHPMailer/PHPMailerAutoload.php";
@@ -135,7 +148,7 @@
 				return;
 			}
 
-			if(count($_POST['recipients']) == 0) { echo "No email recipients entered."; return; }
+			if(count($recipients) == 0) { echo "No email recipients entered."; return; }
 
 			$mail = new PHPMailer;
 
@@ -156,7 +169,7 @@
 			$mail->Port = 465;
 			$mail->setFrom($cred['email'], 'DEWS-L Monitoring');
 
-			foreach ($_POST['recipients'] as $recipient) {
+			foreach ($recipients as $recipient) {
 				$mail->addAddress($recipient);				
 			}
 
@@ -164,14 +177,13 @@
 			$mail->addCustomHeader( 'In-Reply-To', '<' . $cred['email'] . '>' );
 			$mail->isHTML(true);
 
-			$mail->Subject = $_POST['subject'];
-			$mail->Body    = $_POST['text'];
+			$mail->Subject = $subject;
+			$mail->Body    = $text;
 			//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-			// if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') 
-			$file = $_SERVER['DOCUMENT_ROOT'] . "/bulletin.pdf";
-			// else $file = $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin.pdf";
-			$mail->addAttachment($file, $_POST['filename'], 'base64', 'application/pdf');
+			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') $file = $_SERVER['DOCUMENT_ROOT'] . "/bulletin.pdf";
+			else $file = $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin.pdf";
+			$mail->addAttachment($file, $filename, 'base64', 'application/pdf');
 
 			$mail->addAttachment($file, $_POST['filename'], 'base64', 'application/pdf');
 			
@@ -214,6 +226,15 @@
 			return $timestamp;
 		}
 
+		public function test($arr)
+		{
+			$arrayName = (object) array('recipients' => [$arr], 
+				'subject' => "test",
+				'text' => "send",
+				'filename' => 'test');
+			$this->mail($arrayName);
+		}
+
 
 		public function saveEdit()
 		{
@@ -232,7 +253,7 @@
 			fclose($file);
 		}
 
-		public function run_script($id, $isEdited, $edits = 0)
+		public function run_script($id, $isEdited = 0, $edits = 0)
 		{
 
 			if (base_url() == "http://localhost/") 
@@ -253,6 +274,11 @@
 				$response = exec( $command );
 			}
 
+			//$this->view($id . ".pdf");
+
+			// $doc = file_put_contents($_SERVER['DOCUMENT_ROOT']. "/temp/charts_render/" . $id . ".pdf", file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/bulletin.pdf"));
+			// echo "Finished";
+			
 			echo $response;
 		}
 

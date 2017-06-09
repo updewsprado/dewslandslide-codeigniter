@@ -107,9 +107,9 @@ class Monitoring extends CI_Controller
 		echo "$data";
 	}
 
-	public function getLastRelease()
+	public function getFirstEventRelease($event_id)
 	{
-		$data = $this->monitoring_model->getLastRelease();
+		$data = $this->monitoring_model->getFirstEventRelease($event_id);
 		echo "$data";
 	}
 
@@ -138,6 +138,13 @@ class Monitoring extends CI_Controller
 	{
 		copy( $_SERVER['DOCUMENT_ROOT'] . "/temp/data/p" . $id . "/PublicAlert.json", $_SERVER['DOCUMENT_ROOT'] . "/temp/data/PublicAlert.json" );
 		echo "$id";
+	}
+
+	public function processAlerts()
+	{
+		$latest = $_POST['latest'];
+		$extended = $_POST['extended'];
+		$overdue = $_POST['overdue'];
 	}
 
 	public function is_logged_in() 
