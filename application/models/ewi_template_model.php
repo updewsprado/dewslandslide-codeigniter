@@ -166,4 +166,22 @@ class Ewi_template_model extends CI_Model {
 		$result = $this->db->query($query);
 		return $result->result();
 	}
+
+	public function getAlertLevels($alert_status) {
+		$query = "SELECT distinct alert_symbol_level FROM ewi_template where alert_status like '%".$alert_status."%';";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
+
+	public function getInternalAlerts() {
+		$query = "";
+		$result = $this->db->query($query);
+		return $result->result();	
+	}
+
+	public function getAlertStatuses() {
+		$query = "SELECT distinct alert_status FROM senslopedb.ewi_template;";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
 }

@@ -6,6 +6,7 @@ class Chatterbox_beta extends CI_Controller {
 		parent::__construct();
 		$this->load->model('contacts_model');
 		$this->load->model('gintags_helper_model');
+		$this->load->model('ewi_template_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
 	}
@@ -36,6 +37,22 @@ class Chatterbox_beta extends CI_Controller {
 		}
 		else {
 		}
+	}
+
+	public function getAlertLevel() {
+		$alert_status = $_POST['alert_status'];
+		$result = $this->ewi_template_model->getAlertLevels($alert_status);
+		print json_encode($result);
+	}
+
+	public function getInternalAlert() {
+		$result = $this->ewi_template_model->getInternalAlerts();
+		print json_encode($result);
+	}
+
+	public function getAlertStatus() {
+		$result = $this->ewi_template_model->getAlertStatuses();
+		print json_encode($result);
 	}
 
 }
