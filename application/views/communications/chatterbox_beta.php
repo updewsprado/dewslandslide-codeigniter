@@ -186,11 +186,8 @@
 
 	            <div class="col-md-6">
 	              <label for="birthdate_ec">Birthdate:</label>
-	              <div class="input-group date datetime">
+	              <div class="date datetime">
 	                <input type="date" class="form-control" id="birthdate_ec" aria-required="true" aria-invalid="false">
-	                <span class="input-group-addon">
-	                  <span class="glyphicon glyphicon-calendar"></span>
-	                </span>
 	              </div>
 	            </div>
 	          </div> 
