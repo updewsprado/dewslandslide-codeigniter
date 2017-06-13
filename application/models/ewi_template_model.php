@@ -153,9 +153,9 @@ class Ewi_template_model extends CI_Model {
 
 	public function getBbViaAlertStatus($data) {
 		if ($data != "A0") {
-			$query = "SELECT * FROM ewi_backbone_template WHERE alert_status LIKE '%".$data."%'";
+			$query = "SELECT * FROM ewi_backbone_template WHERE alert_status = '".$data."'";
 		} else {
-			$query = "SELECT * FROM ewi_backbone_template WHERE alert_status <> 'Event' OR alert_status <> 'Event-Level3'";
+			$query = "SELECT * FROM ewi_backbone_template WHERE alert_status <> 'Event' OR alert_status <> 'Event-Level3' OR alert_status = '".$data."'";
 		}
 		$result = $this->db->query($query);
 		return $result->result();
