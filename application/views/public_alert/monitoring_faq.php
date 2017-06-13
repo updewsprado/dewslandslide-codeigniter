@@ -40,6 +40,17 @@
         <!-- /.row -->
 
         <div class="panel panel-primary" id="check">
+            <div class="panel-heading"><h3>MONITORING MANUALS<h3></div>
+            <div class="panel-body">
+                <p style="text-indent: 0"><i>Note: If your browser does not have a built-in PDF viewer, you will be prompted to download the document.</i></p>
+                <div class="btn-group btn-group-justified">
+                    <a href="/temp/iomp-manual.pdf" class="btn btn-info" target="_blank"><strong>IOMP-MT Manual</strong></a>
+                    <a href="#" class="btn btn-danger"><strong>IOMP-CT Manual (Soon!)</strong></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-primary" id="check">
             <div class="panel-heading"><h3>THINGS TO CHECK BEFORE CLICKING THE PRECIOUS SUBMIT BUTTON<h3></div>
             <div class="panel-body">
                 <ul>
@@ -202,24 +213,11 @@
         
 <script>
 
-    let setElementHeight = function () {
-        let window_h = $(window).height();
-        $('#page-wrapper').css('min-height', window_h);
-        //$('#map').css('min-height', final);
-    };
-
-    $(window).on("resize", function () {
-        setElementHeight();
-    }).resize();
-
     $('.panel-title').hover(function() {
         $(this).css('cursor','pointer');
     });
 
 </script>
-
-<script src='http://codepen.io/assets/editor/live/css_live_reload_init.js'></script>
-
 
 
 

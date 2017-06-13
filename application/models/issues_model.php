@@ -22,16 +22,69 @@
 			return json_encode($query->result_array());
 		}
 
-		// public function archiveAllNormalWithLoweredEvents()
-		// {
-		// 	$this->db->select("issues_and_reminders.iar_id, public_alert_event.id");
-		// 	$this->db->from('issues_and_reminders');
-		// 	$this->db->join('public_alert_event', 'public_alert_event.event_id = issues_and_reminders.event_id');
-		// 	$this->db->where('issues_and_reminders.status', 'normal');
-		// 	$this->db->where_in('public_alert_event.status', array('extended', 'finished', 'invalid');
-		// 	$query = $this->db->get();
-		// 	return json_encode($query->result_array());
-		// }
+		public function getEventCount($status, $search = null, $filter = null)
+		{
+			$this->db->select('COUNT(*)');
+			$this->db->from('issues_and_reminders');
+			$this->db->join('membership', 'membership.id = issues_and_reminders.user_id');
+			$this->db->join('public_alert_event', 'public_alert_event.event_id = issues_and_reminders.event_id', 'left');
+			$this->db->join('site', 'site.id = public_alert_event.site_id', 'left');
+			if( $status == "archived" ) 
+				$this->db->where('issues_and_reminders.status', $status);
+			else $this->db->or_where_in('issues_and_reminders.status', array("normal", "locked") );
+
+			if( !is_null($filter) ) $this->db->where($filter);
+			if( !is_null($search) ) {
+				// $this->db->or_like($search);
+				$open = "("; $where = [];
+				foreach ($search as $key => $value) {
+					array_push($where, "$key LIKE '%$value%'");
+				}
+				$final = $open . implode(" OR ", $where) . ")";
+				$this->db->where($final);
+			}
+			$query = $this->db->get();
+			return $query->result_array()[0]["COUNT(*)"];
+		}
+
+		public function getAllRowsAsync($status, $search = null, $filter = null, $orderBy, $orderType, $start, $length)
+		{
+			$x = "issues_and_reminders.*, CONCAT(membership.first_name, ' ', membership.last_name) AS posted_by, site.*";
+			// if( $status == "archived" ) $x = $x . ", resolved.first_name AS resolved_first, resolved.last_name AS resolved_last";
+			if( $status == "archived" ) $x = $x . ", CONCAT(resolved.first_name, ' ', resolved.last_name) AS resolved_by";
+	        $this->db->select($x, FALSE);
+
+			$this->db->from('issues_and_reminders');
+			$this->db->join('membership', 'membership.id = issues_and_reminders.user_id');
+
+			if( $status == "archived" )
+				$this->db->join('membership AS resolved', 'resolved.id = issues_and_reminders.resolved_by', 'left');
+
+			$this->db->join('public_alert_event', 'public_alert_event.event_id = issues_and_reminders.event_id', 'left');
+			$this->db->join('site', 'site.id = public_alert_event.site_id', 'left');
+			if( $status == "archived" ) 
+				$this->db->where('issues_and_reminders.status', $status);
+			else $this->db->or_where_in('issues_and_reminders.status', array("normal", "locked") );
+
+			if( !is_null($filter) ) $this->db->where($filter);
+			if( !is_null($search) ) {
+				// $this->db->or_like($search);
+				$open = "("; $where = [];
+				foreach ($search as $key => $value) {
+					array_push($where, "$key LIKE '%$value%'");
+				}
+				$final = $open . implode(" OR ", $where) . ")";
+				$this->db->where($final);
+			}
+			$this->db->order_by($orderBy, $orderType);
+			$this->db->limit($length, $start);
+			$query = $this->db->get();
+			// if( $status == "archived" ) {
+			// 	$x = $this->db->last_query();
+			// 	var_dump( $x );
+			// }
+			return $query->result_array();
+		}
 
 		public function insert_row($table, $data)
 		{

@@ -18,12 +18,12 @@
 <img id="bg-img-chatterbox" src="../../../images/dews-l-logo.png" >
 <div class="container-fluid">
 	<div class="row nav-margin">
-		<div class="col-xs-3 division">
+		<div class="col-sm-3 division">
 			<div class="panel panel-primary">
 				<div class="panel-heading">MESSAGES</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-xs-12 form-group">
+						<div class="col-sm-12 form-group">
 							<div class="input-group">
 								<input type="text" class="awesomplete form-control dropdown-input" placeholder="Type name..." data-multiple />
 								<span class="input-group-btn">
@@ -49,7 +49,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-7 division hidden" id="main-container">
+		<div class="col-sm-7 division hidden" id="main-container">
 			<div id="convo-header" class="panel panel-success">
 				<div class="panel-heading">Sitename: [SAMPLE] Office: [Sample]</div>
 				<div class="panel-body"></div>
@@ -63,23 +63,23 @@
 						</div>
 						<textarea id="msg" name="msg" class="form-control" rows="5"></textarea>
 					</div>
-					<div class="form-group">
-						<div class="col-xs-6">
+					<div class="form-group" id="send-char-remain">
+						<div class="col-sm-6">
 							<p>Remaining characters: <b id="remaining_chars">800</b></p>
 						</div>						
-						<div class="col-xs-6 right-content">
+						<div class="col-sm-6 right-content">
 							<button type="button" class="btn btn-primary" id="send-msg">Send</button>
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="col-xs-12 left-content" style="padding-left: 30px;margin-bottom: 5px;">
+						<div class="col-sm-12 left-content" style="padding-left: 30px;margin-bottom: 5px;">
 							<a href="#" id="btn-ewi" data-toggle="modal" data-dismiss="modal">Load Message Templates</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-2 division">
+		<div class="col-sm-2 division">
 			<div class="panel panel-primary">
 				<div class="panel-heading">OPTIONS</div>
 				<div class="panel-body align-center">
@@ -186,11 +186,8 @@
 
 	            <div class="col-md-6">
 	              <label for="birthdate_ec">Birthdate:</label>
-	              <div class="input-group date datetime">
+	              <div class="date datetime">
 	                <input type="date" class="form-control" id="birthdate_ec" aria-required="true" aria-invalid="false">
-	                <span class="input-group-addon">
-	                  <span class="glyphicon glyphicon-calendar"></span>
-	                </span>
 	              </div>
 	            </div>
 	          </div> 
@@ -384,7 +381,7 @@
 	      </div>
 	      <div class="modal-body"> 
 	        <div class="alert alert-info" role="alert">
-	          <p style="padding: 0px;"><strong>New Feature!</strong> You can now tag messages in chatterbox! </br>.&nbsp &nbsp • <strong>Important Tags: </strong>#EwiMessage,#EwiResponse</p>
+	          <p style="padding: 0px;"><strong>New Feature!</strong> You can now tag messages in chatterbox! </br>.&nbsp &nbsp • <strong>Important Tags: </strong>#EwiMessage, #EwiResponse<br>&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;#GroundMeasReminder, #GroundMeasReminderAck</p>
 	        </div>
 	        <div class="form-group">
 	        	<input type="text" class="form-control" id="gintags" name="gintags" data-role="tagsinput" data-provide="typeahead" placeholder="E.g #EwiMessage" style="display:none" required>
@@ -476,16 +473,24 @@
 	              </div>
 	            </div>
 	            <div class="col-sm-6">
+	              <div class="form-group" id="alert-group">
+	                <label for="internal-alert">Internal Alert :</label>
+	                <select name="" id="internal-alert" class="form-control">
+	                </select>
+	              </div>
+	            </div>
+	          </div>
+	          <div class="row">
+  	            <div class="col-sm-6">
 	              <div class="form-group" id="site-group">
 	                <label for="sites">Sites :</label>
 	                <select name="" id="sites" name="sites" class="form-control">
 	                </select>
 	              </div>
 	            </div>
-	          </div>
-	          <div class="row">
 	            <div class="col-sm-6">
 	              <div class="form-group">
+	              <label for="ewi-date-picker">Time of release :</label>
 	                <div class='input-group date' id='ewi-date-picker'>
 	                    <input type='text' class="form-control" />
 	                    <span class="input-group-addon">
@@ -494,16 +499,15 @@
 	                </div>
 	              </div>
 	            </div>
-
-	            <div class="col-sm-6">
-	              <div class="form-group cmd-ewi-chatterbox right-content">
-	              	<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-	                <button type="submit" value="submit" id="confirm-ewi" class="btn btn-primary" data-dismiss="modal">Confirm</button>
-	              </div>   
-	            </div>
 	          </div>
 	        </div>
 	      </div>
+			<div class="modal-footer">
+				<div class="form-group cmd-ewi-chatterbox right-content">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					<button type="submit" value="submit" id="confirm-ewi" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+				</div>   
+			</div>
 	    </div>  
 	  </div>
 	</div>

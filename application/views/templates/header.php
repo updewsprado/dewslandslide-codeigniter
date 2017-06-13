@@ -44,6 +44,9 @@
     <!-- Datatables CSS -->
     <link href="/css/third-party/datatables.css" rel="stylesheet" type="text/css">
 
+    <!-- Datatables MomentJS Sorting Plugin -->
+    <script type="text/javascript" src="/js/third-party/datatables.momentjs.sorting.js"></script>
+
     <!-- Bootstrap DateTimePicker JS-->
     <script type="text/javascript" src="/js/third-party/bootstrap-datetimepicker.min.js"></script>
 
