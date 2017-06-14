@@ -52,7 +52,7 @@ class Site_level_page extends CI_Controller {
 
 	public function getDatafromRainProps(){
 		$data_result = $_POST['data'];
-		$result = $this->site_level_model->getRainProps($site);
+		$result = $this->site_level_model->getRainProps($data_result['site']);
 		print json_encode($result);
 	}
 
@@ -64,7 +64,7 @@ class Site_level_page extends CI_Controller {
 
 	public function getDatafromSiteRainProps(){
 		$data_result  = $_POST['data'];
-		$result = $this->site_level_model->getSiteRainProps($data_result ['site']);
+		$result = $this->site_level_model->getSiteRainProps($data_result['site']);
 		print json_encode($result);
 
 	}
