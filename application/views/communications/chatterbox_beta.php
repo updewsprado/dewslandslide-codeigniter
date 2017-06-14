@@ -465,26 +465,17 @@
 	      <div class="modal-body row-fluid"> 
 	        <div class="ewi-container">
 	          <div class="row">
-	            <div class="col-sm-6">
-	              <div class="form-group" id="alert-group">
-	                <label for="alert-lvl">Alert Level :</label>
-	                <select name="" id="alert-lvl" class="form-control">
-	                </select>
-	              </div>
-	            </div>
-	            <div class="col-sm-6">
-	              <div class="form-group" id="alert-group">
-	                <label for="internal-alert">Internal Alert :</label>
-	                <select name="" id="internal-alert" class="form-control">
-	                </select>
-	              </div>
-	            </div>
-	          </div>
-	          <div class="row">
-  	            <div class="col-sm-6">
+  	            <div class="col-sm-3">
 	              <div class="form-group" id="site-group">
 	                <label for="sites">Sites :</label>
 	                <select name="" id="sites" name="sites" class="form-control">
+	                </select>
+	              </div>
+	            </div>
+  	            <div class="col-sm-3">
+	              <div class="form-group" id="site-group">
+	                <label for="alert_status">Alert Status :</label>
+	                <select name="" id="alert_status" name="alert_status" class="form-control">
 	                </select>
 	              </div>
 	            </div>
@@ -497,6 +488,22 @@
 	                        <span class="glyphicon glyphicon-calendar"></span>
 	                    </span>
 	                </div>
+	              </div>
+	            </div>
+	          </div>
+	          <div class="row">
+	            <div class="col-sm-6">
+	              <div class="form-group" id="alert-group">
+	                <label for="alert-lvl">Alert Level :</label>
+	                <select name="" id="alert-lvl" class="form-control">
+	                </select>
+	              </div>
+	            </div>
+	            <div class="col-sm-6">
+	              <div class="form-group" id="alert-group">
+	                <label for="internal-alert">Internal Alert :</label>
+	                <select name="" id="internal-alert" class="form-control">
+	                </select>
 	              </div>
 	            </div>
 	          </div>

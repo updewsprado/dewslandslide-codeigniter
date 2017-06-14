@@ -153,9 +153,9 @@ class Ewi_template_model extends CI_Model {
 
 	public function getBbViaAlertStatus($data) {
 		if ($data != "A0") {
-			$query = "SELECT * FROM ewi_backbone_template WHERE alert_status LIKE '%".$data."%'";
+			$query = "SELECT * FROM ewi_backbone_template WHERE alert_status = '".$data."'";
 		} else {
-			$query = "SELECT * FROM ewi_backbone_template WHERE alert_status <> 'Event' OR alert_status <> 'Event-Level3'";
+			$query = "SELECT * FROM ewi_backbone_template WHERE alert_status <> 'Event' OR alert_status <> 'Event-Level3' OR alert_status = '".$data."'";
 		}
 		$result = $this->db->query($query);
 		return $result->result();
@@ -163,6 +163,24 @@ class Ewi_template_model extends CI_Model {
 
 	public function getRecommendedResponse($data) {
 		$query = "SELECT * FROM ewi_template WHERE alert_symbol_level='".$data."'";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
+
+	public function getAlertLevels($alert_status) {
+		$query = "SELECT distinct alert_symbol_level FROM ewi_template where alert_status like '%".$alert_status."%';";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
+
+	public function getInternalAlerts() {
+		$query = "";
+		$result = $this->db->query($query);
+		return $result->result();	
+	}
+
+	public function getAlertStatuses() {
+		$query = "SELECT distinct alert_status FROM senslopedb.ewi_template;";
 		$result = $this->db->query($query);
 		return $result->result();
 	}
