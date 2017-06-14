@@ -53,7 +53,11 @@
 			$internal_alert = $public_alert . $internal_alert;
 
 			$query = $this->db->get_where('lut_responses', array('public_alert_level' => $public_alert));
-			$query2 = $this->db->get_where('lut_alert_descriptions', array('internal_alert_level' => $internal_alert));
+			
+			$this->db->select("*")->from("lut_alert_descriptions");
+			$this->db->where("internal_alert_level LIKE '%" . $internal_alert . "%' COLLATE utf8_bin");
+			$query2 = $this->db->get();
+
 			$query3 = $this->db->get('lut_triggers');
 			$data['response'] = $query->result_array()[0];
 			$data['description'] = $query2->result_array()[0];
