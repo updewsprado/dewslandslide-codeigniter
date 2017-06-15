@@ -56,7 +56,7 @@ class Chart_export extends CI_Controller
 		$date_now = date('Y-m-d H_i_s');
 		$dir = "temp/charts_render/events/" . $site;
 
-		if (!file_exists('path/to/directory')) {
+		if (!file_exists($dir)) {
     		if( !mkdir($dir, 0777, true) ) return "Failed making directory";
 		}
 
