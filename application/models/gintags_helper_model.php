@@ -117,7 +117,7 @@ class Gintags_helper_model extends CI_Model {
     }
 
     public function checkEntryExist($data,$doExist){
-        $sql = "SELECT * FROM gintags WHERE tag_id_fk = ".$doExist[0]->tag_id." AND table_element_id = ".$data['table_element_id']."";
+        $sql = "SELECT * FROM gintags WHERE tag_id_fk = ".$doExist[0]->tag_id." AND table_element_id = '".$data['table_element_id']."'";
         $query_result = $this->db->query($sql);
         return $query_result->result();
     }
@@ -158,5 +158,21 @@ class Gintags_helper_model extends CI_Model {
       $this->db->select('tag_name');
       $result = $this->db->get('gintags_reference');
       return $result->result();
+    }
+
+    public function getGintagsAndReference(){
+      $sql = "SELECT gintags.tag_id_fk as GintagID,gintags.tagger_eid_fk as TaggerID,gintags.table_element_id as TableElementID,gintags.table_used as TableUsed,gintags.timestamp as Timestamp,gintags.remarks as Remarks,gintags_reference.tag_name as TagName,gintags_reference.tag_description as Description FROM senslopedb.gintags INNER JOIN gintags_reference ON gintags.tag_id_fk = gintags_reference.tag_id";
+      $result = $this->db->query($sql);
+      return $result->result();
+    }
+
+    public function getAnalytics($data){
+      $query = "SELECT tag_id FROM gintags_reference WHERE tag_name LIKE '%".$data->gintags."%'";
+      $result = $this->db->query($query);
+      foreach ($result->result() as $tag_id) {
+        $query = "SELECT * FROM gintags WHERE timestamp >= '".$data->start_date." 00:00:00' AND timestamp <= '".$data->end_date." 23:59:59' AND tag_id_fk='".$tag_id->tag_id."'";
+        $result = $this->db->query($query);
+        return $result->result();
+      }
     }
 }

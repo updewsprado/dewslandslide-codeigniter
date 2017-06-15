@@ -39,17 +39,12 @@
 			$data['public_alert_level'] = $x;
 			$data['triggers'] = $this->bulletin_model->getAllEventTriggers($temp->event_id);
 			$temp_2 = json_decode($data['triggers']);
-			$temp_3 = $this->bulletin_model->getEvent($temp->event_id);
-			$data['event'] = $temp_3;
+			$data['event'] = $this->bulletin_model->getEvent($temp->event_id);
 			$data['reporters'] = array(
 				'reporter_mt' => $this->bulletin_model->getName($temp->reporter_id_mt),
 				'reporter_ct' => $this->bulletin_model->getName($temp->reporter_id_ct),  
 			);
-
-			$internal_alert = str_replace("0", "", substr($temp->internal_alert_level, 2));
-			$internal_alert = preg_replace('/r?x/', "", $internal_alert);
-
-			$data['responses'] = $this->bulletin_model->getResponses($data['public_alert_level'], $internal_alert);
+			$data['responses'] = $this->bulletin_model->getResponses($data['public_alert_level'], $temp->internal_alert_level);
 
 			// Get most recent validity for the said release
 			foreach ($temp_2 as $trigger) 
@@ -68,7 +63,7 @@
 				$flag = false;
 				
 				// Adjust timestamps if ND or X0 if end of validity
-				if( $isND == "ND" || strpos($temp->internal_alert_level, 'g0') !== false || strpos($temp->internal_alert_level, 's0') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
+				if( $isND == "ND" || strpos($temp->internal_alert_level, 'g0') !== false || strpos($temp->internal_alert_level, 's0') !== false || stripos($temp->internal_alert_level, 'rx') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
 				$data['validity'] = $flag == true ? date( "Y-m-d H:i:s", strtotime($temp->data_timestamp) + 4.5 * 3600) : $computed_validity;
 			}
 			
@@ -142,7 +137,7 @@
 				$cred = $this->bulletin_model->getEmailCredentials('dynaslopeswat');
 			}
 
-			if(is_string($cred)) {echo $cred; return;};
+			if(is_string($cred)) { echo $cred; return; }
 
 			if (file_exists($path) && is_readable($path)) {
 				require_once($path);
@@ -190,6 +185,8 @@
 			else $file = $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin.pdf";
 			$mail->addAttachment($file, $filename, 'base64', 'application/pdf');
 
+			$mail->addAttachment($file, $_POST['filename'], 'base64', 'application/pdf');
+			
 			if(!$mail->send()) {
 			    echo 'Message could not be sent.';
 			    echo 'Mailer Error: ' . $mail->ErrorInfo;
