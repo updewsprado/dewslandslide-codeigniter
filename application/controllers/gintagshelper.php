@@ -130,4 +130,19 @@ class Gintagshelper extends CI_Controller {
 		}
 		print json_encode($analytics_collection);
 	}
+
+	public function getSearchedGintag() {
+		$data = json_decode($_POST['search_values']);
+		$result = $this->gintags_helper_model->getGintagSearched($data);
+		print json_encode($result);
+	}
+
+	public function getAllSms() {
+		$data = json_decode($_POST['sms_data']);
+		$result_sms = $this->gintags_helper_model->getSms($data);
+		$result_column = $this->gintags_helper_model->getColumnName($data);
+		$result['columns'] =  $result_column;
+		$result['sms'] = $result_sms;
+		print json_encode($result);
+	}
 }

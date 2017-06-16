@@ -175,4 +175,38 @@ class Gintags_helper_model extends CI_Model {
         return $result->result();
       }
     }
+
+    public function getGintagSearched($data){
+      $result_collection = [];
+      $multiple_gintag = "";
+      $tags = explode(",",$data->gintags);
+      for ($counter = 0; $counter < sizeof($tags);$counter++) {
+        $query = "SELECT * FROM gintags INNER JOIN gintags_reference ON gintags.tag_id_fk = gintags_reference.tag_id WHERE timestamp BETWEEN '".$data->start_date."' AND '".$data->end_date."' AND gintags_reference.tag_name = '".$tags[$counter]."';";
+        $result = $this->db->query($query);
+        $result_collection[$tags[$counter]] = $result->result();
+      }
+      return $result_collection;
+    }
+
+    public function getSms($data) {
+      $sms_ids = "";
+      for ($db_counter = 0; $db_counter < sizeof($data->database);$db_counter++) {
+        for ($counter = 0; $counter < sizeof($data->data);$counter++) {
+          if ($counter == 0) {
+            $sms_ids = "sms_id = '".$data->data[$counter]."'";
+          } else {
+            $sms_ids = $sms_ids." OR sms_id = '".$data->data[$counter]."'";
+          }
+        }
+        $query = "SELECT * FROM ".$data->database[$db_counter]." WHERE ".$sms_ids.";";
+        $result = $this->db->query($query);
+        return $result->result();
+      }
+    }
+
+    public function getColumnName($data){
+      $query = "SHOW COLUMNS FROM ".$data->database[0]."";
+      $result = $this->db->query($query);
+      return $result->result();
+    }
 }
