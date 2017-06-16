@@ -22,6 +22,12 @@
   <div class="container">
     <div class="col-sm-12 col-md-12 graphGenerator" id="graphGenerator" >
     </div>
+    <div id="rainAll" class="box">
+      <svg id="rainBox" xmlns="http://www.w3.org/2000/svg" width="2000" height ="1500"></svg>
+    </div>
+    <div id="subAll" class="box">
+      <svg id="subBox" xmlns="http://www.w3.org/2000/svg" width="4000" height ="2800"></svg>
+    </div>
   </div>
 </div>
 <div class="modal fade js-loading-bar" id="loading" role="dialog" data-keyboard="false" data-backdrop="static">

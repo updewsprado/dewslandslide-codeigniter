@@ -46,6 +46,23 @@ class Chart_export extends CI_Controller
 		//echo "Finished";
 	}
 
+	public function saveChartSVG()
+	{
+		$svg = $_POST['svg'];
+		$type = $_POST['type'];
+		$site = $_POST['site'];
+
+		date_default_timezone_set('Asia/Manila');
+		$date_now = date('Y-m-d H_i_s');
+		$dir = "temp/charts_render/events/" . $site;
+
+		if (!file_exists($dir)) {
+    		if( !mkdir($dir, 0777, true) ) return "Failed making directory";
+		}
+
+		file_put_contents($dir . "/" . $type . ".svg", $svg);
+	}
+
 	public function mergePDF($date)
 	{
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
