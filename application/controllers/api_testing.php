@@ -37,5 +37,9 @@ class api_testing extends CI_Controller {
 			print json_encode($result);
 		}
 
+		public function EarthquakeEvent($from,$to){ 
+			$result = $this->api_modal->getEarthquakeEvent($to,$from);
+			print json_encode($result);
+		}
 	}
 ?>

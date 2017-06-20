@@ -51,4 +51,21 @@ class api_modal extends CI_Model {
 		$query = $this->db2->query($sql);
 		return $query->result();
 	}
+
+	public function getSpecificSiteRainGauge($site){
+		$CI = &get_instance();
+		$this->db2 = $CI->load->database('sandbox', TRUE);
+		$sql = "SELECT rain_id,distance,threshold_value FROM senslopedb.rainfall_priorities left join senslopedb.sites  on sites.site_id = rainfall_priorities.site_id left join senslopedb.rainfall_thresholds on sites.site_id = rainfall_thresholds.site_id where sites.site_code = '$site'";
+		$query = $this->db2->query($sql);
+		return $query->result();
+	}
+
+	public function getEarthquakeEvent($from,$to){
+		$CI = &get_instance();
+		$this->db2 = $CI->load->database('sandbox', TRUE);
+		$sql = "SELECT * FROM senslopedb.earthquake_events  left join senslopedb.earthquake_alerts
+		on earthquake_events.eq_id =  earthquake_alerts.eq_id  where   ts between '$from' and '$to'";
+		$query = $this->db2->query($sql);
+		return $query->result();
+	}
 }
