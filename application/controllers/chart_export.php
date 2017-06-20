@@ -122,27 +122,38 @@ class Chart_export extends CI_Controller
 	}
 
 	public function viewPDF($str)
-		{	
-			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' || base_url() == "http://www.dewslandslide.com/") $file = $_SERVER['DOCUMENT_ROOT'] . "/temp/charts_render/compiled.pdf";
-			else $file = $_SERVER['DOCUMENT_ROOT'] . "/temp/charts_render/compiled.pdf";
-			header('HTTP/1.0 200 OK');  
-			header('Content-Type: application/pdf');
-			header('Content-Disposition: attachment; filename="' . $str . '"');
-			header('Content-Transfer-Encoding: binary');
-			header('Accept-Ranges: bytes');
-			readfile($file);
+	{	
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' || base_url() == "http://www.dewslandslide.com/") $file = $_SERVER['DOCUMENT_ROOT'] . "/temp/charts_render/compiled.pdf";
+		else $file = $_SERVER['DOCUMENT_ROOT'] . "/temp/charts_render/compiled.pdf";
+		header('HTTP/1.0 200 OK');  
+		header('Content-Type: application/pdf');
+		header('Content-Disposition: attachment; filename="' . $str . '"');
+		header('Content-Transfer-Encoding: binary');
+		header('Accept-Ranges: bytes');
+		readfile($file);
+	}
+
+	public function deleteTemporaryChartFiles( $id = null ) {
+
+		$dir = "temp/charts_render/events";
+
+		if( is_null($id) ) {
+			$this->removeDirectory($dir);
+		} else {
+			$this->removeDirectory($dir . "/" . $id);
 		}
+
+		echo "Delete temporary chart files completed!";
+	}
 
 	function removeDirectory($path) {
 	 	$files = glob($path . '/*');
 		foreach ($files as $file) {
-			is_dir($file) ? removeDirectory($file) : unlink($file);
+			is_dir($file) ? $this->removeDirectory($file) : unlink($file);
 		}
 		rmdir($path);
 	 	return;
 	}
-
-
 
 }
 

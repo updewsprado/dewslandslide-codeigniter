@@ -80,6 +80,16 @@
 			return json_encode($result);
 		}
 
+		public function getSensorColumns($site_code)
+		{
+			$this->db->select("name")->from("site_column")
+				->where("name LIKE '%$site_code%'")
+				->order_by("name");
+			$query = $this->db->get();
+			return json_encode($query->result_object());
+
+		}
+
 		public function insert($table, $data)
 		{
         	$this->db->insert($table, $data);
