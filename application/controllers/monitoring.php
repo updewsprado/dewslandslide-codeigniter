@@ -30,6 +30,7 @@ class Monitoring extends CI_Controller
 
 	public function getOnGoingAndExtended()
 	{
+		date_default_timezone_set('Asia/Manila');
 		$events = $this->monitoring_model->getOnGoingAndExtended();
 
 		$latest = []; $extended = [];
@@ -64,7 +65,6 @@ class Monitoring extends CI_Controller
 			}
 			else
 			{
-				date_default_timezone_set('Asia/Manila');
 				$start = strtotime('tomorrow noon', strtotime($event->validity));
 	 			$end = strtotime('+2 days', $start);
 	 		// 	if (strtotime('now') <= $end + 3600*12)

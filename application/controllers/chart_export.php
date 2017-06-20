@@ -49,21 +49,47 @@ class Chart_export extends CI_Controller
 	public function saveChartSVG()
 	{
 		$svg = $_POST['svg'];
+		$conn_id = $_POST['connection_id'];
 		$type = $_POST['type'];
 		$site = $_POST['site'];
 
+		$filename = $type;
+		if( strlen($site) > 3 ) {
+			$filename = $filename . "_" . $site;
+			$site = substr($site, 0, 3);
+		}
+
 		date_default_timezone_set('Asia/Manila');
 		$date_now = date('Y-m-d H_i_s');
-		$dir = "temp/charts_render/events/" . $site;
+		$dir = "temp/charts_render/events/$conn_id/$site";
 
 		if (!file_exists($dir)) {
     		if( !mkdir($dir, 0777, true) ) return "Failed making directory";
 		}
 
-		file_put_contents($dir . "/" . $type . ".svg", $svg);
+		file_put_contents($dir . "/" . $filename . ".svg", $svg);
 	}
 
-	public function mergePDF($date)
+	public function renderCharts()
+	{
+		$files = "";
+		$filenames = $_POST['svg'];
+		$site = $_POST['site'];
+		$conn_id = $_POST['connection_id'];
+		$dir = "temp/charts_render/events/$conn_id/$site";
+
+		for( $i = 0; $i < count($filenames); $i++) {
+			$pdf_filename = "chart_" . strval($i+1);
+			$dir = $dir . "/";
+			$files = $files . $dir . $filenames[$i] . ".svg=" . $dir . $pdf_filename . ".pdf;";
+		}
+
+		$command = 'highcharts-export-server -batch "' . $files . '" -type pdf -logLevel 4';
+		$response = exec( $command );
+		$this->mergePDF("events/$conn_id/$site", FALSE);
+	}
+
+	public function mergePDF($date, $deleteTemp = TRUE )
 	{
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
 		{
@@ -90,10 +116,22 @@ class Chart_export extends CI_Controller
 
 		$pdf->merge('file', $dir . "compiled.pdf");
 
-		$this->removeDirectory($file_dir);
+		if( $deleteTemp ) $this->removeDirectory($file_dir);
 
 		echo "Finished";
 	}
+
+	public function viewPDF($str)
+		{	
+			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' || base_url() == "http://www.dewslandslide.com/") $file = $_SERVER['DOCUMENT_ROOT'] . "/temp/charts_render/compiled.pdf";
+			else $file = $_SERVER['DOCUMENT_ROOT'] . "/temp/charts_render/compiled.pdf";
+			header('HTTP/1.0 200 OK');  
+			header('Content-Type: application/pdf');
+			header('Content-Disposition: attachment; filename="' . $str . '"');
+			header('Content-Transfer-Encoding: binary');
+			header('Accept-Ranges: bytes');
+			readfile($file);
+		}
 
 	function removeDirectory($path) {
 	 	$files = glob($path . '/*');

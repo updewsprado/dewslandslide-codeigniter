@@ -294,7 +294,7 @@
 								case 'D': boilerplate("ON-DEMAND", $desc); break;
 								case 'g': case 'G': boilerplate("GROUND MOVEMENT", "", ""); boilerplate("<i class='rowIndent'><u>SURFICIAL DATA</u></i>", $desc); break;
 								case 's': case 'S': 
-									if( count(array_intersect( ['g','G'], $list) ) <= 0 ) boilerplate("GROUND MOVEMENT", "", ""); 
+									if( count(array_intersect( ['g','G'], $trigger_copy) ) <= 0 ) boilerplate("GROUND MOVEMENT", "", ""); 
 									boilerplate("<i class='rowIndent'><u>SUBSURFACE DATA</u></i>", $desc); break;
 							}
 						}
