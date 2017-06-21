@@ -186,8 +186,6 @@
 			$file = $_SERVER['DOCUMENT_ROOT'] . "/bulletin.pdf";
 			$mail->addAttachment($file, $filename, 'base64', 'application/pdf');
 
-			$mail->addAttachment($file, $_POST['filename'], 'base64', 'application/pdf');
-			
 			if(!$mail->send()) {
 			    echo 'Message could not be sent.';
 			    echo 'Mailer Error: ' . $mail->ErrorInfo;
