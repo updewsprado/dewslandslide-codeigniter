@@ -20,12 +20,12 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header" id="header-site">
-                    Column Overview
+                    Earthquake Plots
                 </h1>
             </div>
         </div>
 
-        <div class="row">
+       <!--  <div class="row">
             <div class="col-sm-12 col-md-12">
                 <div class="panel panel-primary">
                     <div class="panel-heading">SEARCH TOOL</div>
@@ -38,14 +38,14 @@
                   </div>
               </div>
           </div>
-      </div>
+      </div> -->
 
       <div class="row">  
         <div class="col-sm-12 col-md-12 noPadding" >
-            <div class="col-sm-6 col-md-6 noPadding">
+            <!-- <div class="col-sm-6 col-md-6 noPadding"> -->
                <div id="maps"></div>
-           </div> 
-           <div class="col-sm-6 col-md-6 ">
+          <!--  </div>  -->
+           <!-- <div class="col-sm-6 col-md-6 ">
                <table id="example" class="display" cellspacing="0" width="100%">
                 <thead>
                     <tr>
@@ -56,7 +56,7 @@
                 </thead>
 
             </table>
-        </div> 
+        </div>  -->
     </div> 
 </div>
 </div>     
