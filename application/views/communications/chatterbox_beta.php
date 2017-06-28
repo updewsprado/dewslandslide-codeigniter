@@ -152,16 +152,12 @@
 	          </div>
 	        </div>
 
-	        <table id="response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
+	        <table id="response-contact-container" class="table" cellspacing="0" width="100%">
 	          <thead>
-	            <tr>
-	              <th>Name</th>
-	            </tr>
+	            <tr></tr>
 	          </thead>
 	          <tfoot>
-	            <tr>
-	              <th>Name</th>
-	            </tr>
+	            <tr></tr>
 	          </tfoot>
 	        </table>
 
