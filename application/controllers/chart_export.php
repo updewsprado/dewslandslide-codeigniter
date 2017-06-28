@@ -42,7 +42,7 @@ class Chart_export extends CI_Controller
 
 		$command = 'highcharts-export-server -batch "' . $files . '" -type pdf -logLevel 4';
 		$response = exec( $command );
-		$this->mergePDF($date_now);
+		// $this->mergePDF($date_now);
 		//echo "Finished";
 	}
 
