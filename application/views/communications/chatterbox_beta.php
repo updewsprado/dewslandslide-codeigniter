@@ -1,4 +1,4 @@
-<!-- Chatterbox Scripts -->
+Chatterbox Scripts -->
 <script src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
 <script src="/js/dewslandslide/communications/dewsresponsive.js"></script>
 <script src="/js/third-party/awesomplete.js"></script>
@@ -152,7 +152,7 @@
 	          </div>
 	        </div>
 
-	        <table id="response-contact-container" class="table" cellspacing="0" width="100%">
+	        <table id="response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
 	          <thead>
 	            <tr></tr>
 	          </thead>
@@ -162,48 +162,83 @@
 	        </table>
 
 	        <div id="employee-contact-wrapper" hidden>
+        	  <input type="text" id="ec_id" hidden>
 	          <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
 	              <label for="firstname_ec">Firstname:</label>
 	              <input type="text" class="form-control" id="firstname_ec" name="firstname_ec" maxlength="16" required>
 	            </div>
 
-	            <div class="col-md-6">
+	            <div class="col-md-4">
 	              <label for="firstname_ec">Lastname:</label>
 	              <input type="text" class="form-control" id="lastname_ec" name="lastname_ec" maxlength="16" required>
+	            </div>
+            	<div class="col-md-4">
+	              <label for="middlename_ec">Middlename:</label>
+	              <input type="text" class="form-control" id="middlename_ec" name="middlename_ec" maxlength="16" required>
 	            </div>
 	          </div>
 
 	          <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
 	              <label for="nickname_ec">Nickname:</label>
 	              <input type="text" class="form-control" id="nickname_ec" name="nickname_ec" maxlength="16" required>
 	            </div>
 
-	            <div class="col-md-6">
-	              <label for="birthdate_ec">Birthdate:</label>
-	              <div class="date datetime">
-	                <input type="date" class="form-control" id="birthdate_ec" aria-required="true" aria-invalid="false">
-	              </div>
+	            <div class="col-md-2">
+	              <label for="salutation_ec">Salutation:</label>
+	              <input type="text" class="form-control" id="salutation_ec" name="salutation_ec" maxlength="16" required>
+	            </div>
+
+	            <div class="col-md-2">
+	              <label for="gender_ec">Gender:</label>
+	              <input type="text" class="form-control" id="gender_ec" name="gender_ec" maxlength="16" required>
+	            </div>
+
+	            <div class="col-md-4">
+		            <label for="birthdate">Birthdate:</label>
+					<div class="input-group date datetime" id="birthdate">		
+	                    <input type="text" class="form-control" id="birthdate_ec" aria-required="true" aria-invalid="false">
+	                    <span class="input-group-addon">
+	                        <span class="glyphicon glyphicon-calendar"></span>
+	                    </span>
+	                </div>
 	            </div>
 	          </div> 
 
 	          <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
 	              <label for="email_ec">Email:</label>
-	              <input type="email" class="form-control" id="email_ec" name="email_ec" required>
+	              <input type="email" class="form-control" data-role="tagsinput" id="email_ec" name="email_ec" required>
 	            </div>
-	            <div class="col-md-3" title="Notes: If contact number is more than one seprate it by a comma.">
-	              <label for="numbers_ec">Contact #:</label>
-	              <input type="text"  id="numbers_ec" class="form-control" name="numbers_ec" data-role="tagsinput" required>
+
+	            <div class="col-md-4">
+	              <label for="active_status_ec">Contact Active Status:</label>
+	              <input type="text" class="form-control" id="active_status_ec" id="active_status_ec" required>
+	            </div>
+
+	            <div class="col-md-4">
+	              <label for="team_ec">Team(s):</label>
+	              <input type="text" class="form-control" data-role="tagsinput" id="team_ec" id="team_ec" required>
 	            </div>
 	          </div>
 
-	          <div class="row">
-	            <div class="col-md-3">
-	              <label for="grouptags_ec">Group tags:</label>
-	              <input type="text" class="form-control" id="grouptags_ec" id="grouptags_ec" required>
-	            </div>
+			  <hr>
+
+	          <div id="mobile-div">
+	<!-- 			<div class="col-md-6" title="Notes: If contact number is more than one seprate it by a comma.">
+	              <label for="numbers_ec">Mobile #:</label>
+	              <input type="text"  id="numbers_ec" class="form-control" data-role="tagsinput" name="numbers_ec" data-role="tagsinput" required>
+	            </div> -->
+	           </div>
+
+			  <hr>
+
+	          <div id="landline-div">
+<!-- 	            <div class="col-md-6" title="Notes: If contact number is more than one seprate it by a comma.">
+	              <label for="landline_ec">Landline #:</label>
+	              <input type="text"  id="landline_ec" class="form-control" data-role="tagsinput" name="landline_ec" data-role="tagsinput" required>
+	            </div> -->
 	          </div>
 
 	          <hr>
@@ -516,4 +551,4 @@
 	</div>
 	<!-- END EWI MODAL -->
 
-<!-- END OF MODAL SECTION -->
+<!-- END OF MODAL SECTION
