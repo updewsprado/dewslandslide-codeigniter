@@ -233,6 +233,10 @@
 </div>
 <div class="col-sm-3 col-md-3 original "></div>
 <div class="col-sm-9 col-md-9 original analysis " id="analysis_panel_body"></div>
+<br><br><br><br><br><br>
+<div class="col-sm-12 svgBox">
+  <svg id="rainfallsvg" xmlns="http://www.w3.org/2000/svg" width="1000" height ="1500"></svg>
+</div>
 <div class="modal fade" id="groundModal" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -299,7 +303,6 @@
       </div>
       <div class="modal-body">
         <div style="text-align: center;" id="pdfsvg">
-          <!-- <iframe src="" frameborder="0" style="width:800px; height:500px;"></iframe> -->
         </div>
       </div>
       <div class="modal-footer">
