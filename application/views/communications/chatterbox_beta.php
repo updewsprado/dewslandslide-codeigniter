@@ -117,7 +117,7 @@ Chatterbox Scripts -->
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 class="modal-title text-info">Contact Settings</h4>
+	        <h4 class="modal-title text-info"><span class="glyphicon glyphicon-chevron-left" id="go_back" hidden>&nbsp;</span>Contact Settings</h4>
 	      </div>
 
 	    <div class="modal-body row-fluid">
