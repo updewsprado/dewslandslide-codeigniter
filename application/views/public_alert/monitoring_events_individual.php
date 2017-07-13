@@ -69,7 +69,7 @@
 
                 <div>
             		<div id="reveal" class="text-center"> 
-            			<?php echo strtoupper($status); ?> MONITORTING PAGE FOR <br>
+            			<?php echo strtoupper($status); ?> MONITORING PAGE FOR <br>
             			<?php $temp = $event->sitio == null ? "" : $event->sitio . ", "; echo strtoupper("$temp$event->barangay,<br>$event->municipality, $event->province") . " (" . strtoupper($event->name) . ")"; ?><br>
                     	<small><?php echo date("M j, Y, g:i A", strtotime($event->event_start));
                     	if(!is_null($event->validity)) echo " to " . date("M j, Y, g:i A", strtotime($event->validity)); ?></small> 
@@ -96,7 +96,7 @@
 			        	<div class="timeline-panel">
 			            	<div class="timeline-heading">
 			            		<h4 class="timeline-title"><b>
-			            			<?php if($status == "Event-Based") echo "Start of "; else echo "Routine "; ?> Monitorting: <?php echo date("F jS Y, g:i A", strtotime($event->event_start)); ?></b></h4>
+			            			<?php if($status == "Event-Based") echo "Start of "; else echo "Routine "; ?> Monitoring: <?php echo date("F jS Y, g:i A", strtotime($event->event_start)); ?></b></h4>
 				           	</div>
 				            <div class="timeline-body">
             					<div>
