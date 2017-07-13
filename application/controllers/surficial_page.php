@@ -18,7 +18,7 @@ class Surficial_page extends CI_Controller {
 		
 		$data['title'] = $page;
 
-		// $this->load->view('templates/header', $data);
+		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
 		$this->load->view('templates/footer');
 		$this->load->view('data_analysis/surficial', $data);
