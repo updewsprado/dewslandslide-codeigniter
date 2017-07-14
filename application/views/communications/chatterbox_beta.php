@@ -226,19 +226,11 @@ Chatterbox Scripts -->
 			  <hr>
 
 	          <div id="mobile-div">
-	<!-- 			<div class="col-md-6" title="Notes: If contact number is more than one seprate it by a comma.">
-	              <label for="numbers_ec">Mobile #:</label>
-	              <input type="text"  id="numbers_ec" class="form-control" data-role="tagsinput" name="numbers_ec" data-role="tagsinput" required>
-	            </div> -->
 	           </div>
 
 			  <hr>
 
 	          <div id="landline-div">
-<!-- 	            <div class="col-md-6" title="Notes: If contact number is more than one seprate it by a comma.">
-	              <label for="landline_ec">Landline #:</label>
-	              <input type="text"  id="landline_ec" class="form-control" data-role="tagsinput" name="landline_ec" data-role="tagsinput" required>
-	            </div> -->
 	          </div>
 
 	          <hr>
@@ -249,61 +241,116 @@ Chatterbox Scripts -->
 	        </div>
 
 	        <div id="community-contact-wrapper" hidden>
+	          <input type="text" id="cc_id" hidden>
 	          <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
 	              <label for="firstname_cc">Firstname:</label>
 	              <input type="text" class="form-control" id="firstname_cc" name="firstname_cc" maxlength="16" required>
 	            </div>
 
-	            <div class="col-md-6">
+	            <div class="col-md-4">
 	              <label for="lastname_cc">Lastname:</label>
 	              <input type="text" class="form-control" id="lastname_cc" name="lastname_cc" maxlength="16" required>
+	            </div>
+
+	            <div class="col-md-4">
+	              <label for="middlename_cc">Middlename:</label>
+	              <input type="text" class="form-control" id="middlename_cc" name="middlename_cc" maxlength="16" required>
 	            </div>
 	          </div>
 
 	          <div class="row">
 	            <div class="col-md-4">
-	              <label for="prefix_cc">Prefix:</label>
-	              <input type="text" class="form-control" id="prefix_cc" name="prefix_cc" maxlength="16" required>
+	              <label for="salutation_cc">Salutation:</label>
+	              <input type="text" class="form-control" id="salutation_cc" name="salutation_cc" maxlength="16" required>
 	            </div>
 
 	            <div class="col-md-4">
-	              <label for="office_cc">Office:</label>
-	              <select name="office_cc" id="office_cc"></select>
-	              <input type="text" class="form-control" id="other-officename" name="other_officename" placeholder="Office" hidden>
+	              <label for="nickname_cc">Nickname:</label>
+	              <input type="text" class="form-control" id="nickname_cc" name="nickname_cc" placeholder="">
 	            </div>
 
 	            <div class="col-md-4">
-	              <label for="sitename_cc">Sitename:</label>
-	              <select name="sitename_cc" id="sitename_cc"></select>
-	              <input type="text" class="form-control" id="other-sitename" name="other_sitename" placeholder="Sitename" hidden>
+	                <label for="birthdate">Birthdate:</label>
+					<div class="input-group date datetime" id="birthdate">		
+						<input type="text" class="form-control" id="birthdate_cc" aria-required="true" aria-invalid="false">
+						<span class="input-group-addon">
+						    <span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
 	            </div>
 	          </div> 
 
 	          <div class="row">
-	            <div class="col-md-6">
-	              <label for="numbers_cc">Contact #:</label>
-	              <input type="text" class="form-control" id="numbers_cc" name="numbers" data-role="tagsinput" required>
+	            <div class="col-md-2">
+	              <label for="gender_cc">Gender:</label>
+	              <input type="text" class="form-control" id="gender_cc" name="gender_cc" required>
 	            </div>
 
-	            <div class="col-md-3">
-	              <label for="rel">Reliability:</label>
-	              <select name="rel" id="rel" class="form-control">
-	                <option value="Y">Yes</option>
-	                <option value="N">No</option>
-	                <option value="Q">Q</option>
-	              </select>
+	            <div class="col-md-2">
+	              <label for="active_status_cc">Active status:</label>
+	              <input type="text" class="form-control" id="active_status_cc" name="active_status_cc" required>
 	            </div>
 
-	            <div class="col-md-3">
-	              <label for="ewirecipient">EWI Recipient:</label>
-	              <select name="ewirecipient" id="ewirecipient" class="form-control">
-	                <option value="1">Yes</option>
-	                <option value="0">No</option>
-	              </select>
+	            <div class="col-md-4">
+	              <label for="ewirecipient_cc">Early Warning Information Recipient:</label>
+	              <input type="text" class="form-control" id="ewirecipient_cc" name="ewirecipient_cc" required>
 	            </div>
 
 	          </div>
+	          <hr>
+	          <div class="panel-group" id="accordion">
+				  <div class="panel panel-default">
+				    <div class="panel-heading">
+				      <h4 class="panel-title" style="text-align: center;">
+				        <a data-toggle="collapse" data-parent="#accordion" href="#site-accord">Site Selection</a>
+				      </h4>
+				    </div>
+				    <div id="site-accord" class="panel-collapse collapse">
+				      <div class="panel-body">
+				      	<div id="site-selection-div">
+		  	                <div id="sitenames-cc-0" class="col-md-1 col-sm-1 col-xs-1"></div>
+			                <div id="sitenames-cc-1" class="col-md-1 col-sm-1 col-xs-1"></div>
+			                <div id="sitenames-cc-2" class="col-md-1 col-sm-1 col-xs-1"></div>
+			                <div id="sitenames-cc-3" class="col-md-1 col-sm-1 col-xs-1"></div>
+			                <div id="sitenames-cc-4" class="col-md-1 col-sm-1 col-xs-1"></div>
+			                <div id="sitenames-cc-5" class="col-md-1 col-sm-1 col-xs-1"></div>
+			                <div id="sitenames-cc-6" class="col-md-1 col-sm-1 col-xs-1"></div>
+			                <div id="sitenames-cc-7" class="col-md-1 col-sm-1 col-xs-1"></div>
+			                <div id="sitenames-cc-8" class="col-md-1 col-sm-1 col-xs-1"></div>
+			                <div id="sitenames-cc-9" class="col-md-1 col-sm-1 col-xs-1"></div>
+			                <div id="sitenames-cc-10" class="col-md-1 col-sm-1 col-xs-1"></div>
+							<div id="sitenames-cc-11" class="col-md-1 col-sm-1 col-xs-1"></div>
+						</div>
+				      </div>
+				    </div>
+				  </div>
+  				  <div class="panel panel-default">
+				    <div class="panel-heading">
+				      <h4 class="panel-title" style="text-align: center;">
+				        <a data-toggle="collapse" data-parent="#accordion" href="#org-accord">Organization Selection</a>
+				      </h4>
+				    </div>
+				    <div id="org-accord" class="panel-collapse collapse">
+				      <div class="panel-body">
+				      	<div id="organization-selection-div">
+				      		<div id="orgs-cc-0" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-1" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-2" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-3" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-4" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-5" class="col-md-2 col-sm-2 col-xs-2"></div>
+				      	</div>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+	          <hr>
+				<div id="mobile-div-cc">
+				</div>
+	          <hr>
+				<div id="landline-div-cc">
+				</div>
 	          <hr>
 	          <div id="comm-settings-cmd" class="right-content">
 	          	<button class="btn btn-danger" id="btn-clear-cc" >Reset</button>
@@ -321,7 +368,7 @@ Chatterbox Scripts -->
 
 	<!-- Site Selection Modal -->
 	<div class="modal fade col-lg" id="advanced-search" role="dialog">
-	  <div class="modal-dialog modal-md">
+	  <div class="modal-dialog modal-lg">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -353,8 +400,8 @@ Chatterbox Scripts -->
 	            <div class="row form-group">
 	              <p>Early Warning Information Recipients:</p>
 	              <div id="modal-select-recipients">
-	              	<label class="radio-inline"><input type="radio" name="opt-ewi-recipients" value="false" checked="true">All</label>
-	              	<label class="radio-inline"><input type="radio" name="opt-ewi-recipients" value="true" checked="true">Only selected EWI Receivers</label>
+	              	<label class="radio-inline"><input type="radio" name="opt-ewi-recipients" value="false" checked="true"><strong>All</strong></label>
+	              	<label class="radio-inline"><input type="radio" name="opt-ewi-recipients" value="true" checked="true">Early warning information receivers <strong>only</strong></label>
 	              </div>
 	            </div>
 	            <Br/>
@@ -364,12 +411,18 @@ Chatterbox Scripts -->
 	                <button id="uncheckAllSitenames" type="button" class="btn btn-info btn-xs">Uncheck All</button>
 	              </p>
 	              <div id="modal-select-sitenames">
-	                <div id="sitenames-0" class="col-md-2 col-sm-2 col-xs-2"></div>
-	                <div id="sitenames-1" class="col-md-2 col-sm-2 col-xs-2"></div>
-	                <div id="sitenames-2" class="col-md-2 col-sm-2 col-xs-2"></div>
-	                <div id="sitenames-3" class="col-md-2 col-sm-2 col-xs-2"></div>
-	                <div id="sitenames-4" class="col-md-2 col-sm-2 col-xs-2"></div>
-	                <div id="sitenames-5" class="col-md-2 col-sm-2 col-xs-2"></div>
+	                <div id="sitenames-0" class="col-md-1 col-sm-1 col-xs-1"></div>
+	                <div id="sitenames-1" class="col-md-1 col-sm-1 col-xs-1"></div>
+	                <div id="sitenames-2" class="col-md-1 col-sm-1 col-xs-1"></div>
+	                <div id="sitenames-3" class="col-md-1 col-sm-1 col-xs-1"></div>
+	                <div id="sitenames-4" class="col-md-1 col-sm-1 col-xs-1"></div>
+	                <div id="sitenames-5" class="col-md-1 col-sm-1 col-xs-1"></div>
+	                <div id="sitenames-6" class="col-md-1 col-sm-1 col-xs-1"></div>
+	                <div id="sitenames-7" class="col-md-1 col-sm-1 col-xs-1"></div>
+	                <div id="sitenames-8" class="col-md-1 col-sm-1 col-xs-1"></div>
+	                <div id="sitenames-9" class="col-md-1 col-sm-1 col-xs-1"></div>
+	                <div id="sitenames-10" class="col-md-1 col-sm-1 col-xs-1"></div>
+	                <div id="sitenames-11" class="col-md-1 col-sm-1 col-xs-1"></div>
 	              </div>
 	            </div>
 	          </div>
@@ -392,10 +445,10 @@ Chatterbox Scripts -->
 	        </div>
 	      </div>
 	      <div class="modal-footer">
+	      	<button id="exit-load-group" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>  
 	        <span id="load-groups-wrapper" data-toggle="tooltip" title="">
-	          <button id="go-load-groups" type="button" class="btn btn-success" data-dismiss="modal" >Okay</button>
-	        </span>
-	        <button id="exit-load-group" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>   
+	          <button id="go-load-groups" type="button" class="btn btn-success" data-dismiss="modal" >Confirm</button>
+	        </span>  
 	      </div>
 	    </div>
 	  </div>
