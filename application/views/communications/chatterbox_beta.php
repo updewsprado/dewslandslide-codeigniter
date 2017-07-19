@@ -25,7 +25,7 @@ Chatterbox Scripts -->
 					<div class="row">
 						<div class="col-sm-12 form-group">
 							<div class="input-group">
-								<input type="text" class="awesomplete form-control dropdown-input" placeholder="Type name..." data-multiple />
+								<input type="text" id="contact-suggestion" class="awesomplete form-control dropdown-input" placeholder="Type name..." data-multiple />
 								<span class="input-group-btn">
 							    	<button class="btn btn-default" id="go-chat" type="button">Go!</button>
 						        </span>
