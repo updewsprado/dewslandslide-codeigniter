@@ -1,4 +1,4 @@
-Chatterbox Scripts -->
+<!-- Chatterbox Scripts -->
 <script src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
 <script src="/js/dewslandslide/communications/dewsresponsive.js"></script>
 <script src="/js/third-party/awesomplete.js"></script>
@@ -152,13 +152,33 @@ Chatterbox Scripts -->
 	          </div>
 	        </div>
 
-	        <table id="response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
+	        <table id="emp-response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
 	          <thead>
-	            <tr></tr>
+	            <tr>
+	            	<th>ID #</th>
+	            	<th>Salutation</th>
+	            	<th>Firstname</th>
+	            	<th>Lastname</th>
+	            	<th>Middlename</th>
+	            	<th>Nickname</th>
+	            	<th>Team(s)</th>
+	            	<th>Active status</th>
+	            </tr>
 	          </thead>
-	          <tfoot>
-	            <tr></tr>
-	          </tfoot>
+	        </table>
+
+	        <table id="comm-response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
+	          <thead>
+	            <tr>
+	            	<th>ID #</th>
+	            	<th>Salutation</th>
+	            	<th>Firstname</th>
+	            	<th>Lastname</th>
+	            	<th>Middlename</th>
+	            	<th>Nickname</th>
+	            	<th>Active status</th>
+	            </tr>
+	          </thead>
 	        </table>
 
 	        <div id="employee-contact-wrapper" hidden>
