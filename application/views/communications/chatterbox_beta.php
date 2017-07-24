@@ -216,13 +216,17 @@
 	            </div>
 
 	            <div class="col-md-4">
-		            <label for="birthdate">Birthdate:</label>
-					<div class="input-group date datetime" id="birthdate">		
-	                    <input type="text" class="form-control" id="birthdate_ec" aria-required="true" aria-invalid="false">
+
+
+	              <div class="form-group">
+	              <label for="birthdate">Birthdate:</label>
+	                <div class='input-group date birthdate'>
+	                    <input type='text' class="form-control" id="birthdate_ec"/>
 	                    <span class="input-group-addon">
 	                        <span class="glyphicon glyphicon-calendar"></span>
 	                    </span>
 	                </div>
+	              </div>
 	            </div>
 	          </div> 
 
@@ -233,8 +237,13 @@
 	            </div>
 
 	            <div class="col-md-4">
-	              <label for="active_status_ec">Contact Active Status:</label>
-	              <input type="text" class="form-control" id="active_status_ec" id="active_status_ec" required>
+					<div class="form-group">
+						<label for="sel1">Contact Active Status:</label>
+						<select class="form-control" id="active_status_ec">
+							<option value="1">Active</option>
+							<option value="0">Inactive</option>
+						</select>
+					</div>
 	            </div>
 
 	            <div class="col-md-4">
@@ -292,7 +301,7 @@
 
 	            <div class="col-md-4">
 	                <label for="birthdate">Birthdate:</label>
-					<div class="input-group date datetime" id="birthdate">		
+					<div class="input-group date birthdate">		
 						<input type="text" class="form-control" id="birthdate_cc" aria-required="true" aria-invalid="false">
 						<span class="input-group-addon">
 						    <span class="glyphicon glyphicon-calendar"></span>
@@ -307,14 +316,25 @@
 	              <input type="text" class="form-control" id="gender_cc" name="gender_cc" required>
 	            </div>
 
-	            <div class="col-md-2">
-	              <label for="active_status_cc">Active status:</label>
-	              <input type="text" class="form-control" id="active_status_cc" name="active_status_cc" required>
+	            <div class="col-md-4">
+					<div class="form-group">
+						<label for="active_status_cc">Contact Active Status:</label>
+						<select class="form-control" id="active_status_cc">
+							<option value="1">Active</option>
+							<option value="0">Inactive</option>
+						</select>
+					</div>
 	            </div>
 
 	            <div class="col-md-4">
-	              <label for="ewirecipient_cc">Early Warning Information Recipient:</label>
-	              <input type="text" class="form-control" id="ewirecipient_cc" name="ewirecipient_cc" required>
+
+					<div class="form-group">
+						<label for="active_status_cc">Early Warning Information Recipient:</label>
+						<select class="form-control" id="ewirecipient_cc">
+							<option value="1">Yes</option>
+							<option value="0">Nah</option>
+						</select>
+					</div>
 	            </div>
 
 	          </div>
