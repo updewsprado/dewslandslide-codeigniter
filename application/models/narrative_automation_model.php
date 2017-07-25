@@ -33,7 +33,7 @@ class Narrative_automation_model extends CI_Model {
 				return $result->result();
 			}
 		} else {
-			$details['narrative'] = "Automatic Early warning information acknowledged";
+			$details['narrative'] = "No Ack";
 			array_push($onset_array,(object)$details);
 			return $onset_array;
 		}
