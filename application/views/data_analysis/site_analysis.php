@@ -236,7 +236,7 @@
 <div class="col-sm-9 col-md-9 original analysis " id="analysis_panel_body"></div>
 <br><br><br><br><br><br>
 <div class="col-sm-12 svgBox">
-  <svg id="rainfallsvg" xmlns="http://www.w3.org/2000/svg" width="1000" height ="1300"></svg>
+  <svg id="rainfallsvg" xmlns="http://www.w3.org/2000/svg" width="1300" height ="1300"></svg>
 </div>
 <div class="modal fade" id="groundModal" role="dialog">
   <div class="modal-dialog modal-lg">

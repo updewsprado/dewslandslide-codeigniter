@@ -24,7 +24,7 @@
     <div class="col-sm-12 col-md-12 graphGenerator" id="graphGenerator" >
     </div>
     <div id="rainAll" class="box">
-      <svg id="rainBox" xmlns="http://www.w3.org/2000/svg" width="1200" height ="1500"></svg>
+      <svg id="rainBox" xmlns="http://www.w3.org/2000/svg" width="1300" height ="1500"></svg>
     </div>
     <div id="subAll" class="box">
       <svg id="subBox" xmlns="http://www.w3.org/2000/svg" width="1250" height ="2800"></svg>
