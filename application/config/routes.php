@@ -123,6 +123,12 @@ $route['data_analysis/nodereport'] = "node_report_page";
 $route['data_analysis/site_analysis'] = "site_analysis_page";
 $route['data_analysis/rainfall_scanner'] = "rainfall_scanner_page";
 $route['data_analysis/Eos_onModal/(:any)/(:any)/(:any)'] = "Eos_modal";
+
+/**
+ * Data Analysis Pages Routes Public Website
+ */
+$route['public_website/analysis_graph/(:any)'] = "public_website_graphs";
+
 //Gold
 //$route['gold'] = "monitoring/index";
 $route['logout'] = "gold/logout";
