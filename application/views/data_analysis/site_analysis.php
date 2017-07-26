@@ -232,11 +232,24 @@
   <div class="panel-body  analysis"> 
   </div>
 </div>
+<input id="total_node" class="svgBox"></input>
 <div class="col-sm-3 col-md-3 original "></div>
 <div class="col-sm-9 col-md-9 original analysis " id="analysis_panel_body"></div>
 <br><br><br><br><br><br>
-<div class="col-sm-12 svgBox">
-  <svg id="rainfallsvg" xmlns="http://www.w3.org/2000/svg" width="1300" height ="1300"></svg>
+<div class="col-sm-12 svgBox" id="rainSvg">
+  <svg id="rainfallsvg" xmlns="http://www.w3.org/2000/svg" width="900" height ="1300"></svg>
+</div>
+<div class="col-sm-12 svgBox" id="surfSvg">
+  <svg id="surficialsvg" xmlns="http://www.w3.org/2000/svg" width="950" height ="1350"></svg>
+</div>
+<div class="col-sm-12 svgBox" id="pzSvg">
+  <svg id="piezosvg" xmlns="http://www.w3.org/2000/svg" width="900" height ="1300"></svg>
+</div>
+<div class="col-sm-12 svgBox" id="subSvg">
+  <svg id="subsurfacesvg" xmlns="http://www.w3.org/2000/svg" width="1000" height ="2600"></svg>
+</div>
+<div class="col-sm-12 svgBox" id="aceSvg">
+  <svg id="accelsvg" xmlns="http://www.w3.org/2000/svg" width="900" height ="1300"></svg>
 </div>
 <div class="modal fade" id="groundModal" role="dialog">
   <div class="modal-dialog modal-lg">
