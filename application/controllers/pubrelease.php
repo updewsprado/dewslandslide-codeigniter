@@ -82,7 +82,7 @@ class Pubrelease extends CI_Controller {
 		                           //current draw
 		$extraFilter = $_POST['extra_filter'];
 
-		$recordsTotal = $this->pubrelease_model->getEventCount($status);
+		$recordsTotal = $this->pubrelease_model->getEventCount();
 
 		function addTableName($x)
 		{

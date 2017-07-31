@@ -8,7 +8,7 @@
 <script src="/js/third-party/highcharts-more.js"></script>
 <script src="/js/third-party/daterangepicker.js"></script>
 <script src="/js/third-party/bootstrap-select.min.js"></script>
-<script src="https://code.highcharts.com/modules/no-data-to-display.js"></script>
+<script src="/js/third-party/no-data-to-display.js"></script>
 <script src="/js/dewslandslide/data_analysis/EOS_onModal.js"></script>
 <script src="/js/third-party/daterangepicker.js"></script>
 <style type="text/css">

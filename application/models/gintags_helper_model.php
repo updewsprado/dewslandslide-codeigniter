@@ -181,9 +181,14 @@ class Gintags_helper_model extends CI_Model {
       $multiple_gintag = "";
       $tags = explode(",",$data->gintags);
       for ($counter = 0; $counter < sizeof($tags);$counter++) {
-        $query = "SELECT * FROM gintags INNER JOIN gintags_reference ON gintags.tag_id_fk = gintags_reference.tag_id WHERE timestamp BETWEEN '".$data->start_date."' AND '".$data->end_date."' AND gintags_reference.tag_name = '".$tags[$counter]."';";
+        $query = "SELECT tag_id FROM gintags_reference WHERE tag_name LIKE '%".$tags[$counter]."%'";
         $result = $this->db->query($query);
-        $result_collection[$tags[$counter]] = $result->result();
+        foreach ($result->result() as $tag_id) {
+          $query = "SELECT * FROM gintags WHERE timestamp >= '".$data->start_date." 00:00:00' AND timestamp <= '".$data->end_date." 23:59:59' AND tag_id_fk='".$tag_id->tag_id."'";
+          // var_dump($query);
+          $result = $this->db->query($query);
+          $result_collection[$tags[$counter]] = $result->result();
+        }
       }
       return $result_collection;
     }

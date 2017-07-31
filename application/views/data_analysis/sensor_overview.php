@@ -1,5 +1,5 @@
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="/js/third-party/d3.v3.min.js"></script>
+<script src="/js/third-party/d3.tip.v0.6.3.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgTy7hTZqs58DR3fIWdjURY9TGcv2l9kY"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/sensor_overview.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/dewspresence.js"></script>

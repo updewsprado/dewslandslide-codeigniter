@@ -1,10 +1,10 @@
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="/js/third-party/d3.v3.min.js"></script>
+<script src="/js/third-party/d3.tip.v0.6.3.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/alertmini.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewsalert.css">
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/node_level.js"></script>
-<script src="https://code.highcharts.com/stock/highstock.js"></script>
-<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="/js/third-party/highstock.js"></script>
+<script src="/js/third-party/exporting.js"></script>
 <script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 <script type="text/javascript" src="/js/third-party/daterangepicker.js"></script>

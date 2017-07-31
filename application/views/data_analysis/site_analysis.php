@@ -6,6 +6,7 @@
 <script src="/js/third-party/inferno.js"></script>
 <script src="/js/third-party/highstock.js"></script>
 <script src="/js/third-party/exporting.js"></script>
+<script src="/js/third-party/no-data-to-display.js"></script>
 <script src="/js/third-party/highcharts-more.js"></script>
 <script src="/js/third-party/inferno.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHuLBzeBR6eA_z70NOabE-uov9jg46Azc"></script>
@@ -233,6 +234,10 @@
 </div>
 <div class="col-sm-3 col-md-3 original "></div>
 <div class="col-sm-9 col-md-9 original analysis " id="analysis_panel_body"></div>
+<br><br><br><br><br><br>
+<div class="col-sm-12 svgBox">
+  <svg id="rainfallsvg" xmlns="http://www.w3.org/2000/svg" width="1000" height ="1300"></svg>
+</div>
 <div class="modal fade" id="groundModal" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -299,7 +304,6 @@
       </div>
       <div class="modal-body">
         <div style="text-align: center;" id="pdfsvg">
-          <!-- <iframe src="" frameborder="0" style="width:800px; height:500px;"></iframe> -->
         </div>
       </div>
       <div class="modal-footer">
