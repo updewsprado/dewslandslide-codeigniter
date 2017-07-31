@@ -192,8 +192,15 @@
 				<h4 class="modal-title-backbone" id="modal-title-backbone">Create Message Backbone</h4>
 			</div>
 			<div class="modal-body">
-				<div class="panel panel-info">
-					<div class="panel-heading">Key Inputs</div>
+
+			<div class="panel-group">
+			  <div class="panel panel panel-info">
+			    <div class="panel-heading panel-info">
+			      <h4 class="panel-title" style="text-align: center;">
+			        <a data-toggle="collapse" href="#collapse1">Key Inputs</a>
+			      </h4>
+			    </div>
+			    <div id="collapse1" class="panel-collapse collapse">
 					<div class="panel-body">
 						<button type="button" id="alert_lvl_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(alert_level)")">+ Alert Level</button>
 						<button type="button" id="greetings_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(greetings)">+ Greetings</button>
@@ -207,6 +214,14 @@
 						<button type="button" id="next_ewi_date_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(next_ewi_date)">+ Next EWI date</button>
 						<button type="button" id="next_ewi_time_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(next_ewi_time)">+ Next EWI time</button>
 						<button type="button" id="nth-day_backbone" class="btn btn-info btn-xs update_backbone" style="margin: 2px;" value="(nth-day-extended)">+ Extended nth-day</button>
+					</div>
+			    </div>
+			  </div>
+			</div>
+				<div class="row">
+					<div class="col-md-12">
+						<label for="bb_alert_status">Alert Status:</label>
+						<input class="form-control" type="text" id="bb_alert_status" placeholder="E.g. #Event">
 					</div>
 				</div>
 				<div class="row form-group">
