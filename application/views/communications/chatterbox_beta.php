@@ -51,8 +51,8 @@
 		</div>
 		<div class="col-sm-7 division hidden" id="main-container">
 			<div id="convo-header" class="panel panel-success">
-				<div class="panel-heading">Sitename: [SAMPLE] Office: [Sample]</div>
-				<div class="panel-body"></div>
+				<div class="panel-heading" style="overflow-y: scroll; max-height: 40px;">Sitename: [SAMPLE] Office: [Sample]</div>
+				<div class="panel-body" style="overflow-y: scroll; padding: 5px 5px 0px 5px; max-height: 40px;"></div>
 			</div>
 			<hr>
 			<div class="panel panel-success">
