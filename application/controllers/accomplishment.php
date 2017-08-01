@@ -54,6 +54,11 @@
 			$data = $this->accomplishment_model->getNarrativesForShift($_GET['event_id'], $_GET['start'], $_GET['end']);
 			echo "$data";
 		}
+		public function getSensorColumns($site_code)
+		{
+			$data = $this->accomplishment_model->getSensorColumns($site_code);
+			echo "$data";
+		}
 		public function insertNarratives()
 		{
 			$narratives = $_POST['narratives'];
