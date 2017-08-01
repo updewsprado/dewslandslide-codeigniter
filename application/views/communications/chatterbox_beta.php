@@ -51,6 +51,7 @@
 		</div>
 		<div class="col-sm-7 division hidden" id="main-container">
 			<div id="convo-header" class="panel panel-success">
+			<input type="text" id="contact-indicator" value="" hidden>
 				<div class="panel-heading">Sitename: [SAMPLE] Office: [Sample]</div>
 				<div class="panel-body"></div>
 			</div>
@@ -521,3 +522,23 @@
 	<!-- END EWI MODAL -->
 
 <!-- END OF MODAL SECTION -->
+
+<div id="chatterbox-loading" class="modal fade" role="dialog" hidden>
+  <div class="modal-dialog modal-xs">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+      <div class="form-group">
+	      <div class="loading-wrapper">
+	      	<img src="../../../images/dewsl-loading.gif" align="middle">
+	      </div>
+	      <div style="text-align: center;">
+	      	<label for="">Loading..</label>
+	      </div>
+      </div>
+      </div>
+    </div>
+
+  </div>
+</div>
