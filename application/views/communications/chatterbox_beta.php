@@ -36,6 +36,7 @@
 						<ul class="nav nav-tabs inbox-tab">
 						    <li class="active"><a data-toggle="tab" href="#registered">Inbox</a></li>
 						    <li><a data-toggle="tab" href="#unknown">Filtered</a></li>
+						    <li><a data-toggle="tab" href="#event-inbox">Event inbox</a></li>
 						</ul>
 						<div class="tab-content">
 							<div id="registered" class="tab-pane fade in active">
@@ -43,6 +44,9 @@
 							</div>
 							<div id="unknown" class="tab-pane fade">
 								<ul id="quick-inbox-unknown-display" class="friend-list"></ul>
+							</div>
+							<div id="event-inbox" class="tab-pane fade">
+								<ul id="quick-event-inbox-display" class="friend-list"></ul>
 							</div>
 						</div>
 					</div>
