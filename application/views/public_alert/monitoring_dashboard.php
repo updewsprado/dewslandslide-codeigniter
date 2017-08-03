@@ -316,15 +316,14 @@
                     	<div id="invalid_template" hidden="hidden">
 	                        <div class="row">
 	                        	<div class="col-sm-12 text-center">
-	                        		<p><span class="glyphicon glyphicon-warning-sign"></span>&emsp;This trigger has been tagged <strong>INVALID</strong>.</p>
+	                        		<span class="glyphicon glyphicon-warning-sign"></span>&ensp;This trigger has been tagged <strong>INVALID</strong> by <strong><span id="staff">Community</span></strong>.&ensp;<span class="glyphicon glyphicon-warning-sign"></span>
 	                        	</div>
 	                        </div>
 	                        <div class="row">
-	                        	<div class="col-sm-5 col-sm-offset-1"><strong>Date/Time:&emsp;</strong> <span id="timestamp">Dec. 26, 2017, 19:30:00</span></div>
-	                        	<div class="col-sm-5 col-sm-offset-1"><strong>Staff:&emsp;</strong> <span id="staff">Community</span></div>
+	                        	<div class="col-sm-12 text-center"><strong>Date/Time:&ensp;</strong> <span id="timestamp">Dec. 26, 2017, 19:30:00</span></div>
 	                        </div>
 	                        <div class="row">
-	                        	<div class="col-sm-11 col-sm-offset-1"><strong>Remarks:&emsp;</strong><span id="remarks">Disp alert was caused by a data jump.</span>
+	                        	<div class="col-sm-12 text-center"><strong>Remarks:&ensp;</strong><span id="remarks">Disp alert was caused by a data jump.</span>
 	                        	</div>
 	                        </div>
 	                        <hr/>
