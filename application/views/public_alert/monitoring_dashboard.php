@@ -316,7 +316,7 @@
                     	<div id="invalid_template" hidden="hidden">
 	                        <div class="row">
 	                        	<div class="col-sm-12 text-center">
-	                        		<span class="glyphicon glyphicon-warning-sign"></span>&ensp;This trigger has been tagged <strong>INVALID</strong> by <strong><span id="staff">Community</span></strong>.&ensp;<span class="glyphicon glyphicon-warning-sign"></span>
+	                        		<span class="glyphicon glyphicon-warning-sign"></span>&ensp;This trigger was tagged <strong>INVALID</strong> by <strong><span id="staff">Community</span></strong>.&ensp;<span class="glyphicon glyphicon-warning-sign"></span>
 	                        	</div>
 	                        </div>
 	                        <div class="row">
