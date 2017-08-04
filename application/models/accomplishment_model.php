@@ -24,7 +24,6 @@
 			$this->db->where('public_alert_release.data_timestamp >', $start);
 			$this->db->where('public_alert_release.data_timestamp <=', $end);
 			$this->db->where('public_alert_event.status !=', 'routine ');
-			$this->db->where('public_alert_event.status !=', 'finished ');
 			$this->db->where('public_alert_event.status !=', 'invalid ');
 			$this->db->order_by("data_timestamp", "desc");
 			$query = $this->db->get();
@@ -102,6 +101,11 @@
 		{
 			$this->db->where($column, $key);
 			$this->db->update($table, $data);
+		}
+		
+		public function delete($table, $array)
+		{
+			$this->db->delete($table, $array); 
 		}
 
 		// SELECT r.release_id, r.event_id, r.data_timestamp, r.reporter_id_mt, r.reporter_id_ct 

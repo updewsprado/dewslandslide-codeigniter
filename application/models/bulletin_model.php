@@ -50,6 +50,7 @@
 		public function getResponses($public_alert, $internal_alert)
 		{
 			$internal_alert = str_replace("0", "", substr($internal_alert, 2));
+			$internal_alert = preg_replace("/[r]?x/", "", $internal_alert, 1);
 			$internal_alert = $public_alert . $internal_alert;
 
 			$query = $this->db->get_where('lut_responses', array('public_alert_level' => $public_alert));

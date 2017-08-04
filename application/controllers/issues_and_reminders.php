@@ -28,8 +28,8 @@
 		{
 			$this->load->model('monitoring_model');
 			$data['events'] = $this->monitoring_model->getOnGoingEvents();
-			$data['locked'] = isset($_GET['locked']) ? json_encode($_GET['locked']) : $this->issues_model->getAllRowsByStatus('locked');
-			$data['normal'] = isset($_GET['normal']) ? json_encode($_GET['normal']) : $this->issues_model->getAllRowsByStatus('normal');
+			$data['locked'] = isset($_POST['locked']) ? $_POST['locked'] : $this->issues_model->getAllRowsByStatus('locked');
+			$data['normal'] = isset($_POST['normal']) ? $_POST['normal'] : $this->issues_model->getAllRowsByStatus('normal');
 			return $this->load->view('public_alert/issues_and_reminders_modal', $data);
 		}
 
