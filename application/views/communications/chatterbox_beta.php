@@ -452,7 +452,8 @@
 					<label class="radio-inline col-xs-4"><input type="radio" name="opt-search" value="general-search">General Search</label>
 				</div>
 				<div class="form-group col-xs-12" id = "key-div-container">
-					<input type="text" id="search-global-keyword" class="form-control">
+					<label for="search-global-keyword">Search Keyword: </label>
+					<input type="text" id="search-global-keyword" class="form-control" placeholder="E.g. Magandang Umaga">
 				</div>
 
 				<div class="form-group col-xs-12" id="time-div-container" hidden>
@@ -475,8 +476,16 @@
 		                </div>
 					</div>
 				</div>
-				<div class="form-group col-xs-12 right-content">
-					<button class="btn btn-primary" id="btn-search-global">Search</button> 
+				<div class="form-group col-xs-8">
+					<div class="left-content form-inline">
+						<label for="search-limit">Search Limit: </label>
+						<input type="text" class="form-control" id="search-limit" placeholder="E.g. 100">
+					</div>
+				</div>
+				<div class="form-group col-xs-4">
+					<div class="right-content">
+						<button class="btn btn-primary" id="btn-search-global">Search</button>
+					</div>
 				</div>
 			</div>
 		</div>
