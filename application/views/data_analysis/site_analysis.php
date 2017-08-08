@@ -75,9 +75,6 @@
 
                  <div class='input-group date col-sm-9 pull-right' >
                     <input type='text' class="form-control" id='time0'/>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </span>
                 </div>
                </div>
              </div>
