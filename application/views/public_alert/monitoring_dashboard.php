@@ -74,7 +74,7 @@
 			    	<div class="panel panel-default">
 						<div class="panel-heading">Latest Candidate Triggers and Releases</div>
 						<div class="panel-body clearfix">
-							<div class="col-md-12" style="text-align:center; font-size: 12px;"><b>Legend: &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop valid-square"></span> No reported invalid trigger(s) &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop partial-square"></span> Released alert with trigger(s) tagged invalid &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop invalid-square"></span> Tagged Invalid
+							<div class="col-md-12" style="text-align:center; font-size: 12px;"><b>Legend: &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop valid-square"></span> No reported invalid trigger(s) &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop partial-square"></span> Released alert with trigger(s) tagged invalid &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop invalid-square"></span> Tagged invalid
 							</b></div>
 							<div class="col-md-12"><div class="table-responsive">
 				                <table class="table" id="candidate">
