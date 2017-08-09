@@ -75,7 +75,6 @@
 
                  <div class='input-group date col-sm-9 pull-right' >
                     <input type='text' class="form-control" id='time0'/>
-                    
                 </div>
                </div>
              </div>
@@ -344,4 +343,3 @@
 
 
 </div>
-
