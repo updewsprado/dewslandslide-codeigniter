@@ -36,6 +36,7 @@
 						<ul class="nav nav-tabs inbox-tab">
 						    <li class="active"><a data-toggle="tab" href="#registered">Inbox</a></li>
 						    <li><a data-toggle="tab" href="#unknown">Filtered</a></li>
+						    <li><a data-toggle="tab" href="#event-inbox">Event inbox</a></li>
 						</ul>
 						<div class="tab-content">
 							<div id="registered" class="tab-pane fade in active">
@@ -44,6 +45,9 @@
 							<div id="unknown" class="tab-pane fade">
 								<ul id="quick-inbox-unknown-display" class="friend-list"></ul>
 							</div>
+							<div id="event-inbox" class="tab-pane fade">
+								<ul id="quick-event-inbox-display" class="friend-list"></ul>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -51,6 +55,7 @@
 		</div>
 		<div class="col-sm-7 division hidden" id="main-container">
 			<div id="convo-header" class="panel panel-success">
+			<input type="text" id="contact-indicator" value="" hidden>
 				<div class="panel-heading">Sitename: [SAMPLE] Office: [Sample]</div>
 				<div class="panel-body"></div>
 			</div>
@@ -521,3 +526,23 @@
 	<!-- END EWI MODAL -->
 
 <!-- END OF MODAL SECTION -->
+
+<div id="chatterbox-loading" class="modal fade" role="dialog" hidden>
+  <div class="modal-dialog modal-xs">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+      <div class="form-group">
+	      <div class="loading-wrapper">
+	      	<img src="../../../images/dewsl-loading.gif" align="middle">
+	      </div>
+	      <div style="text-align: center;">
+	      	<label for="">Loading..</label>
+	      </div>
+      </div>
+      </div>
+    </div>
+
+  </div>
+</div>
