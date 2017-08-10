@@ -479,7 +479,7 @@
 				<div class="form-group col-xs-8">
 					<div class="left-content form-inline">
 						<label for="search-limit">Search Limit: </label>
-						<input type="text" class="form-control" id="search-limit" placeholder="E.g. 100">
+						<input type="number" min="1" max="999" maxlength = "3" class="form-control" id="search-limit" value="1" placeholder="E.g. 100">
 					</div>
 				</div>
 				<div class="form-group col-xs-4">
