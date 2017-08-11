@@ -74,6 +74,8 @@
 			    	<div class="panel panel-default">
 						<div class="panel-heading">Latest Candidate Triggers and Releases</div>
 						<div class="panel-body clearfix">
+							<div class="col-md-12" style="text-align:center; font-size: 12px;"><b>Legend: &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop valid-square"></span> No reported invalid trigger(s) &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop partial-square"></span> Released alert with trigger(s) tagged invalid &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop invalid-square"></span> Tagged invalid
+							</b></div>
 							<div class="col-md-12"><div class="table-responsive">
 				                <table class="table" id="candidate">
 				                    <thead>
@@ -310,6 +312,23 @@
 
                     <form id="modalForm" name='form' role='form'>
                     <div class="modal-body">
+                    	
+                    	<div id="invalid_template" hidden="hidden">
+	                        <div class="row">
+	                        	<div class="col-sm-12 text-center">
+	                        		<span class="glyphicon glyphicon-warning-sign"></span>&ensp;This trigger was tagged <strong>INVALID</strong> by <strong><span id="staff">Community</span></strong>.&ensp;<span class="glyphicon glyphicon-warning-sign"></span>
+	                        	</div>
+	                        </div>
+	                        <div class="row">
+	                        	<div class="col-sm-12 text-center"><strong>Date/Time:&ensp;</strong> <span id="timestamp">Dec. 26, 2017, 19:30:00</span></div>
+	                        </div>
+	                        <div class="row">
+	                        	<div class="col-sm-12 text-center"><strong>Remarks:&ensp;</strong><span id="remarks">Disp alert was caused by a data jump.</span>
+	                        	</div>
+	                        </div>
+	                        <hr/>
+                        </div>
+
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label class="control-label" for="timestamp_entry">Data Timestamp</label>
@@ -398,8 +417,19 @@
 
                         <div id="rain_area" hidden="hidden">
                         	<div class="row line"><hr></div>
+                        	<div class="invalid_area"></div>
                         	<div class="row">
-                        		<div class="col-sm-3 text-center area_label"><h4><b>RAINFALL</b></h4></div>
+                        		<div class="col-sm-3 text-center area_label">
+                        			<div class="row"><h4><b>RAINFALL</b></h4></div>
+                        			<div class="row">
+                        				<div class="form-group col-sm-12">
+	                        				<div class="checkbox">
+	  											<label><input class="trigger_switch" name="trigger_switch" type="checkbox" value="rain">Include</label>
+											</div>
+                        				</div>
+                        				
+									</div>
+                        		</div>
                                 <div class="col-sm-9">
                                     <div class="row">
                                         <div class="form-group col-sm-12">
@@ -417,8 +447,7 @@
                                         </div>
                                     </div>
                                 </div> 
-                        	</div>
-                                                        
+                        	</div>                                  
                         </div>
 
                         <div id="eq_area" hidden="hidden">
@@ -454,8 +483,7 @@
                                     <label for="trigger_eq_info">Technical Info:</label>
                                     <textarea class="form-control trigger_info" rows="1" id="trigger_eq_info" name="trigger_eq_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                 </div>      
-                            </div>
-                                          
+                            </div>             
                         </div>
 
                          <div id="ground_area" hidden="hidden">
@@ -499,12 +527,23 @@
 
                         <div id="sensor_area" hidden="hidden">
                         	<div class="row line"><hr></div>
+                        	<div class="invalid_area"></div>
+
                         	<div class="row">
-                        		<div class="col-sm-3 text-center area_label"><h4><b>SENSOR</b></h4></div>
+                        		<div class="col-sm-3 text-center area_label">
+                        			<div class="row"><h4><b>SENSOR</b></h4></div>
+                        			<div class="row">
+                        				<div class="form-group col-sm-12">
+	                        				<div class="checkbox">
+	  											<label><input class="trigger_switch" name="trigger_switch[]" type="checkbox" value="sensor">Include</label>
+											</div>
+                        				</div>
+									</div>
+                        		</div>
                         		<div class="col-sm-9">
                                     <div class="row">
                                         <div class="form-group col-sm-6">
-                                            <label for="trigger_sensor_1">L2 (g) Trigger Timestamp</label>
+                                            <label for="trigger_sensor_1">L2 (s) Trigger Timestamp</label>
                                             <div class='input-group date datetime'>
                                                 <input type='text' class="form-control" id="trigger_sensor_1" name="trigger_sensor_1" disabled="disabled"/>
                                                 <span class="input-group-addon">
@@ -513,7 +552,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-6">
-                                            <label for="trigger_sensor_2">L3 (G) Trigger Timestamp</label>
+                                            <label for="trigger_sensor_2">L3 (S) Trigger Timestamp</label>
                                             <div class='input-group date datetime'>
                                                 <input type='text' class="form-control" id="trigger_sensor_2" name="trigger_sensor_2" disabled="disabled"/>
                                                 <span class="input-group-addon">
@@ -567,6 +606,7 @@
                     </div>
                     <div class="modal-footer">
                         <button id="release" class="btn btn-danger" role="button" type="submit">Release Alert</button>
+                        <button class="btn btn-default" data-dismiss="modal" role="button">Cancel</button>
                     </div>
                     </form>
                 </div>
