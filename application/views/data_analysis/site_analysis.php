@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-select.min.css">
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewsalert.css">
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/dewscommhealth.css">
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.css">
+<link rel="stylesheet" type="text/css" href="/css/third-party/jquery.timepicker.css">
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 <script src="/js/third-party/inferno.js"></script>
 <script src="/js/third-party/highstock.js"></script>
@@ -21,7 +21,7 @@
 <script src="/js/dewslandslide/dewscommhealth-d3.js"></script>
 <script src="/js/dewslandslide/data_analysis/site_analysis.js"></script>
 <script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.js"></script>
+<script src="/js/third-party/jquery.timepicker.js"></script>
 
 <style type="text/css">
   .highcharts-container {
@@ -75,9 +75,6 @@
 
                  <div class='input-group date col-sm-9 pull-right' >
                     <input type='text' class="form-control" id='time0'/>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </span>
                 </div>
                </div>
              </div>
@@ -346,4 +343,3 @@
 
 
 </div>
-
