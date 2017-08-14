@@ -3,7 +3,7 @@ class site_level_model extends CI_Model {
 
 	public function getSiteNames(){
 		$this->db->select('name');
-		$this->db->from('site_rain_props');
+		$this->db->from('rain_props');
 		$this->db->order_by("name", "asc");
 		$query = $this->db->get();
 		return $query->result();
