@@ -32,6 +32,15 @@ class node_level_model extends CI_Model {
 
 
 	}
+
+	public function getAccelBatteryThreshold($site,$node){
+		$sql = "SELECT * from senslopedb.node_accel_table where site_name='$site'  and  node_id='$node'";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+
+
+
 	public function getSomsRaw($site,$fdate,$tdate,$ms,$nid){
 		$sql = "SELECT * from senslopedb.$site where msgid='$ms'  and timestamp between '$fdate' and '$tdate' and id='$nid'";
 		$query = $this->db->query($sql);
