@@ -197,6 +197,7 @@
 	                        <button type="button" id="send-btn-ewi-amd" class="btn btn-success">Send</button>
                         </div>
                         <input type="hidden" name="site_abbr" id="site-abbr">
+                        <input type="hidden" id="extended_status">
                         <input type="hidden" name="footer_ewi" id="footer-ewi" value="<?php echo $first_name; ?>">
                     </div>
                 </div>  
