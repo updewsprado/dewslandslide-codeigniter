@@ -449,7 +449,6 @@
 				<div class="form-group col-xs-12">
 					<label class="radio-inline col-xs-4"><input type="radio" name="opt-search" value="timestamp-written-search">via Timestamp written</label>
 					<label class="radio-inline col-xs-3"><input type="radio" name="opt-search" value="unknown-number-search">via Unknown numbers</label>
-					<label class="radio-inline col-xs-4"><input type="radio" name="opt-search" value="general-search">General Search</label>
 				</div>
 				<div class="form-group col-xs-12" id = "key-div-container">
 					<label for="search-global-keyword">Search Keyword: </label>
