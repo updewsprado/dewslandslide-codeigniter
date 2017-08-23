@@ -245,6 +245,10 @@
 <input type="text" class="form-control tag" id="tag_series"  hidden="">
 <input type="text" class="form-control tag" id="tag_description"  hidden="">
 <input type="text" class="form-control tag" id="tag_tableused"  hidden="">
+<input type="text" class="form-control tag" id="tag_id"  hidden="">
+<input type="text" class="form-control tag" id="tag_table_id"  hidden="">
+<input type="text" class="form-control tag" id="tag_hash"  hidden="">
+<input type="text" class="form-control tag" id="tag_comments"  hidden="">
 </div>
 <div class="col-sm-9 col-md-9 original" id="analysis_panel">
   <div class="panel-body  analysis"> 

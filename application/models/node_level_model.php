@@ -48,7 +48,7 @@ class node_level_model extends CI_Model {
 	}
 	
 	public function gintagsNodeTagID($data,$from_id,$to_id,$site){
-		$sql = "SELECT $data.*, gintags.gintags_id,gintags_reference.tag_name,gintags_reference.tag_description,membership.first_name as
+		$sql = "SELECT $data.*, gintags.gintags_id, gintags.tag_id_fk,gintags_reference.tag_name,gintags_reference.tag_description,membership.first_name as
 		tagger_firstname,membership.last_name as tagger_lastname,gintags.table_element_id,gintags.table_used,gintags.timestamp as ts,gintags.remarks from
 		gintags inner join gintags_reference ON gintags.tag_id_fk=gintags_reference.tag_id 
 		inner join

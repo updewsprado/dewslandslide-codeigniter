@@ -53,6 +53,7 @@ class Gintagshelper extends CI_Controller {
 			$data['remarks'] = $gintags[$i]["remarks"];
 			$result = $this->gintags_helper_model->insertGinTagEntry($data);
 		}
+		print json_encode($gintags);
 	}
 
 	public function removeGintagsEntryViaChatterbox(){
@@ -145,4 +146,38 @@ class Gintagshelper extends CI_Controller {
 		$result['sms'] = $result_sms;
 		print json_encode($result);
 	}
+
+	public function removeGintagsByGintagsId(){
+		$gintags = $_POST['gintags'];
+		$data["gintags_id"] = $gintags["gintags_id"];
+		$data['tag_name_id'] = $gintags["tag_name_id"];
+		$data['timestamp'] = $gintags["timestamp"];
+		$data['tagger'] = $gintags["tagger"];
+		$data['table_element_id'] = $gintags["table_element_id"];
+		$data['table_used'] = $gintags["table_used"];
+		$data['remarks'] = $gintags["remarks"];
+		$data['issue'] = $gintags["issue"];
+		$data['status'] = $gintags["status"];
+		$result = $this->gintags_helper_model->removeGintagId($data);
+		print json_encode($result);
+	}
+
+	public function updateGintagsByGintagsId(){
+		$gintags = $_POST['gintags'];
+		$data["gintags_id"] = $gintags["gintags_id"];
+		$data['tag_description'] = $gintags["tag_description"];
+		$data['tag_name'] = $gintags["tag_name"];
+		$data['tag_name_id'] = $gintags["tag_name_id"];
+		$data['timestamp'] = $gintags["timestamp"];
+		$data['tagger'] = $gintags["tagger"];
+		$data['table_element_id'] = $gintags["table_element_id"];
+		$data['table_used'] = $gintags["table_used"];
+		$data['remarks'] = $gintags["remarks"];
+		$data['issue'] = $gintags["issue"];
+		$data['status'] = $gintags["status"];
+		$result = $this->gintags_helper_model->updateGintagId($data);
+		print json_encode($result);
+	}
+
+
 }

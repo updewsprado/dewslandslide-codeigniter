@@ -214,4 +214,49 @@ class Gintags_helper_model extends CI_Model {
       $result = $this->db->query($query);
       return $result->result();
     }
+
+    public function removeGintagId($data){
+      $insertGintags = $this->InsertGintagsHistory($data);
+      $gintags_id = $data["gintags_id"];
+      $query_delete = "DELETE FROM gintags WHERE gintags_id='$gintags_id'";
+      $result_delete = $this->db->query($query_delete);
+      return $result_delete;
+    }
+
+    public function updateGintagId($data){
+      $checkTagExistData = $this->checkTagExist($data);
+      $gintags_id = $data["gintags_id"];
+      $remarks = $data["remarks"];
+      if (sizeof($checkTagExistData) == 0) {
+          $ginRefs = $this->insertIntoGinRef($data);
+          if ($ginRefs == True){
+            $TagExistData = $this->checkTagExist($data);
+            $newTagId = $TagExistData[0]->tag_id; 
+          } 
+      } else {  
+          $newTagId = $checkTagExistData[0]->tag_id;        
+      }
+      $query_update = "UPDATE `gintags` SET `tag_id_fk`= '$newTagId' , `remarks`='$remarks' WHERE `gintags_id`='$gintags_id'";
+      $insertGintags = $this->InsertGintagsHistory($data);
+      $result_update = $this->db->query($query_update);
+      return $result_update;
+    }
+
+    public function InsertGintagsHistory($data){
+      $tag_id_fk = $data["tag_name_id"] ;
+      $tagger_eid_fk = $data["tagger"];
+      $table_element_id = $data["table_element_id"];
+      $table_used = $data["table_used"];
+      $timestamp = $data["timestamp"];
+      $remarks = $data["remarks"];
+      $issue = $data["issue"];
+      $status = $data["status"];
+
+      $query_insert = "INSERT INTO gintags_history (`tag_id_fk`, `tagger_eid_fk`, `table_element_id`, `table_used`, `timestamp`, `remarks`,`issue`, `status`) VALUES ('$tag_id_fk', '$tagger_eid_fk', '$table_element_id', '$table_used', '$timestamp', '$remarks','$issue' ,'$status')";
+      $result_insert = $this->db->query($query_insert);
+      
+    }
+
+     
+
 }
