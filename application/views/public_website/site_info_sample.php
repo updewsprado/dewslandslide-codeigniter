@@ -9,6 +9,7 @@
      
  -->
 
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/dewslandslide/public_website/public_website_general.css">
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/dewslandslide/public_website/site_info_sample.css">
 
 <div id="page-wrapper">
