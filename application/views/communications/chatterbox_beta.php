@@ -608,3 +608,20 @@
 
   </div>
 </div>
+
+
+
+
+<div id="connection-interruption" class="modal fade" role="dialog" hidden>
+  <div class="modal-dialog modal-xs">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+      <div class="form-group">
+			NO CONNECTION
+      </div>
+      </div>
+    </div>
+
+  </div>
+</div>
