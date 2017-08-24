@@ -108,7 +108,8 @@ $route['generalinformation/initialize'] = "gintagshelper/initialize";
 $route['generalinformation/getanalytics'] = "gintagshelper/getAnalytics";
 $route['narrativeAutomation/insert'] = "narrative_generator/insertEwiNarrative";
 $route['narrativeautomation/checkack'] = "narrative_generator/checkForAcknowledgement";
-
+$route['generalinformation/removeGintagsId'] = "gintagshelper/removeGintagsByGintagsId";
+$route['generalinformation/updateGintagsId'] = "gintagshelper/updateGintagsByGintagsId";
 /**
  * Data Analysis Pages Routes
  */
