@@ -12,6 +12,7 @@ class Gintagshelper extends CI_Controller {
 	public function initialize(){
 		$this->gintags_helper_model->createGintagsReferenceTable();
 		$this->gintags_helper_model->createGintagsTable();
+		$this->gintags_helper_model->createGintagsHistoryTable();
 	}
 
 	public function index() {
