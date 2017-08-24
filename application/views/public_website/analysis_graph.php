@@ -29,59 +29,70 @@
             <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
             <span></span> <b class="caret"></b>
           </div>
-          <div id="surficialGraph" class="surficialClass"></div></div>
+
+
+          <div id="surficialGraph" class="surficialClass"></div>
+          <h4><b> NOTE :</h4>
+              <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
+
+
         </div>
         <div class="panel panel-info">
           <div class="panel-heading"><h3><b>Rainfall Graph</b></h3></div>
           <div class="panel-body">
-            <div id="with_data"></div>
-            <div id="reportrangerain" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 25%">
-              <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-              <span></span> <b class="caret"></b>
+
+
+            <div class="row">
+              <div id="with_data"></div>
+              <div id="reportrangerain" class="pull-right " style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 25%;margin-right: 15px;">
+                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                <span></span> <b class="caret"></b>
+              </div>
             </div>
             <div id="rainfallGraph" class="rainClass"></div>
+              <h4><b> NOTE :</h4>
+              <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
+            
+
+
           </div>
           
         </div>
         <div class="panel panel-info">
           <div class="panel-heading"><h3><b>Subsurface Graph</b></h3></div>
           <div class="panel-body">
-          <div id="reportrangesubsurface" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 25%">
+
+
+            <div id="reportrangesubsurface" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 25%">
+
+
               <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
               <span></span> <b class="caret"></b>
             </div>
             <div id="subsurface" class="subsurfaceClass"></div>
+
+
+            <BR>
+            <h4><b> NOTE :</h4>
+              <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
           </div>
-          
+
         </div>
       </div>
     </div>
   </div>
 
-<script type="text/javascript">
-//   $(function() {
 
-//     var start = moment().subtract(29, 'days');
-//     var end = moment();
+  <div class="modal fade js-loading-bar" id="loading" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="progress progress-popup">
+            <div class="progress-bar progress-bar-striped active" style="width: 100%">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-//     function cb(start, end) {
-//         $('#reportrange_rain span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-//     }
 
-//     $('#reportrange_rain').daterangepicker({
-//         startDate: start,
-//         endDate: end,
-//         ranges: {
-//            'Today': [moment(), moment()],
-//            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-//            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-//            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-//            'This Month': [moment().startOf('month'), moment().endOf('month')],
-//            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-//         }
-//     }, cb);
-
-//     cb(start, end);
-    
-// });
-</script>

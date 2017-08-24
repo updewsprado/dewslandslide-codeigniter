@@ -36,7 +36,7 @@
 		return $timestamp;
 	}
 
-	$release_time = isInstantaneous(strtotime($release->data_timestamp)) ? $release->data_timestamp : date("j F Y, h:i A" , strtotime($release->data_timestamp) + 1800) ;
+	$release_time = isInstantaneous(strtotime($release->data_timestamp)) ? $release->data_timestamp : date("F j, Y, h:i A" , strtotime($release->data_timestamp) + 1800) ;
 
 	function isInstantaneous($entry)
 	{
@@ -112,7 +112,7 @@
 
 				<div class="row">
 					<div class="col-sm-4">Date/Time</div>
-					<div class="col-sm-8 edit-event-page" id='datetime'><?php echo amPmConverter(date("j F Y, h:i A" , strtotime($release_time))); ?></div>
+					<div class="col-sm-8 edit-event-page" id='datetime'><?php echo amPmConverter(date("F j, Y, h:i A" , strtotime($release_time))); ?></div>
 				</div>
 
 				<div class="row">
@@ -136,7 +136,7 @@
 								$description = str_replace("[reason]", $triggers[0]->od_info->reason, $description);
 							}
 
-							$valid_until = "<span id='validity' class='editable'>" . amPmConverter(date("j F Y, h:i A" , strtotime($event->validity))) . "</span>";
+							$valid_until = "<span id='validity' class='editable'>" . amPmConverter(date("F j, Y, h:i A" , strtotime($event->validity))) . "</span>";
 						}
 
 						$description = "<span id='alert_description' class='editable'>" . $description . "</span>";
@@ -235,7 +235,7 @@
 								if(count($ordered) == 0) return NULL;
 
 								$desc = $responses->trigger_desc->$a;
-								$desc = str_replace("[timestamp]", "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($ordered[count($ordered) - 1]->timestamp))) . "</b>", $desc);
+								$desc = str_replace("[timestamp]", "<b>" . amPmConverter(date("F j, Y, h:i A" , strtotime($ordered[count($ordered) - 1]->timestamp))) . "</b>", $desc);
 								if($a === 'E')
 								{
 									$temp = $ordered[count($ordered)-1];
@@ -261,7 +261,7 @@
 								{
 									if( $i < 3 )
 									{
-										$temp = "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($trigger->timestamp))) . "</b>";
+										$temp = "<b>" . amPmConverter(date("F j, Y, h:i A" , strtotime($trigger->timestamp))) . "</b>";
 										$additional = $additional == '' ? $temp : $additional . ", " . $temp;
 										if($i == 0) $info = $trigger->info;
 										$i++;
@@ -337,12 +337,12 @@
 
 					if( $public_alert_level == 'A3')
 					{
-						$temp = date("j F Y, h:i A" , strtotime($event->validity) - 1800); 
+						$temp = date("F j, Y, h:i A" , strtotime($event->validity) - 1800); 
 					}
 					else
 					{
 
-						$temp = isInstantaneous(strtotime($release->data_timestamp)) ? date("j F Y, h:i A" , roundTime(strtotime($release->data_timestamp)) - 1800) : date("j F Y, h:i A" , roundTime(strtotime($release->data_timestamp)) + (3.5 * 3600));
+						$temp = isInstantaneous(strtotime($release->data_timestamp)) ? date("F j, Y, h:i A" , roundTime(strtotime($release->data_timestamp)) - 1800) : date("F j, Y, h:i A" , roundTime(strtotime($release->data_timestamp)) + (3.5 * 3600));
 					}
 
 					$time = date("h:i A" , strtotime($temp));
@@ -352,17 +352,17 @@
 
 					if ($time > $date1 || $time < $date2) 
 					{
-						if ($time > $date1) $datetime = date("j F Y," , strtotime('+1 day', strtotime($temp))) . " 7:30 AM";
+						if ($time > $date1) $datetime = date("F j, Y," , strtotime('+1 day', strtotime($temp))) . " 7:30 AM";
 						else {
 							if( $public_alert_level == 'A3' )
 							{
-								if( strpos(date("j F Y, h:i A" , strtotime($event->validity)), "4:00 AM") == true ) $datetime = date("j F Y," , strtotime('+1 day', strtotime($temp))) . " 7:30 AM";
-								else $datetime = date("j F Y," , strtotime($temp)) . " 7:30 AM";
+								if( strpos(date("F j, Y, h:i A" , strtotime($event->validity)), "4:00 AM") == true ) $datetime = date("F j, Y," , strtotime('+1 day', strtotime($temp))) . " 7:30 AM";
+								else $datetime = date("F j, Y," , strtotime($temp)) . " 7:30 AM";
 							}
-							else $datetime = date("j F Y," , strtotime($temp)) . " 7:30 AM";
+							else $datetime = date("F j, Y," , strtotime($temp)) . " 7:30 AM";
 						}	
 					} 
-					else $datetime = $public_alert_level == 'A3' ? date("j F Y, h:i A" , strtotime($event->validity) - 1800) : $temp;
+					else $datetime = $public_alert_level == 'A3' ? date("F j, Y, h:i A" , strtotime($event->validity) - 1800) : $temp;
 					
 					$llmc_lgu = $responses->response->response_llmc_lgu;
 
@@ -410,7 +410,7 @@
 		<div class="row">
     		<?php
     			$next_release = isInstantaneous(strtotime($release->data_timestamp)) ? roundTime(strtotime($release->data_timestamp)) : roundTime(strtotime($release->data_timestamp)) + 4 * 3600;
-    			if( $public_alert_level != 'A0') echo "<b>Next bulletin on: </b><span id='next_bulletin' class='editable'>" . amPmConverter(date("j F Y, h:i A" , $next_release)) . '</span>'; 
+    			if( $public_alert_level != 'A0') echo "<b>Next bulletin on: </b><span id='next_bulletin' class='editable'>" . amPmConverter(date("F j, Y, h:i A" , $next_release)) . '</span>'; 
     		?>
 		</div>    
     	<div class="row" style="margin-top: 5px; margin-bottom: 5px;"><b>Prepared by: </b>
@@ -441,9 +441,9 @@
 	{
 		$temp = strtotime($date);
 		$hour = date("G", $temp);
-		if( $hour == 0 ) return date("j F Y, h:i \M\N", $temp);
-		elseif ($hour == 12) return date("j F Y, h:i \N\N", $temp);
-		else return date("j F Y, h:i A", $temp);
+		if( $hour == 0 ) return date("F j, Y, h:i \M\N", $temp);
+		elseif ($hour == 12) return date("F j, Y, h:i \N\N", $temp);
+		else return date("F j, Y, h:i A", $temp);
 	}
 
 ?>
