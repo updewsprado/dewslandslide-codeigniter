@@ -57,6 +57,8 @@
 			}
 
 			$isND = substr($temp->internal_alert_level, 0, 2);
+			$data['isND'] = $isND == "ND" ? true : false;
+
 			if( $x != 'A0' )
 			{
 				$data['validity'] = $computed_validity;
@@ -65,10 +67,12 @@
 				// Adjust timestamps if ND or X0 if end of validity
 				if( $isND == "ND" || strpos($temp->internal_alert_level, 'g0') !== false || strpos($temp->internal_alert_level, 's0') !== false || stripos($temp->internal_alert_level, 'rx') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
 				$data['validity'] = $flag == true ? date( "Y-m-d H:i:s", strtotime($temp->data_timestamp) + 4.5 * 3600) : $computed_validity;
+			} else 
+			{
+				$data['previous_internal_alert'] = $this->bulletin_model->getPreviousNonA0Release($temp->event_id);
 			}
 			
 			// $data['validity'] = json_decode($temp_3)[0]->validity;
-
 			return $this->load->view('public_alert/bulletin_main', $data, $bool);
 		}
 

@@ -123,7 +123,12 @@
 						if( $public_alert_level == "A0" )
 						{
 							$option = explode("***OR***", $description);
-							if( $event->status == "finished" || $event->status == "extended" ) $description = $option[1];
+							if( $event->status == "finished" || $event->status == "extended" ) 
+							{
+								$pub = substr($previous_internal_alert, 0, 2);
+								if($pub == "A1" || $pub == "ND") $description = $option[0];
+								else $description = $option[1];
+							}
 							else if ( $event->status == "routine" || $event->status == "invalid" ) $description = $option[0];
 							$description = $description;
 						} else
@@ -141,7 +146,9 @@
 
 						$description = "<span id='alert_description' class='editable'>" . $description . "</span>";
 
-						echo $public_alert_level . " (" . $description . ")";
+						// Spell out ALERT on Ax
+						$pal = "Alert " . substr($public_alert_level, 1);
+						echo $pal . " (" . $description . ")";
 						if( $public_alert_level != "A0" ) echo ", valid until " . $valid_until;
 					?>
 					</div>
@@ -255,16 +262,36 @@
 
 								array_pop($ordered);
 								$additional = '';
-
-								$i = 0;
+								/*$i = 0;
 								foreach ($ordered as $key => $trigger) 
 								{
 									if( $i < 3 )
 									{
-										$temp = "<b>" . amPmConverter(date("F j, Y, h:i A" , strtotime($trigger->timestamp))) . "</b>";
+										$temp = "<b>" . amPmConverter(date("F j, Y, h:i A" , strtotime($trigger->timestamp)), "F j, h:i") . "</b>";
 										$additional = $additional == '' ? $temp : $additional . ", " . $temp;
+
 										if($i == 0) $info = $trigger->info;
 										$i++;
+									}
+								}*/
+
+								for($i=0; $i < 3; $i++) 
+								{
+									$isComma = false;
+									if( $i == 0 ) {
+										if($i == 0) $info = $ordered[$i]->info;
+										$dt = amPmConverter(date("F j, Y, h:i A" , strtotime($ordered[$i]->timestamp)), "F j: h:i");
+									} else if( date("F j" , strtotime($ordered[$i-1]->timestamp)) == date("F j" , strtotime($ordered[$i]->timestamp)) ) {
+										$dt = amPmConverter(date("F j, Y, h:i A" , strtotime($ordered[$i]->timestamp)), "h:i");
+										$isComma = true;
+									} else {
+										$dt = amPmConverter(date("F j, Y, h:i A" , strtotime($ordered[$i]->timestamp)), "F j: h:i");
+									}
+
+									if( $additional == '' ) $additional = "<b>" . $dt . "</b>";
+									else {
+										if ($isComma)  $additional = $additional . "<b>, " . $dt . "</b>";
+										else   $additional = $additional . "<b>; " . $dt . "</b>";
 									}
 								}
 
@@ -308,7 +335,8 @@
 							break;
 						case 'A1':
 							print_triggers($triggers, $responses, $release, $public_alert_level);
-							boilerplate('GROUND MOVEMENT', 'No significant ground movement detected.', '');
+							if( $isND ) boilerplate('GROUND MOVEMENT', 'No available surficial and subsurface data.', '');
+							else boilerplate('GROUND MOVEMENT', 'No significant ground movement detected.', '');
 							break;
 						case 'A2': case 'A3':
 							print_triggers($triggers, $responses, $release, $public_alert_level);
@@ -437,13 +465,13 @@
 
 <?php  
 	
-	function amPmConverter($date)
+	function amPmConverter($date, $format = "F j, Y, h:i")
 	{
 		$temp = strtotime($date);
 		$hour = date("G", $temp);
-		if( $hour == 0 ) return date("F j, Y, h:i \M\N", $temp);
-		elseif ($hour == 12) return date("F j, Y, h:i \N\N", $temp);
-		else return date("F j, Y, h:i A", $temp);
+		if( $hour == 0 ) return date($format . " \M\N", $temp);
+		elseif ($hour == 12) return date($format . " \N\N", $temp);
+		else return date($format . " A", $temp);
 	}
 
 ?>
