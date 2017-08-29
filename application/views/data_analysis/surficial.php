@@ -166,3 +166,39 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="groundModal" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <p > <h4 style="text-align: center;"> GROUND MEASUREMENT FORM</h4></p>
+            
+                    <div class="panel-heading">SURFICIAL MEASUREMENT FORM</div>
+                <div class="panel-body">
+                  <div id="education_fields">
+                  </div>
+                  <div class="col-sm-4 nopadding">
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="Schoolname" name="Schoolname[]" value="" placeholder="Crack ID">
+                    </div>
+                  </div>
+                  <div class="col-sm-4 nopadding">
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="Major" name="Major[]" value="" placeholder="Measurement">
+                    </div>
+                  </div>
+                  <div class="col-sm-4 nopadding">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <select class="form-control" id="educationDate" name="educationDate[]">
+                          <option value="">Date</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <input id="submit1"  type="button" value="Submit"   >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
