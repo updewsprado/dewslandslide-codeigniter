@@ -7,6 +7,7 @@
 <script src="/js/third-party/typeahead.js"></script>
 <script src="/js/third-party/bootstrap-tagsinput.js"></script>
 <script src="/js/third-party/notify.min.js"></script>
+<script src="/js/third-party/jquery.twbsPagination.min.js"></script>
 
 
 <!-- ChatterBox CSS --> -->
@@ -436,7 +437,6 @@
 	      <h4>Quick Search</h4>
 	    </div> -->
 	    <div class="modal-body">
-
 	    <div class="panel panel-default">
 			<div class="panel-heading"><button type="button" class="close" data-dismiss="modal">&times;</button>
 			Search filters</div>
@@ -493,7 +493,13 @@
 			<div class="result-message">
 				<ul id="search-global-result" class="chat">
 				</ul>
+				<div style="display: table;margin: 0 auto;">
+					<ul class="pagination-sm" id="searched-key-pages" style="display: table-cell;" hidden></ul>
+				</div>
 			</div>
+		</div>
+		<div>
+			<!-- 	 -->
 		</div>
 
 
