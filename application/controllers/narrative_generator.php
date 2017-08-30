@@ -21,9 +21,9 @@ class Narrative_generator extends CI_Controller {
 			if (strpos(strtolower($set->narrative),'early warning information acknowledged') != false) {
 				$hasAck['ack'] = "has_ack";
 				$hasAck['narrative'] = $set->narrative;
+				break;
 			} else {
 				$hasAck['ack'] = "no_ack";
-				break;
  			}
 		}
 		print json_encode($hasAck);

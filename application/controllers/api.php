@@ -8,6 +8,11 @@ class API extends CI_Controller {
 		$this->load->model('comm_health_model');
 	}
 
+		public function AccelBatteryThreshold($site,$node){ // example  http://localhost/api/AccelBatteryThreshold/agbsb/2
+			$result = $this->node_level_model->getAccelBatteryThreshold($site,$node);
+			print json_encode($result);
+		}
+
 		public function PiezometerAllData($site){ // example  http://localhost/api/PiezometerAllData/ltesapzpz
 			$result = $this->site_level_model->getPiezometer($site);
 			print json_encode($result);
@@ -293,7 +298,18 @@ class API extends CI_Controller {
 			
 		}
 
-		public function GroundDataFromLEWS($gsite){ // example http://localhost/api/GroundDataFromLEWS/AGB
+		public function GroundDataFromLEWS($site){ // example http://localhost/api/GroundDataFromLEWS/AGB
+			if($site == "mng"){
+				$site_name = "man";
+			}else if( $site == "png"){
+				$site_name = "pan";
+			}else if($site == "bto"){
+				$site_name = "bat";
+			}else if($site == "jor"){
+				$site_name = "pob";
+			}else{
+				$site_name = $site;
+			}
 			$os = PHP_OS;
 			if (strpos($os,'WIN') !== false) {
 				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
@@ -308,13 +324,24 @@ class API extends CI_Controller {
 				return;
 			}
 
-			$command = $pythonPath.' '.$fileName.' '.$gsite;
+			$command = $pythonPath.' '.$fileName.' '.$site_name;
 
 			exec($command, $output, $return);
 			print json_encode($output);
 		}
 
-		public function GroundDataFromLEWSInRange($gsite,$fdate,$tdate){ // example http://localhost/api/GroundDataFromLEWSInRange/AGB/2013-01-01/2017-01-01
+		public function GroundDataFromLEWSInRange($site,$fdate,$tdate){ // example http://localhost/api/GroundDataFromLEWSInRange/AGB/2013-01-01/2017-01-01
+			if($site == "mng"){
+				$site_name = "man";
+			}else if( $site == "png"){
+				$site_name = "pan";
+			}else if($site == "bto"){
+				$site_name = "bat";
+			}else if($site == "jor"){
+				$site_name = "pob";
+			}else{
+				$site_name = $site;
+			}
 			$os = PHP_OS;
 			if (strpos($os,'WIN') !== false) {
 				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
@@ -329,7 +356,7 @@ class API extends CI_Controller {
 				return;
 			}
 
-			$command = $pythonPath.' '.$fileName.' '.$gsite.' '.$fdate.' '.$tdate;
+			$command = $pythonPath.' '.$fileName.' '.$site_name.' '.$fdate.' '.$tdate;
 
 			exec($command, $output, $return);
 			print json_encode($output);
@@ -337,7 +364,17 @@ class API extends CI_Controller {
 
 
 		public function GroundVelocityDisplacementData($site,$cid){ // example http://localhost/api/GroundVelocityDisplacementData/AGB/A
-
+			if($site == "mng"){
+				$site_name = "man";
+			}else if( $site == "png"){
+				$site_name = "pan";
+			}else if($site == "bto"){
+				$site_name = "bat";
+			}else if($site == "jor"){
+				$site_name = "pob";
+			}else{
+				$site_name = $site;
+			}
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -353,7 +390,7 @@ class API extends CI_Controller {
 				return;
 			}
 
-			$command = $pythonPath.' '.$fileName.' '.$site.' '.$cid;
+			$command = $pythonPath.' '.$fileName.' '.$site_name.' '.$cid;
 
 			exec($command, $output, $return);
 			print json_encode($output[0]);
@@ -453,6 +490,17 @@ class API extends CI_Controller {
 		}
 
 		public function last10GroundData($site){ //example http://localhost/api/last10GroundData/agb
+			if($site == "mng"){
+				$site_name = "man";
+			}else if( $site == "png"){
+				$site_name = "pan";
+			}else if($site == "bto"){
+				$site_name = "bat";
+			}else if($site == "jor"){
+				$site_name = "pob";
+			}else{
+				$site_name = $site;
+			}
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -468,7 +516,7 @@ class API extends CI_Controller {
 				return;
 			}
 			
-			$command = $pythonPath.' '.$fileName.' '.$site;
+			$command = $pythonPath.' '.$fileName.' '.$site_name;
 
 			exec($command, $output, $return);
 			print json_encode($output[0]);
@@ -476,6 +524,17 @@ class API extends CI_Controller {
 		}
 
 		public function last10Computation($site){ //example http://localhost/api/last10Computation/agb
+			if($site == "mng"){
+				$site_name = "man";
+			}else if( $site == "png"){
+				$site_name = "pan";
+			}else if($site == "bto"){
+				$site_name = "bat";
+			}else if($site == "jor"){
+				$site_name = "pob";
+			}else{
+				$site_name = $site;
+			}
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -491,7 +550,7 @@ class API extends CI_Controller {
 				return;
 			}
 			
-			$command = $pythonPath.' '.$fileName.' '.$site;
+			$command = $pythonPath.' '.$fileName.' '.$site_name;
 
 			exec($command, $output, $return);
 			print json_encode($output[0]);

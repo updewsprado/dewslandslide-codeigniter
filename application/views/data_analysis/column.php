@@ -34,6 +34,8 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">SEARCH TOOL</div>
                     <div class="panel-body" style="text-align: -webkit-center;">
+                    <input id="total_node" class="svgBox"></input>
+                    <input id="current_time" class="svgBox"></input>
                         <form class="form-inline">
                           <label  for="inlineFormInput">Site : </label>
                           <select class="form-control mb-2 mr-sm-2 mb-sm-0 sitegeneral"  name="sitegeneral" id="sitegeneral"></select>
@@ -169,6 +171,7 @@
                                         <a class="nav-link" data-toggle="tab" href="#graph2" role="tab">Velocity Charts</a>
                                     </li>
                                     <li class="nav-item" style="float: right;">
+
                                         <p style="padding-top: 0px;margin-bottom: 0px;">
                                             <form class="form-inline">
                                                 <label  for="inlineFormInput">Date Range : </label>

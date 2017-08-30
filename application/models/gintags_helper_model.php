@@ -54,7 +54,43 @@ class Gintags_helper_model extends CI_Model {
             // echo "Table 'gintags_reference' exists!\n";
         }
   }
+    public function createGintagsHistoryTable() {
+       $sql = "SHOW TABLES LIKE 'gintags_history'";
+       $res = $this->db->query($sql);
+        if ($res->num_rows == 0) {
+          $sql = "CREATE TABLE `gintags_history` (
+          `id` INT(11) NOT NULL AUTO_INCREMENT,
+          `tag_id_fk` INT(11) NOT NULL,
+          `tagger_eid_fk` VARCHAR(45) NULL DEFAULT NULL,
+          `table_element_id` varchar(10) DEFAULT NULL,
+          `table_used` VARCHAR(45) NULL DEFAULT NULL,
+          `timestamp` VARCHAR(45) NULL DEFAULT NULL,
+          `remarks` VARCHAR(100) NULL DEFAULT NULL,
+          `issue` VARCHAR(100) NULL DEFAULT NULL,
+          `status` VARCHAR(45) NULL DEFAULT NULL,
+          PRIMARY KEY (`id`));
+          ";
+            $res = $this->db->query($sql);
+            echo "Table 'gintags_history' Created!\n";
+        } else {
+            // echo "Table 'gintags_reference' exists!\n";
+        }
 
+        $sql_check = "SHOW COLUMNS FROM `gndmeas` LIKE 'id'";
+        $q_check = $this->db->query($sql_check);
+        if($q_check->num_rows == 0){
+          $sql_altered = "ALTER TABLE `senslopedb`.`gndmeas` 
+          ADD COLUMN `id` INT NOT NULL AUTO_INCREMENT FIRST,
+          ADD COLUMN `gndmeascol` VARCHAR(45) NULL AFTER `reliability`,
+          DROP PRIMARY KEY,
+          ADD PRIMARY KEY (`id`);";
+          $q_sql = $this->db->query($sql_altered);
+          echo "Altered gndmeas table with Primary key ID!\n";
+        } else {
+          echo "Altered exists";
+        }
+        
+  }
     public function insertGinTagEntry($data){
         $doExist = $this->checkTagExist($data);
         if(sizeof($doExist) == 0) {
@@ -214,4 +250,49 @@ class Gintags_helper_model extends CI_Model {
       $result = $this->db->query($query);
       return $result->result();
     }
+
+    public function removeGintagId($data){
+      $insertGintags = $this->InsertGintagsHistory($data);
+      $gintags_id = $data["gintags_id"];
+      $query_delete = "DELETE FROM gintags WHERE gintags_id='$gintags_id'";
+      $result_delete = $this->db->query($query_delete);
+      return $result_delete;
+    }
+
+    public function updateGintagId($data){
+      $checkTagExistData = $this->checkTagExist($data);
+      $gintags_id = $data["gintags_id"];
+      $remarks = $data["remarks"];
+      if (sizeof($checkTagExistData) == 0) {
+          $ginRefs = $this->insertIntoGinRef($data);
+          if ($ginRefs == True){
+            $TagExistData = $this->checkTagExist($data);
+            $newTagId = $TagExistData[0]->tag_id; 
+          } 
+      } else {  
+          $newTagId = $checkTagExistData[0]->tag_id;        
+      }
+      $query_update = "UPDATE `gintags` SET `tag_id_fk`= '$newTagId' , `remarks`='$remarks' WHERE `gintags_id`='$gintags_id'";
+      $insertGintags = $this->InsertGintagsHistory($data);
+      $result_update = $this->db->query($query_update);
+      return $result_update;
+    }
+
+    public function InsertGintagsHistory($data){
+      $tag_id_fk = $data["tag_name_id"] ;
+      $tagger_eid_fk = $data["tagger"];
+      $table_element_id = $data["table_element_id"];
+      $table_used = $data["table_used"];
+      $timestamp = $data["timestamp"];
+      $remarks = $data["remarks"];
+      $issue = $data["issue"];
+      $status = $data["status"];
+
+      $query_insert = "INSERT INTO gintags_history (`tag_id_fk`, `tagger_eid_fk`, `table_element_id`, `table_used`, `timestamp`, `remarks`,`issue`, `status`) VALUES ('$tag_id_fk', '$tagger_eid_fk', '$table_element_id', '$table_used', '$timestamp', '$remarks','$issue' ,'$status')";
+      $result_insert = $this->db->query($query_insert);
+      
+    }
+
+     
+
 }

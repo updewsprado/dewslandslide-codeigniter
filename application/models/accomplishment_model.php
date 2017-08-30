@@ -102,6 +102,11 @@
 			$this->db->where($column, $key);
 			$this->db->update($table, $data);
 		}
+		
+		public function delete($table, $array)
+		{
+			$this->db->delete($table, $array); 
+		}
 
 		// SELECT r.release_id, r.event_id, r.data_timestamp, r.reporter_id_mt, r.reporter_id_ct 
 		// FROM senslopedb.`public_alert_release` r

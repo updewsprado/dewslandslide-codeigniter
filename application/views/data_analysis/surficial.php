@@ -113,6 +113,7 @@
               <div class="tab-pane graph1" id="graph1" role="tabpanel">
                 <div id="analysisVelocity" ></div>
                 <div id="analysisDisplacement" ></div>
+                <div id="analysisVAT" ></div>
               </div>
             </div>
           </div>
