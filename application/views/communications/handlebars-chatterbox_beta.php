@@ -73,6 +73,20 @@
                 {{/each}}
             </script>
 
+            <script id="group-message-template" type="text/x-handlebars-template">
+                {{#each group_message}}
+                <li>
+                    <input type="text" value="{{name}}" hidden>  
+                    <a href="#" class="clearfix">   
+                        <img src="/images/Chatterbox/dewsl_03.png" alt="" class="img-circle">
+                        <div class="friend-name" id="{{site}}_grpmsg">   
+                            <strong style="text-transform: uppercase;">{{site}} - {{barangay}}, {{municipality}},{{province}}</strong>
+                        </div>
+                    </a>
+                </li>  
+                {{/each}}
+            </script>
+
             <script id="selected-contact-template" type="text/x-handlebars-template">
                 <div class="alert alert-danger">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
