@@ -77,12 +77,27 @@
                 {{#each group_message}}
                 <li>
                     <input type="text" value="{{name}}" hidden>  
-                    <a href="#" class="clearfix">   
-                        <img src="/images/Chatterbox/dewsl_03.png" alt="" class="img-circle">
-                        <div class="friend-name" id="{{site}}_grpmsg">   
-                            <strong style="text-transform: uppercase;">{{site}} - {{barangay}}, {{municipality}},{{province}}</strong>
+                        <div class="panel-group" style="margin: 0px;">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h4 class="panel-title">
+                                <a href="#{{site}}_grpmsg" class="clearfix" data-toggle="collapse">   
+                                    <img src="/images/Chatterbox/dewsl_03.png" alt="" class="img-circle">
+                                    <div class="friend-name">   
+                                        <strong style="text-transform: uppercase;">{{site}} - {{barangay}}, {{municipality}},{{province}}</strong>
+                                    </div>
+                                </a>
+                              </h4>
+                            </div>
+                            <div id="{{site}}_grpmsg" class="panel-collapse collapse">
+                              <ul class="list-group">
+                                {{#each ../contact_list}}
+                                    <li class="list-group-item">{{contacts}}</li>
+                                {{/each}}
+                              </ul>
+                            </div>
+                          </div>
                         </div>
-                    </a>
                 </li>  
                 {{/each}}
             </script>
