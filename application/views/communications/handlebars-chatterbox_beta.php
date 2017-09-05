@@ -90,9 +90,9 @@
                               </h4>
                             </div>
                             <div id="{{site}}_grpmsg" class="panel-collapse collapse">
-                              <ul class="list-group">
-                                {{#each ../contact_list}}
-                                    <li class="list-group-item">{{contacts}}</li>
+                              <ul class="list-group qa-contact-list">
+                                {{#each data}}
+                                    <li class="list-group-item"><a href="#" class="qaccess-contacts">{{contacts}}</a></li>
                                 {{/each}}
                               </ul>
                             </div>
