@@ -16,6 +16,8 @@
 	$triggers = json_decode($triggers);
 	$responses = json_decode($responses);
 	if($public_alert_level != 'A0') $event->validity = $validity;
+	$GLOBALS['isg0'] = $isg0; $GLOBALS['$iss0'] = $iss0;
+	$GLOBALS['$isR0'] = $isR0;
 
 	function roundTime($timestamp)
 	{
@@ -206,11 +208,10 @@
 					{
 						$internal = $release->internal_alert_level;
 						// ISSUE UPCOMING: 0 for ND'S
-						// S/G with lower-case counterparts
-						// Combining same dates with just different timestamps
 						$list = substr($internal, 3);
 						$x = [];
 						for ( $i = 0; $i < strlen($list); $i++) {
+							// Save internal alert triggers (group x0's together)
                             if (isset($list[$i + 1]) && $list[$i + 1] == "0") 
                                 { array_push($x, $list[$i] . $list[$i + 1]); $i++; }
                             else array_push($x, $list[$i]);
@@ -218,15 +219,14 @@
                         $list = array_reverse($x);
 						$x = array_reverse($x);
 
-			            $trigger_copy = [];
+			            $triggers_wOut_0 = [];
 			            foreach ($x as $y) 
 			            {
 			            	$y = str_replace('0', '', $y);
-			                if($public_alert_level == "A3") $y = strtoupper($y);
-			            	array_push($trigger_copy, $y);
+			            	array_push($triggers_wOut_0, $y);
 			            }
 
-						foreach ($trigger_copy as $a) 
+						foreach ($triggers_wOut_0 as $a) 
 						{
 							$area_printer = function ($triggers, $a) use ($responses, $release)
 							{
@@ -262,20 +262,8 @@
 
 								array_pop($ordered);
 								$additional = '';
-								/*$i = 0;
-								foreach ($ordered as $key => $trigger) 
-								{
-									if( $i < 3 )
-									{
-										$temp = "<b>" . amPmConverter(date("F j, Y, h:i A" , strtotime($trigger->timestamp)), "F j, h:i") . "</b>";
-										$additional = $additional == '' ? $temp : $additional . ", " . $temp;
 
-										if($i == 0) $info = $trigger->info;
-										$i++;
-									}
-								}*/
-
-								for($i=0; $i < 3; $i++) 
+								for($i=0; $i < 3 && $i < count($ordered); $i++) 
 								{
 									$isComma = false;
 									if( $i == 0 ) {
@@ -296,6 +284,11 @@
 								}
 
 								if($additional != '') $desc = $desc . " Most recent re-trigger/s occurred on " . $additional . ".";
+
+								// Add no current data if [sS/gG]0
+								if( (strtoupper($a) == "G" && $GLOBALS['isg0']) || (strtoupper($a) == "S" && $GLOBALS['iss0']) || (strtoupper($a) == "R" && $GLOBALS['isR0']) )
+									$desc = $desc . " Currently, no data available.";
+
 								return [$desc, $info];
 							};
 
@@ -306,12 +299,12 @@
 							{
 								$b = $a == "G" ? "g" : "s";
 								$details_2 = $area_printer($triggers, $b);
-								$info = $info != '' && $info != NULL ? '<b>Detail:</b> ' . $info . '<br>' : "";
-								$info_2 = $details_2[1] != '' && $details_2[1] != NULL ? '<b>Detail:</b> ' . $details_2[1] : "";
+								$info = $info != '' && $info != NULL ? '<b>Last trigger info:</b> ' . $info . '<br>' : "";
+								$info_2 = $details_2[1] != '' && $details_2[1] != NULL ? '<b>Last trigger info:</b> ' . $details_2[1] : "";
 								$desc = $desc . "<br>" . $info . $details_2[0] . "<br>" . $info_2;
 							} else 
 							{
-								$info = $info != '' && $info != NULL ? '<b>Detail:</b> ' . $info . '<br>' : "<br>";
+								$info = $info != '' && $info != NULL ? '<b>Last trigger info:</b> ' . $info . '<br>' : "<br>";
 								$desc = $desc . "<br>" . $info;
 							}
 
@@ -321,7 +314,7 @@
 								case 'D': boilerplate("ON-DEMAND", $desc); break;
 								case 'g': case 'G': boilerplate("GROUND MOVEMENT", "", ""); boilerplate("<i class='rowIndent'><u>SURFICIAL DATA</u></i>", $desc); break;
 								case 's': case 'S': 
-									if( count(array_intersect( ['g','G'], $trigger_copy) ) <= 0 ) boilerplate("GROUND MOVEMENT", "", ""); 
+									if( count(array_intersect( ['g','G'], $triggers_wOut_0) ) <= 0 ) boilerplate("GROUND MOVEMENT", "", ""); 
 									boilerplate("<i class='rowIndent'><u>SUBSURFACE DATA</u></i>", $desc); break;
 							}
 						}
@@ -330,7 +323,7 @@
 					switch ($public_alert_level) {
 						case 'A0':
 							if ( $event->status == 'finished' || $event->status == 'extended' )
-								boilerplate("GROUND MOVEMENT", 'No significant ground movement detected within the event-monitoring period.');
+								boilerplate("GROUND MOVEMENT", 'No significant ground movement detected in the last event monitoring period.');
 							else boilerplate("GROUND MOVEMENT", 'No significant ground movement detected.', '');
 							break;
 						case 'A1':
