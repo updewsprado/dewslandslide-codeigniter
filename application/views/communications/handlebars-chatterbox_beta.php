@@ -79,12 +79,12 @@
                     <input type="text" value="{{name}}" hidden>  
                         <div class="panel-group" style="margin: 0px;">
                           <div class="panel panel-default">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="padding: 0px;">
                               <h4 class="panel-title">
                                 <a href="#{{site}}_grpmsg" class="clearfix" data-toggle="collapse">   
                                     <img src="/images/Chatterbox/dewsl_03.png" alt="" class="img-circle">
-                                    <div class="friend-name">   
-                                        <strong style="text-transform: uppercase;">{{site}} - {{barangay}}, {{municipality}},{{province}}</strong>
+                                    <div class="friend-name clearfix" style="text-align: center;">   
+                                        <strong>{{barangay}}, {{municipality}},{{province}} ({{site}})</strong>
                                     </div>
                                 </a>
                               </h4>
@@ -92,7 +92,7 @@
                             <div id="{{site}}_grpmsg" class="panel-collapse collapse">
                               <ul class="list-group qa-contact-list">
                                 {{#each data}}
-                                    <li class="list-group-item"><a href="#" class="qaccess-contacts">{{contacts}}</a></li>
+                                    <li class="list-group-item" style="padding: 0px;"><label for="" class="checkbox-inline"><input type="checkbox" class="qaccess-contacts" value="{{contacts}}">{{contacts}}</label></li>
                                 {{/each}}
                               </ul>
                             </div>
