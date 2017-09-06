@@ -16,8 +16,8 @@
 	$triggers = json_decode($triggers);
 	$responses = json_decode($responses);
 	if($public_alert_level != 'A0') $event->validity = $validity;
-	$GLOBALS['isg0'] = $isg0; $GLOBALS['$iss0'] = $iss0;
-	$GLOBALS['$isR0'] = $isR0;
+	$GLOBALS['isg0'] = $isg0; $GLOBALS['iss0'] = $iss0;
+	$GLOBALS['isR0'] = $isR0;
 
 	function roundTime($timestamp)
 	{
