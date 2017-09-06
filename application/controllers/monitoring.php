@@ -31,7 +31,9 @@ class Monitoring extends CI_Controller
 	public function getOnGoingAndExtended()
 	{
 		date_default_timezone_set('Asia/Manila');
-		$events = $this->monitoring_model->getOnGoingAndExtended();
+		$start = date("Y-m-d 00:00:00", strtotime("-3 days"));
+		$end = date("Y-m-d 00:00:00", strtotime($start . "+1 day"));
+		$events = $this->monitoring_model->getOnGoingAndExtended($start, $end);
 
 		$latest = []; $extended = [];
 		$overdue = []; $markers = [];
