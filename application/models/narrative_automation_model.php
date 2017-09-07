@@ -30,7 +30,7 @@ class Narrative_automation_model extends CI_Model {
 			array_push($onset_array,(object)$details);
 			return $onset_array;
 		} else {
-			$query = "SELECT * FROM narratives WHERE timestamp <= '".$data['current_release_time']."' AND timestamp >= '".$data['previous_release']."' AND event_id='".$data['event_id']."'";
+			$query = "SELECT * FROM narratives WHERE timestamp <= '".$data['current_release_time']."' AND timestamp >= '".$data['last_release_time']."' AND event_id='".$data['event_id']."'";
 			$result = $this->db->query($query);
 			return $result->result();
 		}
