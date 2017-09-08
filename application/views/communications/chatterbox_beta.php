@@ -7,6 +7,7 @@
 <script src="/js/third-party/typeahead.js"></script>
 <script src="/js/third-party/bootstrap-tagsinput.js"></script>
 <script src="/js/third-party/notify.min.js"></script>
+<script src="/js/third-party/jquery.twbsPagination.min.js"></script>
 
 
 <!-- ChatterBox CSS --> -->
@@ -400,6 +401,7 @@
 	  </div>
 	</div> 
 	<!-- END GINTAGS MODAL -->
+
 	<!-- Save Narratives MODAL -->
 	<div class="modal fade" id="save-narrative-modal" role="dialog">
 	<div class="modal-dialog" id="save-narrative-modal-dialog">
@@ -430,15 +432,81 @@
 	<div class="modal fade" id="search-global-message-modal" role="dialog">
 	<div class="modal-dialog" id="save-narrative-modal-dialog">
 	  <div class="modal-content" id="save-narrative-content">
-	    <div class="modal-header">
+<!-- 	    <div class="modal-header">
 	      <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      <h4>Quick Search</h4>
-	    </div>
+	    </div> -->
 	    <div class="modal-body">
-		<div class="form-group">
-			<label class="radio-inline"><input type="radio" name="opt-search" value="gintag-search" checked="true">Via Gintag</label>
-			<label class="radio-inline"><input type="radio" name="opt-search" value="global-search" checked="true">Via Message</label>
+	    <div class="panel panel-default">
+			<div class="panel-heading"><button type="button" class="close" data-dismiss="modal">&times;</button>
+			Search filters</div>
+			<div class="panel-body">
+				<div class="form-group col-xs-12">
+					<label class="radio-inline col-xs-4"><input type="radio" name="opt-search" value="global-search" checked>via Message</label>
+					<label class="radio-inline col-xs-3"><input type="radio" name="opt-search" value="gintag-search">via Gintags</label>
+					<label class="radio-inline col-xs-4"><input type="radio" name="opt-search" value="timestamp-sent-search">via Timestamp sent</label>
+				</div>
+				<div class="form-group col-xs-12">
+					<label class="radio-inline col-xs-4"><input type="radio" name="opt-search" value="timestamp-written-search">via Timestamp written</label>
+					<label class="radio-inline col-xs-3"><input type="radio" name="opt-search" value="unknown-number-search">via Unknown numbers</label>
+				</div>
+				<div class="form-group col-xs-12" id = "key-div-container">
+					<label for="search-global-keyword">Search Keyword: </label>
+					<input type="text" id="search-global-keyword" class="form-control" placeholder="E.g. Magandang Umaga">
+				</div>
+
+				<div class="form-group col-xs-12" id="time-div-container" hidden>
+					<div class="col-md-6">
+		              	<label for="search-from-date-picker">From :</label>
+		                <div class='input-group date datetime' id='search-from-date-picker'>
+		                    <input type='text' class="form-control" id='search-from-date' />
+		                    <span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                    </span>
+		                </div>
+					</div>
+					<div class="col-md-6">
+						<label for="search-from-date-picker">To :</label>
+		                <div class='input-group date datetime' id='search-to-date-picker'>
+		                    <input type='text' class="form-control" id='search-to-date' />
+		                    <span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                    </span>
+		                </div>
+					</div>
+				</div>
+				<div class="form-group col-xs-8">
+					<div class="left-content form-inline">
+						<label for="search-limit">Search Limit: </label>
+						<input type="number" min="1" max="999" maxlength = "3" class="form-control" id="search-limit" value="1" placeholder="E.g. 100">
+					</div>
+				</div>
+				<div class="form-group col-xs-4">
+					<div class="right-content">
+						<button class="btn btn-primary" id="btn-search-global">Search</button>
+					</div>
+				</div>
+			</div>
 		</div>
+        <hr>
+		<div class="search-global-message-container">
+			<div class="result-message">
+				<ul id="search-global-result" class="chat">
+				</ul>
+				<div style="display: table;margin: 0 auto;">
+					<ul class="pagination-sm" id="searched-key-pages" style="display: table-cell;" hidden></ul>
+				</div>
+			</div>
+		</div>
+		<div>
+			<!-- 	 -->
+		</div>
+
+
+<!-- 			<div class="form-group">
+				<label class="radio-inline"><input type="radio" name="opt-search" value="gintag-search" checked="true">Via Gintag</label>
+				<label class="radio-inline"><input type="radio" name="opt-search" value="global-search" checked="true">Via Message</label>
+			</div>
 		    <div class="form-group">
 		    	<input type="text" id="search-global-keyword" class="form-control">
 		    </div>
@@ -452,7 +520,7 @@
 	        <hr>
 			<div class="form-group right-content">
 				<button class="btn btn-primary" id="btn-search-global">Search</button> 
-			</div>
+			</div> -->
 	    </div>
 	  </div>  
 	</div>
@@ -540,6 +608,23 @@
 	      <div style="text-align: center;">
 	      	<label for="">Loading..</label>
 	      </div>
+      </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<div id="connection-interruption" class="modal fade" role="dialog" hidden>
+  <div class="modal-dialog modal-xs">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+      <div class="form-group">
+			NO CONNECTION
       </div>
       </div>
     </div>
