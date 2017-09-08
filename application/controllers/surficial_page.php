@@ -94,16 +94,19 @@ class Surficial_page extends CI_Controller {
 
 	public function AddGroundMeas(){
 		$data_result = $_POST['dataSubmit'];
-		$data["timestamp"] = $data_result["timestamp"];
-		$data["meas_type"] = $data_result["meas_type"];
-		$data["site_id"] = $data_result["site_id"];
-		$data["crack_id"] = $data_result["crack_id"];
-		$data["observer_name"] = $data_result["observer_name"];
-		$data["meas"] = $data_result["meas"];
-		$data["weather"] = $data_result["weather"];
-		$data["reliability"] = 'Y';
-		$result = $this->surficial_model->AddGroundMeas($data);
-		print $result;
+		for ($i = 0; $i < sizeof($data_result);$i++) {
+			$data["timestamp"] = $data_result[$i]["timestamp"];
+			$data["meas_type"] = $data_result[$i]["meas_type"];
+			$data["site_id"] = $data_result[$i]["site_id"];
+			$data["crack_id"] = $data_result[$i]["crack_id"];
+			$data["observer_name"] = $data_result[$i]["observer_name"];
+			$data["meas"] = $data_result[$i]["meas"];
+			$data["weather"] = $data_result[$i]["weather"];
+			$data["reliability"] = 'Y';
+			$result = $this->surficial_model->AddGroundMeas($data);
+		}
+		
+		print json_encode($result);
 	}
 
 }
