@@ -19,6 +19,7 @@
 				<div class="panel panel-info">
 					<div class="panel-heading">GINTAGs Details</div>
 					<div class="panel-body">
+					<input type="text" id="tag-id" hidden>
 						<div class="row form-group">
 							<div class="col-md-12 col-sm-12 col-xs-12">
 								<label for="gintag-ipt">General Tag:</label>
@@ -28,13 +29,13 @@
 						<div class="row form-group">
 							<div class="col-md-12 col-sm-12 col-xs-12">
 								<label for="gintag-description-ipt">Tag Description:</label>
-								<textarea name="" id="gintag-description-ipt" cols="30" rows="2" class="form-control"></textarea>
+								<textarea name="" id="gintag-description-ipt" cols="30" rows="2" class="form-control" style="resize: vertical;"></textarea>
 							</div>
 						</div>
 						<div class="row form-group">
 							<div class="col-md-12 col-sm-12 col-xs-12">
 								<label for="narrative-ipt">Narrative Input:</label>
-								<textarea name="" id="narrative-ipt" cols="30" rows="5" class="form-control"></textarea>
+								<textarea name="" id="narrative-ipt" cols="30" rows="5" class="form-control" style="resize: vertical;"></textarea>
 							</div>
 						</div>
 						<div class="row form-group">

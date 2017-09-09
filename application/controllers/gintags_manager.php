@@ -35,4 +35,8 @@ class Gintags_manager extends CI_Controller {
 		else {
 		}
 	}
+
+	public function getTagsForAutocomplete() {
+		
+	}
 }
