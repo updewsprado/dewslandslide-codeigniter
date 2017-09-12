@@ -6,6 +6,7 @@
 			$this->load->helper('url');
 			$this->load->model('accomplishment_model');
 		}
+
 		public function index()
 		{
 			$data['user_id'] = $this->session->userdata("id");
@@ -20,6 +21,7 @@
 			$this->load->view('reports/accomplishment_report', $data);
 			$this->load->view('templates/footer');
 		}
+
 		public function checker()
 		{
 			$data['user_id'] = $this->session->userdata("id");
@@ -32,33 +34,43 @@
 			$this->load->view('reports/accomplishment_checker', $data);
 			$this->load->view('templates/footer');
 		}
+
 		public function getShiftReleases()
 		{
 			$data = $this->accomplishment_model->getShiftReleases($_GET['start'], $_GET['end']);
 			
 			echo "$data";
 		}
+
 		public function getShiftTriggers()
 		{
 			$data['shiftTriggers'] = $shift = $this->accomplishment_model->getShiftTriggers($_GET['releases']);
 			$data['allTriggers'] = $this->accomplishment_model->getAllTriggers($_GET['events']);
 			echo json_encode($data);
 		}
-		public function getNarratives($event_id)
+
+		public function getNarratives($event_id = null)
 		{
-			$data = $this->accomplishment_model->getNarratives($event_id);
+			$event_ids = [];
+			if( $event_id == null ) $event_ids = $_GET['event_ids'];
+			else array_push($event_ids, $event_id);
+
+			$data = $this->accomplishment_model->getNarratives($event_ids);
 			echo "$data";
 		}
+
 		public function getNarrativesForShift()
 		{
 			$data = $this->accomplishment_model->getNarrativesForShift($_GET['event_id'], $_GET['start'], $_GET['end']);
 			echo "$data";
 		}
+
 		public function getSensorColumns($site_code)
 		{
 			$data = $this->accomplishment_model->getSensorColumns($site_code);
 			echo "$data";
 		}
+
 		public function insertNarratives()
 		{
 			$narratives = $_POST['narratives'];
@@ -67,6 +79,7 @@
 			$forInsert = [];
 			foreach ($narratives as $x) 
 			{
+				unset($x->name);
 				if(!isset($x->id)) array_push($forInsert, $x);
 				else if(isset($x->isEdited))
 				{
@@ -87,11 +100,13 @@
 				}
 			}
 		}
+
 		public function deleteNarrative()
 		{
 			$data = array( 'id' => $_POST['narrative_id'] );
 			$this->accomplishment_model->delete('narratives', $data);
 		}
+
 		public function insertData()
 		{
 		 	$data = array (
@@ -103,6 +118,7 @@
 		 	$id = $this->accomplishment_model->insert('accomplishment_report', $data);
     		echo "$id";
 		}
+
 		public function is_logged_in() 
 		{
 			$is_logged_in = $this->session->userdata('is_logged_in');
