@@ -23,25 +23,25 @@
 						<div class="row form-group">
 							<div class="col-md-12 col-sm-12 col-xs-12">
 								<label for="gintag-ipt">General Tag:</label>
-								<input type="text" class="form-control" id="gintag-ipt" placeholder="E.g. #EwiMessage">
+								<input type="text" name="tag" class="form-control" id="gintag-ipt" placeholder="E.g. #EwiMessage" required>
 							</div>
 						</div>
 						<div class="row form-group">
 							<div class="col-md-12 col-sm-12 col-xs-12">
 								<label for="gintag-description-ipt">Tag Description:</label>
-								<textarea name="" id="gintag-description-ipt" cols="30" rows="2" class="form-control" style="resize: vertical;"></textarea>
+								<textarea name="tag_description" id="gintag-description-ipt" cols="30" rows="2" class="form-control" style="resize: vertical;" required></textarea>
 							</div>
 						</div>
 						<div class="row form-group">
 							<div class="col-md-12 col-sm-12 col-xs-12">
 								<label for="narrative-ipt">Narrative Input:</label>
-								<textarea name="" id="narrative-ipt" cols="30" rows="5" class="form-control" style="resize: vertical;"></textarea>
+								<textarea name="narrative_input" id="narrative-ipt" cols="30" rows="5" class="form-control" style="resize: vertical;" required></textarea>
 							</div>
 						</div>
 						<div class="row form-group">
 							<div class="col-md-12 col-sm-12 col-xs-12 text-right">
-								<button type="button" class="btn btn-warning">Reset</button>
-								<button type="button" class="btn btn-primary">Confirm</button>
+								<button type="button" class="btn btn-warning" id="btn-reset">Reset</button>
+								<button type="button" class="btn btn-primary" id="btn-confirm">Confirm</button>
 							</div>
 						</div>
 					</div>

@@ -4,7 +4,7 @@ class Gintags_manager extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct();
-		// $this->load->model('ewi_template_model');
+		$this->load->model('gintags_manager_model');
 		$this->load->helper(array('form', 'url'));
 		$this->load->library('form_validation');
 	}
@@ -37,6 +37,40 @@ class Gintags_manager extends CI_Controller {
 	}
 
 	public function getTagsForAutocomplete() {
-		
+		$tag_collection = [];
+		$tagList = $this->gintags_manager_model->getAllTags();
+
+		if (sizeof($tagList) > 0) {
+			foreach ($tagList as $row) {
+				array_push($tag_collection,$row->tag_name);
+			}
+		} else {
+			// NO DATA
+		}
+
+		echo json_encode($tag_collection);
+	}
+
+	public function getGintagDetails() {
+
+	}
+
+	public function getGintagTable() {
+		$gintag_narrative_collection = [];
+		$table_content = $this->gintags_manager_model->getAllGintagsNarrative();
+		for ($counter = 0; $counter < sizeof($table_content); $counter++) {
+			$table_content[$counter] = (array) $table_content[$counter];
+			$table_content[$counter]['functions'] = "<div>".
+			"<span class='update glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 25%;'></span>".
+			"<span class='delete glyphicon glyphicon-trash' aria-hidden='true' style='margin-right: 25%;'></span>".
+			"</div>";
+		}
+		$gintag_narrative_collection['data'] = $table_content;
+		print json_encode($gintag_narrative_collection);
+	}
+
+	public function insertGintagNarratives() {
+		$result = $this->gintags_manager_model->insertGintagNarrative($_POST['gintags']);
+		echo json_encode($result);
 	}
 }
