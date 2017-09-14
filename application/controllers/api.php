@@ -597,6 +597,31 @@ class API extends CI_Controller {
 
 		}
 
+		public function LatestSensorData(){ 
+
+			$os = PHP_OS;
+
+			if (strpos($os,'WIN') !== false) {
+				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
+				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\countAllSensorData.py';
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
+				$fileName = '/var/www/updews-pycodes/Liaison/countAllSensorData.py';
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
+			
+			$command = $pythonPath.' '.$fileName;
+
+			exec($command, $output, $return);
+			print json_encode($output);
+
+			
+		}
+
 
 	}
 	?>
