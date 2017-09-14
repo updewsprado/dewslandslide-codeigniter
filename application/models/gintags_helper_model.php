@@ -81,7 +81,6 @@ class Gintags_helper_model extends CI_Model {
         if($q_check->num_rows == 0){
           $sql_altered = "ALTER TABLE `senslopedb`.`gndmeas` 
           ADD COLUMN `id` INT NOT NULL AUTO_INCREMENT FIRST,
-          ADD COLUMN `gndmeascol` VARCHAR(45) NULL AFTER `reliability`,
           DROP PRIMARY KEY,
           ADD PRIMARY KEY (`id`);";
           $q_sql = $this->db->query($sql_altered);
