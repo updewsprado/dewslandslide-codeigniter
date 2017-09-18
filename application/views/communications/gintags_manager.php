@@ -11,13 +11,13 @@
 <div id="page-wrapper">
     <div class="container-fluid">
         <div class="page-header">
-            <h1>DEWS-Landslide Early Warning Information <small>GINTAGs Manager</small></h1>
+            <h1>DEWS-Landslide Early Warning Information <small>GINTags Manager</small></h1>
 		</div>
 
 		<div class="page-body">
 			<div class="col-md-4 col-sm-4 col-xs-4">
 				<div class="panel panel-info">
-					<div class="panel-heading">GINTAGs Details</div>
+					<div class="panel-heading">GINTags Details</div>
 					<div class="panel-body">
 					<input type="text" id="tag-id" hidden>
 						<div class="row form-group">

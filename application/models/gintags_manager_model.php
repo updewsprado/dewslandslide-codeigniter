@@ -43,6 +43,27 @@ class Gintags_manager_model extends CI_Model {
 		}
 	}
 
+	public function updateGintagNarrative($data) {
+		$status = false;
+		try {
+			$query = "SELECT tag_id_fk FROM gintags_manager WHERE id = '".$data['tag_id']."'";
+			$result = $this->db->query($query);
+			foreach ($result->result() as $row) {
+				$query = "UPDATE gintags_reference SET tag_name = '".$data['tag']."' WHERE tag_id = '".$row->tag_id_fk."'";
+				$reference_result = $this->db->query($query);
+
+				if ($reference_result == true) {
+					$query = "UPDATE gintags_manager SET description = '".$data['tag_description']."',narrative_input = '".$data['narrative_input']."'";
+					$manager_result = $this->db->query($query);
+					$status = $manager_result;
+				}
+			}
+			return $status;
+		} catch (Exception $e) {
+			return $e->getMessage();
+		}
+	}
+
 	public function getAllTags() {
 		$query = "SELECT tag_name FROM gintags_reference";
 		$result = $this->db->query($query);
@@ -50,7 +71,7 @@ class Gintags_manager_model extends CI_Model {
 	}
 
 	public function getAllGintagsNarrative() {
-		$query = "SELECT gintags_manager.id,gintags_reference.tag_name,gintags_manager.description,gintags_manager.narrative_input FROM senslopedb.gintags_manager INNER JOIN gintags_reference ON gintags_manager.tag_id_fk = gintags_reference.tag_id;";
+		$query = "SELECT gintags_manager.id,gintags_reference.tag_name,gintags_manager.description,gintags_manager.narrative_input,gintags_manager.last_update FROM senslopedb.gintags_manager INNER JOIN gintags_reference ON gintags_manager.tag_id_fk = gintags_reference.tag_id;";
 		$result = $this->db->query($query);
 		return $result->result();
 	}

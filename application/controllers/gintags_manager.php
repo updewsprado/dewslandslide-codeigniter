@@ -73,4 +73,9 @@ class Gintags_manager extends CI_Controller {
 		$result = $this->gintags_manager_model->insertGintagNarrative($_POST['gintags']);
 		echo json_encode($result);
 	}
+
+	public function updateGintagNarrative() {
+		$result = $this->gintags_manager_model->updateGintagNarrative($_POST['gintags']);
+		echo json_encode($result);
+	}
 }
