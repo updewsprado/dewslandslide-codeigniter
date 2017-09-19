@@ -92,7 +92,7 @@
                             <div id="{{site}}_grpmsg" class="panel-collapse collapse">
                               <ul class="list-group qa-contact-list">
                                 {{#each data}}
-                                    <li class="list-group-item" style="padding: 0px;"><label for="" class="checkbox-inline"><input type="checkbox" class="qaccess-contacts" value="{{contacts}}">{{contacts}}</label></li>
+                                    <li class="list-group-item" style="padding: 0px;"><label for="" class="checkbox-inline"><input type="checkbox" class="qaccess-contacts" value="{{contacts}}"  checked="yes">{{contacts}}</label></li>
                                 {{/each}}
                               </ul>
                             </div>
