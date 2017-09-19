@@ -75,6 +75,13 @@ class Gintags_manager_model extends CI_Model {
 		$result = $this->db->query($query);
 		return $result->result();
 	}
+
+	public function deleteGintagNarrative($data) {
+		$query = "DELETE FROM gintags_manager WHERE id='".$data['id']."'";
+		$result = $this->db->query($query);
+		return $result;
+	}
+
 }
 
 ?>
