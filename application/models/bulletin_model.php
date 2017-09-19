@@ -120,6 +120,18 @@
 			return count($query->result_array()) > 0 ? json_encode($query->result_array()[0]) : null;
 		}
 
+		public function getPreviousNonA0Release($event_id)
+		{
+			$query = $this->db->select("internal_alert_level")
+						->from("public_alert_release")
+						->where("event_id", $event_id)
+						->where("internal_alert_level NOT IN ('A0', 'ND')")
+						->order_by("data_timestamp", 'DESC')
+						->limit(1)
+						->get();
+			return $query->result_array()[0]['internal_alert_level'];
+		}
+
 		public function getEmailCredentials($username)
 		{
 			$query = $this->db->get_where('membership', array('username' => $username));
