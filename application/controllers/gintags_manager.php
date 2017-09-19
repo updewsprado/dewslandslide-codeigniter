@@ -62,7 +62,7 @@ class Gintags_manager extends CI_Controller {
 			$table_content[$counter] = (array) $table_content[$counter];
 			$table_content[$counter]['functions'] = "<div>".
 			"<span class='update glyphicon glyphicon-pencil' aria-hidden='true' style='margin-right: 25%;'></span>".
-			"<span class='delete glyphicon glyphicon-trash' aria-hidden='true' style='margin-right: 25%;'></span>".
+			"<span class='delete glyphicon glyphicon-trash' data-toggle='confirmation' data-title='Are you sure you want to delete this entry?' data-placement='left' aria-hidden='true' style='margin-right: 25%;'></span>".
 			"</div>";
 		}
 		$gintag_narrative_collection['data'] = $table_content;

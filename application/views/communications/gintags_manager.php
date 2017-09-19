@@ -7,6 +7,7 @@
 <script src="/js/third-party/moment-locales.js"></script>
 <script src="/js/third-party/notify.min.js"></script>
 <script src="/js/third-party/awesomplete.min.js"></script>
+<script src="/js/third-party/bsconfirmation.js"></script>
 
 <div id="page-wrapper">
     <div class="container-fluid">

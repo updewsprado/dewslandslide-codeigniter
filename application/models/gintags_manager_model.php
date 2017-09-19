@@ -20,7 +20,7 @@ class Gintags_manager_model extends CI_Model {
 			
 			if ($result->num_rows > 0) {
 				foreach ($result->result() as $row) {
-					$gintag_narrative = "INSERT INTO gintags_manager VALUES(0,'".$row->tag_id."','".$data['tag_description']."','".$data['narrative_input']."')";
+					$gintag_narrative = "INSERT INTO gintags_manager VALUES(0,'".$row->tag_id."','".$data['tag_description']."','".$data['narrative_input']."','".date('Y/m/d')." by ".$data['user']."')";
 					$gn_result = $this->db->query($gintag_narrative);
 				}
 				$status = $gn_result;
@@ -32,7 +32,7 @@ class Gintags_manager_model extends CI_Model {
 				$glid_result = $this->db->query($get_last_id);
 
 				if ($nt_result == true) {
-					$gintag_narrative = "INSERT INTO gintags_manager VALUES(0,'".$glid_result->result()[0]->id."','".$data['tag_description']."','".$data['narrative_input']."')";
+					$gintag_narrative = "INSERT INTO gintags_manager VALUES(0,'".$glid_result->result()[0]->id."','".$data['tag_description']."','".$data['narrative_input']."','".date('Y/m/d')." by ".$data['user']."')";
 					$gn_result = $this->db->query($gintag_narrative);
 					$status = $gn_result;
 				}
@@ -53,7 +53,7 @@ class Gintags_manager_model extends CI_Model {
 				$reference_result = $this->db->query($query);
 
 				if ($reference_result == true) {
-					$query = "UPDATE gintags_manager SET description = '".$data['tag_description']."',narrative_input = '".$data['narrative_input']."'";
+					$query = "UPDATE gintags_manager SET description = '".$data['tag_description']."',narrative_input = '".$data['narrative_input']."',last_update = '".date('Y/m/d')." by ".$data['user']."'";
 					$manager_result = $this->db->query($query);
 					$status = $manager_result;
 				}
