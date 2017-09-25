@@ -54,7 +54,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-7 division hidden" id="main-container">
+		<div class="col-sm-6 division hidden" id="main-container">
 			<div id="convo-header" class="panel panel-success">
 			<input type="text" id="contact-indicator" value="" hidden>
 				<div class="panel-heading">Sitename: [SAMPLE] Office: [Sample]</div>
@@ -85,7 +85,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-2 division">
+		<div class="col-sm-3 division">
 			<div class="panel panel-primary">
 				<div class="panel-heading">OPTIONS</div>
 				<div class="panel-body align-center">
@@ -103,7 +103,18 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">QUICK ACCESS</div>
 				<div class="panel-body no-padding">
-					<ul id="quick-release-display" class="friend-list"></ul>
+						<ul class="nav nav-tabs quick-access-tab">
+						    <li class="active"><a data-toggle="tab" href="#quick-release">Site w/ Event</a></li>
+						    <li><a data-toggle="tab" href="#group-message">Group Message</a></li>
+						</ul>
+						<div class="tab-content">
+							<div id="quick-release" class="tab-pane fade in active">
+								<ul id="quick-release-display" class="friend-list"></ul>
+							</div>
+							<div id="group-message" class="tab-pane fade">
+								<ul id="group-message-display" class="friend-list"></ul>
+							</div>
+						</div>
 				</div>
 			</div>
 		</div>

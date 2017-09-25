@@ -43,7 +43,7 @@ class Monitoring extends CI_Controller
 		{
 			$temp = strtotime($event->data_timestamp);
 			$hour = date("H" , $temp);
-			if( $hour = '23' && (int) date("H" , strtotime($event->release_time)) < 4 )
+			if( $hour == '23' && (int) date("H" , strtotime($event->release_time)) < 4 )
 				$temp = $this->roundTime(strtotime($event->data_timestamp));
 
 			$event->release_time = date("j F Y\<\b\\r\>" , $temp) . date("H:i" , strtotime($event->release_time));
