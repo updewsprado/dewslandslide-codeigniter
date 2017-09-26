@@ -5,7 +5,8 @@
 <link rel="stylesheet" type="text/css" href="/css/third-party/daterangepicker.css">
 <script src="/js/third-party/daterangepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/surficial.css">
-<script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
+<script src="/js/third-party/bootstrap-tagsinput.js"></script>
+<script src="/js/third-party/jquery.validate.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 <div id="page-wrapper">
   <div class="container">
@@ -79,18 +80,18 @@
               <div class="panel-heading">SURFICIAL MEASUREMENT FORM</div>
               <div class="panel-body">
                 <div class="col-sm-4 col-sm-offset-1">
-                  <!-- <div class="col-sm-9 ">  -->
-                  <form class="form-horizontal" action="/action_page.php">
+
+              <form class="form-horizontal" >
                     <div class="form-group">
                       <label class="control-label col-sm-4">Timestamp:</label>
                       <div class="col-sm-8">
-                        <input type="text" class="form-control" id="newData_timestamp" placeholder="" name="newData_timestamp">
+                        <input type="text" class="form-control" id="newData_timestamp" placeholder="" name="newData_timestamp" >
                       </div>
                     </div>
                     <div class="form-group">
                       <label class="control-label col-sm-4" >Type:</label>
                       <div class="col-sm-8">          
-                        <select class="form-control col-sm-8"  id="newData_type"  name="newData_type" >
+                        <select class="form-control col-sm-8"  id="newData_type"  name="newData_type" required>
                           <option value="">--- SELECT TYPE ---</option>
                           <option value="EVENT">Event</option>
                           <option value="ROUTINE">Routine</option>
@@ -100,44 +101,46 @@
                     <div class="form-group">
                       <label class="control-label col-sm-4" >Observer:</label>
                       <div class="col-sm-8">          
-                        <input type="text" class="form-control" id="newData_observer" value="<?php echo $first_name . " " . $last_name; ?>" name="newData_observer">
+                        <input type="text" class="form-control" id="newData_observer" value="<?php echo $first_name . " " . $last_name; ?>" name="newData_observer" required>
                       </div>
                     </div>
                     <div class="form-group">
                       <label class="control-label col-sm-4" >Weather:</label>
                       <div class="col-sm-8">          
-                        <input type="text" class="form-control" id="newData_weather" placeholder="" name="newData_weather">
+                        <input type="text" class="form-control" id="newData_weather" placeholder="" name="newData_weather" required>
                       </div>
                     </div>
-                  </form>
-                </div>
-                <!-- </div> -->
-                <div class="col-sm-6 " id="insert_meas">
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <input type="text" class="form-control entry_crack" id="entry_crack1" name="entry_crack" value="" placeholder="Crack ID">
-                    </div>
+
                   </div>
-                  <div class="col-sm-6 nopadding">
-                    <div class="form-group">
-                     <div class="input-group">
-                      <input type="text" class="form-control entry_meas" id="entry_meas1" name="entry_meas" value="" placeholder="Measurement">
-                      <div class="input-group-btn">
-                        <button class="btn btn-success" type="button"  onclick="insert_meas();"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
+
+                  <div class="col-sm-6 " id="insert_meas">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" class="form-control entry_crack" id="entry_crack1" name="entry_crack" value="" placeholder="Crack ID" required>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 nopadding">
+                      <div class="form-group">
+                       <div class="input-group">
+                        <input type="number" class="form-control entry_meas" id="entry_meas1" name="entry_meas" value="" placeholder="Measurement" required>
+                        <div class="input-group-btn">
+                          <button class="btn btn-success" type="button"  onclick="insert_meas();"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-sm-12 nopadding" id="new_data_save">
-                <button id="newData_meas"  type="button"  class="btn btn-info ">
-                  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> SAVE
-                </button>
-              </div>
+                <div class="col-sm-12 nopadding" id="new_data_save">
+                  <button id="newData_meas"  type="button"  class="btn btn-info ">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> SAVE
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
+
           <div class="tab-pane graph1" id="graph1" role="tabpanel">
-            
+
           </div>
         </div>
       </div>
@@ -179,7 +182,7 @@
           <div class="modal-body">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <p > <h4 id="comment-model" style="text-align: center;"> TAG FORM</h4></p>
-            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -231,12 +234,12 @@
         </div>
       </div>
       <div class="modal fade" id="saveMsg" role="dialog">
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <div class="modal-body">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <p > <h4 style="text-align: center;"> Done </h4></p>
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-body">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <p > <h4 style="text-align: center;" id="note_stat"> Done </h4></p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
