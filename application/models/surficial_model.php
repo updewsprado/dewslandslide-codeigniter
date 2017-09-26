@@ -111,7 +111,7 @@ class surficial_model extends CI_Model {
 		}
 
 		$query = $this->db->query($sql);
-		return 'Done';	
+		return $sql;	
 	}
 
 	public function AddGroundMeas($data){
