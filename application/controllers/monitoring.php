@@ -18,7 +18,6 @@ class Monitoring extends CI_Controller
 		$data['last_name'] = $this->session->userdata('last_name');
 		$data['user_id'] = $this->session->userdata("id");
 
-		//$data['events'] = $this->monitoring_model->getOnGoingAndExtended();
 		$data['events'] = json_encode('null');
 		$data['sites'] = $this->monitoring_model->getSites();
 		$data['staff'] = $this->monitoring_model->getStaff();
@@ -32,9 +31,7 @@ class Monitoring extends CI_Controller
 	public function getOnGoingAndExtended()
 	{
 		date_default_timezone_set('Asia/Manila');
-		$start = date("Y-m-d 00:00:00", strtotime("-3 days"));
-		$end = date("Y-m-d 00:00:00", strtotime($start . "+1 day"));
-		$events = $this->monitoring_model->getOnGoingAndExtended($start, $end);
+		$events = $this->monitoring_model->getOnGoingAndExtended();
 
 		$latest = []; $extended = [];
 		$overdue = []; $markers = [];
@@ -43,7 +40,7 @@ class Monitoring extends CI_Controller
 		{
 			$temp = strtotime($event->data_timestamp);
 			$hour = date("H" , $temp);
-			if( $hour = '23' && (int) date("H" , strtotime($event->release_time)) < 4 )
+			if( $hour == '23' && (int) date("H" , strtotime($event->release_time)) < 4 )
 				$temp = $this->roundTime(strtotime($event->data_timestamp));
 
 			$event->release_time = date("j F Y\<\b\\r\>" , $temp) . date("H:i" , strtotime($event->release_time));
@@ -63,20 +60,26 @@ class Monitoring extends CI_Controller
 				else 
 				{
 					array_push($overdue, $event);
-				}
-				
+				}			
 			}
 			else
 			{
 				$start = strtotime('tomorrow noon', strtotime($event->validity));
 	 			$end = strtotime('+2 days', $start);
-	 		// 	if (strtotime('now') <= $end + 3600*12)
-				// {
-					$event->start = $start;
+	 			$day = 3 - ceil(($end - (60*60*12) - strtotime('now'))/(60*60*24));
+
+	 			if( $day == 0 ) array_push($latest, $event);
+	 			else if( $day > 0 && $day <= 3 ) {
+		 			$event->start = $start;
 					$event->end = $end;
-					$event->day = 3 - ceil(($end - (60*60*12) - strtotime('now'))/(60*60*24));
+					$event->day = $day;
 					array_push($extended, $event);
-				// }
+	 			} 
+	 			else {
+	 				$this->load->model('pubrelease_model');
+	 				$this->pubrelease_model->update("event_id", $event->event_id, "public_alert_event", array("status" => "finished"));
+	 			}
+				
 			}
 		}
 
