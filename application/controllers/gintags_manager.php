@@ -52,7 +52,8 @@ class Gintags_manager extends CI_Controller {
 	}
 
 	public function getGintagDetails() {
-
+		$result = $this->gintags_manager_model->getGintagDetails($_POST['gintags']);
+		print json_encode($result);
 	}
 
 	public function getGintagTable() {
