@@ -201,13 +201,11 @@
 							echo $description . '</div>';
 							echo '</div>';
 						}
-						
 					}
 
 					function print_triggers($triggers, $responses, $release, $public_alert_level)
 					{
 						$internal = $release->internal_alert_level;
-						// ISSUE UPCOMING: 0 for ND'S
 						$list = substr($internal, 3);
 						$x = [];
 						for ( $i = 0; $i < strlen($list); $i++) {
@@ -216,8 +214,7 @@
                                 { array_push($x, $list[$i] . $list[$i + 1]); $i++; }
                             else array_push($x, $list[$i]);
                         }
-                        $list = array_reverse($x);
-						$x = array_reverse($x);
+						//$x = array_reverse($x);
 
 			            $triggers_wOut_0 = [];
 			            foreach ($x as $y) 
@@ -257,6 +254,12 @@
 									else if ($temp->od_info->is_llmc) $group = "LEWC"; else $group = "LGU";
 									$desc = str_replace("[group]", $group, $desc);
 									$desc = str_replace("[reason]", $temp->od_info->reason, $desc);
+								} else if(strtoupper($a) === 'M')
+								{
+									$temp = $ordered[count($ordered)-1];
+									if ($temp->manifestation_info->is_llmc && $temp->manifestation_info->is_lgu) $group = "LEWC and LGU";
+									else if ($temp->manifestation_info->is_llmc) $group = "LEWC"; else $group = "LGU";
+									$desc = str_replace("[group]", $group, $desc);
 								}
 								$info = $ordered[count($ordered) - 1]->info;
 
@@ -295,13 +298,17 @@
 							$details = $area_printer($triggers, $a);
 							$desc = $details[0]; $info = $details[1];
 
-							if( $a == "G" || $a == "S" )
+							if( $a == "G" || $a == "S" || $a == "M" )
 							{
-								$b = $a == "G" ? "g" : "s";
+								switch ($a) {
+									case 'G': $b = "g"; break;
+									case 'S': $b = "s"; break;
+									case 'M': $b = "m"; break;
+								}
 								$details_2 = $area_printer($triggers, $b);
 								$info = $info != '' && $info != NULL ? '<b>Last trigger info:</b> ' . $info . '<br>' : "";
-								$info_2 = $details_2[1] != '' && $details_2[1] != NULL ? '<b>Last trigger info:</b> ' . $details_2[1] : "";
-								$desc = $desc . "<br>" . $info . $details_2[0] . "<br>" . $info_2;
+								$info_2 = $details_2[1] != '' && $details_2[1] != NULL ? '<br>' . $details_2[0] . '<br><b>Last trigger info:</b> ' . $details_2[1] : "";
+								$desc = $desc . "<br>" . $info . $info_2;
 							} else 
 							{
 								$info = $info != '' && $info != NULL ? '<b>Last trigger info:</b> ' . $info . '<br>' : "<br>";
@@ -312,10 +319,11 @@
 								case 'R': boilerplate("RAINFALL", $desc); break;
 								case 'E': boilerplate("EARTHQUAKE", $desc); break;
 								case 'D': boilerplate("ON-DEMAND", $desc); break;
-								case 'g': case 'G': boilerplate("GROUND MOVEMENT", "", ""); boilerplate("<i class='rowIndent'><u>SURFICIAL DATA</u></i>", $desc); break;
-								case 's': case 'S': 
-									if( count(array_intersect( ['g','G'], $triggers_wOut_0) ) <= 0 ) boilerplate("GROUND MOVEMENT", "", ""); 
+								case 's': case 'S': boilerplate("GROUND MOVEMENT", "", ""); 
 									boilerplate("<i class='rowIndent'><u>SUBSURFACE DATA</u></i>", $desc); break;
+								case 'g': case 'G': if( count(array_intersect( ['s','S'], $triggers_wOut_0) ) <= 0 ) boilerplate("GROUND MOVEMENT", "", ""); boilerplate("<i class='rowIndent'><u>SURFICIAL DATA</u></i>", $desc); break;
+								case 'm': case 'M': if( count(array_intersect( ['g','G', 's', 'S'], $triggers_wOut_0) ) <= 0 ) boilerplate("GROUND MOVEMENT", "", ""); 
+									boilerplate("<i class='rowIndent'><u>MANIFESTATION</u></i>", $desc); break;
 							}
 						}
 					}

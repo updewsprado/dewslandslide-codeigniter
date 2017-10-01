@@ -107,6 +107,12 @@
 					$query = $this->db->get('public_alert_on_demand');
 
 					$arr['od_info'] = array_pop($query->result_object());
+				} else if (strtoupper($arr['trigger_type']) == 'M') 
+				{
+					$this->db->where('trigger_id', $arr['trigger_id']);
+					$query = $this->db->get('public_alert_manifestation');
+
+					$arr['manifestation_info'] = array_pop($query->result_object());
 				}
 
 			}
