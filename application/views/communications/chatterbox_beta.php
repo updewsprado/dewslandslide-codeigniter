@@ -420,7 +420,7 @@
 	      <h4>Narratives <i class="text-warning"> *BETA*</i></h4>
 	    </div>
 	    <div class="modal-body">
-	    <div class="form-group">
+	    <div class="form-group required">
 			<input type="text" id="gintag_details_container" hidden>
 			<div class="alert alert-info" role="alert"><strong>Notice!</strong> <p>Saving an #TagGoesHere tagged message will be permanently save to narratives.</p></div>
 	    </div>
@@ -428,8 +428,18 @@
 			<textarea class="form-control" name="ewi-tagged-msg" id="ewi-tagged-msg" cols="30" rows="10" style="resize:none" disabled>SAMPLE EWI</textarea>
 		</div>
 	      <div class="form-group" id="submit-gintag">
-	        <button class="btn btn-warning" id="cancel-narrative" data-dismiss="modal">Cancel</button>
-	        <button class="btn btn-primary" id="confirm-narrative" data-dismiss="modal">Confirm</button> 
+			<div class="dropdown control-label" id="site-select-narrative-container" style="position: absolute;">
+				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sites
+				<span class="caret"></span></button>
+				<ul class="dropdown-menu">
+					<form id="site-select-narrative" style="display: inline-flex;">
+					</form>
+				</ul>
+			</div>
+	        <div class="right-content">
+	        	<button class="btn btn-warning" id="cancel-narrative" data-dismiss="modal">Cancel</button>
+	        	<button class="btn btn-primary" id="confirm-narrative" data-dismiss="modal">Confirm</button> 
+	        </div>
 	      </div> 
 	    </div>
 	  </div>  
