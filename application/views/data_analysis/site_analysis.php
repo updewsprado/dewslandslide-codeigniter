@@ -68,21 +68,21 @@
               </div>
               <div class='col-sm-2' style="padding-left: 0px;padding-right: 0px;">
                <label for="time">Time</label>
-               </div>
-              <div class="form-group time0">
-                              
+             </div>
+             <div class="form-group time0">
+
                <div id="time0div" >
 
                  <div class='input-group date col-sm-9 pull-right' >
-                    <input type='text' class="form-control" id='time0'/>
+                  <input type='text' class="form-control" id='time0'/>
                 </div>
-               </div>
-             </div>
-           </form>
-         </div>
-       </div>
-     </div>
-     <div class="panel panel-primary site-panel">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-primary site-panel">
       <div class="panel-heading">
         <h4 class="panel-title">
           <a data-toggle="collapse"  href="#collapseSite"><span class="glyphicon glyphicon-list">
@@ -239,9 +239,16 @@
 </div>
 
 <button type="button" class="btn-danger btn-block download text-center download" id="download" style="cursor: pointer" data-toggle="tooltip" title="Download the Unified Single Attachment" data-placement="bottom"> 
-  <!-- <span class="glyphicon glyphicon-save"></span> --> DOWNLOAD 
-
-</button>
+ DOWNLOAD </button>
+<input type="text" class="form-control tag" id="tag_value"  hidden="">
+<input type="text" class="form-control tag" id="tag_crack" hidden="">
+<input type="text" class="form-control tag" id="tag_series"  hidden="">
+<input type="text" class="form-control tag" id="tag_description"  hidden="">
+<input type="text" class="form-control tag" id="tag_tableused"  hidden="">
+<input type="text" class="form-control tag" id="tag_id"  hidden="">
+<input type="text" class="form-control tag" id="tag_table_id"  hidden="">
+<input type="text" class="form-control tag" id="tag_hash"  hidden="">
+<input type="text" class="form-control tag" id="tag_comments"  hidden="">
 </div>
 <div class="col-sm-9 col-md-9 original" id="analysis_panel">
   <div class="panel-body  analysis"> 
@@ -288,26 +295,8 @@
       <div class="modal-body">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <p > <h4 style="text-align: center;"> TAG FORM</h4></p>
-
-        <div class="form-group tag_ids">
-          <label>Tags</label>
-          <input type="text" class="form-control" id="tag_ids" placeholder="Ex: #AccelDrift or #Drift" data-role="tagsinput" value="#newffd">
+        <div id="saveTAG">
         </div>
-        <div class="form-group">
-          <label for="formGroupExampleInput">Timestamp</label>
-          <input type="text" class="form-control" id="tag_time" disabled="">
-        </div>
-        <div class="form-group">
-          <label for="formGroupExampleInput2">Comment</label>
-          <textarea class="form-control" rows="5" id="comment"></textarea>
-        </div>
-        <input type="text" class="form-control tag" id="tag_value" disabled="">
-        <input type="text" class="form-control tag" id="tag_crack" disabled="">
-        <input type="text" class="form-control tag" id="tag_series" disabled="">
-        <input type="text" class="form-control tag" id="tag_description" disabled="">
-        <input type="text" class="form-control tag" id="tag_tableused" disabled="">
-        <button type="button" class="close" class="btn-sm" id="tag_submit">SAVE</button>
-        <br>
       </div>
     </div>
   </div>

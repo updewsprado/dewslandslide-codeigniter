@@ -8,6 +8,11 @@ class API extends CI_Controller {
 		$this->load->model('comm_health_model');
 	}
 
+		public function AccelBatteryThreshold($site,$node){ // example  http://localhost/api/AccelBatteryThreshold/agbsb/2
+			$result = $this->node_level_model->getAccelBatteryThreshold($site,$node);
+			print json_encode($result);
+		}
+
 		public function PiezometerAllData($site){ // example  http://localhost/api/PiezometerAllData/ltesapzpz
 			$result = $this->site_level_model->getPiezometer($site);
 			print json_encode($result);

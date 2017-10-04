@@ -110,7 +110,8 @@ $route['generalinformation/initialize'] = "gintagshelper/initialize";
 $route['generalinformation/getanalytics'] = "gintagshelper/getAnalytics";
 $route['narrativeAutomation/insert'] = "narrative_generator/insertEwiNarrative";
 $route['narrativeautomation/checkack'] = "narrative_generator/checkForAcknowledgement";
-
+$route['generalinformation/removeGintagsId'] = "gintagshelper/removeGintagsByGintagsId";
+$route['generalinformation/updateGintagsId'] = "gintagshelper/updateGintagsByGintagsId";
 /**
  * Data Analysis Pages Routes
  */
@@ -125,6 +126,7 @@ $route['data_analysis/nodereport'] = "node_report_page";
 $route['data_analysis/site_analysis'] = "site_analysis_page";
 $route['data_analysis/rainfall_scanner'] = "rainfall_scanner_page";
 $route['data_analysis/Eos_onModal/(:any)/(:any)/(:any)/(:any)'] = "Eos_modal";
+
 //Gold
 //$route['gold'] = "monitoring/index";
 $route['logout'] = "gold/logout";
@@ -162,3 +164,9 @@ $route['404_override'] = '';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
+
+/**
+ * Public website Pages Routes
+ */
+
+$route['public_website/analysis_graph'] = "public_website_graphs";
