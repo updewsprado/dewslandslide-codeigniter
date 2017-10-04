@@ -54,7 +54,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-7 division hidden" id="main-container">
+		<div class="col-sm-6 division hidden" id="main-container">
 			<div id="convo-header" class="panel panel-success">
 			<input type="text" id="contact-indicator" value="" hidden>
 				<div class="panel-heading">Sitename: [SAMPLE] Office: [Sample]</div>
@@ -85,7 +85,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-2 division">
+		<div class="col-sm-3 division">
 			<div class="panel panel-primary">
 				<div class="panel-heading">OPTIONS</div>
 				<div class="panel-body align-center">
@@ -103,7 +103,18 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">QUICK ACCESS</div>
 				<div class="panel-body no-padding">
-					<ul id="quick-release-display" class="friend-list"></ul>
+						<ul class="nav nav-tabs quick-access-tab">
+						    <li class="active"><a data-toggle="tab" href="#quick-release">Site w/ Event</a></li>
+						    <li><a data-toggle="tab" href="#group-message">Group Message</a></li>
+						</ul>
+						<div class="tab-content">
+							<div id="quick-release" class="tab-pane fade in active">
+								<ul id="quick-release-display" class="friend-list"></ul>
+							</div>
+							<div id="group-message" class="tab-pane fade">
+								<ul id="group-message-display" class="friend-list"></ul>
+							</div>
+						</div>
 				</div>
 			</div>
 		</div>
@@ -411,7 +422,7 @@
 	      <h4>Narratives <i class="text-warning"> *BETA*</i></h4>
 	    </div>
 	    <div class="modal-body">
-	    <div class="form-group">
+	    <div class="form-group required">
 			<input type="text" id="gintag_details_container" hidden>
 			<div class="alert alert-info" role="alert"><strong>Notice!</strong> <p>Saving an #TagGoesHere tagged message will be permanently save to narratives.</p></div>
 	    </div>
@@ -419,8 +430,18 @@
 			<textarea class="form-control" name="ewi-tagged-msg" id="ewi-tagged-msg" cols="30" rows="10" style="resize:none" disabled>SAMPLE EWI</textarea>
 		</div>
 	      <div class="form-group" id="submit-gintag">
-	        <button class="btn btn-warning" id="cancel-narrative" data-dismiss="modal">Cancel</button>
-	        <button class="btn btn-primary" id="confirm-narrative" data-dismiss="modal">Confirm</button> 
+			<div class="dropdown control-label" id="site-select-narrative-container" style="position: absolute;">
+				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sites
+				<span class="caret"></span></button>
+				<ul class="dropdown-menu">
+					<form id="site-select-narrative" style="display: inline-flex;">
+					</form>
+				</ul>
+			</div>
+	        <div class="right-content">
+	        	<button class="btn btn-warning" id="cancel-narrative" data-dismiss="modal">Cancel</button>
+	        	<button class="btn btn-primary" id="confirm-narrative" data-dismiss="modal">Confirm</button> 
+	        </div>
 	      </div> 
 	    </div>
 	  </div>  

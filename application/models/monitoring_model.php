@@ -23,7 +23,6 @@ class Monitoring_Model extends CI_Model
 		$this->db->where('public_alert_event.status','on-going');
  		$this->db->or_where('public_alert_event.status','extended');
 		$query = $this->db->get();
-		//$query = $this->db->get_where('public_alert_event', array('status' => 'on-going'));
 		return json_encode($query->result_array());
 	}
 

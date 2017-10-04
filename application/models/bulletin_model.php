@@ -107,6 +107,12 @@
 					$query = $this->db->get('public_alert_on_demand');
 
 					$arr['od_info'] = array_pop($query->result_object());
+				} else if (strtoupper($arr['trigger_type']) == 'M') 
+				{
+					$this->db->where('trigger_id', $arr['trigger_id']);
+					$query = $this->db->get('public_alert_manifestation');
+
+					$arr['manifestation_info'] = array_pop($query->result_object());
 				}
 
 			}
@@ -118,6 +124,18 @@
 		{
 			$query = $this->db->get_where('public_alert_release', array('release_id' => $release_id));
 			return count($query->result_array()) > 0 ? json_encode($query->result_array()[0]) : null;
+		}
+
+		public function getPreviousNonA0Release($event_id)
+		{
+			$query = $this->db->select("internal_alert_level")
+						->from("public_alert_release")
+						->where("event_id", $event_id)
+						->where("internal_alert_level NOT IN ('A0', 'ND')")
+						->order_by("data_timestamp", 'DESC')
+						->limit(1)
+						->get();
+			return $query->result_array()[0]['internal_alert_level'];
 		}
 
 		public function getEmailCredentials($username)

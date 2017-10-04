@@ -108,13 +108,20 @@ class Contacts_model extends CI_Model {
 			}
 		}
 
-		$query = "SELECT number FROM communitycontacts WHERE ($office) AND ($site)";
+		$query = "SELECT DISTINCT number FROM communitycontacts WHERE ($office) AND ($site)";
 		$result = $this->db->query($query);
 		return $result->result();
 	}
 
-	public function getGintagsSmsId($contact,$timestamp){
-		$query = $this->db->query("SELECT sms_id FROM smsoutbox WHERE timestamp_written='".$timestamp."' AND recepients LIKE '%".$contact."%'");
+	public function getGintagsSmsId($contact,$timestamp,$dbused){
+		$sms_query = "";
+		if ($dbused == "smsinbox") {
+			$sms_query = "SELECT sms_id FROM ".$dbused." WHERE timestamp='".$timestamp."' AND sim_num LIKE '%".$contact."%'";
+			$query = $this->db->query($sms_query);
+		} else {
+			$sms_query = "SELECT sms_id FROM ".$dbused." WHERE timestamp_written='".$timestamp."' AND recepients LIKE '%".$contact."%'";
+			$query = $this->db->query($sms_query);
+		}
 		return $query->result();
 	}
 

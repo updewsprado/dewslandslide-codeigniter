@@ -73,6 +73,35 @@
                 {{/each}}
             </script>
 
+            <script id="group-message-template" type="text/x-handlebars-template">
+                {{#each group_message}}
+                <li>
+                    <input type="text" value="{{name}}" hidden>  
+                        <div class="panel-group" style="margin: 0px;">
+                          <div class="panel panel-default">
+                            <div class="panel-heading" style="padding: 0px;">
+                              <h4 class="panel-title">
+                                <a href="#{{site}}_grpmsg" class="clearfix" data-toggle="collapse">   
+                                    <img src="/images/Chatterbox/dewsl_03.png" alt="" class="img-circle">
+                                    <div class="friend-name clearfix" style="text-align: center;">   
+                                        <strong>{{barangay}}, {{municipality}},{{province}} ({{site}})</strong>
+                                    </div>
+                                </a>
+                              </h4>
+                            </div>
+                            <div id="{{site}}_grpmsg" class="panel-collapse collapse">
+                              <ul class="list-group qa-contact-list">
+                                {{#each data}}
+                                    <li class="list-group-item" style="padding: 0px;"><label for="" class="checkbox-inline"><input type="checkbox" class="qaccess-contacts" value="{{contacts}}"  checked="yes">{{contacts}}</label></li>
+                                {{/each}}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                </li>  
+                {{/each}}
+            </script>
+
             <script id="selected-contact-template" type="text/x-handlebars-template">
                 <div class="alert alert-danger">
                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

@@ -43,7 +43,7 @@
 
 	function format($type, $timestamp)
 	{
-		$lookup = array('R' => 'Rainfall (R)' , 'E' => 'Earthquake (E)', 'D' => 'On-demand (D)', 'g' => 'Ground data movement (g/L2)', 'G' => 'Ground data movement (G/L3)', 's' => 'Sensor data movement (s/L2)', 'S' => 'Sensor data movement (S/L3)');
+		$lookup = array('R' => 'Rainfall (R)' , 'E' => 'Earthquake (E)', 'D' => 'On-demand (D)', 'g' => 'Surficial data movement (g/L2)', 'G' => 'Surficial data movement (G/L3)', 's' => 'Subsurface data movement (s/L2)', 'S' => 'Subsurface data movement (S/L3)', 'm' => 'Manifestation (m)', 'M' => 'Manifestation (M)');
 		return $lookup[$type] . ' alert triggered on ' . date("F jS Y, g:i A", strtotime($timestamp));
 	}
 ?>
@@ -113,6 +113,7 @@
             					<?php foreach ($trigger_list as $trigger): ?>
 		        						<li><?php echo format($trigger->trigger_type, $trigger->timestamp); ?></li>
                                         <?php if($trigger->info != null) echo "<ul><li>" . $trigger->info . "</li></ul>"; ?>
+                                        <?php if(strtoupper($trigger->trigger_type) == "M") { echo "<ul><ul><li>Remarks: " . $trigger->manifestation_info[0]->remarks . "</li></ul>"; echo "<ul><li>Validator: " . returnName($trigger->manifestation_info[0]->validator, $staff) . "</li></ul></ul>"; } ?>
 		        				<?php endforeach; ?>
 		        					</ul>
 		        					<hr>
@@ -193,6 +194,7 @@
             					<?php foreach ($trigger_list as $trigger): ?>
 		        						<li><?php echo format($trigger->trigger_type, $trigger->timestamp); ?></li>
                                         <?php if($trigger->info != null) echo "<ul><li>" . $trigger->info . "</li></ul>"; ?>
+                                        <?php if(strtoupper($trigger->trigger_type) == "M") { echo "<ul><ul><li>Remarks: " . $trigger->manifestation_info[0]->remarks . "</li></ul>"; echo "<ul><li>Validator: " . returnName($trigger->manifestation_info[0]->validator, $staff) . "</li></ul></ul>"; } ?>
 		        				<?php endforeach; ?>
 		        					</ul>
 		        					<hr>
