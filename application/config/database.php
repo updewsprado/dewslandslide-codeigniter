@@ -48,9 +48,8 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-//$db['default']['username'] = 'root';
-//$db['default']['password'] = 'sept17';
-$db['default']['hostname'] = '127.0.0.1';
+// $db['default']['hostname'] = '127.0.0.1';
+$db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = 'senslope';
 $db['default']['database'] = 'senslopedb';
