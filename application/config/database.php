@@ -50,13 +50,13 @@ $active_record = TRUE;
 
 //$db['default']['username'] = 'root';
 //$db['default']['password'] = 'sept17';
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'updews';
-$db['default']['password'] = 'october50sites';
+$db['default']['hostname'] = '127.0.0.1';
+$db['default']['username'] = 'root';
+$db['default']['password'] = 'senslope';
 $db['default']['database'] = 'senslopedb';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
+$db['default']['pconnect'] = FALSE;
 $db['default']['db_debug'] = TRUE;
 $db['default']['cache_on'] = FALSE;
 $db['default']['cachedir'] = '';
@@ -70,13 +70,13 @@ $db['default']['stricton'] = FALSE;
  * Senslope Purged Database
  */
 
-$db['purged']['hostname'] = 'localhost';
-$db['purged']['username'] = 'updews';
-$db['purged']['password'] = 'october50sites';
+$db['purged']['hostname'] = '127.0.0.1';
+$db['purged']['username'] = 'root';
+$db['purged']['password'] = 'senslope';
 $db['purged']['database'] = 'senslopedb_purged';
 $db['purged']['dbdriver'] = 'mysql';
 $db['purged']['dbprefix'] = '';
-$db['purged']['pconnect'] = TRUE;
+$db['purged']['pconnect'] = FALSE;
 $db['purged']['db_debug'] = TRUE;
 $db['purged']['cache_on'] = FALSE;
 $db['purged']['cachedir'] = '';
