@@ -137,7 +137,7 @@
                         </div>
                         <div class="col-sm-2 form-group" id="nd">
                             <div class="checkbox">
-                                <label data-toggle="tooltip" data-placement="top" title="For releases (i.e. A0 (Routine) and A1) without ground and sensor data"><input class="cbox_nd" name="cbox_nd" type="checkbox" value="ND" disabled="disabled"><b>No Data (ND)</b></label>
+                                <label data-toggle="tooltip" data-placement="top" title="For releases (i.e. A0 (Routine) and A1) without surficial and subsurface data"><input class="cbox_nd" name="cbox_nd" type="checkbox" value="ND" disabled="disabled"><b>No Data (ND)</b></label>
                             </div>
                         </div>
                     </div> <!-- End of Panel Body -->
@@ -160,14 +160,13 @@
                             <div class="col-sm-12 form-group"><div class="row">
                                 <label class="checkbox-inline cbox_trigger_label"><input class="cbox_trigger_switch" value="rs" type="checkbox" name="cbox_switch" disabled="disabled">Rainfall (R)</label>
                                 <label class="checkbox-inline cbox_trigger_label"><input class="cbox_trigger_switch" value="es" type="checkbox" name="cbox_switch" disabled="disabled">Earthquake (E)</label>
-                                <label class="checkbox-inline cbox_trigger_label"><input class="cbox_trigger_switch" value="gs" type="checkbox" name="cbox_switch" disabled="disabled">Ground Data (g/G)</label>
-                                <label class="checkbox-inline cbox_trigger_label"><input class="cbox_trigger_switch" value="ss" type="checkbox" name="cbox_switch" disabled="disabled">Sensor (s/S)</label>
-                                <label class="checkbox-inline cbox_trigger_label"><input class="cbox_trigger_switch" value="ds" type="checkbox" name="cbox_switch" disabled="disabled">On-Demand 
-                                (D)</label>
+                                <label class="checkbox-inline cbox_trigger_label"><input class="cbox_trigger_switch" value="gs" type="checkbox" name="cbox_switch" disabled="disabled">Surficial (g/G)</label>
+                                <label class="checkbox-inline cbox_trigger_label"><input class="cbox_trigger_switch" value="ss" type="checkbox" name="cbox_switch" disabled="disabled">Subsurface (s/S)</label>
+                                <label class="checkbox-inline cbox_trigger_label"><input class="cbox_trigger_switch" value="ds" type="checkbox" name="cbox_switch" disabled="disabled">On-Demand (D)</label>
+                                <label class="checkbox-inline cbox_trigger_label"><input class="cbox_trigger_switch" value="ms" type="checkbox" name="cbox_switch" disabled="disabled">Manifestation (m/M)</label>
                             </div></div>
                             <div class="row" id="errorLabel" hidden="hidden"></div>
                         </div> <!------ END OF TRIGGERS OPTION AREA ------>
-
 
                         <!------ RAINFALL ------>
                         <div class="row" id="rain_area" hidden="hidden">
@@ -193,7 +192,7 @@
                                     </div>
                                     <div class="col-sm-2 form-group no-data">
                                         <div class="checkbox">
-                                            <label data-toggle="tooltip" data-placement="top" title="Check this if there is lack of rainfall data. If you are referring to lack of ground AND sensor data, check ND"><input class="cbox_trigger_nd" name="cbox_trigger_nd_r0" type="checkbox" value="R0" disabled="disabled"><b>No Data (R&#8320;)</b></label>
+                                            <label data-toggle="tooltip" data-placement="top" title="Check this if there is lack of rainfall data. If you are referring to lack of surficial AND subsurface data, check ND"><input class="cbox_trigger_nd" name="cbox_trigger_nd_r0" type="checkbox" value="R0" disabled="disabled"><b>No Data (R&#8320;)</b></label>
                                         </div>
                                     </div>
                                     <div class="col-sm-4 form-group no-data">
@@ -207,14 +206,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-10 form-group">
-                                        <label for="trigger_rain_info">Technical Info:</label>
+                                        <label for="trigger_rain_info">Technical Info</label>
                                         <textarea class="form-control trigger_info" rows="1" id="trigger_rain_info" name="trigger_rain_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                     </div>
                                 </div>
                             </div>
                             
                         </div> <!------ END OF RAINFALL ------>
-
 
                         <!------ EARTHQUAKE ------>
                         <div class="row" id="eq_area" hidden="hidden">
@@ -260,7 +258,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-10 form-group">
-                                        <label for="trigger_eq_info">Technical Info:</label>
+                                        <label for="trigger_eq_info">Technical Info</label>
                                         <textarea class="form-control trigger_info" rows="1" id="trigger_eq_info" name="trigger_eq_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                     </div>
                                 </div>
@@ -268,16 +266,15 @@
                             
                         </div> <!------ END OF EARTHQUAKE ------>
 
-
                         <!------ GROUND DATA ------>
                         <div class="row" id="ground_area" hidden="hidden">
                             <hr class="hr-divider">
                             <div class="col-sm-2 area_label">
-                                <h4>GROUND MEASUREMENT</h4>
+                                <h4>SURFICIAL</h4>
                             </div>
                             <div class="col-sm-10">
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-7">
                                         <div class="row">
                                             <div class="col-sm-6 form-group no-padding-right">
                                                 <label class="control-label" for="trigger_ground_1">L2 (g) Trigger Timestamp</label>
@@ -309,22 +306,22 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-2 form-group no-data">
+                                    <div class="col-sm-3 form-group no-data">
                                         <div class="checkbox">
-                                            <label><input class="cbox_trigger_nd" name="cbox_trigger_nd_g0" type="checkbox" value="g0" disabled="disabled"><b>No Data (g&#8320;)</b></label>
+                                            <label><input class="cbox_trigger_nd" name="cbox_trigger_nd_g0" type="checkbox" value="g0" disabled="disabled"><b>No Data (g&#8320;/G&#8320;)</b></label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4 previous_info" id="ground_desc">
+                                    <div class="col-sm-2 previous_info" id="ground_desc">
                                        <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-5 form-group">
-                                        <label for="trigger_ground_1_info">Technical Info:</label>
+                                        <label for="trigger_ground_1_info">Technical Info</label>
                                         <textarea class="form-control trigger_info" rows="1" id="trigger_ground_1_info" name="trigger_ground_1_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                     </div>
                                     <div class="col-sm-5 form-group">
-                                        <label for="trigger_ground_2_info">Technical Info:</label>
+                                        <label for="trigger_ground_2_info">Technical Info</label>
                                         <textarea class="form-control trigger_info" rows="1" id="trigger_ground_2_info" name="trigger_ground_2_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                     </div>
                                 </div>
@@ -333,16 +330,15 @@
                         </div>
                         <!------ END OF GROUND DATA ------>
 
-
                         <!------ SENSOR DATA ------>
                         <div class="row" id="sensor_area" hidden="hidden">
                             <hr class="hr-divider">
                             <div class="col-sm-2 area_label">
-                                <h4>SENSOR</h4>
+                                <h4>SUBSURFACE</h4>
                             </div>
                             <div class="col-sm-10">
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-7">
                                         <div class="row">
                                             <div class="col-sm-6 form-group no-padding-right">
                                                 <label class="control-label" for="trigger_sensor_1">L2 (s) Trigger Timestamp</label>
@@ -374,22 +370,22 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-2 form-group no-data">
+                                    <div class="col-sm-3 form-group no-data">
                                         <div class="checkbox">
-                                            <label><input class="cbox_trigger_nd" name="cbox_trigger_nd_s0" type="checkbox" value="s0" disabled="disabled"><b>No Data (s&#8320;)</b></label>
+                                            <label><input class="cbox_trigger_nd" name="cbox_trigger_nd_s0" type="checkbox" value="s0" disabled="disabled"><b>No Data (s&#8320;/S&#8320;)</b></label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4 previous_info" id="sensor_desc">
+                                    <div class="col-sm-2 previous_info" id="sensor_desc">
                                        <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-5 form-group">
-                                        <label for="trigger_sensor_1_info">Technical Info:</label>
+                                        <label for="trigger_sensor_1_info">Technical Info</label>
                                         <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_1_info" name="trigger_sensor_1_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                     </div>
                                     <div class="col-sm-5 form-group">
-                                        <label for="trigger_sensor_2_info">Technical Info:</label>
+                                        <label for="trigger_sensor_2_info">Technical Info</label>
                                         <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_2_info" name="trigger_sensor_2_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
                                     </div>
                                 </div>
@@ -406,7 +402,7 @@
                             </div>
                             <div class="col-sm-10">
                                 <div class="row">
-                                    <div class="col-sm-4 form-group">
+                                    <div class="col-sm-6 form-group">
                                         <label class="control-label" for="trigger_od">Request Timestamp</label>
                                         <div class="input-group col-sm-12">
                                             <span class="input-group-addon">
@@ -422,7 +418,7 @@
                                     </div>
 
                                     <div class="col-sm-4 form-group">
-                                        <label for="trigger_od_info">Requested by</label>
+                                        <label for="od_group">Requested by</label>
                                         <div class="input-group">
                                             <label class="checkbox-inline"><input type="checkbox" class="od_group" name="llmc" value="llmc" disabled="disabled">LEWC</label>
                                             <label class="checkbox-inline"><input type="checkbox" class="od_group" name="lgu" value="lgu" disabled="disabled">LGU</label>
@@ -439,7 +435,6 @@
                                         <div class="input-group">
                                             <span class="input-group-addon" id="basic-addon3">Monitoring requested due to</span>
                                             <textarea class="form-control" rows="1" id="reason" name="reason" placeholder="Enter reason for request." maxlength="140" aria-describedby="basic-addon3" disabled="disabled"></textarea>
-                                            <!-- <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" maxlength="140"> -->
                                         </div>
                                     </div>
                                     <div class="col-sm-6 form-group">
@@ -448,8 +443,98 @@
                                     </div>
                                 </div>
                             </div>
-                            
                         </div> <!------ END OF ON-DEMAND ------>
+
+                        <!------ MANIFESTATION ------>
+                        <div class="row" id="manifestation_area" hidden="hidden">
+                            <hr class="hr-divider">
+                            <div class="col-sm-2 area_label">
+                                <h4>MANIFESTATION</h4>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        <div class="row">
+                                            <div class="col-sm-6 form-group no-padding-right">
+                                                <label class="control-label" for="trigger_manifestation_1">M2 (m) Timestamp of Observance</label>
+                                                <div class="input-group col-sm-12">
+                                                    <span class="input-group-addon">
+                                                        <input class="cbox_trigger" type="checkbox" value="m" name="m">
+                                                    </span>
+                                                    <div class='input-group date datetime'>
+                                                        <input type='text' class="form-control trigger_time" id="trigger_manifestation_1" name="trigger_manifestation_1" placeholder="Enter timestamp" disabled="disabled" />
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <label class="control-label" for="trigger_manifestation_2">M3 (M) Timestamp of Observance</label>
+                                                <div class="input-group col-sm-12">
+                                                    <span class="input-group-addon">
+                                                        <input class="cbox_trigger" type="checkbox" value="M" name="M">
+                                                    </span>
+                                                    <div class='input-group date datetime'>
+                                                        <input type='text' class="form-control trigger_time" id="trigger_manifestation_2" name="trigger_manifestation_2" placeholder="Enter timestamp" disabled="disabled" />
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 form-group no-data">
+                                        <div class="checkbox">
+                                            <label><input class="cbox_trigger_nd" name="cbox_trigger_nd_m0" type="checkbox" value="m0" disabled="disabled"><b>No Data (m&#8320;/M&#8320;)</b></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 previous_info" id="manifestation_desc">
+                                       <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-5 form-group">
+                                        <label for="trigger_manifestation_1_info">Observation Details</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_manifestation_1_info" name="trigger_manifestation_1_info" placeholder="Enter basic site details" maxlength="140" disabled="disabled"></textarea>
+                                    </div>
+                                    <div class="col-sm-5 form-group">
+                                        <label for="trigger_manifestation_2_info">Observation Details</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_manifestation_2_info" name="trigger_manifestation_2_info" placeholder="Enter basic site details" maxlength="140" disabled="disabled"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row"><div class="col-sm-12"><hr/></div></div>
+
+                                <div class="row">
+                                    <div class="col-sm-3 form-group">
+                                        <label for="manifestation_group">Reported by</label>
+                                        <div class="input-group">
+                                            <label class="checkbox-inline"><input type="checkbox" class="manifestation_group" name="manifestation_llmc" value="manifestation_llmc" disabled="disabled">LEWC</label>
+                                            <label class="checkbox-inline"><input type="checkbox" class="manifestation_group" name="manifestation_lgu" value="manifestation_lgu" disabled="disabled">LGU</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="manifestation_validator">Validated by</label>
+                                        <select class="form-control" id="manifestation_validator" name="manifestation_validator" onchange="" disabled="disabled">
+                                            <option value="">---</option>
+                                            <?php foreach($staff as $person): ?>
+                                                <option value="<?php echo $person->id; ?>">
+                                                <?php echo $person->last_name . ", " . $person->first_name; ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 form-group">
+                                        <label for="manifestation_remarks">Validator Remarks</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="manifestation_remarks" name="manifestation_remarks" placeholder="Enter basic site details" maxlength="360" disabled="disabled"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!------ END OF MANIFESTATION ------>
 
                      </div> <!-- End of Panel Body -->
                 </div> <!-- End of Panel -->
@@ -533,22 +618,6 @@
             <button type="submit" class="btn btn-info btn-md pull-right">Submit</button>
         </div>
         
-
-        <!-- Div class of dependent fields that appears on both Internal and Public Alerts -->
-        <!-- <div class="row" id="dependent_fields_a1d" hidden>
-            <div class="form-group col-sm-6">
-                <label for="alertGroups[]">Group(s) Involved:</label>
-                <div class="checkbox a1d"><label><input id="groupLGU" name="alertGroups[]" type="checkbox" value="LGU" onclick=''/>LGU</label></div>
-                <div class="checkbox a1d"><label><input id="groupLLMC" name="alertGroups[]" type="checkbox" value="LLMC" onclick=''/>LLMC</label></div>
-                <div class="checkbox a1d"><label><input id="groupCommunity" name="alertGroups[]" type="checkbox" value="Community" onclick=''/>Community</label></div>
-            </div>
-        
-            <div class="form-group col-sm-6">
-                <label for="request_reason">Reason for Request</label>
-                <textarea class="form-control" rows="3" id="request_reason" name="request_reason" placeholder="Enter reason for request" maxlength="128"></textarea>
-            </div>
-        </div> -->
-        
         <!-- Modal for Successful Entry -->
         <div class="modal fade" id="view_modal" role="dialog">
             <div class="modal-dialog modal-md">
@@ -579,7 +648,7 @@
                     </div>
                     <div class="modal-body">
                         <p>This release is for the event monitoring's current end-of-validity.</p>
-                        <p>If it is not yet the time to lower the alert to A0 due to lack of data (on ground, sensor, or both), please check the appropriate "No Data" button to extend the validity by 4 hours.</p>
+                        <p>If it is not yet the time to lower the alert to A0 due to lack of data (on surficial, subsurface, or both), please check the appropriate "No Data" button to extend the validity by 4 hours.</p>
                         <p>Else, if there are new triggers, enter the triggers on their respective fields.</p>
                         <p>Else, lower the site to A0.</p>
                     </div>

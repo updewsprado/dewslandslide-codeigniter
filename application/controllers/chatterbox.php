@@ -108,12 +108,12 @@ class Chatterbox extends CI_Controller {
 		if ($data->cmd == "delete"){
  			print json_encode($result);
  		} else {
- 			$sms_ids = $this->get_sms_gintag_id($result,$data->data[2]);
+ 			$sms_ids = $this->get_sms_gintag_id($result,$data->data[2],$data->data[6]);
  			print json_encode($sms_ids);	
  		}
 	}
 
-	public function get_sms_gintag_id($data,$timestamp){
+	public function get_sms_gintag_id($data,$timestamp,$dbused){
 		$contact_person = "";
 		$sms_collection = [];
 		$contact_collection = [];
@@ -141,9 +141,8 @@ class Chatterbox extends CI_Controller {
 				$contact_person = $contact->number;
 			}
 		}
-
 		foreach ($contact_collection as $contact) {
-			$result = $this->contacts_model->getGintagsSmsId($contact,$timestamp);
+			$result = $this->contacts_model->getGintagsSmsId($contact,$timestamp,$dbused);
 			array_push($sms_collection, $result);
 			$sms_collection = array_filter($sms_collection);
 		}

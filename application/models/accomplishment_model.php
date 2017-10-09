@@ -77,7 +77,7 @@
 		{
 			$this->db->where_in('event_id', $event_id);
 			$this->db->where('timestamp >=', $start);
-			$this->db->where('timestamp <=', $end);
+			if( $end != '' )$this->db->where('timestamp <=', $end);
 			$this->db->order_by("timestamp", "asc");
 			$query = $this->db->get('narratives');
 			$result = $query->result_array();

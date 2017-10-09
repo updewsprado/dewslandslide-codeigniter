@@ -18,13 +18,11 @@ class Narrative_generator extends CI_Controller {
 		$result = $this->narrative_automation_model->fetchMessagesFromLastRelease($ack_data);
 		$hasAck = [];
 		foreach ($result as $set) {
-			if (strpos(strtolower($set->narrative),'early warning information acknowledged') != false) {
-
+			if (strpos(strtolower($set->narrative),'early warning information acknowledged') != false || strpos(strtolower($set->narrative),'ewi sms acknowledged by') === 0) {
 				$hasAck['ack'] = "has_ack";
 				$hasAck['narrative'] = $set->narrative;
 				break;
-			} else if (strpos(strtolower($set->narrative),'early warning information acknowledged') === 0) {
-
+			} else if (strpos(strtolower($set->narrative),'early warning information acknowledged') === 0 || strpos(strtolower($set->narrative),'ewi sms acknowledged by') === 0) {
 				$hasAck['ack'] = "has_ack";
 				$hasAck['narrative'] = $set->narrative;
 				break;

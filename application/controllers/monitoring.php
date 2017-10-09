@@ -68,7 +68,7 @@ class Monitoring extends CI_Controller
 	 			$end = strtotime('+2 days', $start);
 	 			$day = 3 - ceil(($end - (60*60*12) - strtotime('now'))/(60*60*24));
 
-	 			if( $day == 0 ) array_push($latest, $event);
+	 			if( $day <= 0 ) array_push($latest, $event);
 	 			else if( $day > 0 && $day <= 3 ) {
 		 			$event->start = $start;
 					$event->end = $end;

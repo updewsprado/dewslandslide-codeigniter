@@ -114,15 +114,15 @@ class Pubrelease_Model extends CI_Model
 			{
 				$this->db->where('trigger_id', $arr['trigger_id']);
 				$query = $this->db->get('public_alert_eq');
-
 				$arr['eq_info'] = $query->result_array();
-				break;
 			} else if($arr['trigger_type'] == 'D') {
 				$this->db->where('trigger_id', $arr['trigger_id']);
 				$query = $this->db->get('public_alert_on_demand');
-
 				$arr['od_info'] = $query->result_array();
-				break;
+			} else if(strtoupper($arr['trigger_type']) == 'M') {
+				$this->db->where('trigger_id', $arr['trigger_id']);
+				$query = $this->db->get('public_alert_manifestation');
+				$arr['manifestation_info'] = $query->result_array();
 			}
 		}
 

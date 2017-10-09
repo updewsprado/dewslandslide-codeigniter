@@ -335,7 +335,7 @@ class Pubrelease extends CI_Controller {
 
 	public function saveTriggers($post, $event_id, $release_id, $event_validity)
 	{
-		$lookup = array( "g" => "trigger_ground_1", "G" => "trigger_ground_2", "s" => "trigger_sensor_1", "S" => "trigger_sensor_2", "R" => "trigger_rain", "E" => "trigger_eq", "D" => "trigger_od" );
+		$lookup = array( "g" => "trigger_ground_1", "G" => "trigger_ground_2", "s" => "trigger_sensor_1", "S" => "trigger_sensor_2", "m" => "trigger_manifestation_1", "M" => "trigger_manifestation_2", "R" => "trigger_rain", "E" => "trigger_eq", "D" => "trigger_od" );
 		$list = [];
 		if( $post['trigger_list'] != NULL )
 		{
@@ -376,6 +376,14 @@ class Pubrelease extends CI_Controller {
 					$od['is_lgu'] = isset($post['lgu']) ? true : false;
 					$od['reason'] = $post['reason'];
 					$this->pubrelease_model->insert('public_alert_on_demand', $od);
+				} else if( strtoupper($entry['type']) == "M" )
+				{
+					$od['trigger_id'] = $latest_trigger_id;
+					$od['is_llmc'] = isset($post['manifestation_llmc']) ? true : false;
+					$od['is_lgu'] = isset($post['manifestation_lgu']) ? true : false;
+					$od['remarks'] = $post['manifestation_remarks'];
+					$od['validator'] = $post['manifestation_validator'];
+					$this->pubrelease_model->insert('public_alert_manifestation', $od);
 				}
 			}
 
