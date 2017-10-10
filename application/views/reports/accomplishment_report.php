@@ -308,8 +308,8 @@
 						<hr/>
 						<div class="row">
 							<div class="col-sm-12 text-right submit_area">
-								<button id="download-charts" class="btn btn-danger" type="button" disabled>Download Charts</button>
-								<button id="refresh-narratives" class="btn btn-danger" type="button" disabled>Refresh Narratives</button>
+								<button id="download-charts" class="btn btn-primary" type="button" disabled>Download Charts</button>
+								<button id="refresh-narratives" class="btn btn-primary" type="button" disabled>Refresh Narratives</button>
 								<button id="send" class="btn btn-danger" type="button" disabled>Send</button>
 							</div>
 						</div>
