@@ -329,6 +329,51 @@
     </div>
   </div>
 </div>
-
-
 </div>
+    <div class="modal fade" id="groundModal_form" role="dialog">
+      <div class="modal-dialog  modal-sm">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <p > <h4 style="text-align: center;"> GROUND MEASUREMENT</h4></p>
+            <div class="panel-body">
+              <div id="education_fields">
+              </div>
+              <div class="col-sm-12 nopadding">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="text" class="form-control dataInput" id="crack_id_data" name="crack_id_data" value="" placeholder="Crack ID" >
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 nopadding">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="text" class="form-control dataInput" id="timestamp_data" name="timestamp_data" value="" placeholder="Timestamp" >
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 nopadding">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="text" class="form-control dataInput" id="meas" name="meas" value="" placeholder="Measurement">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="buttons_div">
+              <button id="edit_meas"  type="button"  class="btn btn-success btn-sm">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> EDIT
+              </button>
+              <button id="delete_meas"  type="button"  class="btn btn-danger btn-sm">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> DELETE</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
