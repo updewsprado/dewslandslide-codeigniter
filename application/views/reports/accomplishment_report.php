@@ -1,4 +1,4 @@
-<!--
+
     
      Created by: Kevin Dhale dela Cruz
      
@@ -308,8 +308,8 @@
 						<hr/>
 						<div class="row">
 							<div class="col-sm-12 text-right submit_area">
-								<button id="download-charts" class="btn btn-danger" type="button" disabled>Download Charts</button>
-								<button id="refresh-narratives" class="btn btn-danger" type="button" disabled>Refresh Narratives</button>
+								<button id="download-charts" class="btn btn-primary" type="button" disabled>Download Charts</button>
+								<button id="refresh-narratives" class="btn btn-primary" type="button" disabled>Refresh Narratives</button>
 								<button id="send" class="btn btn-danger" type="button" disabled>Send</button>
 							</div>
 						</div>
@@ -318,17 +318,16 @@
 
 	  			<!-- Graphs Div Cloner -->
 	  			<div class="panel panel-default" id="graph_checkbox_sample" hidden="hidden">
-					<div class="panel-heading"><strong>Graphs</strong></div>
+					<div class="panel-heading"><strong>Graphs and Attachments</strong></div>
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-sm-2 text-center" style="padding-top: 5px;"><label class="checkbox-inline"><input class="rainfall_checkbox" type="checkbox" value="">Rainfall</label></div>
+							<div class="col-sm-4 text-center" style="padding-top: 5px;"><label class="checkbox-inline"><input class="rainfall_checkbox" type="checkbox" value="">Rainfall</label></div>
 
-							<div class="col-sm-2 text-center" style="padding-top: 5px;"><label class="checkbox-inline"><input class="surficial_checkbox" type="checkbox" value="">Surficial</label></div>
+							<div class="col-sm-4 text-center" style="padding-top: 5px;"><label class="checkbox-inline"><input class="surficial_checkbox" type="checkbox" value="">Surficial</label></div>
 
-							<div class="col-sm-2">
+							<div class="col-sm-4">
 								<div class="input-group">
 									<span class="input-group-addon">Subsurface</span>
-						    		<!-- <input type="text" class="form-control" name="object" readonly> -->
 						      		<div class="input-group-btn">
 						        		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 0;"><span class="caret"></span></button>
 						        		<ul class="dropdown-menu dropdown-menu-right subsurface_options">
@@ -337,17 +336,18 @@
 						      		</div>
 						    	</div>
 					    	</div>
+					    </div>
 
-					    	<div class="col-sm-6">
-				    			<input type="file" name="attachment" class="file" style="display: none;" multiple>
-				    			<div class="input-group col-sm-12">
-				    				<span class="input-group-btn">
-				    					<button class="browse btn btn-primary" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
-				    				</span>
-				    				<input type="text" class="form-control" disabled placeholder="Add attachment">
+					    <hr/>
+
+					    <div class="row">
+					    		<input type="file" name="attachment" class="file" style="display: none;" multiple>
+				    			<div class="col-sm-1">
+				    				<button class="browse btn btn-primary" type="button"><i class="fa fa-upload"></i> Attach</button>
 				    			</div>
-					    	</div>
-
+				    			<div class="col-sm-11">
+				    				<input id="files-selected" class="form-control files-selected" type="text" name="files-selected" />
+				    			</div>
   						</div>
 					</div>
 				</div>
@@ -375,4 +375,4 @@
 
 	</div> <!-- End of div container-fluid -->
 
-</div> <!-- End of div page-wrapper -->
+</div> <!-- End of div page-wrapper 
