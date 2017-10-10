@@ -94,11 +94,58 @@
 
 		}
 
+		public function getEvent($event_id)
+		{
+			$query = $this->db->get_where('public_alert_event', array("event_id" => $event_id));
+			return $query->result_object()[0];
+		}
+
+		public function getEmailCredentials($username)
+		{
+			$query = $this->db->get_where('membership', array('username' => $username));
+			if( $query->num_rows() == 0 ) $result = "No '" . $username . "' username on the database.";
+			else $result = $query->result_array()[0];
+			return $result;
+		}
+
 		public function insert($table, $data)
 		{
         	$this->db->insert($table, $data);
         	$id = $this->db->insert_id();
         	return $id;
+    	}
+
+    	public function updateIfExistsElseInsert($table, $data, $on_update_fields)
+    	{
+
+    		$query = "INSERT INTO $table (";
+    		$query = $query . $this->delegate( array_keys($data) );
+    		$query = $query . ") VALUES (";
+    		$query = $query . $this->delegate(  array_values($data), true );
+    		$query = $query . ") ON DUPLICATE KEY UPDATE ";
+
+    		$i = 1;
+    		foreach ($on_update_fields as $key) 
+    		{
+    			$query = $query . $key . "=VALUES($key)";
+			}
+
+			$result = $this->db->query($query);
+			return $result;
+    	}
+
+    	function delegate($array, $isValues = false) 
+    	{
+    		$i = 1; $query = "";
+    		foreach ($array as $key) 
+    		{
+    			if( $isValues ) $query = $query . $this->db->escape($key);
+    			else $query = $query . $key;
+    			if(count($array) > $i) $query = $query . ", ";
+    			$i++;
+    		}
+
+    		return $query;
     	}
 
     	public function update($column, $key, $table, $data)
