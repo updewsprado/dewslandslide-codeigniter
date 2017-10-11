@@ -434,7 +434,7 @@ class API extends CI_Controller {
 
 			$command = $pythonPath.' '.$fileName.' '.$site.' '.$fdate.' '.$tdate;
 			exec($command, $output, $return);
-			print json_encode($output);
+			print json_encode($output[sizeof($output)-1]);
 			
 		}
 
