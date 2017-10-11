@@ -1,4 +1,4 @@
-<!--
+
     
      Created by: Kevin Dhale dela Cruz
      
@@ -15,6 +15,8 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/reports/accomplishment_server.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/reports/narrative_form.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/reports/accomplishment_report.js"></script>
+<script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 
 <?php
 	$withAlerts = json_decode($withAlerts);
@@ -36,7 +38,6 @@
 		<ul class="nav nav-tabs nav-justified">
 		 	<li class="active"><a data-toggle="tab" href="#narrativeTab">Narrative Report</a></li>
 			<li><a data-toggle="tab" href="#generatorTab">End-of-Shift Report Generator</a></li>
-			<li><a data-toggle="tab" href="#othersTab">Accomplishment Report (General)</a></li>
 		</ul>
 
 		<div class="tab-content">
@@ -225,7 +226,6 @@
 			            </div>
 			      	</div>
 			    </div> <!-- End of MODAL AREA -->
-
 			</div>
 
 			<div id="generatorTab" class="tab-pane fade">
@@ -260,12 +260,23 @@
 			          	</div>
 
 			          	<div class="form-group col-sm-2 text-center" style="top: 24px;">
-				   			<button type="button" class="btn btn-danger btn" id="generate" disabled="disabled">Generate Report</button>
+				   			<button type="submit" class="btn btn-danger btn" id="generate" disabled="disabled">Generate Report</button>
 				   		</div>
 			        </form>
 			    </div>
 
 			    <hr/>
+
+			    <div id="mail_recipients_row" hidden="hidden">
+			    	<div class="row">
+		    			<div class="col-sm-12">
+                        	<label class="control-label" for="recipients">Mail Recipients&ensp;</label>
+                        	<input type="text" id="recipients" name="recipients" data-role="tagsinput"/>
+                        	&ensp;<span id="recipients_span"></span>
+                    	</div>
+			   		</div>
+			   		<hr/>
+				</div>
 
 		   		<ul class="nav nav-tabs" id="reports_nav">
 		   			<li class="reports_nav_list active" id="reports_nav_sample"><a data-toggle="tab" href="#reports_field_sample"><strong>No active site</strong></a></li>
@@ -275,13 +286,31 @@
 	  				<div id="reports_field_sample" class="reports_field_list tab-pane fade in active">
 	  					<h3></h3>
 	  					<div class="graphs-div"></div>
-		   				<div class="form-group">
-							<textarea class="form-control" rows="7" id="report">No active events for this shift.</textarea>
+
+	  					<div class="row">
+		  					<div class="form-group col-sm-12">
+		  						<label class="control-label" for="shift_summary">Shift Summary</label>
+								<textarea class="form-control" rows="5" id="shift_summary">No active events for this shift.</textarea>
+							</div>
 						</div>
+						<div class="row">
+							<div class="form-group col-sm-12">
+								<label class="control-label" for="shift_analysis">Data Analysis</label>
+								<textarea class="form-control" rows="5" id="shift_analysis">No active events for this shift.</textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<label class="control-label" for="shift_narratives">Shift Narratives</label>
+								<textarea class="form-control" rows="5" id="shift_narratives">No active events for this shift.</textarea>
+							</div>
+	  					</div>
 						<hr/>
 						<div class="row">
-							<div class="col-sm-12 text-right">
-								<button class="btn btn-danger submit_buttons" type="button" disabled>Download Charts</button>
+							<div class="col-sm-12 text-right submit_area">
+								<button id="download-charts" class="btn btn-primary" type="button" disabled>Download Charts</button>
+								<button id="refresh-narratives" class="btn btn-primary" type="button" disabled>Refresh Narratives</button>
+								<button id="send" class="btn btn-danger" type="button" disabled>Send</button>
 							</div>
 						</div>
 	  				</div>
@@ -289,17 +318,16 @@
 
 	  			<!-- Graphs Div Cloner -->
 	  			<div class="panel panel-default" id="graph_checkbox_sample" hidden="hidden">
-					<div class="panel-heading"><strong>Graphs</strong></div>
+					<div class="panel-heading"><strong>Graphs and Attachments</strong></div>
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-sm-2 text-center" style="padding-top: 5px;"><label class="checkbox-inline"><input class="rainfall_checkbox" type="checkbox" value="">Rainfall</label></div>
+							<div class="col-sm-4 text-center" style="padding-top: 5px;"><label class="checkbox-inline"><input class="rainfall_checkbox" type="checkbox" value="">Rainfall</label></div>
 
-							<div class="col-sm-2 text-center" style="padding-top: 5px;"><label class="checkbox-inline"><input class="surficial_checkbox" type="checkbox" value="">Surficial</label></div>
+							<div class="col-sm-4 text-center" style="padding-top: 5px;"><label class="checkbox-inline"><input class="surficial_checkbox" type="checkbox" value="">Surficial</label></div>
 
-							<div class="col-sm-2">
+							<div class="col-sm-4">
 								<div class="input-group">
 									<span class="input-group-addon">Subsurface</span>
-						    		<!-- <input type="text" class="form-control" name="object" readonly> -->
 						      		<div class="input-group-btn">
 						        		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 0;"><span class="caret"></span></button>
 						        		<ul class="dropdown-menu dropdown-menu-right subsurface_options">
@@ -308,88 +336,43 @@
 						      		</div>
 						    	</div>
 					    	</div>
+					    </div>
 
-					    	<div class="col-sm-6">
-				    			<input type="file" name="attachment" class="file" style="display: none;" multiple>
-				    			<div class="input-group col-sm-12">
-				    				<span class="input-group-btn">
-				    					<button class="browse btn btn-primary" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
-				    				</span>
-				    				<input type="text" class="form-control" disabled placeholder="Add attachment">
+					    <hr/>
+
+					    <div class="row">
+					    		<input type="file" name="attachment" class="file" style="display: none;" multiple>
+				    			<div class="col-sm-1">
+				    				<button class="browse btn btn-primary" type="button"><i class="fa fa-upload"></i> Attach</button>
 				    			</div>
-					    	</div>
-
+				    			<div class="col-sm-11">
+				    				<input id="files-selected" class="form-control files-selected" type="text" name="files-selected" />
+				    			</div>
   						</div>
 					</div>
 				</div>
 				<!-- End of Graphs Div Cloner-->
 			</div>
 
-			<div id="othersTab" class="tab-pane fade">
-				<h3></h3>
-				<form role="form" id="othersForm" method="get">
-			        <div class="row">
-			        	<div class="col-sm-6">
-			        		<div class="form-group col-sm-12">
-					            <label class="control-label" for="shift_start_others">Start of Shift</label>
-					            <div class='input-group date datetime shift_start_others'>
-					                <input type='text' class="form-control" id="shift_start_others" name="shift_start_others" placeholder="Enter timestamp" />
-					                <span class="input-group-addon">
-					                    <span class="glyphicon glyphicon-calendar"></span>
-					                </span>
-					            </div>        
-				          	</div>
-
-				        	<div class="form-group col-sm-12">
-					            <label class="control-label" for="shift_end_others">End of Shift</label>
-					            <div class='input-group date datetime shift_end_others'>
-					                <input type='text' class="form-control" id="shift_end_others" name="shift_end_others" placeholder="Enter timestamp" />
-					                <span class="input-group-addon">
-					                    <span class="glyphicon glyphicon-calendar"></span>
-					                </span>
-					            </div>  
-				          	</div>
-			        	</div>
-			        	<div class="col-sm-6">
-			        		<div class="form-group col-sm-12">
-								<label class="control-label" for="summary">Summary</label>
-								<textarea class="form-control" rows="5" id="summary" name="summary" placeholder="Minimum of 20 characters" maxlength="500"></textarea>
-			                </div>
-			        	</div>
-				    </div>
-
-				     <!-- Submit Field Group -->
-				    <div id="submitField">
-				    	<div class="row">
-				    		<div class="form-group col-md-12">
-				   				<button type="submit" class="btn btn-info btn-md pull-right" id="submitForm">Submit form</button>
-				   			</div>
-				    	</div>
-				    </div> <!-- End of Submit Field Group -->
-			    </form>
-
-			    <!-- MODAL AREA -->
-			    <div class="modal fade" id="othersModal" role="dialog">
-			    	<div class="modal-dialog modal-md">
-			            <!-- Modal content-->
-			            <div class="modal-content">
-			              	<div class="modal-header">
-			                	<h4 class="modal-title">Save Accomplishment Report</h4>
-			              	</div>
-			              	<div class="modal-body">
-			              		Accomplishment report successfully saved!
-			              	</div>
-			              	<div class="modal-footer">
-			              		<button id="othersSubmit" class="btn btn-info okay" data-dismiss="modal" role="button">Okay</button>
-			            	</div>
-			            </div>
-			      	</div>
-			    </div> <!-- End of MODAL AREA -->
-
-			</div>
+			<!-- MODAL AREA -->
+			<div class="modal fade" id="resultModal" role="dialog">
+	            <div class="modal-dialog">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+	                        <button type="button" class="close" data-dismiss="modal" hidden>&times;</button>
+	                        <h4 class="modal-title">End-of-shift Report Generator and Creator</h4>
+	                    </div>
+	                    <div class="modal-body">
+	                    </div>
+	                    <div class="modal-footer">
+	                        <button id="okay" class="btn btn-info" data-dismiss="modal" role="button">Okay</button>
+	                    </div>
+	                </div>
+	            </div>
+	        </div><!-- End of MODAL AREA -->
 
 		</div>
 
 	</div> <!-- End of div container-fluid -->
 
-</div> <!-- End of div page-wrapper -->
+</div> <!-- End of div page-wrapper 
