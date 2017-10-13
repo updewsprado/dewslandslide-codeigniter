@@ -135,7 +135,7 @@ class Ewi_template extends CI_Controller {
 						$template = $keyinput[$counter][$sec_counter]->key_input;
 						break;
 					} else {
-						$template = $keyinput[$counter][$sec_counter]->key_input;
+						$template = $keyinput[0][$sec_counter]->key_input; // GET ONLY THE 1st.
 					}
 				}
 			}
