@@ -182,6 +182,12 @@ class Pubrelease extends CI_Controller {
 		echo "$result";
 	}
 
+	public function getFeatureNames($site_id, $type)
+	{
+		$result = $this->pubrelease_model->getFeatureNames($site_id, $type);
+		echo "$result";
+	}
+
 	public function insert()
 	{
 		$status = $_POST['status'];
@@ -189,6 +195,7 @@ class Pubrelease extends CI_Controller {
 		$site_id = $_POST['site'];
 		if( (int) $site_id == 0 ) $site_id = $this->pubrelease_model->getSiteID($_POST['site']);
 		$event_validity = NULL;
+		$release_id = NULL;
 
 		if( $status == 'new' )
 		{
@@ -278,6 +285,12 @@ class Pubrelease extends CI_Controller {
 			echo "Routine";
 		}
 
+		// Enter here insert non-triggering features if any
+		if( isset($_POST['nt_feature_groups']) )
+		{
+			$this->saveManifestation($_POST['nt_feature_groups'], $_POST, $release_id);
+		}
+		
 		//Set the public release all cache to dirty
 		$this->setPublicReleaseAllDirty();
 	}
@@ -335,7 +348,7 @@ class Pubrelease extends CI_Controller {
 
 	public function saveTriggers($post, $event_id, $release_id, $event_validity)
 	{
-		$lookup = array( "g" => "trigger_ground_1", "G" => "trigger_ground_2", "s" => "trigger_sensor_1", "S" => "trigger_sensor_2", "m" => "trigger_manifestation_1", "M" => "trigger_manifestation_2", "R" => "trigger_rain", "E" => "trigger_eq", "D" => "trigger_od" );
+		$lookup = array( "g" => "trigger_ground_1", "G" => "trigger_ground_2", "s" => "trigger_sensor_1", "S" => "trigger_sensor_2", "m" => "trigger_manifestation", "M" => "trigger_manifestation", "R" => "trigger_rain", "E" => "trigger_eq", "D" => "trigger_od" );
 		$list = [];
 		if( $post['trigger_list'] != NULL )
 		{
@@ -377,13 +390,8 @@ class Pubrelease extends CI_Controller {
 					$od['reason'] = $post['reason'];
 					$this->pubrelease_model->insert('public_alert_on_demand', $od);
 				} else if( strtoupper($entry['type']) == "M" )
-				{
-					$od['trigger_id'] = $latest_trigger_id;
-					$od['is_llmc'] = isset($post['manifestation_llmc']) ? true : false;
-					$od['is_lgu'] = isset($post['manifestation_lgu']) ? true : false;
-					$od['remarks'] = $post['manifestation_remarks'];
-					$od['validator'] = $post['manifestation_validator'];
-					$this->pubrelease_model->insert('public_alert_manifestation', $od);
+				{	
+					$this->saveManifestation($post['feature_groups'], $post, $release_id, $entry['type']);
 				}
 			}
 
@@ -397,6 +405,41 @@ class Pubrelease extends CI_Controller {
 			else $data['validity'] = $generated_validity;
 			
 			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', $data);
+		}
+	}
+
+	public function saveManifestation ($group, $post, $release_id = null, $trigger = 1)
+	{
+		foreach ($group as $field) 
+		{
+			if($field == "base" || $field == "nt_base") $id = "";
+			else $id = preg_replace('/n?t?_?feature/i', "", $field);
+
+			$lookup = ["feature_name", "feature_type"];
+			$feature = array('site_id' => $post['site']);
+			foreach ($lookup as $key) 
+			{
+				$feature[$key] = $post[$key . $id];
+			}
+			$feature_id = $this->pubrelease_model->insertIfNotExists('manifestation_features', $feature);
+
+			switch ($trigger) {
+				case 'm': $op_trigger = 2; break;
+				case 'M': $op_trigger = 3; break;
+				default: $op_trigger = 0; break;
+			}
+			$manifestation = array(
+				"release_id" => $release_id,
+				"feature_id" => $feature_id,
+				"validator" => $post['manifestation_validator'],
+				"op_trigger" => $op_trigger
+			);
+			$lookup2 = array("feature_narrative" => "narrative", "feature_remarks" => "remarks", 
+				"feature_reporter" => "reporter", "observance_timestamp" => "ts_observance");
+			foreach ($lookup2 as $post_name => $db_name) {
+				$manifestation[$db_name] = $post[$post_name . $id];
+			}
+			$this->pubrelease_model->insert('public_alert_manifestation', $manifestation);
 		}
 	}
 

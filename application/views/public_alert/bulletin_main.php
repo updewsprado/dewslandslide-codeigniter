@@ -231,7 +231,7 @@
 								function ($trigger) use ($a, $release)
 								{ 
 									//return $trigger->trigger_type == $a;
-									return $trigger->trigger_type == $a && strtotime($trigger->timestamp) <= strtotime($release->data_timestamp);
+									return $trigger->trigger_type == $a && strtotime($trigger->timestamp) <= strtotime($release->data_timestamp) + 1800;
 								}));
 
 								// If ordered has no triggers in it (case like A3 
@@ -254,12 +254,6 @@
 									else if ($temp->od_info->is_llmc) $group = "LEWC"; else $group = "LGU";
 									$desc = str_replace("[group]", $group, $desc);
 									$desc = str_replace("[reason]", $temp->od_info->reason, $desc);
-								} else if(strtoupper($a) === 'M')
-								{
-									$temp = $ordered[count($ordered)-1];
-									if ($temp->manifestation_info->is_llmc && $temp->manifestation_info->is_lgu) $group = "LEWC and LGU";
-									else if ($temp->manifestation_info->is_llmc) $group = "LEWC"; else $group = "LGU";
-									$desc = str_replace("[group]", $group, $desc);
 								}
 								$info = $ordered[count($ordered) - 1]->info;
 
