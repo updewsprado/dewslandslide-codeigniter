@@ -120,8 +120,11 @@ class Pubrelease_Model extends CI_Model
 				$query = $this->db->get('public_alert_on_demand');
 				$arr['od_info'] = $query->result_array();
 			} else if(strtoupper($arr['trigger_type']) == 'M') {
-				$this->db->where('trigger_id', $arr['trigger_id']);
-				$query = $this->db->get('public_alert_manifestation');
+				$this->db->select('public_alert_manifestation.*, manifestation_features.feature_type, manifestation_features.feature_name');
+				$this->db->from("public_alert_manifestation");
+				$this->db->join('manifestation_features', 'public_alert_manifestation.feature_id = manifestation_features.feature_id');
+				$this->db->where('public_alert_manifestation.release_id', $arr['release_id']);
+				$query = $this->db->get();
 				$arr['manifestation_info'] = $query->result_array();
 			}
 		}
@@ -205,6 +208,20 @@ class Pubrelease_Model extends CI_Model
         return $id;
     }
 
+    public function insertIfNotExists($table, $data)
+	{
+		$result = $this->db->get_where($table, $data);
+		if( $result->num_rows() > 0 ) {
+			$row = $result->row();
+			return $row->feature_id;
+		} else {
+			$this->db->insert($table, $data);
+        	$id = $this->db->insert_id();
+        	return $id;
+		}
+    }
+
+
 	public function update($column, $key, $table, $data)
 	{
 		$this->db->where($column, $key);
@@ -219,16 +236,6 @@ class Pubrelease_Model extends CI_Model
 		$query = $this->db->get();
 		return $query->result();
 	}
-
-	/*public function getAllEvents()
-	{
-		$this->db->select('public_alert_event.*, site.*, public_alert_release.*');
-		$this->db->from('public_alert_event');
-		$this->db->join('site', 'public_alert_event.site_id = site.id');
-		$this->db->join('public_alert_release', 'public_alert_event.latest_release_id = public_alert_release.release_id');
-		$query = $this->db->get();
-		return $query->result_object();
-	}*/
 
 	public function getEventCount($search = null, $filter = null)
 	{
@@ -283,6 +290,12 @@ class Pubrelease_Model extends CI_Model
 		$this->db->join('public_alert_event', 'public_alert_event.event_id = public_alert_release.event_id');
 		$this->db->join('site', 'public_alert_event.site_id = site.id');
 		$query = $this->db->get();
+		return json_encode($query->result_object());
+	}
+
+	public function getFeatureNames($site_id, $type)
+	{
+		$query = $this->db->get_where("manifestation_features", array("site_id" => $site_id, "feature_type" => $type));
 		return json_encode($query->result_object());
 	}
 

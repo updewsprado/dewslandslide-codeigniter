@@ -113,7 +113,16 @@
             					<?php foreach ($trigger_list as $trigger): ?>
 		        						<li><?php echo format($trigger->trigger_type, $trigger->timestamp); ?></li>
                                         <?php if($trigger->info != null) echo "<ul><li>" . $trigger->info . "</li></ul>"; ?>
-                                        <?php if(strtoupper($trigger->trigger_type) == "M") { echo "<ul><ul><li>Remarks: " . $trigger->manifestation_info[0]->remarks . "</li></ul>"; echo "<ul><li>Validator: " . returnName($trigger->manifestation_info[0]->validator, $staff) . "</li></ul></ul>"; } ?>
+                                        <?php if(strtoupper($trigger->trigger_type) == "M"): ?> 
+                                            <?php foreach ($trigger->manifestation_info as $man): ?>
+                                                <?php echo "<ul><ul><li>Feature: " . ucwords($man->feature_type) . " $man->feature_name (M$man->op_trigger)</li></ul>"; ?>
+                                                <?php echo "<ul><ul><li>Narrative: " . $man->narrative . "</li></ul></ul>"; ?>
+                                                <?php echo "<ul><ul><li>Reporter: " . $man->reporter . "</li></ul></ul>"; ?>
+                                                <?php echo "<ul><ul><li>Remarks: " . $man->remarks . "</li></ul></ul>"; ?>
+                                                <?php echo "</ul>"; ?>
+                                            <?php endforeach; ?>
+                                            <?php echo "<ul><ul><li>Validator: " . returnName($trigger->manifestation_info[0]->validator, $staff) . "</li></ul></ul>"; ?>
+                                        <?php endif; ?>
 		        				<?php endforeach; ?>
 		        					</ul>
 		        					<hr>
@@ -194,7 +203,16 @@
             					<?php foreach ($trigger_list as $trigger): ?>
 		        						<li><?php echo format($trigger->trigger_type, $trigger->timestamp); ?></li>
                                         <?php if($trigger->info != null) echo "<ul><li>" . $trigger->info . "</li></ul>"; ?>
-                                        <?php if(strtoupper($trigger->trigger_type) == "M") { echo "<ul><ul><li>Remarks: " . $trigger->manifestation_info[0]->remarks . "</li></ul>"; echo "<ul><li>Validator: " . returnName($trigger->manifestation_info[0]->validator, $staff) . "</li></ul></ul>"; } ?>
+                                        <?php if(strtoupper($trigger->trigger_type) == "M"): ?> 
+                                            <?php foreach ($trigger->manifestation_info as $man): ?>
+                                                <?php echo "<ul><ul><li>Feature: " . ucwords($man->feature_type) . " $man->feature_name (M$man->op_trigger)</li></ul>"; ?>
+                                                <?php echo "<ul><ul><li>Narrative: " . $man->narrative . "</li></ul></ul>"; ?>
+                                                <?php echo "<ul><ul><li>Reporter: " . $man->reporter . "</li></ul></ul>"; ?>
+                                                <?php echo "<ul><ul><li>Remarks: " . $man->remarks . "</li></ul></ul>"; ?>
+                                                <?php echo "</ul>"; ?>
+                                            <?php endforeach; ?>
+                                            <?php echo "<ul><ul><li>Validator: " . returnName($trigger->manifestation_info[0]->validator, $staff) . "</li></ul></ul>"; ?>
+                                        <?php endif; ?>
 		        				<?php endforeach; ?>
 		        					</ul>
 		        					<hr>
