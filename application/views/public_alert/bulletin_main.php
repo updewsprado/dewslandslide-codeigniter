@@ -231,7 +231,7 @@
 								function ($trigger) use ($a, $release)
 								{ 
 									//return $trigger->trigger_type == $a;
-									return $trigger->trigger_type == $a && strtotime($trigger->timestamp) <= strtotime($release->data_timestamp);
+									return $trigger->trigger_type == $a && strtotime($trigger->timestamp) <= strtotime("+30 minutes", $release->data_timestamp);
 								}));
 
 								// If ordered has no triggers in it (case like A3 
