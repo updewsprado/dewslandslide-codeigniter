@@ -135,12 +135,16 @@ class Ewi_template extends CI_Controller {
 						$template = $keyinput[$counter][$sec_counter]->key_input;
 						break;
 					} else {
-						$template = $keyinput[$counter][$sec_counter]->key_input;
+						$template = $keyinput[0][$sec_counter]->key_input;
 					}
 				}
 			}
-			$result[0]->key_input = $template;
-			$result[0]->alert_symbol_level = $data;
+
+			$result = [
+				'key_input' => $template,
+				'alert_symbol_level' => $data
+			];
+			
 		} else {
 			$result = [];
 			$a0 = [
@@ -150,7 +154,8 @@ class Ewi_template extends CI_Controller {
 
 			array_push($result,$a0);
 		}
-		print json_encode($result[0]);
+
+		print json_encode($result);
 		// DO NOT DELETE. THIS CODE HAS A PURPOSE.
 		
 		// if (sizeof($keyinput) >= 2) {
