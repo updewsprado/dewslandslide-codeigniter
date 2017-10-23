@@ -113,6 +113,7 @@ class Ewi_template extends CI_Controller {
 	public function getKeyInputViaTriggerType() {
 		if (isset($_POST['trigger_type'])) {
 			$data = $_POST['trigger_type'];
+
 			$template = "";
 			$keyinput = [];
 
@@ -126,19 +127,7 @@ class Ewi_template extends CI_Controller {
 				$result = $this->ewi_template_model->getKeyViaTriggerType($symbol);
 				array_push($keyinput,$result);
 			}
-
-			$template = $keyinput[0][0]->key_input;
-
-			for ($counter = 0; $counter < sizeof($keyinput); $counter++) {
-				for ($sec_counter =0; $sec_counter < sizeof($keyinput[$counter]);$sec_counter++) {
-					if (is_numeric($data[0]) && is_numeric($keyinput[$counter][$sec_counter]->key_input)) {
-						$template = $keyinput[$counter][$sec_counter]->key_input;
-						break;
-					} else {
-						$template = $keyinput[0][$sec_counter]->key_input;
-					}
-				}
-			}
+			$template = $keyinput;
 
 			$result = [
 				'key_input' => $template,
@@ -156,6 +145,8 @@ class Ewi_template extends CI_Controller {
 		}
 
 		print json_encode($result);
+
+
 		// DO NOT DELETE. THIS CODE HAS A PURPOSE.
 		
 		// if (sizeof($keyinput) >= 2) {
