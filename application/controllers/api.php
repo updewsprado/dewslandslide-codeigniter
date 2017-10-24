@@ -10,9 +10,11 @@ class API extends CI_Controller {
 		public function latestSensorData($site){ // example http://localhost/api/latestSensorData/agbsb
 			$result = $this->node_level_model->getlatestSensorData($site);
 			print json_encode($result);
-
 		}
-
+		public function latestGroundData($site){ // example http://localhost/api/latestSensorData/agbsb
+			$result = $this->node_level_model->getlatestGroundData($site);
+			print json_encode($result);
+		}
 		public function AccelBatteryThreshold($site,$node){ // example  http://localhost/api/AccelBatteryThreshold/agbsb/2
 			$result = $this->node_level_model->getAccelBatteryThreshold($site,$node);
 			print json_encode($result);
