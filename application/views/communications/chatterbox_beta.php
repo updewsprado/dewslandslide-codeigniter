@@ -54,6 +54,41 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="col-sm-6 division recent_activities">
+			<div class="panel panel-primary">
+			<input type="text" id="contact-indicator" value="" hidden>
+				<div class="panel-heading">Recent Activity</div>
+			</div>
+			<hr>
+
+			<div class="panel panel-primary">
+			<input type="text" id="contact-indicator" value="" hidden>
+				<div class="panel-body">
+					<div class="row form-group">
+						<h4>Recently Viewed Contacts</h4>
+						<div class="rv_contacts">
+						</div>
+					</div>
+					<div class="row form-group">
+						<h4>Recently Viewed Sites</h4>
+						<div class="rv_sites">
+						</div>
+					</div>
+					<div class="row form-group">
+						<h4>Recently Searched Message</h4>
+						<div class="rv_message">
+						</div>
+					</div>
+					<div class="row form-group">
+						<h4>Routine Section</h4>
+						<div class="routine_section">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="col-sm-6 division hidden" id="main-container">
 			<div id="convo-header" class="panel panel-success">
 			<input type="text" id="contact-indicator" value="" hidden>
@@ -85,6 +120,7 @@
 				</div>
 			</div>
 		</div>
+
 		<div class="col-sm-3 division">
 			<div class="panel panel-primary">
 				<div class="panel-heading">OPTIONS</div>
