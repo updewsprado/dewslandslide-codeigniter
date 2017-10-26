@@ -61,10 +61,8 @@
 				<div class="panel-heading">Recent Activity</div>
 			</div>
 			<hr>
-
 			<div class="panel panel-primary">
-			<input type="text" id="contact-indicator" value="" hidden>
-				<div class="panel-body">
+				<div class="panel-body activity-body">
 					<div class="row form-group">
 						<h4>Recently Viewed Contacts</h4>
 						<div class="rv_contacts">
@@ -73,11 +71,6 @@
 					<div class="row form-group">
 						<h4>Recently Viewed Sites</h4>
 						<div class="rv_sites">
-						</div>
-					</div>
-					<div class="row form-group">
-						<h4>Recently Searched Message</h4>
-						<div class="rv_message">
 						</div>
 					</div>
 					<div class="row form-group">
