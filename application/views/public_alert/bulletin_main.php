@@ -119,7 +119,7 @@
 
 				<div class="row">
 					<div class="col-sm-4">Alert Level Released:</div>
-					<div class="col-sm-8 text-justify" id="alert_level_released" class="editable">
+					<div class="col-sm-8 text-justify" id="alert_level_released">
 					<?php 
 						$description = $responses->description->description;
 						if( $public_alert_level == "A0" )
@@ -168,7 +168,7 @@
 							else if ( $event->status == "routine" || $event->status == "invalid") $recommended = $option[0];
 							//else if ( $event->status == "extended") $recommended = $option[2];
 						}
-						echo $recommended;
+						echo "<span id='recommended_response' class='editable longer_input'>" . $recommended . "</span>";
 					?></div>
 				</div>
 
@@ -416,7 +416,7 @@
 				</div>
 
 				<div class="row">
-					<div class="col-sm-12 text-justify"><b id="community">For the Community:</b> <?php echo $responses->response->response_community; ?></div>
+					<div class="col-sm-12 text-justify"><b id="community">For the Community:</b> <span id="recommended_response_2" class="editable longer_input"><?php echo $responses->response->response_community; ?></span></div>
 				</div>
 
 				<div class="row">
