@@ -243,4 +243,28 @@ class Chatterbox extends CI_Controller {
 		$result = $this->contacts_model->commContactViaDashboard($data);
 		print json_encode($result);
 	}
+
+	public function getRoutine(){
+		$routine_set = [];
+		$ctr = 0;
+		$result = $this->contacts_model->onRoutine();
+		$event = $this->contacts_model->excludeRoutine();
+		foreach ($result->result() as $row) {
+			foreach ($event->result() as $exclude) {
+				if ($row->name == $exclude->name) {
+					$onEvent = true;
+					break;
+				} else {
+					$onEvent = false;
+				}
+			}
+
+			if ($onEvent == false) {
+				$routine_set[$ctr]['site'] = $row->name;
+				$routine_set[$ctr]['season'] = $row->season;
+				$ctr++;
+			}
+		}
+		print json_encode($routine_set);
+	}
 }
