@@ -77,11 +77,11 @@
 						<h4>Routine Section</h4>
 						<div class="routine_section">
 							<div class='btn-group form-group routine-options-container' data-toggle='buttons' style='padding: 15px 15px 0px 15px; margin: 0;' hidden>
-									<input type='button' class='btn btn-primary active'checked id='routine-reminder-option' autocomplete='off' value="Reminder Message"> 
+									<input type='button' class='btn btn-primary active' checked id='routine-reminder-option' autocomplete='off' value="Reminder Message"> 
 									<input type='button' class='btn btn-primary' id='routine-actual-option' autocomplete='off' value="Routine Message">
 							</div>
-						</div><!-- 
-						<div class='col-md-12 right-content' hidden><button type='button' class='btn btn-primary' id='send-routine-msg'>Send</button></div> -->
+						</div>
+						<div class='col-md-12 right-content'><button type='button' class='btn btn-primary' id='send-routine-msg' hidden>Send</button></div>
 					</div>
 				</div>
 			</div>
