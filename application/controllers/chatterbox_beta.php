@@ -55,5 +55,10 @@ class Chatterbox_beta extends CI_Controller {
 		print json_encode($result);
 	}
 
+	public function getRoutineTemplate() {
+		$result = $this->ewi_template_model->routineTemplate();
+		print json_encode($result);
+	}
+
 }
 ?>
