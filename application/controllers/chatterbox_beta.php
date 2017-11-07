@@ -60,5 +60,11 @@ class Chatterbox_beta extends CI_Controller {
 		print json_encode($result);
 	}
 
+	public function getSiteDetailsOnRoutine() {
+		$site_code = $_POST['site_code'];
+		$result = $this->ewi_template_model->siteDetailsOnRoutine($site_code);
+		print json_encode($result);
+	}
+
 }
 ?>
