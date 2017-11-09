@@ -82,6 +82,17 @@ class Gintags_manager_model extends CI_Model {
 		return $result;
 	}
 
+	public function checkMultipleSite($numbers) {
+		$site_collection = [];
+		foreach ($numbers as $number) {
+			$query = "SELECT DISTINCT sitename FROM senslopedb.communitycontacts where number LIKE '%".$number."%';";
+			$result = $this->db->query($query);
+			array_push($site_collection,$result->result());
+		}
+		return $site_collection;
+
+	}
+
 	public function getGintagDetails($data) {
 		$counter = 0;
 

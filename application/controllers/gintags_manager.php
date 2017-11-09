@@ -84,4 +84,10 @@ class Gintags_manager extends CI_Controller {
 		$result = $this->gintags_manager_model->deleteGintagNarrative($_POST['gintags']);
 		echo json_encode($result);	
 	}
+
+	public function multipleSite(){
+		$numbers = $_POST['numbers'];
+		$result = $this->gintags_manager_model->checkMultipleSite($numbers);
+		echo json_encode($result);	
+	}
 }
