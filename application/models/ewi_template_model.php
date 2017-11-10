@@ -184,4 +184,16 @@ class Ewi_template_model extends CI_Model {
 		$result = $this->db->query($query);
 		return $result->result();
 	}
+
+	public function routineTemplate() {
+		$query = "SELECT * from senslopedb.ewi_backbone_template where alert_status = 'Routine'";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
+
+	public function siteDetailsOnRoutine($site_code) {
+		$query = "SELECT * from senslopedb.site where name = '".$site_code."'";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
 }

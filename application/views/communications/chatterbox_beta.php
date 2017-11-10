@@ -54,6 +54,41 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="col-sm-6 division recent_activities">
+			<div class="panel panel-primary">
+			<input type="text" id="contact-indicator" value="" hidden>
+				<div class="panel-heading">Recent Activity</div>
+			</div>
+			<hr>
+			<div class="panel panel-primary">
+				<div class="panel-body activity-body">
+					<div class="row form-group">
+						<h4>Recently Viewed Contacts</h4>
+						<div class="rv_contacts">
+						</div>
+					</div>
+					<div class="row form-group">
+						<h4>Recently Viewed Sites</h4>
+						<div class="rv_sites">
+						</div>
+					</div>
+					<div class="row form-group">
+						<h4>Routine Section</h4>
+						<div class="routine_section">
+							<br>
+							<div class='col-md-12'><label for="" id="def-recipients" hidden>Default recipients: LLMC</label></div>
+							<div class='btn-group form-group routine-options-container' data-toggle='buttons' style='padding: 15px 15px 0px 15px; margin: 0;' hidden>
+									<input type='button' class='btn btn-primary active' checked id='routine-reminder-option' autocomplete='off' value="Reminder Message"> 
+									<input type='button' class='btn btn-primary' id='routine-actual-option' autocomplete='off' value="Routine Message">
+							</div>
+						</div>
+						<div class='col-md-12 right-content'><button type='button' class='btn btn-primary' id='send-routine-msg' hidden>Send</button></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="col-sm-6 division hidden" id="main-container">
 			<div id="convo-header" class="panel panel-success">
 			<input type="text" id="contact-indicator" value="" hidden>
@@ -85,6 +120,7 @@
 				</div>
 			</div>
 		</div>
+
 		<div class="col-sm-3 division">
 			<div class="panel panel-primary">
 				<div class="panel-heading">OPTIONS</div>
