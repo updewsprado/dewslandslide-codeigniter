@@ -166,4 +166,16 @@ class Contacts_model extends CI_Model {
 		$result = $this->db->get();
 		return $result->result();
 	}
+
+	public function onRoutine(){
+		$query = "SELECT name,season from site;";
+		$result = $this->db->query($query);
+		return $result;
+	}
+
+	public function excludeRoutine(){
+		$query = "SELECT DISTINCT name,status from site INNER JOIN public_alert_event ON site.id=public_alert_event.site_id WHERE public_alert_event.status <> 'routine' AND public_alert_event.status <> 'finished' AND public_alert_event.status <> 'invalid';";
+		$result = $this->db->query($query);
+		return $result;
+	}
 }

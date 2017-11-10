@@ -95,6 +95,7 @@ $route['communications/updatebackbonemessage'] = "ewi_template/updateBackboneMes
 $route['communications/getkeyinputviatriggertype'] = "ewi_template/getKeyInputViaTriggerType";
 $route['communications/getbackboneviastatus'] = "ewi_template/getBbViaAlertStatus";
 $route['communications/getrecommendedresponse'] = "ewi_template/getRecommendedResponse";
+$route['communications/getRoutine'] = "chatterbox_beta/getRoutineTemplate";
 
 $route['gintags/manager'] = "gintags_manager/index";
 

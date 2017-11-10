@@ -18,6 +18,17 @@ class node_level_model extends CI_Model {
 		return $query->result();
 	}
 
+	public function getlatestSensorData($site){
+		$sql = "SELECT * from senslopedb.$site order by timestamp desc limit 1";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+	public function getlatestGroundData($site){
+		$sql = "SELECT distinct timestamp from senslopedb.gndmeas where site_id='$site' order by timestamp desc limit 3";
+		$query = $this->db->query($sql);
+		
+		return $query->result();
+	}
 	public function getAccelRaw($site,$fdate,$tdate,$ms,$nid){
 		$sql = "SELECT * from senslopedb.$site where msgid='$ms'  and timestamp between '$fdate' and '$tdate' and id='$nid'";
 		$query = $this->db->query($sql);
