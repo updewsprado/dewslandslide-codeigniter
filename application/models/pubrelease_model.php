@@ -192,7 +192,20 @@ class Pubrelease_Model extends CI_Model
 	public function getAllRelease($event_id)
 	{
 		$query = $this->db->get_where('public_alert_release', array('event_id' => $event_id));
-		return json_encode($query->result_object());
+		$releases = $query->result();
+
+		$i = 0;
+		foreach ($releases as $release) 
+		{
+			$this->db->select("public_alert_manifestation.*, manifestation_features.feature_type, manifestation_features.feature_name");
+			$this->db->from("public_alert_manifestation");
+			$this->db->join("manifestation_features", "public_alert_manifestation.feature_id = manifestation_features.feature_id");
+			$this->db->where( array('public_alert_manifestation.release_id' => $release->release_id, 'public_alert_manifestation.op_trigger' => 0) );
+			$query = $this->db->get();
+			$releases[$i]->extra_manifestations = $query->result_object();
+			$i++;
+		}
+		return json_encode($releases);
 	}
 
 	public function getRelease($release_id)
