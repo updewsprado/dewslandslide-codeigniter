@@ -249,19 +249,21 @@ class Chatterbox extends CI_Controller {
 		$ctr = 0;
 		$result = $this->contacts_model->onRoutine();
 		$event = $this->contacts_model->excludeRoutine();
-		foreach ($result->result() as $row) {
-			foreach ($event->result() as $exclude) {
-				if ($row->name == $exclude->name) {
-					$onEvent = true;
-					break;
-				} else {
-					$onEvent = false;
-				}
-				
-				if ($onEvent == false) {
-					$routine_set[$ctr]['site'] = $row->name;
-					$routine_set[$ctr]['season'] = $row->season;
-					$ctr++;
+
+		if (sizeof($event->result()) == 0) {
+			foreach ($result->result() as $row) {
+				$routine_set[$ctr]['site'] = $row->name;
+				$routine_set[$ctr]['season'] = $row->season;
+				$ctr++;
+			}
+		} else {
+			foreach ($result->result() as $row) {
+				foreach ($event->result() as $exclude) {
+					if ($row->name != $exclude->name) {
+						$routine_set[$ctr]['site'] = $row->name;
+						$routine_set[$ctr]['season'] = $row->season;
+						$ctr++;
+					}
 				}
 			}
 		}
