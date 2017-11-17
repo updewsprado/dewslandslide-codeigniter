@@ -56,7 +56,4 @@
     <!-- Modal Reposition JS-->
     <script type="text/javascript" src="/js/third-party/modal-reposition.js"></script>
 
-    <!-- Server time-->
-    <script type="text/javascript" src="/js/dewslandslide/server_time.js"></script>
-
 </head>
