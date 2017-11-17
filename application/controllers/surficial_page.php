@@ -89,7 +89,9 @@ class Surficial_page extends CI_Controller {
 		$data["id"] = $data_result["id"];
 		$data["status"] = 'deleted';
 		$result = $this->surficial_model->getGroundMeas($data);
-		print $result;
+		$data["user_id"] = $this->session->userdata('id');
+		$re = $this->surficial_model->HistoryGroundMeas($data,'delete');
+		print $re;
 	}
 
 	public function AddGroundMeas(){

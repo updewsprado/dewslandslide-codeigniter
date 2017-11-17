@@ -140,5 +140,37 @@ class surficial_model extends CI_Model {
 		return 'Done';	
 	}
 
+	public function HistoryGroundMeas($data,$stat){
+		date_default_timezone_set('Asia/Hong_Kong');
+		$now = new DateTime(null, new DateTimeZone('Asia/Hong_Kong'));
+		$today = date('Y-m-d H:m:s');  
+		$action = $stat;
+		$timestamp = $today;
+		$editor = $data['user_id'];
+		if ($stat == "delete"){
+			$data_result = $this->getDataByID($editor);
+			return $data_result;
+			$gndmeas_id = $data['meas_id'];
+			$crack_id = $data['crack_id'];
+			$meas = $data['meas'];
+		}
+
+		
+		$sql = "INSERT INTO `gndmeas_histories` (`gndmeas_id`,`timestamp`, `editor`, `crack_id`, `meas`, `action`) VALUES ('$gndmeas_id', '$timestamp','$editor', '$crack_id', '$meas', '$action');";
+		
+		// $query = $this->db->query($sql);
+	}
+
+	public function getDataByID($id){
+		$sql = "SELECT *  FROM gndmeas where id ='$id'";
+		$query = $this->db->query($sql);
+		$data_result = $query->result();
+		$array = json_decode(json_encode($data_result[0]), True);
+		$data['crack_id'] = $array['crack_id'];
+		$data['meas'] = $array['meas'];
+		$data['meas_id'] = $array['id'];
+		return $data ;
+	}
+
 	
 }
