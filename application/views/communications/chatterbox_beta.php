@@ -9,6 +9,8 @@
 <script src="/js/third-party/notify.min.js"></script>
 <script src="/js/third-party/jquery.twbsPagination.min.js"></script>
 
+<!-- Server time-->
+<script type="text/javascript" src="/js/dewslandslide/server_time.js"></script>
 
 <!-- ChatterBox CSS --> -->
 <link rel="stylesheet" type="text/css" href="/css/third-party/awesomplete.css">
