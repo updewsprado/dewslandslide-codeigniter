@@ -259,13 +259,20 @@ class Chatterbox extends CI_Controller {
 		} else {
 			foreach ($result->result() as $row) {
 				foreach ($event->result() as $exclude) {
-					if ($row->name != $exclude->name) {
-						$routine_set[$ctr]['site'] = $row->name;
-						$routine_set[$ctr]['season'] = $row->season;
-						$ctr++;
+					if ($row->name == $exclude->name) {
+						$onEvent = true;
 						break;
+					} else {
+						$onEvent = false;
 					}
 				}
+
+			if ($onEvent == false) {
+				$routine_set[$ctr]['site'] = $row->name;
+				$routine_set[$ctr]['season'] = $row->season;
+				$ctr++;
+			}
+				
 			}
 		}
 		print json_encode($routine_set);
