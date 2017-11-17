@@ -263,6 +263,7 @@ class Chatterbox extends CI_Controller {
 						$routine_set[$ctr]['site'] = $row->name;
 						$routine_set[$ctr]['season'] = $row->season;
 						$ctr++;
+						break;
 					}
 				}
 			}
