@@ -257,12 +257,12 @@ class Chatterbox extends CI_Controller {
 				} else {
 					$onEvent = false;
 				}
-			}
-
-			if ($onEvent == false) {
-				$routine_set[$ctr]['site'] = $row->name;
-				$routine_set[$ctr]['season'] = $row->season;
-				$ctr++;
+				
+				if ($onEvent == false) {
+					$routine_set[$ctr]['site'] = $row->name;
+					$routine_set[$ctr]['season'] = $row->season;
+					$ctr++;
+				}
 			}
 		}
 		print json_encode($routine_set);

@@ -46,7 +46,7 @@
             </ol>
         </div>
 
-        <div class="btn-group btn-group-md btn-group-justified">
+        <div class="btn-group btn-group-md btn-group-justified" id="main_tab_button">
             <div class="btn-group">
                 <button type="button" class="btn btn-primary" id="general">General Early Warning Information Release</button></div>
             <div class="btn-group">
@@ -90,7 +90,7 @@
                         </div>
 
                         <div class="col-sm-3 form-group">
-                            <label for="site">Site Name</label>
+                            <label class="control-label" for="site">Site Name</label>
                             <select class="form-control" id="site" name="site">
                                 <option value="">---</option>
                                 <?php foreach($sites as $site): ?>
@@ -104,7 +104,7 @@
                         </div>
                         
                         <div class="col-sm-4 form-group">
-                            <label for="release_time">Time of Release</label>
+                            <label class="control-label" for="release_time">Time of Release</label>
                             <div class='input-group date time' >
                                 <input type='text' class="form-control" id="release_time" name="release_time" placeholder="Enter timestamp" />
                                 <span class="input-group-addon">
@@ -122,7 +122,7 @@
                     <div class="panel-body">
                         <!-- FIRST INSIDE COLUMN -->
                         <div class="col-sm-5 form-group">
-                            <label for="public_alert_level">Public Alert</label>
+                            <label class="control-label" for="public_alert_level">Public Alert</label>
                             <select class="form-control" id="public_alert_level" name="public_alert_level" disabled="disabled">
                                 <option value="">---</option>
                                 <option value="A0">A0</option>
@@ -132,10 +132,10 @@
                             </select>
                         </div>
                         <div class="col-sm-5 form-group">
-                            <label for="internal_alert_level">Internal Alert</label>
+                            <label class="control-label" for="internal_alert_level">Internal Alert</label>
                             <input type="text" class="form-control" id="internal_alert_level" name="internal_alert_level" readonly="true">
                         </div>
-                        <div class="col-sm-2 form-group" id="nd">
+                        <div class="col-sm-2 form-group below_input">
                             <div class="checkbox">
                                 <label data-toggle="tooltip" data-placement="top" title="For releases (i.e. A0 (Routine) and A1) without surficial and subsurface data"><input class="cbox_nd" name="cbox_nd" type="checkbox" value="ND" disabled="disabled"><b>No Data (ND)</b></label>
                             </div>
@@ -206,8 +206,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-10 form-group">
-                                        <label for="trigger_rain_info">Technical Info</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="trigger_rain_info" name="trigger_rain_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
+                                        <label class="control-label" for="trigger_rain_info">Technical Info</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_rain_info" name="trigger_rain_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -239,15 +239,15 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-2 form-group number">
-                                                <label for="magnitude">Magnitude</label>
+                                                <label class="control-label" for="magnitude">Magnitude</label>
                                                 <input type="number" step="0.1" min="0" class="form-control" id="magnitude" name="magnitude" disabled="disabled">
                                             </div>
                                             <div class="col-sm-2 form-group number">
-                                                <label for="latitude">Latitude</label>
+                                                <label class="control-label" for="latitude">Latitude</label>
                                                 <input type="number" step="0.1" min="0" class="form-control" id="latitude" name="latitude" disabled="disabled">
                                             </div>
                                             <div class="col-sm-3 form-group number">
-                                                <label for="longitude">Longitude</label>
+                                                <label class="control-label" for="longitude">Longitude</label>
                                                 <input type="number" step="0.1" min="0" class="form-control" id="longitude" name="longitude" disabled="disabled">
                                             </div>
                                         </div>
@@ -258,8 +258,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-10 form-group">
-                                        <label for="trigger_eq_info">Technical Info</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="trigger_eq_info" name="trigger_eq_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
+                                        <label class="control-label" for="trigger_eq_info">Technical Info</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_eq_info" name="trigger_eq_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -317,12 +317,12 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-5 form-group">
-                                        <label for="trigger_ground_1_info">Technical Info</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="trigger_ground_1_info" name="trigger_ground_1_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
+                                        <label class="control-label" for="trigger_ground_1_info">Technical Info</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_ground_1_info" name="trigger_ground_1_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
                                     </div>
                                     <div class="col-sm-5 form-group">
-                                        <label for="trigger_ground_2_info">Technical Info</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="trigger_ground_2_info" name="trigger_ground_2_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
+                                        <label class="control-label" for="trigger_ground_2_info">Technical Info</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_ground_2_info" name="trigger_ground_2_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -381,12 +381,12 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-5 form-group">
-                                        <label for="trigger_sensor_1_info">Technical Info</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_1_info" name="trigger_sensor_1_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
+                                        <label class="control-label" for="trigger_sensor_1_info">Technical Info</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_1_info" name="trigger_sensor_1_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
                                     </div>
                                     <div class="col-sm-5 form-group">
-                                        <label for="trigger_sensor_2_info">Technical Info</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_2_info" name="trigger_sensor_2_info" placeholder="Enter basic technical detail" maxlength="200" disabled="disabled"></textarea>
+                                        <label class="control-label" for="trigger_sensor_2_info">Technical Info</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_2_info" name="trigger_sensor_2_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -418,7 +418,7 @@
                                     </div>
 
                                     <div class="col-sm-4 form-group">
-                                        <label for="od_group">Requested by</label>
+                                        <label class="control-label" for="od_group">Requested by</label>
                                         <div class="input-group">
                                             <label class="checkbox-inline"><input type="checkbox" class="od_group" name="llmc" value="llmc" disabled="disabled">LEWC</label>
                                             <label class="checkbox-inline"><input type="checkbox" class="od_group" name="lgu" value="lgu" disabled="disabled">LGU</label>
@@ -431,14 +431,14 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6 form-group">
-                                        <label for="reason">Reason for Request</label>
+                                        <label class="control-label" for="reason">Reason for Request</label>
                                         <div class="input-group">
                                             <span class="input-group-addon" id="basic-addon3">Monitoring requested due to</span>
                                             <textarea class="form-control" rows="1" id="reason" name="reason" placeholder="Enter reason for request." maxlength="140" aria-describedby="basic-addon3" disabled="disabled"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 form-group">
-                                        <label for="trigger_od_info">Current Site Info:</label>
+                                        <label class="control-label" for="trigger_od_info">Current Site Info:</label>
                                         <textarea class="form-control trigger_info" rows="1" id="trigger_od_info" name="trigger_od_info" placeholder="Enter basic site details" maxlength="140" disabled="disabled"></textarea>
                                     </div>
                                 </div>
@@ -453,69 +453,17 @@
                             </div>
                             <div class="col-sm-10">
                                 <div class="row">
-                                    <div class="col-sm-7">
-                                        <div class="row">
-                                            <div class="col-sm-6 form-group no-padding-right">
-                                                <label class="control-label" for="trigger_manifestation_1">M2 (m) Timestamp of Observance</label>
-                                                <div class="input-group col-sm-12">
-                                                    <span class="input-group-addon">
-                                                        <input class="cbox_trigger" type="checkbox" value="m" name="m">
-                                                    </span>
-                                                    <div class='input-group date datetime'>
-                                                        <input type='text' class="form-control trigger_time" id="trigger_manifestation_1" name="trigger_manifestation_1" placeholder="Enter timestamp" disabled="disabled" />
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-calendar"></span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 form-group">
-                                                <label class="control-label" for="trigger_manifestation_2">M3 (M) Timestamp of Observance</label>
-                                                <div class="input-group col-sm-12">
-                                                    <span class="input-group-addon">
-                                                        <input class="cbox_trigger" type="checkbox" value="M" name="M">
-                                                    </span>
-                                                    <div class='input-group date datetime'>
-                                                        <input type='text' class="form-control trigger_time" id="trigger_manifestation_2" name="trigger_manifestation_2" placeholder="Enter timestamp" disabled="disabled" />
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-calendar"></span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="col-sm-5 form-group text-center">
+                                        <label class="control-label" for="cbox_trigger">Trigger Type</label>
+                                        <div class="radio_checkbox_group">
+                                            <label class="checkbox-inline"><input class="cbox_trigger" type="checkbox" value="m" name="m"><strong>M2 Trigger (m)</strong></label>
+                                            <label class="checkbox-inline"><input class="cbox_trigger" type="checkbox" value="M" name="M"><strong>M3 Trigger (M)</strong></label>
+                                            <br/>
+                                            <label class="checkbox-inline"><input id="nt_feature_cbox" type="checkbox" value="nt_feature" name="nt_feature"><strong>Non-triggering feature</strong></label>
+                                            <label class="checkbox-inline"><input class="cbox_trigger_nd" name="cbox_trigger_nd_m0" type="checkbox" value="m0" disabled="disabled"><strong>No Data (m&#8320;/M&#8320;)</strong></label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-3 form-group no-data">
-                                        <div class="checkbox">
-                                            <label><input class="cbox_trigger_nd" name="cbox_trigger_nd_m0" type="checkbox" value="m0" disabled="disabled"><b>No Data (m&#8320;/M&#8320;)</b></label>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2 previous_info" id="manifestation_desc">
-                                       <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-5 form-group">
-                                        <label for="trigger_manifestation_1_info">Observation Details</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="trigger_manifestation_1_info" name="trigger_manifestation_1_info" placeholder="Enter basic site details" maxlength="140" disabled="disabled"></textarea>
-                                    </div>
-                                    <div class="col-sm-5 form-group">
-                                        <label for="trigger_manifestation_2_info">Observation Details</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="trigger_manifestation_2_info" name="trigger_manifestation_2_info" placeholder="Enter basic site details" maxlength="140" disabled="disabled"></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="row"><div class="col-sm-12"><hr/></div></div>
-
-                                <div class="row">
-                                    <div class="col-sm-3 form-group">
-                                        <label for="manifestation_group">Reported by</label>
-                                        <div class="input-group">
-                                            <label class="checkbox-inline"><input type="checkbox" class="manifestation_group" name="manifestation_llmc" value="manifestation_llmc" disabled="disabled">LEWC</label>
-                                            <label class="checkbox-inline"><input type="checkbox" class="manifestation_group" name="manifestation_lgu" value="manifestation_lgu" disabled="disabled">LGU</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-sm-5">
                                         <label for="manifestation_validator">Validated by</label>
                                         <select class="form-control" id="manifestation_validator" name="manifestation_validator" onchange="" disabled="disabled">
                                             <option value="">---</option>
@@ -526,11 +474,147 @@
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
+                                    <div class="col-sm-2 previous_info" id="manifestation_desc">
+                                       <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
+                                    </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-12 form-group">
-                                        <label for="manifestation_remarks">Validator Remarks</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="manifestation_remarks" name="manifestation_remarks" placeholder="Enter basic site details" maxlength="360" disabled="disabled"></textarea>
+                                <div id="features_div" hidden="hidden">
+                                    <hr/>
+                                    <div id="features_field">
+                                        <div class="row"><div class="col-sm-12">
+                                            <h4><u>Triggering Features Area</u></h4>
+                                        </div></div>
+                                        <hr/>
+                                        <div class="feature_group" id="base">
+                                            <div class="row">
+                                                <div class="form-group col-sm-5 no-padding-right">
+                                                    <label class="control-label" for="feature_type">Feature Type</label>
+                                                    <select class="form-control feature_type" name="feature_type" disabled="disabled">
+                                                        <option value="">---</option>
+                                                        <option value="crack">Crack</option>
+                                                        <option value="pond">Pond</option>
+                                                        <option value="slide">Slide</option>
+                                                        <option value="fall">Fall</option>
+                                                        <option value="bulge">Bulge</option>
+                                                        <option value="depression">Depression</option>
+                                                        <option value="seepage">Seepage</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-sm-5 no-padding-right">
+                                                    <label class="control-label" for="feature_name">Feature Name</label>
+                                                    <div class="input-group">
+                                                        <input class="form-control feature_name" type="text" name="feature_name" placeholder="Choose existing feature or name a new one" readonly="readonly"/>
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle feature_name_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="disabled"><span class="caret"></span></button>
+                                                            <div class="dropdown-menu dropdown-menu-right feature_name_list">
+                                                                <li data-value="new"><a>New feature</a></li>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-5 form-group no-padding-right">
+                                                    <label class="control-label" for="observance_timestamp">Timestamp of Observance</label>
+                                                    <div class='input-group date datetime'>
+                                                        <input type='text' class="form-control observance_timestamp" name="observance_timestamp" placeholder="Enter timestamp" disabled="disabled" />
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-sm-5 no-padding-right">
+                                                    <label class="control-label" for="reporter">Reported by</label>
+                                                    <input type='text' class="form-control reporter" name="feature_reporter" placeholder="Enter reporter" disabled="disabled" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-sm-6">
+                                                    <label class="control-label" for="feature_narrative">Report Narrative</label>
+                                                    <textarea class="form-control feature_narrative" rows="2" name="feature_narrative" placeholder="Enter details as reported by LEWC" maxlength="500" disabled="disabled"></textarea>
+                                                </div>
+                                                <div class="form-group col-sm-6">
+                                                    <label class="control-label" for="feature_remarks">Feature Remarks</label>
+                                                    <textarea class="form-control feature_remarks" rows="2" name="feature_remarks" placeholder="Enter results of assessment as provided by OOMP-SS" maxlength="500" disabled="disabled"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12"><button id="add_feature" type="button" class="btn btn-info btn-sm pull-right">Add another feature</button></div>
+                                    </div>
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="form-group col-sm-12">
+                                            <label class="control-label" for="trigger_manifestation_info" data-toggle="tooltip" data-placement="top" title="Format: [Type] [Name] - [Remark](; for another entry) Sample: Pond A - the water on the pond rises">Consolidated Tech Info</label>
+                                            <textarea class="form-control trigger_info" rows="2" name="trigger_manifestation_info" placeholder="Format: [Type] [Name] - [Remark](; for another entry) Sample: Pond A - the water on the pond rises" maxlength="360" disabled="disabled"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="nt_features_div" hidden="hidden">
+                                    <hr/>
+                                    <div id="nt_features_field">
+                                        <div class="row"><div class="col-sm-12">
+                                            <h4><u>Non-Triggering Features Area</u></h4>
+                                        </div></div>
+                                        <hr/>
+                                        <div class="feature_group" id="nt_base">
+                                            <div class="row">
+                                                <div class="form-group col-sm-5 no-padding-right">
+                                                    <label class="control-label" for="feature_type">Feature Type</label>
+                                                    <select class="form-control feature_type" name="nt_feature_type" disabled="disabled">
+                                                        <option value="">---</option>
+                                                        <option value="crack">Crack</option>
+                                                        <option value="pond">Pond</option>
+                                                        <option value="slide">Slide</option>
+                                                        <option value="fall">Fall</option>
+                                                        <option value="bulge">Bulge</option>
+                                                        <option value="depression">Depression</option>
+                                                        <option value="seepage">Seepage</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-sm-5 no-padding-right">
+                                                    <label class="control-label" for="feature_name">Feature Name</label>
+                                                    <div class="input-group">
+                                                        <input class="form-control feature_name" type="text" name="nt_feature_name" placeholder="Choose existing feature or name a new one" readonly="readonly"/>
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle feature_name_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled="disabled"><span class="caret"></span></button>
+                                                            <div class="dropdown-menu dropdown-menu-right feature_name_list">
+                                                                <li data-value="new"><a>New feature</a></li>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-5 form-group no-padding-right">
+                                                    <label class="control-label" for="observance_timestamp">Timestamp of Observance</label>
+                                                    <div class='input-group date datetime'>
+                                                        <input type='text' class="form-control observance_timestamp" name="nt_observance_timestamp" placeholder="Enter timestamp" disabled="disabled" />
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-sm-5 no-padding-right">
+                                                    <label class="control-label" for="reporter">Reported by</label>
+                                                    <input type='text' class="form-control reporter" name="nt_feature_reporter" placeholder="Enter reporter" disabled="disabled" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-sm-6">
+                                                    <label class="control-label" for="feature_narrative">Report Narrative</label>
+                                                    <textarea class="form-control feature_narrative" rows="2" name="nt_feature_narrative" placeholder="Enter details as reported by LEWC" maxlength="500" disabled="disabled"></textarea>
+                                                </div>
+                                                <div class="form-group col-sm-6">
+                                                    <label class="control-label" for="feature_remarks">Feature Remarks</label>
+                                                    <textarea class="form-control feature_remarks" rows="2" name="nt_feature_remarks" placeholder="Enter results of assessment as provided by OOMP-SS" maxlength="500" disabled="disabled"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12"><button id="add_nt_feature" type="button" class="btn btn-info btn-sm pull-right">Add another feature</button></div>
                                     </div>
                                 </div>
                             </div>
@@ -583,19 +667,19 @@
                     <div class="panel-heading"><b>Miscellaneous Information Area</b></div>
                     <div class="panel-body">
                         <div class="form-group col-sm-6">
-                            <label for="comments">Comments</label>
+                            <label class="control-label" for="comments">Comments</label>
                             <textarea class="form-control" rows="4" id="comments" name="comments" placeholder="Enter additional information/comments" maxlength="360"></textarea>
                         </div>
                         <div class="col-sm-6">
                             <div class="row">
                                 <div class="form-group col-sm-12">
-                                    <label for="reporter_1">Reporter 1</label>
+                                    <label class="control-label" for="reporter_1">Reporter 1</label>
                                     <input type="text" class="form-control" id="reporter_1" name="reporter_1" value="<?php echo $last_name . ", " . $first_name; ?>" reporter_id = "<?php echo $user_id; ?>" placeholder="---" readonly="readonly">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-12">
-                                    <label for="reporter_2">Reporter 2</label>
+                                    <label class="control-label" for="reporter_2">Reporter 2</label>
                                     <select class="form-control" id="reporter_2" name="reporter_2" onchange="">
                                         <option value="">---</option>
                                         <?php foreach($staff as $person): ?>
