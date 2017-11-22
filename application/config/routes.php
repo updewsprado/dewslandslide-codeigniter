@@ -102,6 +102,7 @@ $route['gintags/manager'] = "gintags_manager/index";
 /**
 * General Information Tagging
 */
+
 $route['generalinformation/index'] = "gintagshelper/index";
 $route['generalinformation/insertGinTags'] = "gintagshelper/ginTagsEntry";
 $route['generalinformation/removeGintagsEntryViaChatterbox'] = "gintagshelper/removeGintagsEntryViaChatterbox";
@@ -113,9 +114,11 @@ $route['narrativeAutomation/insert'] = "narrative_generator/insertEwiNarrative";
 $route['narrativeautomation/checkack'] = "narrative_generator/checkForAcknowledgement";
 $route['generalinformation/removeGintagsId'] = "gintagshelper/removeGintagsByGintagsId";
 $route['generalinformation/updateGintagsId'] = "gintagshelper/updateGintagsByGintagsId";
+
 /**
  * Data Analysis Pages Routes
  */
+
 $route['data_analysis/node'] = "node_level_page";
 $route['data_analysis/node/(:any)/(:any)/(:any)/(:any)'] = "node_level_page";
 $route['data_analysis/column'] = "site_level_page";
@@ -127,6 +130,16 @@ $route['data_analysis/nodereport'] = "node_report_page";
 $route['data_analysis/site_analysis'] = "site_analysis_page";
 $route['data_analysis/rainfall_scanner'] = "rainfall_scanner_page";
 $route['data_analysis/Eos_onModal/(:any)/(:any)/(:any)/(:any)'] = "Eos_modal";
+
+/**
+ * Data Analysis Pages Routes
+ */
+
+$route['staff/profile'] = "staff_profile/getStaffProfile";
+$route['staff/all'] = "staff_profile/getAllStaffProfile";
+$route['staff/add_profile'] = "staff_profile/addNewProfile";
+$route['staff/update_profile'] = "staff_profile/updateStaffProfile";
+$route['staff/change_profile_pic'] = "staff_profile/changeProfilePic";
 
 //Gold
 //$route['gold'] = "monitoring/index";
