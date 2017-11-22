@@ -47,9 +47,7 @@
           </div>
         </div>
         <div class="col-lg-12" align="center" id="nav-tab-container">
-         <div id="A0" class="panel panel-success panel_alert"><div class="panel-heading text-center"><strong>NO SIGNIFICANT GROUND MOVEMENT</strong></div></div>
-         <div id="A1" class="panel panel-warning panel_alert"><div class="panel-heading text-center"><strong><b> ALERT!! </b>SIGNIFICANT GROUND MOVEMENT OBSERVE IN THE LAST 24 HOURS</strong></div></div>
-         <div id="A2" class="panel panel-danger panel_alert"><div class="panel-heading text-center"><strong><b> ALERT!! </b>CRITICAL GROUND MOVEMENT OBSERVED IN THE LAST 48 HOURS</strong></div>
+          <div id="alert_note"></div>
        </div>
        <div class="col-lg-12">
         <div class="panel-heading" >
@@ -222,7 +220,7 @@
                 </div>
               </div>
             </div>
-            <div id="buttons_div">
+            <div id="buttons_div" style="text-align: center;">
               <button id="edit_meas"  type="button"  class="btn btn-success btn-sm">
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> EDIT
               </button>

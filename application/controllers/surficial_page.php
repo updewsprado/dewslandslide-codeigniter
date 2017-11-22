@@ -81,17 +81,16 @@ class Surficial_page extends CI_Controller {
 		$data["meas"] = $data_result["meas"];
 		$data["status"] = 'edited';
 		$result = $this->surficial_model->getGroundMeas($data);
-		print $result;
+		$data["user_id"] = $this->session->userdata('id');
+		$re = $this->surficial_model->HistoryGroundMeas($data,'update');
 	}
 
 	public function DeleteGroundMeas(){
 		$data_result = $_POST['dataSubmit'];
 		$data["id"] = $data_result["id"];
 		$data["status"] = 'deleted';
-		$result = $this->surficial_model->getGroundMeas($data);
 		$data["user_id"] = $this->session->userdata('id');
 		$re = $this->surficial_model->HistoryGroundMeas($data,'delete');
-		print $re;
 	}
 
 	public function AddGroundMeas(){
@@ -105,6 +104,7 @@ class Surficial_page extends CI_Controller {
 			$data["meas"] = $data_result[$i]["meas"];
 			$data["weather"] = $data_result[$i]["weather"];
 			$data["reliability"] = 'Y';
+			$data["user_id"] = $this->session->userdata('id');
 			$result = $this->surficial_model->AddGroundMeas($data);
 		}
 		

@@ -88,27 +88,24 @@ class surficial_model extends CI_Model {
 
 	public function getGroundMeas($data){
 		$id = $data["id"];
-		if( $data["status"] == "deleted"){
-			$sql = "DELETE FROM `gndmeas` WHERE `id`='$id'";
-		}else if($data["status"] == "edited"){
-			$timestamp = $data["timestamp"];
-			$crack = $data["crack_id"];
-			$site = $data["site"];
-			$meas =$data["meas"];
-			if($site == "mng"){
-				$site_name = "man";
-			}else if( $site == "png"){
-				$site_name = "pan";
-			}else if($site == "bto"){
-				$site_name = "bat";
-			}else if($site == "jor"){
-				$site_name = "pob";
-			}else{
-				$site_name = $site;
-			}
-			$sql = "UPDATE `gndmeas` SET `timestamp`='$timestamp', `crack_id`='$crack', `meas`='$meas', `site_id`= '$site_name'
-			WHERE `id`='$id'";
+		$timestamp = $data["timestamp"];
+		$crack = $data["crack_id"];
+		$site = $data["site"];
+		$meas =$data["meas"];
+		if($site == "mng"){
+			$site_name = "man";
+		}else if( $site == "png"){
+			$site_name = "pan";
+		}else if($site == "bto"){
+			$site_name = "bat";
+		}else if($site == "jor"){
+			$site_name = "pob";
+		}else{
+			$site_name = $site;
 		}
+		$sql = "UPDATE `gndmeas` SET `timestamp`='$timestamp', `crack_id`='$crack', `meas`='$meas', `site_id`= '$site_name'
+		WHERE `id`='$id'";
+		
 
 		$query = $this->db->query($sql);
 		return $sql;	
@@ -137,7 +134,16 @@ class surficial_model extends CI_Model {
 		$sql = "INSERT INTO `gndmeas` (`timestamp`, `meas_type`, `site_id`, `crack_id`, `observer_name`, `meas`, `weather`, `reliability`) VALUES ('$timestamp', '$meas_type', '$site_name', '$crack_id', '$observer_name', '$meas', '$weather', '$reliability')";
 
 		$query = $this->db->query($sql);
-		return 'Done';	
+		$sql2 = "SELECT * FROM `gndmeas` WHERE timestamp='$timestamp' and site_id='$site_name' and crack_id='$crack_id' and meas='$meas'";
+
+		$query2 = $this->db->query($sql2);
+		$data_query2 =  $query2->result();
+		$array = json_decode(json_encode($data_query2[0]), True);
+		$gndmeas_id = $array['id'];
+		$editor = $data['user_id'];
+		$sql3 = "INSERT INTO `gndmeas_histories` (`gndmeas_id`,`timestamp`, `editor`, `crack_id`, `meas`, `action`) VALUES ('$gndmeas_id', '$timestamp','$editor', '$crack_id', '$meas', 'add');";
+		$query = $this->db->query($sql3);
+		
 	}
 
 	public function HistoryGroundMeas($data,$stat){
@@ -148,17 +154,22 @@ class surficial_model extends CI_Model {
 		$timestamp = $today;
 		$editor = $data['user_id'];
 		if ($stat == "delete"){
-			$data_result = $this->getDataByID($editor);
-			return $data_result;
-			$gndmeas_id = $data['meas_id'];
+			$gndmeas_id = $data['id'];
+			$sql = "INSERT INTO senslopedb.`gndmeas_histories` (`gndmeas_id`, `crack_id`, `meas`,`timestamp`, `editor`, `action`) 
+			values ((SELECT id FROM senslopedb.gndmeas where id ='$gndmeas_id'),(SELECT crack_id FROM senslopedb.gndmeas where id ='$gndmeas_id'),(SELECT meas FROM senslopedb.gndmeas where id ='$gndmeas_id'),'$today','$editor','$action');";
+		}else{
+			$gndmeas_id = $data['id'];
 			$crack_id = $data['crack_id'];
 			$meas = $data['meas'];
+			$sql = "INSERT INTO `gndmeas_histories` (`gndmeas_id`,`timestamp`, `editor`, `crack_id`, `meas`, `action`) VALUES ('$gndmeas_id', '$timestamp','$editor', '$crack_id', '$meas', '$action');";
 		}
+		
+		$query = $this->db->query($sql);
 
-		
-		$sql = "INSERT INTO `gndmeas_histories` (`gndmeas_id`,`timestamp`, `editor`, `crack_id`, `meas`, `action`) VALUES ('$gndmeas_id', '$timestamp','$editor', '$crack_id', '$meas', '$action');";
-		
-		// $query = $this->db->query($sql);
+		if ($stat == "delete"){
+			$sql2 = "DELETE FROM senslopedb.gndmeas WHERE `id`='$gndmeas_id';";
+			$query2 = $this->db->query($sql2);
+		}
 	}
 
 	public function getDataByID($id){
