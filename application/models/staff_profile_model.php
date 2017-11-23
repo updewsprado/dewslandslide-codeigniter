@@ -14,7 +14,7 @@
 class Staff_profile_model extends CI_Model {
 
 	public function getAll() {
-		$query = "SELECT * FROM staff_profile;";
+		$query = "SELECT * FROM staff_profile where team_name <> '' OR team_name <> null order by team_name asc;";
 		$res = $this->db->query($query);
 		return $res;
 	}

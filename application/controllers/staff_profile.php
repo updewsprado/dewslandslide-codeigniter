@@ -9,6 +9,23 @@ class Staff_profile extends CI_Controller {
 		$this->load->library('form_validation');
 	}
 
+
+	public function index() {
+		$this->is_logged_in();
+
+		$page = 'Staff Profile';
+		$data['first_name'] = $this->session->userdata('first_name');
+		$data['last_name'] = $this->session->userdata('last_name');
+		$data['user_id'] = $this->session->userdata("id");
+		
+		$data['title'] = $page;
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/nav');
+		$this->load->view('pages/staff_profile_page');
+		$this->load->view('templates/footer');
+	}
+
 	public function is_logged_in() {
 		$is_logged_in = $this->session->userdata('is_logged_in');
 		
