@@ -24,7 +24,7 @@ class node_level_model extends CI_Model {
 		return $query->result();
 	}
 	public function getlatestGroundData($site){
-		$sql = "SELECT distinct timestamp from senslopedb.gndmeas where site_id='$site' order by timestamp desc limit 3";
+		$sql = "SELECT distinct timestamp from senslopedb.gndmeas where site_id='$site' order by timestamp desc limit 10";
 		$query = $this->db->query($sql);
 		
 		return $query->result();
