@@ -62,6 +62,13 @@ class API extends CI_Controller {
 			print json_encode($result);
 
 		}
+
+		public function SpecificSiteNum($site){ // example http://localhost/api/SpecificSiteNum/mag
+			$result = $this->site_level_model->getSiteidNum($site);
+			print json_encode($result);
+
+		}
+
 		public function RainSenslope($rsite,$fdate,$tdate){ // example http://localhost/api/RainSenslope/blcw/2016-05-25/2016-06-25
 			$os = PHP_OS;
 
