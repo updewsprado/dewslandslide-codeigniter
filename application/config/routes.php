@@ -56,7 +56,7 @@ $route['monitoring/issues_and_reminders'] = "issues_and_reminders";
  */
 $route['monitoring/bulletin/view/(:any)'] = "bulletin/view/$1";
 $route['monitoring/bulletin/build/(:num)'] = "bulletin/build/$1";
-$route['monitoring/bulletin/edit/(:num)/(:any)'] = "bulletin/edit/$1/$2/$3";
+$route['monitoring/bulletin/edit/(:num)'] = "bulletin/edit/$1";
 $route['monitoring/bulletin/main/(:num)/(:any)'] = "bulletin/main/$1/$2";
 
 /**
@@ -130,6 +130,8 @@ $route['data_analysis/nodereport'] = "node_report_page";
 $route['data_analysis/site_analysis'] = "site_analysis_page";
 $route['data_analysis/rainfall_scanner'] = "rainfall_scanner_page";
 $route['data_analysis/Eos_onModal/(:any)/(:any)/(:any)/(:any)'] = "Eos_modal";
+$route['data_analysis/manifestations'] = "manifestations";
+$route['data_analysis/manifestations/(:any)'] = "manifestations/individual_site/$1";
 
 /**
  * Data Analysis Pages Routes
