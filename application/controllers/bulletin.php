@@ -81,7 +81,7 @@
 			return $this->load->view('public_alert/bulletin_main', $data, $bool);
 		}
 
-		public function edit($release_id, $edits)
+		public function edit($release_id, $edits = 0)
 		{
 			$data['bulletin'] = $this->main($release_id, TRUE);
 			$data['title'] = 'DEWS-Landslide Bulletin Edit Page';
@@ -261,14 +261,17 @@
 			fclose($file);
 		}
 
-		public function run_script($id, $isEdited = 0, $edits = 0)
+		public function run_script($id, $isEdited = 0)
 		{
+			$edits = $_GET['edits'];
 
 			if (base_url() == "http://localhost/") 
 			{
 				if( $isEdited == 0 )
 					$command = $_SERVER['DOCUMENT_ROOT'] . "/js/third-party/phantomjs/phantomjs" . " " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/build/" . $id;
-				else $command = $_SERVER['DOCUMENT_ROOT'] . "/js/third-party/phantomjs/phantomjs" . " " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/edit/" . $id . "/" . $edits;
+				else {
+					$command = $_SERVER['DOCUMENT_ROOT'] . "/js/third-party/phantomjs/phantomjs" . " " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/edit/" . $id . " " . $edits;
+				}
 				
 				$response = exec( $command );
 
@@ -277,7 +280,7 @@
 			{
 				if( $isEdited == 0 )
 					$command = "phantomjs " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/build/" . $id;
-				else $command = "phantomjs " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/edit/" . $id . "/" . $edits;
+				else $command = "phantomjs " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/edit/" . $id . " " . $edits;
 
 				$response = exec( $command );
 			}
