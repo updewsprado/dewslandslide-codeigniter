@@ -38,7 +38,7 @@
 					<div class="row">
 						<ul class="nav nav-tabs inbox-tab">
 						    <li class="active"><a data-toggle="tab" href="#registered">Inbox</a></li>
-						    <li><a data-toggle="tab" href="#unknown">Filtered</a></li>
+						    <li><a data-toggle="tab" href="#unknown">Unregistered</a></li>
 						    <li><a data-toggle="tab" href="#event-inbox">Event inbox</a></li>
 						</ul>
 						<div class="tab-content">
