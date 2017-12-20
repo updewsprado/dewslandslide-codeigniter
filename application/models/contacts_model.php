@@ -140,7 +140,7 @@ class Contacts_model extends CI_Model {
 	}
 	
 	public function getSitioBangProvMun($site){
-		$query = $this->db->query("SELECT DISTINCT sitio,barangay,municipality,province FROM site WHERE name LIKE '%".$site."%'");
+		$query = $this->db->query("SELECT DISTINCT name,sitio,barangay,municipality,province FROM site WHERE name LIKE '%".$site."%'");
 		return $query;
 	}
 
