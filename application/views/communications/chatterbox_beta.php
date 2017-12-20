@@ -639,6 +639,38 @@
 	              </div>
 	            </div>
 	          </div>
+	          <hr>
+				<div class="row">
+				  <div class="col-sm-6">
+				          <div class="form-group" id="#">
+				        <label for="#">Rainfall Information for :</label>
+				        <select name="" id="rainfall-sites" class="form-control">
+				        	<option value="#" default>---</option>
+				        	<option value="SAMAR-SITES">Samar Sites</option>
+				        </select>
+				      </div> 
+				  </div>
+				  <div class="col-sm-6">
+				      <div class="form-group">
+				      <label for="ewi-date-picker">As of :</label>
+				        <div class='input-group date' id='rfi-date-picker'>
+				            <input type='text' class="form-control" />
+				            <span class="input-group-addon">
+				                <span class="glyphicon glyphicon-calendar"></span>
+				            </span>
+				        </div>
+				      </div>
+				  </div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<label for="#">Cummulative:</label>
+				        <select name="" id="rainfall-cummulative" class="form-control">
+				        	<option value="1d" default>1-Day</option>
+				        	<option value="3d">3-Day</option>
+				        </select>
+					</div>
+				</div>
 	        </div>
 	      </div>
 			<div class="modal-footer">
