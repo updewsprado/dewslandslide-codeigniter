@@ -74,8 +74,10 @@
 		    	
 
 		    	<div class="row">
-			    	<div class="panel panel-default">
-						<div class="panel-heading">Latest Candidate Triggers and Releases</div>
+			    	<div class="panel panel-default" id="candidate-panel">
+						<div class="panel-heading"><div class="row">
+							<div class="col-sm-8">Latest Candidate Triggers and Releases</div><div class="col-sm-4 text-right row-count">Row count: 0</div>
+						</div></div>
 						<div class="panel-body clearfix">
 							<div class="col-md-12" style="text-align:center; font-size: 12px;"><b>Legend: &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop valid-square"></span> No reported invalid trigger(s) &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop partial-square"></span> Released alert with trigger(s) tagged invalid &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop invalid-square"></span> Tagged invalid
 							</b></div>
@@ -100,8 +102,10 @@
 				</div>
 
 		    	<div class="row">
-			    	<div class="panel panel-default">
-						<div class="panel-heading">Latest Site Alerts</div>
+			    	<div class="panel panel-default" id="latest-panel">
+						<div class="panel-heading"><div class="row">
+							<div class="col-sm-8">Latest Site Alerts</div><div class="col-sm-4 text-right row-count">Row count: 0</div>
+						</div></div>
 						<div class="panel-body clearfix">
 							<div class="col-md-12"><div class="table-responsive">
 				                <table class="table" id="latest">
@@ -125,8 +129,10 @@
 				</div>
 
 				<div class="row">
-			    	<div class="panel panel-default">
-						<div class="panel-heading">Sites Under 3-Day Extended Monitoring</div>
+			    	<div class="panel panel-default" id="extended-panel">
+			    		<div class="panel-heading"><div class="row">
+							<div class="col-sm-8">Sites Under 3-Day Extended Monitoring</div><div class="col-sm-4 text-right row-count">Row count: 0</div>
+						</div></div>
 						<div class="panel-body clearfix">
 							<div class="col-md-12" style="text-align:center; font-size: 12px;"><b>Legend: &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-one-square"></span> First Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-two-square"></span> Second Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-three-square"></span> Third Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-overdue-square"></span> Overdue</b></div>
 							<div class="col-md-12"><div class="table-responsive">
@@ -149,8 +155,10 @@
 				</div>
 
 			    <div class="row">
-			    	<div class="panel panel-default">
-						<div class="panel-heading">Sites with Due Alerts</div>
+			    	<div class="panel panel-default" id="overdue-panel">
+						<div class="panel-heading"><div class="row">
+							<div class="col-sm-8">Sites with Due Alerts</div><div class="col-sm-4 text-right row-count">Row count: 0</div>
+						</div></div>
 						<div class="panel-body clearfix">
 							<div class="col-md-12"><div class="table-responsive">
 				                <table class="table" id="overdue">

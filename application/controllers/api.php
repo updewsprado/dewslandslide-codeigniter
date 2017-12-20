@@ -626,5 +626,11 @@ class API extends CI_Controller {
 	{
 		echo $this->pubrelease_model->getAllReleasesWithEventDetails();
 	}
+
+	public function getMOM($site_code = "all", $start = null, $end = null)
+	{
+		$this->load->model('manifestations_model');
+		echo $this->manifestations_model->getMOMApi($site_code, $start, $end);
+	}
 }
 ?>
