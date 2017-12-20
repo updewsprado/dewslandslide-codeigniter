@@ -478,6 +478,9 @@
                                        <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
                                     </div>
                                 </div>
+                                <div id="heightened-features-div" hidden="hidden">
+                                    
+                                </div>
                                 <div id="features_div" hidden="hidden">
                                     <hr/>
                                     <div id="features_field">
@@ -564,6 +567,7 @@
                                                     <label class="control-label" for="feature_type">Feature Type</label>
                                                     <select class="form-control feature_type" name="nt_feature_type" disabled="disabled">
                                                         <option value="">---</option>
+                                                        <option value="none">None</option>
                                                         <option value="crack">Crack</option>
                                                         <option value="pond">Pond</option>
                                                         <option value="slide">Slide</option>

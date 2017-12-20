@@ -45,6 +45,8 @@
                         <li role="separator" class="divider"></li>
                         <li><a href="<?php echo base_url(); ?>data_analysis/rainfall_scanner">Rainfall Scanner</a></li>
                         <li role="separator" class="divider"></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/manifestations">Manifestations of Movement Page</a></li>
+                        <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
                         <li><a href="<?php echo base_url(); ?>communications/responsetracker">Response Tracker</a></li>
                         <li><a href="<?php echo base_url(); ?>generalinformation/index">Generic Information Tags</a></li>

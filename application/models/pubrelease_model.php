@@ -126,6 +126,25 @@ class Pubrelease_Model extends CI_Model
 				$this->db->where('public_alert_manifestation.release_id', $arr['release_id']);
 				$query = $this->db->get();
 				$arr['manifestation_info'] = $query->result_array();
+
+				$query = "
+					SELECT *
+					FROM 
+						manifestation_features as mf
+	    			JOIN
+    				(
+						SELECT features.site_id, MAX(man.ts_observance) AS max_ts, features.feature_id
+						FROM public_alert_manifestation AS man
+						JOIN manifestation_features AS features ON man.feature_id = features.feature_id
+						WHERE features.site_id = (SELECT e.site_id FROM public_alert_event AS e WHERE e.event_id = $event_id)
+						GROUP BY features.feature_id
+					) AS sub
+						ON sub.feature_id = mf.feature_id
+					JOIN public_alert_manifestation AS pm
+						ON (sub.max_ts = pm.ts_observance AND sub.feature_id = pm.feature_id)
+					WHERE pm.op_trigger > 0";
+				$result = $this->db->query($query);
+				$arr['heightened_m_features'] = $result->result_array();
 			}
 		}
 
