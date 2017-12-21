@@ -128,7 +128,7 @@ class Pubrelease_Model extends CI_Model
 				$arr['manifestation_info'] = $query->result_array();
 
 				$query = "
-					SELECT *
+					SELECT mf.*, sub.*, pm.*, pr.event_id
 					FROM 
 						manifestation_features as mf
 	    			JOIN
@@ -142,6 +142,8 @@ class Pubrelease_Model extends CI_Model
 						ON sub.feature_id = mf.feature_id
 					JOIN public_alert_manifestation AS pm
 						ON (sub.max_ts = pm.ts_observance AND sub.feature_id = pm.feature_id)
+					JOIN public_alert_release AS pr
+						ON pm.release_id = pr.release_id
 					WHERE pm.op_trigger > 0";
 				$result = $this->db->query($query);
 				$arr['heightened_m_features'] = $result->result_array();
