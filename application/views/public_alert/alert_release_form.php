@@ -460,7 +460,7 @@
                                             <label class="checkbox-inline"><input class="cbox_trigger" type="checkbox" value="M" name="M"><strong>M3 Trigger (M)</strong></label>
                                             <br/>
                                             <label class="checkbox-inline"><input id="nt_feature_cbox" type="checkbox" value="nt_feature" name="nt_feature"><strong>Non-triggering feature</strong></label>
-                                            <label class="checkbox-inline"><input class="cbox_trigger_nd" name="cbox_trigger_nd_m0" type="checkbox" value="m0" disabled="disabled"><strong>No Data (m&#8320;/M&#8320;)</strong></label>
+                                            <label class="checkbox-inline" data-toggle="tooltip" data-placement="top" title="Click this if you have not received any manifestation updates from the community for that specific release"><input class="cbox_trigger_nd" name="cbox_trigger_nd_m0" type="checkbox" value="m0" disabled="disabled"><strong>No Data (m&#8320;/M&#8320;)</strong></label>
                                         </div>
                                     </div>
                                     <div class="form-group col-sm-5">
@@ -479,7 +479,26 @@
                                     </div>
                                 </div>
                                 <div id="heightened-features-div" hidden="hidden">
-                                    
+                                    <hr/>
+                                    <div class="row"><div class="col-sm-12">
+                                        <h4><u>Heightened Manifestation Features</u></h4> <small><i>Note: Don't forget to release a corresponding <strong>non-triggering feature</strong> entry for heightened features if you received a non-triggering update from community. Likewise, check <strong>No Data (m&#8320;/M&#8320;)</strong> if you haven't received any update from community.</i></small>
+                                    </div></div>
+                                    <div class="row">
+                                        <div class="col-md-12"><div class="table-responsive">
+                                            <table class="table" id="heightened-features-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Time of Observance</th>
+                                                        <th>Feature Type</th>
+                                                        <th>Feature Name</th>
+                                                        <th>Operational Trigger</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div></div>
+                                    </div>
                                 </div>
                                 <div id="features_div" hidden="hidden">
                                     <hr/>
