@@ -46,19 +46,11 @@ class Pubrelease_Model extends CI_Model
 	 **/
 	public function getStaff()
 	{
-		$sql = "SELECT id, first_name, last_name FROM membership ORDER BY last_name ASC";
-		
-		$query = $this->db->query($sql);
-		$result = [];
-		$i = 0;
-		foreach ($query->result() as $row) {
-			$result[$i]["id"] = $row->id;
-			$result[$i]["first_name"] = $row->first_name;
-			$result[$i]["last_name"] = $row->last_name;
-			$i = $i + 1;
-		}
-
-		return json_encode($result);
+		$this->db->select('id, first_name, last_name');
+		$this->db->where('is_active','1');
+		$this->db->order_by("last_name", "asc");
+		$query = $this->db->get('membership');
+		return json_encode($query->result_array());
 	}
 
 	public function getOnGoingAndExtended()
