@@ -17,7 +17,7 @@
 	$responses = json_decode($responses);
 	if($public_alert_level != 'A0') $event->validity = $validity;
 	$GLOBALS['isg0'] = $isg0; $GLOBALS['iss0'] = $iss0;
-	$GLOBALS['isR0'] = $isR0;
+	$GLOBALS['isR0'] = $isR0; $GLOBALS['ism0'] = $ism0;
 
 	function roundTime($timestamp)
 	{
@@ -283,7 +283,7 @@
 								if($additional != '') $desc = $desc . " Most recent re-trigger/s occurred on " . $additional . ".";
 
 								// Add no current data if [sS/gG]0
-								if( (strtoupper($a) == "G" && $GLOBALS['isg0']) || (strtoupper($a) == "S" && $GLOBALS['iss0']) || (strtoupper($a) == "R" && $GLOBALS['isR0']) )
+								if( (strtoupper($a) == "G" && $GLOBALS['isg0']) || (strtoupper($a) == "S" && $GLOBALS['iss0']) || (strtoupper($a) == "R" && $GLOBALS['isR0']) || (strtoupper($a) == "M" && $GLOBALS['ism0']) )
 									$desc = $desc . " Currently, no data available.";
 
 								return [$desc, $info];

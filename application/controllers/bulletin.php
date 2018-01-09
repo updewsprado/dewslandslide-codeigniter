@@ -60,9 +60,11 @@
 			$isg0 = stripos($temp->internal_alert_level, 'g0') > -1 ? true : false;
 			$iss0 = stripos($temp->internal_alert_level, 's0') > -1 ? true : false;
 			$isR0 = strpos($temp->internal_alert_level, 'R0') > -1 ? true : false;
+			$ism0 = strpos($temp->internal_alert_level, 'm0') > -1 ? true : false;
 
 			$data['isND'] = $isND; $data['isg0'] = $isg0;
 			$data['iss0'] = $iss0; $data['isR0'] = $isR0;
+			$data['ism0'] = $ism0;
 
 			if( $x != 'A0' )
 			{
@@ -70,7 +72,7 @@
 				$flag = false;
 				
 				// Adjust timestamps if ND or X0 if end of validity
-				if( $isND || $isg0 || $iss0 || $isR0 || stripos($temp->internal_alert_level, 'rx') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
+				if( $isND || $isg0 || $iss0 || $isR0 || $ism0 || stripos($temp->internal_alert_level, 'rx') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
 				$data['validity'] = $flag == true ? date( "Y-m-d H:i:s", strtotime($temp->data_timestamp) + 4.5 * 3600) : $computed_validity;
 			} else 
 			{
