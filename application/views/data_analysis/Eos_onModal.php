@@ -31,6 +31,8 @@
     </div>
   </div>
 </div>
+<div id="tester_id" hidden></div>
+<div id="tester_id_time" hidden></div>
 <div class="modal fade js-loading-bar" id="loading" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
