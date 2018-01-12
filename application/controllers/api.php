@@ -6,7 +6,6 @@ class API extends CI_Controller {
 		$this->load->model('site_level_model');
 		$this->load->model('node_level_model');
 		$this->load->model('comm_health_model');
-		$this->load->model('pubrelease_model');
 	}
 		public function latestSensorData($site){ // example http://localhost/api/latestSensorData/agbsb
 			$result = $this->node_level_model->getlatestSensorData($site);
@@ -71,6 +70,8 @@ class API extends CI_Controller {
 		}
 
 		public function RainSenslope($rsite,$fdate,$tdate){ // example http://localhost/api/RainSenslope/blcw/2016-05-25/2016-06-25
+
+			$time_start = microtime(true);
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -87,13 +88,29 @@ class API extends CI_Controller {
 			}
 			
 			$command = $pythonPath.' '.$fileName.' '.$rsite.' '.$fdate.' '.$tdate;
-
+			
 			exec($command, $output, $return);
 			print json_encode($output);
+
+			$time_end = microtime(true);
+			$time = $time_end - $time_start;
+			$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
+			$data = array(
+			array($rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
+			);
+			foreach ($data as $row)
+			{
+			fputcsv($file, $row);
+			}
+
+
+			fclose($file);
+			
 
 		}
 
 		public function RainNoah($rsite,$fdate,$tdate){ // example http://localhost/api/RainNoah/1104/2014-05-25/2016-06-25
+			$time_start = microtime(true);
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -110,13 +127,32 @@ class API extends CI_Controller {
 			}
 			
 			$command = $pythonPath.' '.$fileName.' '.$rsite.' '.$fdate.' '.$tdate;
-
 			exec($command, $output, $return);
 			print json_encode($output);
+
+			$time_end = microtime(true);
+			$time = $time_end - $time_start;
+			$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
+			$data = array(
+			array('rain_noah_' . $rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
+			);
+			foreach ($data as $row)
+			{
+			fputcsv($file, $row);
+			}
+
+
+			fclose($file);
+			
+
+			
+
+			
 
 		}
 
 		public function RainARQ($rsite,$fdate,$tdate){ //example http://localhost/api/RainARQ/agbtaw/2014-05-25/2016-06-25
+			$time_start = microtime(true);
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -136,6 +172,22 @@ class API extends CI_Controller {
 
 			exec($command, $output, $return);
 			print json_encode($output);
+			$time_end = microtime(true);
+
+			$time_end = microtime(true);
+			$time = $time_end - $time_start;
+			$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
+			$data = array(
+			array($rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
+			);
+			foreach ($data as $row)
+			{
+			fputcsv($file, $row);
+			}
+
+
+			fclose($file);
+			
 
 		}
 
@@ -613,24 +665,32 @@ class API extends CI_Controller {
 			$command = $pythonPath.' '.$fileName;
 
 			exec($command, $output, $return);
-			print json_encode($output);
+			print json_encode($output[1]);
 
 		}
 
-	public function getStaff()
-	{
-		echo $this->pubrelease_model->getStaff();
-	}
+		public function time_execution(){
+		$data_result = $_POST['data'];
+		$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_js.csv', 'a');
+		foreach ($data_result as $row){fputcsv($file, $row);}
+		fclose($file);
+		print json_encode($data_result);
 
-	public function getAllReleasesWithEventDetails()
-	{
-		echo $this->pubrelease_model->getAllReleasesWithEventDetails();
-	}
+		}
 
-	public function getMOM($site_code = "all", $start = null, $end = null)
-	{
-		$this->load->model('manifestations_model');
-		echo $this->manifestations_model->getMOMApi($site_code, $start, $end);
+		public function time_execution_all(){
+		$data_result = $_POST['data'];
+		$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_all.csv', 'a');
+		$data = array(
+			array($data_result[0], $data_result[1]),
+			);
+			foreach ($data as $row)
+			{
+			fputcsv($file, $row);
+			}
+		print json_encode($data_result);
+
+		}
+
 	}
-}
-?>
+	?>
