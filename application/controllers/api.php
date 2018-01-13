@@ -99,7 +99,7 @@ class API extends CI_Controller {
 				$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-				$file = fopen('../var/www/html/temp/data/rain_runtime_php.csv', 'a');
+				$file = fopen('//var//www//html//temp//data//rain_runtime_php.csv', 'a');
 
 			}
 			$time_end = microtime(true);
@@ -143,7 +143,7 @@ class API extends CI_Controller {
 				$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-				$file = fopen('../var/www/html/temp/data/rain_runtime_php.csv', 'a');
+				$file = fopen('//var//www//html//temp//data//rain_runtime_php.csv', 'a');
 
 			}
 			$time_end = microtime(true);
@@ -195,7 +195,7 @@ class API extends CI_Controller {
 				$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-				$file = fopen('../var/www/html/temp/data/rain_runtime_php.csv', 'a');
+				$file = fopen('//var//www//html//temp//data//rain_runtime_php.csv', 'a');
 
 			}
 			$data = array(
