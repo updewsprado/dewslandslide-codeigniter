@@ -77,10 +77,13 @@ class API extends CI_Controller {
 			if (strpos($os,'WIN') !== false) {
 				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
 				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\rainfallNewGetData.py';
+				$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
 				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
 				$fileName = '/var/www/updews-pycodes/Liaison/rainfallNewGetData.py';
+				$file = fopen('/var/www/html/temp/data/rain_runtime_php.csv', 'a');
+
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";
@@ -94,7 +97,6 @@ class API extends CI_Controller {
 
 			$time_end = microtime(true);
 			$time = $time_end - $time_start;
-			$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
 			$data = array(
 			array($rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
 			);
@@ -116,10 +118,12 @@ class API extends CI_Controller {
 			if (strpos($os,'WIN') !== false) {
 				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
 				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\rainfallNewGetDataNoah.py';
+				$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
 				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
 				$fileName = '/var/www/updews-pycodes/Liaison/rainfallNewGetDataNoah.py';
+				$file = fopen('/var/www/html/temp/data/rain_runtime_php.csv', 'a');
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";
@@ -132,7 +136,6 @@ class API extends CI_Controller {
 
 			$time_end = microtime(true);
 			$time = $time_end - $time_start;
-			$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
 			$data = array(
 			array('rain_noah_' . $rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
 			);
@@ -158,10 +161,12 @@ class API extends CI_Controller {
 			if (strpos($os,'WIN') !== false) {
 				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
 				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\rainfallNewGetDataARQ.py';
+				$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
 				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
 				$fileName = '/var/www/updews-pycodes/Liaison/rainfallNewGetDataARQ.py';
+				$file = fopen('/var/www/html/temp/data/rain_runtime_php.csv', 'a');
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";
@@ -176,7 +181,7 @@ class API extends CI_Controller {
 
 			$time_end = microtime(true);
 			$time = $time_end - $time_start;
-			$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
+			
 			$data = array(
 			array($rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
 			);
@@ -671,7 +676,18 @@ class API extends CI_Controller {
 
 		public function time_execution(){
 		$data_result = $_POST['data'];
-		$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_js.csv', 'a');
+		
+		$os = PHP_OS;
+			if (strpos($os,'WIN') !== false) {
+				$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_js.csv', 'a');
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$file = fopen('/var/www/html/temp/data/rain_runtime_js.csv', 'a');
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
 		foreach ($data_result as $row){fputcsv($file, $row);}
 		fclose($file);
 		print json_encode($data_result);
@@ -680,7 +696,17 @@ class API extends CI_Controller {
 
 		public function time_execution_all(){
 		$data_result = $_POST['data'];
-		$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_all.csv', 'a');
+		$os = PHP_OS;
+			if (strpos($os,'WIN') !== false) {
+				$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_all.csv', 'a');
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$file = fopen('/var/www/html/temp/data/rain_runtime_all.csv', 'a');
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
 		$data = array(
 			array($data_result[0], $data_result[1]),
 			);
