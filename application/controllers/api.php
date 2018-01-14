@@ -11,8 +11,19 @@ class API extends CI_Controller {
 			$result = $this->node_level_model->getlatestSensorData($site);
 			print json_encode($result);
 		}
-		public function latestGroundData($site){ // example http://localhost/api/latestSensorData/agbsb
-			$result = $this->node_level_model->getlatestGroundData($site);
+		public function latestGroundData($site){ // example http://localhost/api/latestGroundData/agbsb
+			if($site == "mng"){
+				$site_name = "man";
+			}else if( $site == "png"){
+				$site_name = "pan";
+			}else if($site == "bto"){
+				$site_name = "bat";
+			}else if($site == "jor"){
+				$site_name = "pob";
+			}else{
+				$site_name = $site;
+			}
+			$result = $this->node_level_model->getlatestGroundData($site_name);
 			print json_encode($result);
 		}
 		public function AccelBatteryThreshold($site,$node){ // example  http://localhost/api/AccelBatteryThreshold/agbsb/2
