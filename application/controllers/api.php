@@ -116,11 +116,11 @@ class API extends CI_Controller {
 			$time_end = microtime(true);
 			$time = $time_end - $time_start;
 			$data = array(
-			array($rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
+				array($rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
 			);
 			foreach ($data as $row)
 			{
-			fputcsv($file, $row);
+				fputcsv($file, $row);
 			}
 
 
@@ -160,11 +160,11 @@ class API extends CI_Controller {
 			$time_end = microtime(true);
 			$time = $time_end - $time_start;
 			$data = array(
-			array('rain_noah_' . $rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
+				array('rain_noah_' . $rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
 			);
 			foreach ($data as $row)
 			{
-			fputcsv($file, $row);
+				fputcsv($file, $row);
 			}
 
 
@@ -210,11 +210,11 @@ class API extends CI_Controller {
 
 			}
 			$data = array(
-			array($rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
+				array($rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
 			);
 			foreach ($data as $row)
 			{
-			fputcsv($file, $row);
+				fputcsv($file, $row);
 			}
 
 
@@ -430,6 +430,7 @@ class API extends CI_Controller {
 		}
 
 		public function GroundDataFromLEWSInRange($site,$fdate,$tdate){ // example http://localhost/api/GroundDataFromLEWSInRange/AGB/2013-01-01/2017-01-01
+			$time_start = microtime(true);
 			if($site == "mng"){
 				$site_name = "man";
 			}else if( $site == "png"){
@@ -459,6 +460,30 @@ class API extends CI_Controller {
 
 			exec($command, $output, $return);
 			print json_encode($output);
+
+			$time_end = microtime(true);
+
+			$time_end = microtime(true);
+			$time = $time_end - $time_start;
+			if (strpos($os,'WIN') !== false) {
+				$file = fopen('C:\xampp\htdocs\temp\data\gnd_runtime_php.csv', 'a');
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$file = fopen('//var//www//html//temp//data//gnd_runtime_php.csv', 'a');
+
+			}
+			$data = array(
+				array($site, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
+			);
+			foreach ($data as $row)
+			{
+				fputcsv($file, $row);
+			}
+
+
+			fclose($file);
+			
+			
 		}
 
 
@@ -702,46 +727,46 @@ class API extends CI_Controller {
 		}
 
 		public function time_execution(){
-		$data_result = $_POST['data'];
-		
-		$os = PHP_OS;
+			$data_result = $_POST['data'];
+
+			$os = PHP_OS;
 			if (strpos($os,'WIN') !== false) {
-				$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_js.csv', 'a');
+				$file = fopen('C:\xampp\htdocs\temp\data\gnd_runtime_js.csv', 'a');
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-				$file = fopen('/var/www/html/temp/data/rain_runtime_js.csv', 'a');
+				$file = fopen('/var/www/html/temp/data/gnd_runtime_js.csv', 'a');
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";
 				return;
 			}
-		foreach ($data_result as $row){fputcsv($file, $row);}
-		fclose($file);
-		print json_encode($data_result);
+			foreach ($data_result as $row){fputcsv($file, $row);}
+			fclose($file);
+			print json_encode($data_result);
 
 		}
 
 		public function time_execution_all(){
-		$data_result = $_POST['data'];
-		$os = PHP_OS;
+			$data_result = $_POST['data'];
+			$os = PHP_OS;
 			if (strpos($os,'WIN') !== false) {
-				$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_all.csv', 'a');
+				$file = fopen('C:\xampp\htdocs\temp\data\gnd_runtime_all.csv', 'a');
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-				$file = fopen('/var/www/html/temp/data/rain_runtime_all.csv', 'a');
+				$file = fopen('/var/www/html/temp/data/gnd_runtime_all.csv', 'a');
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";
 				return;
 			}
-		$data = array(
-			array($data_result[0], $data_result[1]),
+			$data = array(
+				array($data_result[0], $data_result[1]),
 			);
 			foreach ($data as $row)
 			{
-			fputcsv($file, $row);
+				fputcsv($file, $row);
 			}
-		print json_encode($data_result);
+			print json_encode($data_result);
 
 		}
 
