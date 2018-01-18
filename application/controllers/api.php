@@ -462,8 +462,6 @@ class API extends CI_Controller {
 			print json_encode($output);
 
 			$time_end = microtime(true);
-
-			$time_end = microtime(true);
 			$time = $time_end - $time_start;
 			if (strpos($os,'WIN') !== false) {
 				$file = fopen('C:\xampp\htdocs\temp\data\gnd_runtime_php.csv', 'a');
@@ -545,7 +543,7 @@ class API extends CI_Controller {
 		}
 
 		public function SensorAllAnalysisData($site,$fdate,$tdate){ // example http://localhost/api/SensorAllAnalysisData/agbsb/2016-04-25/2016-05-25
-
+			$time_start = microtime(true);
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -564,6 +562,27 @@ class API extends CI_Controller {
 			$command = $pythonPath.' '.$fileName.' '.$site.' '.$fdate.' '.$tdate;
 			exec($command, $output, $return);
 			print json_encode($output[sizeof($output)-1]);
+
+
+			$time_end = microtime(true);
+			$time = $time_end - $time_start;
+			if (strpos($os,'WIN') !== false) {
+				$file = fopen('C:\xampp\htdocs\temp\data\sub_runtime_php.csv', 'a');
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$file = fopen('//var//www//html//temp//data//sub_runtime_php.csv', 'a');
+
+			}
+			$data = array(
+				array($site, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
+			);
+			foreach ($data as $row)
+			{
+				fputcsv($file, $row);
+			}
+
+
+			fclose($file);
 			
 		}
 
@@ -731,10 +750,10 @@ class API extends CI_Controller {
 
 			$os = PHP_OS;
 			if (strpos($os,'WIN') !== false) {
-				$file = fopen('C:\xampp\htdocs\temp\data\gnd_runtime_js.csv', 'a');
+				$file = fopen('C:\xampp\htdocs\temp\data\sub_runtime_js.csv', 'a');
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-				$file = fopen('/var/www/html/temp/data/gnd_runtime_js.csv', 'a');
+				$file = fopen('/var/www/html/temp/data/sub_runtime_js.csv', 'a');
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";
@@ -750,10 +769,10 @@ class API extends CI_Controller {
 			$data_result = $_POST['data'];
 			$os = PHP_OS;
 			if (strpos($os,'WIN') !== false) {
-				$file = fopen('C:\xampp\htdocs\temp\data\gnd_runtime_all.csv', 'a');
+				$file = fopen('C:\xampp\htdocs\temp\data\sub_runtime_all.csv', 'a');
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-				$file = fopen('/var/www/html/temp/data/gnd_runtime_all.csv', 'a');
+				$file = fopen('/var/www/html/temp/data/sub_runtime_all.csv', 'a');
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";
