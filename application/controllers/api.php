@@ -82,7 +82,7 @@ class API extends CI_Controller {
 
 		public function RainSenslope($rsite,$fdate,$tdate){ // example http://localhost/api/RainSenslope/blcw/2016-05-25/2016-06-25
 
-			$time_start = microtime(true);
+			// $time_start = microtime(true);
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -106,31 +106,31 @@ class API extends CI_Controller {
 			exec($command, $output, $return);
 			print json_encode($output);
 
-			if (strpos($os,'WIN') !== false) {
-				$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
-			}
-			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-				$file = fopen('//var//www//html//temp//data//rain_runtime_php.csv', 'a');
+			// if (strpos($os,'WIN') !== false) {
+			// 	$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
+			// }
+			// elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+			// 	$file = fopen('//var//www//html//temp//data//rain_runtime_php.csv', 'a');
 
-			}
-			$time_end = microtime(true);
-			$time = $time_end - $time_start;
-			$data = array(
-				array($rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
-			);
-			foreach ($data as $row)
-			{
-				fputcsv($file, $row);
-			}
+			// }
+			// $time_end = microtime(true);
+			// $time = $time_end - $time_start;
+			// $data = array(
+			// 	array($rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
+			// );
+			// foreach ($data as $row)
+			// {
+			// 	fputcsv($file, $row);
+			// }
 
 
-			fclose($file);
+			// fclose($file);
 			
 
 		}
 
 		public function RainNoah($rsite,$fdate,$tdate){ // example http://localhost/api/RainNoah/1104/2014-05-25/2016-06-25
-			$time_start = microtime(true);
+			// $time_start = microtime(true);
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -150,25 +150,25 @@ class API extends CI_Controller {
 			$command = $pythonPath.' '.$fileName.' '.$rsite.' '.$fdate.' '.$tdate;
 			exec($command, $output, $return);
 			print json_encode($output);
-			if (strpos($os,'WIN') !== false) {
-				$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
-			}
-			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-				$file = fopen('//var//www//html//temp//data//rain_runtime_php.csv', 'a');
+			// if (strpos($os,'WIN') !== false) {
+			// 	$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
+			// }
+			// elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+			// 	$file = fopen('//var//www//html//temp//data//rain_runtime_php.csv', 'a');
 
-			}
-			$time_end = microtime(true);
-			$time = $time_end - $time_start;
-			$data = array(
-				array('rain_noah_' . $rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
-			);
-			foreach ($data as $row)
-			{
-				fputcsv($file, $row);
-			}
+			// }
+			// $time_end = microtime(true);
+			// $time = $time_end - $time_start;
+			// $data = array(
+			// 	array('rain_noah_' . $rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
+			// );
+			// foreach ($data as $row)
+			// {
+			// 	fputcsv($file, $row);
+			// }
 
 
-			fclose($file);
+			// fclose($file);
 			
 
 			
@@ -178,7 +178,7 @@ class API extends CI_Controller {
 		}
 
 		public function RainARQ($rsite,$fdate,$tdate){ //example http://localhost/api/RainARQ/agbtaw/2014-05-25/2016-06-25
-			$time_start = microtime(true);
+			// $time_start = microtime(true);
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -198,27 +198,27 @@ class API extends CI_Controller {
 
 			exec($command, $output, $return);
 			print json_encode($output);
-			$time_end = microtime(true);
+			// $time_end = microtime(true);
 
-			$time_end = microtime(true);
-			$time = $time_end - $time_start;
-			if (strpos($os,'WIN') !== false) {
-				$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
-			}
-			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-				$file = fopen('//var//www//html//temp//data//rain_runtime_php.csv', 'a');
+			// $time_end = microtime(true);
+			// $time = $time_end - $time_start;
+			// if (strpos($os,'WIN') !== false) {
+			// 	$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
+			// }
+			// elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+			// 	$file = fopen('//var//www//html//temp//data//rain_runtime_php.csv', 'a');
 
-			}
-			$data = array(
-				array($rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
-			);
-			foreach ($data as $row)
-			{
-				fputcsv($file, $row);
-			}
+			// }
+			// $data = array(
+			// 	array($rsite, $time, substr_count(json_encode($output),"ts"), $fdate, $tdate),
+			// );
+			// foreach ($data as $row)
+			// {
+			// 	fputcsv($file, $row);
+			// }
 
 
-			fclose($file);
+			// fclose($file);
 			
 
 		}
