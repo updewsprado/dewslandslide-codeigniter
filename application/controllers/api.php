@@ -788,6 +788,22 @@ class API extends CI_Controller {
 			print json_encode($data_result);
 
 		}
+	
+	public function getStaff()
+	{
+		echo $this->pubrelease_model->getStaff();
+	}
+
+	public function getAllReleasesWithEventDetails()
+	{
+		echo $this->pubrelease_model->getAllReleasesWithEventDetails();
+	}
+
+	public function getMOM($site_code = "all", $start = null, $end = null)
+	{
+		$this->load->model('manifestations_model');
+		echo $this->manifestations_model->getMOMApi($site_code, $start, $end);
+	}
 
 	}
 	?>
