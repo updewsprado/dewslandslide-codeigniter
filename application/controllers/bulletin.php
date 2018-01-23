@@ -60,7 +60,7 @@
 			$isg0 = stripos($temp->internal_alert_level, 'g0') > -1 ? true : false;
 			$iss0 = stripos($temp->internal_alert_level, 's0') > -1 ? true : false;
 			$isR0 = strpos($temp->internal_alert_level, 'R0') > -1 ? true : false;
-			$ism0 = strpos($temp->internal_alert_level, 'm0') > -1 ? true : false;
+			$ism0 = stripos($temp->internal_alert_level, 'm0') > -1 ? true : false;
 
 			$data['isND'] = $isND; $data['isg0'] = $isg0;
 			$data['iss0'] = $iss0; $data['isR0'] = $isR0;
