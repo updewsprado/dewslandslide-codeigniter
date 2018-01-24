@@ -87,12 +87,10 @@ class API extends CI_Controller {
 			if (strpos($os,'WIN') !== false) {
 				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
 				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\rainfallNewGetData.py';
-				$file = fopen('C:\xampp\htdocs\temp\data\rain_runtime_php.csv', 'a');
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
 				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
 				$fileName = '/var/www/updews-pycodes/Liaison/rainfallNewGetData.py';
-				$file = fopen('/var/www/html/temp/data/rain_runtime_php.csv', 'a');
 
 			}
 			else {
