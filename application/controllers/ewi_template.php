@@ -111,12 +111,10 @@ class Ewi_template extends CI_Controller {
 	}
 
 	public function getKeyInputViaTriggerType() {
-		if (isset($_POST['trigger_type'])) {
+		if (isset($_POST['trigger_type']) == true) {
 			$data = $_POST['trigger_type'];
-
 			$template = "";
 			$keyinput = [];
-
 			for ($counter = 0; $counter < strlen($data); $counter++) {
 				$iterated = isset($data[$counter+(strlen($data)-(strlen($data)-1))]);
 				if (is_numeric($iterated) != null) {
