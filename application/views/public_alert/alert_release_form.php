@@ -766,6 +766,26 @@
             </div>
         </div>
 
+        <div class="modal fade" id="non_trig_modal" role="dialog">
+            <div class="modal-dialog modal-md">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Alert Notice</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>This release is for the event monitoring's current end-of-validity.</p>
+                        <p>You currently have heightened manifestation feature/s for this event.</p>
+                        <p>Do <strong>NOT</strong> forget to declare the manifestation feature/s as <strong>non-triggering</strong>.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Okay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </form>
     </div><!-- /.container-fluid -->
 </div><!-- /#page-wrapper --> 
