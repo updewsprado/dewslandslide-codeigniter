@@ -14,6 +14,7 @@ class Site_analysis_page extends CI_Controller {
 		$data['user_id'] = $this->session->userdata("id");
 		
 		$data['title'] = $page;
+		$data['jquery'] = "old";
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
