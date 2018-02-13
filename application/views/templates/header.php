@@ -22,7 +22,7 @@
 
     <!-- jQuery Version 3.3.1 -->
     <?php 
-        if($jquery === "old") echo '<script type="text/javascript" src="/js/third-party/jquery-1.12.4.min.js"></script>';
+        if(isset($jquery) && $jquery === "old") echo '<script type="text/javascript" src="/js/third-party/jquery-1.12.4.min.js"></script>';
         else echo '<script type="text/javascript" src="/js/third-party/jquery-3.3.1.min.js"></script>';
     ?>
 
