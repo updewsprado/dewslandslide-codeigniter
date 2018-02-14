@@ -40,6 +40,7 @@ class Utilities extends CI_Controller {
 	}
 
 	public function getServerTime() {
+		date_default_timezone_set("Asia/Singapore");
 		print json_encode(date("Y-m-d H:i:s", time()));
 	}
 }
