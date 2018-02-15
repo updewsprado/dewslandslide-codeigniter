@@ -9,7 +9,7 @@ class Site_analysis extends CI_Controller {
 	}
 
 	public function index () {
-		$this->is_logged_in();
+		// $this->is_logged_in();
 		$page = 'Integrated Site Analysis';
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
@@ -26,7 +26,8 @@ class Site_analysis extends CI_Controller {
 	}
 
     public function test() {
-        $this->getRainfallData("senslope", "bakw", "2017-10-22T00:00:00", "2017-10-29T00:00:00");
+        $data = $this->getRainfallData("senslope", "bakw", "2017-10-22T00:00:00", "2017-10-29T00:00:00");
+        
     }
 
     /**
@@ -51,8 +52,13 @@ class Site_analysis extends CI_Controller {
             $i = 0; $start = null; $end = null;
             if(!is_null($data)) {
                 foreach ($data as $instance) {
-                    if($instance->rval > $data_series["max_rval"]) $data_series["max_rval"] = $instance->rval;
-                    if($instance->hrs72 > $data_series["max_72h"]) $data_series["max_72h"] = $instance->hrs72;
+                    if($instance->rval > $data_series["max_rval"]) {
+                        $data_series["max_rval"] = $instance->rval;
+                    }
+
+                    if($instance->hrs72 > $data_series["max_72h"]) {
+                        $data_series["max_72h"] = $instance->hrs72;
+                    }
                     
                     if (is_null($instance->rval)) {
                         if (is_null($start)) $start = $instance->ts;
@@ -128,6 +134,7 @@ class Site_analysis extends CI_Controller {
         $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $rain_gauge $start_date";
         $command = !is_null($end_date) ? "$command $end_date" : $command;
         exec($command, $output, $return);
+        // echo $output;
         return $output;
     }
 
@@ -140,7 +147,7 @@ class Site_analysis extends CI_Controller {
             $python_path = "C:/Users/Dynaslope/Anaconda2/python.exe";
             $file_path = "C:/xampp/updews-pycodes/Liaison/";
         } elseif (strpos($os, "UBUNTU") !== false || strpos($os, "Linux") !== false) {
-            $python_path = "/home/ubuntu/anaconda2/bin/python";
+            $python_path = "/home/jdguevarra/anaconda2/bin/python";
             $file_path = "/var/www/updews-pycodes/Liaison/";
         } else {
             throw new Exception("Unknown OS for execution... Script discontinued...");

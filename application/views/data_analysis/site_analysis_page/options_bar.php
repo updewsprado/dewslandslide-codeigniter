@@ -1,6 +1,6 @@
 
     <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading" onclick="">
             <strong>Filter options: <span class="fa fa-angle-left pull-right"></span></strong>
         </div>
         <div class="panel-body">
