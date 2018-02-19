@@ -6,6 +6,7 @@ class Site_analysis extends CI_Controller {
 		$this->load->helper('url');
         $this->load->model('monitoring_model');
         $this->load->model('rainfall_model');
+        $this->load->model('surficial_model');
 	}
 
 	public function index () {
@@ -136,6 +137,54 @@ class Site_analysis extends CI_Controller {
         exec($command, $output, $return);
         // echo $output;
         return $output;
+    }
+
+    public function getPlotDataForSurficial() {
+        $sdate = "2017-10-22T00:00:00";
+        $fdate = "2017-10-29T00:00:00";
+        $crackSample = "A";
+        $testSite = "jor";
+        $latestGroundData = $this->surficial_model->getGroundLatestTime($testSite);
+        $last_good_data = [];
+        foreach ($latestGroundData as $data) {
+            array_push($last_good_data, $data->timestamp);
+        }
+
+        $this->getGroundDatas($testSite, $sdate, $fdate);
+        
+    }
+
+    public function getGroundDatas($site, $from_date, $end_date = null){
+        if($site == "mng"){
+            $site_name = "man";
+        }else if( $site == "png"){
+            $site_name = "pan";
+        }else if($site == "bto"){
+            $site_name = "bat";
+        }else if($site == "jor"){
+            $site_name = "pob";
+        }else{
+            $site_name = $site;
+        }
+
+        $os = PHP_OS;
+        if (strpos($os,'WIN') !== false) {
+            $pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
+            $fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\gndmeasInRange.py';
+        }
+        elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+            $pythonPath = '/home/jdguevarra/anaconda2/bin/python';
+            $fileName = '/var/www/updews-pycodes/Liaison/gndmeasInRange.py';
+        }
+        else {
+            echo "Unknown OS for execution... Script discontinued";
+            return;
+        }
+
+        $command = $pythonPath.' '.$fileName.' '.$site.' '.$from_date.' '.$end_date;
+
+        exec($command, $output, $return);
+        print json_encode($output);
     }
 
     private function getOSspecificpath() {
