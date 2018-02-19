@@ -4,12 +4,16 @@
 
 <div class="row">
 	<div id="rainfall-plots">
-		<div class="row">
-			<div class="col-sm-12 plot-title">
+		<div class="row plot-title">
+			<div class="col-sm-4">
 				<h4>RAINFALL DATA</h4>
-				<hr/>
+			</div>
+			<div class="col-sm-8" id="rainfall-sources-btn-group" hidden>
+				<div class="btn-group pull-right">
+				</div>
 			</div>
 		</div>
+		<hr class="plot-title-hr"/>
 		<!-- <div class="rainfall-plot-container" id="agbtaw">
 			<div class="col-sm-6" id="agbtaw-instantaneous">
 			</div>
@@ -18,3 +22,4 @@
 		</div> -->
 	</div>
 </div>
+<div class="row"><hr/></div>

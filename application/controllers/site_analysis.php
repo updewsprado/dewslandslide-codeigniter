@@ -6,6 +6,7 @@ class Site_analysis extends CI_Controller {
 		$this->load->helper('url');
         $this->load->model('monitoring_model');
         $this->load->model('rainfall_model');
+        $this->load->model('pubrelease_model');
 	}
 
 	public function index () {
@@ -16,6 +17,7 @@ class Site_analysis extends CI_Controller {
 		$data['user_id'] = $this->session->userdata("id");
 		
 		$data['title'] = $page;
+        $data['sites'] = $this->pubrelease_model->getSites();
         $data['options_bar'] = $this->load->view('data_analysis/site_analysis_page/options_bar', $data, true);
         $data['site_level_plots'] = $this->load->view('data_analysis/site_analysis_page/site_level_plots', $data, true);
 
@@ -33,9 +35,11 @@ class Site_analysis extends CI_Controller {
      *  Rainfall APIs 
      */
 
-    public function getPlotDataForRainfall($site_code, $start_date, $end_date = null) {
+    public function getPlotDataForRainfall($site_code, $rain_source = "all", $start_date, $end_date = null) {
         $data_series_list = [];
-        $rain_data = $this->getRainfallDataBySite($site_code, $start_date, $end_date);
+
+        $rain_data = $this->getRainfallDataBySite($site_code, $rain_source, $start_date, $end_date);
+
         foreach ($rain_data as $rain) {
             $data_series = array(
                 "24h" => [],
@@ -83,8 +87,13 @@ class Site_analysis extends CI_Controller {
         array_push($data_series[$type], array(strtotime($timestamp) * 1000, $value));
     }
 
-    public function getRainfallDataBySite($site_code, $start_date, $end_date = null) {
-        $rain_sources = $this->rainfall_model->getRainDataSourcesPerSite($site_code);
+    public function getRainfallDataBySite($site_code, $rain_source = "all", $start_date, $end_date = null) {
+        
+        if ($rain_source == "all") {
+            $rain_sources = $this->rainfall_model->getRainDataSourcesPerSite($site_code);
+        } else {
+            $rain_sources = $this->rainfall_model->getRainDataSourcesPerSite($site_code, $rain_source);
+        }
 
         $rain_data_list = [];
         foreach ($rain_sources as $s) {
