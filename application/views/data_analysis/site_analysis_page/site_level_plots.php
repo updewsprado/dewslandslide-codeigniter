@@ -5,21 +5,29 @@
 <div class="row">
 	<div id="rainfall-plots">
 		<div class="row plot-title">
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<h4>RAINFALL DATA</h4>
 			</div>
-			<div class="col-sm-8" id="rainfall-sources-btn-group" hidden>
-				<div class="btn-group pull-right">
+			<div class="col-sm-9 text-right" id="rainfall-plot-options" hidden>
+				<div class="btn-group" id="rainfall-sources-btn-group"></div>
+				<div class="btn-group" id="rainfall-duration">
+					<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="rainfall-duration-btn">
+				    	7 days&emsp;<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+					    <li class="active"><a data-value="7" data-duration="days">7 days</a></li>
+					    <li><a data-value="10" data-duration="days">10 days</a></li>
+					    <li><a data-value="2" data-duration="weeks">2 weeks</a></li>
+					    <li><a data-value="1" data-duration="month">1 month</a></li>
+					    <li><a data-value="3" data-duration="months">3 months</a></li>
+					    <li><a data-value="6" data-duration="months">6 months</a></li>
+					    <li><a data-value="1" data-duration="year">1 year</a></li>
+					    <li><a data-value="All" data-duration="" href="#">All</a></li>
+				 	</ul>
 				</div>
 			</div>
 		</div>
 		<hr class="plot-title-hr"/>
-		<!-- <div class="rainfall-plot-container" id="agbtaw">
-			<div class="col-sm-6" id="agbtaw-instantaneous">
-			</div>
-			<div class="col-sm-6" id="agbtaw-cumulative">
-			</div>
-		</div> -->
 	</div>
 </div>
 <div class="row"><hr/></div>
