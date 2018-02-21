@@ -31,6 +31,9 @@
 
     <!-- Bootstrap JS v3.3.7 -->
     <script src="/js/third-party/bootstrap.min.js"></script>
+
+    <!-- Offline JS -->
+    <script type="text/javascript" src="/js/third-party/offline.js"></script>
     
 	<!-- Spinner -->
 	<script type="text/javascript" src="/js/third-party/spin.min.js"></script>
@@ -55,6 +58,9 @@
 
     <!-- Bootstrap DateTimePicker CSS-->
     <link href="/css/third-party/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Offline JS -->
+    <link href="/css/third-party/offline.css" rel="stylesheet" type="text/css">
 
     <!-- Modal Reposition JS-->
     <script type="text/javascript" src="/js/third-party/modal-reposition.js"></script>
