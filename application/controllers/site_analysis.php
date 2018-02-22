@@ -27,16 +27,11 @@ class Site_analysis extends CI_Controller {
         $this->load->view('data_analysis/site_analysis_page/main', $data);
 	}
 
-    public function test() {
-        $data = $this->getRainfallData("senslope", "bakw", "2017-10-22T00:00:00", "2017-10-29T00:00:00");
-        
-    }
-
     /**
      *  Rainfall APIs 
      */
 
-    public function getPlotDataForRainfall($site_code, $rain_source = "all", $start_date, $end_date = null) {
+    public function getPlotDataForRainfall ($site_code, $rain_source = "all", $start_date, $end_date = null) {
         $data_series_list = [];
 
         $rain_data = $this->getRainfallDataBySite($site_code, $rain_source, $start_date, $end_date);
@@ -93,7 +88,7 @@ class Site_analysis extends CI_Controller {
         array_push($data_series[$type], array(strtotime($timestamp) * 1000, $value));
     }
 
-    public function getRainfallDataBySite($site_code, $rain_source = "all", $start_date, $end_date = null) {
+    public function getRainfallDataBySite ($site_code, $rain_source = "all", $start_date, $end_date = null) {
         
         if ($rain_source == "all") {
             $rain_sources = $this->rainfall_model->getRainDataSourcesPerSite($site_code);
@@ -119,7 +114,7 @@ class Site_analysis extends CI_Controller {
         return $rain_data_list;
     }
 
-    public function getRainfallDataBySource($source, $rain_gauge, $start_date, $end_date = null) {
+    public function getRainfallDataBySource ($source, $rain_gauge, $start_date, $end_date = null) {
         try {
             $paths = $this->getOSspecificpath();
         } catch (Exception $e) {
@@ -143,59 +138,79 @@ class Site_analysis extends CI_Controller {
         $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $rain_gauge $start_date";
         $command = !is_null($end_date) ? "$command $end_date" : $command;
         exec($command, $output, $return);
-        // echo $output;
         return $output;
     }
 
-    public function getPlotDataForSurficial() {
-        $sdate = "2017-10-22T00:00:00";
-        $fdate = "2017-10-29T00:00:00";
-        $crackSample = "A";
-        $testSite = "jor";
-        $latestGroundData = $this->surficial_model->getGroundLatestTime($testSite);
-        $last_good_data = [];
-        foreach ($latestGroundData as $data) {
-            array_push($last_good_data, $data->timestamp);
-        }
-
-        $this->getGroundDatas($testSite, $sdate, $fdate);
-        
+    public function test () {
+        $data = $this->getSurficialCrackTrendingAnalysis("bak", "A");
     }
 
-    public function getGroundDatas($site, $from_date, $end_date = null){
-        if($site == "mng"){
-            $site_name = "man";
-        }else if( $site == "png"){
-            $site_name = "pan";
-        }else if($site == "bto"){
-            $site_name = "bat";
-        }else if($site == "jor"){
-            $site_name = "pob";
-        }else{
-            $site_name = $site;
+    /**
+     *  Surficial APIs 
+     */
+
+    public function getPlotDataForSurficial ($site_code, $start_date, $end_date = null) {
+        $data = $this->getSurficialDataBySite($site_code, $start_date, $end_date);
+        $surficial_data = json_decode($data[0]);
+
+        $data_per_crack = [];
+        foreach ($surficial_data as $data) {
+            if (!array_key_exists($data->crack_id, $data_per_crack)) {
+                $data_per_crack[$data->crack_id] = [];
+            }
+            $temp = array(
+                'x' => strtotime($data->ts) * 1000, 
+                'y' => $data->meas, 
+                'id' => $data->id
+            );
+            array_push($data_per_crack[$data->crack_id], $temp);
         }
 
-        $os = PHP_OS;
-        if (strpos($os,'WIN') !== false) {
-            $pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
-            $fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\gndmeasInRange.py';
-        }
-        elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-            $pythonPath = '/home/jdguevarra/anaconda2/bin/python';
-            $fileName = '/var/www/updews-pycodes/Liaison/gndmeasInRange.py';
-        }
-        else {
-            echo "Unknown OS for execution... Script discontinued";
-            return;
+        $processed_data = [];
+        foreach ($data_per_crack as $crack_id => $data) {
+            array_push($processed_data, array(
+                'name' => $crack_id,
+                'data' => $data,
+                'id' => $crack_id
+            ));
         }
 
-        $command = $pythonPath.' '.$fileName.' '.$site.' '.$from_date.' '.$end_date;
+        echo json_encode($processed_data);
+    }
+
+    public function getSurficialDataBySite ($site_code, $start_date, $end_date) {
+        try {
+            $paths = $this->getOSspecificpath();
+        } catch (Exception $e) {
+            echo "Caught exception: ",  $e->getMessage(), "\n";
+        }
+
+        $exec_file = "gndmeasInRange.py";
+
+        $site_code = $this->convertSiteCodesFromNewToOld($site_code);
+        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $site_code $start_date $end_date";
 
         exec($command, $output, $return);
-        print json_encode($output);
+        return $output;
     }
 
-    private function getOSspecificpath() {
+    public function getSurficialCrackTrendingAnalysis ($site_code, $crack_name) {
+        try {
+            $paths = $this->getOSspecificpath();
+        } catch (Exception $e) {
+            echo "Caught exception: ",  $e->getMessage(), "\n";
+        }
+
+        $exec_file = "ground.py";
+
+        $site_code = $this->convertSiteCodesFromNewToOld($site_code);
+        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $site_code $crack_name";
+
+        exec($command, $output, $return);
+        print_r($output);
+    }
+
+    private function getOSspecificpath () {
         $os = PHP_OS;
         $python_path = "";
         $file_path = "";
@@ -216,7 +231,24 @@ class Site_analysis extends CI_Controller {
         );
     }
 
-	public function is_logged_in() {
+    function convertSiteCodesFromNewToOld ($site_code) {
+        $sc = "";
+        switch ($site_code) {
+            case "mng":
+                $sc = "man"; break;
+            case "png":
+                $sc = "pan"; break;
+            case "bto":
+                $sc = "bat"; break;
+            case "jor":
+                $sc = "pob"; break;
+            default: 
+                $sc = $site_code; break;
+        }
+        return $sc;
+    }
+
+	public function is_logged_in () {
 		$is_logged_in = $this->session->userdata('is_logged_in');
 		
 		if(!isset($is_logged_in) || ($is_logged_in !== TRUE)) {

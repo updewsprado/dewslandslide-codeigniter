@@ -12,8 +12,9 @@
 
 <script src="/js/third-party/inferno.js"></script>
 
-<script type="text/javascript" src="/js/dewslandslide/data_analysis/site_analysis_main.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/rainfall_plotter.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/data_analysis/surficial_plotter.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/data_analysis/site_analysis_main.js"></script>
 
 <!-- CSS FILES -->
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/site_analysis.css">

@@ -22,12 +22,41 @@
 					    <li><a data-value="3" data-duration="months">3 months</a></li>
 					    <li><a data-value="6" data-duration="months">6 months</a></li>
 					    <li><a data-value="1" data-duration="year">1 year</a></li>
-					    <li><a data-value="All" data-duration="" href="#">All</a></li>
+					    <li><a data-value="All" data-duration="">All</a></li>
 				 	</ul>
 				</div>
 			</div>
 		</div>
-		<hr class="plot-title-hr"/>
+		<div><hr class="plot-title-hr"/></div>
+	</div>
+	<hr class="plot-title-hr"/>
+	<div id="surficial-plots">
+		<div class="row plot-title">
+			<div class="col-sm-3">
+				<h4>SURFICIAL DATA</h4>
+			</div>
+			<div class="col-sm-9 text-right" id="surficial-plot-options" hidden>
+				<div class="btn-group" id="surficial-cracks-btn-group">
+					<button type="button" class="btn btn-primary btn-sm" value="surficial" data-loaded="false">Surficial Graph</button>
+				</div>
+				<div class="btn-group" id="surficial-duration">
+					<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="surficial-duration-btn">
+				    	1 month&emsp;<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+					    <li><a data-value="7" data-duration="days">7 days</a></li>
+					    <li><a data-value="10" data-duration="days">10 days</a></li>
+					    <li><a data-value="2" data-duration="weeks">2 weeks</a></li>
+					    <li><a data-value="1" data-duration="month">1 month</a></li>
+					    <li class="active"><a data-value="3" data-duration="months">3 months</a></li>
+					    <li><a data-value="6" data-duration="months">6 months</a></li>
+					    <li><a data-value="1" data-duration="year">1 year</a></li>
+					    <li><a data-value="All" data-duration="">All</a></li>
+				 	</ul>
+				</div>
+			</div>
+		</div>
+		<div><hr class="plot-title-hr"/></div>
 	</div>
 </div>
 <div class="row"><hr/></div>
