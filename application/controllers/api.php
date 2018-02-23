@@ -456,7 +456,7 @@ class API extends CI_Controller {
 				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\allDataGen.py';
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
+				$pythonPath = '/home/jdguevarra/anaconda2/bin/python';
 				$fileName = '/var/www/updews-pycodes/Liaison/allDataGen.py';
 			}
 			else {
