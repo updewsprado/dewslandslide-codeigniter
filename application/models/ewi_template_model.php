@@ -196,4 +196,11 @@ class Ewi_template_model extends CI_Model {
 		$result = $this->db->query($query);
 		return $result->result();
 	}
+
+	// For testing purposes only, uncomment if needed.
+	public function getLastTwoIds() {
+		$query = "SELECT * from senslopedb.ewi_template order by id desc limit 2";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
 }
