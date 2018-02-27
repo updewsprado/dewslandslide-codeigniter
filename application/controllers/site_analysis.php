@@ -142,7 +142,8 @@ class Site_analysis extends CI_Controller {
     }
 
     public function test () {
-        $data = $this->getSurficialCrackTrendingAnalysis("bak", "A");
+        $data = $this->getSurficialMarkerTrendingAnalysis("bak", "A", "2017-11-11 00:00:00");
+        print_r($data);
     }
 
     /**
@@ -153,25 +154,25 @@ class Site_analysis extends CI_Controller {
         $data = $this->getSurficialDataBySite($site_code, $start_date, $end_date);
         $surficial_data = json_decode($data[0]);
 
-        $data_per_crack = [];
+        $data_per_marker = [];
         foreach ($surficial_data as $data) {
-            if (!array_key_exists($data->crack_id, $data_per_crack)) {
-                $data_per_crack[$data->crack_id] = [];
+            if (!array_key_exists($data->crack_id, $data_per_marker)) {
+                $data_per_marker[$data->crack_id] = [];
             }
             $temp = array(
                 'x' => strtotime($data->ts) * 1000, 
                 'y' => $data->meas, 
                 'id' => $data->id
             );
-            array_push($data_per_crack[$data->crack_id], $temp);
+            array_push($data_per_marker[$data->crack_id], $temp);
         }
 
         $processed_data = [];
-        foreach ($data_per_crack as $crack_id => $data) {
+        foreach ($data_per_marker as $marker_id => $data) {
             array_push($processed_data, array(
-                'name' => $crack_id,
+                'name' => $marker_id,
                 'data' => $data,
-                'id' => $crack_id
+                'id' => $marker_id
             ));
         }
 
@@ -194,20 +195,105 @@ class Site_analysis extends CI_Controller {
         return $output;
     }
 
-    public function getSurficialCrackTrendingAnalysis ($site_code, $crack_name) {
+    public function getProcessedSurficialMarkerTrendingAnalysis ($site_code, $marker_name, $end_date)
+    {
+        $data = $this->getSurficialMarkerTrendingAnalysis($site_code, $marker_name, $end_date);
+        $velocity_accelaration = $this->processVelocityAccelData($data);
+        $displacement_interpolation = $this->processDisplacementInterpolation($data);
+        $velocity_acceleration_time = $this->processVelocityAccelTimeData($data);
+
+        $processed_data = array(
+            array("dataset_name" => "velocity_acceleration", "dataset" => $velocity_accelaration),
+            array("dataset_name" => "displacement_interpolation", "dataset" => $displacement_interpolation),
+            array("dataset_name" => "velocity_acceleration_time", "dataset" => $velocity_acceleration_time)
+        );
+
+        echo json_encode($processed_data);
+    }
+
+    public function getSurficialMarkerTrendingAnalysis ($site_code, $marker_name, $end_date) {
         try {
             $paths = $this->getOSspecificpath();
         } catch (Exception $e) {
             echo "Caught exception: ",  $e->getMessage(), "\n";
         }
 
-        $exec_file = "ground.py";
+        $exec_file = "surficialTrendingAnalysis.py";
 
         $site_code = $this->convertSiteCodesFromNewToOld($site_code);
-        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $site_code $crack_name";
+        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $site_code $marker_name $end_date";
 
         exec($command, $output, $return);
-        print_r($output);
+        return json_decode($output[0]); // Because for some reason, the data is inside an array
+    }
+
+    private function processVelocityAccelData ($data) {
+        $accel_velocity_data = [];
+        $trend_line = [];
+        $threshold_interval = [];
+
+        $av = $data->av;
+        for ($i = 0; $i < count($av->a); $i++) { 
+            array_push($accel_velocity_data, array($av->v[$i], $av->a[$i]));
+        }
+
+        for ($i = 0; $i < count($av->v_threshold); $i++) { 
+            array_push($trend_line, array($av->v_threshold[$i], $av->a_threshold_line[$i]));
+            array_push($threshold_interval, array($av->v_threshold[$i], $av->a_threshold_up[$i], $av->a_threshold_down[$i]));
+        }
+
+        $last_point = [[end($av->v), end($av->a)]];
+
+        $velocity_accelaration = array(
+            array("name" => "Data", "data" => $accel_velocity_data),
+            array("name" => "Trend Line", "data" => $trend_line),
+            array("name" => "Threshold Interval", "data" => $threshold_interval),
+            array("name" => "Last Data Point", "data" => $last_point)
+        );
+
+        return $velocity_accelaration;
+    }
+
+    private function processDisplacementInterpolation ($data) {
+        $displacement_data = [];
+        $interpolation_data = [];
+
+        $dvt = $data->dvt;
+        $gnd = $dvt->gnd;
+        for ($i = 0; $i < count($gnd->ts); $i++) { 
+            array_push($displacement_data, array($gnd->ts[$i], $gnd->surfdisp[$i]));
+        }
+
+        $interp = $dvt->interp;
+        for ($i = 0; $i < count($interp->ts); $i++) { 
+            array_push($interpolation_data, array($interp->ts[$i], $interp->surfdisp[$i]));
+        }
+
+        $displacement_interpolation = array(
+            array("name" => "Surficial Data", "data" => $displacement_data),
+            array("name" => "Interpolation", "data" => $interpolation_data)
+        );
+
+        return $displacement_interpolation;
+    }
+
+    private function processVelocityAccelTimeData ($data) {
+        $acceleration = [];
+        $velocity = [];
+
+        $vat = $data->vat;
+        for ($i = 0; $i < count($vat->ts_n); $i++) { 
+            array_push($acceleration, array($vat->ts_n[$i], $vat->a_n[$i]));
+            array_push($velocity, array($vat->ts_n[$i], $vat->v_n[$i]));
+
+        }
+
+        $velocity_acceleration_time = array(
+            array("name" => "Acceleration", "data" => $acceleration),
+            array("name" => "Velocity", "data" => $velocity)
+        );
+
+        return $velocity_acceleration_time;
     }
 
     private function getOSspecificpath () {

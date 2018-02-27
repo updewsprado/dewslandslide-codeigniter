@@ -36,12 +36,12 @@
 				<h4>SURFICIAL DATA</h4>
 			</div>
 			<div class="col-sm-9 text-right" id="surficial-plot-options" hidden>
-				<div class="btn-group" id="surficial-cracks-btn-group">
+				<div class="btn-group" id="surficial-markers-btn-group">
 					<button type="button" class="btn btn-primary btn-sm" value="surficial" data-loaded="false">Surficial Graph</button>
 				</div>
 				<div class="btn-group" id="surficial-duration">
 					<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="surficial-duration-btn">
-				    	1 month&emsp;<span class="caret"></span>
+				    	3 months&emsp;<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
 					    <li><a data-value="7" data-duration="days">7 days</a></li>

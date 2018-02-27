@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class surficial_model extends CI_Model {
 
-	public function getGroundCrackName ($site_code) {
+	public function getGroundMarkerName ($site_code) {
 		$sc = $this->convertSiteCodesFromNewToOld($site_code);
 		$sql = "SELECT DISTINCT crack_id FROM senslopedb.gndmeas where site_id ='$sc' order by crack_id asc";
 		$query = $this->db->query($sql);
