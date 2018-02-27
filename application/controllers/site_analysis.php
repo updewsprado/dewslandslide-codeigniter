@@ -7,7 +7,9 @@ class Site_analysis extends CI_Controller {
         $this->load->model('monitoring_model');
         $this->load->model('pubrelease_model');
         $this->load->model('rainfall_model');
-        $this->load->model('surficial_model');	}
+        $this->load->model('surficial_model');
+        $this->load->model('subsurface_column_model');  
+    }
 
 	public function index () {
 		// $this->is_logged_in();
@@ -20,6 +22,7 @@ class Site_analysis extends CI_Controller {
         $data['sites'] = $this->pubrelease_model->getSites();
         $data['options_bar'] = $this->load->view('data_analysis/site_analysis_page/options_bar', $data, true);
         $data['site_level_plots'] = $this->load->view('data_analysis/site_analysis_page/site_level_plots', $data, true);
+        $data['subsurface_column_plots'] = $this->load->view('data_analysis/site_analysis_page/subsurface_column_plots', $data, true);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
@@ -258,5 +261,6 @@ class Site_analysis extends CI_Controller {
 		else {
 		}
 	}
+
 }
 ?>
