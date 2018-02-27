@@ -111,6 +111,25 @@ class Gintags_manager_model extends CI_Model {
 		return $result->result();
 	}
 
+	//for testing purposes only
+	public function getLastIdInserted() {
+		$query = "SELECT id FROM gintags_manager ORDER BY id DESC LIMIT 1";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
+
+	public function deleteLastAddedInGintagsManager() {
+		$query = "DELETE FROM gintags_manager ORDER BY id DESC LIMIT 1";
+		$result = $this->db->query($query);
+		return $result;
+	}
+
+	public function deleteLastAddedInGintagsReference() {
+		$query = "DELETE FROM gintags_reference ORDER BY tag_id DESC LIMIT 1";
+		$result = $this->db->query($query);
+		return $result;
+	}
+
 }
 
 ?>
