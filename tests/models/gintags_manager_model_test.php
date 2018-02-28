@@ -21,6 +21,7 @@ class Gintags_manager_model_test extends CIUnit_TestCase {
 
 	public function testInsertGintagNarrative() {
 		$data['tag'] = "Sample Tag Inserted";
+		$data['communications'] = "communications";
 		$data['tag_description'] = "Sample Tag Inserted";
 		$data['narrative_input'] = "Sample Tag Inserted";
 		$data['user'] = 56;
@@ -41,6 +42,7 @@ class Gintags_manager_model_test extends CIUnit_TestCase {
 	public function testUpdateGintagNarrative() {
 		$data['tag_id'] = $this->last_id;
 		$data['tag'] = "Sample Tag Updated";
+		$data['communications'] = "communications";
 		$data['tag_description'] = "Sample Description Updated";
 		$data['narrative_input'] = "Sample Narrative Input Updated";
 		$data['user'] = 56;
@@ -92,30 +94,50 @@ class Gintags_manager_model_test extends CIUnit_TestCase {
 
 	//Testing for invalid inputs
 
-	// public function testInvalidInsertGintagNarrative() {
-	// 	$data['tag'] = "什麽是";
-	// 	$data['tag_description'] = "什麽是";
-	// 	$data['narrative_input'] = "什麽是";
-	// 	$data['user'] = "什麽是";
-	// 	$insertGintagNarrative = $this->__gintags_manager_obj->insertGintagNarrative($data);
-	// 	$this->assertInternalType('string',$insertGintagNarrative);
-	// 	echo "Successfully Inserted Invalid";
-	// }
-
 	// public function testInvalidUpdateGintagNarrative() {
-
+	// 	$data['tag_id'] = "A";
+	// 	$data['tag'] = "TagForInvalid";
+	// 	$data['tag_description'] = "TagDescriptionForInvalid";
+	// 	$data['narrative_input'] = "TagNarrativeInputForInvalid";
+	// 	$data['user'] = "56";
+	// 	$insertGintagNarrative = $this->__gintags_manager_obj->updateGintagNarrative($data);
+	// 	$this->assertInternalType('string',$insertGintagNarrative);
 	// }
+
+	// public function testInvalidUpdateReference() {
+	// 	$data['tag_id'] = "A";
+	// 	$data['tag'] = "TagForInvalid";
+	// 	$insertGintagNarrative = $this->__gintags_manager_obj->updateGintagReference($data);
+	// 	$this->assertInternalType('string',$insertGintagNarrative);
+	// }
+
+	
 
 	// public function testInvalidDeleteGintagNarrative() {
-
+	// 	$data['id'] = "X";
+	// 	$deleteGintagNarrative = $this->__gintags_manager_obj->deleteGintagNarrative($data);
+	// 	$this->assertInternalType('string',$deleteGintagNarrative);
 	// }
 
 	// public function testInvalidCheckMultipleSite() {
-
+	// 	$numbers = array(
+	// 		"YYY",
+	// 		"AAA",
+	// 		"mmm",
+	// 		"hhh",
+	// 	);
+	// 	$checkMultipleSite = $this->__gintags_manager_obj->checkMultipleSite($numbers);
+	// 	$this->assertInternalType('array', $checkMultipleSite);
 	// }
 
 	// public function testInvalidGetGintagDetails() {
-
+	// 	$tag = array(
+	// 		"",
+	// 		"",
+	// 		""
+	// 	);
+	// 	$getGintagDetails = $this->__gintags_manager_obj->getGintagDetails($tag);
+	// 	$this->assertInternalType('array', $getGintagDetails);
 	// }
 
 

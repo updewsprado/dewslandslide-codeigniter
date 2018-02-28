@@ -130,6 +130,12 @@ class Gintags_manager_model extends CI_Model {
 		return $result;
 	}
 
+	public function updateGintagReference($data) {
+		$query = "UPDATE gintags_reference SET tag_name = '".$data['tag']."' WHERE tag_id = '".$data['tag_id']."'";
+		$result = $this->db->query($query);
+		return $result;
+	}
+
 }
 
 ?>
