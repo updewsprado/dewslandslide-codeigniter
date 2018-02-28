@@ -19,6 +19,12 @@ class Test extends CI_Controller {
 		$this->load->view('test/data_analysis/rainfall_plotter', $data);
 	}
 
+	public function chatterboxTest() {
+		$data['title'] = 'Chatterbox Test';
+		$this->load->view('templates/header', $data);
+		$this->load->view('test/chatterbox_beta', $data);
+	}
+
 }
 
 /* End of file pages.php */
