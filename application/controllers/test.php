@@ -7,11 +7,16 @@ class Test extends CI_Controller {
 		echo "Test Index";
 	}
 
-	public function releaseFormTest()
-	{
+	public function releaseFormTest() {
 		$data['title'] = 'Release Form Test';
 		$this->load->view('templates/header', $data);
-		$this->load->view('test/release_form_test', $data);
+		$this->load->view('test/release_form', $data);
+	}
+
+	public function rainfallPlotterTest() {
+		$data['title'] = 'Rainfall Plotter Test';
+		$this->load->view('templates/header', $data);
+		$this->load->view('test/data_analysis/rainfall_plotter', $data);
 	}
 
 }
