@@ -15,7 +15,6 @@
 
 		public function getShiftReleases($start, $end)
 		{
-
 			$this->db->select('public_alert_release.*, public_alert_event.*, site.name, membership.first_name AS mt_first, membership.last_name AS mt_last, m.first_name AS ct_first, m.last_name AS ct_last');
 			$this->db->from('public_alert_release');
 			$this->db->join('public_alert_event', 'public_alert_event.event_id = public_alert_release.event_id');
@@ -25,6 +24,7 @@
 			$this->db->where('public_alert_release.data_timestamp >', $start);
 			$this->db->where('public_alert_release.data_timestamp <=', $end);
 			$this->db->where('public_alert_event.status !=', 'routine ');
+			$this->db->where('public_alert_event.status !=', 'invalid ');
 			$this->db->order_by("data_timestamp", "desc");
 			$query = $this->db->get();
 			$result = $query->result_array();
@@ -63,8 +63,12 @@
 
 		public function getNarratives($event_id)
 		{
-			$this->db->where_in('event_id', $event_id);
-			$query = $this->db->get('narratives');
+			$this->db->select("narratives.*, site.name");
+			$this->db->from("narratives");
+			$this->db->join("public_alert_event", "public_alert_event.event_id = narratives.event_id" );
+			$this->db->join("site", "public_alert_event.site_id = site.id");
+			$this->db->where_in('narratives.event_id', $event_id);
+			$query = $this->db->get();
 			$result = $query->result_array();
 			return json_encode($result);
 		}
@@ -73,11 +77,35 @@
 		{
 			$this->db->where_in('event_id', $event_id);
 			$this->db->where('timestamp >=', $start);
-			$this->db->where('timestamp <=', $end);
+			if( $end != '' )$this->db->where('timestamp <=', $end);
 			$this->db->order_by("timestamp", "asc");
 			$query = $this->db->get('narratives');
 			$result = $query->result_array();
 			return json_encode($result);
+		}
+
+		public function getSensorColumns($site_code)
+		{
+			$this->db->select("name")->from("site_column")
+				->where("name LIKE '%$site_code%'")
+				->order_by("name");
+			$query = $this->db->get();
+			return json_encode($query->result_object());
+
+		}
+
+		public function getEvent($event_id)
+		{
+			$query = $this->db->get_where('public_alert_event', array("event_id" => $event_id));
+			return $query->result_object()[0];
+		}
+
+		public function getEmailCredentials($username)
+		{
+			$query = $this->db->get_where('membership', array('username' => $username));
+			if( $query->num_rows() == 0 ) $result = "No '" . $username . "' username on the database.";
+			else $result = $query->result_array()[0];
+			return $result;
 		}
 
 		public function insert($table, $data)
@@ -87,11 +115,59 @@
         	return $id;
     	}
 
+    	public function updateIfExistsElseInsert($table, $data, $on_update_fields)
+    	{
+
+    		$query = "INSERT INTO $table (";
+    		$query = $query . $this->delegate( array_keys($data) );
+    		$query = $query . ") VALUES (";
+    		$query = $query . $this->delegate(  array_values($data), true );
+    		$query = $query . ") ON DUPLICATE KEY UPDATE ";
+
+    		$i = 1;
+    		foreach ($on_update_fields as $key) 
+    		{
+    			$query = $query . $key . "=VALUES($key)";
+			}
+
+			$result = $this->db->query($query);
+			return $result;
+    	}
+
+    	function delegate($array, $isValues = false) 
+    	{
+    		$i = 1; $query = "";
+    		foreach ($array as $key) 
+    		{
+    			if( $isValues ) $query = $query . $this->db->escape($key);
+    			else $query = $query . $key;
+    			if(count($array) > $i) $query = $query . ", ";
+    			$i++;
+    		}
+
+    		return $query;
+    	}
+
     	public function update($column, $key, $table, $data)
 		{
 			$this->db->where($column, $key);
 			$this->db->update($table, $data);
 		}
+		
+		public function delete($table, $array)
+		{
+			$this->db->delete($table, $array); 
+		}
+
+		// SELECT r.release_id, r.event_id, r.data_timestamp, r.reporter_id_mt, r.reporter_id_ct 
+		// FROM senslopedb.`public_alert_release` r
+		// WHERE r.event_id IN
+		// (
+		//     SELECT e.event_id FROM senslopedb.public_alert_event e
+		//     WHERE e.status != 'routine' OR e.status != 'invalid'
+		// )
+		// AND r.data_timestamp > '2017-01-12 07:30:00' and r.data_timestamp < '2017-01-12 20:00:00'
+		// ORDER BY r.release_id DESC
 
 
 		// TEST CASE

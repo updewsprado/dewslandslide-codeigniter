@@ -9,10 +9,6 @@
      
  -->
 
-<?php   
-    $events = json_decode($events);
-?>
-
 <script type="text/javascript" src="../js/dewslandslide/public_alert/monitoring_events_all.js"></script>
 <link rel="stylesheet" type="text/css" href="../css/dewslandslide/public_alert/monitoring_events_all.css">
 
@@ -46,25 +42,7 @@
                             <th>Event End</th>
                         </tr>
                     </tfoot>
-                    <tbody>
-                    <?php
-                        foreach ($events as $row) 
-                        {
-                            $name = "(" . strtoupper($row->name) . ")";
-                            $name = $row->sitio != NULL ? $name . " " . $row->sitio . ", " : $name;
-                            $name = $name . " " . $row->barangay . ", " . $row->municipality . ", " . $row->province;
-
-                            echo "<tr class='". $row->status ."'>";
-                            echo "<td><a href='" . base_url() . "public_alert/monitoring_events/" . $row->event_id . "'>" . $row->event_id."</a></td>";
-                            echo "<td>".$name."</td>";
-                            echo "<td>".strtoupper($row->status)."</td>";
-                            echo "<td>".$row->internal_alert_level."</td>";
-                            echo "<td>".date("j M Y, H:i:s" , strtotime($row->event_start))."</td>";
-                            echo "<td>"; echo $row->validity == NULL ? "-</td>" : date("j M Y, H:i:s" , strtotime($row->validity))."</td>";
-                            echo "</tr>";         
-                        }
-                    ?>
-                    </tbody>
+                    <tbody></tbody>
               </table>
             </div></div>
         </div>

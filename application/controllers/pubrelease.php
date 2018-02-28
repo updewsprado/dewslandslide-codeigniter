@@ -28,13 +28,16 @@ class Pubrelease extends CI_Controller {
 
 			case 'monitoring_events_individual':
 				$id = $this->uri->segment(3);
-				//echo $id;
-				//$id = 3;
+				$release_id = $this->uri->segment(4);
+				if($release_id != NULL) $data['to_highlight'] = $release_id;
+				else $data['to_highlight'] = null;
+
 				$data['event'] = $this->pubrelease_model->getEvent($id);
-				// if( $data['event'] == "[]") {
-				// 	show_404();
-				// 	break;
-				// }
+				if( $data['event'] == "[]") {
+				 	show_404();
+				 	break;
+				}
+
 				$data['title'] = "DEWS-Landslide Individual Monitoring Event Page";
 				$data['releases'] = $this->pubrelease_model->getAllRelease($id);
 				$data['triggers'] = $this->pubrelease_model->getAllEventTriggers($id);
@@ -51,15 +54,102 @@ class Pubrelease extends CI_Controller {
 				// $data['releases'] = $temp['releases'];				
 				
 				$data['title'] = "DEWS-Landslide Monitoring Events Table";
-				$data['events'] = $this->pubrelease_model->getAllEvents();
-		    	$data['releases'] = $this->pubrelease_model->getAllReleasesWithSite();
 				break;
+
+			case 'monitoring_faq': $data['title'] = "DEWS-Landslide Monitoring FAQ";
 		}
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
 		$this->load->view('public_alert/' . $page, $data);
 		$this->load->view('templates/footer');
+	}
+
+	public function getEvent($event_id)
+	{
+		$result = $this->pubrelease_model->getEvent($event_id);
+		echo "$result";
+	}
+
+	public function getAllEventsAsync()
+	{
+		$draw = $_POST["draw"];//counter used by DataTables to ensure that the Ajax returns from server-side processing requests are drawn in sequence by DataTables
+		$orderByColumnIndex  = $_POST['order'][0]['column'];// index of the sorting column (0 index based - i.e. 0 is the first record)
+		$orderBy = $_POST['columns'][$orderByColumnIndex]['data'];//Get name of the sorting column from its index
+		$orderType = $_POST['order'][0]['dir']; // ASC or DESC
+		$start  = $_POST["start"];//Paging first record indicator.
+		$length = $_POST['length'];//Number of records that the table can display in the 
+		                           //current draw
+		$extraFilter = $_POST['extra_filter'];
+
+		$recordsTotal = $this->pubrelease_model->getEventCount();
+
+		function addTableName($x)
+		{
+			switch ($x) {
+				case 'event_id':
+				case 'status':
+				case 'event_start':
+				case 'validity':
+					$x = "public_alert_event." . $x;
+					break;
+				case 'name':
+				case 'id':
+					$x = "site." . $x;
+					break;
+				case 'internal_alert_level': 
+					$x = "public_alert_release." . $x;
+					break;
+			}
+
+			return $x;
+		}
+
+		$orderBy = addTableName($orderBy);
+
+		if( !empty($_POST['search']['value']) || $extraFilter['hasFilter'] != false )
+		{
+			$search = [];
+			if( $_POST['search']['value'] != '' )
+			{
+				for( $i=0; $i<count( $_POST['columns'] ); $i++ ) 
+				{
+					$x = addTableName( $_POST['columns'][$i]['data'] );
+		            $search[ $x ] = $_POST['search']['value'];
+		        }
+		    }
+	        $search = count($search) == 0 ? null : $search;
+
+	        $filter = [];
+	        if( $extraFilter['status'] != null ) $filter[ addTableName('status') ] = $extraFilter['status'];
+	        if( $extraFilter['site'] != null ) $filter[ addTableName('id') ] = $extraFilter['site'];
+	        $filter = count($filter) == 0 ? null : $filter;
+
+	        $recordsFiltered = $this->pubrelease_model->getEventCount($search, $filter);
+
+	        $data = $this->pubrelease_model->getAllEvents($search, $filter, $orderBy, $orderType, $start, $length);
+		}
+		else {
+			$data = $this->pubrelease_model->getAllEvents(null, null, $orderBy, $orderType, $start, $length);
+
+			$recordsFiltered = $recordsTotal;
+		}
+
+		$response = array (
+	        "draw" => $draw,
+	        "recordsTotal" => $recordsTotal,
+	        "recordsFiltered" => $recordsFiltered,
+	        "data" => $data
+	    );
+
+		// $result = $this->pubrelease_model->getAllEvents();
+		echo json_encode($response);
+	}
+
+	public function getSites()
+	{
+		$result = $this->pubrelease_model->getSites();
+		echo "$result";
 	}
 
 	public function getLastSiteEvent($site_id)
@@ -92,12 +182,20 @@ class Pubrelease extends CI_Controller {
 		echo "$result";
 	}
 
+	public function getFeatureNames($site_id, $type)
+	{
+		$result = $this->pubrelease_model->getFeatureNames($site_id, $type);
+		echo "$result";
+	}
+
 	public function insert()
 	{
 		$status = $_POST['status'];
 		$latest_trigger_id = NULL;
 		$site_id = $_POST['site'];
+		if( (int) $site_id == 0 ) $site_id = $this->pubrelease_model->getSiteID($_POST['site']);
 		$event_validity = NULL;
+		$release_id = NULL;
 
 		if( $status == 'new' )
 		{
@@ -145,7 +243,7 @@ class Pubrelease extends CI_Controller {
 			$a = $this->pubrelease_model->getEventValidity($event_id);
 			$event_validity = $a[0]->validity;
 
-			if( isset($_POST['extend_ND']) )
+			if( isset($_POST['extend_ND']) || isset($_POST['extend_rain_x']) )
 			{
     			$data['validity'] = date("Y-m-d H:i:s", strtotime($event_validity) + 4 * 3600);
     			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', $data);
@@ -187,6 +285,12 @@ class Pubrelease extends CI_Controller {
 			echo "Routine";
 		}
 
+		// Enter here insert non-triggering features if any
+		if( isset($_POST['nt_feature_groups']) )
+		{
+			$this->saveManifestation($_POST['nt_feature_groups'], 'nt_feature_groups', $_POST, $release_id);
+		}
+		
 		//Set the public release all cache to dirty
 		$this->setPublicReleaseAllDirty();
 	}
@@ -244,7 +348,7 @@ class Pubrelease extends CI_Controller {
 
 	public function saveTriggers($post, $event_id, $release_id, $event_validity)
 	{
-		$lookup = array( "g" => "trigger_ground_1", "G" => "trigger_ground_2", "s" => "trigger_sensor_1", "S" => "trigger_sensor_2", "R" => "trigger_rain", "E" => "trigger_eq", "D" => "trigger_od" );
+		$lookup = array( "g" => "trigger_ground_1", "G" => "trigger_ground_2", "s" => "trigger_sensor_1", "S" => "trigger_sensor_2", "m" => "trigger_manifestation", "M" => "trigger_manifestation", "R" => "trigger_rain", "E" => "trigger_eq", "D" => "trigger_od" );
 		$list = [];
 		if( $post['trigger_list'] != NULL )
 		{
@@ -285,6 +389,9 @@ class Pubrelease extends CI_Controller {
 					$od['is_lgu'] = isset($post['lgu']) ? true : false;
 					$od['reason'] = $post['reason'];
 					$this->pubrelease_model->insert('public_alert_on_demand', $od);
+				} else if( strtoupper($entry['type']) == "M" )
+				{	
+					$this->saveManifestation($post['feature_groups'], "feature_groups", $post, $release_id, $entry['type']);
 				}
 			}
 
@@ -301,6 +408,45 @@ class Pubrelease extends CI_Controller {
 		}
 	}
 
+	public function saveManifestation ($group, $group_name, $post, $release_id = null, $trigger = 1)
+	{
+		if( strpos($group_name, 'nt') !== false ) $group_base = "nt_";
+		else $group_base = "";
+
+		foreach ($group as $field) 
+		{
+			if($field == "base" || $field == "nt_base") $id = "";
+			else $id = preg_replace('/n?t?_?feature/i', "", $field);
+
+			$lookup = ["feature_name", "feature_type"];
+			$feature = array('site_id' => $post['site']);
+			foreach ($lookup as $key) 
+			{
+				$feature[$key] = is_null($post[$group_base . $key . $id]) || $post[$group_base . $key . $id] == "" ? null : $post[$group_base . $key . $id];
+			}
+			$feature_id = $this->pubrelease_model->insertIfNotExists('manifestation_features', $feature);
+
+			switch ($trigger) {
+				case 'm': $op_trigger = 2; break;
+				case 'M': $op_trigger = 3; break;
+				default: $op_trigger = 0; break;
+			}
+			$manifestation = array(
+				"release_id" => $release_id,
+				"feature_id" => $feature_id,
+				"validator" => $post['manifestation_validator'] == "" ? null : $post['manifestation_validator'],
+				"op_trigger" => $op_trigger
+			);
+			$lookup2 = array("feature_narrative" => "narrative", "feature_remarks" => "remarks", 
+				"feature_reporter" => "reporter", "observance_timestamp" => "ts_observance");
+			foreach ($lookup2 as $post_name => $db_name) {
+				$temp = isset($post[$group_base . $post_name . $id]) ? $post[$group_base . $post_name . $id] : null;
+				$manifestation[$db_name] = $temp !== "" ? $temp : null;
+			}
+			$this->pubrelease_model->insert('public_alert_manifestation', $manifestation);
+		}
+	}
+
 
 	public function update()
 	{
@@ -313,6 +459,19 @@ class Pubrelease extends CI_Controller {
 				$data['timestamp'] = $_POST[ $trigger[0] ];
 				$data['info'] = $_POST[ $trigger[0] . "_info" ];
 				$this->pubrelease_model->update('trigger_id', $trigger[1], 'public_alert_trigger', $data);
+
+				if( $trigger[0] == "trigger_od") {
+					$data2['is_llmc'] = isset($_POST['llmc']) ? true : false; 
+					$data2['is_lgu'] = isset($_POST['lgu']) ? true : false;
+					$data2['reason'] = $_POST['reason'];
+					$this->pubrelease_model->update('trigger_id', $trigger[1], 'public_alert_on_demand', $data2);	
+				}
+				else if( $trigger[0] == "trigger_eq") {
+					$data2['magnitude'] = $_POST['magnitude'];
+					$data2['latitude'] = $_POST['latitude'];
+					$data2['longitude'] = $_POST['longitude'];
+					$this->pubrelease_model->update('trigger_id', $trigger[1], 'public_alert_eq', $data2);
+				}
 			}
 		}
 	}

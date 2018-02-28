@@ -50,10 +50,15 @@
 		public function getResponses($public_alert, $internal_alert)
 		{
 			$internal_alert = str_replace("0", "", substr($internal_alert, 2));
+			$internal_alert = preg_replace("/[r]?x/", "", $internal_alert, 1);
 			$internal_alert = $public_alert . $internal_alert;
 
 			$query = $this->db->get_where('lut_responses', array('public_alert_level' => $public_alert));
-			$query2 = $this->db->get_where('lut_alert_descriptions', array('internal_alert_level' => $internal_alert));
+			
+			$this->db->select("*")->from("lut_alert_descriptions");
+			$this->db->where("internal_alert_level LIKE '$internal_alert' COLLATE utf8_bin");
+			$query2 = $this->db->get();
+
 			$query3 = $this->db->get('lut_triggers');
 			$data['response'] = $query->result_array()[0];
 			$data['description'] = $query2->result_array()[0];
@@ -96,14 +101,18 @@
 					$query = $this->db->get('public_alert_eq');
 
 					$arr['eq_info'] = array_pop($query->result_array());
-					break;
 				} else if ($arr['trigger_type'] == 'D') 
 				{
 					$this->db->where('trigger_id', $arr['trigger_id']);
 					$query = $this->db->get('public_alert_on_demand');
 
 					$arr['od_info'] = array_pop($query->result_object());
-					break;
+				} else if (strtoupper($arr['trigger_type']) == 'M') 
+				{
+					$this->db->where('release_id', $arr['release_id']);
+					$query = $this->db->get('public_alert_manifestation');
+
+					$arr['manifestation_info'] = array_pop($query->result_object());
 				}
 
 			}
@@ -117,10 +126,24 @@
 			return count($query->result_array()) > 0 ? json_encode($query->result_array()[0]) : null;
 		}
 
+		public function getPreviousNonA0Release($event_id)
+		{
+			$query = $this->db->select("internal_alert_level")
+						->from("public_alert_release")
+						->where("event_id", $event_id)
+						->where("internal_alert_level NOT IN ('A0', 'ND')")
+						->order_by("data_timestamp", 'DESC')
+						->limit(1)
+						->get();
+			return $query->result_array()[0]['internal_alert_level'];
+		}
+
 		public function getEmailCredentials($username)
 		{
 			$query = $this->db->get_where('membership', array('username' => $username));
-			return $query->result_array()[0];
+			if( $query->num_rows() == 0 ) $result = "No '" . $username . "' username on the database.";
+			else $result = $query->result_array()[0];
+			return $result;
 		}
 
 	}

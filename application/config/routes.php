@@ -38,16 +38,111 @@
 |
 */
 
+/**
+ * Monitoring/Public Alert Routes
+ */
 $route['home'] = "monitoring/index";
 $route['dashboard'] = "monitoring/index";
-$route['public_alert/release_form'] = "pubrelease/index/alert_release_form";
-$route['public_alert/monitoring_events'] = "pubrelease/index/monitoring_events_all";
-$route['public_alert/monitoring_events/(:num)'] = "pubrelease/index/monitoring_events_individual/$1";
+$route['monitoring/release_form'] = "pubrelease/index/alert_release_form";
+$route['monitoring/events'] = "pubrelease/index/monitoring_events_all";
+$route['monitoring/events/(:num)/(:num)'] = "pubrelease/index/monitoring_events_individual/$1/$2";
+$route['monitoring/events/(:num)'] = "pubrelease/index/monitoring_events_individual/$1";
+$route['monitoring/faq'] = "pubrelease/index/monitoring_faq";
 
-$route['public_alert/bulletin/view/(:any)'] = "bulletin/view/$1";
-$route['public_alert/bulletin/build/(:num)'] = "bulletin/build/$1";
-$route['public_alert/bulletin/edit/(:num)'] = "bulletin/edit/$1";
-$route['public_alert/bulletin/main/(:num)/(:any)'] = "bulletin/main/$1/$2";
+$route['monitoring/issues_and_reminders'] = "issues_and_reminders";
+
+/**
+ * Bulletin Pages Routes
+ */
+$route['monitoring/bulletin/view/(:any)'] = "bulletin/view/$1";
+$route['monitoring/bulletin/build/(:num)'] = "bulletin/build/$1";
+$route['monitoring/bulletin/edit/(:num)'] = "bulletin/edit/$1";
+$route['monitoring/bulletin/main/(:num)/(:any)'] = "bulletin/main/$1/$2";
+
+/**
+ * Reports Pages Routes
+ */
+$route['reports/accomplishment/form'] = "accomplishment/index";
+$route['reports/accomplishment/checker'] = "accomplishment/checker";
+$route['reports/site_maintenance/form'] = "sitemaintenance/index";
+$route['reports/site_maintenance/all'] = "sitemaintenance/all";
+$route['reports/site_maintenance/(:num)'] = "sitemaintenance/individual/$1";
+
+/**
+ * Communications Pages Routes
+ */
+$route['communications/chatterbox'] = "chatterbox/index";
+$route['communications/responsetracker'] = "responsetracker/index";
+$route['communications/chatterbox/updatecontacts'] = "chatterbox/updatecontacts";
+$route['communications/chatterbox/gintagcontacts'] = "chatterbox/get_comm_contacts_gintag";
+$route['communications/chatterbox/addcontact'] = "chatterbox/addcontacts";
+
+/**
+ * NEW Chatterbox **BETA**
+ */
+
+$route['communications/chatterbox_beta'] = "chatterbox_beta/index";
+$route['communications/ewi_template'] = "ewi_template/index";
+$route['communications/fetchalltemplate'] = "ewi_template/getAllTemplates";
+$route['communications/fetchallbackbonetemplate'] = "ewi_template/getAllBackboneTemplates";
+$route['communications/addtemplate'] = "ewi_template/addTemplate";
+$route['communications/updatetemplate'] = "ewi_template/updateTemplate";
+$route['communications/deletetemplate'] = "ewi_template/deleteTemplate";
+$route['communications/deletebackbone'] = "ewi_template/deleteBackboneMessage";
+$route['communications/getkeypointsviacategory'] = "ewi_template/getKeyViaCategory";
+$route['communications/addbackbonemessage'] = "ewi_template/addBackboneMessage";
+$route['communications/updatebackbonemessage'] = "ewi_template/updateBackboneMessage";
+$route['communications/getkeyinputviatriggertype'] = "ewi_template/getKeyInputViaTriggerType";
+$route['communications/getbackboneviastatus'] = "ewi_template/getBbViaAlertStatus";
+$route['communications/getrecommendedresponse'] = "ewi_template/getRecommendedResponse";
+$route['communications/getRoutine'] = "chatterbox_beta/getRoutineTemplate";
+
+$route['gintags/manager'] = "gintags_manager/index";
+
+/**
+* General Information Tagging
+*/
+
+$route['generalinformation/index'] = "gintagshelper/index";
+$route['generalinformation/insertGinTags'] = "gintagshelper/ginTagsEntry";
+$route['generalinformation/removeGintagsEntryViaChatterbox'] = "gintagshelper/removeGintagsEntryViaChatterbox";
+$route['generalinformation/removeIndividualGintagEntryViaChatterbox'] = "gintagshelper/removeIndiGintagsChatterbox";
+$route['generalinformation/getGintagsViaTag'] = "gintagshelper/getGintagsViaTag";
+$route['generalinformation/initialize'] = "gintagshelper/initialize";
+$route['generalinformation/getanalytics'] = "gintagshelper/getAnalytics";
+$route['narrativeAutomation/insert'] = "narrative_generator/insertEwiNarrative";
+$route['narrativeautomation/checkack'] = "narrative_generator/checkForAcknowledgement";
+$route['generalinformation/removeGintagsId'] = "gintagshelper/removeGintagsByGintagsId";
+$route['generalinformation/updateGintagsId'] = "gintagshelper/updateGintagsByGintagsId";
+
+/**
+ * Data Analysis Pages Routes
+ */
+
+$route['data_analysis/node'] = "node_level_page";
+$route['data_analysis/node/(:any)/(:any)/(:any)/(:any)'] = "node_level_page";
+$route['data_analysis/column'] = "site_level_page";
+$route['data_analysis/column/(:any)'] = "site_level_page";
+$route['data_analysis/surficial'] = "surficial_page";
+$route['data_analysis/subsurface'] = "subsurface_page";
+$route['data_analysis/sensor_overview'] = "sensor_overview_page";
+$route['data_analysis/nodereport'] = "node_report_page";
+$route['data_analysis/site_analysis'] = "site_analysis_page";
+$route['data_analysis/rainfall_scanner'] = "rainfall_scanner_page";
+$route['data_analysis/Eos_onModal/(:any)/(:any)/(:any)/(:any)'] = "Eos_modal";
+$route['data_analysis/manifestations'] = "manifestations";
+$route['data_analysis/manifestations/(:any)'] = "manifestations/individual_site/$1";
+
+/**
+ * Data Analysis Pages Routes
+ */
+
+$route['staff/all'] = "staff_profile/index";
+$route['staff/get_all_staff'] = "staff_profile/getAllStaffProfile";
+$route['staff/profile'] = "staff_profile/getStaffProfile";
+$route['staff/add_profile'] = "staff_profile/addNewProfile";
+$route['staff/update_profile'] = "staff_profile/updateStaffProfile";
+$route['staff/change_profile_pic'] = "staff_profile/changeProfilePic";
 
 //Gold
 //$route['gold'] = "monitoring/index";
@@ -86,3 +181,9 @@ $route['404_override'] = '';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
+
+/**
+ * Public website Pages Routes
+ */
+
+$route['public_website/analysis_graph'] = "public_website_graphs";

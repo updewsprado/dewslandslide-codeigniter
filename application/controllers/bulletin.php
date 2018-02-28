@@ -56,31 +56,41 @@
 				}
 			}
 
-			$isND = substr($temp->internal_alert_level, 0, 2);
+			$isND = substr($temp->internal_alert_level, 0, 2) == "ND" ? true : false;
+			$isg0 = stripos($temp->internal_alert_level, 'g0') > -1 ? true : false;
+			$iss0 = stripos($temp->internal_alert_level, 's0') > -1 ? true : false;
+			$isR0 = strpos($temp->internal_alert_level, 'R0') > -1 ? true : false;
+			$ism0 = stripos($temp->internal_alert_level, 'm0') > -1 ? true : false;
+
+			$data['isND'] = $isND; $data['isg0'] = $isg0;
+			$data['iss0'] = $iss0; $data['isR0'] = $isR0;
+			$data['ism0'] = $ism0;
+
 			if( $x != 'A0' )
 			{
 				$data['validity'] = $computed_validity;
 				$flag = false;
 				
 				// Adjust timestamps if ND or X0 if end of validity
-				if( $isND == "ND" || strpos($temp->internal_alert_level, 'g0') !== false || strpos($temp->internal_alert_level, 's0') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
+				if( $isND || $isg0 || $iss0 || $isR0 || $ism0 || stripos($temp->internal_alert_level, 'rx') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
 				$data['validity'] = $flag == true ? date( "Y-m-d H:i:s", strtotime($temp->data_timestamp) + 4.5 * 3600) : $computed_validity;
+			} else 
+			{
+				$data['previous_internal_alert'] = $this->bulletin_model->getPreviousNonA0Release($temp->event_id);
 			}
-
+			
+			// $data['validity'] = json_decode($temp_3)[0]->validity;
 			return $this->load->view('public_alert/bulletin_main', $data, $bool);
 		}
 
-		public function edit($release_id)
+		public function edit($release_id, $edits = 0)
 		{
-			$this->is_logged_in();
-
 			$data['bulletin'] = $this->main($release_id, TRUE);
-			$data['title'] = $page;
+			$data['title'] = 'DEWS-Landslide Bulletin Edit Page';
 
-			$this->load->view('templates/header', $data);
-			$this->load->view('templates/nav');
-			$this->load->view('public_alert/bulletin_editor', $data);
-			$this->load->view('templates/footer');	
+			$data['edits'] = $edits;
+
+			$this->load->view('public_alert/bulletin_editor', $data);	
 		}
 
 		public function build($release_id)
@@ -97,19 +107,59 @@
 		}
 
 		public function view($str)
-		{
-			$data['str'] = $str;
-			$this->load->view('public_alert/bulletin_viewer', $data);
+		{	
+			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' || base_url() == "http://www.dewslandslide.com/") $file = $_SERVER['DOCUMENT_ROOT'] . "/bulletin.pdf";
+			else $file = $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin.pdf";
+			header('HTTP/1.0 200 OK');  
+			header('Content-Type: application/pdf');
+			header('Content-Disposition: attachment; filename="' . $str . '"');
+			header('Content-Transfer-Encoding: binary');
+			header('Accept-Ranges: bytes');
+			readfile($file);
 		}
 
-		public function mail()
+		public function mail($array = null)
 		{
-			// FOR WINDOWS
-			// require_once("C:\\xampp\PHPMailer\PHPMailerAutoload.php");
-			// FOR LINUX
-			require_once("/usr/share/php/PHPMailer/PHPMailerAutoload.php");
-			
-			$cred = $this->bulletin_model->getEmailCredentials('dewslmonitoring');
+			if( $array != null ) {
+				$recipients = $array->recipients;
+				$subject = $array->subject;
+				$text = $array->text;
+				$filename = $array->filename;
+			} else {
+				$recipients = $_POST['recipients'];
+				$subject = $_POST['subject'];
+				$text = $_POST['text'];
+				$filename = $_POST['filename'];
+			}
+
+			if (base_url() == "http://www.dewslandslide.com/") {
+				// FOR LINUX
+				$path = "/usr/share/php/PHPMailer/PHPMailerAutoload.php";
+				$cred = $this->bulletin_model->getEmailCredentials('dewslmonitoring');
+			}	
+			else
+			{
+				if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+				{
+					// FOR WINDOWS
+					$path = "C:\\xampp\PHPMailer\PHPMailerAutoload.php";
+				}
+				else $path = "/usr/share/php/PHPMailer/PHPMailerAutoload.php";
+				$cred = $this->bulletin_model->getEmailCredentials('dynaslopeswat');
+			}
+
+			if(is_string($cred)) { echo $cred; return; }
+
+			if (file_exists($path) && is_readable($path)) {
+				require_once($path);
+			} else {
+				if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') $path = "C:\\xampp";
+				else $path = "/usr/share/php/";
+				echo "PHPMailer does not exists. Please download and put PHPMailer folder on " . $path;
+				return;
+			}
+
+			if(count($recipients) == 0) { echo "No email recipients entered."; return; }
 
 			$mail = new PHPMailer;
 
@@ -129,19 +179,23 @@
 			$mail->SMTPSecure = 'ssl';
 			$mail->Port = 465;
 			$mail->setFrom($cred['email'], 'DEWS-L Monitoring');
-			$mail->addAddress('rusolidum@phivolcs.dost.gov.ph');
-			$mail->addAddress('asdaag@yahoo.com');
-			$mail->addAddress('kevindhaledelacruz@gmail.com');
+
+			foreach ($recipients as $recipient) {
+				$mail->addAddress($recipient);				
+			}
+
 			$mail->addReplyTo($cred['email'], 'DEWS-L Monitoring');
 			$mail->addCustomHeader( 'In-Reply-To', '<' . $cred['email'] . '>' );
 			$mail->isHTML(true);
 
-			$mail->Subject = $_POST['subject'];
-			$mail->Body    = $_POST['text'];
+			$mail->Subject = $subject;
+			$mail->Body    = $text;
 			//$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
+			// if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') $file = $_SERVER['DOCUMENT_ROOT'] . "/bulletin.pdf";
+			// else $file = $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin.pdf";
 			$file = $_SERVER['DOCUMENT_ROOT'] . "/bulletin.pdf";
-			$mail->addAttachment($file, $_POST['filename'], 'base64', 'application/pdf');
+			$mail->addAttachment($file, $filename, 'base64', 'application/pdf');
 
 			if(!$mail->send()) {
 			    echo 'Message could not be sent.';
@@ -182,6 +236,15 @@
 			return $timestamp;
 		}
 
+		public function test($arr)
+		{
+			$arrayName = (object) array('recipients' => [$arr], 
+				'subject' => "test",
+				'text' => "send",
+				'filename' => 'test');
+			$this->mail($arrayName);
+		}
+
 
 		public function saveEdit()
 		{
@@ -200,23 +263,35 @@
 			fclose($file);
 		}
 
-		public function run_script($id)
+		public function run_script($id, $isEdited = 0)
 		{
+			$edits = $_GET['edits'];
 
 			if (base_url() == "http://localhost/") 
 			{
-				$command = $_SERVER['DOCUMENT_ROOT'] . "/js/third-party/phantomjs/phantomjs" . " " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "public_alert/bulletin/build/" . $id;
-
+				if( $isEdited == 0 )
+					$command = $_SERVER['DOCUMENT_ROOT'] . "/js/third-party/phantomjs/phantomjs" . " " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/build/" . $id;
+				else {
+					$command = $_SERVER['DOCUMENT_ROOT'] . "/js/third-party/phantomjs/phantomjs" . " " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/edit/" . $id . " " . $edits;
+				}
+				
 				$response = exec( $command );
 
 			} 
 			else 
 			{
-				$command = "phantomjs " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "public_alert/bulletin/build/" . $id;
+				if( $isEdited == 0 )
+					$command = "phantomjs " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/build/" . $id;
+				else $command = "phantomjs " . $_SERVER['DOCUMENT_ROOT'] . "/js/dewslandslide/public_alert/bulletin_maker.js " . base_url() . "monitoring/bulletin/edit/" . $id . " " . $edits;
 
 				$response = exec( $command );
 			}
 
+			//$this->view($id . ".pdf");
+
+			// $doc = file_put_contents($_SERVER['DOCUMENT_ROOT']. "/temp/charts_render/" . $id . ".pdf", file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/bulletin.pdf"));
+			// echo "Finished";
+			
 			echo $response;
 		}
 

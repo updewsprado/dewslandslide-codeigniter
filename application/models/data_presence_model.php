@@ -228,6 +228,7 @@ class Data_presence_Model extends CI_Model
 		
 		$date_string = "-$days days";
 		$date_from =  "'" . date('Y-m-d H:i:s',strtotime($date_string)) . "'";
+
 		
 		$dbSelected = $this->load->database($curdb, TRUE);
 		$sitesAll = $dbSelected->query("SELECT name FROM site_column");	

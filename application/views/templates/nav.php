@@ -18,30 +18,38 @@
                     <ul class="dropdown-menu">
                         <li class="dropdown-header">Site Alerts</li>
                         <li><a href="<?php echo base_url(); ?>dashboard">Monitoring Dashboard</a></li>
-                        <li><a href="<?php echo base_url(); ?>public_alert/release_form">Early Warning Release Form</a></li>
-                        <li><a href="<?php echo base_url(); ?>public_alert/monitoring_events">Monitoring Events Table</a></li>
+                        <li><a href="<?php echo base_url(); ?>monitoring/release_form">Early Warning Release Form</a></li>
+                        <li><a href="<?php echo base_url(); ?>monitoring/events">Monitoring Events Table</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
-                        <li><a href="<?php echo base_url(); ?>gold/chatterbox">Chatter Box</a></li>
+                        <li><a href="<?php echo base_url(); ?>communications/chatterbox_beta">Chatterbox</a></li>
+                        <li><a href="<?php echo base_url(); ?>communications/ewi_template">Early Warning Information Template Creator</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>gold/publicrelease/faq">Primer and FAQs</a></li>
+                        <li class="dropdown-header">Miscellaneous</li>
+                        <li><a href="<?php echo base_url(); ?>monitoring/faq">Manuals, Primer, and FAQs</a></li>
+                        <li><a href="<?php echo base_url(); ?>monitoring/issues_and_reminders">Monitoring Issues and Reminders</a></li>
+                        <li><a href="<?php echo base_url(); ?>gintags/manager"><span class="text-primary">GINTAGs Manager <span class="text-warning" style="color: #f2ff45"><i>*NEW*</i></span></span></a></li>
                     </ul>
                 </li>
                 
                 <li class="dropdown dropdown-nav">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Analysis</a>
                     <ul class="dropdown-menu">
-                        <li class="dropdown-header">Sensors and Rain Gauges</li>
-                        <li><a href="<?php echo base_url(); ?>gold/monitoring">Overview</a></li>
-                        <li><a href="<?php echo base_url(); ?>gold/site">Site Level</a></li>
-                        <li><a href="<?php echo base_url(); ?>gold/node">Node Level</a></li>
+                       <li class="dropdown-header">Sensors and Rain Gauges</li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/sensor_overview">Overview</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/site_analysis">Site Analysis</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/column">Column Level</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/node">Node Level</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>gold/chartlist">Subsurface Data</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/surficial">Surficial Data</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>gold/GroundMeas">Surficial Data</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/rainfall_scanner">Rainfall Scanner</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/manifestations">Manifestations of Movement Page</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
-                        <li><a href="<?php echo base_url(); ?>gold/responsetracker">Response Tracker</a></li>
+                        <li><a href="<?php echo base_url(); ?>communications/responsetracker">Response Tracker</a></li>
+                        <li><a href="<?php echo base_url(); ?>generalinformation/index">Generic Information Tags</a></li>
                     </ul>
                 </li>
 
@@ -49,28 +57,48 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports</a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-header">Node Status</li>
-                        <li><a href="<?php echo base_url(); ?>gold/nodereport">Update Form</a></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/nodereport">Update Form</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Accomplishment and Narratives</li>
-                        <li><a href="<?php echo base_url(); ?>gold/accomplishmentreport">Filing Form and Report Generator</a></li>
+                        <li><a href="<?php echo base_url(); ?>reports/accomplishment/form">Filing Form and Report Generator</a></li>
+                        <li><a href="<?php echo base_url(); ?>reports/accomplishment/checker">Shift Events and Releases Checker</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Site Maintenance</li>
-                        <li><a href="<?php echo base_url(); ?>gold/sitemaintenancereport">Filing Form</a></li>
-                        <li><a href="<?php echo base_url(); ?>gold/sitemaintenancereport/all">All Reports Table</a></li>
+                        <li><a href="<?php echo base_url(); ?>reports/site_maintenance/form">Filing Form</a></li>
+                        <li><a href="<?php echo base_url(); ?>reports/site_maintenance/all">All Reports Table</a></li>
                     </ul>
                 </li>
 
                  <li class="dropdown dropdown-nav">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span>&ensp;<?php echo $first_name; ?></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span>&ensp;<span id="user_name"><?php echo $first_name; ?></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#"><small><span class="glyphicon glyphicon-user"></span></small>&ensp;Profile</a></li>
                         <li><a href="#"><small><span class="glyphicon glyphicon-envelope"></span></small>&ensp;Inbox</a></li>
                         <li><a href="#"><small><span class="glyphicon glyphicon-cog"></span></small>&ensp;Settings</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="logout"><small><span class="glyphicon glyphicon-off"></span></small>&ensp;Log Out</a></li>
+                        <li><a href="../../staff/all"><small><span class="glyphicon glyphicon-info-sign"></span></small>&ensp;Staff Profile</a></li>
+                        <li><a href="../../logout"><small><span class="glyphicon glyphicon-off"></span></small>&ensp;Log Out</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
+<div hidden="hidden"><input id="current_user_id" type="number" value="<?php echo $user_id; ?>"></div>
+
+<div class="modal fade js-loading-bar" id="loading" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="progress progress-popup">
+                    <div class="progress-bar progress-bar-striped active" style="width: 100%">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() { $(".dropdown-toggle").dropdown(); });
+</script>

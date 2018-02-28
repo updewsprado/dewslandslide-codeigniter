@@ -11,11 +11,12 @@
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/public_alert/monitoring_events_individual.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/public_alert/temp.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/public_alert/bulletin.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/dewslandslide/public_alert/monitoring_events_individual.css">
+<script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 
 <?php  
-
 	$event = array_pop(json_decode($event));
 	$releases = json_decode($releases);
 	$triggers = json_decode($triggers);
@@ -42,7 +43,7 @@
 
 	function format($type, $timestamp)
 	{
-		$lookup = array('R' => 'Rainfall (R)' , 'E' => 'Earthquake (E)', 'D' => 'On-demand (D)', 'g' => 'Ground data movement (g/L2)', 'G' => 'Ground data movement (G/L3)', 's' => 'Sensor data movement (s/L2)', 'S' => 'Sensor data movement (S/L3)');
+		$lookup = array('R' => 'Rainfall (R)' , 'E' => 'Earthquake (E)', 'D' => 'On-demand (D)', 'g' => 'Surficial data movement (g/L2)', 'G' => 'Surficial data movement (G/L3)', 's' => 'Subsurface data movement (s/L2)', 'S' => 'Subsurface data movement (S/L3)', 'm' => 'Manifestation (m)', 'M' => 'Manifestation (M)');
 		return $lookup[$type] . ' alert triggered on ' . date("F jS Y, g:i A", strtotime($timestamp));
 	}
 ?>
@@ -50,6 +51,9 @@
 <div id="page-wrapper">
 	<div class="container">
 		<!-- Page Heading -->
+
+        <div id="to_highlight" value="<?php echo $to_highlight ?>" hidden="hidden"></div>
+
         <div class="row">
             <div class="col-sm-12" id="header">
                 <h2 class="page-header">
@@ -65,16 +69,16 @@
 
                 <div>
             		<div id="reveal" class="text-center"> 
-            			<?php echo strtoupper($status); ?> MONITORTING PAGE FOR <br>
+            			<?php echo strtoupper($status); ?> MONITORING PAGE FOR <br>
             			<?php $temp = $event->sitio == null ? "" : $event->sitio . ", "; echo strtoupper("$temp$event->barangay,<br>$event->municipality, $event->province") . " (" . strtoupper($event->name) . ")"; ?><br>
-                    	<small><?php echo date("M j, Y, g:i A", strtotime($event->event_start)). "<br>";
+                    	<small><?php echo date("M j, Y, g:i A", strtotime($event->event_start));
                     	if(!is_null($event->validity)) echo " to " . date("M j, Y, g:i A", strtotime($event->validity)); ?></small> 
                     </div>
 
                     <div id="bread">
                         <ol class="breadcrumb">
                             <li><a href="<?php echo base_url() . 'home'; ?>">Home</a></li>
-                            <li><a href="<?php echo base_url() . 'public_alert/monitoring_events'; ?>">DEWS-Landslide All Events</a></li>
+                            <li><a href="<?php echo base_url() . 'monitoring/events'; ?>">DEWS-Landslide All Events</a></li>
                             <li class="active">Event No. <?php echo $event->event_id; ?></li>
                         </ol>
                     </div>
@@ -92,28 +96,52 @@
 			        	<div class="timeline-panel">
 			            	<div class="timeline-heading">
 			            		<h4 class="timeline-title"><b>
-			            			<?php if($status == "Event-Based") echo "Start of "; else echo "Routine "; ?> Monitorting: <?php echo date("F jS Y, g:i A", strtotime($event->event_start)); ?></b></h4>
+			            			<?php if($status == "Event-Based") echo "Start of "; else echo "Routine "; ?> Monitoring: <?php echo date("F jS Y, g:i A", strtotime($event->event_start)); ?></b></h4>
 				           	</div>
 				            <div class="timeline-body">
             					<div>
             						Released: <span class="release_time"><?php echo date("g:i A", strtotime($releases[0]->release_time)); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Internal Alert Level:&nbsp;&nbsp;<span class="internal_alert_level"><?php echo $releases[0]->internal_alert_level; ?></span></b>
             					</div>
             					<hr>
-            					<?php 
 
-            						$trigger_list = getTriggers($releases[0]->release_id, $triggers);
-            						if( count($trigger_list) > 0 ):
-            					?>
-            					<div class="triggers">
-            						<ul>
-            					<?php foreach ($trigger_list as $trigger): ?>
-		        						<li><?php echo format($trigger->trigger_type, $trigger->timestamp); ?></li>
-                                        <?php if($trigger->info != null) echo "<ul><li>" . $trigger->info . "</li></ul>"; ?>
-		        				<?php endforeach; ?>
-		        					</ul>
-		        					<hr>
-            					</div>
-            				<?php endif; ?>
+            					<?php 
+                                    $trigger_list = getTriggers($releases[0]->release_id, $triggers);
+                                    if( count($trigger_list) > 0 || count($releases[0]->extra_manifestations) > 0 ):
+                                ?>
+                                <div class="triggers">
+                                    <ul>
+                                        <?php foreach ($trigger_list as $trigger): ?>
+                                                <li><?php echo format($trigger->trigger_type, $trigger->timestamp); ?></li>
+                                                <?php if($trigger->info != null) echo "<ul><li>" . $trigger->info . "</li></ul>"; ?>
+                                                <?php if(strtoupper($trigger->trigger_type) == "M"): ?> 
+                                                    <?php foreach ($trigger->manifestation_info as $man): ?>
+                                                        <?php echo "<ul><ul><li>Feature: " . ucwords($man->feature_type) . " $man->feature_name (M$man->op_trigger)</li></ul>"; ?>
+                                                        <?php echo "<ul><ul><li>Narrative: " . $man->narrative . "</li></ul></ul>"; ?>
+                                                        <?php echo "<ul><ul><li>Reporter: " . $man->reporter . "</li></ul></ul>"; ?>
+                                                        <?php echo "<ul><ul><li>Remarks: " . $man->remarks . "</li></ul></ul>"; ?>
+                                                        <?php echo "</ul>"; ?>
+                                                    <?php endforeach; ?>
+                                                    <?php echo "<ul><ul><li>Validator: " . returnName($trigger->manifestation_info[0]->validator, $staff) . "</li></ul></ul>"; ?>
+                                                <?php endif; ?>
+                                        <?php endforeach; ?>
+
+                                        <?php if( count($trigger_list) > 0 && count($releases[0]->extra_manifestations) > 0 ) echo "<hr/>"; ?>
+
+                                        <?php foreach ($releases[0]->extra_manifestations as $nt_feature ): ?>
+                                            <li>Non-Triggering Feature: <?php echo ucwords($nt_feature->feature_type) . " $nt_feature->feature_name"; ?></li>
+                                                <?php echo "<ul><li>Narrative: " . $nt_feature->narrative . "</li></ul>"; ?>
+                                                <?php echo "<ul><li>Reporter: " . $nt_feature->reporter . "</li></ul>"; ?>
+                                                <?php echo "<ul><li>Remarks: " . $nt_feature->remarks . "</li></ul>"; ?>
+                                        <?php endforeach; ?>
+
+                                        <?php if( count($releases[0]->extra_manifestations) > 0 ):  ?>
+                                            <?php echo "<li>Validator: " . returnName($releases[0]->extra_manifestations[0]->validator, $staff) . "</li>"; ?>
+                                        <?php endif; ?>
+                                    </ul>
+                                    <hr>
+                                </div>
+                                <?php endif; ?>
+
             					<?php if( $releases[0]->comments != NULL): ?>
             					<div class="comments">
             						<b>Comments:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $releases[0]->comments; ?>
@@ -140,7 +168,6 @@
                     <?php foreach (array_reverse($releases) as $release): ?>
 			        <li class="timeline-inverted">
 			        	<?php 
-
                             $x = substr($release->internal_alert_level, 0, 2);
                             $x = $x == "ND" ? ( strlen($release->internal_alert_level) > 3 ? "A1" : "A0" ) : $x;
 
@@ -161,11 +188,11 @@
 			        		else { $class = "warning"; $title = "Early Warning Release for"; $glyph = "file"; }
 			        	?>
         				<div class="timeline-badge <?php echo $class; ?>"><i class="glyphicon glyphicon-<?php echo $glyph; ?>"></i></div>
-        				<div class="timeline-panel">
+        				<div class="timeline-panel <?php if($to_highlight != null && $to_highlight == $release->release_id) { echo "highlight" . '"'; echo 'tabindex="-1"';} ?> id="<?php echo $release->release_id; ?>">
             				<div class="timeline-heading">
             					<div class="row">
 	              					<div class="col-sm-11">
-	              						<h4 class="timeline-title"><b><?php echo $title; ?> <?php echo date("F jS Y, g:i A", strtotime($release->data_timestamp) + 1800); ?></h4>
+	              						<h4 class="timeline-title"><b><?php echo $title; ?> <?php if($release === end(array_reverse($releases))) echo date("F jS Y, g:i A", strtotime($release->data_timestamp)); else echo date("F jS Y, g:i A", strtotime($release->data_timestamp) + 1800); ?></h4>
 	              					</b></div>
 	              					<div class="col-sm-1 text-right">
 	              						<span class="glyphicon glyphicon-edit" id="<?php echo "$release->release_id"; ?>"></span>
@@ -180,20 +207,43 @@
             					<hr>
 
             					<?php 
-
             						$trigger_list = getTriggers($release->release_id, $triggers);
-            						if( count($trigger_list) > 0 ):
+            						if( count($trigger_list) > 0 || count($release->extra_manifestations) > 0 ):
             					?>
             					<div class="triggers">
             						<ul>
-            					<?php foreach ($trigger_list as $trigger): ?>
-		        						<li><?php echo format($trigger->trigger_type, $trigger->timestamp); ?></li>
-                                        <?php if($trigger->info != null) echo "<ul><li>" . $trigger->info . "</li></ul>"; ?>
-		        				<?php endforeach; ?>
+                    					<?php foreach ($trigger_list as $trigger): ?>
+        		        						<li><?php echo format($trigger->trigger_type, $trigger->timestamp); ?></li>
+                                                <?php if($trigger->info != null) echo "<ul><li>" . $trigger->info . "</li></ul>"; ?>
+                                                <?php if(strtoupper($trigger->trigger_type) == "M"): ?> 
+                                                    <?php foreach ($trigger->manifestation_info as $man): ?>
+                                                        <?php echo "<ul><ul><li>Feature: " . ucwords($man->feature_type) . " $man->feature_name (M$man->op_trigger)</li></ul>"; ?>
+                                                        <?php echo "<ul><ul><li>Narrative: " . $man->narrative . "</li></ul></ul>"; ?>
+                                                        <?php echo "<ul><ul><li>Reporter: " . $man->reporter . "</li></ul></ul>"; ?>
+                                                        <?php echo "<ul><ul><li>Remarks: " . $man->remarks . "</li></ul></ul>"; ?>
+                                                        <?php echo "</ul>"; ?>
+                                                    <?php endforeach; ?>
+                                                    <?php echo "<ul><ul><li>Validator: " . returnName($trigger->manifestation_info[0]->validator, $staff) . "</li></ul></ul>"; ?>
+                                                <?php endif; ?>
+        		        				<?php endforeach; ?>
+
+                                        <?php if( count($trigger_list) > 0 && count($release->extra_manifestations) > 0 ) echo "<hr/>"; ?>
+
+                                        <?php foreach ($release->extra_manifestations as $nt_feature ): ?>
+                                            <li>Non-Triggering Feature: <?php echo ucwords($nt_feature->feature_type) . " $nt_feature->feature_name"; ?></li>
+                                                <?php echo "<ul><li>Narrative: " . $nt_feature->narrative . "</li></ul>"; ?>
+                                                <?php echo "<ul><li>Reporter: " . $nt_feature->reporter . "</li></ul>"; ?>
+                                                <?php echo "<ul><li>Remarks: " . $nt_feature->remarks . "</li></ul>"; ?>
+                                        <?php endforeach; ?>
+
+                                        <?php if( count($release->extra_manifestations) > 0 ):  ?>
+                                            <?php echo "<li>Validator: " . returnName($release->extra_manifestations[0]->validator, $staff) . "</li>"; ?>
+                                        <?php endif; ?>
 		        					</ul>
 		        					<hr>
             					</div>
-            				<?php endif; ?>
+            				    <?php endif; ?>
+
             					<?php if( $release->comments != NULL): ?>
             					<div class="comments">
             						<b>Comments:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $release->comments; ?>
@@ -253,20 +303,49 @@
                             </div>
                         </div>
 
-                        <div class="row" id="od_area" hidden="hidden">
-                        	<div class="row line"><hr></div>
-                            <div class="form-group col-sm-6">
-                                <label for="alertGroups[]">Group(s) Involved:</label>
-                                <div class="checkbox a1d"><label><input id="groupLGU" name="alertGroups[]" type="checkbox" value="LGU" onclick='' disabled="disabled" />LGU</label></div>
-                                <div class="checkbox a1d"><label><input id="groupLLMC" name="alertGroups[]" type="checkbox" value="LLMC" onclick='' disabled="disabled"/>LLMC</label></div>
-                                <div class="checkbox a1d"><label><input id="groupCommunity" name="alertGroups[]" type="checkbox" value="Community" onclick='' disabled="disabled"/>Community</label></div>
+                        <div id="od_area" hidden="hidden">
+                            <div class="row line"><hr></div>
+                            <div class="row">
+                                <div class="col-sm-3 text-center area_label"><h4><b>ON-DEMAND</b></h4></div>
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="col-sm-12 form-group">
+                                            <label class="control-label" for="trigger_od">Request Timestamp</label>
+                                            <div class='input-group date datetime'>
+                                                <input type='text' class="form-control trigger_time" id="trigger_od" name="trigger_od" placeholder="Enter timestamp" disabled="disabled" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 form-group">
+                                            <label for="trigger_od_info">Requested by</label>
+                                            <div class="input-group">
+                                                <label class="checkbox-inline"><input type="checkbox" class="od_group" name="llmc" value="llmc" disabled="disabled">LEWC</label>
+                                                <label class="checkbox-inline"><input type="checkbox" class="od_group" name="lgu" value="lgu" disabled="disabled">LGU</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 form-group">
+                                            <label for="reason">Reason for Request</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-addon3">Monitoring requested due to</span>
+                                                <textarea class="form-control" rows="1" id="reason" name="reason" placeholder="Enter reason for request." maxlength="200" aria-describedby="basic-addon3" disabled="disabled"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 form-group">
+                                            <label for="trigger_od_info">Current Site Info:</label>
+                                            <textarea class="form-control trigger_info" rows="1" id="trigger_od_info" name="trigger_od_info" placeholder="Enter basic site details" maxlength="200" disabled="disabled"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        
-                            <div class="form-group col-sm-6">
-                                <label for="request_reason">Reason for Request</label>
-                                <textarea class="form-control" rows="3" id="request_reason" name="request_reason" maxlength="200" disabled="disabled"></textarea>
-                            </div>
-                        </div>
+                        </div> <!------ END OF ON-DEMAND ------>
 
                         <div id="rain_area" hidden="hidden">
                         	<div class="row line"><hr></div>
@@ -308,11 +387,11 @@
 	                            </div>
                         	</div>
                         	<div class="row">
-	                        	<div class="col-sm-4 form-group number">
+	                        	<div class="col-sm-4 form-group">
 	                                <label for="magnitude">Magnitude</label>
 	                                <input type="number" step="0.1" min="0" class="form-control" id="magnitude" name="magnitude" disabled="disabled">
 	                            </div>
-	                            <div class="col-sm-4 form-group number">
+	                            <div class="col-sm-4 form-group">
 	                                <label for="latitude">Latitude</label>
 	                                <input type="number" step="0.1" min="0" class="form-control" id="latitude" name="latitude" disabled="disabled">
 	                            </div>
@@ -433,24 +512,34 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Early Warning Information Bulletin for <?php echo strtoupper($event->name); ?></h4>
                     </div>
                     <div class="modal-body">
-                        <div id="info"></div>
+                        <div class="form-group">
+                            <label for="info">Mail Body:</label>
+                            <textarea class="form-control" rows="3" id="info" name="info"></textarea>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="recipients">Recipients:&emsp;</label>
+                            <input type="text" class="form-control" id="recipients" name="recipients" data-role="tagsinput" />
+                            &emsp;<span id="recipients_span"></span>
+                        </div>
                         <hr>
                         <div id="bulletin_modal"></div>
                     </div>
                     <div class="modal-footer">
+                        <button id="edit-bulletin" class="btn btn-warning" role="button" type="submit">Edit</button>
                         <button id="send" class="btn btn-danger" role="button" type="submit">Send to Mail</button>
                         <button id="download" class="btn btn-danger" role="button" type="submit">Download</button>
-                        <button id="cancel" class="btn btn-info" data-dismiss="modal" role="button">Cancel</button>
+                        <button id="cancel" class="btn btn-primary" data-dismiss="modal" role="button">Cancel</button>
                     </div>
                 </div>
             </div>
         </div> <!-- End of MODAL AREA -->
 
-        <div class="modal fade js-loading-bar" role="dialog">
+        <div class="modal fade js-loading-bar" id="bulletinLoadingModal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header" id="modalTitle" hidden>
