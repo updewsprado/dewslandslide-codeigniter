@@ -20,30 +20,33 @@ class Gintags_manager_model_test extends CIUnit_TestCase {
 	}
 
 	public function testInsertGintagNarrative() {
-		$data['tag'] = "";
-		$data['tag_description'] = "";
-		$data['narrative_input'] = "";
-		$data['user'] = "x";
+		$data['tag'] = "Sample Tag Inserted";
+		$data['tag_description'] = "Sample Tag Inserted";
+		$data['narrative_input'] = "Sample Tag Inserted";
+		$data['user'] = 56;
 		$insertGintagNarrative = $this->__gintags_manager_obj->insertGintagNarrative($data);
 		$this->assertTrue(true,$insertGintagNarrative);
 		echo "Successfully Inserted";
 	}
 
-	public function getLastInsertedId(){
+	public function testGetLastInsertedId(){
 		$getLastInsertedId = $this->__gintags_manager_obj->getLastIdInserted();
 		foreach ($getLastInsertedId as $key) {
 			$this->last_id = $key->id;
 		}
+		$this->testUpdateGintagNarrative($this->last_id);
+		$this->testDeleteGintagNarrative($this->last_id);
 	}
 
 	public function testUpdateGintagNarrative() {
 		$data['tag_id'] = $this->last_id;
-		$data['tag'] = "Sample Tag";
-		$data['tag_description'] = "Sample Description";
-		$data['narrative_input'] = "Sample Narrative Input";
+		$data['tag'] = "Sample Tag Updated";
+		$data['tag_description'] = "Sample Description Updated";
+		$data['narrative_input'] = "Sample Narrative Input Updated";
 		$data['user'] = 56;
 		$updateGintagNarrative = $this->__gintags_manager_obj->updateGintagNarrative($data);
 		$this->assertTrue(true,$updateGintagNarrative);
+		echo "Successfully Updated1 " . $this->last_id;
 	}
 
 	public function testGetAllGintagsNarrative() {
@@ -82,10 +85,10 @@ class Gintags_manager_model_test extends CIUnit_TestCase {
 		echo "Successfully get gintag details";
 	}
 
-	// public function testCleanUpTestDatabase() {
-	// 	$this->__gintags_manager_obj->deleteLastAddedInGintagsManager();
-	// 	$this->__gintags_manager_obj->deleteLastAddedInGintagsReference();
-	// }
+	public function testCleanUpTestDatabase() {
+		$this->__gintags_manager_obj->deleteLastAddedInGintagsManager();
+		$this->__gintags_manager_obj->deleteLastAddedInGintagsReference();
+	}
 
 	//Testing for invalid inputs
 
