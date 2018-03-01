@@ -1,5 +1,8 @@
 <!-- Chatterbox Scripts -->
 <script src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
+<script src="/js/dewslandslide/communications/dewschatterbox_helper.js"></script>
+<script src="/js/dewslandslide/communications/dewschatterbox_initializer.js"></script>
+<script src="/js/dewslandslide/communications/dewschatterbox_wss.js"></script>
 <script src="/js/dewslandslide/communications/dewsresponsive.js"></script>
 <script src="/js/third-party/awesomplete.js"></script>
 <script src="/js/third-party/handlebars.js"></script>
