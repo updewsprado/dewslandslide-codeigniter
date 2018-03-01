@@ -13,7 +13,7 @@
 <script src="<?php echo base_url(); ?>/js/third-party/notify.min.js"></script>
 <script src="<?php echo base_url(); ?>/js/third-party/typeahead.js"></script>
 <script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
-<script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
+<script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox_dashboard.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
 

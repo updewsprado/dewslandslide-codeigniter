@@ -5,8 +5,10 @@
 <script>mocha.setup('bdd')</script>
 
 <!-- load code you want to test here -->
-<script src="/js/dewslandslide/test/chatterbox_test.js"></script>
+
+
 <!-- load your test files here -->
+<script src="/js/dewslandslide/test/chatterbox_test.js"></script>
 
 <div id="mocha"></div>
 
