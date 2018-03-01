@@ -1,9 +1,4 @@
 <!-- Chatterbox Scripts -->
-<script src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
-<script src="/js/dewslandslide/communications/dewschatterbox_helper.js"></script>
-<script src="/js/dewslandslide/communications/dewschatterbox_initializer.js"></script>
-<script src="/js/dewslandslide/communications/dewschatterbox_wss.js"></script>
-<script src="/js/dewslandslide/communications/dewsresponsive.js"></script>
 <script src="/js/third-party/awesomplete.js"></script>
 <script src="/js/third-party/handlebars.js"></script>
 <script src="/js/third-party/moment-locales.js"></script>
@@ -11,6 +6,11 @@
 <script src="/js/third-party/bootstrap-tagsinput.js"></script>
 <script src="/js/third-party/notify.min.js"></script>
 <script src="/js/third-party/jquery.twbsPagination.min.js"></script>
+<script src="/js/dewslandslide/communications/dewschatterbox_initializer.js"></script>
+<script src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
+<script src="/js/dewslandslide/communications/dewschatterbox_helper.js"></script>
+<script src="/js/dewslandslide/communications/dewschatterbox_wss.js"></script>
+<script src="/js/dewslandslide/communications/dewsresponsive.js"></script>
 
 <!-- Server time-->
 <script type="text/javascript" src="/js/dewslandslide/server_time.js"></script>
