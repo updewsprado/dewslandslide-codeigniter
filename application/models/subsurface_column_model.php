@@ -9,10 +9,10 @@
 			$this->load->database();
 		}
 
-		public function getSiteColumns($site_column) {
+		public function getSiteSubsurfaceColumns ($site_code) {
 			$this->db->select('*');
 			$this->db->from('site_column');
-			$this->db->like("name", $site_column);
+			$this->db->like("name", $site_code);
 			$query = $this->db->get();
 			return $query->result();
 		}

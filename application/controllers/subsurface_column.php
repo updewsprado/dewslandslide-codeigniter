@@ -10,12 +10,12 @@ class Subsurface_column extends CI_Controller {
      *  Subsurface Column APIs 
      */
 
-    public function getSiteColumns($site_code) {
-        $result = $this->subsurface_column_model->getSiteColumns($site_code);
+    public function getSiteSubsurfaceColumns ($site_code) {
+        $result = $this->subsurface_column_model->getSiteSubsurfaceColumns($site_code);
         print json_encode($result);
     }
 
-    public function getPlotDataForSubsurface($column, $start_date, $end_date = null) {
+    public function getPlotDataForSubsurface ($column, $start_date, $end_date = null) {
         $result = $this->getSubsurfaceDataByColumn($column, $start_date, $end_date);
         $result = json_decode($result[0])[0]; // JSON decode and Python behavior
         $allIds = [];
@@ -28,10 +28,10 @@ class Subsurface_column extends CI_Controller {
         foreach ($column_position as $line) {
             array_push($allIds, $line->id);
             array_push($allDates, $line->ts);
-            if($line->id == $line->id+1){
-                array_push($dates,$line->ts);
-            }else{
-                array_push($dates,$line->ts);
+            if ($line->id == $line->id + 1) {
+                array_push($dates, $line->ts);
+            } else {
+                array_push($dates, $line->ts);
             }
         }
         sort($dates);
@@ -44,14 +44,14 @@ class Subsurface_column extends CI_Controller {
         // var_dump($allIds);
     }
 
-    public function getSubsurfaceDataByColumn($column, $start_date, $end_date = null){
+    public function getSubsurfaceDataByColumn ($column, $start_date, $end_date = null){
         try {
             $paths = $this->getOSspecificpath();
         } catch (Exception $e) {
             echo "Caught exception: ",  $e->getMessage(), "\n";
         }
 
-        $exec_file = "allDataGen.py";
+        $exec_file = "getColumnPositionAndDisplacementVelocity.py";
 
         $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $column $start_date $end_date";
         $command = !is_null($end_date) ? "$command $end_date" : $command;

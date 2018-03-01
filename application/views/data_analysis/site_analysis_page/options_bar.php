@@ -49,7 +49,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label" for="subsurface_column">Site Name</label>
+                <label class="control-label" for="subsurface_column">Column Name</label>
                 <select class="form-control" id="subsurface_column" name="subsurface_column">
                     <option value="">---</option>
                 </select>

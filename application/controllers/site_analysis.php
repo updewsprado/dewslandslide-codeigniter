@@ -87,12 +87,11 @@ class Site_analysis extends CI_Controller {
         echo json_encode($data_series_list);
     }
 
-    function saveInstance(&$data_series, $type, $timestamp, $value) {
+    private function saveInstance (&$data_series, $type, $timestamp, $value) {
         array_push($data_series[$type], array(strtotime($timestamp) * 1000, $value));
     }
 
     public function getRainfallDataBySite ($site_code, $rain_source = "all", $start_date, $end_date = null) {
-        
         if ($rain_source == "all") {
             $rain_sources = $this->rainfall_model->getRainDataSourcesPerSite($site_code);
         } else {
@@ -144,11 +143,6 @@ class Site_analysis extends CI_Controller {
         return $output;
     }
 
-    public function test () {
-        $data = $this->getSurficialMarkerTrendingAnalysis("bak", "A", "2017-11-11 00:00:00");
-        print_r($data);
-    }
-
     /**
      *  Surficial APIs 
      */
@@ -198,8 +192,7 @@ class Site_analysis extends CI_Controller {
         return $output;
     }
 
-    public function getProcessedSurficialMarkerTrendingAnalysis ($site_code, $marker_name, $end_date)
-    {
+    public function getProcessedSurficialMarkerTrendingAnalysis ($site_code, $marker_name, $end_date) {
         $data = $this->getSurficialMarkerTrendingAnalysis($site_code, $marker_name, $end_date);
         $velocity_accelaration = $this->processVelocityAccelData($data);
         $displacement_interpolation = $this->processDisplacementInterpolation($data);
@@ -299,6 +292,108 @@ class Site_analysis extends CI_Controller {
         return $velocity_acceleration_time;
     }
 
+    /**
+     *  subsurface APIs 
+     */
+
+    public function test () {
+        $data = $this->getPlotDataForSubsurface("agbta", "2017-11-11 06:00:00");
+        print "<pre>";
+        print_r($data);
+        print "</pre>";
+    }
+
+    public function getPlotDataForSubsurface ($column, $end_date, $duration = 3, $unit = "days") {
+        $start_date = date_sub(date_create($end_date), date_interval_create_from_date_string("$duration $unit"));
+        $start_date = date_format($start_date, "Y-m-dTH:i:s");
+
+        $result = $this->getSubsurfaceDataByColumn($column, $end_date, $start_date);
+        if (empty($result)) {
+            // do something 
+        } else {
+            $result = json_decode($result[0])[0]; // Python behavior
+            $column_position = $this->processColumnPositionData($result->c);
+        }
+        
+        echo json_encode($column_position);
+    }
+
+    private function getSubsurfaceDataByColumn ($column, $end_date, $start_date) {
+        try {
+            $paths = $this->getOSspecificpath();
+        } catch (Exception $e) {
+            echo "Caught exception: ",  $e->getMessage(), "\n";
+        }
+
+        $exec_file = "getColumnPositionAndDisplacementVelocity.py";
+
+        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $column $end_date $start_date";
+        exec($command, $output, $return);
+        return $output;
+    }
+
+    private function processColumnPositionData ($column_data) {
+        $column_position_down = [];
+        $column_position_across = [];
+        $min_position = 0;
+        $max_position = 0;
+        foreach ($column_data as $data) {
+            $this->addKeyIfNotExist($data, $column_position_down);
+            $this->addKeyIfNotExist($data, $column_position_across);
+
+            array_push($column_position_down[$data->ts], array(
+                "x" => $data->downslope,
+                "y" => $data->depth
+            ));
+
+            array_push($column_position_across[$data->ts], array(
+                "x" => $data->latslope,
+                "y" => $data->depth
+            ));
+
+            if ($data->downslope > $data->latslope) {
+                $max = $data->downslope;
+                $min = $data->latslope;
+            } else {
+                $min = $data->downslope;
+                $max = $data->latslope;
+            }
+
+            $min_position = $min_position > $min ? $min : $min_position;
+            $max_position = $max_position > $max ? $max : $max_position;
+        }
+
+        $column_position = array("downslope" => $column_position_down, "across_slope" => $column_position_across);
+        $processed_col_pos = [];
+        foreach ($column_position as $orientation => $arr) {
+            $temp = [];
+
+            foreach ($arr as $timestamp => $data_arr) {
+                array_push($temp, array(
+                    "name" => $timestamp,
+                    "data" => $data_arr
+                ));
+            }
+
+            array_push($processed_col_pos, array(
+                "orientation" => $orientation,
+                "data" => $temp
+            ));
+        }
+
+        return array(
+            "max_position" => $max_position,
+            "min_position" => $min_position,
+            "data" => $processed_col_pos
+        );
+    }
+
+    private function addKeyIfNotExist ($data, &$column_position) {
+        if(!array_key_exists($data->ts, $column_position)) {
+            $column_position[$data->ts] = [];
+        }
+    }
+
     private function getOSspecificpath () {
         $os = PHP_OS;
         $python_path = "";
@@ -320,7 +415,7 @@ class Site_analysis extends CI_Controller {
         );
     }
 
-    function convertSiteCodesFromNewToOld ($site_code) {
+    private function convertSiteCodesFromNewToOld ($site_code) {
         $sc = "";
         switch ($site_code) {
             case "mng":
