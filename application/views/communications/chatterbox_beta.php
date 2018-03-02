@@ -10,6 +10,7 @@
   first_name = "<?php echo $first_name; ?>";
   tagger_user_id = "<?php echo $user_id; ?>";
 </script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_variables.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_initializer.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_helper.js"></script>
