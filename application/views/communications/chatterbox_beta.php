@@ -1,16 +1,20 @@
 <!-- Chatterbox Scripts -->
-<script src="/js/third-party/awesomplete.js"></script>
-<script src="/js/third-party/handlebars.js"></script>
-<script src="/js/third-party/moment-locales.js"></script>
-<script src="/js/third-party/typeahead.js"></script>
-<script src="/js/third-party/bootstrap-tagsinput.js"></script>
-<script src="/js/third-party/notify.min.js"></script>
-<script src="/js/third-party/jquery.twbsPagination.min.js"></script>
-<script src="/js/dewslandslide/communications/dewschatterbox_initializer.js"></script>
-<script src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
-<script src="/js/dewslandslide/communications/dewschatterbox_helper.js"></script>
-<script src="/js/dewslandslide/communications/dewschatterbox_wss.js"></script>
-<script src="/js/dewslandslide/communications/dewsresponsive.js"></script>
+<script type="text/javascript" src="/js/third-party/awesomplete.js"></script>
+<script type="text/javascript" src="/js/third-party/handlebars.js"></script>
+<script type="text/javascript" src="/js/third-party/moment-locales.js"></script>
+<script type="text/javascript" src="/js/third-party/typeahead.js"></script>
+<script type="text/javascript" src="/js/third-party/bootstrap-tagsinput.js"></script>
+<script type="text/javascript" src="/js/third-party/notify.min.js"></script>
+<script type="text/javascript" src="/js/third-party/jquery.twbsPagination.min.js"></script>
+<script type="text/javascript">
+  first_name = "<?php echo $first_name; ?>";
+  tagger_user_id = "<?php echo $user_id; ?>";
+</script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_initializer.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_helper.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_wss.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewsresponsive.js"></script>
 
 <!-- Server time-->
 <script type="text/javascript" src="/js/dewslandslide/server_time.js"></script>
@@ -161,12 +165,6 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-  first_name = "<?php echo $first_name; ?>";
-  tagger_user_id = "<?php echo $user_id; ?>";
-</script>
-
 
 <!-- MODAL SECTION -->
 	<!-- Contact Settings Modal -->
