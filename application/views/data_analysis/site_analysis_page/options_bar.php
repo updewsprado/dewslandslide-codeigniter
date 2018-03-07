@@ -31,7 +31,7 @@
 
                 <div class="row">
                     <div class="col-sm-12 text-center">
-                        <button type="button" class="btn btn-primary btn-sm submit-btn" id="plot-site-level">
+                        <button type="submit" class="btn btn-primary btn-sm submit-btn" id="plot-site-level">
                             Plot <span class="fa fa-search"></span>
                         </button>
                     </div>
@@ -55,7 +55,7 @@
 
                 <div class="row">
                     <div class="col-sm-12 text-center">
-                        <button type="button" class="btn btn-primary btn-sm submit-btn" id="plot-column-level">
+                        <button type="submit" class="btn btn-primary btn-sm submit-btn" id="plot-column-level">
                             Plot <span class="fa fa-search"></span>
                         </button>
                     </div>
