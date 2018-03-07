@@ -13,7 +13,7 @@
 
 class Utilities_model extends CI_Model {
 
-	public function insertCPULog() {
+	public function insertCPULog($data) {
         $status = "";
         $log_description_query = "INSERT INTO error_log_description VALUES (0,(SELECT id FROM error_log_modules WHERE module_code = 'CTBX'),'".$data->timestamp."','".$data->error_description."');";
         		$result = $this->db->query($query);
