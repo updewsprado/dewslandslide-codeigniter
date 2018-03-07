@@ -8,7 +8,9 @@ class Site_analysis extends CI_Controller {
         $this->load->model('pubrelease_model');
         $this->load->model('rainfall_model');
         $this->load->model('surficial_model');
-        $this->load->model('subsurface_column_model');  
+        $this->load->model('subsurface_column_model');
+
+        date_default_timezone_set('Asia/Manila'); 
     }
 
 	public function index () {
@@ -297,7 +299,7 @@ class Site_analysis extends CI_Controller {
      */
 
     public function test () {
-        $data = $this->getPlotDataForSubsurface("agbta", "2017-11-11 06:00:00");
+        $data = $this->getPlotDataForSubsurface("magta", "2016-10-12T12:00:00");
         print "<pre>";
         print_r($data);
         print "</pre>";
@@ -305,7 +307,7 @@ class Site_analysis extends CI_Controller {
 
     public function getPlotDataForSubsurface ($column, $end_date, $duration = 3, $unit = "days") {
         $start_date = date_sub(date_create($end_date), date_interval_create_from_date_string("$duration $unit"));
-        $start_date = date_format($start_date, "Y-m-dTH:i:s");
+        $start_date = date_format($start_date, "Y-m-d\TH:i:s");
 
         $result = $this->getSubsurfaceDataByColumn($column, $end_date, $start_date);
         if (empty($result)) {
@@ -313,9 +315,23 @@ class Site_analysis extends CI_Controller {
         } else {
             $result = json_decode($result[0])[0]; // Python behavior
             $column_position = $this->processColumnPositionData($result->c);
+            list($displacement, $timestamps_per_node) = $this->processDisplacementData($result->d[0]);
+            $velocity_alerts = $this->processVelocityAlertsData($result->v[0], $timestamps_per_node);
         }
         
-        echo json_encode($column_position);
+        $subsurface_data = [array(
+            "type" => "column_position",
+            "data" => $column_position
+        ), array(
+            "type" => "displacement",
+            "data" => $displacement
+        ), array(
+            "type" => "velocity_alerts",
+            "data" => $velocity_alerts
+        )];
+
+        echo json_encode($subsurface_data);
+        // return $displacement;
     }
 
     private function getSubsurfaceDataByColumn ($column, $end_date, $start_date) {
@@ -338,15 +354,16 @@ class Site_analysis extends CI_Controller {
         $min_position = 0;
         $max_position = 0;
         foreach ($column_data as $data) {
-            $this->addKeyIfNotExist($data, $column_position_down);
-            $this->addKeyIfNotExist($data, $column_position_across);
+            $timestamp = $data->ts;
+            $this->addKeyIfNotExist($timestamp, $column_position_down);
+            $this->addKeyIfNotExist($timestamp, $column_position_across);
 
-            array_push($column_position_down[$data->ts], array(
+            array_push($column_position_down[$timestamp], array(
                 "x" => $data->downslope,
                 "y" => $data->depth
             ));
 
-            array_push($column_position_across[$data->ts], array(
+            array_push($column_position_across[$timestamp], array(
                 "x" => $data->latslope,
                 "y" => $data->depth
             ));
@@ -360,20 +377,25 @@ class Site_analysis extends CI_Controller {
             }
 
             $min_position = $min_position > $min ? $min : $min_position;
-            $max_position = $max_position > $max ? $max : $max_position;
+            $max_position = $max_position < $max ? $max : $max_position;
         }
 
         $column_position = array("downslope" => $column_position_down, "across_slope" => $column_position_across);
         $processed_col_pos = [];
         foreach ($column_position as $orientation => $arr) {
             $temp = [];
-
+            $timestamps = [];
+            $i = 0;
             foreach ($arr as $timestamp => $data_arr) {
                 array_push($temp, array(
                     "name" => $timestamp,
                     "data" => $data_arr
                 ));
+
+                $timestamps[$i++] = $timestamp;
             }
+
+            array_multisort($timestamps, SORT_ASC, $temp);
 
             array_push($processed_col_pos, array(
                 "orientation" => $orientation,
@@ -388,9 +410,161 @@ class Site_analysis extends CI_Controller {
         );
     }
 
-    private function addKeyIfNotExist ($data, &$column_position) {
-        if(!array_key_exists($data->ts, $column_position)) {
-            $column_position[$data->ts] = [];
+    private function processDisplacementData ($disp_group) {
+        $disp = $disp_group->disp;
+        $cumulative = $disp_group->cumulative;
+        $cml_base = $disp_group->cml_base;
+        $annotation = $disp_group->annotation;
+
+        $displacement_data = array(array(), array());
+        $cumulative_displacement_data = array(array(), array());
+        $annotations = array(array(), array());
+        $all_timestamps = [];
+
+        foreach ($annotation as $anno) {
+            $downslope_anno = $anno->downslope_annotation;
+            $latslope_anno = $anno->latslope_annotation;
+            $id = (int) $anno->id;
+
+            foreach ([$downslope_anno, $latslope_anno] as $key => $value) {
+                $this->addKeyIfNotExist($id, $annotations[$key]);
+                $annotations[$key][$id] = array(
+                    "label" => array("text" => $value)
+                );
+            }
+        }
+
+        foreach ($disp as $index => $position) {
+            $id = (int) $position->id;
+            $timestamp = strtotime($position->ts) * 1000;
+            $downslope = $position->downslope;
+            $latslope = $position->latslope;
+
+            foreach ([$downslope, $latslope] as $key => $point) {
+                $isFirstEntry = $this->addKeyIfNotExist($id, $displacement_data[$key]);
+
+                array_push($displacement_data[$key][$id], array(
+                    "id" => $id,
+                    "x" => $timestamp,
+                    "y" => ($point - $cml_base) * 1000
+                ));
+
+                if($isFirstEntry) {
+                    $annotations[$key][$id]["value"] = (($point - $cml_base) * 1000 - ($cml_base * 2));
+                }
+            }
+
+            array_push($all_timestamps, $timestamp);
+        }
+
+        foreach ($cumulative as $index => $position) {
+            $timestamp = strtotime($position->ts) * 1000;
+            $downslope = $position->downslope;
+            $latslope = $position->latslope;
+
+            foreach ([$downslope, $latslope] as $key => $point) {
+                array_push($cumulative_displacement_data[$key], array(
+                    "x" => $timestamp,
+                    "y" => ($point - $cml_base) * 1000
+                ));
+            }
+        }
+
+
+        $all_timestamps = array_unique($all_timestamps);
+        sort($all_timestamps);
+        $last_7_timestamps = array_slice($all_timestamps, -7, 7);
+        $timestamps_per_node = [];
+
+        $series = [];
+        $array_list = [
+            [$cumulative_displacement_data[0], $displacement_data[0]], 
+            [$cumulative_displacement_data[1], $displacement_data[1]]
+        ];
+
+        foreach ($array_list as $arr) {
+            $temp = [];
+
+            array_push($temp, array(
+                "name" => "Cumulative",
+                "data" => $arr[0]
+            ));
+
+            ksort($arr[1]);
+            foreach ($arr[1] as $index => $data) {
+                array_push($temp, array(
+                    "name" => $index,
+                    "data" => $data
+                ));
+
+                if(!array_key_exists($index, $timestamps_per_node)) {
+                    $temp2 = [];
+                    foreach ($last_7_timestamps as $timestamp) {
+                        array_push($temp2, array($timestamp, $index));
+                    }
+
+                    $timestamps_per_node[$index] = array(
+                        "name" => $index, 
+                        "data" => $temp2
+                    );
+                }
+            }
+
+            array_push($series, $temp);
+        }
+
+        $displacement = [array(
+            "orientation" => "downslope",
+            "data" => $series[0],
+            "annotations" => array_values($annotations[0])
+        ), array(
+            "orientation" => "across_slope",
+            "data" => $series[1],
+            "annotations" => array_values($annotations[1])
+        )];
+
+        return [$displacement, array_values($timestamps_per_node)];
+    }
+
+    private function processVelocityAlertsData($vel_alerts, $timestamps_per_node) {
+        $velocity_alerts = array(
+            array("L2" => [], "L3" => []),
+            array("L2" => [], "L3" => [])
+        );
+        $downslope = $vel_alerts->downslope[0];
+        $latslope = $vel_alerts->latslope[0];
+
+        foreach ([$downslope, $latslope] as $index => $alerts) {
+            foreach (["L2", "L3"] as $key => $trigger) {
+                $alert = $alerts->$trigger;
+                if (!empty($alert)) {
+                    foreach ($alert as $arr) {
+                        $array = array(strtotime($arr->ts) * 1000, $arr->id);
+                        array_push($velocity_alerts[$index][$trigger], $array);
+                    }
+                }
+            }   
+        }
+
+        return array(
+            "velocity_alerts" => array(
+                array(
+                    "orientation" => "downslope",
+                    "data" => $velocity_alerts[0]
+                ),
+                array(
+                    "orientation" => "across_slope",
+                    "data" => $velocity_alerts[1]
+                )
+            ),
+            "timestamps_per_node" => $timestamps_per_node
+        );
+    }
+
+    private function addKeyIfNotExist ($key, &$arr) {
+        if(!array_key_exists($key, $arr)) {
+            $arr[$key] = [];
+            return true;
         }
     }
 

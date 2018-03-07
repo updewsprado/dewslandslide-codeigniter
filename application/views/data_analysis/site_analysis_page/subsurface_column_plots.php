@@ -39,7 +39,7 @@
 		</div>
 		<div class="subsurface-plot-container row" id="subsurface-displacement">
 			<div class="col-sm-6 subsurface-displacement-chart" id="subsurface-displacement-downslope"></div>
-			<div class="col-sm-6 subsurface-displacement-chart" id="subsurface-displacement-across-slope"></div>
+			<div class="col-sm-6 subsurface-displacement-chart" id="subsurface-displacement-across_slope"></div>
 		</div>
 		<div class="row">
 			<div class="col-sm-12 text-center">
@@ -48,7 +48,7 @@
 		</div>
 		<div class="subsurface-plot-container row" id="velocity-alerts">
 			<div class="col-sm-6 velocity-alerts-chart" id="velocity-alerts-downslope"></div>
-			<div class="col-sm-6 velocity-alerts-chart" id="velocity-alerts-across-slope"></div>
+			<div class="col-sm-6 velocity-alerts-chart" id="velocity-alerts-across_slope"></div>
 		</div>
 	</div>
 </div>

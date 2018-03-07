@@ -4,7 +4,6 @@
             <strong>Filter options: <span class="fa fa-angle-left pull-right"></span></strong>
         </div>
         <div class="panel-body">
-
             <form id="site-analysis-form">
                 <div class="form-group">
                     <label class="control-label" for="data_timestamp">Data Timestamp</label>
@@ -32,28 +31,36 @@
 
                 <div class="row">
                     <div class="col-sm-12 text-center">
-                        <button type="submit" class="btn btn-primary btn-sm" id="explore">
-                            Explore <span class="fa fa-search"></span>
+                        <button type="button" class="btn btn-primary btn-sm submit-btn" id="plot-site-level">
+                            Plot <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row"><hr class="options-divider"/></div>
+
+                <div class="row options-section-title">
+                    <div class="col-sm-12 text-center">
+                        COLUMN LEVEL PLOTS
+                    </div>
+                    <hr/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="subsurface_column">Column Name</label>
+                    <select class="form-control" id="subsurface_column" name="subsurface_column">
+                        <option value="">---</option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <button type="button" class="btn btn-primary btn-sm submit-btn" id="plot-column-level">
+                            Plot <span class="fa fa-search"></span>
                         </button>
                     </div>
                 </div>
             </form>
-
-            <div class="row"><hr class="options-divider"/></div>
-
-            <div class="row options-section-title">
-                <div class="col-sm-12 text-center">
-                    COLUMN LEVEL PLOTS
-                </div>
-                <hr/>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label" for="subsurface_column">Column Name</label>
-                <select class="form-control" id="subsurface_column" name="subsurface_column">
-                    <option value="">---</option>
-                </select>
-            </div>
 
             <div class="row"><hr class="options-divider"/></div>
 
