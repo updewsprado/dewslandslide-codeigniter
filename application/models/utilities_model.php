@@ -16,10 +16,11 @@ class Utilities_model extends CI_Model {
 	public function insertCPULog($data) {
         $status = "";
         $log_description_query = "INSERT INTO error_log_description VALUES (0,(SELECT id FROM error_log_modules WHERE module_code = 'CTBX'),'".$data['timestamp']."','".$data['error_description']."');";
-        		$result = $this->db->query($query);
-        if ($this->db->query($log_description_query) === TRUE) {
+        		$result = $this->db->query($log_description_query);
+        if ($result === TRUE) {
            $log_query = "INSERT INTO error_logs VALUES (0,(SELECT id FROM error_log_modules WHERE module_code = 'CTBX'),(SELECT id FROM error_log_description WHERE timestamp = '".$data['timestamp']."'))";
-           if ($this->db->query($log_query) === TRUE) {
+           $result = $this->db->query($log_query);
+           if ($result === TRUE) {
                 $status = "Error log entry successfully added..\n";
            } else {
                 $status = "Failed to add Error log entry..\n";
