@@ -3,6 +3,39 @@
 <div class="row"><hr/></div>
 
 <div class="row">
+	<div id="subsurface-column-summary-plots">
+		<div class="row plot-title">
+			<div class="col-sm-4">
+				<h4>COLUMN SUMMARY</h4>
+			</div>
+			<!-- <div class="col-sm-8 text-right" id="subsurface-plot-options" hidden>
+				<div class="btn-group" id="subsurface-sources-btn-group"></div>
+				<div class="btn-group" id="subsurface-duration">
+					<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="subsurface-duration-btn">
+				    	3 days&emsp;<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+					    <li class="active"><a data-value="3" data-duration="days">3 days</a></li>
+					    <li><a data-value="5" data-duration="days">5 days</a></li>
+					    <li><a data-value="1" data-duration="weeks">1 week</a></li>
+				 	</ul>
+				</div>
+			</div> -->
+		</div>
+		<div><hr class="plot-title-hr"/></div>
+		<div class="column-summary-plot-container row">
+			<div class="col-sm-12 column-summary-chart" id="node-health-summary"></div>
+		</div>
+		<div><hr class="plot-title-hr"/></div>
+		<div class="column-summary-plot-container row">
+			<div class="col-sm-12 column-summary-chart" id="data-presence"></div>
+		</div>
+		<div><hr class="plot-title-hr"/></div>
+		<div class="column-summary-plot-container row">
+			<div class="col-sm-12 column-summary-chart" id="communication-health"></div>
+		</div>
+	</div>
+	<hr class="plot-title-hr"/>
 	<div id="subsurface-plots">
 		<div class="row plot-title">
 			<div class="col-sm-4">
