@@ -256,7 +256,7 @@
 	            </div>
 	            <div class="col-md-3" title="Notes: If contact number is more than one seprate it by a comma.">
 	              <label for="numbers_ec">Contact #:</label>
-	              <input type="text"  id="numbers_ec" class="form-control" name="numbers_ec" data-role="tagsinput" required>
+	              <input type="text"  id="numbers_ec" class="form-control" name="numbers_ec" required>
 	            </div>
 	          </div>
 
@@ -309,7 +309,7 @@
 	          <div class="row">
 	            <div class="col-md-6">
 	              <label for="numbers_cc">Contact #:</label>
-	              <input type="text" class="form-control" id="numbers_cc" name="numbers" data-role="tagsinput" required>
+	              <input type="text" class="form-control" id="numbers_cc" name="numbers" required>
 	            </div>
 
 	            <div class="col-md-3">
@@ -441,7 +441,7 @@
 	          <p style="padding: 0px;"><strong>New Feature!</strong> You can now tag messages in chatterbox! </br>.&nbsp &nbsp • <strong>Important Tags: </strong>#EwiMessage, #EwiResponse<br>&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;#GroundMeasReminder, #GroundMeas</p>
 	        </div>
 	        <div class="form-group">
-	        	<input type="text" class="form-control" id="gintags" name="gintags" data-role="tagsinput" data-provide="typeahead" placeholder="E.g #EwiMessage" style="display:none" required>
+	        	<input type="text" class="form-control" id="gintags" name="gintags" data-provide="typeahead" placeholder="E.g #EwiMessage" style="display:none" required>
 	        </div>
 	        <div class="form-group right-content" id="submit-gintag">
 	          <button type="reset" class="btn btn-danger" id="reset-gintags" data-dismiss="modal">Reset</button>
