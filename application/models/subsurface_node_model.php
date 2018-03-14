@@ -23,6 +23,24 @@
 			return $query->result();
 		}
 
+		public function getSiteColumnNodeCount ($site_column) {
+			$this->db->select("props.num_nodes AS node_count");
+			$this->db->from("site_column_props AS props");
+			$this->db->join("site_column AS sc", "sc.s_id = props.s_id");
+			$this->db->where("sc.name", $site_column);
+			$data = $this->db->get();
+			return $data->row()->node_count;
+		}
+
+		public function getAllSiteColumnNodeStatus ($site_column) {
+			$this->db->select("post_timestamp AS timestamp, date_of_identification AS id_date, flagger, site AS site_column, node AS node_id, status, comment");
+			$this->db->from("node_status");
+			$this->db->where("site", $site_column);
+			$data = $this->db->get();
+			return $data->result_array();
+		}
+
 	}
 
+		
 ?>
