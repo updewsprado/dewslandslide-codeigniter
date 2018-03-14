@@ -560,28 +560,7 @@
 			</div>
 		</div>
 		<div>
-			<!-- 	 -->
 		</div>
-
-
-<!-- 			<div class="form-group">
-				<label class="radio-inline"><input type="radio" name="opt-search" value="gintag-search" checked="true">Via Gintag</label>
-				<label class="radio-inline"><input type="radio" name="opt-search" value="global-search" checked="true">Via Message</label>
-			</div>
-		    <div class="form-group">
-		    	<input type="text" id="search-global-keyword" class="form-control">
-		    </div>
-	    	<div class="search-global-message-container">
-	          <div class="result-message">
-	            <ul id="search-global-result" class="chat">
-
-	            </ul>
-	          </div>
-	        </div>
-	        <hr>
-			<div class="form-group right-content">
-				<button class="btn btn-primary" id="btn-search-global">Search</button> 
-			</div> -->
 	    </div>
 	  </div>  
 	</div>
@@ -724,3 +703,21 @@
 
   </div>
 </div>
+
+  <div class="modal fade" id="confirm-notification" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Contact Settings</h4>
+        </div>
+        <div class="modal-body">
+          <p id="notify-text"></p>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" id="save-contact" class="btn btn-info" data-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
