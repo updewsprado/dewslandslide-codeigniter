@@ -8,19 +8,19 @@
 			<div class="col-sm-4">
 				<h4>COLUMN SUMMARY</h4>
 			</div>
-			<!-- <div class="col-sm-8 text-right" id="subsurface-plot-options" hidden>
-				<div class="btn-group" id="subsurface-sources-btn-group"></div>
-				<div class="btn-group" id="subsurface-duration">
-					<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="subsurface-duration-btn">
-				    	3 days&emsp;<span class="caret"></span>
+			<div class="col-sm-8 text-right" id="column-summary-options">
+				<div class="btn-group" id="column-summary-duration">
+					<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="column-summary-duration-btn">
+				    	1 day&emsp;<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
-					    <li class="active"><a data-value="3" data-duration="days">3 days</a></li>
-					    <li><a data-value="5" data-duration="days">5 days</a></li>
-					    <li><a data-value="1" data-duration="weeks">1 week</a></li>
+					    <li class="active"><a data-value="1" data-duration="day">1 day</a></li>
+					    <li><a data-value="3" data-duration="days">3 days</a></li>
+					    <li><a data-value="1" data-duration="week">1 week</a></li>
+					    <li><a data-value="1" data-duration="month">1 month</a></li>
 				 	</ul>
 				</div>
-			</div> -->
+			</div>
 		</div>
 		<div><hr class="plot-title-hr"/></div>
 		<div class="column-summary-plot-container row">
@@ -41,7 +41,7 @@
 			<div class="col-sm-4">
 				<h4>SUBSURFACE DATA</h4>
 			</div>
-			<div class="col-sm-8 text-right" id="subsurface-plot-options" hidden>
+			<div class="col-sm-8 text-right" id="subsurface-plot-options">
 				<div class="btn-group" id="subsurface-sources-btn-group"></div>
 				<div class="btn-group" id="subsurface-duration">
 					<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="subsurface-duration-btn">

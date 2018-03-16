@@ -299,9 +299,9 @@ class Site_analysis extends CI_Controller {
      *  subsurface APIs 
      */
 
-    public function getPlotDataForSubsurface ($column, $end_date, $duration = 3, $unit = "days") {
-        $start_date = date_sub(date_create($end_date), date_interval_create_from_date_string("$duration $unit"));
-        $start_date = date_format($start_date, "Y-m-d\TH:i:s");
+    public function getPlotDataForSubsurface ($column, $start_date, $end_date) {//, $duration = 3, $unit = "days") {
+        // $start_date = date_sub(date_create($end_date), date_interval_create_from_date_string("$duration $unit"));
+        // $start_date = date_format($start_date, "Y-m-d\TH:i:s");
 
         $result = $this->getSubsurfaceDataByColumn($column, $end_date, $start_date);
         if (empty($result)) {
@@ -559,6 +559,40 @@ class Site_analysis extends CI_Controller {
      *  Node Summary APIs
      */
 
+    public function test () {
+        // $data = $this->getPlotDataForColumnSummary("magta", "2016-10-14T12:00:00", "2016-10-16T12:00:00");
+        $data = $this->getPlotDataForColumnSummary("agbta", "2017-11-140T12:00:00", "2017-11-16T12:00:00");
+        print "<pre>";
+        print_r($data);
+        print "</pre>";
+    }
+
+    public function getPlotDataForColumnSummary ($site_column, $start_date, $end_date, $include_node_health = true) {
+        $one_week_ago = strtotime($end_date) - 604800;
+        $temp_start = $start_date;
+        $is_capped = false;
+        if (strtotime($start_date) < $one_week_ago) {
+            $temp_start = date("Y-m-d\TH:i:s", $one_week_ago);
+            $is_capped = true;
+        }
+
+        $data_presence = $this->getPlotDataForDataPresence($site_column, $temp_start, $end_date, $is_capped);
+        $communication_health = $this->getPlotDataForCommunicationHealth($site_column, $start_date, $end_date);
+
+        $column_summary = array(
+            array("series_name" => "data_presence", "data" => $data_presence),
+            array("series_name" => "communication_health", "data" => $communication_health)
+        );
+
+        if ($include_node_health) {
+            $node_summary = $this->getPlotDataForNodeHealthSummary($site_column);
+            array_push($column_summary, array("series_name" => "node_summary", "data" => $node_summary));
+        }
+
+        echo json_encode($column_summary);
+        // return $column_summary;
+    }
+
     public function getPlotDataForNodeHealthSummary ($site_column) {
         $node_count = $this->subsurface_node_model->getSiteColumnNodeCount($site_column);
         $node_status = $this->subsurface_node_model->getAllSiteColumnNodeStatus($site_column);
@@ -594,7 +628,7 @@ class Site_analysis extends CI_Controller {
             $node_summary[$id] = array_merge($temp, $status);
         }
 
-        echo json_encode(array_values($node_summary));
+        return array_values($node_summary);
     }
 
     private function computeForYValues ($node_count, $base) {
@@ -615,7 +649,7 @@ class Site_analysis extends CI_Controller {
      *  Data Presence APIs
      */
 
-    public function getPlotDataForDataPresence ($site_column, $start_date, $end_date) {
+    public function getPlotDataForDataPresence ($site_column, $start_date, $end_date, $is_capped = false) {
         $data = $this->subsurface_column_model->getSubsurfaceColumnDataPresence($site_column, $start_date, $end_date);
         $min_date = strtotime($start_date) * 1000;
         $max_date = strtotime($end_date) * 1000;
@@ -627,11 +661,14 @@ class Site_analysis extends CI_Controller {
                 array_push($temp_array, array($current, 0));
                 $current += $thirty_min;
             } else {
+                if (!isset($data[$i]->timestamp)) break;
+
                 $present = strtotime($data[$i]->timestamp) * 1000;
                 if ($present === $current) {
                     array_push($temp_array, array($current, 1)); $i++;
                     $current += $thirty_min;
                 } else {
+
                     if ($present < $current) {
                          array_push($temp_array, array($present, 2)); $i++;
                     } else {
@@ -661,22 +698,16 @@ class Site_analysis extends CI_Controller {
         $array = array(
             "data_presence" => $data_presence,
             "min_date" => $min_date,
-            "max_date" => $max_date
+            "max_date" => $max_date,
+            "is_capped" => $is_capped
         );
 
-        echo json_encode($array);
+        return $array;
     }
 
     /**
      *  Data Presence APIs
      */
-
-    public function test () {
-        $data = $this->getPlotDataForCommunicationHealth("agbta", "2017-11-12T12:00:00", "2017-11-13T12:00:00");
-        print "<pre>";
-        print_r($data);
-        print "</pre>";
-    }
 
     public function getPlotDataForCommunicationHealth ($site_column, $start_date, $end_date) {
         $data = $this->subsurface_column_model->getSubsurfaceColumnData($site_column, $start_date, $end_date);
@@ -688,8 +719,7 @@ class Site_analysis extends CI_Controller {
         $accel_ids = $this->getAccelIDsByVersion($site_column);
         $communication_health = $this->computeForCommunicationHealth($array, $expected_no_of_timestamps, $node_count, $accel_ids);
 
-        echo json_encode($communication_health);
-        // return $array;
+        return $communication_health;
     }
 
     private function getAccelIDsByVersion ($site_column) {
@@ -704,26 +734,6 @@ class Site_analysis extends CI_Controller {
 
     private function delegateSubsurfaceColumnDataForComputation ($data, $site_column, $node_count) {
         $array = [];
-        // foreach ($data as $point) {
-        //     $node_id = $point->id;
-        //     if ($node_count >= $node_id) { // Check for wrongly parsed node ids
-        //         $timestamp = $point->timestamp;
-
-        //         if (strlen($site_column) > 4) {
-        //             $accel_id = $point->msgid;
-        //             $this->addKeyIfNotExist($accel_id, $array);
-
-        //             if ($node_count >= $node_id) {
-        //                 $this->addKeyIfNotExist($node_id, $array[$accel_id]);
-        //                 array_push($array[$accel_id][$node_id], $timestamp);
-        //             }
-        //         } else {
-        //             $this->addKeyIfNotExist($node_id, $array);
-        //             array_push($array[$node_id], $timestamp);
-        //         }
-        //     }
-        // }
-
         foreach ($data as $point) {
             $node_id = $point->id;
             if ($node_count >= $node_id) {
@@ -738,19 +748,6 @@ class Site_analysis extends CI_Controller {
                 array_push($array[$node_id], $temp);
             }
         }
-
-        // for ($i = 1; $i <= $node_count; $i++) {
-        //     if (!isset($array[$i])) {
-
-        //     }
-
-        //     if (count($array) === 2) {
-        
-        //     } else {
-
-        //     }
-        // }
-
 
 
         return $array;
@@ -777,7 +774,7 @@ class Site_analysis extends CI_Controller {
                         });
                         $count = count($filter);
                         $percentage = $count / $expected_no_of_timestamps * 100;
-                        $computed_percentages[$accel_id][$node_id] = $percentage;
+                        $computed_percentages[$accel_id][$node_id] = round($percentage, 2);
                     }
                 }
             } else {
@@ -799,48 +796,12 @@ class Site_analysis extends CI_Controller {
             array_push($series, $temp);
         }
 
-        // if (count($array) === 2) {
-        //     foreach ($array as $accel_id => $node_ids) {
-        //         $computed_percentages[$accel_id] = [];
-
-        //         for ($i = 1; $i <= $node_count; $i++) {
-
-
-
-        //             if (!isset($array[$i])) {
-
-        //             }
-
-        //         }
-
-        //         foreach ($node_ids as $node_id => $timestamps) {
-        //             $count = count($timestamps);
-        //             $percentage = $count / $expected_no_of_timestamps * 100;
-        //             $computed_percentages[$accel_id][$node_id] = $percentage;
-        //         }
-        //     }
-
-        //     foreach ($computed_percentages as $accel_id => $value) {
-        //         array_push($series, array(
-        //             "name" => "Accel $accel_id",
-        //             "data" => $value
-        //         ));
-        //     }
-        // } else {
-        //     foreach ($array as $node_id => $timestamps) {
-        //         $count = count($timestamps);
-        //         $percentage = $count / $expected_no_of_timestamps * 100;
-        //         $computed_percentages[$node_id] = $percentage;
-        //     }
-
-        //     array_push($series, array(
-        //         "name" => "Data",
-        //         "data" => $value
-        //     ));
-        // }
-
         return $series;
     }
+
+    /**
+     *  Helper Functions
+     */
 
     private function addKeyIfNotExist ($key, &$arr) {
         if(!array_key_exists($key, $arr)) {
