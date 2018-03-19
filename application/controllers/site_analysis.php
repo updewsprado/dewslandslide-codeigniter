@@ -26,6 +26,7 @@ class Site_analysis extends CI_Controller {
         $data['options_bar'] = $this->load->view('data_analysis/site_analysis_page/options_bar', $data, true);
         $data['site_level_plots'] = $this->load->view('data_analysis/site_analysis_page/site_level_plots', $data, true);
         $data['subsurface_column_plots'] = $this->load->view('data_analysis/site_analysis_page/subsurface_column_plots', $data, true);
+        $data['subsurface_node_level_plots'] = $this->load->view('data_analysis/site_analysis_page/subsurface_node_level_plots', $data, true);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
@@ -846,6 +847,135 @@ class Site_analysis extends CI_Controller {
                 $sc = $site_code; break;
         }
         return $sc;
+    }
+
+    /**
+     *  Subsurface Node APIs 
+     */
+
+    public function NodeNumberPerSite ($column_name) {
+        $result = $this->subsurface_node_model->getSiteNodes($column_name);
+        print json_encode($result);
+    }
+
+    public function getPlotDataForNode ($column_name, $start_date, $end_date, $node) {
+        $new_node_id = "";//str_replace("-", ',', $node);
+
+        var_dump($node);
+
+        $accel_id = $this->getAccelIDsByVersion($column_name);
+
+        $version = 1;
+        if (count($accel_id) > 0) {
+            $version = $accel_id[0] === 32 ? 2 : 3;
+        }
+
+        $filtered_data = $this->AccelFilteredData($column_name, $start_date, $end_date, $new_node_id, $version);
+        $decoded_filtered_data = json_decode(json_decode($filtered_data)[0])[0];
+        
+        $battery = [];
+        $x_accelerometer = [];
+        $y_accelerometer = [];
+        $z_accelerometer = [];
+
+        foreach ($decoded_filtered_data as $accel_id => $array) {
+            foreach ($array as $point) {
+                $x_value = floatval($point->x);
+                $y_value = floatval($point->y);
+                $z_value = floatval($point->z);
+                $timestamp = strtotime($point->ts) * 1000;
+
+                $x_data = array($timestamp, $x_value);
+                $y_data = array($timestamp, $y_value);
+                $z_data = array($timestamp, $z_value);
+
+                $this->addKeyIfNotExist($accel_id, $x_accelerometer);
+                $this->addKeyIfNotExist($accel_id, $y_accelerometer);
+                $this->addKeyIfNotExist($accel_id, $z_accelerometer);
+
+                array_push($x_accelerometer[$accel_id], $x_data);
+                array_push($y_accelerometer[$accel_id], $y_data);
+                array_push($z_accelerometer[$accel_id], $z_data);
+            }
+
+            if ($accel_id !== "v1"){
+                $this->addKeyIfNotExist($accel_id, $battery);
+                $unfiltered_data = $this->subsurface_node_model->getBatteryData($column_name, $start_date, $end_date, $new_node_id, $accel_id);
+                foreach ($unfiltered_data as $point) {
+                    $battery_value = floatval($point->batt);
+                    $timestamp = strtotime($point->timestamp) * 1000;
+                    $battery_data = array($timestamp, $battery_value);
+                    array_push($battery[$accel_id], $battery_data);
+                }
+            }
+        }
+        
+        $battery_series = [];
+        $x_series = [];
+        $y_series = [];
+        $z_series = [];
+
+        foreach ($battery as $key => $value) {
+            array_push($battery_series, array(
+                'name' => "Accel $key",
+                'data' => $value
+            ));
+        }
+
+        foreach ($x_accelerometer as $key => $value) {
+            array_push($x_series, array(
+                'name' => "Accel $key",
+                'data' => $value
+            ));
+        }
+
+        foreach ($y_accelerometer as $key => $value) {
+            array_push($y_series, array(
+                'name' => "Accel $key",
+                'data' => $value
+            ));
+        }
+
+        foreach ($z_accelerometer as $key => $value) {
+            array_push($z_series, array(
+                'name' => "Accel $key",
+                'data' => $value
+            ));
+        }
+
+        $node_summary_data = array(
+            array("series_name" => "battery", "data" => $battery_series),
+            array("series_name" => "x-accelerometer", "data" => $x_series),
+            array("series_name" => "y-accelerometer", "data" => $y_series),
+            array("series_name" => "z-accelerometer", "data" => $z_series)
+        );
+
+
+        
+        // print json_encode($node_summary_data);
+        
+    }
+
+    public function AccelFilteredData ($column_name,$start_date,$end_date,$node,$message_id) {
+        $os = PHP_OS;
+
+        if (strpos($os,'WIN') !== false) {
+            $pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
+            $fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\getFilteredAccelData.py';
+        }
+        elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+            $pythonPath = '/home/jdguevarra/anaconda2/bin/python';
+            $fileName = '/var/www/updews-pycodes/Liaison/getFilteredAccelData.py';
+        }
+        else {
+            echo "Unknown OS for execution... Script discontinued";
+            return;
+        }
+        
+        $command =$pythonPath.' '.$fileName.' '.$column_name.' '.$start_date.' '.$end_date.' '.$node.' '.$message_id;
+        exec($command, $output, $return);
+        return json_encode($output);
+
     }
 
 	public function is_logged_in () {

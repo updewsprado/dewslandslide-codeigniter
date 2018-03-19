@@ -16,6 +16,7 @@
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/rainfall_plotter.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/surficial_plotter.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/subsurface_column_plotter.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/data_analysis/subsurface_node_plotter.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/site_analysis_main.js"></script>
 
 <!-- CSS FILES -->
@@ -53,9 +54,7 @@
             </div>
 
             <div class="section">
-                <div class="row section-title"><span class="pull-right">NODE OVERVIEW</span></div>
-                <div class="row section-subtitle"><span class="pull-right" id="node_name">Node 1</span></div>
-                <div class="row"><hr/></div>
+                <?php echo $subsurface_node_level_plots; ?>
             </div>
 
         </div>
