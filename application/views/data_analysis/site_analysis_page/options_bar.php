@@ -101,7 +101,7 @@
 
             <div class="row">
                 <div class="col-sm-12 text-center">
-                    <button type="submit" class="btn btn-primary btn-sm submit-btn" id="plot-node-level" onclick="plotSubsurfaceNode()">
+                    <button type="submit" class="btn btn-primary btn-sm submit-btn" id="plot-node-level">
                         Plot <span class="fa fa-search"></span>
                     </button>
                 </div>

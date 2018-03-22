@@ -859,101 +859,110 @@ class Site_analysis extends CI_Controller {
     }
 
     public function getPlotDataForNode ($column_name, $start_date, $end_date, $node) {
-        $new_node_id = "";//str_replace("-", ',', $node);
-
-        var_dump($node);
-
-        $accel_id = $this->getAccelIDsByVersion($column_name);
-
-        $version = 1;
-        if (count($accel_id) > 0) {
-            $version = $accel_id[0] === 32 ? 2 : 3;
-        }
-
-        $filtered_data = $this->AccelFilteredData($column_name, $start_date, $end_date, $new_node_id, $version);
-        $decoded_filtered_data = json_decode(json_decode($filtered_data)[0])[0];
+        $nodes = explode("-", $node);
         
         $battery = [];
         $x_accelerometer = [];
         $y_accelerometer = [];
         $z_accelerometer = [];
 
-        foreach ($decoded_filtered_data as $accel_id => $array) {
-            foreach ($array as $point) {
-                $x_value = floatval($point->x);
-                $y_value = floatval($point->y);
-                $z_value = floatval($point->z);
-                $timestamp = strtotime($point->ts) * 1000;
+        foreach ($nodes as $node_id) {
+            $index_node_id = "Node $node_id";
 
-                $x_data = array($timestamp, $x_value);
-                $y_data = array($timestamp, $y_value);
-                $z_data = array($timestamp, $z_value);
+            $accel_id = $this->getAccelIDsByVersion($column_name);
 
-                $this->addKeyIfNotExist($accel_id, $x_accelerometer);
-                $this->addKeyIfNotExist($accel_id, $y_accelerometer);
-                $this->addKeyIfNotExist($accel_id, $z_accelerometer);
-
-                array_push($x_accelerometer[$accel_id], $x_data);
-                array_push($y_accelerometer[$accel_id], $y_data);
-                array_push($z_accelerometer[$accel_id], $z_data);
+            $version = 1;
+            if (count($accel_id) > 0) {
+                $version = $accel_id[0] === 32 ? 2 : 3;
             }
 
-            if ($accel_id !== "v1"){
-                $this->addKeyIfNotExist($accel_id, $battery);
-                $unfiltered_data = $this->subsurface_node_model->getBatteryData($column_name, $start_date, $end_date, $new_node_id, $accel_id);
-                foreach ($unfiltered_data as $point) {
-                    $battery_value = floatval($point->batt);
-                    $timestamp = strtotime($point->timestamp) * 1000;
-                    $battery_data = array($timestamp, $battery_value);
-                    array_push($battery[$accel_id], $battery_data);
+            $filtered_data = $this->AccelFilteredData($column_name, $start_date, $end_date, $node_id, $version);
+            $decoded_filtered_data = json_decode(json_decode($filtered_data)[0])[0];
+            // print json_encode($decoded_filtered_data);
+            $battery[$index_node_id] = [];
+            $x_accelerometer[$index_node_id] = [];
+            $y_accelerometer[$index_node_id] = [];
+            $z_accelerometer[$index_node_id] = [];
+
+            foreach ($decoded_filtered_data as $accel_id => $array) {
+                foreach ($array as $point) {
+                    $x_value = floatval($point->x);
+                    $y_value = floatval($point->y);
+                    $z_value = floatval($point->z);
+                    $timestamp = strtotime($point->ts) * 1000;
+
+                    $x_data = array($timestamp, $x_value);
+                    $y_data = array($timestamp, $y_value);
+                    $z_data = array($timestamp, $z_value);
+
+                    $this->addKeyIfNotExist($accel_id, $x_accelerometer[$index_node_id]);
+                    $this->addKeyIfNotExist($accel_id, $y_accelerometer[$index_node_id]);
+                    $this->addKeyIfNotExist($accel_id, $z_accelerometer[$index_node_id]);
+
+                    array_push($x_accelerometer[$index_node_id][$accel_id], $x_data);
+                    array_push($y_accelerometer[$index_node_id][$accel_id], $y_data);
+                    array_push($z_accelerometer[$index_node_id][$accel_id], $z_data);
+                }
+
+                if ($accel_id !== "v1"){
+                    $this->addKeyIfNotExist($accel_id, $battery[$index_node_id]);
+                    $unfiltered_data = $this->subsurface_node_model->getBatteryData($column_name, $start_date, $end_date, $node_id, $accel_id);
+                    foreach ($unfiltered_data as $point) {
+                        $battery_value = floatval($point->batt);
+                        $timestamp = strtotime($point->timestamp) * 1000;
+                        $battery_data = array($timestamp, $battery_value);
+                        array_push($battery[$index_node_id][$accel_id], $battery_data);
+                    }
                 }
             }
         }
-        
+
         $battery_series = [];
         $x_series = [];
         $y_series = [];
         $z_series = [];
 
-        foreach ($battery as $key => $value) {
-            array_push($battery_series, array(
-                'name' => "Accel $key",
-                'data' => $value
-            ));
-        }
+        foreach ($nodes as $node_id) {
+        
+            foreach ($battery["Node $node_id"] as $key => $value) {
+                array_push($battery_series, array(
+                    'name' => "Node $node_id Accel $key",
+                    'data' => $value
+                ));
+            }
 
-        foreach ($x_accelerometer as $key => $value) {
-            array_push($x_series, array(
-                'name' => "Accel $key",
-                'data' => $value
-            ));
-        }
+            foreach ($x_accelerometer["Node $node_id"] as $key => $value) { //array
+                //a = array->type == "raw" ? Raw : filtered
+                array_push($x_series, array(
+                    'name' => "Node $node_id Accel $key",
+                    'data' => $value //array->value
+                ));
+            }
 
-        foreach ($y_accelerometer as $key => $value) {
-            array_push($y_series, array(
-                'name' => "Accel $key",
-                'data' => $value
-            ));
-        }
+            foreach ($y_accelerometer["Node $node_id"] as $key => $value) {
+                array_push($y_series, array(
+                    'name' => "Node $node_id Accel $key",
+                    'data' => $value
+                ));
+            }
 
-        foreach ($z_accelerometer as $key => $value) {
-            array_push($z_series, array(
-                'name' => "Accel $key",
-                'data' => $value
-            ));
+            foreach ($z_accelerometer["Node $node_id"] as $key => $value) {
+                array_push($z_series, array(
+                    'name' => "Node $node_id Accel $key",
+                    'data' => $value
+                ));
+            }
+            
         }
-
+        
         $node_summary_data = array(
             array("series_name" => "battery", "data" => $battery_series),
             array("series_name" => "x-accelerometer", "data" => $x_series),
             array("series_name" => "y-accelerometer", "data" => $y_series),
             array("series_name" => "z-accelerometer", "data" => $z_series)
         );
-
-
         
-        // print json_encode($node_summary_data);
-        
+        print json_encode($node_summary_data);
     }
 
     public function AccelFilteredData ($column_name,$start_date,$end_date,$node,$message_id) {

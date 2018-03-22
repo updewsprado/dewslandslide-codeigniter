@@ -8,6 +8,22 @@
 			<div class="col-sm-4">
 				<h4>NODE ANALYSIS</h4>
 			</div>
+
+			<div class="col-sm-8 text-right" id="node-summary-options">
+				<div class="btn-group" id="node-summary-duration">
+					<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="node-summary-duration-btn">
+				    	7 days&emsp;<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+					    <li><a data-value="3" data-duration="days">3 days</a></li>
+					    <li><a data-value="7" data-duration="days">7 days</a></li>
+					    <li><a data-value="1" data-duration="month">1 month</a></li>
+					    <li><a data-value="6" data-duration="months">6 months</a></li>
+					    <li><a data-value="1" data-duration="year">1 year</a></li>
+					    <li><a data-duration="All">All</a></li>
+				 	</ul>
+				</div>
+			</div>
 		</div>
 		<div><hr class="plot-title-hr"/></div>
 		<div class="row">
