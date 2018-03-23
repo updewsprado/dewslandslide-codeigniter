@@ -13,11 +13,11 @@
 
 <script src="/js/third-party/inferno.js"></script>
 
+<script type="text/javascript" src="/js/dewslandslide/data_analysis/site_analysis_main.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/rainfall_plotter.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/surficial_plotter.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/subsurface_column_plotter.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/subsurface_node_plotter.js"></script>
-<script type="text/javascript" src="/js/dewslandslide/data_analysis/site_analysis_main.js"></script>
 
 <!-- CSS FILES -->
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/site_analysis.css">
@@ -34,11 +34,11 @@
         </div>
         <!-- /.row -->
 
-        <div class="col-sm-3" id="options-bar">
+        <div class="col-sm-3" id="options-bar" data-collapsed="false">
            <?php echo $options_bar; ?>
         </div>
 
-        <div class="col-sm-9">
+        <div class="col-sm-9" id="main-plots-container">
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a href="#" class="active">Home</a></li>     

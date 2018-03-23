@@ -26,7 +26,7 @@ class Site_analysis extends CI_Controller {
         $data['options_bar'] = $this->load->view('data_analysis/site_analysis_page/options_bar', $data, true);
         $data['site_level_plots'] = $this->load->view('data_analysis/site_analysis_page/site_level_plots', $data, true);
         $data['subsurface_column_plots'] = $this->load->view('data_analysis/site_analysis_page/subsurface_column_plots', $data, true);
-        $data['subsurface_node_level_plots'] = $this->load->view('data_analysis/site_analysis_page/subsurface_node_level_plots', $data, true);
+        $data['subsurface_node_level_plots'] = $this->load->view('data_analysis/site_analysis_page/subsurface_node_plots', $data, true);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
@@ -560,14 +560,6 @@ class Site_analysis extends CI_Controller {
      *  Node Summary APIs
      */
 
-    public function test () {
-        // $data = $this->getPlotDataForColumnSummary("magta", "2016-10-14T12:00:00", "2016-10-16T12:00:00");
-        $data = $this->getPlotDataForColumnSummary("agbta", "2017-11-140T12:00:00", "2017-11-16T12:00:00");
-        print "<pre>";
-        print_r($data);
-        print "</pre>";
-    }
-
     public function getPlotDataForColumnSummary ($site_column, $start_date, $end_date, $include_node_health = true) {
         $one_week_ago = strtotime($end_date) - 604800;
         $temp_start = $start_date;
@@ -750,7 +742,6 @@ class Site_analysis extends CI_Controller {
             }
         }
 
-
         return $array;
     }
 
@@ -801,6 +792,128 @@ class Site_analysis extends CI_Controller {
     }
 
     /**
+     *  Subsurface Node APIs 
+     */
+
+    public function test () {
+        // $data = $this->getPlotDataForColumnSummary("magta", "2016-10-14T12:00:00", "2016-10-16T12:00:00");
+        $data = $this->getPlotDataForNode("agbta", "2016-01-15", "2016-01-21", "1-3-5");
+        print "<pre>";
+        var_dump($data);
+        print "</pre>";
+    }
+
+    public function getSiteColumnNodeCount ($column_name) {
+        $result = $this->subsurface_node_model->getSiteColumnNodeCount($column_name);
+        echo json_encode($result);
+    }
+
+    public function getPlotDataForNode ($column_name, $start_date, $end_date, $node) {
+        $node_list = explode("-", $node);
+        $delegate_array = [[], [], [], []];
+
+        foreach ($node_list as $node_id) {
+            $index_node_id = "Node $node_id";
+            $accel_id = $this->getAccelIDsByVersion($column_name);
+
+            $version = 1;
+            if (count($accel_id) > 0) {
+                $version = $accel_id[0] === 32 ? 2 : 3;
+            }
+
+            $filtered_data = $this->getFilteredAccelData($column_name, $start_date, $end_date, $node_id, $version);
+            
+            foreach ($delegate_array as $key => $array) {
+                $delegate_array[$key][$index_node_id] = [];
+            }
+
+            foreach ($filtered_data as $accel_id => $array) {
+                foreach ($array as $point) {
+                    $point_values = array(
+                        floatval($point->x),
+                        floatval($point->y),
+                        floatval($point->z)
+                    );
+                    $timestamp = strtotime($point->ts) * 1000;
+
+                    // Loop on delegate_array up to z_accel only
+                    for ($i = 0; $i < 3; $i += 1) { 
+                        $this->addKeyIfNotExist($accel_id, $delegate_array[$i][$index_node_id]);
+                        array_push($delegate_array[$i][$index_node_id][$accel_id], array(
+                            $timestamp,
+                            $point_values[$i]
+                        ));
+                    }
+                }
+
+                if ($accel_id !== "v1") {
+                    // $this->addKeyIfNotExist($accel_id, $battery[$index_node_id]);
+                    $this->addKeyIfNotExist($accel_id, $delegate_array[3][$index_node_id]);
+                    $unfiltered_data = $this->subsurface_node_model->getBatteryData($column_name, $start_date, $end_date, $node_id, $accel_id);
+                    foreach ($unfiltered_data as $point) {
+                        $battery_value = floatval($point->batt);
+                        $timestamp = strtotime($point->timestamp) * 1000;
+                        $battery_data = array($timestamp, $battery_value);
+                        // array_push($battery[$index_node_id][$accel_id], $battery_data);
+                        array_push($delegate_array[3][$index_node_id][$accel_id], $battery_data);
+                    }
+                }
+            }
+        }
+
+        $temp_series = [[], [], [], []];
+        foreach ($delegate_array as $key => $array) {
+            foreach ($array as $node_id => $accel_array) {
+                foreach ($accel_array as $accel_id => $point_array) {
+                    $accel = $accel_id === "v1" ? "Data" : "Accel $accel_id";
+                    array_push($temp_series[$key], array(
+                        "name" => "$node_id, $accel (Filtered)",
+                        "data" => $point_array
+                    ));
+                }
+            }
+        }
+
+        $lookup = ["x-accelerometer", "y-accelerometer", "z-accelerometer", "battery"];
+        $final_series = [];
+        foreach ($temp_series as $key => $series) {
+            array_push($final_series, array(
+                "series_name" => $lookup[$key],
+                "data" => $series
+            ));
+        }
+        
+        echo json_encode($final_series);
+        // return $final_series;
+    }
+
+    public function getFilteredAccelData ($column_name, $start_date, $end_date, $node_id, $message_id) {
+        try {
+            $paths = $this->getOSspecificpath();
+        } catch (Exception $e) {
+            echo "Caught exception: ",  $e->getMessage(), "\n";
+        }
+
+        $exec_file = "getFilteredAccelData.py";
+
+        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $column_name $start_date $end_date $node_id $message_id";
+
+        exec($command, $output, $return);
+        return json_decode($output[0])[0]; // Because for some reason, the data is inside an array
+    }
+
+    public function is_logged_in () {
+        $is_logged_in = $this->session->userdata('is_logged_in');
+        
+        if(!isset($is_logged_in) || ($is_logged_in !== TRUE)) {
+            echo 'You don\'t have permission to access this page. <a href="../lin">Login</a>';
+            die();
+        }
+        else {
+        }
+    }
+
+    /**
      *  Helper Functions
      */
 
@@ -848,154 +961,5 @@ class Site_analysis extends CI_Controller {
         }
         return $sc;
     }
-
-    /**
-     *  Subsurface Node APIs 
-     */
-
-    public function NodeNumberPerSite ($column_name) {
-        $result = $this->subsurface_node_model->getSiteNodes($column_name);
-        print json_encode($result);
-    }
-
-    public function getPlotDataForNode ($column_name, $start_date, $end_date, $node) {
-        $nodes = explode("-", $node);
-        
-        $battery = [];
-        $x_accelerometer = [];
-        $y_accelerometer = [];
-        $z_accelerometer = [];
-
-        foreach ($nodes as $node_id) {
-            $index_node_id = "Node $node_id";
-
-            $accel_id = $this->getAccelIDsByVersion($column_name);
-
-            $version = 1;
-            if (count($accel_id) > 0) {
-                $version = $accel_id[0] === 32 ? 2 : 3;
-            }
-
-            $filtered_data = $this->AccelFilteredData($column_name, $start_date, $end_date, $node_id, $version);
-            $decoded_filtered_data = json_decode(json_decode($filtered_data)[0])[0];
-            // print json_encode($decoded_filtered_data);
-            $battery[$index_node_id] = [];
-            $x_accelerometer[$index_node_id] = [];
-            $y_accelerometer[$index_node_id] = [];
-            $z_accelerometer[$index_node_id] = [];
-
-            foreach ($decoded_filtered_data as $accel_id => $array) {
-                foreach ($array as $point) {
-                    $x_value = floatval($point->x);
-                    $y_value = floatval($point->y);
-                    $z_value = floatval($point->z);
-                    $timestamp = strtotime($point->ts) * 1000;
-
-                    $x_data = array($timestamp, $x_value);
-                    $y_data = array($timestamp, $y_value);
-                    $z_data = array($timestamp, $z_value);
-
-                    $this->addKeyIfNotExist($accel_id, $x_accelerometer[$index_node_id]);
-                    $this->addKeyIfNotExist($accel_id, $y_accelerometer[$index_node_id]);
-                    $this->addKeyIfNotExist($accel_id, $z_accelerometer[$index_node_id]);
-
-                    array_push($x_accelerometer[$index_node_id][$accel_id], $x_data);
-                    array_push($y_accelerometer[$index_node_id][$accel_id], $y_data);
-                    array_push($z_accelerometer[$index_node_id][$accel_id], $z_data);
-                }
-
-                if ($accel_id !== "v1"){
-                    $this->addKeyIfNotExist($accel_id, $battery[$index_node_id]);
-                    $unfiltered_data = $this->subsurface_node_model->getBatteryData($column_name, $start_date, $end_date, $node_id, $accel_id);
-                    foreach ($unfiltered_data as $point) {
-                        $battery_value = floatval($point->batt);
-                        $timestamp = strtotime($point->timestamp) * 1000;
-                        $battery_data = array($timestamp, $battery_value);
-                        array_push($battery[$index_node_id][$accel_id], $battery_data);
-                    }
-                }
-            }
-        }
-
-        $battery_series = [];
-        $x_series = [];
-        $y_series = [];
-        $z_series = [];
-
-        foreach ($nodes as $node_id) {
-        
-            foreach ($battery["Node $node_id"] as $key => $value) {
-                array_push($battery_series, array(
-                    'name' => "Node $node_id Accel $key",
-                    'data' => $value
-                ));
-            }
-
-            foreach ($x_accelerometer["Node $node_id"] as $key => $value) { //array
-                //a = array->type == "raw" ? Raw : filtered
-                array_push($x_series, array(
-                    'name' => "Node $node_id Accel $key",
-                    'data' => $value //array->value
-                ));
-            }
-
-            foreach ($y_accelerometer["Node $node_id"] as $key => $value) {
-                array_push($y_series, array(
-                    'name' => "Node $node_id Accel $key",
-                    'data' => $value
-                ));
-            }
-
-            foreach ($z_accelerometer["Node $node_id"] as $key => $value) {
-                array_push($z_series, array(
-                    'name' => "Node $node_id Accel $key",
-                    'data' => $value
-                ));
-            }
-            
-        }
-        
-        $node_summary_data = array(
-            array("series_name" => "battery", "data" => $battery_series),
-            array("series_name" => "x-accelerometer", "data" => $x_series),
-            array("series_name" => "y-accelerometer", "data" => $y_series),
-            array("series_name" => "z-accelerometer", "data" => $z_series)
-        );
-        
-        print json_encode($node_summary_data);
-    }
-
-    public function AccelFilteredData ($column_name,$start_date,$end_date,$node,$message_id) {
-        $os = PHP_OS;
-
-        if (strpos($os,'WIN') !== false) {
-            $pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
-            $fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\getFilteredAccelData.py';
-        }
-        elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-            $pythonPath = '/home/jdguevarra/anaconda2/bin/python';
-            $fileName = '/var/www/updews-pycodes/Liaison/getFilteredAccelData.py';
-        }
-        else {
-            echo "Unknown OS for execution... Script discontinued";
-            return;
-        }
-        
-        $command =$pythonPath.' '.$fileName.' '.$column_name.' '.$start_date.' '.$end_date.' '.$node.' '.$message_id;
-        exec($command, $output, $return);
-        return json_encode($output);
-
-    }
-
-	public function is_logged_in () {
-		$is_logged_in = $this->session->userdata('is_logged_in');
-		
-		if(!isset($is_logged_in) || ($is_logged_in !== TRUE)) {
-			echo 'You don\'t have permission to access this page. <a href="../lin">Login</a>';
-			die();
-		}
-		else {
-		}
-	}
 }
 ?>

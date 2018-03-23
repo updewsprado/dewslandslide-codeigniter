@@ -3,13 +3,12 @@
 
 	class Subsurface_node_model extends CI_Model
 	{
-		function __construct()
-		{
+		function __construct() {
 			parent::__construct();
 			$this->load->database();
 		}
 
-		public function getBatteryData($column_name,$start_date,$end_date,$node,$message_id){
+		public function getBatteryData ($column_name, $start_date, $end_date, $node, $message_id){
 			$this->db->select('*');
 			$this->db->from($column_name);
 			$this->db->where('msgid', $message_id);
@@ -20,7 +19,7 @@
 			return $query->result();
 		}
 
-		public function getSiteNodes($site){
+		public function getSiteNodes($site) {
 			$this->db->select('*');
 			$this->db->from('site_column_props');
 			$this->db->where("name", $site);

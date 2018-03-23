@@ -26,34 +26,14 @@
 			</div>
 		</div>
 		<div><hr class="plot-title-hr"/></div>
-		<div class="row">
-			<div class="col-sm-12 text-center">
-				<strong>Battery Plot</strong>
-			</div>
-		</div>
 		<div class="subsurface-node-plot-container row" id="battery">
 			<div class="col-sm-12" id="battery-graph"></div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12 text-center">
-				<strong>X-Accelerometer Plot</strong>
-			</div>
 		</div>
 		<div class="subsurface-node-plot-container row" id="x-accelerometer">
 			<div class="col-sm-12" id="x-accelerometer-graph"></div>
 		</div>
-		<div class="row">
-			<div class="col-sm-12 text-center">
-				<strong>Y-Accelerometer Plot</strong>
-			</div>
-		</div>
 		<div class="subsurface-node-plot-container row" id="y-accelerometer">
 			<div class="col-sm-12" id="y-accelerometer-graph"></div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12 text-center">
-				<strong>Z-Accelerometer Plot</strong>
-			</div>
 		</div>
 		<div class="subsurface-node-plot-container row" id="z-accelerometer">
 			<div class="col-sm-12" id="z-accelerometer-graph"></div>
