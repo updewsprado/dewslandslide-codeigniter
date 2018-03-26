@@ -835,41 +835,64 @@ class Site_analysis extends CI_Controller {
                         floatval($point->z)
                     );
                     $timestamp = strtotime($point->ts) * 1000;
-
                     // Loop on delegate_array up to z_accel only
                     for ($i = 0; $i < 3; $i += 1) { 
                         $this->addKeyIfNotExist($accel_id, $delegate_array[$i][$index_node_id]);
                         array_push($delegate_array[$i][$index_node_id][$accel_id], array(
                             $timestamp,
-                            $point_values[$i]
+                            $point_values[$i],
+                            "filtered"
                         ));
                     }
                 }
 
                 if ($accel_id !== "v1") {
-                    // $this->addKeyIfNotExist($accel_id, $battery[$index_node_id]);
-                    $this->addKeyIfNotExist($accel_id, $delegate_array[3][$index_node_id]);
                     $unfiltered_data = $this->subsurface_node_model->getBatteryData($column_name, $start_date, $end_date, $node_id, $accel_id);
                     foreach ($unfiltered_data as $point) {
-                        $battery_value = floatval($point->batt);
+                        $point_values = array(
+                            floatval($point->xvalue),
+                            floatval($point->yvalue),
+                            floatval($point->zvalue),
+                            floatval($point->batt)
+                        );
                         $timestamp = strtotime($point->timestamp) * 1000;
-                        $battery_data = array($timestamp, $battery_value);
-                        // array_push($battery[$index_node_id][$accel_id], $battery_data);
-                        array_push($delegate_array[3][$index_node_id][$accel_id], $battery_data);
+                        for ($i = 0; $i < 4; $i += 1) { 
+                            $this->addKeyIfNotExist($accel_id, $delegate_array[$i][$index_node_id]);
+                            array_push($delegate_array[$i][$index_node_id][$accel_id], array(
+                                $timestamp,
+                                $point_values[$i],
+                                "raw"
+                            ));
+                        }
                     }
                 }
             }
         }
-
         $temp_series = [[], [], [], []];
         foreach ($delegate_array as $key => $array) {
             foreach ($array as $node_id => $accel_array) {
                 foreach ($accel_array as $accel_id => $point_array) {
                     $accel = $accel_id === "v1" ? "Data" : "Accel $accel_id";
-                    array_push($temp_series[$key], array(
-                        "name" => "$node_id, $accel (Filtered)",
-                        "data" => $point_array
-                    ));
+
+                    // if delegate_array is battery
+                    if ($key === 3 || $accel_id === "v1") {
+                        array_push($temp_series[$key], array(
+                            "name" => "$node_id, $accel",
+                            "data" => $point_array
+                        ));
+                    } else {
+                        foreach (["filtered", "raw"] as $filter) {
+                            $filtered_array = array_filter($point_array, function ($a) use ($filter) {
+                                return $a[2] === $filter;
+                            });
+
+                            $filter_label = ucwords($filter);
+                            array_push($temp_series[$key], array(
+                                "name" => "$node_id, $accel ($filter_label)",
+                                "data" => array_values($filtered_array)
+                            ));
+                        }
+                    }
                 }
             }
         }
@@ -884,8 +907,9 @@ class Site_analysis extends CI_Controller {
         }
         
         echo json_encode($final_series);
-        // return $final_series;
     }
+
+
 
     public function getFilteredAccelData ($column_name, $start_date, $end_date, $node_id, $message_id) {
         try {
