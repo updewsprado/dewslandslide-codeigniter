@@ -881,15 +881,15 @@ class Site_analysis extends CI_Controller {
                             "data" => $point_array
                         ));
                     } else {
-                        foreach (["filtered", "raw"] as $filter) {
-                            $filtered_array = array_filter($point_array, function ($a) use ($filter) {
-                                return $a[2] === $filter;
+                        foreach (["filtered", "raw"] as $check_filter_type) {
+                            $grouped_array = array_filter($point_array, function ($filter_type) use ($check_filter_type) {
+                                return $filter_type[2] === $check_filter_type;
                             });
 
-                            $filter_label = ucwords($filter);
+                            $filter_label = ucwords($check_filter_type);
                             array_push($temp_series[$key], array(
                                 "name" => "$node_id, $accel ($filter_label)",
-                                "data" => array_values($filtered_array)
+                                "data" => array_values($grouped_array)
                             ));
                         }
                     }
@@ -957,7 +957,7 @@ class Site_analysis extends CI_Controller {
             $python_path = "C:/Users/Dynaslope/Anaconda2/python.exe";
             $file_path = "C:/xampp/updews-pycodes/Liaison/";
         } elseif (strpos($os, "UBUNTU") !== false || strpos($os, "Linux") !== false) {
-            $python_path = "/home/jdguevarra/anaconda2/bin/python";
+            $python_path = "/home/ubuntu/anaconda2/bin/python";
             $file_path = "/var/www/updews-pycodes/Liaison/";
         } else {
             throw new Exception("Unknown OS for execution... Script discontinued...");
