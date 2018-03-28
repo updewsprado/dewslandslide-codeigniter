@@ -9,7 +9,7 @@
 <script src="/js/third-party/d3.v3.min.js"></script>
 <script src="/js/third-party/d3.tip.v0.6.3.js"></script>
 
-<!-- <script src="/js/third-party/heatmap.js"></script> -->
+<script src="/js/third-party/sticky-sidebar.js"></script>
 
 <script src="/js/third-party/inferno.js"></script>
 
@@ -41,19 +41,19 @@
         <div class="col-sm-9" id="main-plots-container">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a href="#" class="active">Home</a></li>     
+                    <li class="main">Site Analysis Page</li>
                 </ol>
             </div>
 
-            <div class="section" id="site-overview-container">
+            <div class="section" id="site-plots-container" hidden>
                 <?php echo $site_level_plots; ?>
             </div>
 
-            <div class="section">
-                <?php echo $subsurface_column_plots; ?>
+            <div class="section" id="subsurface-column-plots-container" hidden>
+                <?php echo $subsurface_column_level_plots; ?>
             </div>
 
-            <div class="section">
+            <div class="section" id="subsurface-node-plots-container" hidden>
                 <?php echo $subsurface_node_level_plots; ?>
             </div>
 

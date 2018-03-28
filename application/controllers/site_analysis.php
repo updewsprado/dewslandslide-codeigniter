@@ -25,13 +25,13 @@ class Site_analysis extends CI_Controller {
         $data['sites'] = $this->pubrelease_model->getSites();
         $data['options_bar'] = $this->load->view('data_analysis/site_analysis_page/options_bar', $data, true);
         $data['site_level_plots'] = $this->load->view('data_analysis/site_analysis_page/site_level_plots', $data, true);
-        $data['subsurface_column_plots'] = $this->load->view('data_analysis/site_analysis_page/subsurface_column_plots', $data, true);
+        $data['subsurface_column_level_plots'] = $this->load->view('data_analysis/site_analysis_page/subsurface_column_plots', $data, true);
         $data['subsurface_node_level_plots'] = $this->load->view('data_analysis/site_analysis_page/subsurface_node_plots', $data, true);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
-		$this->load->view('templates/footer');
         $this->load->view('data_analysis/site_analysis_page/main', $data);
+        $this->load->view('templates/footer');
 	}
 
     /**
@@ -560,7 +560,7 @@ class Site_analysis extends CI_Controller {
      *  Node Summary APIs
      */
 
-    public function getPlotDataForColumnSummary ($site_column, $start_date, $end_date, $include_node_health = true) {
+    public function getPlotDataForColumnSummary ($subsurface_column, $start_date, $end_date, $include_node_health = true) {
         $one_week_ago = strtotime($end_date) - 604800;
         $temp_start = $start_date;
         $is_capped = false;
@@ -569,8 +569,8 @@ class Site_analysis extends CI_Controller {
             $is_capped = true;
         }
 
-        $data_presence = $this->getPlotDataForDataPresence($site_column, $temp_start, $end_date, $is_capped);
-        $communication_health = $this->getPlotDataForCommunicationHealth($site_column, $start_date, $end_date);
+        $data_presence = $this->getPlotDataForDataPresence($subsurface_column, $temp_start, $end_date, $is_capped);
+        $communication_health = $this->getPlotDataForCommunicationHealth($subsurface_column, $start_date, $end_date);
 
         $column_summary = array(
             array("series_name" => "data_presence", "data" => $data_presence),
@@ -578,7 +578,7 @@ class Site_analysis extends CI_Controller {
         );
 
         if ($include_node_health) {
-            $node_summary = $this->getPlotDataForNodeHealthSummary($site_column);
+            $node_summary = $this->getPlotDataForNodeHealthSummary($subsurface_column);
             array_push($column_summary, array("series_name" => "node_summary", "data" => $node_summary));
         }
 
@@ -586,9 +586,9 @@ class Site_analysis extends CI_Controller {
         // return $column_summary;
     }
 
-    public function getPlotDataForNodeHealthSummary ($site_column) {
-        $node_count = $this->subsurface_node_model->getSiteColumnNodeCount($site_column);
-        $node_status = $this->subsurface_node_model->getAllSiteColumnNodeStatus($site_column);
+    public function getPlotDataForNodeHealthSummary ($subsurface_column) {
+        $node_count = $this->subsurface_node_model->getSiteColumnNodeCount($subsurface_column);
+        $node_status = $this->subsurface_node_model->getAllSiteColumnNodeStatus($subsurface_column);
 
         $y_iterators = $this->computeForYValues($node_count, 25);
 
@@ -642,8 +642,8 @@ class Site_analysis extends CI_Controller {
      *  Data Presence APIs
      */
 
-    public function getPlotDataForDataPresence ($site_column, $start_date, $end_date, $is_capped = false) {
-        $data = $this->subsurface_column_model->getSubsurfaceColumnDataPresence($site_column, $start_date, $end_date);
+    public function getPlotDataForDataPresence ($subsurface_column, $start_date, $end_date, $is_capped = false) {
+        $data = $this->subsurface_column_model->getSubsurfaceColumnDataPresence($subsurface_column, $start_date, $end_date);
         $min_date = strtotime($start_date) * 1000;
         $max_date = strtotime($end_date) * 1000;
         $thirty_min = 1800000;
@@ -702,21 +702,21 @@ class Site_analysis extends CI_Controller {
      *  Data Presence APIs
      */
 
-    public function getPlotDataForCommunicationHealth ($site_column, $start_date, $end_date) {
-        $data = $this->subsurface_column_model->getSubsurfaceColumnData($site_column, $start_date, $end_date);
-        $node_count = (int) $this->subsurface_node_model->getSiteColumnNodeCount($site_column);
-        $array = $this->delegateSubsurfaceColumnDataForComputation($data, $site_column, $node_count);
+    public function getPlotDataForCommunicationHealth ($subsurface_column, $start_date, $end_date) {
+        $data = $this->subsurface_column_model->getSubsurfaceColumnData($subsurface_column, $start_date, $end_date);
+        $node_count = (int) $this->subsurface_node_model->getSiteColumnNodeCount($subsurface_column);
+        $array = $this->delegateSubsurfaceColumnDataForComputation($data, $subsurface_column, $node_count);
 
         // + 1 because the end_date is inclusive
         $expected_no_of_timestamps = (strtotime($end_date) - strtotime($start_date)) / 1800 + 1;
-        $accel_ids = $this->getAccelIDsByVersion($site_column);
+        $accel_ids = $this->getAccelIDsByVersion($subsurface_column);
         $communication_health = $this->computeForCommunicationHealth($array, $expected_no_of_timestamps, $node_count, $accel_ids);
 
         return $communication_health;
     }
 
-    private function getAccelIDsByVersion ($site_column) {
-        $version = $this->subsurface_column_model->getSubsurfaceColumnVersion($site_column);
+    private function getAccelIDsByVersion ($subsurface_column) {
+        $version = $this->subsurface_column_model->getSubsurfaceColumnVersion($subsurface_column);
         switch ((int) $version) {
             default:
             case 1: return [];
@@ -725,7 +725,7 @@ class Site_analysis extends CI_Controller {
         }
     }
 
-    private function delegateSubsurfaceColumnDataForComputation ($data, $site_column, $node_count) {
+    private function delegateSubsurfaceColumnDataForComputation ($data, $subsurface_column, $node_count) {
         $array = [];
         foreach ($data as $point) {
             $node_id = $point->id;
@@ -734,7 +734,7 @@ class Site_analysis extends CI_Controller {
                 $timestamp = $point->timestamp;
                 $temp = array("timestamp" => $timestamp);
 
-                if (strlen($site_column) > 4) {
+                if (strlen($subsurface_column) > 4) {
                     $temp["accel_id"] = $point->msgid;
                 }
 
@@ -803,25 +803,25 @@ class Site_analysis extends CI_Controller {
         print "</pre>";
     }
 
-    public function getSiteColumnNodeCount ($column_name) {
-        $result = $this->subsurface_node_model->getSiteColumnNodeCount($column_name);
+    public function getSiteColumnNodeCount ($subsurface_column) {
+        $result = $this->subsurface_node_model->getSiteColumnNodeCount($subsurface_column);
         echo json_encode($result);
     }
 
-    public function getPlotDataForNode ($column_name, $start_date, $end_date, $node) {
+    public function getPlotDataForNode ($subsurface_column, $start_date, $end_date, $node) {
         $node_list = explode("-", $node);
         $delegate_array = [[], [], [], []];
 
         foreach ($node_list as $node_id) {
             $index_node_id = "Node $node_id";
-            $accel_id = $this->getAccelIDsByVersion($column_name);
+            $accel_id = $this->getAccelIDsByVersion($subsurface_column);
 
             $version = 1;
             if (count($accel_id) > 0) {
                 $version = $accel_id[0] === 32 ? 2 : 3;
             }
 
-            $filtered_data = $this->getFilteredAccelData($column_name, $start_date, $end_date, $node_id, $version);
+            $filtered_data = $this->getFilteredAccelData($subsurface_column, $start_date, $end_date, $node_id, $version);
             
             foreach ($delegate_array as $key => $array) {
                 $delegate_array[$key][$index_node_id] = [];
@@ -847,7 +847,7 @@ class Site_analysis extends CI_Controller {
                 }
 
                 if ($accel_id !== "v1") {
-                    $unfiltered_data = $this->subsurface_node_model->getBatteryData($column_name, $start_date, $end_date, $node_id, $accel_id);
+                    $unfiltered_data = $this->subsurface_node_model->getBatteryData($subsurface_column, $start_date, $end_date, $node_id, $accel_id);
                     foreach ($unfiltered_data as $point) {
                         $point_values = array(
                             floatval($point->xvalue),
@@ -888,7 +888,7 @@ class Site_analysis extends CI_Controller {
 
                             $filter_label = ucwords($check_filter_type);
                             array_push($temp_series[$key], array(
-                                "name" => "$node_id, $accel ($filter_label)",
+                                "name" => "$node_id, $accel<br/>($filter_label)",
                                 "data" => array_values($grouped_array)
                             ));
                         }
@@ -909,9 +909,7 @@ class Site_analysis extends CI_Controller {
         echo json_encode($final_series);
     }
 
-
-
-    public function getFilteredAccelData ($column_name, $start_date, $end_date, $node_id, $message_id) {
+    public function getFilteredAccelData ($subsurface_column, $start_date, $end_date, $node_id, $message_id) {
         try {
             $paths = $this->getOSspecificpath();
         } catch (Exception $e) {
@@ -920,7 +918,7 @@ class Site_analysis extends CI_Controller {
 
         $exec_file = "getFilteredAccelData.py";
 
-        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $column_name $start_date $end_date $node_id $message_id";
+        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $subsurface_column $start_date $end_date $node_id $message_id";
 
         exec($command, $output, $return);
         return json_decode($output[0])[0]; // Because for some reason, the data is inside an array

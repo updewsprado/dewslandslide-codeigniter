@@ -33,7 +33,7 @@
 			$this->db->join("site_column AS sc", "sc.s_id = props.s_id");
 			$this->db->where("sc.name", $site_column);
 			$data = $this->db->get();
-			return $data->row()->node_count;
+			return ($data->num_rows() === 0) ? 0 : $data->row()->node_count;
 		}
 
 		public function getAllSiteColumnNodeStatus ($site_column) {
