@@ -1,7 +1,7 @@
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <span class="hideable"><strong>Filter options: </strong></span><a id="toggle-options-bar" style="cursor: pointer"><strong><span class="fa fa-angle-double-left"></span></strong></a>
+    <div class="panel panel-default" id="options-bar-affix">
+        <div class="panel-heading text-right">
+            <span class="hideable-hide pull-left"><strong>PLOT OPTIONS: </strong></span><a id="toggle-options-bar" style="cursor: pointer"><strong><span class="fa fa-angle-double-left"></span></strong></a>
         </div>
         <div class="panel-body">
             <form id="site-analysis-form">
@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="form-group hideable">
-                    <label class="control-label" for="site_code">Site Name</label>
+                    <label class="control-label" for="site_code">Site Code</label>
                     <select class="form-control" id="site_code" name="site_code">
                         <option value="">---</option>
                         <?php foreach(json_decode($sites) as $site): ?>
@@ -69,38 +69,37 @@
                         </button>
                     </div>
                 </div>
+
+                <div class="row hideable"><hr class="options-divider"/></div>
+
+                <div class="row options-section-title hideable">
+                    <div class="col-sm-12 text-center">
+                        NODE LEVEL PLOTS
+                    </div>
+                    <hr/>
+                </div>
+
+                <div class="form-group hideable">
+                    <label class="control-label" for="nodes">Node(s)</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="nodes" name="nodes" readonly>
+                        <div class="input-group-btn">
+                            <button id="clear-nodes" type="button" class="btn btn-default"><span class="fa fa-eraser"></span></button>
+                            <!-- <span class="dropup"> -->
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="node-button" style="margin-left: 0;"><span class="caret"></span></button>
+                                <ul class="dropdown-menu dropdown-menu-right" id="node-list"></ul>
+                            <!-- </span> -->
+                        </div><!-- /btn-group -->
+                    </div><!-- /input-group -->
+                </div>
+
+                <div class="row hideable">
+                    <div class="col-sm-12 text-center">
+                        <button type="submit" class="btn btn-primary btn-sm submit-btn" id="plot-node-level">
+                            Plot <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </div>
             </form>
-
-            <div class="row hideable"><hr class="options-divider"/></div>
-
-            <div class="row options-section-title hideable">
-                <div class="col-sm-12 text-center">
-                    NODE LEVEL PLOTS
-                </div>
-                <hr/>
-            </div>
-
-            <div class="form-group hideable">
-                <label class="control-label" for="nodes">Node(s)</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="nodes" name="nodes" readonly>
-                    <div class="input-group-btn">
-                        <button id="clear-nodes" type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span></button>
-                        <span class="dropup">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="node-button" style="margin-left: 0;"><span class="caret"></span></button>
-                            <ul class="dropdown-menu dropdown-menu-right" id="node-list"></ul>
-                        </span>
-                    </div><!-- /btn-group -->
-                </div><!-- /input-group -->
-            </div>
-
-            <div class="row hideable">
-                <div class="col-sm-12 text-center">
-                    <button type="submit" class="btn btn-primary btn-sm submit-btn" id="plot-node-level">
-                        Plot <span class="fa fa-search"></span>
-                    </button>
-                </div>
-            </div>
-
         </div>
     </div>
