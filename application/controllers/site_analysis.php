@@ -224,6 +224,7 @@ class Site_analysis extends CI_Controller {
         $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $site_code $marker_name $end_date";
 
         exec($command, $output, $return);
+        // var_dump($output);
         return json_decode($output[0]); // Because for some reason, the data is inside an array
     }
 
