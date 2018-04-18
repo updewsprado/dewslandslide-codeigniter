@@ -21,13 +21,19 @@
     <link href="/css/third-party/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- jQuery Version 3.3.1 -->
-    <script type="text/javascript" src="/js/third-party/jquery-3.3.1.min.js"></script>
+    <?php 
+        if(isset($jquery) && $jquery === "old") echo '<script type="text/javascript" src="/js/third-party/jquery-1.12.4.min.js"></script>';
+        else echo '<script type="text/javascript" src="/js/third-party/jquery-3.3.1.min.js"></script>';
+    ?>
 
     <!-- jQuery UI Version 1.12.1 -->
     <script type="text/javascript" src="/js/third-party/jquery-ui-1.12.1.min.js"></script>
 
     <!-- Bootstrap JS v3.3.7 -->
     <script src="/js/third-party/bootstrap.min.js"></script>
+
+    <!-- Offline JS -->
+    <script type="text/javascript" src="/js/third-party/offline.js"></script>
     
 	<!-- Spinner -->
 	<script type="text/javascript" src="/js/third-party/spin.min.js"></script>
@@ -52,6 +58,9 @@
 
     <!-- Bootstrap DateTimePicker CSS-->
     <link href="/css/third-party/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Offline JS -->
+    <link href="/css/third-party/offline.css" rel="stylesheet" type="text/css">
 
     <!-- Modal Reposition JS-->
     <script type="text/javascript" src="/js/third-party/modal-reposition.js"></script>
