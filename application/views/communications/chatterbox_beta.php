@@ -40,6 +40,8 @@
 						    <li class="active"><a data-toggle="tab" href="#registered">Inbox</a></li>
 						    <li><a data-toggle="tab" href="#unknown">Unregistered</a></li>
 						    <li><a data-toggle="tab" href="#event-inbox">Event inbox</a></li>
+						    <li><div class='col-sm-12 text-right' style="margin: 11px;"><span class='report'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
+						</div></li>
 						</ul>
 						<div class="tab-content">
 							<div id="registered" class="tab-pane fade in active">
