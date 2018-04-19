@@ -301,11 +301,12 @@ class Site_analysis extends CI_Controller {
      *  subsurface APIs 
      */
 
-    public function getPlotDataForSubsurface ($column, $start_date, $end_date) {//, $duration = 3, $unit = "days") {
-        // $start_date = date_sub(date_create($end_date), date_interval_create_from_date_string("$duration $unit"));
-        // $start_date = date_format($start_date, "Y-m-d\TH:i:s");
-
+    public function getPlotDataForSubsurface ($column, $start_date, $end_date) {
+        $column_position = "";
+        $displacement = "";
+        $velocity_alerts = "";
         $result = $this->getSubsurfaceDataByColumn($column, $end_date, $start_date);
+        // var_dump($result);
         if (empty($result)) {
             // do something 
         } else {

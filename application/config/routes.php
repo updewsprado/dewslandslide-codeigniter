@@ -130,6 +130,7 @@ $route['data_analysis/nodereport'] = "node_report_page";
 $route['data_analysis/site_analysis'] = "site_analysis_page";
 $route['data_analysis/rainfall_scanner'] = "rainfall_scanner_page";
 $route['data_analysis/Eos_onModal/(:any)/(:any)/(:any)/(:any)'] = "Eos_modal";
+$route['data_analysis/eos_charts/(:any)/(:any)/(:any)/(:any)'] = "end_of_shift_charts";
 $route['data_analysis/manifestations'] = "manifestations";
 $route['data_analysis/manifestations/(:any)'] = "manifestations/individual_site/$1";
 
