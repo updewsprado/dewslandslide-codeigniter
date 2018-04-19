@@ -23,16 +23,18 @@
                     <div class="chat-body clearfix tagged" id="id_{{timestamp}}">
                         <div class="header">
                             {{#if isyou}}
-                            <small class="pull-left text-muted"><i class="fa fa-clock-o"></i> <span id="timestamp-written" title="Timestamp: Written">{{timestamp}}</span>, <i class="fa fa-clock-o"></i>
-                                {{#if status}}<span id="timestamp-sent" title="Timestamp: GSM Sent" class="sent-status-success">{{timestamp_sent}}</span>
+                            <small class="pull-left text-muted"><i class="fas fa-clock"></i> <span id="timestamp-written" title="Timestamp: Written">{{timestamp}}</span>, <i class="fas fa-clock"></i>
+                                {{#if status}}<span id="timestamp-sent" class="sent-status-success">{{timestamp_sent}}</span>
                                 {{else}}
-                                <span id="timestamp-sent" title="Timestamp: GSM Sent" class="sent-status-fail">{{timestamp_sent}}</span>
+                                <span id="timestamp-sent" class="sent-status-fail">{{timestamp_sent}}</span>
                                 {{/if}}
                             </small>
-                            <strong class="primary-font right-content" id="chat-user" style="display: block;">{{user}}</strong>
+                            <strong class="primary-font right-content" id="chat-user" style="display: block;">
+                            Sms status:
+                            <i id="sms_status" class="fas fa-cloud-upload-alt"></i> &nbsp;&nbsp;{{user}}</strong>
                             {{else}}
                             <strong class="primary-font" id="chat-user" >{{user}}</strong>
-                            <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> <span>{{timestamp}}</span></small>
+                            <small class="pull-right text-muted"><i class="fas fa-clock"></i> <span>{{timestamp}}</span></small>
                             {{/if}}
                         </div>
                         <p>
