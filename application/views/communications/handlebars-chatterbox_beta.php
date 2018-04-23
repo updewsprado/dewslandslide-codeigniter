@@ -31,7 +31,7 @@
                             </small>
                                 {{#if status}}
                                     <strong class="primary-font right-content sent-status-success" style="display: block;">
-                                    <span class="ack_status">SENT-GSM</span>
+                                    <span class="ack_status">Sent by GSM</span>
                                     <i class="fas fa-check-circle sms_status"></i>&nbsp;&nbsp;<span id="chat-user" style="color: black;">{{user}}</span></strong>
                                 {{else}}
                                     {{#if noTimestamp}}
@@ -41,12 +41,12 @@
                                             <i class="fas fa-spinner fa-spin sms_status"></i>&nbsp;&nbsp;<span id="chat-user" style="color: black;">{{user}}</span></span></strong>
                                         {{else}}
                                             <strong class="primary-font right-content sent-status-fail" style="display: block;">
-                                             <span class="ack_status">FAIL-WSS</span>
+                                             <span class="ack_status">Unable to send to server</span>
                                             <i class="fas fa-times-circle sms_status"></i>&nbsp;&nbsp;<span id="chat-user" style="color: black;">{{user}}</span></strong>
                                         {{/if}}
                                     {{else}}
                                         <strong class="primary-font right-content sent-status-fail" style="display: block;">
-                                        <span class="ack_status">FAIL-GSM</span>
+                                        <span class="ack_status">GSM message sending failed</span>
                                         <i class="fas fa-times-circle sms_status"></i>&nbsp;&nbsp;<span id="chat-user" style="color: black;">{{user}}</span></strong>
                                     {{/if}}
                                 {{/if}}
