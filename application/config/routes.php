@@ -119,20 +119,21 @@ $route['generalinformation/updateGintagsId'] = "gintagshelper/updateGintagsByGin
  * Data Analysis Pages Routes
  */
 
-$route['data_analysis/node'] = "node_level_page";
-$route['data_analysis/node/(:any)/(:any)/(:any)/(:any)'] = "node_level_page";
-$route['data_analysis/column'] = "site_level_page";
-$route['data_analysis/column/(:any)'] = "site_level_page";
-$route['data_analysis/surficial'] = "surficial_page";
-$route['data_analysis/subsurface'] = "subsurface_page";
-$route['data_analysis/sensor_overview'] = "sensor_overview_page";
-$route['data_analysis/nodereport'] = "node_report_page";
-$route['data_analysis/site_analysis'] = "site_analysis_page";
-$route['data_analysis/rainfall_scanner'] = "rainfall_scanner_page";
-$route['data_analysis/Eos_onModal/(:any)/(:any)/(:any)/(:any)'] = "Eos_modal";
-$route['data_analysis/eos_charts/(:any)/(:any)/(:any)/(:any)'] = "end_of_shift_charts";
-$route['data_analysis/manifestations'] = "manifestations";
-$route['data_analysis/manifestations/(:any)'] = "manifestations/individual_site/$1";
+$route['analysis/site_analysis'] = "site_analysis";
+$route['analysis/eos_charts/(:any)/(:any)/(:any)/(:any)'] = "end_of_shift_charts";
+$route['analysis/manifestations'] = "manifestations";
+$route['analysis/manifestations/(:any)'] = "manifestations/individual_site/$1";
+
+$route['analysis/node'] = "node_level_page";
+$route['analysis/node/(:any)/(:any)/(:any)/(:any)'] = "node_level_page";
+$route['analysis/column'] = "site_level_page";
+$route['analysis/column/(:any)'] = "site_level_page";
+$route['analysis/surficial'] = "surficial_page";
+$route['analysis/subsurface'] = "subsurface_page";
+$route['analysis/sensor_overview'] = "sensor_overview_page";
+$route['analysis/nodereport'] = "node_report_page";
+$route['analysis/rainfall_scanner'] = "rainfall_scanner_page";
+$route['analysis/Eos_onModal/(:any)/(:any)/(:any)/(:any)'] = "Eos_modal";
 
 /**
  * Data Analysis Pages Routes

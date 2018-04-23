@@ -5,8 +5,8 @@
 <script src="/js/third-party/no-data-to-display.js"></script>
 
 <!-- Chart Plotter Files -->
-<script src="/js/dewslandslide/data_analysis/end_of_shift_chart_plotter.js"></script>
 <script src="/js/dewslandslide/data_analysis/site_analysis_main.js"></script>
+<script src="/js/dewslandslide/data_analysis/end_of_shift_chart_plotter.js"></script>
 <script src="/js/dewslandslide/data_analysis/rainfall_plotter.js"></script>
 <script src="/js/dewslandslide/data_analysis/surficial_plotter.js"></script>
 <script src="/js/dewslandslide/data_analysis/subsurface_column_plotter.js"></script>
