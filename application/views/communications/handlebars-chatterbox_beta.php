@@ -29,9 +29,27 @@
                                 <span id="timestamp-sent" class="sent-status-fail">{{timestamp_sent}}</span>
                                 {{/if}}
                             </small>
-                            <strong class="primary-font right-content" id="chat-user" style="display: block;">
-                            Sms status:
-                            <i id="sms_status" class="fas fa-cloud-upload-alt"></i> &nbsp;&nbsp;{{user}}</strong>
+                                {{#if status}}
+                                    <strong class="primary-font right-content sent-status-success" id="chat-user" style="display: block;">
+                                    <span class="ack_status">SENT-GSM</span>
+                                    <i class="fas fa-check-circle sms_status"></i><span style="color: black;">&nbsp;&nbsp;{{user}}</span></strong>
+                                {{else}}
+                                    {{#if noTimestamp}}
+                                        {{#if recentlySent}}
+                                            <strong class="primary-font right-content" id="chat-user" style="display: block;">
+                                            <span class="ack_status"></span>
+                                            <i class="fas fa-spinner fa-spin sms_status"></i><span style="color: black;">&nbsp;&nbsp;{{user}}</span></strong>
+                                        {{else}}
+                                            <strong class="primary-font right-content sent-status-fail" id="chat-user" style="display: block;">
+                                             <span class="ack_status">FAIL-WSS</span>
+                                            <i class="fas fa-times-circle sms_status"></i><span style="color: black;">&nbsp;&nbsp;{{user}}</span></strong>
+                                        {{/if}}
+                                    {{else}}
+                                        <strong class="primary-font right-content sent-status-fail" id="chat-user" style="display: block;">
+                                        <span class="ack_status">FAIL-GSM</span>
+                                        <i class="fas fa-times-circle sms_status"></i><span style="color: black;">&nbsp;&nbsp;{{user}}</span></strong>
+                                    {{/if}}
+                                {{/if}}
                             {{else}}
                             <strong class="primary-font" id="chat-user" >{{user}}</strong>
                             <small class="pull-right text-muted"><i class="fas fa-clock"></i> <span>{{timestamp}}</span></small>
