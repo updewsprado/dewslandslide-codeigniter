@@ -30,4 +30,16 @@ class Utilities_model extends CI_Model {
         }
         return $status;
 	}
+
+  public function getVersion() {
+    $version = "SELECT version FROM web_version";
+    $result = $this->db->query($version);
+    return $result->result();
+  }
+
+  public function updateVersion($version) {
+    $version = "UPDATE web_version SET version = '".$version."'";
+    $result = $this->db->query($version);
+    return $result();
+  }
 }
