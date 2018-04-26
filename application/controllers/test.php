@@ -50,7 +50,7 @@ class Test extends CI_Controller {
 	}
 
 	public function gintagsManagerTest() {
-		$data['title'] = 'Gintags Manager TEst';
+		$data['title'] = 'Gintags Manager Test';
 		$this->load->view('templates/header', $data);
 		$this->load->view('test/communications/gintags_manager_test', $data);	
 	}
