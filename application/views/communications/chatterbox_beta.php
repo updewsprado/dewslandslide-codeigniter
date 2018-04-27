@@ -45,11 +45,11 @@
 					</div>
 					<div class="row">
 						<ul class="nav nav-tabs inbox-tab">
-						    <li class="active"><a data-toggle="tab" href="#registered">Inbox</a></li>
-						    <li><a data-toggle="tab" href="#unknown">Unregistered</a></li>
-						    <li><a data-toggle="tab" href="#event-inbox">Event inbox</a></li>
+						    <li class="active" id="registered_inbox"><a data-toggle="tab" href="#registered">Inbox</a></li>
+						    <li id="unregistered_inbox" ><a data-toggle="tab" href="#unknown">Unregistered</a></li>
+						    <li id="event_inbox"><a data-toggle="tab" href="#event-inbox">Event inbox</a></li>
 						    <li><div class='col-sm-12 text-right' style="margin: 11px;"><span class='report'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
-						</div></li>
+							</div></li>
 						</ul>
 						<div class="tab-content">
 							<div id="registered" class="tab-pane fade in active">
@@ -89,7 +89,10 @@
 						<h4>Routine Section</h4>
 						<div class="routine_section">
 							<br>
-							<div class='col-md-12'><label for="" id="def-recipients" hidden>Default recipients: LLMC</label></div>
+							<div class='col-md-12'><label for="" id="def-recipients" hidden>Default recipients: LLMC</label>
+								<div class='col-sm-12 text-right' style="margin: 11px;"><span class='report'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
+								</div>
+							</div>
 							<div class='btn-group form-group routine-options-container' data-toggle='buttons' style='padding: 15px 15px 0px 15px; margin: 0;' hidden>
 									<input type='button' class='btn btn-primary active' checked id='routine-reminder-option' autocomplete='off' value="Reminder Message"> 
 									<input type='button' class='btn btn-primary' id='routine-actual-option' autocomplete='off' value="Routine Message">
@@ -154,6 +157,8 @@
 						<ul class="nav nav-tabs quick-access-tab">
 						    <li class="active"><a data-toggle="tab" href="#quick-release">Site w/ Event</a></li>
 						    <li><a data-toggle="tab" href="#group-message">Group Message</a></li>
+						    <li><div class='col-sm-12 text-right' style="margin: 11px;"><span class='report'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
+							</div></li>
 						</ul>
 						<div class="tab-content">
 							<div id="quick-release" class="tab-pane fade in active">
@@ -178,7 +183,8 @@
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	        <h4 class="modal-title text-info">Contact Settings</h4>
 	      </div>
-
+			<div class='col-sm-12 text-right' style="margin: 11px;"><span class='report'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
+			</div>
 	    <div class="modal-body row-fluid">
 	      <div class="contact-settings-container">
 
@@ -355,6 +361,8 @@
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	        <h4 class="modal-title text-info">Quick Group Selection of Recipients</h4>
 	      </div>
+	      <div class='col-sm-12 text-right' style="margin: 11px;"><span class='report'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
+			</div>
 	      <div class="modal-body row-fluid">
 
 	        <ul class="nav nav-tabs">
@@ -503,6 +511,8 @@
 	    <div class="panel panel-default">
 			<div class="panel-heading"><button type="button" class="close" data-dismiss="modal">&times;</button>
 			Search filters</div>
+			<div class='col-sm-12 text-right' style="margin: 11px;"><span class='report'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
+			</div>
 			<div class="panel-body">
 				<div class="form-group col-xs-12">
 					<label class="radio-inline col-xs-4"><input type="radio" name="opt-search" value="global-search" checked>via Message</label>
