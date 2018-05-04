@@ -62,7 +62,7 @@ class Chart_export extends CI_Controller
 		date_default_timezone_set('Asia/Manila');
 		$date_now = date('Y-m-d H_i_s');
 		$dir = "temp/charts_render/events/$conn_id/$site";
-
+		
 		if (!file_exists($dir)) {
     		if( !mkdir($dir, 0777, true) ) return "Failed making directory";
 		}
@@ -76,6 +76,9 @@ class Chart_export extends CI_Controller
 		$filenames = $_POST['svg'];
 		$site = $_POST['site'];
 		$conn_id = $_POST['connection_id'];
+		// var_dump($filenames);
+		// var_dump($site);
+		// var_dump($conn_id);
 		$dir = "temp/charts_render/events/$conn_id/$site";
 
 		for( $i = 0; $i < count($filenames); $i++) {
@@ -84,7 +87,8 @@ class Chart_export extends CI_Controller
 			$files = $files . $dir . $filenames[$i] . ".svg=" . $dir . $pdf_filename . ".pdf;";
 		}
 
-		$command = 'highcharts-export-server -batch "' . $files . '" -type pdf -logLevel 4';
+		$command = 'highcharts-export-server -bkatch "' . $files . '" -type pdf -logLevel 4';
+
 		$response = exec( $command );
 		$this->mergePDF("events/$conn_id/$site", FALSE);
 	}
@@ -95,7 +99,7 @@ class Chart_export extends CI_Controller
 		{
 			$path = 'C:\\xampp\PDFMerger\PDFMerger.php';
 		}
-		else $path = "/usr/share/php/PDFMerger/PDFMerger.php";
+		else $path = "/usr/share/php/PDFMerger/PDFMerger.php"; //var_dump("here");
 
 		if( file_exists($path) && is_readable($path) ) { require_once($path); }
 		else { 
@@ -104,8 +108,12 @@ class Chart_export extends CI_Controller
 			echo "PDFMerger does not exists. Please download and put PDFMerger folder on " . $path;
 			return;
 		}
-
-		$pdf = new PDFMerger;
+		
+		try {
+			$pdf = new PDFMerger;
+		} catch (Exception $e) {
+            echo "Caught exception: ",  $e->getMessage(), "\n";
+        }
 
 		$dir =  $_SERVER['DOCUMENT_ROOT'] . "temp/charts_render/";
 		$file_dir = $dir . $date;

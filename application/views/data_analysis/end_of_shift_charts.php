@@ -27,9 +27,9 @@
     </div>
 </div>
 
-<div class="box" hidden="hidden">
-    <svg id="rainfall-svg" xmlns="http://www.w3.org/2000/svg" width="1400" height ="1500"></svg>
+<div class="box" id="rain_charts" hidden="hidden">
+    <svg id="rainfall-svg" xmlns="http://www.w3.org/2000/svg" width="1200" height ="1600"></svg>
 </div>
-<div class="box" hidden="hidden">
-    <svg id="general-svg" xmlns="http://www.w3.org/2000/svg" width="1300" height ="2600"></svg>
+<div class="box" id="subsurface_charts" hidden="hidden">
+    <svg id="subsurface-svg" xmlns="http://www.w3.org/2000/svg" width="1200" height ="2400"></svg>
 </div>
