@@ -16,6 +16,7 @@
 <script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_helper.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_wss.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/communications/dewsresponsive.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/pms_chatterbox_plugin.js"></script>
 
 <!-- Server time-->
 <script type="text/javascript" src="/js/dewslandslide/server_time.js"></script>
@@ -48,7 +49,7 @@
 						    <li class="active" id="registered_inbox"><a data-toggle="tab" href="#registered">Inbox</a></li>
 						    <li id="unregistered_inbox" ><a data-toggle="tab" href="#unknown">Unregistered</a></li>
 						    <li id="event_inbox"><a data-toggle="tab" href="#event-inbox">Event inbox</a></li>
-						    <li><div class='col-sm-12 text-right' style="margin: 11px;"><span class='report'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
+						    <li><div class='col-sm-12 text-right' style="margin: 11px;"><span class='report report-tabs'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
 							</div></li>
 						</ul>
 						<div class="tab-content">
@@ -90,7 +91,7 @@
 						<div class="routine_section">
 							<br>
 							<div class='col-md-12'><label for="" id="def-recipients" hidden>Default recipients: LLMC</label>
-								<div class='col-sm-12 text-right' style="margin: 11px;"><span class='report'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
+								<div class='col-sm-12 text-right' style="margin: 11px;"><span class='report' id="routine_report"><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
 								</div>
 							</div>
 							<div class='btn-group form-group routine-options-container' data-toggle='buttons' style='padding: 15px 15px 0px 15px; margin: 0;' hidden>
@@ -128,8 +129,13 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="col-sm-12 left-content" style="padding-left: 30px;margin-bottom: 5px;">
-							<a href="#" id="btn-ewi" data-toggle="modal" data-dismiss="modal">Load Message Templates</a>
+						<div class="col-sm-12" style="padding-bottom: 20px;"> 
+							<div class="col-sm-4">
+								<a href="#" id="btn-ewi" data-toggle="modal" data-dismiss="modal">Load Message Templates</a>
+							</div>
+							<div class="col-sm-8  right-content">
+								<span class='report' id="sms_report"><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -155,9 +161,9 @@
 				<div class="panel-heading">QUICK ACCESS</div>
 				<div class="panel-body no-padding">
 						<ul class="nav nav-tabs quick-access-tab">
-						    <li class="active"><a data-toggle="tab" href="#quick-release">Site w/ Event</a></li>
-						    <li><a data-toggle="tab" href="#group-message">Group Message</a></li>
-						    <li><div class='col-sm-12 text-right' style="margin: 11px;"><span class='report'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
+						    <li class="active" id="qa_site_with_event_report"><a data-toggle="tab" href="#quick-release">Site w/ Event</a></li>
+						    <li id="qa_group_message_report"><a data-toggle="tab" href="#group-message">Group Message</a></li>
+						    <li><div class='col-sm-12 text-right' style="margin: 11px;"><span class='report report-tabs'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
 							</div></li>
 						</ul>
 						<div class="tab-content">
@@ -183,7 +189,7 @@
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	        <h4 class="modal-title text-info">Contact Settings</h4>
 	      </div>
-			<div class='col-sm-12 text-right' style="margin: 11px;"><span class='report'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
+			<div class='col-sm-12 text-right' style="margin: 11px; z-index: 10000000;"><span class='report' id="contact_settings_report"><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
 			</div>
 	    <div class="modal-body row-fluid">
 	      <div class="contact-settings-container">
@@ -361,7 +367,7 @@
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	        <h4 class="modal-title text-info">Quick Group Selection of Recipients</h4>
 	      </div>
-	      <div class='col-sm-12 text-right' style="margin: 11px;"><span class='report'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
+	      <div class='col-sm-12 text-right' style="margin: 11px; z-index: 10000000;"><span class='report' id="quick_group_selection_report"><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
 			</div>
 	      <div class="modal-body row-fluid">
 
@@ -511,7 +517,7 @@
 	    <div class="panel panel-default">
 			<div class="panel-heading"><button type="button" class="close" data-dismiss="modal">&times;</button>
 			Search filters</div>
-			<div class='col-sm-12 text-right' style="margin: 11px;"><span class='report'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
+			<div class='col-sm-12 text-right' style="margin: 11px; z-index: 10000000;"><span class='report' id="quick_search_report"><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
 			</div>
 			<div class="panel-body">
 				<div class="form-group col-xs-12">
