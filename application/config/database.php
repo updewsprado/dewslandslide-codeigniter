@@ -51,9 +51,9 @@ $active_record = TRUE;
 //$db['default']['username'] = 'root';
 //$db['default']['password'] = 'sept17';
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'updews';
-$db['default']['password'] = 'october50sites';
-$db['default']['database'] = 'senslopedb';
+$db['default']['username'] = 'root';
+$db['default']['password'] = 'senslope';
+$db['default']['database'] = 'newdb';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
@@ -71,9 +71,9 @@ $db['default']['stricton'] = FALSE;
  */
 
 $db['purged']['hostname'] = 'localhost';
-$db['purged']['username'] = 'updews';
-$db['purged']['password'] = 'october50sites';
-$db['purged']['database'] = 'senslopedb_purged';
+$db['purged']['username'] = 'root';
+$db['purged']['password'] = 'senslope';
+$db['purged']['database'] = 'newdb';
 $db['purged']['dbdriver'] = 'mysql';
 $db['purged']['dbprefix'] = '';
 $db['purged']['pconnect'] = TRUE;
