@@ -152,8 +152,18 @@ class Site_analysis extends CI_Controller {
      */
 
     public function getPlotDataForSurficial ($site_code, $start_date, $end_date = null) {
-        $data = $this->getSurficialDataBySite($site_code, $start_date, $end_date);
-        $surficial_data = json_decode($data[0]);
+        if ($start_date === "eos") {
+            $ts_array = $this->surficial_model->getSurficialDataLastTenTimestamps($site_code, $end_date);
+
+            $latest_ts = [];
+            foreach ($ts_array as $line) {
+                array_push($latest_ts, $line->timestamp);
+            }
+
+            $surficial_data = $this->surficial_model->getSurficialDataLastTenPoints($site_code, $latest_ts);
+        } else {
+            $surficial_data = $this->surficial_model->getSurficialDataByRange($site_code, $start_date, $end_date);
+        }
 
         $data_per_marker = [];
         foreach ($surficial_data as $data) {
@@ -162,8 +172,8 @@ class Site_analysis extends CI_Controller {
             }
             $temp = array(
                 'x' => strtotime($data->ts) * 1000, 
-                'y' => $data->meas, 
-                'id' => $data->id
+                'y' => (int) $data->meas, 
+                'id' => (int) $data->id
             );
             array_push($data_per_marker[$data->crack_id], $temp);
         }
@@ -178,22 +188,6 @@ class Site_analysis extends CI_Controller {
         }
 
         echo json_encode($processed_data);
-    }
-
-    public function getSurficialDataBySite ($site_code, $start_date, $end_date) {
-        try {
-            $paths = $this->getOSspecificpath();
-        } catch (Exception $e) {
-            echo "Caught exception: ",  $e->getMessage(), "\n";
-        }
-
-        $exec_file = "gndmeasInRange.py";
-
-        $site_code = $this->convertSiteCodesFromNewToOld($site_code);
-        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $site_code $start_date $end_date";
-
-        exec($command, $output, $return);
-        return $output;
     }
 
     public function getProcessedSurficialMarkerTrendingAnalysis ($site_code, $marker_name, $end_date) {
