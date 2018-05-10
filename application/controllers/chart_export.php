@@ -87,7 +87,7 @@ class Chart_export extends CI_Controller
 			$files = $files . $dir . $filenames[$i] . ".svg=" . $dir . $pdf_filename . ".pdf;";
 		}
 
-		$command = 'highcharts-export-server -bkatch "' . $files . '" -type pdf -logLevel 4';
+		$command = 'highcharts-export-server -batch "' . $files . '" -type pdf -logLevel 4';
 
 		$response = exec( $command );
 		$this->mergePDF("events/$conn_id/$site", FALSE);

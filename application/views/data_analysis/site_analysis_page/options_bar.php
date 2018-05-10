@@ -103,3 +103,11 @@
             </form>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-primary btn-sm btn-block" id="download-charts">
+                Download Charts <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
