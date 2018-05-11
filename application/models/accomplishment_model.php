@@ -25,6 +25,7 @@
 			$this->db->where('public_alert_release.data_timestamp <=', $end);
 			$this->db->where('public_alert_event.status !=', 'routine ');
 			$this->db->where('public_alert_event.status !=', 'invalid ');
+			$this->db->where('public_alert_event.status !=', 'finished ');
 			$this->db->order_by("data_timestamp", "desc");
 			$query = $this->db->get();
 			$result = $query->result_array();
@@ -37,7 +38,7 @@
 			$this->db->order_by("timestamp", "desc");
 			$query = $this->db->get('public_alert_trigger');
 			$result = $query->result_array();
-			return json_encode($result);
+			return $result;
 		}
 
 		public function getAllTriggers($events)
@@ -46,7 +47,7 @@
 			$this->db->order_by("timestamp", "desc");
 			$query = $this->db->get('public_alert_trigger');
 			$result = $query->result_array();
-			return json_encode($result);
+			return $result;
 		}
 
 
@@ -84,14 +85,33 @@
 			return json_encode($result);
 		}
 
-		public function getSensorColumns($site_code)
+		public function getEndOfShiftDataAnalysis($shift_start, $event_id)
 		{
-			$this->db->select("name")->from("site_column")
-				->where("name LIKE '%$site_code%'")
+			$this->db->select("analysis")->from("end_of_shift_analysis")
+				->where(array("event_id" => $event_id, "shift_start" => $shift_start));
+			$query = $this->db->get();
+			if ($query->num_rows() ===  0) return array("analysis" => null);
+			return $query->result_object()[0];
+		}
+
+
+		public function getSubsurfaceColumns ($site_code)
+		{
+			$this->db->select("name AS column_name, installation_status AS status")
+				->from("site_column")
+				->where("name LIKE '$site_code%'")
 				->order_by("name");
 			$query = $this->db->get();
-			return json_encode($query->result_object());
+			return $query->result_object();
+		}
 
+		public function getColumnDataPointCount ($column_name, $start, $end) {
+			$this->db->select("COUNT(DISTINCT timestamp) AS point_count")
+				->from($column_name)
+				->where("timestamp >=", $start)
+				->where("timestamp <=", $end);
+			$query = $this->db->get();
+			return $query->row()->point_count;
 		}
 
 		public function getEvent($event_id)

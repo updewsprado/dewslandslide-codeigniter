@@ -40,8 +40,6 @@ class node_level_model extends CI_Model {
 		and id in ($nid)";
 		$query = $this->db->query($sql);
 		return $query->result();
-
-
 	}
 
 	public function getAccelBatteryThreshold($site,$node){

@@ -6,8 +6,8 @@
 <script>mocha.setup('bdd')</script>
 
 <!-- load code you want to test here -->
-<script src="/js/dewslandslide/data_analysis/rainfall_plotter.js"></script>
-<script src="/js/dewslandslide/test/rainfall_plotter_test.js"></script>
+<script src="/js/dewslandslide/reports/end_of_shift_report.js"></script>
+<script src="/js/dewslandslide/test/end_of_shift_report_test.js"></script>
 <!-- load your test files here -->
 <!-- load your test files here -->
 
