@@ -59,7 +59,7 @@
                         <li class="dropdown-header">Node Status</li>
                         <li><a href="<?php echo base_url(); ?>analysis/nodereport">Update Form</a></li>
                         <li role="separator" class="divider"></li>
-                        <li class="dropdown-header">Accomplishment and Narratives</li>
+                        <li class="dropdown-header">End-Of-Shift Report and Narratives</li>
                         <li><a href="<?php echo base_url(); ?>reports/accomplishment/form">Filing Form and Report Generator</a></li>
                         <li><a href="<?php echo base_url(); ?>reports/accomplishment/checker">Shift Events and Releases Checker</a></li>
                         <li role="separator" class="divider"></li>
