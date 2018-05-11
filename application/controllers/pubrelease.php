@@ -288,7 +288,7 @@ class Pubrelease extends CI_Controller {
 		// Enter here insert non-triggering features if any
 		if( isset($_POST['nt_feature_groups']) )
 		{
-			$this->saveManifestation($_POST['nt_feature_groups'], $_POST, $release_id);
+			$this->saveManifestation($_POST['nt_feature_groups'], 'nt_feature_groups', $_POST, $release_id);
 		}
 		
 		//Set the public release all cache to dirty
@@ -391,7 +391,7 @@ class Pubrelease extends CI_Controller {
 					$this->pubrelease_model->insert('public_alert_on_demand', $od);
 				} else if( strtoupper($entry['type']) == "M" )
 				{	
-					$this->saveManifestation($post['feature_groups'], $post, $release_id, $entry['type']);
+					$this->saveManifestation($post['feature_groups'], "feature_groups", $post, $release_id, $entry['type']);
 				}
 			}
 
@@ -408,8 +408,11 @@ class Pubrelease extends CI_Controller {
 		}
 	}
 
-	public function saveManifestation ($group, $post, $release_id = null, $trigger = 1)
+	public function saveManifestation ($group, $group_name, $post, $release_id = null, $trigger = 1)
 	{
+		if( strpos($group_name, 'nt') !== false ) $group_base = "nt_";
+		else $group_base = "";
+
 		foreach ($group as $field) 
 		{
 			if($field == "base" || $field == "nt_base") $id = "";
@@ -419,7 +422,7 @@ class Pubrelease extends CI_Controller {
 			$feature = array('site_id' => $post['site']);
 			foreach ($lookup as $key) 
 			{
-				$feature[$key] = $post[$key . $id];
+				$feature[$key] = is_null($post[$group_base . $key . $id]) || $post[$group_base . $key . $id] == "" ? null : $post[$group_base . $key . $id];
 			}
 			$feature_id = $this->pubrelease_model->insertIfNotExists('manifestation_features', $feature);
 
@@ -431,13 +434,14 @@ class Pubrelease extends CI_Controller {
 			$manifestation = array(
 				"release_id" => $release_id,
 				"feature_id" => $feature_id,
-				"validator" => $post['manifestation_validator'],
+				"validator" => $post['manifestation_validator'] == "" ? null : $post['manifestation_validator'],
 				"op_trigger" => $op_trigger
 			);
 			$lookup2 = array("feature_narrative" => "narrative", "feature_remarks" => "remarks", 
 				"feature_reporter" => "reporter", "observance_timestamp" => "ts_observance");
 			foreach ($lookup2 as $post_name => $db_name) {
-				$manifestation[$db_name] = $post[$post_name . $id];
+				$temp = isset($post[$group_base . $post_name . $id]) ? $post[$group_base . $post_name . $id] : null;
+				$manifestation[$db_name] = $temp !== "" ? $temp : null;
 			}
 			$this->pubrelease_model->insert('public_alert_manifestation', $manifestation);
 		}

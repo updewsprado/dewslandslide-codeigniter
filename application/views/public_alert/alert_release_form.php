@@ -460,7 +460,7 @@
                                             <label class="checkbox-inline"><input class="cbox_trigger" type="checkbox" value="M" name="M"><strong>M3 Trigger (M)</strong></label>
                                             <br/>
                                             <label class="checkbox-inline"><input id="nt_feature_cbox" type="checkbox" value="nt_feature" name="nt_feature"><strong>Non-triggering feature</strong></label>
-                                            <label class="checkbox-inline"><input class="cbox_trigger_nd" name="cbox_trigger_nd_m0" type="checkbox" value="m0" disabled="disabled"><strong>No Data (m&#8320;/M&#8320;)</strong></label>
+                                            <label class="checkbox-inline" data-toggle="tooltip" data-placement="top" title="Click this if you have not received any manifestation updates from the community for that specific release"><input class="cbox_trigger_nd" name="cbox_trigger_nd_m0" type="checkbox" value="m0" disabled="disabled"><strong>No Data (m&#8320;/M&#8320;)</strong></label>
                                         </div>
                                     </div>
                                     <div class="form-group col-sm-5">
@@ -476,6 +476,28 @@
                                     </div>
                                     <div class="col-sm-2 previous_info" id="manifestation_desc">
                                        <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
+                                    </div>
+                                </div>
+                                <div id="heightened-features-div" hidden="hidden">
+                                    <hr/>
+                                    <div class="row"><div class="col-sm-12">
+                                        <h4><u>Heightened Manifestation Features</u></h4> <small><i>Note: Don't forget to release a corresponding <strong>non-triggering feature</strong> entry for heightened features if you received a non-triggering update from community. Likewise, check <strong>No Data (m&#8320;/M&#8320;)</strong> if you haven't received any update from community.</i></small>
+                                    </div></div>
+                                    <div class="row">
+                                        <div class="col-md-12"><div class="table-responsive">
+                                            <table class="table" id="heightened-features-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Time of Observance</th>
+                                                        <th>Feature Type</th>
+                                                        <th>Feature Name</th>
+                                                        <th>Operational Trigger</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div></div>
                                     </div>
                                 </div>
                                 <div id="features_div" hidden="hidden">
@@ -564,6 +586,7 @@
                                                     <label class="control-label" for="feature_type">Feature Type</label>
                                                     <select class="form-control feature_type" name="nt_feature_type" disabled="disabled">
                                                         <option value="">---</option>
+                                                        <option value="none">None</option>
                                                         <option value="crack">Crack</option>
                                                         <option value="pond">Pond</option>
                                                         <option value="slide">Slide</option>
@@ -735,6 +758,26 @@
                         <p>If it is not yet the time to lower the alert to A0 due to lack of data (on surficial, subsurface, or both), please check the appropriate "No Data" button to extend the validity by 4 hours.</p>
                         <p>Else, if there are new triggers, enter the triggers on their respective fields.</p>
                         <p>Else, lower the site to A0.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Okay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="non_trig_modal" role="dialog">
+            <div class="modal-dialog modal-md">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Alert Notice</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>This release is for the event monitoring's current end-of-validity.</p>
+                        <p>You currently have heightened manifestation feature/s for this event.</p>
+                        <p>Do <strong>NOT</strong> forget to declare the manifestation feature/s as <strong>non-triggering</strong>.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-info" data-dismiss="modal">Okay</button>

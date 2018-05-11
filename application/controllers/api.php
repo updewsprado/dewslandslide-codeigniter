@@ -6,13 +6,27 @@ class API extends CI_Controller {
 		$this->load->model('site_level_model');
 		$this->load->model('node_level_model');
 		$this->load->model('comm_health_model');
+		$this->load->model('pubrelease_model');
 	}
 		public function latestSensorData($site){ // example http://localhost/api/latestSensorData/agbsb
 			$result = $this->node_level_model->getlatestSensorData($site);
 			print json_encode($result);
-
 		}
-
+		public function latestGroundData($site){ // example http://localhost/api/latestGroundData/agbsb
+			if($site == "mng"){
+				$site_name = "man";
+			}else if( $site == "png"){
+				$site_name = "pan";
+			}else if($site == "bto"){
+				$site_name = "bat";
+			}else if($site == "jor"){
+				$site_name = "pob";
+			}else{
+				$site_name = $site;
+			}
+			$result = $this->node_level_model->getlatestGroundData($site_name);
+			print json_encode($result);
+		}
 		public function AccelBatteryThreshold($site,$node){ // example  http://localhost/api/AccelBatteryThreshold/agbsb/2
 			$result = $this->node_level_model->getAccelBatteryThreshold($site,$node);
 			print json_encode($result);
@@ -60,6 +74,13 @@ class API extends CI_Controller {
 			print json_encode($result);
 
 		}
+
+		public function SpecificSiteNum($site){ // example http://localhost/api/SpecificSiteNum/mag
+			$result = $this->site_level_model->getSiteidNum($site);
+			print json_encode($result);
+
+		}
+
 		public function RainSenslope($rsite,$fdate,$tdate){ // example http://localhost/api/RainSenslope/blcw/2016-05-25/2016-06-25
 			$os = PHP_OS;
 
@@ -70,6 +91,7 @@ class API extends CI_Controller {
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
 				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
 				$fileName = '/var/www/updews-pycodes/Liaison/rainfallNewGetData.py';
+
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";
@@ -77,7 +99,7 @@ class API extends CI_Controller {
 			}
 			
 			$command = $pythonPath.' '.$fileName.' '.$rsite.' '.$fdate.' '.$tdate;
-
+			
 			exec($command, $output, $return);
 			print json_encode($output);
 
@@ -93,6 +115,7 @@ class API extends CI_Controller {
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
 				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
 				$fileName = '/var/www/updews-pycodes/Liaison/rainfallNewGetDataNoah.py';
+				
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";
@@ -100,7 +123,6 @@ class API extends CI_Controller {
 			}
 			
 			$command = $pythonPath.' '.$fileName.' '.$rsite.' '.$fdate.' '.$tdate;
-
 			exec($command, $output, $return);
 			print json_encode($output);
 
@@ -126,6 +148,7 @@ class API extends CI_Controller {
 
 			exec($command, $output, $return);
 			print json_encode($output);
+
 
 		}
 
@@ -426,7 +449,6 @@ class API extends CI_Controller {
 		}
 
 		public function SensorAllAnalysisData($site,$fdate,$tdate){ // example http://localhost/api/SensorAllAnalysisData/agbsb/2016-04-25/2016-05-25
-
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -444,7 +466,7 @@ class API extends CI_Controller {
 
 			$command = $pythonPath.' '.$fileName.' '.$site.' '.$fdate.' '.$tdate;
 			exec($command, $output, $return);
-			print json_encode($output[sizeof($output)-1]);
+			print json_encode($output);
 			
 		}
 
@@ -603,10 +625,69 @@ class API extends CI_Controller {
 			$command = $pythonPath.' '.$fileName;
 
 			exec($command, $output, $return);
-			print json_encode($output);
+			print json_encode($output[sizeof($output)-1]);
 
 		}
 
+		public function time_execution(){
+			$data_result = $_POST['data'];
+
+			$os = PHP_OS;
+			if (strpos($os,'WIN') !== false) {
+				$file = fopen('C:\xampp\htdocs\temp\data\sub_runtime_js.csv', 'a');
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$file = fopen('/var/www/html/temp/data/sub_runtime_js.csv', 'a');
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
+			foreach ($data_result as $row){fputcsv($file, $row);}
+			fclose($file);
+			print json_encode($data_result);
+
+		}
+
+		public function time_execution_all(){
+			$data_result = $_POST['data'];
+			$os = PHP_OS;
+			if (strpos($os,'WIN') !== false) {
+				$file = fopen('C:\xampp\htdocs\temp\data\sub_runtime_all.csv', 'a');
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$file = fopen('/var/www/html/temp/data/sub_runtime_all.csv', 'a');
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
+			$data = array(
+				array($data_result[0], $data_result[1]),
+			);
+			foreach ($data as $row)
+			{
+				fputcsv($file, $row);
+			}
+			print json_encode($data_result);
+
+		}
+	
+	public function getStaff()
+	{
+		echo $this->pubrelease_model->getStaff();
+	}
+
+	public function getAllReleasesWithEventDetails()
+	{
+		echo $this->pubrelease_model->getAllReleasesWithEventDetails();
+	}
+
+	public function getMOM($site_code = "all", $start = null, $end = null)
+	{
+		$this->load->model('manifestations_model');
+		echo $this->manifestations_model->getMOMApi($site_code, $start, $end);
+	}
 
 	}
 	?>

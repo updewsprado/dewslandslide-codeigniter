@@ -1,14 +1,25 @@
 <!-- Chatterbox Scripts -->
-<script src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
-<script src="/js/dewslandslide/communications/dewsresponsive.js"></script>
-<script src="/js/third-party/awesomplete.js"></script>
-<script src="/js/third-party/handlebars.js"></script>
-<script src="/js/third-party/moment-locales.js"></script>
-<script src="/js/third-party/typeahead.js"></script>
-<script src="/js/third-party/bootstrap-tagsinput.js"></script>
-<script src="/js/third-party/notify.min.js"></script>
-<script src="/js/third-party/jquery.twbsPagination.min.js"></script>
+<script type="text/javascript" src="/js/third-party/awesomplete.js"></script>
+<script type="text/javascript" src="/js/third-party/handlebars.js"></script>
+<script type="text/javascript" src="/js/third-party/moment-locales.js"></script>
+<script type="text/javascript" src="/js/third-party/typeahead.js"></script>
+<script type="text/javascript" src="/js/third-party/bootstrap-tagsinput.js"></script>
+<script type="text/javascript" src="/js/third-party/notify.min.js"></script>
+<script type="text/javascript" src="/js/third-party/jquery.twbsPagination.min.js"></script>
+<script type="text/javascript">
+  first_name = "<?php echo $first_name; ?>";
+  tagger_user_id = "<?php echo $user_id; ?>";
+</script>
+<script src="/js/dewslandslide/communications/cbx_version.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_variables.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_initializer.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_helper.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_wss.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewsresponsive.js"></script>
 
+<!-- Server time-->
+<script type="text/javascript" src="/js/dewslandslide/server_time.js"></script>
 
 <!-- ChatterBox CSS --> -->
 <link rel="stylesheet" type="text/css" href="/css/third-party/awesomplete.css">
@@ -36,7 +47,7 @@
 					<div class="row">
 						<ul class="nav nav-tabs inbox-tab">
 						    <li class="active"><a data-toggle="tab" href="#registered">Inbox</a></li>
-						    <li><a data-toggle="tab" href="#unknown">Filtered</a></li>
+						    <li><a data-toggle="tab" href="#unknown">Unregistered</a></li>
 						    <li><a data-toggle="tab" href="#event-inbox">Event inbox</a></li>
 						</ul>
 						<div class="tab-content">
@@ -54,6 +65,41 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="col-sm-6 division recent_activities">
+			<div class="panel panel-primary">
+			<input type="text" id="contact-indicator" value="" hidden>
+				<div class="panel-heading">Recent Activity</div>
+			</div>
+			<hr>
+			<div class="panel panel-primary">
+				<div class="panel-body activity-body">
+					<div class="row form-group">
+						<h4>Recently Viewed Contacts</h4>
+						<div class="rv_contacts">
+						</div>
+					</div>
+					<div class="row form-group">
+						<h4>Recently Viewed Sites</h4>
+						<div class="rv_sites">
+						</div>
+					</div>
+					<div class="row form-group">
+						<h4>Routine Section</h4>
+						<div class="routine_section">
+							<br>
+							<div class='col-md-12'><label for="" id="def-recipients" hidden>Default recipients: LLMC</label></div>
+							<div class='btn-group form-group routine-options-container' data-toggle='buttons' style='padding: 15px 15px 0px 15px; margin: 0;' hidden>
+									<input type='button' class='btn btn-primary active' checked id='routine-reminder-option' autocomplete='off' value="Reminder Message"> 
+									<input type='button' class='btn btn-primary' id='routine-actual-option' autocomplete='off' value="Routine Message">
+							</div>
+						</div>
+						<div class='col-md-12 right-content'><button type='button' class='btn btn-primary' id='send-routine-msg' hidden>Send</button></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="col-sm-6 division hidden" id="main-container">
 			<div id="convo-header" class="panel panel-success">
 			<input type="text" id="contact-indicator" value="" hidden>
@@ -85,6 +131,7 @@
 				</div>
 			</div>
 		</div>
+
 		<div class="col-sm-3 division">
 			<div class="panel panel-primary">
 				<div class="panel-heading">OPTIONS</div>
@@ -120,12 +167,6 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-  first_name = "<?php echo $first_name; ?>";
-  tagger_user_id = "<?php echo $user_id; ?>";
-</script>
-
 
 <!-- MODAL SECTION -->
 	<!-- Contact Settings Modal -->
@@ -216,7 +257,7 @@
 	            </div>
 	            <div class="col-md-3" title="Notes: If contact number is more than one seprate it by a comma.">
 	              <label for="numbers_ec">Contact #:</label>
-	              <input type="text"  id="numbers_ec" class="form-control" name="numbers_ec" data-role="tagsinput" required>
+	              <input type="text"  id="numbers_ec" class="form-control" name="numbers_ec" required>
 	            </div>
 	          </div>
 
@@ -269,7 +310,7 @@
 	          <div class="row">
 	            <div class="col-md-6">
 	              <label for="numbers_cc">Contact #:</label>
-	              <input type="text" class="form-control" id="numbers_cc" name="numbers" data-role="tagsinput" required>
+	              <input type="text" class="form-control" id="numbers_cc" name="numbers" required>
 	            </div>
 
 	            <div class="col-md-3">
@@ -401,7 +442,7 @@
 	          <p style="padding: 0px;"><strong>New Feature!</strong> You can now tag messages in chatterbox! </br>.&nbsp &nbsp • <strong>Important Tags: </strong>#EwiMessage, #EwiResponse<br>&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;#GroundMeasReminder, #GroundMeas</p>
 	        </div>
 	        <div class="form-group">
-	        	<input type="text" class="form-control" id="gintags" name="gintags" data-role="tagsinput" data-provide="typeahead" placeholder="E.g #EwiMessage" style="display:none" required>
+	        	<input type="text" class="form-control" id="gintags" name="gintags" data-provide="typeahead" placeholder="E.g #EwiMessage" style="display:none" required>
 	        </div>
 	        <div class="form-group right-content" id="submit-gintag">
 	          <button type="reset" class="btn btn-danger" id="reset-gintags" data-dismiss="modal">Reset</button>
@@ -520,28 +561,7 @@
 			</div>
 		</div>
 		<div>
-			<!-- 	 -->
 		</div>
-
-
-<!-- 			<div class="form-group">
-				<label class="radio-inline"><input type="radio" name="opt-search" value="gintag-search" checked="true">Via Gintag</label>
-				<label class="radio-inline"><input type="radio" name="opt-search" value="global-search" checked="true">Via Message</label>
-			</div>
-		    <div class="form-group">
-		    	<input type="text" id="search-global-keyword" class="form-control">
-		    </div>
-	    	<div class="search-global-message-container">
-	          <div class="result-message">
-	            <ul id="search-global-result" class="chat">
-
-	            </ul>
-	          </div>
-	        </div>
-	        <hr>
-			<div class="form-group right-content">
-				<button class="btn btn-primary" id="btn-search-global">Search</button> 
-			</div> -->
 	    </div>
 	  </div>  
 	</div>
@@ -601,6 +621,38 @@
 	              </div>
 	            </div>
 	          </div>
+	          <hr>
+				<div class="row">
+				  <div class="col-sm-6">
+				          <div class="form-group" id="#">
+				        <label for="#">Rainfall Information for :</label>
+				        <select name="" id="rainfall-sites" class="form-control">
+				        	<option value="#" default>---</option>
+				        	<option value="SAMAR-SITES">Samar Sites</option>
+				        </select>
+				      </div> 
+				  </div>
+				  <div class="col-sm-6">
+				      <div class="form-group">
+				      <label for="ewi-date-picker">As of :</label>
+				        <div class='input-group date' id='rfi-date-picker'>
+				            <input type='text' class="form-control" />
+				            <span class="input-group-addon">
+				                <span class="glyphicon glyphicon-calendar"></span>
+				            </span>
+				        </div>
+				      </div>
+				  </div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<label for="#">Cummulative:</label>
+				        <select name="" id="rainfall-cummulative" class="form-control">
+				        	<option value="1d" default>1-Day</option>
+				        	<option value="3d">3-Day</option>
+				        </select>
+					</div>
+				</div>
 	        </div>
 	      </div>
 			<div class="modal-footer">
@@ -652,3 +704,21 @@
 
   </div>
 </div>
+
+  <div class="modal fade" id="confirm-notification" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Contact Settings</h4>
+        </div>
+        <div class="modal-body">
+          <p id="notify-text"></p>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" id="save-contact" class="btn btn-info" data-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>

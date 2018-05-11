@@ -22,9 +22,8 @@
                         <li><a href="<?php echo base_url(); ?>monitoring/events">Monitoring Events Table</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
-                        <li><a href="<?php echo base_url(); ?>communications/chatterbox_beta"><span class="text-primary">Chatter Box <span class="text-warning" style="color: #f2ff45"><i>*NEW*</i></span></span></a></li>
-                        <li><a href="<?php echo base_url(); ?>communications/ewi_template"><span class="text-primary">Early Warning Information Template Creator <span class="text-warning" style="color: #f2ff45"><i>*NEW*</i></span></span></a></li>
-                        <li><a href="<?php echo base_url(); ?>communications/chatterbox">Chatter Box <span><i>*OLD*</i></span></a></li>
+                        <li><a href="<?php echo base_url(); ?>communications/chatterbox_beta">Chatterbox</a></li>
+                        <li><a href="<?php echo base_url(); ?>communications/ewi_template">Early Warning Information Template Creator</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Miscellaneous</li>
                         <li><a href="<?php echo base_url(); ?>monitoring/faq">Manuals, Primer, and FAQs</a></li>
@@ -45,6 +44,8 @@
                         <li><a href="<?php echo base_url(); ?>data_analysis/surficial">Surficial Data</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="<?php echo base_url(); ?>data_analysis/rainfall_scanner">Rainfall Scanner</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="<?php echo base_url(); ?>data_analysis/manifestations">Manifestations of Movement Page</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
                         <li><a href="<?php echo base_url(); ?>communications/responsetracker">Response Tracker</a></li>
@@ -75,6 +76,7 @@
                         <li><a href="#"><small><span class="glyphicon glyphicon-envelope"></span></small>&ensp;Inbox</a></li>
                         <li><a href="#"><small><span class="glyphicon glyphicon-cog"></span></small>&ensp;Settings</a></li>
                         <li role="separator" class="divider"></li>
+                        <li><a href="../../staff/all"><small><span class="glyphicon glyphicon-info-sign"></span></small>&ensp;Staff Profile</a></li>
                         <li><a href="../../logout"><small><span class="glyphicon glyphicon-off"></span></small>&ensp;Log Out</a></li>
                     </ul>
                 </li>

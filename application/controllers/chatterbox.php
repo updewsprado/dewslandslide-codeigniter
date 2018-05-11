@@ -17,7 +17,7 @@ class Chatterbox extends CI_Controller {
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
 		$data['user_id'] = $this->session->userdata("id");
-		
+		$data['jquery'] = "old";
 		$data['title'] = $page;
 
 		$this->load->view('templates/header', $data);
@@ -242,5 +242,39 @@ class Chatterbox extends CI_Controller {
 		$data = $_POST['site'];
 		$result = $this->contacts_model->commContactViaDashboard($data);
 		print json_encode($result);
+	}
+
+	public function getRoutine(){
+		$routine_set = [];
+		$ctr = 0;
+		$result = $this->contacts_model->onRoutine();
+		$event = $this->contacts_model->excludeRoutine();
+
+		if (sizeof($event->result()) == 0) {
+			foreach ($result->result() as $row) {
+				$routine_set[$ctr]['site'] = $row->name;
+				$routine_set[$ctr]['season'] = $row->season;
+				$ctr++;
+			}
+		} else {
+			foreach ($result->result() as $row) {
+				foreach ($event->result() as $exclude) {
+					if ($row->name == $exclude->name) {
+						$onEvent = true;
+						break;
+					} else {
+						$onEvent = false;
+					}
+				}
+
+			if ($onEvent == false) {
+				$routine_set[$ctr]['site'] = $row->name;
+				$routine_set[$ctr]['season'] = $row->season;
+				$ctr++;
+			}
+				
+			}
+		}
+		print json_encode($routine_set);
 	}
 }

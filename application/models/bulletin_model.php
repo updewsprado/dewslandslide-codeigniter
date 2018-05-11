@@ -56,7 +56,7 @@
 			$query = $this->db->get_where('lut_responses', array('public_alert_level' => $public_alert));
 			
 			$this->db->select("*")->from("lut_alert_descriptions");
-			$this->db->where("internal_alert_level LIKE '%" . $internal_alert . "%' COLLATE utf8_bin");
+			$this->db->where("internal_alert_level LIKE '$internal_alert' COLLATE utf8_bin");
 			$query2 = $this->db->get();
 
 			$query3 = $this->db->get('lut_triggers');

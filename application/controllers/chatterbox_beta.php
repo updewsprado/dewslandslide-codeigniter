@@ -18,7 +18,7 @@ class Chatterbox_beta extends CI_Controller {
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
 		$data['user_id'] = $this->session->userdata("id");
-		
+		$data['jquery'] = "old";
 		$data['title'] = $page;
 
 		$this->load->view('templates/header', $data);
@@ -52,6 +52,17 @@ class Chatterbox_beta extends CI_Controller {
 
 	public function getAlertStatus() {
 		$result = $this->ewi_template_model->getAlertStatuses();
+		print json_encode($result);
+	}
+
+	public function getRoutineTemplate() {
+		$result = $this->ewi_template_model->routineTemplate();
+		print json_encode($result);
+	}
+
+	public function getSiteDetailsOnRoutine() {
+		$site_code = $_POST['site_code'];
+		$result = $this->ewi_template_model->siteDetailsOnRoutine($site_code);
 		print json_encode($result);
 	}
 

@@ -13,9 +13,19 @@
 <script src="<?php echo base_url(); ?>/js/third-party/notify.min.js"></script>
 <script src="<?php echo base_url(); ?>/js/third-party/typeahead.js"></script>
 <script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
-<script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
+<script type="text/javascript">
+  first_name = "<?php echo $first_name; ?>";
+  tagger_user_id = "<?php echo $user_id; ?>";
+</script>
+<script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox_variables.js"></script>
+<script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox_initializer.js"></script>
+<script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox_wss.js"></script>
+<script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox_dashboard.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
+
+<!-- Server time-->
+<script type="text/javascript" src="/js/dewslandslide/server_time.js"></script>
 
 <?php  
 	$sites = json_decode($sites);
@@ -71,8 +81,10 @@
 		    	
 
 		    	<div class="row">
-			    	<div class="panel panel-default">
-						<div class="panel-heading">Latest Candidate Triggers and Releases</div>
+			    	<div class="panel panel-default" id="candidate-panel">
+						<div class="panel-heading"><div class="row">
+							<div class="col-sm-8">Latest Candidate Triggers and Releases</div><div class="col-sm-4 text-right row-count">Row count: 0</div>
+						</div></div>
 						<div class="panel-body clearfix">
 							<div class="col-md-12" style="text-align:center; font-size: 12px;"><b>Legend: &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop valid-square"></span> No reported invalid trigger(s) &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop partial-square"></span> Released alert with trigger(s) tagged invalid &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop invalid-square"></span> Tagged invalid
 							</b></div>
@@ -97,8 +109,10 @@
 				</div>
 
 		    	<div class="row">
-			    	<div class="panel panel-default">
-						<div class="panel-heading">Latest Site Alerts</div>
+			    	<div class="panel panel-default" id="latest-panel">
+						<div class="panel-heading"><div class="row">
+							<div class="col-sm-8">Latest Site Alerts</div><div class="col-sm-4 text-right row-count">Row count: 0</div>
+						</div></div>
 						<div class="panel-body clearfix">
 							<div class="col-md-12"><div class="table-responsive">
 				                <table class="table" id="latest">
@@ -122,8 +136,10 @@
 				</div>
 
 				<div class="row">
-			    	<div class="panel panel-default">
-						<div class="panel-heading">Sites Under 3-Day Extended Monitoring</div>
+			    	<div class="panel panel-default" id="extended-panel">
+			    		<div class="panel-heading"><div class="row">
+							<div class="col-sm-8">Sites Under 3-Day Extended Monitoring</div><div class="col-sm-4 text-right row-count">Row count: 0</div>
+						</div></div>
 						<div class="panel-body clearfix">
 							<div class="col-md-12" style="text-align:center; font-size: 12px;"><b>Legend: &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-one-square"></span> First Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-two-square"></span> Second Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-three-square"></span> Third Day &emsp;&emsp;&emsp;<span class="glyphicon glyphicon-stop day-overdue-square"></span> Overdue</b></div>
 							<div class="col-md-12"><div class="table-responsive">
@@ -146,8 +162,10 @@
 				</div>
 
 			    <div class="row">
-			    	<div class="panel panel-default">
-						<div class="panel-heading">Sites with Due Alerts</div>
+			    	<div class="panel panel-default" id="overdue-panel">
+						<div class="panel-heading"><div class="row">
+							<div class="col-sm-8">Sites with Due Alerts</div><div class="col-sm-4 text-right row-count">Row count: 0</div>
+						</div></div>
 						<div class="panel-body clearfix">
 							<div class="col-md-12"><div class="table-responsive">
 				                <table class="table" id="overdue">
@@ -634,8 +652,3 @@
 
 	</div> <!-- End of Container -->
 </div> <!-- End of Page Wrapper -->
-
-<script type="text/javascript">
-  first_name = "<?php echo $first_name; ?>";
-  tagger_user_id = "<?php echo $user_id; ?>";
-</script>

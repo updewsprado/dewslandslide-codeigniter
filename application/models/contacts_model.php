@@ -63,7 +63,7 @@ class Contacts_model extends CI_Model {
 
 	public function updateContactsEmployee($data){
 
-		$sql = "UPDATE dewslcontacts SET eid='".$data->id."',lastname='".$data->lastname."',firstname='".$data->firstname."',nickname='".$data->nickname."',birthday='".$data->birthdate."',email='".$data->email."',numbers='".$data->numbers."',grouptags='".$data->grouptags."' WHERE eid='".$data->id."'";
+		$sql = "UPDATE dewslcontacts SET eid='".$data->id."',lastname='".$data->lastname."',firstname='".$data->firstname."',nickname='".$data->nickname."',birthday='".$data->birthdate."',email='".$data->email."',numbers='".$data->numbers."',grouptags='".$data->group_tags."' WHERE eid='".$data->id."'";
 		$res = $this->db->query($sql);
 		return $res;
 	}
@@ -140,7 +140,7 @@ class Contacts_model extends CI_Model {
 	}
 	
 	public function getSitioBangProvMun($site){
-		$query = $this->db->query("SELECT DISTINCT sitio,barangay,municipality,province FROM site WHERE name LIKE '%".$site."%'");
+		$query = $this->db->query("SELECT DISTINCT name,sitio,barangay,municipality,province FROM site WHERE name LIKE '%".$site."%'");
 		return $query;
 	}
 
@@ -165,5 +165,17 @@ class Contacts_model extends CI_Model {
 		$this->db->where('sitename', $site);
 		$result = $this->db->get();
 		return $result->result();
+	}
+
+	public function onRoutine(){
+		$query = "SELECT name,season from site;";
+		$result = $this->db->query($query);
+		return $result;
+	}
+
+	public function excludeRoutine(){
+		$query = "SELECT DISTINCT name,status from site INNER JOIN public_alert_event ON site.id=public_alert_event.site_id WHERE public_alert_event.status <> 'routine' AND public_alert_event.status <> 'finished' AND public_alert_event.status <> 'invalid';";
+		$result = $this->db->query($query);
+		return $result;
 	}
 }

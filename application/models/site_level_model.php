@@ -56,6 +56,20 @@ class site_level_model extends CI_Model {
 		return $query->result();
 	}
 
+	public function getSiteidNum($site){
+		$this->db->select('*');
+		$this->db->from('site');
+		$this->db->where_in('name',$site);
+		$query = $this->db->get();
+		$get_id = $query->result();
+		$array = json_decode(json_encode($get_id[0]), True);
+		$id = $array['id'];
+		$sql = 'SELECT * FROM `public_alert_event` left join `public_alert_release` on public_alert_event.`latest_release_id` = public_alert_release.`release_id` WHERE site_id = "'.$id.'" order by data_timestamp desc LIMIT 1';
+		$query_id = $this->db->query($sql);
+		return $query_id->result();
+
+	}
+
 	public function getSiteMaintenance($site){
 		$sql = "SELECT maintenance_report.sm_id, maintenance_report.site ,start_date ,end_date,staff_name,activity, object , remarks from senslopedb.maintenance_report left join senslopedb.maintenance_report_staff
 		ON senslopedb.maintenance_report.sm_id = maintenance_report_staff.sm_id left join senslopedb.maintenance_report_extra ON maintenance_report.sm_id=maintenance_report_extra.sm_id where maintenance_report.site like '$site%'";
