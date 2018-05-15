@@ -1,6 +1,12 @@
 <!-- Chatterbox Scripts -->
-<script src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
-<script src="/js/dewslandslide/communications/dewsresponsive.js"></script>
+<!-- <script src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
+<script src="/js/dewslandslide/communications/dewsresponsive.js"></script> -->
+<script src="/js/dewslandslide/communications_beta/cbx_variables.js"></script>
+<script src="/js/dewslandslide/communications_beta/websocket_server.js"></script>
+<script src="/js/dewslandslide/communications_beta/initializer.js"></script>
+<script src="/js/dewslandslide/communications_beta/cbx_main.js"></script>
+<script src="/js/dewslandslide/communications_beta/event_handler.js"></script>
+
 <script src="/js/third-party/awesomplete.js"></script>
 <script src="/js/third-party/handlebars.js"></script>
 <script src="/js/third-party/moment-locales.js"></script>
@@ -25,7 +31,7 @@
 					<div class="row">
 						<div class="col-sm-12 form-group">
 							<div class="input-group">
-								<input type="text" id="contact-suggestion" class="awesomplete form-control dropdown-input" placeholder="Type name..." data-multiple />
+								<input type="text" id="contact-suggestion" class="awesomplete form-control dropdown-input" placeholder="Type name..." data-minchars="3" data-multiple />
 								<span class="input-group-btn">
 							    	<button class="btn btn-default" id="go-chat" type="button">Go!</button>
 						        </span>
@@ -349,18 +355,12 @@
 				    <div id="site-accord" class="panel-collapse collapse">
 				      <div class="panel-body">
 				      	<div id="site-selection-div">
-		  	                <div id="sitenames-cc-0" class="col-md-1 col-sm-1 col-xs-1"></div>
-			                <div id="sitenames-cc-1" class="col-md-1 col-sm-1 col-xs-1"></div>
-			                <div id="sitenames-cc-2" class="col-md-1 col-sm-1 col-xs-1"></div>
-			                <div id="sitenames-cc-3" class="col-md-1 col-sm-1 col-xs-1"></div>
-			                <div id="sitenames-cc-4" class="col-md-1 col-sm-1 col-xs-1"></div>
-			                <div id="sitenames-cc-5" class="col-md-1 col-sm-1 col-xs-1"></div>
-			                <div id="sitenames-cc-6" class="col-md-1 col-sm-1 col-xs-1"></div>
-			                <div id="sitenames-cc-7" class="col-md-1 col-sm-1 col-xs-1"></div>
-			                <div id="sitenames-cc-8" class="col-md-1 col-sm-1 col-xs-1"></div>
-			                <div id="sitenames-cc-9" class="col-md-1 col-sm-1 col-xs-1"></div>
-			                <div id="sitenames-cc-10" class="col-md-1 col-sm-1 col-xs-1"></div>
-							<div id="sitenames-cc-11" class="col-md-1 col-sm-1 col-xs-1"></div>
+		  	                <div id="sitenames-cc-0" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-1" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-2" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-3" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-4" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-5" class="col-md-2 col-sm-2 col-xs-2"></div>
 						</div>
 				      </div>
 				    </div>
@@ -451,18 +451,12 @@
 	                <button id="uncheckAllSitenames" type="button" class="btn btn-info btn-xs">Uncheck All</button>
 	              </p>
 	              <div id="modal-select-sitenames">
-	                <div id="sitenames-0" class="col-md-1 col-sm-1 col-xs-1"></div>
-	                <div id="sitenames-1" class="col-md-1 col-sm-1 col-xs-1"></div>
-	                <div id="sitenames-2" class="col-md-1 col-sm-1 col-xs-1"></div>
-	                <div id="sitenames-3" class="col-md-1 col-sm-1 col-xs-1"></div>
-	                <div id="sitenames-4" class="col-md-1 col-sm-1 col-xs-1"></div>
-	                <div id="sitenames-5" class="col-md-1 col-sm-1 col-xs-1"></div>
-	                <div id="sitenames-6" class="col-md-1 col-sm-1 col-xs-1"></div>
-	                <div id="sitenames-7" class="col-md-1 col-sm-1 col-xs-1"></div>
-	                <div id="sitenames-8" class="col-md-1 col-sm-1 col-xs-1"></div>
-	                <div id="sitenames-9" class="col-md-1 col-sm-1 col-xs-1"></div>
-	                <div id="sitenames-10" class="col-md-1 col-sm-1 col-xs-1"></div>
-	                <div id="sitenames-11" class="col-md-1 col-sm-1 col-xs-1"></div>
+	  	                <div id="sitenames-0" class="col-md-2 col-sm-2 col-xs-2"></div>
+		                <div id="sitenames-1" class="col-md-2 col-sm-2 col-xs-2"></div>
+		                <div id="sitenames-2" class="col-md-2 col-sm-2 col-xs-2"></div>
+		                <div id="sitenames-3" class="col-md-2 col-sm-2 col-xs-2"></div>
+		                <div id="sitenames-4" class="col-md-2 col-sm-2 col-xs-2"></div>
+		                <div id="sitenames-5" class="col-md-2 col-sm-2 col-xs-2"></div>
 	              </div>
 	            </div>
 	          </div>
