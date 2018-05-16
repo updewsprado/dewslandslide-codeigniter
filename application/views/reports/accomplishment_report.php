@@ -318,7 +318,7 @@
 
 	  			<!-- Graphs Div Cloner -->
 	  			<div class="panel panel-default" id="graph_checkbox_sample" hidden="hidden">
-					<div class="panel-heading"><strong>Graphs and Attachments</strong></div>
+					<div class="panel-heading"><strong>Graphs and Attachments <small>(No need to download and attach graphs generated from checkboxes)</small></strong></div>
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-sm-4 text-center" style="padding-top: 5px;"><label class="checkbox-inline"><input class="rainfall_checkbox" type="checkbox" value="">Rainfall</label></div>

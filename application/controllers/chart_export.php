@@ -113,22 +113,21 @@ class Chart_export extends CI_Controller
 		
 		try {
 			$pdf = new PDFMerger;
+			$dir =  $_SERVER['DOCUMENT_ROOT'] . "temp/charts_render/";
+			$file_dir = $dir . $date;
+			foreach (glob($file_dir . "/chart_?.pdf") as $file) 
+			{
+	    		$pdf->addPDF($file, 'all');
+			}
+
+			$pdf->merge('file', $dir . "compiled.pdf");
+
+			if( $deleteTemp ) $this->removeDirectory($file_dir);
+
+			echo "Finished";
 		} catch (Exception $e) {
             echo "Caught exception: ",  $e->getMessage(), "\n";
         }
-
-		$dir =  $_SERVER['DOCUMENT_ROOT'] . "temp/charts_render/";
-		$file_dir = $dir . $date;
-		foreach (glob($file_dir . "/chart_?.pdf") as $file) 
-		{
-    		$pdf->addPDF($file, 'all');
-		}
-
-		$pdf->merge('file', $dir . "compiled.pdf");
-
-		if( $deleteTemp ) $this->removeDirectory($file_dir);
-
-		echo "Finished";
 	}
 
 	public function viewPDF($str)
