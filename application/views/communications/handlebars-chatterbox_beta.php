@@ -41,18 +41,18 @@
             <script id="quick-inbox-template" type="text/x-handlebars-template">
                 {{#each quick_inbox_messages}}
                 <li>
-                    <input id="'{{user}}'" type="text" value="{{name}} - {{user}}" hidden>
+                    <input id="'{{user_number}}'" type="text" value="{{full_name}}" hidden>
                     <a href="#" class="clearfix">   
                         <img src="/images/Chatterbox/boy_avatar.png" alt="" class="img-circle">
                         <div class="friend-name">   
                             {{#if isunknown}}
-                            <strong class="unknown-number">{{user}} </strong>
+                            <strong class="unknown-number">{{user_number}} </strong>
                             {{else}}
-                            <strong>{{name}} </strong>
+                            <strong>{{full_name}} </strong>
                             {{/if}}
                         </div>
                         <div class="last-message text-muted">{{msg}}</div>
-                        <small class="time text-muted"> {{timestamp}}</small>
+                        <small class="time text-muted"> {{ts_received}}</small>
                     </a>
                 </li>  
                 {{/each}}
