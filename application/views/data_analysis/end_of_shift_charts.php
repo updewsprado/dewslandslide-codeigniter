@@ -33,3 +33,24 @@
 <div class="box" id="subsurface_charts" hidden="hidden">
     <svg id="subsurface-svg" xmlns="http://www.w3.org/2000/svg" width="1200" height ="2400"></svg>
 </div>
+
+<!-- MODAL AREA -->
+<div class="modal fade" id="error-modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Integrated Site Analysis Page</h4>
+            </div>
+            <div class="modal-body">
+                <p>Problem loading some parts of this page:</p>
+                <ul></ul>
+                See console for error details.
+            </div>
+            <div class="modal-footer">
+                <button id="cancel" class="btn btn-info" data-dismiss="modal" role="button">Okay</button>
+            </div>
+        </div>
+    </div>
+</div> <!-- End of MODAL AREA -->
