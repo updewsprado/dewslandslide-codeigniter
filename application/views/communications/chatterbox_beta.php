@@ -161,14 +161,6 @@
 	        <table id="emp-response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
 	          <thead>
 	            <tr>
-	            	<th>ID #</th>
-	            	<th>Salutation</th>
-	            	<th>Firstname</th>
-	            	<th>Lastname</th>
-	            	<th>Middlename</th>
-	            	<th>Nickname</th>
-	            	<th>Team(s)</th>
-	            	<th>Active status</th>
 	            </tr>
 	          </thead>
 	        </table>
@@ -176,12 +168,6 @@
 	        <table id="comm-response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
 	          <thead>
 	            <tr>
-<!-- 	            	<th>ID #</th>
-	            	<th>Salutation</th>
-	            	<th>Firstname</th>
-	            	<th>Lastname</th>
-	            	<th>Middlename</th>
-	            	<th>Active status</th> -->
 	            </tr>
 	          </thead>
 	        </table>
