@@ -176,13 +176,12 @@
 	        <table id="comm-response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
 	          <thead>
 	            <tr>
-	            	<th>ID #</th>
+<!-- 	            	<th>ID #</th>
 	            	<th>Salutation</th>
 	            	<th>Firstname</th>
 	            	<th>Lastname</th>
 	            	<th>Middlename</th>
-	            	<th>Nickname</th>
-	            	<th>Active status</th>
+	            	<th>Active status</th> -->
 	            </tr>
 	          </thead>
 	        </table>
