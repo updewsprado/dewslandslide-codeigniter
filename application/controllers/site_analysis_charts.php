@@ -18,7 +18,11 @@ class Site_analysis_charts extends CI_Controller {
 		$type = $_POST['type'];
 		$site = $_POST['site'];
 
-		$filename = $type;
+		if($type == "rainfall"){
+			$type = "rain";
+		}
+		
+		$filename = str_replace("-", "_", $type);
 		if( strlen($site) > 3 ) {
 			$filename = $filename . "_" . $site;
 			$site = substr($site, 0, 3);

@@ -71,10 +71,10 @@
             Please plot at least one chart.
         </div> -->
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12" id="chart_checkboxes">
                 <label>Site Level</label><br>
                 <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="rainfall" id="rainfall">Rainfall</label>
+                  <label><input class="download_chart_checkbox" type="checkbox" value="rain" id="rainfall">Rainfall</label>
                 </div>
                 <div class="checkbox">
                   <label><input class="download_chart_checkbox" type="checkbox" value="surficial" id="surficial">Surficial</label>
@@ -112,7 +112,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary btn-sm">
+        <button type="button" class="btn btn-primary btn-sm" id="download-charts-selected">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> 
             Download
         </button>
