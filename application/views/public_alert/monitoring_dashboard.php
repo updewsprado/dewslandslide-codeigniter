@@ -22,7 +22,6 @@
 <script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox_wss.js"></script>
 <script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox_dashboard.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?client385290333225-1olmpades21is0bupii1fk76fgt3bf4k.apps.googleusercontent.com?key=AIzaSyBRAeI5UwPHcYmmjGUMmAhF-motKkQWcms"></script>
 
 <!-- Server time-->
 <script type="text/javascript" src="/js/dewslandslide/server_time.js"></script>
@@ -45,13 +44,7 @@
         </div>
         <!-- /.row -->
         <div class="row">
-        	<div class="col-sm-3">
-		    	<div id="map-canvas" >
-		      		<p>MAP CANVASS</p>
-		     	</div>
-		    </div>
-
-		    <div class="col-sm-9" id="column_2">
+		    <div class="col-sm-12" id="column_2">
 		    	<div class="row">
 		    		<div class="alert alert-danger" id="primer">
 			            <strong>Monitoring Modules Directory</strong>: 
