@@ -11,10 +11,7 @@
 </script>
 <script src="/js/dewslandslide/communications_beta/cbx_variables.js"></script>
 <script src="/js/dewslandslide/communications_beta/websocket_server.js"></script>
-<script src="/js/dewslandslide/communications_beta/initializer.js"></script>
-<script src="/js/dewslandslide/communications_beta/cbx_main.js"></script>
-<script src="/js/dewslandslide/communications_beta/event_handler.js"></script>
-<script src="/js/dewslandslide/communications_beta/responsive.js"></script>
+
 
 <!-- Server time-->
 <!-- <script type="text/javascript" src="/js/dewslandslide/server_time.js"></script> -->
@@ -36,7 +33,7 @@
 			  <div class="panel-body">
 			    <div class="col-sm-12 form-group">
 					<div class="input-group">
-						<input type="text" class="awesomplete form-control dropdown-input" placeholder="Type name..." data-multiple />
+						<input type="text" class="awesomplete form-control dropdown-input" id="contact-suggestion" placeholder="Type name..." data-multiple />
 						<span class="input-group-btn">
 					    	<button class="btn btn-default" id="go-chat" type="button">Go!</button>
 				        </span>
@@ -92,7 +89,7 @@
 						<br>
 						<div class='col-md-12'><label for="" id="def-recipients" hidden>Default recipients: LLMC</label></div>
 						<div class='btn-group form-group routine-options-container' data-toggle='buttons' style='padding: 15px 15px 0px 15px; margin: 0;' hidden>
-								<input type='button' class='btn btn-primary active' checked id='routine-reminder-option' autocomplete='off' value="Reminder Message"> 
+								<input type='button' class='btn btn-primary active' checked id='routine-reminder-option' autocomplete='off' value="Reminder Message">
 								<input type='button' class='btn btn-primary' id='routine-actual-option' autocomplete='off' value="Routine Message">
 						</div>
 					</div>
@@ -119,7 +116,7 @@
 					<div class="form-group" id="send-char-remain">
 						<div class="col-sm-6">
 							<p>Remaining characters: <b id="remaining_chars">800</b></p>
-						</div>						
+						</div>
 						<div class="col-sm-6 right-content">
 							<button type="button" class="btn btn-primary" id="send-msg">Send</button>
 						</div>
@@ -193,7 +190,7 @@
 	              <option disabled selected value="default">--</option>
 	              <option value="econtacts">Employee Contacts</option>
 	              <option value="ccontacts">Community Contacts</option>
-	            </select>  
+	            </select>
 	          </div>
 
 	          <div class="col-md-6 from-group">
@@ -202,7 +199,7 @@
 	              <option disabled selected value="default">--</option>
 	              <option value="addcontact">Add Contact</option>
 	              <option value="updatecontact">Update Existing Contact</option>
-	            </select>  
+	            </select>
 	          </div>
 	        </div>
 
@@ -253,7 +250,7 @@
 	                <input type="date" class="form-control" id="birthdate_ec" aria-required="true" aria-invalid="false">
 	              </div>
 	            </div>
-	          </div> 
+	          </div>
 
 	          <div class="row">
 	            <div class="col-md-6">
@@ -310,7 +307,7 @@
 	              <select name="sitename_cc" id="sitename_cc"></select>
 	              <input type="text" class="form-control" id="other-sitename" name="other_sitename" placeholder="Sitename" hidden>
 	            </div>
-	          </div> 
+	          </div>
 
 	          <div class="row">
 	            <div class="col-md-6">
@@ -427,7 +424,7 @@
 	        <span id="load-groups-wrapper" data-toggle="tooltip" title="">
 	          <button id="go-load-groups" type="button" class="btn btn-success" data-dismiss="modal" >Okay</button>
 	        </span>
-	        <button id="exit-load-group" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>   
+	        <button id="exit-load-group" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 	      </div>
 	    </div>
 	  </div>
@@ -442,7 +439,7 @@
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	        <h4>General Information Tag <i class="text-warning"> *BETA*</i></h4>
 	      </div>
-	      <div class="modal-body"> 
+	      <div class="modal-body">
 	        <div class="alert alert-info" role="alert">
 	          <p style="padding: 0px;"><strong>New Feature!</strong> You can now tag messages in chatterbox! </br>.&nbsp &nbsp • <strong>Important Tags: </strong>#EwiMessage, #EwiResponse<br>&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;#GroundMeasReminder, #GroundMeas</p>
 	        </div>
@@ -452,11 +449,11 @@
 	        <div class="form-group right-content" id="submit-gintag">
 	          <button type="reset" class="btn btn-danger" id="reset-gintags" data-dismiss="modal">Reset</button>
 	          <button type="submit" value="submit" id="confirm-gintags" class="btn btn-primary">Confirm</button>
-	        </div>  
+	        </div>
 	      </div>
-	    </div>  
+	    </div>
 	  </div>
-	</div> 
+	</div>
 	<!-- END GINTAGS MODAL -->
 
 	<!-- Save Narratives MODAL -->
@@ -486,11 +483,11 @@
 			</div>
 	        <div class="right-content">
 	        	<button class="btn btn-warning" id="cancel-narrative" data-dismiss="modal">Cancel</button>
-	        	<button class="btn btn-primary" id="confirm-narrative" data-dismiss="modal">Confirm</button> 
+	        	<button class="btn btn-primary" id="confirm-narrative" data-dismiss="modal">Confirm</button>
 	        </div>
-	      </div> 
+	      </div>
 	    </div>
-	  </div>  
+	  </div>
 	</div>
 	</div>
 	<!-- Save Narratives MODAL -->
@@ -568,7 +565,7 @@
 		<div>
 		</div>
 	    </div>
-	  </div>  
+	  </div>
 	</div>
 	</div>
 	<!-- Save Narratives MODAL -->
@@ -581,7 +578,7 @@
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	        <h4>EARLY WARNING INFORMATION</h4>
 	      </div>
-	      <div class="modal-body row-fluid"> 
+	      <div class="modal-body row-fluid">
 	        <div class="ewi-container">
 	          <div class="row">
   	            <div class="col-sm-3">
@@ -635,7 +632,7 @@
 				        	<option value="#" default>---</option>
 				        	<option value="SAMAR-SITES">Samar Sites</option>
 				        </select>
-				      </div> 
+				      </div>
 				  </div>
 				  <div class="col-sm-6">
 				      <div class="form-group">
@@ -664,9 +661,9 @@
 				<div class="form-group cmd-ewi-chatterbox right-content">
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 					<button type="submit" value="submit" id="confirm-ewi" class="btn btn-primary" data-dismiss="modal">Confirm</button>
-				</div>   
+				</div>
 			</div>
-	    </div>  
+	    </div>
 	  </div>
 	</div>
 	<!-- END EWI MODAL -->
@@ -727,3 +724,8 @@
       </div>
     </div>
   </div>
+
+  <script src="/js/dewslandslide/communications_beta/initializer.js"></script>
+  <script src="/js/dewslandslide/communications_beta/cbx_main.js"></script>
+  <script src="/js/dewslandslide/communications_beta/event_handler.js"></script>
+  <script src="/js/dewslandslide/communications_beta/responsive.js"></script>
