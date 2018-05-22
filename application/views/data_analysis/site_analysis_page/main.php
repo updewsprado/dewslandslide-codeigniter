@@ -66,10 +66,10 @@
         <h4 class="modal-title" id="myModalLabel">Download Charts</h4>
       </div>
       <div class="modal-body">
-        <!-- <div class="alert alert-info" role="alert">
+        <div class="alert alert-info" role="alert" id="select-chart-message" hidden>
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 
-            Please plot at least one chart.
-        </div> -->
+            Please select at least one chart to continue downloading.
+        </div>
         <div class="row">
             <div class="col-sm-12" id="chart_checkboxes">
                 <label>Site Level</label><br>

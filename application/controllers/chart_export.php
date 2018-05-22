@@ -75,9 +75,6 @@ class Chart_export extends CI_Controller
 		$filenames = $_POST['svg'];
 		$site = $_POST['site'];
 		$conn_id = $_POST['connection_id'];
-		// var_dump($filenames);
-		// var_dump($site);
-		// var_dump($conn_id);
 		$dir = "temp/charts_render/events/$conn_id/$site";
 
 		for( $i = 0; $i < count($filenames); $i++) {
