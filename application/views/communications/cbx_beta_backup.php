@@ -27,81 +27,82 @@
 
 <img id="bg-img-chatterbox" src="../../../images/dews-l-logo.png" >
 <div class="container-fluid">
-	<div class="row chatterbox-panel-margin-top">
-		<div class="col-sm-4">
+	<div class="row nav-margin">
+		<div class="col-sm-4 division">
 			<div class="panel panel-primary">
-			  <div class="panel-heading">
-			    <h3 class="panel-title">MESSAGES</h3>
-			  </div>
-			  <div class="panel-body">
-			    <div class="col-sm-12 form-group">
-					<div class="input-group">
-						<input type="text" class="awesomplete form-control dropdown-input" placeholder="Type name..." data-multiple />
-						<span class="input-group-btn">
-					    	<button class="btn btn-default" id="go-chat" type="button">Go!</button>
-				        </span>
-					</div>
-				</div>
-				<div>
-					<!-- Nav tabs -->
-					<ul class="nav nav-tabs nav-justified quick-access-tab">
-					    <li role="presentation" class="active"><a href="#registered" aria-controls="registered" role="tab" data-toggle="tab">Inbox</a></li>
-					    <li role="presentation"><a href="#unknown" aria-controls="unknown" role="tab" data-toggle="tab">Unregistered</a></li>
-					    <li role="presentation"><a href="#event-inbox" aria-controls="event-inbox" role="tab" data-toggle="tab">Event inbox</a></li>
-					    <li role="presentation"><a href="#datalogger" aria-controls="datalogger" role="tab" data-toggle="tab">Datalogger</a></li>
-					 </ul>
-
-					  <!-- Tab panes -->
-					<div class="tab-content">
-					    <div role="tabpanel" class="tab-pane active" id="registered">
-					    	<ul id="quick-inbox-display" class="friend-list"></ul>
-					    </div>
-					    <div role="tabpanel" class="tab-pane" id="unknown">
-					    	<ul id="quick-inbox-unknown-display" class="friend-list"></ul>
-					    </div>
-					    <div role="tabpanel" class="tab-pane" id="event-inbox">
-					    	<ul id="quick-event-inbox-display" class="friend-list"></ul>
-					    </div>
-					    <div role="tabpanel" class="tab-pane" id="datalogger">
-					    	<ul id="datalogger-inbox-display" class="friend-list"></ul>
-					    </div>
-					</div>
-				</div>
-			  </div>
-			</div>
-		</div>
-		<div class="col-sm-5 middle-panel-padding">
-			<div class="panel panel-primary recent_activities">
-			  <div class="panel-heading">
-			    <h3 class="panel-title">RECENT ACTIVITY</h3>
-			  </div>
-			  <div class="panel-body activity-body">
-			    <div class="row form-group">
-					<h4>Recently Viewed Contacts</h4>
-					<div class="rv_contacts">
-					</div>
-				</div>
-				<div class="row form-group">
-					<h4>Recently Viewed Sites</h4>
-					<div class="rv_sites">
-					</div>
-				</div>
-				<div class="row form-group">
-					<h4>Routine Section</h4>
-					<div class="routine_section">
-						<br>
-						<div class='col-md-12'><label for="" id="def-recipients" hidden>Default recipients: LLMC</label></div>
-						<div class='btn-group form-group routine-options-container' data-toggle='buttons' style='padding: 15px 15px 0px 15px; margin: 0;' hidden>
-								<input type='button' class='btn btn-primary active' checked id='routine-reminder-option' autocomplete='off' value="Reminder Message"> 
-								<input type='button' class='btn btn-primary' id='routine-actual-option' autocomplete='off' value="Routine Message">
+				<div class="panel-heading">MESSAGES</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-12 form-group">
+							<div class="input-group">
+								<input type="text" class="awesomplete form-control dropdown-input" placeholder="Type name..." data-multiple />
+								<span class="input-group-btn">
+							    	<button class="btn btn-default" id="go-chat" type="button">Go!</button>
+						        </span>
+							</div>
 						</div>
 					</div>
-					<div class='col-md-12 right-content'><button type='button' class='btn btn-primary' id='send-routine-msg' hidden>Send</button></div>
+					<div class="row">
+						<ul class="nav nav-tabs inbox-tab">
+						    <li class="active"><a data-toggle="tab" href="#registered">Inbox</a></li>
+						    <li><a data-toggle="tab" href="#unknown">Unregistered</a></li>
+						    <li><a data-toggle="tab" href="#event-inbox">Event inbox</a></li>
+						    <li><a data-toggle="tab" href="#datalogger">Datalogger</a></li>
+						</ul>
+						<div class="tab-content">
+							<div id="registered" class="tab-pane fade in active">
+								<ul id="quick-inbox-display" class="friend-list"></ul>
+							</div>
+							<div id="unknown" class="tab-pane fade">
+								<ul id="quick-inbox-unknown-display" class="friend-list"></ul>
+							</div>
+							<div id="event-inbox" class="tab-pane fade">
+								<ul id="quick-event-inbox-display" class="friend-list"></ul>
+							</div>
+							<div id="datalogger" class="tab-pane fade">
+								<ul id="datalogger-inbox-display" class="friend-list"></ul>
+							</div>
+						</div>
+					</div>
 				</div>
-			  </div>
 			</div>
+		</div>
 
-			<div class="col-sm-12 division hidden" id="main-container">
+		<div class="col-sm-6 division recent_activities">
+			<div class="panel panel-primary">
+			<input type="text" id="contact-indicator" value="" hidden>
+				<div class="panel-heading">Recent Activity</div>
+			</div>
+			<hr>
+			<div class="panel panel-primary">
+				<div class="panel-body activity-body">
+					<div class="row form-group">
+						<h4>Recently Viewed Contacts</h4>
+						<div class="rv_contacts">
+						</div>
+					</div>
+					<div class="row form-group">
+						<h4>Recently Viewed Sites</h4>
+						<div class="rv_sites">
+						</div>
+					</div>
+					<div class="row form-group">
+						<h4>Routine Section</h4>
+						<div class="routine_section">
+							<br>
+							<div class='col-md-12'><label for="" id="def-recipients" hidden>Default recipients: LLMC</label></div>
+							<div class='btn-group form-group routine-options-container' data-toggle='buttons' style='padding: 15px 15px 0px 15px; margin: 0;' hidden>
+									<input type='button' class='btn btn-primary active' checked id='routine-reminder-option' autocomplete='off' value="Reminder Message"> 
+									<input type='button' class='btn btn-primary' id='routine-actual-option' autocomplete='off' value="Routine Message">
+							</div>
+						</div>
+						<div class='col-md-12 right-content'><button type='button' class='btn btn-primary' id='send-routine-msg' hidden>Send</button></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-6 division hidden" id="main-container">
 			<div id="convo-header" class="panel panel-success">
 			<input type="text" id="contact-indicator" value="" hidden>
 				<div class="panel-heading">Sitename: [SAMPLE] Office: [Sample]</div>
@@ -132,42 +133,38 @@
 				</div>
 			</div>
 		</div>
-		</div>
-		<div class="col-sm-3">
+
+		<div class="col-sm-2 division">
 			<div class="panel panel-primary">
-			  <div class="panel-heading">
-			    <h3 class="panel-title">OPTIONS</h3>
-			  </div>
-			  <div class="panel-body align-center">
-			    <div class="row form-group">
-					<a href="#" id="btn-contact-settings" data-toggle="modal" title="Contact Settings"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Contact Settings</a>
+				<div class="panel-heading">OPTIONS</div>
+				<div class="panel-body align-center">
+					<div class="row form-group">
+						<a href="#" id="btn-contact-settings" data-toggle="modal" title="Contact Settings"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Contact Settings</a>
+					</div>
+					<div class="row form-group">
+						<a href="#" id="btn-advanced-search" data-toggle="modal" title="Quick Site Selection"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Quick Site Selection</a>
+					</div>
+					<div class="row form-group">
+						<a href="#" id="btn-gbl-search" data-toggle="modal" title="Quick Search"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Quick Search</a>
+					</div>
 				</div>
-				<div class="row form-group">
-					<a href="#" id="btn-advanced-search" data-toggle="modal" title="Quick Site Selection"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Quick Site Selection</a>
-				</div>
-				<div class="row form-group">
-					<a href="#" id="btn-gbl-search" data-toggle="modal" title="Quick Search"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Quick Search</a>
-				</div>
-			  </div>
 			</div>
 			<div class="panel panel-primary">
-			  <div class="panel-heading">
-			    <h3 class="panel-title">QUICK ACCESS</h3>
-			  </div>
-			  <div class="panel-body">
-			    <ul class="nav nav-tabs nav-justified quick-access-tab">
-				    <li class="active"><a data-toggle="tab" href="#quick-release">Site with Event</a></li>
-				    <li><a data-toggle="tab" href="#group-message">Group Message</a></li>
-				</ul>
-				<div class="tab-content">
-					<div id="quick-release" class="tab-pane fade in active">
-						<ul id="quick-inbox-display" class="friend-list"></ul>
-					</div>
-					<div id="group-message" class="tab-pane fade">
-						<ul id="group-message-display" class="friend-list"></ul>
-					</div>
+				<div class="panel-heading">QUICK ACCESS</div>
+				<div class="panel-body no-padding">
+						<ul class="nav nav-tabs nav-justified quick-access-tab">
+						    <li class="active"><a data-toggle="tab" href="#quick-release">Site w/ Event</a></li>
+						    <li><a data-toggle="tab" href="#group-message">Group Message</a></li>
+						</ul>
+						<div class="tab-content">
+							<div id="quick-release" class="tab-pane fade in active">
+								<ul id="quick-release-display" class="friend-list"></ul>
+							</div>
+							<div id="group-message" class="tab-pane fade">
+								<ul id="group-message-display" class="friend-list"></ul>
+							</div>
+						</div>
 				</div>
-			  </div>
 			</div>
 		</div>
 	</div>
@@ -692,9 +689,6 @@
 
   </div>
 </div>
-
-
-
 
 <div id="connection-interruption" class="modal fade" role="dialog" hidden>
   <div class="modal-dialog modal-xs">
