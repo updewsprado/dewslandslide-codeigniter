@@ -177,7 +177,7 @@
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 class="modal-title text-info">Contact Settings</h4>
+	        <h4 class="modal-title text-info"><span class="glyphicon glyphicon-chevron-left" id="go_back" hidden>&nbsp;</span>Contact Settings</h4>
 	      </div>
 
 	    <div class="modal-body row-fluid">
@@ -190,7 +190,7 @@
 	              <option disabled selected value="default">--</option>
 	              <option value="econtacts">Employee Contacts</option>
 	              <option value="ccontacts">Community Contacts</option>
-	            </select>
+	            </select>  
 	          </div>
 
 	          <div class="col-md-6 from-group">
@@ -199,7 +199,7 @@
 	              <option disabled selected value="default">--</option>
 	              <option value="addcontact">Add Contact</option>
 	              <option value="updatecontact">Update Existing Contact</option>
-	            </select>
+	            </select>  
 	          </div>
 	        </div>
 
@@ -212,7 +212,7 @@
 	          </div>
 	        </div>
 
-			  <table id="emp-response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
+	        <table id="emp-response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
 	          <thead>
 	            <tr>
 	            </tr>
@@ -227,48 +227,84 @@
 	        </table>
 
 	        <div id="employee-contact-wrapper" hidden>
+        	  <input type="text" id="ec_id" hidden>
 	          <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
 	              <label for="firstname_ec">Firstname:</label>
 	              <input type="text" class="form-control" id="firstname_ec" name="firstname_ec" maxlength="16" required>
 	            </div>
 
-	            <div class="col-md-6">
+	            <div class="col-md-4">
 	              <label for="firstname_ec">Lastname:</label>
 	              <input type="text" class="form-control" id="lastname_ec" name="lastname_ec" maxlength="16" required>
+	            </div>
+            	<div class="col-md-4">
+	              <label for="middlename_ec">Middlename:</label>
+	              <input type="text" class="form-control" id="middlename_ec" name="middlename_ec" maxlength="16" required>
 	            </div>
 	          </div>
 
 	          <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
 	              <label for="nickname_ec">Nickname:</label>
 	              <input type="text" class="form-control" id="nickname_ec" name="nickname_ec" maxlength="16" required>
 	            </div>
 
-	            <div class="col-md-6">
-	              <label for="birthdate_ec">Birthdate:</label>
-	              <div class="date datetime">
-	                <input type="date" class="form-control" id="birthdate_ec" aria-required="true" aria-invalid="false">
+	            <div class="col-md-2">
+	              <label for="salutation_ec">Salutation:</label>
+	              <input type="text" class="form-control" id="salutation_ec" name="salutation_ec" maxlength="16" required>
+	            </div>
+
+	            <div class="col-md-2">
+	              <label for="gender_ec">Gender:</label>
+	              <input type="text" class="form-control" id="gender_ec" name="gender_ec" maxlength="16" required>
+	            </div>
+
+	            <div class="col-md-4">
+
+
+	              <div class="form-group">
+	              <label for="birthdate">Birthdate:</label>
+	                <div class='input-group date birthdate'>
+	                    <input type='text' class="form-control" id="birthdate_ec"/>
+	                    <span class="input-group-addon">
+	                        <span class="glyphicon glyphicon-calendar"></span>
+	                    </span>
+	                </div>
 	              </div>
 	            </div>
-	          </div>
+	          </div> 
 
 	          <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
 	              <label for="email_ec">Email:</label>
-	              <input type="email" class="form-control" id="email_ec" name="email_ec" required>
+	              <input type="email" class="form-control" data-role="tagsinput" id="email_ec" name="email_ec" required>
 	            </div>
-	            <div class="col-md-3" title="Notes: If contact number is more than one seprate it by a comma.">
-	              <label for="numbers_ec">Contact #:</label>
-	              <input type="text"  id="numbers_ec" class="form-control" name="numbers_ec" required>
+
+	            <div class="col-md-4">
+					<div class="form-group">
+						<label for="sel1">Contact Active Status:</label>
+						<select class="form-control" id="active_status_ec">
+							<option value="1">Active</option>
+							<option value="0">Inactive</option>
+						</select>
+					</div>
+	            </div>
+
+	            <div class="col-md-4">
+	              <label for="team_ec">Team(s):</label>
+	              <input type="text" class="form-control" data-role="tagsinput" id="team_ec" id="team_ec" required>
 	            </div>
 	          </div>
 
-	          <div class="row">
-	            <div class="col-md-3">
-	              <label for="grouptags_ec">Group tags:</label>
-	              <input type="text" class="form-control" id="grouptags_ec" id="grouptags_ec" required>
-	            </div>
+			  <hr>
+
+	          <div id="mobile-div">
+	           </div>
+
+			  <hr>
+
+	          <div id="landline-div">
 	          </div>
 
 	          <hr>
@@ -279,61 +315,121 @@
 	        </div>
 
 	        <div id="community-contact-wrapper" hidden>
+	          <input type="text" id="cc_id" hidden>
 	          <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
 	              <label for="firstname_cc">Firstname:</label>
 	              <input type="text" class="form-control" id="firstname_cc" name="firstname_cc" maxlength="16" required>
 	            </div>
 
-	            <div class="col-md-6">
+	            <div class="col-md-4">
 	              <label for="lastname_cc">Lastname:</label>
 	              <input type="text" class="form-control" id="lastname_cc" name="lastname_cc" maxlength="16" required>
 	            </div>
+
+	            <div class="col-md-4">
+	              <label for="middlename_cc">Middlename:</label>
+	              <input type="text" class="form-control" id="middlename_cc" name="middlename_cc" maxlength="16" required>
+	            </div>
 	          </div>
 
 	          <div class="row">
 	            <div class="col-md-4">
-	              <label for="prefix_cc">Prefix:</label>
-	              <input type="text" class="form-control" id="prefix_cc" name="prefix_cc" maxlength="16" required>
+	              <label for="salutation_cc">Salutation:</label>
+	              <input type="text" class="form-control" id="salutation_cc" name="salutation_cc" maxlength="16" required>
 	            </div>
 
 	            <div class="col-md-4">
-	              <label for="office_cc">Office:</label>
-	              <select name="office_cc" id="office_cc"></select>
-	              <input type="text" class="form-control" id="other-officename" name="other_officename" placeholder="Office" hidden>
+	              <label for="nickname_cc">Nickname:</label>
+	              <input type="text" class="form-control" id="nickname_cc" name="nickname_cc" placeholder="">
 	            </div>
 
 	            <div class="col-md-4">
-	              <label for="sitename_cc">Sitename:</label>
-	              <select name="sitename_cc" id="sitename_cc"></select>
-	              <input type="text" class="form-control" id="other-sitename" name="other_sitename" placeholder="Sitename" hidden>
+	                <label for="birthdate">Birthdate:</label>
+					<div class="input-group date birthdate">		
+						<input type="text" class="form-control" id="birthdate_cc" aria-required="true" aria-invalid="false">
+						<span class="input-group-addon">
+						    <span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
 	            </div>
-	          </div>
+	          </div> 
 
 	          <div class="row">
-	            <div class="col-md-6">
-	              <label for="numbers_cc">Contact #:</label>
-	              <input type="text" class="form-control" id="numbers_cc" name="numbers" required>
+	            <div class="col-md-2">
+	              <label for="gender_cc">Gender:</label>
+	              <input type="text" class="form-control" id="gender_cc" name="gender_cc" required>
 	            </div>
 
-	            <div class="col-md-3">
-	              <label for="rel">Reliability:</label>
-	              <select name="rel" id="rel" class="form-control">
-	                <option value="Y">Yes</option>
-	                <option value="N">No</option>
-	                <option value="Q">Q</option>
-	              </select>
+	            <div class="col-md-4">
+					<div class="form-group">
+						<label for="active_status_cc">Contact Active Status:</label>
+						<select class="form-control" id="active_status_cc">
+							<option value="1">Active</option>
+							<option value="0">Inactive</option>
+						</select>
+					</div>
 	            </div>
 
-	            <div class="col-md-3">
-	              <label for="ewirecipient">EWI Recipient:</label>
-	              <select name="ewirecipient" id="ewirecipient" class="form-control">
-	                <option value="1">Yes</option>
-	                <option value="0">No</option>
-	              </select>
+	            <div class="col-md-4">
+
+					<div class="form-group">
+						<label for="active_status_cc">Early Warning Information Recipient:</label>
+						<select class="form-control" id="ewirecipient_cc">
+							<option value="1">Yes</option>
+							<option value="0">Nah</option>
+						</select>
+					</div>
 	            </div>
 
 	          </div>
+	          <hr>
+	          <div class="panel-group" id="accordion">
+				  <div class="panel panel-default">
+				    <div class="panel-heading">
+				      <h4 class="panel-title" style="text-align: center;">
+				        <a data-toggle="collapse" data-parent="#accordion" href="#site-accord">Site Selection</a>
+				      </h4>
+				    </div>
+				    <div id="site-accord" class="panel-collapse collapse">
+				      <div class="panel-body">
+				      	<div id="site-selection-div">
+		  	                <div id="sitenames-cc-0" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-1" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-2" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-3" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-4" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-5" class="col-md-2 col-sm-2 col-xs-2"></div>
+						</div>
+				      </div>
+				    </div>
+				  </div>
+  				  <div class="panel panel-default">
+				    <div class="panel-heading">
+				      <h4 class="panel-title" style="text-align: center;">
+				        <a data-toggle="collapse" data-parent="#accordion" href="#org-accord">Organization Selection</a>
+				      </h4>
+				    </div>
+				    <div id="org-accord" class="panel-collapse collapse">
+				      <div class="panel-body">
+				      	<div id="organization-selection-div">
+				      		<div id="orgs-cc-0" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-1" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-2" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-3" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-4" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-5" class="col-md-2 col-sm-2 col-xs-2"></div>
+				      	</div>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+	          <hr>
+				<div id="mobile-div-cc">
+				</div>
+	          <hr>
+				<div id="landline-div-cc">
+				</div>
 	          <hr>
 	          <div id="comm-settings-cmd" class="right-content">
 	          	<button class="btn btn-danger" id="btn-clear-cc" >Reset</button>
