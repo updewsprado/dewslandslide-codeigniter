@@ -39,6 +39,9 @@ class Test extends CI_Controller {
 
 	public function siteAnalysisPageDownloadChartTest () {
 		$data["title"] = "Site Analysis Download Chart Test";
+		$data['site_level_plots'] = $this->load->view('data_analysis/site_analysis_page/site_level_plots', $data, true);
+        $data['subsurface_column_level_plots'] = $this->load->view('data_analysis/site_analysis_page/subsurface_column_plots', $data, true);
+        $data['site_analysis_svg'] = $this->load->view('data_analysis/site_analysis_page/site_analysis_svg', $data, true);
 		$this->load->view("templates/header", $data);
 		$this->load->view("test/data_analysis/download_chart", $data);
 	}
