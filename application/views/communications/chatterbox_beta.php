@@ -300,6 +300,26 @@
 			  <hr>
 
 	          <div id="mobile-div">
+	          <div class="row"><div class="col-md-4" title="Notes: If contact number is more than one seprate it by a comma.">
+					<label for="mobile_ec_">Mobile #:</label>
+					<input type="text" class="form-control" id="mobile_cc_" name="mobile_cc_" value="" required>
+					</div>
+					<div class="col-md-4" hidden>
+					<label>Mobile ID #:</label>
+					<input type="text" id="mobile_cc_id_" class="form-control" value="" disabled>
+					</div>
+					<div class="col-md-4">
+					<label>Mobile # Status:</label>
+					<select class="form-control" id="mobile_cc_status_" class="form-control" value="">
+					<option value="1">Active</option>
+					<option value="0">Inactive</option>
+					</select>
+					</div>
+					<div class="col-md-2">
+					<label>Mobile # Priority:</label>
+					<input type="text" id="mobile_cc_priority_" class="form-control" value="">
+					</div>
+					</div>
 	           </div>
 
 			  <hr>
