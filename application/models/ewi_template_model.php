@@ -110,7 +110,6 @@ class Ewi_template_model extends CI_Model {
 		} else {
 			$response['level'] =  1;
 		}
-
 		return $response;
 	}
 
@@ -173,12 +172,6 @@ class Ewi_template_model extends CI_Model {
 		return $result->result();
 	}
 
-	public function getInternalAlerts() {
-		$query = "";
-		$result = $this->db->query($query);
-		return $result->result();	
-	}
-
 	public function getAlertStatuses() {
 		$query = "SELECT distinct alert_status FROM senslopedb.ewi_template;";
 		$result = $this->db->query($query);
@@ -193,6 +186,19 @@ class Ewi_template_model extends CI_Model {
 
 	public function siteDetailsOnRoutine($site_code) {
 		$query = "SELECT * from senslopedb.site where name = '".$site_code."'";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
+
+	// For testing purposes only, uncomment if needed.
+	public function getLastTwoIds() {
+		$query = "SELECT * from senslopedb.ewi_template order by id desc limit 2";
+		$result = $this->db->query($query);
+		return $result->result();
+	}
+
+	public function getLastInsertedBBForTesting() {
+		$query = "SELECT * from senslopedb.ewi_backbone_template order by id desc limit 1";
 		$result = $this->db->query($query);
 		return $result->result();
 	}

@@ -46,6 +46,12 @@ class Test extends CI_Controller {
 		$this->load->view("test/data_analysis/download_chart", $data);
 	}
 
+	public function endOfShiftReportTest () {
+		$data['title'] = 'End Of Shift Report Test';
+		$this->load->view('templates/header', $data);
+		$this->load->view('test/reports/end_of_shift_report', $data);
+	}
+
 }
 
 /* End of file pages.php */

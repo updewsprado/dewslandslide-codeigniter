@@ -73,9 +73,9 @@ class Chart_export extends CI_Controller
 	{
 		$files = "";
 		$filenames = $_POST['svg'];
-		$site = $_POST['site'];
+		$site_code = $_POST['site_code'];
 		$conn_id = $_POST['connection_id'];
-		$dir = "temp/charts_render/events/$conn_id/$site";
+		$dir = "temp/charts_render/events/$conn_id/$site_code";
 
 		for( $i = 0; $i < count($filenames); $i++) {
 			$pdf_filename = "chart_" . strval($i+1);
@@ -85,8 +85,13 @@ class Chart_export extends CI_Controller
 
 		$command = 'highcharts-export-server -batch "' . $files . '" -type pdf -logLevel 4';
 
-		$response = exec( $command );
-		$this->mergePDF("events/$conn_id/$site", FALSE);
+		try {
+			$response = exec( $command );
+		} catch (Exception $e) {
+            echo "Caught exception: ",  $e->getMessage(), "\n";
+        }
+
+		$this->mergePDF("events/$conn_id/$site_code", FALSE);
 	}
 
 	public function mergePDF($date, $deleteTemp = TRUE )
@@ -107,22 +112,21 @@ class Chart_export extends CI_Controller
 		
 		try {
 			$pdf = new PDFMerger;
+			$dir =  $_SERVER['DOCUMENT_ROOT'] . "temp/charts_render/";
+			$file_dir = $dir . $date;
+			foreach (glob($file_dir . "/chart_?.pdf") as $file) 
+			{
+	    		$pdf->addPDF($file, 'all');
+			}
+
+			$pdf->merge('file', $dir . "compiled.pdf");
+
+			if( $deleteTemp ) $this->removeDirectory($file_dir);
+
+			echo "Finished";
 		} catch (Exception $e) {
             echo "Caught exception: ",  $e->getMessage(), "\n";
         }
-
-		$dir =  $_SERVER['DOCUMENT_ROOT'] . "temp/charts_render/";
-		$file_dir = $dir . $date;
-		foreach (glob($file_dir . "/chart_?.pdf") as $file) 
-		{
-    		$pdf->addPDF($file, 'all');
-		}
-
-		$pdf->merge('file', $dir . "compiled.pdf");
-
-		if( $deleteTemp ) $this->removeDirectory($file_dir);
-
-		echo "Finished";
 	}
 
 	public function viewPDF($str)

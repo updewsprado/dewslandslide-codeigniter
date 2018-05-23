@@ -1,4 +1,4 @@
-
+<!--
     
      Created by: Kevin Dhale dela Cruz
      
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>js/third-party/datatables.buttons.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/reports/accomplishment_server.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/reports/narrative_form.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/reports/accomplishment_report.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/reports/end_of_shift_report.js"></script>
 <script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 
@@ -55,7 +55,7 @@
 						        		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="site-button" style="margin-left: 0;"><span class="caret"></span></button>
 						        		<ul class="dropdown-menu dropdown-menu-right" id="site-list">
 						        			<?php foreach ($withAlerts as $site): ?>
-						        				<li><a href="#" class="small" tabIndex="-1" data-value="<?php echo strtoupper($site->name); ?>" data-event="<?php echo strtoupper($site->event_id); ?>">
+						        				<li><a class="small" tabIndex="-1" data-value="<?php echo strtoupper($site->name); ?>" data-event="<?php echo strtoupper($site->event_id); ?>">
 
 						        				<?php if ($site->sitio == null) $address = "$site->barangay, $site->municipality, $site->province";
 					        						else $address = "$site->sitio, $site->barangay, $site->municipality, $site->province"; ?>
@@ -318,7 +318,7 @@
 
 	  			<!-- Graphs Div Cloner -->
 	  			<div class="panel panel-default" id="graph_checkbox_sample" hidden="hidden">
-					<div class="panel-heading"><strong>Graphs and Attachments</strong></div>
+					<div class="panel-heading"><strong>Graphs and Attachments <small>(No need to download and attach graphs generated from checkboxes)</small></strong></div>
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-sm-4 text-center" style="padding-top: 5px;"><label class="checkbox-inline"><input class="rainfall_checkbox" type="checkbox" value="">Rainfall</label></div>
@@ -331,7 +331,7 @@
 						      		<div class="input-group-btn">
 						        		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 0;"><span class="caret"></span></button>
 						        		<ul class="dropdown-menu dropdown-menu-right subsurface_options">
-						        			<li id="subsurface_option_sample" style="display:none"><a href="#" class="small" tabindex="-1" data-value=""><input type="checkbox" disabled="disabled">&nbsp;Sensor Column</a></li>
+						        			<li id="subsurface_option_sample" style="display:none"><a class="small" tabindex="-1" data-value=""><input type="checkbox" disabled="disabled">&nbsp;Sensor Column</a></li>
 						        		</ul>
 						      		</div>
 						    	</div>
@@ -370,9 +370,32 @@
 	                </div>
 	            </div>
 	        </div><!-- End of MODAL AREA -->
-
 		</div>
-
 	</div> <!-- End of div container-fluid -->
+</div> <!-- End of div page-wrapper -->
 
-</div> <!-- End of div page-wrapper 
+<div class="modal fade" id="site-selection-modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">End-of-shift Report Generator and Creator</h4>
+            </div>
+            <div class="modal-body">
+            	<div class="row"><div class="col-sm-12">
+            		<p>Choose the site(s) to be done with end-of-shift report.</p>
+            	</div></div>
+            	<div class="row"><div class="col-sm-12 form-group">
+            		<div class="btn-group" role="group">
+            			<button id="modal-check-all" class="btn btn-xs btn-primary modal-checker">Check All</button>
+            			<button id="modal-uncheck-all" class="btn btn-xs btn-primary modal-checker">Uncheck All</button>
+            		</div>
+            	</div></div>
+            	<div id="modal-site-checkbox">
+            	</div>
+            </div>
+            <div class="modal-footer">
+                <button id="okay" class="btn btn-info" data-dismiss="modal" role="button" disabled="disabled">Okay</button>
+            </div>
+        </div>
+    </div>
+</div><!-- End of MODAL AREA -->
