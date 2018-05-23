@@ -21,7 +21,7 @@ class Chart_export extends CI_Controller
 		$this->load->view('templates/footer');
 	}
 
-	public function renderChart()
+	public function renderSelectedChartsOnSiteAnalysis()
 	{
 		$charts = $_POST['charts'];
 		$batch = ""; $files = "";
@@ -43,7 +43,6 @@ class Chart_export extends CI_Controller
 		$command = 'highcharts-export-server -batch "' . $files . '" -type pdf -logLevel 4';
 		$response = exec( $command );
 		$this->mergePDF($date_now);
-		echo "Finished";
 	}
 
 	public function saveChartSVG()

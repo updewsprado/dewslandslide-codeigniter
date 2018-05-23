@@ -10,6 +10,7 @@ class Site_analysis extends CI_Controller {
         $this->load->model('surficial_model');
         $this->load->model('subsurface_column_model');
         $this->load->model('subsurface_node_model');
+        // $this->output->enable_profiler(TRUE);
 
         date_default_timezone_set('Asia/Manila'); 
     }
@@ -27,6 +28,7 @@ class Site_analysis extends CI_Controller {
         $data['site_level_plots'] = $this->load->view('data_analysis/site_analysis_page/site_level_plots', $data, true);
         $data['subsurface_column_level_plots'] = $this->load->view('data_analysis/site_analysis_page/subsurface_column_plots', $data, true);
         $data['subsurface_node_level_plots'] = $this->load->view('data_analysis/site_analysis_page/subsurface_node_plots', $data, true);
+        $data['site_analysis_svg'] = $this->load->view('data_analysis/site_analysis_page/site_analysis_svg', $data, true);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
@@ -481,7 +483,7 @@ class Site_analysis extends CI_Controller {
                 "data" => $arr[0]
             ));
 
-            ksort($arr[1]);
+            sort($arr[1]);
             foreach ($arr[1] as $index => $data) {
                 array_push($temp, array(
                     "name" => $index,
