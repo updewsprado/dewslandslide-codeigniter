@@ -1,4 +1,4 @@
-    <script id="messages-template-both" type="text/x-handlebars-template">
+<!--     <script id="messages-template-both" type="text/x-handlebars-template">
         {{#each messages}}
         {{#if isyou}}
         {{#if hasTag}}
@@ -36,7 +36,49 @@
                     </div>
                 </li>
                 {{/each}}
-            </script>
+            </script> -->
+
+
+<script id="messages-template-both" type="text/x-handlebars-template">
+    {{#each messages}}
+        {{#if isYou}}
+            {{#if hasTag}}
+            <li class="right clearfix tagged" title="Tagged Messaged">
+            {{else}}
+            <li class="right clearfix">
+            {{/if}}
+
+            <input type="text" id="msg_details" value="{{type}}<split>{{mobile_id}}<split>{{ts_sent}}<split>{{sms_msg}}<split>{{convo_id}}" hidden>
+            <span class="chat-img pull-right" id="badge-id-you">
+            <img src="/images/Chatterbox/dewsl_03.png" alt="User Avatar">
+        {{else}}
+            {{#if hasTag}}
+            <li class="left clearfix tagged" title="Tagged Messaged">
+            {{else}}
+            <li class="left clearfix">
+            {{/if}}
+            <input type="text" id="msg_details" value="{{type}}<split>{{mobile_id}}<split>{{ts_sent}}<split>{{sms_msg}}<split>{{convo_id}}" hidden>
+            <span class="chat-img pull-left" id="badge-id-user">
+            <img src="/images/Chatterbox/boy_avatar.png" alt="User Avatar">
+        {{/if}}
+        </span>
+        <div class="chat-body clearfix tagged" id="id_{{timestamp}}">
+        <div class="header">
+        {{#if isYou}}
+            <small class="pull-left text-muted"><i class="fa fa-clock-o"></i> <span id="timestamp-written" title="Timestamp: Written">{{ts_written}}</span>, <i class="fa fa-clock-o"></i> <span id="timestamp-sent" title="Timestamp: GSM Sent">{{ts_sent}}</span></small>
+            <strong class="primary-font right-content" id="chat-user" style="display: block;">{{user}}</strong>
+            {{else}}
+            <strong class="primary-font" id="chat-user" >{{user}}</strong>
+            <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> <span>{{ts_received}}</span></small>
+        {{/if}}
+        </div>
+        <p>
+        {{sms_msg}}
+        </p>
+        </div>
+        </li>
+    {{/each}}
+</script>
 
             <script id="quick-inbox-template" type="text/x-handlebars-template">
                 {{#each quick_inbox_messages}}
