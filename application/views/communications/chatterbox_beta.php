@@ -212,17 +212,18 @@
 	          </div>
 	        </div>
 
-	        <table id="response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
+			  <table id="emp-response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
 	          <thead>
 	            <tr>
-	              <th>Name</th>
 	            </tr>
 	          </thead>
-	          <tfoot>
+	        </table>
+
+	        <table id="comm-response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
+	          <thead>
 	            <tr>
-	              <th>Name</th>
 	            </tr>
-	          </tfoot>
+	          </thead>
 	        </table>
 
 	        <div id="employee-contact-wrapper" hidden>
