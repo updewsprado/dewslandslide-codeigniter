@@ -728,5 +728,6 @@
 
   <script src="/js/dewslandslide/communications_beta/initializer.js"></script>
   <script src="/js/dewslandslide/communications_beta/cbx_main.js"></script>
+  <script src="/js/dewslandslide/communications_beta/cbx_contact_settings.js"></script>
   <script src="/js/dewslandslide/communications_beta/event_handler.js"></script>
   <script src="/js/dewslandslide/communications_beta/responsive.js"></script>
