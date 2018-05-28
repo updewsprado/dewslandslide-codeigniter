@@ -205,13 +205,6 @@
 
 	        <hr>
 
-	        <div id="update-contact-container" hidden>
-	          <div>
-	           <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
-	           <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
-	          </div>
-	        </div>
-
 	        <table id="emp-response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
 	          <thead>
 	            <tr>
@@ -227,7 +220,7 @@
 	        </table>
 
 	        <div id="employee-contact-wrapper" hidden>
-        	  <input type="text" id="ec_id" hidden>
+        	  <input type="text" id="user_id_ec" value="0" hidden>
 	          <div class="row">
 	            <div class="col-md-4">
 	              <label for="firstname_ec">Firstname:</label>
@@ -300,21 +293,21 @@
 	            </div>
 	          </div>
 
-			  <hr>
-
 	          <div id="mobile-div">
 	          </div>
 
-			  <hr>
-
 	          <div id="landline-div">
 	          </div>
-
-	          <hr>
 	          <div id="emp-settings-cmd" class="right-content">
 	            <button class="btn btn-danger" id="btn-clear-ec" >Reset</button>
 	            <button type="submit" value="submit" class="btn btn-primary">Save</button>
 	          </div>
+	          
+
+		        <div id="update-contact-container" class="right-content" hidden>
+		           <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
+		           <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
+		        </div>
 	        </div>
 
 	        <div id="community-contact-wrapper" hidden>
