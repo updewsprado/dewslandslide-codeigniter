@@ -373,12 +373,9 @@
 						<label for="active_status_cc">Early Warning Information Recipient:</label>
 						<select class="form-control" id="ewirecipient_cc">
 							<option value="1">Yes</option>
-							<option value="0">Nah</option>
+							<option value="0">No</option>
 						</select>
 					</div>
-	            </div>
-	            <div class="col-md-12">
-	            	<button type="submit" class="btn btn-primary btn-xs" id="community-add-number"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Mobile Number</button>
 	            </div>
 	          </div>
 	          <hr>
@@ -422,7 +419,10 @@
 				    </div>
 				  </div>
 				</div>
-	          <hr>
+				
+	            <div class="col-md-12">
+	            	<button type="submit" class="btn btn-primary btn-xs" id="community-add-number"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Mobile Number</button>
+	            </div>
 				<div id="mobile-div-cc">
 				</div>
 	          <hr>
