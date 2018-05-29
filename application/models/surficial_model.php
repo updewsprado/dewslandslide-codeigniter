@@ -70,6 +70,8 @@ class surficial_model extends CI_Model {
 				$sc = "bat"; break;
 			case "jor":
 				$sc = "pob"; break;
+			case "tga":
+				$sc = "tag"; break;
 			default: 
 				$sc = $site_code; break;
 		}
