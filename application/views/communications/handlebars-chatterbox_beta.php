@@ -42,7 +42,7 @@
 <script id="quick-inbox-template" type="text/x-handlebars-template">
     {{#each quick_inbox_messages}}
     <li>
-        <input id="'{{user_number}}'" type="text" value="{{full_name}}" hidden>
+        <input id="'{{mobile_id}}'" type="text" value="{{full_name}}" hidden>
         <a href="#" class="clearfix">   
             <img src="/images/Chatterbox/boy_avatar.png" alt="" class="img-circle">
             <div class="friend-name">   
