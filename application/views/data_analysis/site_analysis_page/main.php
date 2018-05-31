@@ -73,39 +73,59 @@
         <div class="row">
             <div class="col-sm-12" id="chart_checkboxes">
                 <label>Site Level</label><br>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="rain" id="rainfall">Rainfall</label>
+                <div class="col-md-6">
+                    <div class="checkbox">
+                      <label><input class="download_chart_checkbox" type="checkbox" value="rain" id="rainfall">Rainfall</label>
+                    </div>
                 </div>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="surficial" id="surficial">Surficial</label>
+                <div class="col-md-6">
+                    <div class="checkbox">
+                      <label><input class="download_chart_checkbox" type="checkbox" value="surficial" id="surficial">Surficial</label>
+                    </div>
                 </div>
                 <div class="row hideable"><hr class="options-divider"/></div>
                 <label>Column Level</label><br>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="node_health" id="node_health">Node Health</label>
+                <div class="col-md-6">
+                    <div class="checkbox">
+                      <label><input class="download_chart_checkbox" type="checkbox" value="node_health" id="node_health">Node Health</label>
+                    </div>
                 </div>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="data_presence" id="data_presence">Data Presence</label>
+                <div class="col-md-6">
+                    <div class="checkbox">
+                      <label><input class="download_chart_checkbox" type="checkbox" value="data_presence" id="data_presence">Data Presence</label>
+                    </div>
                 </div>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="communication_health" id="communication_health">Communication Health</label>
+                <div class="col-md-6">
+                    <div class="checkbox">
+                      <label><input class="download_chart_checkbox" type="checkbox" value="communication_health" id="communication_health">Communication Health</label>
+                    </div>
                 </div>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="subsurface" id="subsurface">Subsurface</label>
+                <div class="col-md-6">
+                    <div class="checkbox">
+                      <label><input class="download_chart_checkbox" type="checkbox" value="subsurface" id="subsurface">Subsurface</label>
+                    </div>
                 </div>
                 <div class="row hideable"><hr class="options-divider"/></div>
                 <label>Node Level</label><br>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="x_accelerometer" id="x_accelerometer">X-Accelerometer</label>
+                <div class="col-md-6">
+                    <div class="checkbox">
+                      <label><input class="download_chart_checkbox" type="checkbox" value="x_accelerometer" id="x_accelerometer">X-Accelerometer</label>
+                    </div>
                 </div>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="y_accelerometer" id="y_accelerometer">Y-Accelerometer</label>
+                <div class="col-md-6">
+                    <div class="checkbox">
+                      <label><input class="download_chart_checkbox" type="checkbox" value="y_accelerometer" id="y_accelerometer">Y-Accelerometer</label>
+                    </div>
                 </div>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="z_accelerometer" id="z_accelerometer">Z-Accelerometer</label>
+                <div class="col-md-6">
+                    <div class="checkbox">
+                      <label><input class="download_chart_checkbox" type="checkbox" value="z_accelerometer" id="z_accelerometer">Z-Accelerometer</label>
+                    </div>
                 </div>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="battery" id="battery_checkbox">Battery</label>
+                 <div class="col-md-6">
+                    <div class="checkbox">
+                      <label><input class="download_chart_checkbox" type="checkbox" value="battery" id="battery_checkbox">Battery</label>
+                    </div>
                 </div>
             </div>
         </div>
