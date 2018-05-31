@@ -976,6 +976,8 @@ class Site_analysis extends CI_Controller {
                 $sc = "bat"; break;
             case "jor":
                 $sc = "pob"; break;
+            case "tga":
+                $sc = "tag"; break;
             default: 
                 $sc = $site_code; break;
         }
