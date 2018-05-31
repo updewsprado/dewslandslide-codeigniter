@@ -59,66 +59,102 @@
 </div><!-- /#page-wrapper --> 
 
 <div class="modal fade" id="chart-options" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Download Charts</h4>
-      </div>
-      <div class="modal-body">
-        <div class="alert alert-info" role="alert" id="select-chart-message" hidden>
-            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 
-            Please select at least one chart to continue downloading.
-        </div>
-        <div class="row">
-            <div class="col-sm-12" id="chart_checkboxes">
-                <label>Site Level</label><br>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="rain" id="rainfall">Rainfall</label>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Download Charts</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info" role="alert" id="select-chart-message" hidden>
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 
+                        Please select at least one chart to continue downloading.
                 </div>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="surficial" id="surficial">Surficial</label>
+
+                <div class="row">
+                    <div class="col-sm-12"><label>Site Level</label><br></div>
                 </div>
-                <div class="row hideable"><hr class="options-divider"/></div>
-                <label>Column Level</label><br>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="node_health" id="node_health">Node Health</label>
+                <div class="row">
+                    <div class="col-sm-6 text-center">
+                        <div class="checkbox">
+                            <label><input class="download-chart-checkbox" type="checkbox" value="rainfall">Rainfall</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 text-center">
+                        <div class="checkbox">
+                          <label><input class="download-chart-checkbox" type="checkbox" value="surficial">Surficial</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="data_presence" id="data_presence">Data Presence</label>
+                
+                <div class="row"><hr/></div>
+
+                <div class="row">
+                    <div class="col-sm-12"><label>Column Level</label><br></div>
                 </div>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="communication_health" id="communication_health">Communication Health</label>
+                <div class="row">
+                    <div class="col-sm-6 text-center">
+                        <div class="checkbox">
+                          <label><input class="download-chart-checkbox" type="checkbox" value="node-health">Node Health</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 text-center">
+                        <div class="checkbox">
+                            <label><input class="download-chart-checkbox" type="checkbox" value="data-presence">Data Presence</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="subsurface" id="subsurface">Subsurface</label>
+                <div class="row">
+                    <div class="col-sm-6 text-center">
+                        <div class="checkbox">
+                            <label><input class="download-chart-checkbox" type="checkbox" value="communication-health">Communication Health</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 text-center">
+                        <div class="checkbox">
+                            <label><input class="download-chart-checkbox" type="checkbox" value="subsurface">Subsurface</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="row hideable"><hr class="options-divider"/></div>
-                <label>Node Level</label><br>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="x_accelerometer" id="x_accelerometer">X-Accelerometer</label>
+
+                <div class="row"><hr/></div>
+
+                <div class="row">
+                    <div class="col-sm-12"><label>Node Level</label><br></div>
                 </div>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="y_accelerometer" id="y_accelerometer">Y-Accelerometer</label>
+                <div class="row">
+                    <div class="col-sm-6 text-center">
+                        <div class="checkbox">
+                            <label><input class="download-chart-checkbox" type="checkbox" value="x-accelerometer">X-Accelerometer</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 text-center">
+                        <div class="checkbox">
+                            <label><input class="download-chart-checkbox" type="checkbox" value="y-accelerometer">Y-Accelerometer</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="z_accelerometer" id="z_accelerometer">Z-Accelerometer</label>
-                </div>
-                <div class="checkbox">
-                  <label><input class="download_chart_checkbox" type="checkbox" value="battery" id="battery_checkbox">Battery</label>
+                <div class="row">
+                    <div class="col-sm-6 text-center">
+                        <div class="checkbox">
+                            <label><input class="download-chart-checkbox" type="checkbox" value="z-accelerometer">Z-Accelerometer</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 text-center">
+                        <div class="checkbox">
+                            <label><input class="download-chart-checkbox" type="checkbox" value="battery">Battery</label>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger btn-sm" id="download-charts-selected">
+                    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download
+                </button>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary btn-sm" id="download-charts-selected">
-            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> 
-            Download
-        </button>
-      </div>
     </div>
-  </div>
 </div>
 
 <div id="site_svg">
