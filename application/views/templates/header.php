@@ -66,6 +66,6 @@
     <script type="text/javascript" src="/js/third-party/modal-reposition.js"></script>
 
     <!-- PMS SAMPLE -->
-    <script type="text/javascript" src="http://pms/js/modal.js"></script>
+    <script type="text/javascript" src="http://pms/js/pms.js"></script>
 
 </head>
