@@ -47,23 +47,11 @@
 			return $result->first_name . " " . $result->last_name;
 		}
 
-		public function getResponses($public_alert, $internal_alert)
+		public function getResponses($public_alert)
 		{
-			$internal_alert = str_replace("0", "", substr($internal_alert, 2));
-			$internal_alert = preg_replace("/[r]?x/", "", $internal_alert, 1);
-			$internal_alert = $public_alert . $internal_alert;
-
 			$query = $this->db->get_where('lut_responses', array('public_alert_level' => $public_alert));
-			
-			$this->db->select("*")->from("lut_alert_descriptions");
-			$this->db->where("internal_alert_level LIKE '$internal_alert' COLLATE utf8_bin");
-			$query2 = $this->db->get();
-
 			$query3 = $this->db->get('lut_triggers');
 			$data['response'] = $query->result_array()[0];
-			$data['description'] = $query2->result_array()[0];
-			//$data['trigger_desc'] = $query3->result_array();
-
 			foreach ($query3->result_object() as $line) {
 				$data['trigger_desc'][$line->trigger_type] = $line->detailed_desc;
 			}

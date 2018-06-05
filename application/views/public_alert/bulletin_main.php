@@ -121,7 +121,7 @@
 					<div class="col-sm-4">Alert Level Released:</div>
 					<div class="col-sm-8 text-justify" id="alert_level_released">
 					<?php 
-						$description = $responses->description->description;
+						$description = $alert_description;
 						if( $public_alert_level == "A0" )
 						{
 							$option = explode("***OR***", $description);
