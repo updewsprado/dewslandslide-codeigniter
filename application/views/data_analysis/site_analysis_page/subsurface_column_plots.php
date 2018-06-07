@@ -94,8 +94,8 @@
 		</div>
 
 		<div class="subsurface-plot-container row" id="column-position">
-			<div class="col-sm-6 column-position-chart" id="column-position-downslope"></div>
-			<div class="col-sm-6 column-position-chart" id="column-position-across_slope"></div>
+			<div class="col-sm-6 column-position-chart subsurface-analysis-chart" id="column-position-downslope"></div>
+			<div class="col-sm-6 column-position-chart subsurface-analysis-chart" id="column-position-across_slope"></div>
 		</div>
 
 		<div><hr class="plot-title-hr"/></div>
@@ -115,8 +115,8 @@
 		</div>
 
 		<div class="subsurface-plot-container row" id="subsurface-displacement">
-			<div class="col-sm-6 subsurface-displacement-chart" id="subsurface-displacement-downslope"></div>
-			<div class="col-sm-6 subsurface-displacement-chart" id="subsurface-displacement-across_slope"></div>
+			<div class="col-sm-6 subsurface-displacement-chart subsurface-analysis-chart" id="subsurface-displacement-downslope"></div>
+			<div class="col-sm-6 subsurface-displacement-chart subsurface-analysis-chart" id="subsurface-displacement-across_slope"></div>
 		</div>
 
 		<div><hr class="plot-title-hr"/></div>
@@ -136,8 +136,8 @@
 		</div>
 
 		<div class="subsurface-plot-container row" id="velocity-alerts">
-			<div class="col-sm-6 velocity-alerts-chart" id="velocity-alerts-downslope"></div>
-			<div class="col-sm-6 velocity-alerts-chart" id="velocity-alerts-across_slope"></div>
+			<div class="col-sm-6 velocity-alerts-chart subsurface-analysis-chart" id="velocity-alerts-downslope"></div>
+			<div class="col-sm-6 velocity-alerts-chart subsurface-analysis-chart" id="velocity-alerts-across_slope"></div>
 		</div>
 	</div>
 </div>
