@@ -36,16 +36,16 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Analysis</a>
                     <ul class="dropdown-menu">
                        <li class="dropdown-header">Sensors and Rain Gauges</li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/sensor_overview">Overview</a></li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/site_analysis">Site Analysis</a></li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/column">Column Level</a></li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/node">Node Level</a></li>
+                        <li><a href="<?php echo base_url(); ?>analysis/sensor_overview">Overview</a></li>
+                        <li><a href="<?php echo base_url(); ?>analysis/site_analysis">Site Analysis</a></li>
+                        <li><a href="<?php echo base_url(); ?>analysis/column">Column Level</a></li>
+                        <li><a href="<?php echo base_url(); ?>analysis/node">Node Level</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/surficial">Surficial Data</a></li>
+                        <li><a href="<?php echo base_url(); ?>analysis/surficial">Surficial Data</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/rainfall_scanner">Rainfall Scanner</a></li>
+                        <li><a href="<?php echo base_url(); ?>analysis/rainfall_scanner">Rainfall Scanner</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/manifestations">Manifestations of Movement Page</a></li>
+                        <li><a href="<?php echo base_url(); ?>analysis/manifestations">Manifestations of Movement Page</a></li>
                         <li role="separator" class="divider"></li>
                         <li class="dropdown-header">Communication</li>
                         <li><a href="<?php echo base_url(); ?>communications/responsetracker">Response Tracker</a></li>
@@ -57,9 +57,9 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports</a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-header">Node Status</li>
-                        <li><a href="<?php echo base_url(); ?>data_analysis/nodereport">Update Form</a></li>
+                        <li><a href="<?php echo base_url(); ?>analysis/nodereport">Update Form</a></li>
                         <li role="separator" class="divider"></li>
-                        <li class="dropdown-header">Accomplishment and Narratives</li>
+                        <li class="dropdown-header">End-Of-Shift Report and Narratives</li>
                         <li><a href="<?php echo base_url(); ?>reports/accomplishment/form">Filing Form and Report Generator</a></li>
                         <li><a href="<?php echo base_url(); ?>reports/accomplishment/checker">Shift Events and Releases Checker</a></li>
                         <li role="separator" class="divider"></li>

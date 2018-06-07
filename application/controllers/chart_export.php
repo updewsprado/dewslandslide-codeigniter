@@ -21,29 +21,32 @@ class Chart_export extends CI_Controller
 		$this->load->view('templates/footer');
 	}
 
-	public function renderChart()
+	public function renderSelectedChartsOnSiteAnalysis()
 	{
 		$charts = $_POST['charts'];
-		$batch = ""; $files = "";
+		$files = "";
 
 		date_default_timezone_set('Asia/Manila');
-		$date_now = date('Y-m-d H_i_s');
+		$date_now = date('Y-m-d_H_i_s');
 		$dir = "temp/charts_render/" . $date_now;
 		if( !mkdir($dir, 0777, true) ) return "Failed making directory";
+		$dir = $dir . "/";
 
 		for( $i = 0; $i < count($charts); $i++) {
 			$chart = $charts[$i];
 			$file_name = "chart_" . strval($i+1);
-			$dir = $dir . "/";
 			file_put_contents($dir . $file_name . ".svg", $chart);
 			$files = $files . $dir . $file_name . ".svg=" . $dir . $file_name . ".pdf;";
-			
 		}
 
-		$command = 'highcharts-export-server -batch "' . $files . '" -type pdf -logLevel 4';
-		$response = exec( $command );
+		try {
+			$command = 'highcharts-export-server -batch "' . $files . '" -type pdf -logLevel 4';
+			$response = exec( $command, $output );
+		} catch (Exception $e) {
+            echo "Caught exception: ",  $e->getMessage(), "\n";
+        }
+
 		$this->mergePDF($date_now);
-		//echo "Finished";
 	}
 
 	public function saveChartSVG()
@@ -62,7 +65,7 @@ class Chart_export extends CI_Controller
 		date_default_timezone_set('Asia/Manila');
 		$date_now = date('Y-m-d H_i_s');
 		$dir = "temp/charts_render/events/$conn_id/$site";
-
+		
 		if (!file_exists($dir)) {
     		if( !mkdir($dir, 0777, true) ) return "Failed making directory";
 		}
@@ -74,9 +77,9 @@ class Chart_export extends CI_Controller
 	{
 		$files = "";
 		$filenames = $_POST['svg'];
-		$site = $_POST['site'];
+		$site_code = $_POST['site_code'];
 		$conn_id = $_POST['connection_id'];
-		$dir = "temp/charts_render/events/$conn_id/$site";
+		$dir = "temp/charts_render/events/$conn_id/$site_code";
 
 		for( $i = 0; $i < count($filenames); $i++) {
 			$pdf_filename = "chart_" . strval($i+1);
@@ -85,8 +88,14 @@ class Chart_export extends CI_Controller
 		}
 
 		$command = 'highcharts-export-server -batch "' . $files . '" -type pdf -logLevel 4';
-		$response = exec( $command );
-		$this->mergePDF("events/$conn_id/$site", FALSE);
+
+		try {
+			$response = exec( $command );
+		} catch (Exception $e) {
+            echo "Caught exception: ",  $e->getMessage(), "\n";
+        }
+
+		$this->mergePDF("events/$conn_id/$site_code", FALSE);
 	}
 
 	public function mergePDF($date, $deleteTemp = TRUE )
@@ -104,21 +113,24 @@ class Chart_export extends CI_Controller
 			echo "PDFMerger does not exists. Please download and put PDFMerger folder on " . $path;
 			return;
 		}
+		
+		try {
+			$pdf = new PDFMerger;
+			$dir =  $_SERVER['DOCUMENT_ROOT'] . "temp/charts_render/";
+			$file_dir = $dir . $date;
+			foreach (glob($file_dir . "/chart_?.pdf") as $file) 
+			{
+	    		$pdf->addPDF($file, 'all');
+			}
 
-		$pdf = new PDFMerger;
+			$pdf->merge('file', $dir . "compiled.pdf");
 
-		$dir =  $_SERVER['DOCUMENT_ROOT'] . "temp/charts_render/";
-		$file_dir = $dir . $date;
-		foreach (glob($file_dir . "/chart_?.pdf") as $file) 
-		{
-    		$pdf->addPDF($file, 'all');
-		}
+			if( $deleteTemp ) $this->removeDirectory($file_dir);
 
-		$pdf->merge('file', $dir . "compiled.pdf");
-
-		if( $deleteTemp ) $this->removeDirectory($file_dir);
-
-		echo "Finished";
+			echo "Finished";
+		} catch (Exception $e) {
+            echo "Caught exception: ",  $e->getMessage(), "\n";
+        }
 	}
 
 	public function viewPDF($str)
