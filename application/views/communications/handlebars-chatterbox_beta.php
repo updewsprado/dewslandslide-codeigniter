@@ -23,16 +23,40 @@
                     <div class="chat-body clearfix tagged" id="id_{{timestamp}}">
                         <div class="header">
                             {{#if isyou}}
-                            <small class="pull-left text-muted"><i class="fa fa-clock-o"></i> <span id="timestamp-written" title="Timestamp: Written">{{timestamp}}</span>, <i class="fa fa-clock-o"></i>
-                                {{#if status}}<span id="timestamp-sent" title="Timestamp: GSM Sent" class="sent-status-success">{{timestamp_sent}}</span>
+                                <small class="pull-left text-muted"><i class="fas fa-clock"></i> <span id="timestamp-written" title="Timestamp: Written">{{timestamp}}</span>, <i class="fas fa-clock"></i>
+                                    {{#if status}}<span id="timestamp-sent" class="sent-status-success">{{timestamp_sent}}</span>
+                                    {{else}}
+                                    <span id="timestamp-sent" class="sent-status-fail">{{timestamp_sent}}</span>
+                                    {{/if}}
+                                </small>
+                                {{#if status}}
+                                    <strong class="primary-font right-content sent-status-success" style="display: block;">
+                                    <span class="ack_status">Sent by GSM</span>
+                                    <i class="fas fa-check-circle sms_status"></i>&nbsp;&nbsp;<span id="chat-user" style="color: black;">{{user}}</span></strong>
                                 {{else}}
-                                <span id="timestamp-sent" title="Timestamp: GSM Sent" class="sent-status-fail">{{timestamp_sent}}</span>
+                                    {{#if noTimestamp}}
+                                        {{#if recentlySent}}
+                                            <strong class="primary-font right-content" style="display: block;">
+                                            <span class="ack_status"></span>
+                                            <i class="fas fa-spinner fa-spin sms_status"></i>&nbsp;&nbsp;<span id="chat-user" style="color: black;">{{user}}</span></span></strong>
+                                        {{else}}
+                                            <strong class="primary-font right-content sent-status-fail" style="display: block;">
+                                             <span class="ack_status">Unable to send to server</span>
+                                            <i class="fas fa-times-circle sms_status"></i>&nbsp;&nbsp;<span id="chat-user" style="color: black;">{{user}}</span></strong>
+                                        {{/if}}
+                                    {{else}}
+                                        <strong class="primary-font right-content sent-status-fail" style="display: block;">
+                                        <span class="ack_status">GSM message sending failed</span>
+                                        <i class="fas fa-times-circle sms_status"></i>&nbsp;&nbsp;<span id="chat-user" style="color: black;">{{user}}</span></strong>
+                                    {{/if}}
                                 {{/if}}
-                            </small>
-                            <strong class="primary-font right-content" id="chat-user" style="display: block;">{{user}}</strong>
                             {{else}}
-                            <strong class="primary-font" id="chat-user" >{{user}}</strong>
-                            <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> <span>{{timestamp}}</span></small>
+                                <strong class="primary-font" id="chat-user" >{{user}}</strong>
+                                {{#if isGlobe}}
+                                    <small class="pull-right text-muted"><img src="/images/Chatterbox/globe.png" style="max-height: 17px; max-width: 17px;" title="NETWORK: GLOBE">&nbsp;<i class="fas fa-clock"></i><span>{{timestamp}}</span></small>
+                                {{else}}
+                                    <small class="pull-right text-muted"><img src="/images/Chatterbox/smart.png" style="max-height: 17px; max-width: 17px;" title="NETWORK: SMART">&nbsp;<i class="fas fa-clock"></i><span>{{timestamp}}</span></small>
+                                {{/if}}
                             {{/if}}
                         </div>
                         <p>

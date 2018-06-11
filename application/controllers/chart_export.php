@@ -21,29 +21,32 @@ class Chart_export extends CI_Controller
 		$this->load->view('templates/footer');
 	}
 
-	public function renderChart()
+	public function renderSelectedChartsOnSiteAnalysis()
 	{
 		$charts = $_POST['charts'];
-		$batch = ""; $files = "";
+		$files = "";
 
 		date_default_timezone_set('Asia/Manila');
-		$date_now = date('Y-m-d H_i_s');
+		$date_now = date('Y-m-d_H_i_s');
 		$dir = "temp/charts_render/" . $date_now;
 		if( !mkdir($dir, 0777, true) ) return "Failed making directory";
+		$dir = $dir . "/";
 
 		for( $i = 0; $i < count($charts); $i++) {
 			$chart = $charts[$i];
 			$file_name = "chart_" . strval($i+1);
-			$dir = $dir . "/";
 			file_put_contents($dir . $file_name . ".svg", $chart);
 			$files = $files . $dir . $file_name . ".svg=" . $dir . $file_name . ".pdf;";
-			
 		}
 
-		$command = 'highcharts-export-server -batch "' . $files . '" -type pdf -logLevel 4';
-		$response = exec( $command );
+		try {
+			$command = 'highcharts-export-server -batch "' . $files . '" -type pdf -logLevel 4';
+			$response = exec( $command, $output );
+		} catch (Exception $e) {
+            echo "Caught exception: ",  $e->getMessage(), "\n";
+        }
+
 		$this->mergePDF($date_now);
-		echo "Finished";
 	}
 
 	public function saveChartSVG()
