@@ -486,7 +486,7 @@ class Site_analysis extends CI_Controller {
             sort($arr[1]);
             foreach ($arr[1] as $index => $data) {
                 array_push($temp, array(
-                    "name" => $index,
+                    "name" => $index + 1,
                     "data" => $data
                 ));
 
