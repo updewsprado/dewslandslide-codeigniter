@@ -28,64 +28,55 @@ class Monitoring extends CI_Controller
 		$this->load->view('templates/footer');
 	}
 
-	public function getOnGoingAndExtended()
-	{
+	public function getOnGoingAndExtended () {
 		date_default_timezone_set('Asia/Manila');
 		$events = $this->monitoring_model->getOnGoingAndExtended();
 
 		$latest = []; $extended = [];
-		$overdue = []; $markers = [];
+		$overdue = [];
 
-		foreach (json_decode($events) as $event)
-		{
+		foreach (json_decode($events) as $event) {
 			$temp = strtotime($event->data_timestamp);
 			$hour = date("H" , $temp);
-			if( $hour == '23' && (int) date("H" , strtotime($event->release_time)) < 4 )
+			if ($hour == '23' && (int) date("H" , strtotime($event->release_time)) < 4)
 				$temp = $this->roundTime(strtotime($event->data_timestamp));
 
 			$event->release_time = date("j F Y\<\b\\r\>" , $temp) . date("H:i" , strtotime($event->release_time));
 
-			if( $event->status == 'on-going' )
-			{
-				if( strtotime($event->validity) > strtotime('now') )
-				{
-					$marker['lat'] = $event->latitude;
-					$marker['lon'] = $event->longitude;
-					$marker['name'] = $event->name;
+			if ($event->status == "on-going") {
+				if (strtotime($event->validity) > strtotime('now')) {
 					$address = "$event->barangay, $event->municipality, $event->province";
 					$marker['address'] = is_null($event->sitio) ? $address : $event->sitio . ", " . $address;
-					array_push($markers, $marker);
 					array_push($latest, $event);
-				}
-				else 
-				{
+				} else {
 					array_push($overdue, $event);
 				}			
-			}
-			else
-			{
+			} else {
 				$start = strtotime('tomorrow noon', strtotime($event->validity));
 	 			$end = strtotime('+2 days', $start);
 	 			$day = 3 - ceil(($end - (60*60*12) - strtotime('now'))/(60*60*24));
 
-	 			if( $day <= 0 ) array_push($latest, $event);
-	 			else if( $day > 0 && $day <= 3 ) {
+	 			if ($day <= 0) array_push($latest, $event);
+	 			else if ($day > 0 && $day <= 3) {
 		 			$event->start = $start;
 					$event->end = $end;
 					$event->day = $day;
 					array_push($extended, $event);
-	 			} 
-	 			else {
+	 			} else {
 	 				$this->load->model('pubrelease_model');
 	 				$this->pubrelease_model->update("event_id", $event->event_id, "public_alert_event", array("status" => "finished"));
 	 			}
-				
 			}
 		}
 
-		$x = array('latest' => $latest, 'extended' => $extended, 'overdue' => $overdue, 'markers' => $markers);
+		$x = array('latest' => $latest, 'extended' => $extended, 'overdue' => $overdue);
 
 		echo json_encode($x);
+	}
+
+	public function getAllRoutineEventsGivenDate ($date) {
+		$result = $this->monitoring_model->getAllRoutineEventsGivenDate($date);
+		echo json_encode($result);
 	}
 
 	function roundTime($timestamp)

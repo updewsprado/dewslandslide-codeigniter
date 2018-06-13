@@ -147,7 +147,7 @@ class Chart_export extends CI_Controller
 
 	public function deleteTemporaryChartFiles( $id = null ) {
 
-		$dir = "temp/charts_render/events";
+		$dir = "/temp/charts_render/events";
 
 		if( is_null($id) ) {
 			$this->removeDirectory($dir);
