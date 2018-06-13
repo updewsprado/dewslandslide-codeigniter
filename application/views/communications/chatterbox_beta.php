@@ -220,98 +220,121 @@
 	        </table>
 
 	        <div id="employee-contact-wrapper" hidden>
-        	  <input type="text" id="user_id_ec" value="0" hidden>
-	          <div class="row">
-	            <div class="col-md-4">
-	              <label for="firstname_ec">Firstname:</label>
-	              <input type="text" class="form-control" id="firstname_ec" name="firstname_ec" maxlength="16" required>
-	            </div>
+	        	<form id="employee-contact-form">
+	        	 	<input type="text" id="user_id_ec" value="0" hidden>
+		         	<div class="row">
 
-	            <div class="col-md-4">
-	              <label for="firstname_ec">Lastname:</label>
-	              <input type="text" class="form-control" id="lastname_ec" name="lastname_ec" maxlength="16" required>
-	            </div>
-            	<div class="col-md-4">
-	              <label for="middlename_ec">Middlename:</label>
-	              <input type="text" class="form-control" id="middlename_ec" name="middlename_ec" maxlength="16" required>
-	            </div>
-	          </div>
+			            <div class="col-md-4">
+			            	<div class="form-group hideable">
+				                <label class="control-label" for="firstname_ec">Firstname</label>
+				                    <input type="text" class="form-control" id="firstname_ec" name="firstname_ec" placeholder="Enter firstname" />
+				            </div>
+			            </div>
 
-	          <div class="row">
-	            <div class="col-md-4">
-	              <label for="nickname_ec">Nickname:</label>
-	              <input type="text" class="form-control" id="nickname_ec" name="nickname_ec" maxlength="16" required>
-	            </div>
+			            <div class="col-md-4">
+			            	<div class="form-group hideable">
+				                <label class="control-label" for="lastname_ec">Lastname</label>
+				                    <input type="text" class="form-control" id="lastname_ec" name="lastname_ec" placeholder="Enter lastname" />
+				            </div>
+			            </div>
+		            	<div class="col-md-4">
+			              	<div class="form-group hideable">
+				                <label class="control-label" for="middlename_ec">Middlename</label>
+				                    <input type="text" class="form-control" id="middlename_ec" name="middlename_ec" placeholder="Enter middlename" />
+				            </div>
+			            </div>
+		        	</div>
 
-	            <div class="col-md-2">
-	              <label for="salutation_ec">Salutation:</label>
-	              <input type="text" class="form-control" id="salutation_ec" name="salutation_ec" maxlength="16" required>
-	            </div>
+		        	<div class="row">
+			            <div class="col-md-4">
+			              	<div class="form-group hideable">
+				                <label class="control-label" for="nickname_ec">Nickname</label>
+				                	<input type="text" class="form-control" id="nickname_ec" name="nickname_ec" placeholder="Enter nickname" />
+				            </div>
+			            </div>
 
-	            <div class="col-md-2">
-	              <label for="gender_ec">Gender:</label>
-	              <input type="text" class="form-control" id="gender_ec" name="gender_ec" maxlength="16" required>
-	            </div>
+			            <div class="col-md-2">
+			              	<div class="form-group hideable">
+				                <label class="control-label" for="salutation_ec">Salutation</label>
+				                	<input type="text" class="form-control" id="salutation_ec" name="salutation_ec" placeholder="Enter salutation" />
+				            </div>
+			            </div>
 
-	            <div class="col-md-4">
+			            <div class="col-md-2">
+			              	<div class="form-group hideable">
+				                <label class="control-label" for="gender_ec">Gender</label>
+				                	<input type="text" class="form-control" id="gender_ec" name="gender_ec" placeholder="Enter gender" />
+				            </div>
+			            </div>
 
+			            <div class="col-md-4">
+			              	<div class="form-group hideable">
+				                <label class="control-label" for="birthdate_ec">Birthdate</label>
+				                <div class="input-group date datetime">
+				                    <input type="text" class="form-control birthdate" id="birthdate_ec" name="birthdate_ec" placeholder="Enter birthdate" />
+				                    <span class="input-group-addon">
+				                        <span class="glyphicon glyphicon-calendar"></span>
+				                    </span>
+				                </div>
+							</div>
+		          		</div> 
+		          	</div>	
 
-	              <div class="form-group">
-	              <label for="birthdate">Birthdate:</label>
-	                <div class='input-group date birthdate'>
-	                    <input type='text' class="form-control" id="birthdate_ec"/>
-	                    <span class="input-group-addon">
-	                        <span class="glyphicon glyphicon-calendar"></span>
-	                    </span>
-	                </div>
-	              </div>
-	            </div>
-	          </div> 
+		        <div class="row">
+		            <div class="col-md-4">
+		              	<div class="form-group hideable">
+			                <label class="control-label" for="email_cc">Email</label>
+			                	<input type="text" class="form-control" data-role="tagsinput" id="email_cc" name="email_cc" placeholder="Enter email" />
+				        </div>
+		            </div>
 
-	          <div class="row">
-	            <div class="col-md-4">
-	              <label for="email_ec">Email:</label>
-	              <input type="email" class="form-control" data-role="tagsinput" id="email_ec" name="email_ec" required>
-	            </div>
+		            <div class="col-md-4">
+						<div class="form-group hideable">
+							<label class="control-label" for="active_status_ec">Contact Active Status</label>
+							<select class="form-control" id="active_status_ec" name="active_status_ec">
+								<option value="1">Active</option>
+								<option value="0">Inactive</option>
+							</select>
+						</div>
+		            </div>
 
-	            <div class="col-md-4">
-					<div class="form-group">
-						<label for="sel1">Contact Active Status:</label>
-						<select class="form-control" id="active_status_ec">
-							<option value="1">Active</option>
-							<option value="0">Inactive</option>
-						</select>
-					</div>
-	            </div>
+		            <div class="col-md-4">
+		            	<div class="form-group hideable">
+			                <label class="control-label" for="team_ec">Team(s):</label>
+			                <input type="text" class="form-control" data-role="tagsinput" id="team_ec" name="team_ec" placeholder="Enter team" required />
+			            </div>
+		            </div>
 
-	            <div class="col-md-4">
-	              <label for="team_ec">Team(s):</label>
-	              <input type="text" class="form-control" data-role="tagsinput" id="team_ec" id="team_ec" required>
-	            </div>
-	            <div class="col-md-12">
-	            	<button type="submit" class="btn btn-primary btn-xs" id="employee-add-number"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Mobile Number</button>
-	            </div>
-	          </div>
-
-	          <div id="mobile-div">
-	          </div>
-
-	          <div id="landline-div">
-	          </div>
-	          <div id="emp-settings-cmd" class="right-content">
-	            <button class="btn btn-danger" id="btn-clear-ec" >Reset</button>
-	            <button type="submit" value="submit" class="btn btn-primary">Save</button>
-	          </div>
-	          
-
-		        <div id="update-contact-container" class="right-content" hidden>
-		           <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
-		           <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
+		            <div class="col-md-12">
+		            	<br>
+		            	<button type="button" class="btn btn-primary btn-xs" id="employee-add-number"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Mobile Number</button>
+		            	<button type="button" class="btn btn-primary btn-xs" id="employee-add-landline"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Landline Number</button>
+		            </div>
 		        </div>
+
+			    	<div id="mobile-div">
+			    	</div>
+
+		         	<hr>
+
+		        	<div id="landline-div">
+		        	</div>
+
+			    	<div id="emp-settings-cmd" class="right-content">
+			    		<button class="btn btn-danger" id="btn-clear-ec" >Reset</button>
+			    		<button type="submit" value="submit" class="btn btn-primary">Save</button>
+			        </div>
+		          
+
+			        <div id="update-contact-container" class="right-content" hidden>
+			           <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
+			           <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
+			        </div>
+		    	</form>
 	        </div>
 
 	        <div id="community-contact-wrapper" hidden>
-	          <input type="text" id="cc_id" hidden>
+	          <input type="text" id="user_id_cc" hidden>
 	          <div class="row">
 	            <div class="col-md-4">
 	              <label for="firstname_cc">Firstname:</label>
@@ -422,10 +445,11 @@
 				
 	            <div class="col-md-12">
 	            	<button type="submit" class="btn btn-primary btn-xs" id="community-add-number"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Mobile Number</button>
+	            	<button type="submit" class="btn btn-primary btn-xs" id="community-add-landline"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Landline Number</button>
 	            </div>
 				<div id="mobile-div-cc">
 				</div>
-	          <hr>
+	          	<hr>
 				<div id="landline-div-cc">
 				</div>
 	          <hr>
@@ -433,6 +457,10 @@
 	          	<button class="btn btn-danger" id="btn-clear-cc" >Reset</button>
 	            <button type="submit" value="submit" class="btn btn-primary">Save</button>
 	          </div>
+	          <div id="update-comm-contact-container" class="right-content" hidden>
+		           <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
+		           <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
+		        </div>
 	        </div>
 
 	      </div>
