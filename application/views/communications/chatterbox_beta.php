@@ -283,8 +283,8 @@
 		        <div class="row">
 		            <div class="col-md-4">
 		              	<div class="form-group hideable">
-			                <label class="control-label" for="email_cc">Email</label>
-			                	<input type="text" class="form-control" data-role="tagsinput" id="email_cc" name="email_cc" placeholder="Enter email" />
+			                <label class="control-label" for="email_ec">Email</label>
+			                	<input type="text" class="form-control" data-role="tagsinput" id="email_ec" name="email_ec" placeholder="Enter email" />
 				        </div>
 		            </div>
 
@@ -334,74 +334,96 @@
 	        </div>
 
 	        <div id="community-contact-wrapper" hidden>
-	          <input type="text" id="user_id_cc" hidden>
-	          <div class="row">
-	            <div class="col-md-4">
-	              <label for="firstname_cc">Firstname:</label>
-	              <input type="text" class="form-control" id="firstname_cc" name="firstname_cc" maxlength="16" required>
-	            </div>
+	        	<form id="community-contact-form">
+	        		<input type="text" id="user_id_cc" hidden>
 
-	            <div class="col-md-4">
-	              <label for="lastname_cc">Lastname:</label>
-	              <input type="text" class="form-control" id="lastname_cc" name="lastname_cc" maxlength="16" required>
-	            </div>
+	        		<div class="row">
+	        			<div class="col-md-4">
+				        	<div class="form-group hideable">
+				                <label class="control-label" for="firstname_cc">Firstname</label>
+				                    <input type="text" class="form-control" id="firstname_cc" name="firstname_cc" placeholder="Enter firstname" />
+				            </div>
+				        </div>
 
-	            <div class="col-md-4">
-	              <label for="middlename_cc">Middlename:</label>
-	              <input type="text" class="form-control" id="middlename_cc" name="middlename_cc" maxlength="16" required>
-	            </div>
+				        <div class="col-md-4">
+				        	<div class="form-group hideable">
+				                <label class="control-label" for="lastname_cc">Lastname</label>
+				                    <input type="text" class="form-control" id="lastname_cc" name="lastname_cc" placeholder="Enter lastname" />
+				            </div>
+				        </div>
+
+				        <div class="col-md-4">
+				          	<div class="form-group hideable">
+				                <label class="control-label" for="middlename_cc">Middlename</label>
+				                    <input type="text" class="form-control" id="middlename_cc" name="middlename_cc" placeholder="Enter middlename" />
+				            </div>
+				        </div>
+	        		</div>
+
+	        		<div class="row">
+	        			<div class="col-md-4">
+					      	<div class="form-group hideable">
+					            <label class="control-label" for="nickname_cc">Nickname</label>
+					            	<input type="text" class="form-control" id="nickname_cc" name="nickname_cc" placeholder="Enter nickname" />
+					        </div>
+					    </div>
+
+					    <div class="col-md-4">
+				          	<div class="form-group hideable">
+				                <label class="control-label" for="salutation_cc">Salutation</label>
+				                	<input type="text" class="form-control" id="salutation_cc" name="salutation_cc" placeholder="Enter salutation" />
+				            </div>
+				        </div>
+
+				        <div class="col-md-4">
+				          	<div class="form-group hideable">
+				                <label class="control-label" for="gender_cc">Gender</label>
+				                	<input type="text" class="form-control" id="gender_cc" name="gender_cc" placeholder="Enter gender" />
+				            </div>
+				        </div>
+	        		</div>
+
+	        		<div class="row">
+				        <div class="col-md-4">
+				          	<div class="form-group hideable">
+				                <label class="control-label" for="birthdate_cc">Birthdate</label>
+				                <div class="input-group date datetime">
+				                    <input type="text" class="form-control birthdate" id="birthdate_cc" name="birthdate_cc" placeholder="Enter birthdate" />
+				                    <span class="input-group-addon">
+				                        <span class="glyphicon glyphicon-calendar"></span>
+				                    </span>
+				                </div>
+							</div>
+				  		</div>
+
+	        			<div class="col-md-4">
+							<div class="form-group hideable">
+								<label class="control-label" for="active_status_cc">Contact Active Status</label>
+								<select class="form-control" id="active_status_cc" name="active_status_cc">
+									<option value="1">Active</option>
+									<option value="0">Inactive</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="form-group hideable">
+								<label class="control-label" for="ewirecipient_cc">Early Warning Information Recipient:</label>
+								<select class="form-control" id="ewirecipient_cc" name="ewirecipient_cc">
+									<option value="1">Yes</option>
+									<option value="0">No</option>
+								</select>
+							</div>
+						</div>
+	        		</div>
+	          <!-- <hr> -->
+	          <div class="row" id="org-and-site-alert" hidden>
+	          	<div class="col-sm-offset-3 col-sm-6">
+	          		<div class="alert alert-info" role="alert">
+	          			Please select at least one in <b id="selection-feedback"></b>
+	          		</div>
+	          	</div>
 	          </div>
-
-	          <div class="row">
-	            <div class="col-md-4">
-	              <label for="salutation_cc">Salutation:</label>
-	              <input type="text" class="form-control" id="salutation_cc" name="salutation_cc" maxlength="16" required>
-	            </div>
-
-	            <div class="col-md-4">
-	              <label for="nickname_cc">Nickname:</label>
-	              <input type="text" class="form-control" id="nickname_cc" name="nickname_cc" placeholder="">
-	            </div>
-
-	            <div class="col-md-4">
-	                <label for="birthdate">Birthdate:</label>
-					<div class="input-group date birthdate">		
-						<input type="text" class="form-control" id="birthdate_cc" aria-required="true" aria-invalid="false">
-						<span class="input-group-addon">
-						    <span class="glyphicon glyphicon-calendar"></span>
-						</span>
-					</div>
-	            </div>
-	          </div> 
-
-	          <div class="row">
-	            <div class="col-md-2">
-	              <label for="gender_cc">Gender:</label>
-	              <input type="text" class="form-control" id="gender_cc" name="gender_cc" required>
-	            </div>
-
-	            <div class="col-md-4">
-					<div class="form-group">
-						<label for="active_status_cc">Contact Active Status:</label>
-						<select class="form-control" id="active_status_cc">
-							<option value="1">Active</option>
-							<option value="0">Inactive</option>
-						</select>
-					</div>
-	            </div>
-
-	            <div class="col-md-4">
-
-					<div class="form-group">
-						<label for="active_status_cc">Early Warning Information Recipient:</label>
-						<select class="form-control" id="ewirecipient_cc">
-							<option value="1">Yes</option>
-							<option value="0">No</option>
-						</select>
-					</div>
-	            </div>
-	          </div>
-	          <hr>
 	          <div class="panel-group" id="accordion">
 				  <div class="panel panel-default">
 				    <div class="panel-heading">
@@ -444,8 +466,8 @@
 				</div>
 				
 	            <div class="col-md-12">
-	            	<button type="submit" class="btn btn-primary btn-xs" id="community-add-number"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Mobile Number</button>
-	            	<button type="submit" class="btn btn-primary btn-xs" id="community-add-landline"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Landline Number</button>
+	            	<button type="button" class="btn btn-primary btn-xs" id="community-add-number"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Mobile Number</button>
+	            	<button type="button" class="btn btn-primary btn-xs" id="community-add-landline"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Landline Number</button>
 	            </div>
 				<div id="mobile-div-cc">
 				</div>
@@ -462,7 +484,7 @@
 		           <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
 		        </div>
 	        </div>
-
+	    </form>
 	      </div>
 	    </div>
 
