@@ -10,17 +10,17 @@
 <script type="text/javascript" src="js/dewslandslide/public_alert/monitoring_dashboard.js"></script>
 <script type="text/javascript" src="js/dewslandslide/public_alert/bulletin.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/dewslandslide/public_alert/issues_and_reminders.js"></script>
-<script src="<?php echo base_url(); ?>/js/third-party/notify.min.js"></script>
-<script src="<?php echo base_url(); ?>/js/third-party/typeahead.js"></script>
-<script src="<?php echo base_url(); ?>/js/third-party/bootstrap-tagsinput.js"></script>
+<script src="<?php echo base_url(); ?>js/third-party/notify.min.js"></script>
+<script src="<?php echo base_url(); ?>js/third-party/typeahead.js"></script>
+<script src="<?php echo base_url(); ?>js/third-party/bootstrap-tagsinput.js"></script>
 <script type="text/javascript">
   first_name = "<?php echo $first_name; ?>";
   tagger_user_id = "<?php echo $user_id; ?>";
 </script>
-<script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox_variables.js"></script>
-<script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox_initializer.js"></script>
-<script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox_wss.js"></script>
-<script src="<?php echo base_url(); ?>/js/dewslandslide/communications/dewschatterbox_dashboard.js"></script>
+<script src="<?php echo base_url(); ?>js/dewslandslide/communications/dewschatterbox_variables.js"></script>
+<script src="<?php echo base_url(); ?>js/dewslandslide/communications/dewschatterbox_initializer.js"></script>
+<script src="<?php echo base_url(); ?>js/dewslandslide/communications/dewschatterbox_wss.js"></script>
+<script src="<?php echo base_url(); ?>js/dewslandslide/communications/dewschatterbox_dashboard.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
 
 <!-- Server time-->
