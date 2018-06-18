@@ -34,53 +34,62 @@
 
 			$data['release'] = json_encode($temp);
 			
-			$x = substr($temp->internal_alert_level, 0, 2);
-			$x = $x == "ND" ? ( strlen($temp->internal_alert_level) > 3 ? "A1" : "A0" ) : $x;
-			$data['public_alert_level'] = $x;
-			$data['triggers'] = $this->bulletin_model->getAllEventTriggers($temp->event_id);
-			$temp_2 = json_decode($data['triggers']);
-			$data['event'] = $this->bulletin_model->getEvent($temp->event_id);
+			$internal_alert = $temp->internal_alert_level;
+			$public_alert = substr($internal_alert, 0, 2);
+			$public_alert = $public_alert == "ND" ? ( strlen($internal_alert) > 3 ? "A1" : "A0" ) : $public_alert;
+			$data['public_alert_level'] = $public_alert;
+
+			$event_id = $temp->event_id;
+			$data['triggers'] = $this->bulletin_model->getAllEventTriggers($event_id);
+			$triggers = json_decode($data['triggers']);
+
+			$data['event'] = $this->bulletin_model->getEvent($event_id);
 			$data['reporters'] = array(
 				'reporter_mt' => $this->bulletin_model->getName($temp->reporter_id_mt),
 				'reporter_ct' => $this->bulletin_model->getName($temp->reporter_id_ct),  
 			);
-			$data['responses'] = $this->bulletin_model->getResponses($data['public_alert_level'], $temp->internal_alert_level);
+
+			$data['responses'] = $this->bulletin_model->getResponses($data['public_alert_level'], $internal_alert);
+			$data['alert_description'] = $this->getAlertDescription($internal_alert);
 
 			// Get most recent validity for the said release
-			foreach ($temp_2 as $trigger) 
-			{
-				if( $temp->release_id >= $trigger->release_id )
-				{ 
-					$computed_validity = $this->getValidity($trigger->timestamp, $x);
+			foreach ($triggers as $trigger) {
+				if( $temp->release_id >= $trigger->release_id ) { 
+					$computed_validity = $this->getValidity($trigger->timestamp, $public_alert);
 					break;
 				}
 			}
 
-			$isND = substr($temp->internal_alert_level, 0, 2) == "ND" ? true : false;
-			$isg0 = stripos($temp->internal_alert_level, 'g0') > -1 ? true : false;
-			$iss0 = stripos($temp->internal_alert_level, 's0') > -1 ? true : false;
-			$isR0 = strpos($temp->internal_alert_level, 'R0') > -1 ? true : false;
-			$ism0 = stripos($temp->internal_alert_level, 'm0') > -1 ? true : false;
+			$isND = substr($internal_alert, 0, 2) == "ND" ? true : false;
+			$isg0 = stripos($internal_alert, 'g0') > -1 ? true : false;
+			$iss0 = stripos($internal_alert, 's0') > -1 ? true : false;
+			$isR0 = strpos($internal_alert, 'R0') > -1 ? true : false;
+			$ism0 = stripos($internal_alert, 'm0') > -1 ? true : false;
 
 			$data['isND'] = $isND; $data['isg0'] = $isg0;
 			$data['iss0'] = $iss0; $data['isR0'] = $isR0;
 			$data['ism0'] = $ism0;
 
-			if( $x != 'A0' )
-			{
-				$data['validity'] = $computed_validity;
+			if( $public_alert != 'A0' ) {
 				$flag = false;
 				
 				// Adjust timestamps if ND or X0 if end of validity
-				if( $isND || $isg0 || $iss0 || $isR0 || $ism0 || stripos($temp->internal_alert_level, 'rx') !== false ) $flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
-				$data['validity'] = $flag == true ? date( "Y-m-d H:i:s", strtotime($temp->data_timestamp) + 4.5 * 3600) : $computed_validity;
-			} else 
-			{
-				$data['previous_internal_alert'] = $this->bulletin_model->getPreviousNonA0Release($temp->event_id);
+				if( $isND || $isg0 || $iss0 || $isR0 || $ism0 || stripos($internal_alert, 'rx') !== false ) {
+					$flag = strtotime($temp->data_timestamp) + 1800 >= strtotime($computed_validity) ? true : false;
+				}
+				$data['validity'] = $flag === true ? date("Y-m-d H:i:s", strtotime($temp->data_timestamp) + 4.5 * 3600) : $computed_validity;
+			} else {
+				$data['previous_internal_alert'] = $this->bulletin_model->getPreviousNonA0Release($event_id);
 			}
 			
-			// $data['validity'] = json_decode($temp_3)[0]->validity;
 			return $this->load->view('public_alert/bulletin_main', $data, $bool);
+		}
+
+		public function getAlertDescription ($internal_alert) {
+			$command = "node {$_SERVER['DOCUMENT_ROOT']}/js/dewslandslide/public_alert/generate_alert_description.js $internal_alert";
+			$response = exec($command, $output);
+
+        	return $response;
 		}
 
 		public function edit($release_id, $edits = 0)

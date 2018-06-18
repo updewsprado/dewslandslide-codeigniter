@@ -21,7 +21,7 @@
 					    <li><a data-value="1" data-duration="month">1 month</a></li>
 					    <li><a data-value="6" data-duration="months">6 months</a></li>
 					    <li><a data-value="1" data-duration="year">1 year</a></li>
-					    <li><a data-duration="All">All</a></li>
+					    <li><a data-value="All" data-duration="">All</a></li>
 				 	</ul>
 				</div>
 			</div>
@@ -38,7 +38,7 @@
 		</div>
 
 		<div class="subsurface-node-plot-container row" id="x-accelerometer">
-			<div class="col-sm-12" id="x-accelerometer-graph"></div>
+			<div class="col-sm-12 node-chart" id="x-accelerometer-graph"></div>
 		</div>
 
 		<div><hr class="plot-title-hr"/></div>
@@ -52,7 +52,7 @@
 		</div>
 
 		<div class="subsurface-node-plot-container row" id="y-accelerometer">
-			<div class="col-sm-12" id="y-accelerometer-graph"></div>
+			<div class="col-sm-12 node-chart" id="y-accelerometer-graph"></div>
 		</div>
 
 		<div><hr class="plot-title-hr"/></div>
@@ -66,7 +66,7 @@
 		</div>
 
 		<div class="subsurface-node-plot-container row" id="z-accelerometer">
-			<div class="col-sm-12" id="z-accelerometer-graph"></div>
+			<div class="col-sm-12 node-chart" id="z-accelerometer-graph"></div>
 		</div>
 
 		<div><hr class="plot-title-hr"/></div>
@@ -80,7 +80,7 @@
 		</div>
 
 		<div class="subsurface-node-plot-container row" id="battery">
-			<div class="col-sm-12" id="battery-graph"></div>
+			<div class="col-sm-12 node-chart" id="battery-graph"></div>
 		</div>
 	</div>
 </div>

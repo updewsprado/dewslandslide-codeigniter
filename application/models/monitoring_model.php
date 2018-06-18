@@ -47,6 +47,18 @@ class Monitoring_Model extends CI_Model
 		return json_encode($result);
 	}
 
+	public function getAllRoutineEventsGivenDate ($date) {
+		$this->db->select("ev.event_id, ev.site_id, ev.event_start, site.name AS site_code");
+		$this->db->from('public_alert_event AS ev');
+		$this->db->join("site", "ev.site_id = site.id");
+		$this->db->where("ev.status", "routine");
+ 		$this->db->where("ev.event_start BETWEEN '$date 11:00:00' AND '$date 12:00:00'");
+		$query = $this->db->get();
+		$result = $query->result_array();
+
+		return $result;
+	}
+
 	public function getSites()
 	{
 		$sql = "SELECT id, name, sitio, barangay, municipality, province, season 

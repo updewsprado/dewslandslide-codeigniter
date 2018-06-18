@@ -1,6 +1,5 @@
 <script src="/js/third-party/d3.v3.min.js"></script>
 <script src="/js/third-party/d3.tip.v0.6.3.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgTy7hTZqs58DR3fIWdjURY9TGcv2l9kY"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/sensor_overview.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/dewspresence.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/dewsalert.js"></script>
@@ -17,17 +16,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Sites Map</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div id="map-canvas" >MAP CANVASS</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Accelerometer Movement Alert Map 

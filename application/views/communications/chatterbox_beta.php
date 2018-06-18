@@ -1,13 +1,22 @@
 <!-- Chatterbox Scripts -->
-<script src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
-<script src="/js/dewslandslide/communications/dewsresponsive.js"></script>
-<script src="/js/third-party/awesomplete.js"></script>
-<script src="/js/third-party/handlebars.js"></script>
-<script src="/js/third-party/moment-locales.js"></script>
-<script src="/js/third-party/typeahead.js"></script>
-<script src="/js/third-party/bootstrap-tagsinput.js"></script>
-<script src="/js/third-party/notify.min.js"></script>
-<script src="/js/third-party/jquery.twbsPagination.min.js"></script>
+<script type="text/javascript" src="/js/third-party/awesomplete.js"></script>
+<script type="text/javascript" src="/js/third-party/handlebars.js"></script>
+<script type="text/javascript" src="/js/third-party/moment-locales.js"></script>
+<script type="text/javascript" src="/js/third-party/typeahead.js"></script>
+<script type="text/javascript" src="/js/third-party/bootstrap-tagsinput.js"></script>
+<script type="text/javascript" src="/js/third-party/notify.min.js"></script>
+<script type="text/javascript" src="/js/third-party/jquery.twbsPagination.min.js"></script>
+<script type="text/javascript">
+  first_name = "<?php echo $first_name; ?>";
+  tagger_user_id = "<?php echo $user_id; ?>";
+</script>
+<script src="/js/dewslandslide/communications/cbx_version.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_variables.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_initializer.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_helper.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_wss.js"></script>
+<script type="text/javascript" src="/js/dewslandslide/communications/dewsresponsive.js"></script>
 
 <!-- Server time-->
 <script type="text/javascript" src="/js/dewslandslide/server_time.js"></script>
@@ -159,12 +168,6 @@
 	</div>
 </div>
 
-<script type="text/javascript">
-  first_name = "<?php echo $first_name; ?>";
-  tagger_user_id = "<?php echo $user_id; ?>";
-</script>
-
-
 <!-- MODAL SECTION -->
 	<!-- Contact Settings Modal -->
 	<div class="modal fade in" id="contact-settings" role="dialog">
@@ -254,7 +257,7 @@
 	            </div>
 	            <div class="col-md-3" title="Notes: If contact number is more than one seprate it by a comma.">
 	              <label for="numbers_ec">Contact #:</label>
-	              <input type="text"  id="numbers_ec" class="form-control" name="numbers_ec" data-role="tagsinput" required>
+	              <input type="text"  id="numbers_ec" class="form-control" name="numbers_ec" required>
 	            </div>
 	          </div>
 
@@ -307,7 +310,7 @@
 	          <div class="row">
 	            <div class="col-md-6">
 	              <label for="numbers_cc">Contact #:</label>
-	              <input type="text" class="form-control" id="numbers_cc" name="numbers" data-role="tagsinput" required>
+	              <input type="text" class="form-control" id="numbers_cc" name="numbers" required>
 	            </div>
 
 	            <div class="col-md-3">
@@ -439,7 +442,7 @@
 	          <p style="padding: 0px;"><strong>New Feature!</strong> You can now tag messages in chatterbox! </br>.&nbsp &nbsp • <strong>Important Tags: </strong>#EwiMessage, #EwiResponse<br>&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;#GroundMeasReminder, #GroundMeas</p>
 	        </div>
 	        <div class="form-group">
-	        	<input type="text" class="form-control" id="gintags" name="gintags" data-role="tagsinput" data-provide="typeahead" placeholder="E.g #EwiMessage" style="display:none" required>
+	        	<input type="text" class="form-control" id="gintags" name="gintags" data-provide="typeahead" placeholder="E.g #EwiMessage" style="display:none" required>
 	        </div>
 	        <div class="form-group right-content" id="submit-gintag">
 	          <button type="reset" class="btn btn-danger" id="reset-gintags" data-dismiss="modal">Reset</button>
@@ -558,28 +561,7 @@
 			</div>
 		</div>
 		<div>
-			<!-- 	 -->
 		</div>
-
-
-<!-- 			<div class="form-group">
-				<label class="radio-inline"><input type="radio" name="opt-search" value="gintag-search" checked="true">Via Gintag</label>
-				<label class="radio-inline"><input type="radio" name="opt-search" value="global-search" checked="true">Via Message</label>
-			</div>
-		    <div class="form-group">
-		    	<input type="text" id="search-global-keyword" class="form-control">
-		    </div>
-	    	<div class="search-global-message-container">
-	          <div class="result-message">
-	            <ul id="search-global-result" class="chat">
-
-	            </ul>
-	          </div>
-	        </div>
-	        <hr>
-			<div class="form-group right-content">
-				<button class="btn btn-primary" id="btn-search-global">Search</button> 
-			</div> -->
 	    </div>
 	  </div>  
 	</div>
@@ -722,3 +704,21 @@
 
   </div>
 </div>
+
+  <div class="modal fade" id="confirm-notification" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Contact Settings</h4>
+        </div>
+        <div class="modal-body">
+          <p id="notify-text"></p>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" id="save-contact" class="btn btn-info" data-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>

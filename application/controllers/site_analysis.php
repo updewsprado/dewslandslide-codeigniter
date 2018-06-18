@@ -10,12 +10,13 @@ class Site_analysis extends CI_Controller {
         $this->load->model('surficial_model');
         $this->load->model('subsurface_column_model');
         $this->load->model('subsurface_node_model');
+        // $this->output->enable_profiler(TRUE);
 
         date_default_timezone_set('Asia/Manila'); 
     }
 
 	public function index () {
-		// $this->is_logged_in();
+		$this->is_logged_in();
 		$page = 'Integrated Site Analysis';
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
@@ -27,6 +28,7 @@ class Site_analysis extends CI_Controller {
         $data['site_level_plots'] = $this->load->view('data_analysis/site_analysis_page/site_level_plots', $data, true);
         $data['subsurface_column_level_plots'] = $this->load->view('data_analysis/site_analysis_page/subsurface_column_plots', $data, true);
         $data['subsurface_node_level_plots'] = $this->load->view('data_analysis/site_analysis_page/subsurface_node_plots', $data, true);
+        $data['site_analysis_svg'] = $this->load->view('data_analysis/site_analysis_page/site_analysis_svg', $data, true);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
@@ -481,10 +483,10 @@ class Site_analysis extends CI_Controller {
                 "data" => $arr[0]
             ));
 
-            ksort($arr[1]);
+            sort($arr[1]);
             foreach ($arr[1] as $index => $data) {
                 array_push($temp, array(
-                    "name" => $index,
+                    "name" => $index + 1,
                     "data" => $data
                 ));
 
@@ -951,7 +953,7 @@ class Site_analysis extends CI_Controller {
             $python_path = "C:/Users/Dynaslope/Anaconda2/python.exe";
             $file_path = "C:/xampp/updews-pycodes/Liaison/";
         } elseif (strpos($os, "UBUNTU") !== false || strpos($os, "Linux") !== false) {
-            $python_path = "/home/jdguevarra/anaconda2/bin/python";
+            $python_path = "/home/ubuntu/anaconda2/bin/python";
             $file_path = "/var/www/updews-pycodes/Liaison/";
         } else {
             throw new Exception("Unknown OS for execution... Script discontinued...");
@@ -974,6 +976,8 @@ class Site_analysis extends CI_Controller {
                 $sc = "bat"; break;
             case "jor":
                 $sc = "pob"; break;
+            case "tga":
+                $sc = "tag"; break;
             default: 
                 $sc = $site_code; break;
         }
