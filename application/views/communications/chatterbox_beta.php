@@ -5,6 +5,7 @@
 <script src="/js/third-party/typeahead.js"></script>
 <script src="/js/third-party/bootstrap-tagsinput.js"></script>
 <script src="/js/third-party/notify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
 <script type="text/javascript">
   first_name = "<?php echo $first_name; ?>";
   tagger_user_id = "<?php echo $user_id; ?>";
@@ -869,6 +870,11 @@
       </div>
     </div>
   </div>
+
+  <!-- Chatterbox Loader Modal -->
+<div class="modal fade" id="chatterbox-loader-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <h1 class="ml2">Loading Chatterbox</h1>
+</div>
 
   <script src="/js/dewslandslide/communications_beta/initializer.js"></script>
   <script src="/js/dewslandslide/communications_beta/cbx_main.js"></script>
