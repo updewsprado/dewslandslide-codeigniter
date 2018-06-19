@@ -480,11 +480,11 @@
 	            <button type="submit" value="submit" class="btn btn-primary">Save</button>
 	          </div>
 	          <div id="update-comm-contact-container" class="right-content" hidden>
-		           <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
+		           <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-comm-contact-info">Save</button>
 		           <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
 		        </div>
+	    	</form>
 	        </div>
-	    </form>
 	      </div>
 	    </div>
 
@@ -872,6 +872,5 @@
 
   <script src="/js/dewslandslide/communications_beta/initializer.js"></script>
   <script src="/js/dewslandslide/communications_beta/cbx_main.js"></script>
-  <script src="/js/dewslandslide/communications_beta/cbx_contact_settings.js"></script>
   <script src="/js/dewslandslide/communications_beta/event_handler.js"></script>
   <script src="/js/dewslandslide/communications_beta/responsive.js"></script>
