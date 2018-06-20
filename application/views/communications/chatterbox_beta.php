@@ -578,7 +578,7 @@
 	<!-- END OF SITE SELECTION MODAL -->
 
 	<!-- GINTAGS MODAL -->
-	<div class="modal fade" id="gintag-modal" role="dialog">
+	<!-- <div class="modal fade" id="gintag-modal" role="dialog">
 	  <div class="modal-dialog" id="gintag-modal-dialog">
 	    <div class="modal-content" id="gintag-content">
 	      <div class="modal-header">
@@ -599,7 +599,7 @@
 	      </div>
 	    </div>
 	  </div>
-	</div>
+	</div> -->
 	<!-- END GINTAGS MODAL -->
 
 	<!-- Save Narratives MODAL -->
@@ -871,9 +871,54 @@
     </div>
   </div>
 
+  <!-- GinTag Modal -->
+<div class="modal fade" id="gintag-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">General Information Tag</h4>
+      </div>
+      <div class="modal-body">
+        <div class="scrollable-div">
+        	
+        	<div class="alert alert-info" role="alert">
+        		<div class="row">
+        			<div class="col-sm-12">• <strong>Important Tags: </strong>
+        			<p id="important_tags"></p>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+       <!--  <input type="text" class="form-control" id="gintags" name="gintags" data-provide="typeahead" placeholder="E.g #EwiMessage" style="display:none" required> -->
+    	<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group hideable">
+	                <label class="control-label" for="gintag_selected"></label>
+	                <input type="text" class="form-control" data-provide="typeahead" id="gintag_selected" name="gintag_selected" placeholder="E.g #EwiMessage" required />
+	            </div>
+			</div>
+    	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Reset</button>
+        <button type="button" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <!-- Chatterbox Loader Modal -->
 <div class="modal fade" id="chatterbox-loader-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <h1 class="ml2">Loading Chatterbox</h1>
+  <!-- <h1 class="ml2">Loading Chatterbox</h1> -->
+  <div class="loader">
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+
 </div>
 
   <script src="/js/dewslandslide/communications_beta/initializer.js"></script>

@@ -9,7 +9,7 @@
 
             <input type="text" class="msg_details" value="{{convo_id}}<split>{{mobile_id}}<split>{{user}}<split>{{timestamp}}" hidden>
             <span class="chat-img pull-right" id="badge-id-you">
-            <img src="/images/Chatterbox/dewsl_03.png" alt="User Avatar">
+            <img src="/images/Chatterbox/dewsl_03.png" class="user-avatar" alt="User Avatar">
         {{else}} 
             {{#if hasTag}}
             <li class="left clearfix tagged" title="Tagged Messaged">
@@ -18,7 +18,7 @@
             {{/if}}
             <input type="text" class="msg_details" value="{{convo_id}}<split>{{mobile_id}}<split>{{user}}<split>{{timestamp}}" hidden>
             <span class="chat-img pull-left" id="badge-id-user">
-            <img src="/images/Chatterbox/boy_avatar.png" alt="User Avatar">
+            <img src="/images/Chatterbox/boy_avatar.png" class="user-avatar" alt="User Avatar">
         {{/if}}
         </span>
         <div class="chat-body clearfix tagged" id="id_{{timestamp}}">
