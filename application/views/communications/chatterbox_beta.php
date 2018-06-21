@@ -898,6 +898,11 @@
 	                <input type="text" class="form-control" data-provide="typeahead" id="gintag_selected" name="gintag_selected" placeholder="E.g #EwiMessage" required />
 	            </div>
 			</div>
+			<div class="col-sm-offset-4 col-sm-4" id="gintag_warning_message" hidden>
+				<div class="alert alert-info" role="alert">
+	        		<b>This field is required</b>
+	        	</div>
+			</div>
     	</div>
       </div>
       <div class="modal-footer">
@@ -918,8 +923,16 @@
       </div>
       <div class="modal-body">
         <div class="scrollable-div">
-        	
-        	
+        	<div class="alert alert-info" role="alert">
+        		<div class="row">
+        			<div class="col-sm-12">
+        				<strong>Notice!</strong>
+        				<p> Saving a tagged message will be saved to narratives</p>
+        			</div>
+        		</div>
+        	</div>
+
+			<textarea id="narrative_message" name="narrative_message" class="form-control" rows="10" disabled></textarea>
         </div>
       </div>
       <div class="modal-footer">
