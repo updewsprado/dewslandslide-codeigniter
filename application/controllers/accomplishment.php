@@ -299,7 +299,7 @@
 				}
 			}
 
-			if($_POST["toAttachRender"]) {
+			if($_POST["toAttachRender"] === "true") {
 				$file = $_SERVER['DOCUMENT_ROOT'] . "/temp/charts_render/compiled.pdf";
 				$mail->addAttachment($file, $_POST['filename'], 'base64', 'application/pdf');
 			}

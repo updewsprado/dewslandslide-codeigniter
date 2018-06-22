@@ -25,7 +25,6 @@
 			$this->db->where('public_alert_release.data_timestamp <=', $end);
 			$this->db->where('public_alert_event.status !=', 'routine ');
 			$this->db->where('public_alert_event.status !=', 'invalid ');
-			$this->db->where('public_alert_event.status !=', 'finished ');
 			$this->db->order_by("data_timestamp", "desc");
 			$query = $this->db->get();
 			$result = $query->result_array();
