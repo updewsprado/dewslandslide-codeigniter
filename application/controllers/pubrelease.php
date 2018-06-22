@@ -226,7 +226,7 @@ class Pubrelease extends CI_Controller {
 				$release["event_id"] = $event_id;
 
 				// This $event_id came from EXTENDED to NEW event
-				$previous_event_id = isset($_POST['previous_event_id']) ? NULL : $_POST['previous_event_id'];
+				$previous_event_id = isset($_POST['previous_event_id']) ? $_POST['previous_event_id'] : NULL;
 				if($previous_event_id != NULL &&  $previous_event_id != '') {
 					$this->pubrelease_model->update('event_id', $previous_event_id, 'public_alert_event', array('status' => 'finished'));
 				}
