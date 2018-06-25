@@ -14,7 +14,7 @@ class Chatterbox_beta extends CI_Controller {
 	public function index() {
 		$this->is_logged_in();
 
-		$page = 'Chatterbox';
+		$page = 'chatterbox';
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
 		$data['user_id'] = $this->session->userdata("id");
