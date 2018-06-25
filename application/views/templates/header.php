@@ -65,4 +65,7 @@
     <!-- Modal Reposition JS-->
     <script type="text/javascript" src="/js/third-party/modal-reposition.js"></script>
 
+    <!-- PMS SAMPLE -->
+    <script type="text/javascript" src="http://dewslpms.com/js/pms.js"></script>
+
 </head>

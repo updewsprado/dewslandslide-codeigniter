@@ -527,7 +527,7 @@
                             &emsp;<span id="recipients_span"></span>
                         </div>
                         <hr>
-                        <div id="bulletin_modal"></div>
+                        <div id="bulletin_div"></div>
                     </div>
                     <div class="modal-footer">
                         <button id="edit-bulletin" class="btn btn-warning" role="button" type="submit">Edit</button>
