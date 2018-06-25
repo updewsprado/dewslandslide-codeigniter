@@ -104,7 +104,11 @@
 					<div class="col-sm-4">Location:</div>
 					<div class="col-sm-8" id="location">
 						<?php 
-							if (!is_null($event->sitio)) {
+							if (!is_null($event->purok)) {
+			    				echo "Purok " . $event->purok . ", ";
+			    			}
+
+			    			if (!is_null($event->sitio)) {
 			    				echo "Sitio " . $event->sitio . ", ";
 			    			}
 			    		?>
