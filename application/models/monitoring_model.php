@@ -15,15 +15,48 @@ class Monitoring_Model extends CI_Model
 	 **/
 	public function getOnGoingAndExtended()
 	{
-		$this->db->select('public_alert_event.*, site.*, public_alert_release.data_timestamp, public_alert_release.release_time, public_alert_release.internal_alert_level, public_alert_trigger.trigger_type, public_alert_trigger.timestamp AS trigger_timestamp');
-		$this->db->from('public_alert_event');
-		$this->db->join('site', 'public_alert_event.site_id = site.id');
-		$this->db->join('public_alert_release', 'public_alert_event.latest_release_id = public_alert_release.release_id');
-		$this->db->join('public_alert_trigger', 'public_alert_event.latest_trigger_id = public_alert_trigger.trigger_id');
-		$this->db->where('public_alert_event.status','on-going');
- 		$this->db->or_where('public_alert_event.status','extended');
+		$this->db->select('ev.event_id, ev.site_id, ev.event_start, ev.validity, ev.status, site.*');
+		$this->db->from('public_alert_event AS ev');
+		$this->db->join('site', 'ev.site_id = site.id');
+		$this->db->where('ev.status', 'on-going');
+ 		$this->db->or_where('ev.status', 'extended');
 		$query = $this->db->get();
-		return json_encode($query->result_array());
+		$result = $query->result_array();
+
+		foreach ($result as $index => $event) {
+			$event_id = $event["event_id"];
+
+			$this->db->select("re.release_id AS latest_release_id, re.data_timestamp, re.release_time, re.internal_alert_level")
+				->from("public_alert_release AS re")
+				->where("re.event_id", $event_id)
+				->order_by("re.data_timestamp", "desc")
+				->limit(1);
+			$release = $this->db->get()->row_array();
+
+			$this->db->select("tr.trigger_id AS latest_trigger_id, tr.trigger_type, tr.timestamp AS trigger_timestamp")
+				->from("public_alert_trigger AS tr")
+				->where("tr.event_id", $event_id)
+				->order_by("tr.timestamp", "desc")
+				->limit(1);
+			$trigger = $this->db->get()->row_array();
+
+			$merged = array_merge($release, $trigger);
+			$result[$index] = array_merge($event, $merged);
+		}
+
+		return json_encode($result);
+	}
+
+	public function getAllRoutineEventsGivenDate ($date) {
+		$this->db->select("ev.event_id, ev.site_id, ev.event_start, site.name AS site_code");
+		$this->db->from('public_alert_event AS ev');
+		$this->db->join("site", "ev.site_id = site.id");
+		$this->db->where("ev.status", "routine");
+ 		$this->db->where("ev.event_start BETWEEN '$date 11:00:00' AND '$date 12:00:00'");
+		$query = $this->db->get();
+		$result = $query->result_array();
+
+		return $result;
 	}
 
 	public function getSites()

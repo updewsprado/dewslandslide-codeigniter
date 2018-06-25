@@ -38,7 +38,6 @@
 		public function getShiftReleases()
 		{
 			$data = $this->accomplishment_model->getShiftReleases($_GET['start'], $_GET['end']);
-			
 			echo "$data";
 		}
 
@@ -65,10 +64,115 @@
 			echo "$data";
 		}
 
-		public function getSensorColumns($site_code)
+		public function getSubsurfaceColumns ($site_code, $shift_end)
 		{
-			$data = $this->accomplishment_model->getSensorColumns($site_code);
-			echo "$data";
+			$end = str_replace("%20", "T", $shift_end);
+			$end_ts = date("Y-m-d H:i:s", strtotime($end . "-1 hour"));
+			$start_ts = date("Y-m-d H:i:s", strtotime($end . "-12 hours -30 minutes"));
+			$columns = $this->accomplishment_model->getSubsurfaceColumns($site_code);
+
+			foreach ($columns as $column) {
+				if ($column->status !== "deactivated") {
+					$points = $this->accomplishment_model->getColumnDataPointCount($column->column_name, $start_ts, $end_ts);
+					$column->status = $points > 0 ? "with_data" : "no_data";
+				}
+			}
+
+			echo json_encode($columns);
+		}
+
+		public function getSurficialData ($site_code, $shift_end)
+		{
+			$this->load->model("surficial_model");
+
+			$end = str_replace("%20", "T", $shift_end);
+			$end_ts = date("Y-m-d H:i:s", strtotime($end . "-1 hour"));
+			$start_ts = date("Y-m-d H:i:s", strtotime($end . "-12 hours -30 minutes"));
+			$ts_array = $this->surficial_model->getSurficialDataLastTenTimestamps($site_code, $end_ts);
+
+			$latest_ts = [];
+			foreach ($ts_array as $line) {
+                array_push($latest_ts, $line->timestamp);
+            }
+
+            $end_unix = strtotime($end_ts);
+			$start_unix = strtotime($start_ts);
+			$i = 0; $hasSentSurficialData = false;
+			foreach ($latest_ts as $ts) {
+				$unix = strtotime($ts);
+				if($start_unix <= $unix && $unix <= $end_unix) {
+					$hasSentSurficialData = true;
+					break;
+				}
+				$i += 1;
+				if ($i === 3) break;
+			}
+
+            $surficial_data = null;
+            if ($hasSentSurficialData) {
+            	foreach ($ts_array as $line) {
+	                array_push($latest_ts, $line->timestamp);
+	            }
+
+	            $surficial_data = $this->processSurficialDataPoints($site_code, $latest_ts);
+            }
+
+            $data = array(
+            	"hasSentSurficialData" => $hasSentSurficialData,
+            	"surficial_data" => $surficial_data
+            );
+
+            echo json_encode($data);
+		}
+
+		public function processSurficialDataPoints ($site_code, $latest_ts) {
+			$surficial_data = $this->surficial_model->getSurficialDataLastTenPoints($site_code, $latest_ts);
+
+			if (count($latest_ts) === 1) array_push($latest_ts, null);
+
+			$points = [];
+			$i = 0;
+			foreach ($latest_ts as $key => $ts) {
+				$collection = [];
+				foreach ($surficial_data as $line) {
+					if ($line->ts === $ts) {
+						$collection[$line->crack_id] = (int) $line->meas;
+					}
+				}
+				array_push($points, array(
+					"timestamp" => $ts,
+					"points"=> $collection
+				));
+				$i += 1;
+				if ($i === 2) break;
+			}
+
+			$markers = [];
+			foreach ($points[0]["points"] as $marker_id => $meas) {
+				if (isset($points[1]["points"][$marker_id])) 
+					$former_meas = $points[1]["points"][$marker_id];
+				else $former_meas = 0;
+
+				$displacement = $meas - $former_meas;
+				array_push($markers, array(
+					"marker_id" => $marker_id,
+					"displacement" => $displacement
+				));
+			}
+
+			$surficial = array(
+				"latest" => $points[0]["timestamp"],
+				"second_latest" => $points[1]["timestamp"],
+				"markers" => $markers
+			);
+
+			return $surficial;
+		}
+
+		public function getEndOfShiftDataAnalysis ()
+		{
+			$data = $this->accomplishment_model->getEndOfShiftDataAnalysis($_GET["shift_start"], $_GET["event_id"]);
+			echo json_encode($data);
 		}
 
 		public function insertNarratives()
@@ -124,7 +228,7 @@
 			$recipients = json_decode($_POST['recipients']);
 			$body = $_POST['body'];
 			$event_start = $this->accomplishment_model->getEvent($_POST['event_id'])->event_start;
-			$subject = strtoupper($_POST['site']) . " " . strtoupper(date("d M Y", strtotime($event_start)));
+			$subject = strtoupper($_POST['site_code']) . " " . strtoupper(date("d M Y", strtotime($event_start)));
 
 			if (base_url() == "http://www.dewslandslide.com/") {
 				// FOR LINUX
@@ -193,6 +297,11 @@
 					$fn = $file['tmp_name'];
 					$mail->addAttachment($fn, $file['name'], 'base64', 'application/pdf');	
 				}
+			}
+
+			if($_POST["toAttachRender"] === "true") {
+				$file = $_SERVER['DOCUMENT_ROOT'] . "/temp/charts_render/compiled.pdf";
+				$mail->addAttachment($file, $_POST['filename'], 'base64', 'application/pdf');
 			}
 			
 			if(!$mail->send()) {
