@@ -932,7 +932,7 @@
         		</div>
         	</div>
 
-			<textarea id="narrative_message" name="narrative_message" class="form-control" rows="10" disabled></textarea>
+			<textarea id="narrative_message" name="narrative_message" class="form-control" rows="10"  disabled></textarea>
         </div>
       </div>
       <div class="modal-footer">
@@ -946,13 +946,13 @@
   <!-- Chatterbox Loader Modal -->
 <div class="modal fade" id="chatterbox-loader-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <!-- <h1 class="ml2">Loading Chatterbox</h1> -->
-  <div class="loader">
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
-</div>
+  	<div class="loader">
+		<div class="dot"></div>
+		<div class="dot"></div>
+		<div class="dot"></div>
+		<div class="dot"></div>
+		<div class="dot"></div>
+	</div>
 
 </div>
 
