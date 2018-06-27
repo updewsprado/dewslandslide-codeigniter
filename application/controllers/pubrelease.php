@@ -249,9 +249,9 @@ class Pubrelease extends CI_Controller {
 
 			if ($status === "routine") {
 				$event_id = $release["event_id"];
-			} else {
+			} else if ($status === "new" || $status === "on-going") {
 				if (isset($_POST['extend_ND']) || isset($_POST['extend_rain_x'])) {
-		    		$update_event_tbl["validity"] = date("Y-m-d H:i:s", strtotime($event_validity) + 4 * 3600);
+		    			$update_event_tbl["validity"] = date("Y-m-d H:i:s", strtotime($event_validity) + 4 * 3600);
 				} else {
 					$return_arr = $this->saveTriggers($_POST, $event_id, $release_id, $event_validity);
 					$update_event_tbl = array_merge($update_event_tbl, $return_arr);
