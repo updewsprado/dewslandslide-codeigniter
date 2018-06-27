@@ -568,7 +568,7 @@
 	      </div>
 	      <div class="modal-footer">
 	        <span id="load-groups-wrapper" data-toggle="tooltip" title="">
-	          <button id="go-load-groups" type="button" class="btn btn-success" data-dismiss="modal" >Okay</button>
+	          <button id="go-load-groups" type="button" class="btn btn-primary" data-dismiss="modal" >Okay</button>
 	        </span>
 	        <button id="exit-load-group" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 	      </div>
