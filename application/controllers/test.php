@@ -44,12 +44,19 @@ class Test extends CI_Controller {
         $data['site_analysis_svg'] = $this->load->view('data_analysis/site_analysis_page/site_analysis_svg', $data, true);
 		$this->load->view("templates/header", $data);
 		$this->load->view("test/data_analysis/download_chart", $data);
+
+	public function rainfallPlotterTest() {
+		$data['title'] = 'Rainfall Plotter Test';
+		$this->load->view('templates/header', $data);
+		$this->load->view('test/data_analysis/rainfall_plotter', $data);
+
 	}
 
 	public function endOfShiftReportTest () {
 		$data['title'] = 'End Of Shift Report Test';
 		$this->load->view('templates/header', $data);
 		$this->load->view('test/reports/end_of_shift_report', $data);
+		$this->load->view('test/chatterbox_beta', $data);
 	}
 
 }
