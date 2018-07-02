@@ -639,14 +639,14 @@
 	<!-- Save Narratives MODAL -->
 
 	<!-- Save Narratives MODAL -->
-	<div class="modal fade" id="search-global-message-modal" role="dialog">
+<!-- 	<div class="modal fade" id="search-global-message-modal" role="dialog">
 	<div class="modal-dialog" id="save-narrative-modal-dialog">
-	  <div class="modal-content" id="save-narrative-content">
+	  <div class="modal-content" id="save-narrative-content"> -->
 <!-- 	    <div class="modal-header">
 	      <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      <h4>Quick Search</h4>
 	    </div> -->
-	    <div class="modal-body">
+	    <!-- <div class="modal-body">
 	    <div class="panel panel-default">
 			<div class="panel-heading"><button type="button" class="close" data-dismiss="modal">&times;</button>
 			Search filters</div>
@@ -695,7 +695,7 @@
 					<div class="right-content">
 						<button class="btn btn-primary" id="btn-search-global">Search</button>
 					</div>
-				</div>
+				</div>f
 			</div>
 		</div>
         <hr>
@@ -713,7 +713,7 @@
 	    </div>
 	  </div>
 	</div>
-	</div>
+	</div> -->
 	<!-- Save Narratives MODAL -->
 
 	<!-- EWI MODAL -->
@@ -871,6 +871,67 @@
     </div>
   </div>
 
+    <!-- Quick Search Modal -->
+<div class="modal fade" id="quick-search-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Quick Search</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+      		<div class="col-md-4">
+            	<div class="form-group hideable">
+	                <label class="control-label" for="search_via">Seach via</label>
+	                    <select class="form-control" name="search_via" id="search-via">
+	                    	<option value="0">---------------------</option>
+			        		<option value="messages">via Message</option>
+			        		<option value="gintags">via Gintags</option>
+			        		<option value="ts_sent">via Timestamp Sent</option>
+			        		<option value="ts_written">via Timestamp Written</option>
+			        		<option value="unknown">via Unknown Numbers</option>
+			        	</select>
+	            </div>
+            </div>
+            <div class="col-md-8">
+	            <div class="form-group hideable">
+	                <label class="control-label" for="search_keyword">Search Keyword</label>
+	                    <input type="text" class="form-control" id="search-keyword" name="search-keyword" placeholder="E.g Magandang Umaga" required />
+	            </div>
+            </div>
+            <div class="col-md-4">
+	            <div class="form-group hideable">
+	                <label class="control-label" for="search_limit">Search Limit</label>
+	                    <input type="number" class="form-control" id="search-limit" name="search-limit" placeholder="E.g 1" required />
+	            </div>
+            </div>
+            <div class="col-md-8">
+            	<div class="pull-right quick-search-top-margin">
+		            <button type="button" class="btn btn-default" id="clear-search">Clear</button>
+	        		<button type="button" class="btn btn-primary" id="submit-search">Search</button>
+	        	</div>
+            </div>
+      	</div>
+      	<hr>
+      	<div class="search-global-message-container">
+			<div class="result-message">
+				<ul id="search-global-result" class="chat">
+				</ul>
+				<div style="display: table;margin: 0 auto;">
+					<ul class="pagination-sm" id="searched-key-pages" style="display: table-cell;" hidden></ul>
+				</div>
+			</div>
+		</div>
+        	
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
   <!-- GinTag Modal -->
 <div class="modal fade" id="gintag-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -890,7 +951,7 @@
         		</div>
         	</div>
         </div>
-       <!--  <input type="text" class="form-control" id="gintags" name="gintags" data-provide="typeahead" placeholder="E.g #EwiMessage" style="display:none" required> -->
+
     	<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group hideable">
