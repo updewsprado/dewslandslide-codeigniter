@@ -21,7 +21,9 @@
 	$releases = json_decode($releases);
 	$triggers = json_decode($triggers);
 	$staff = json_decode($staff);
-	$name = $event->sitio != NULL ? "$event->sitio, $event->barangay, $event->municipality, $event->province" : "$event->barangay, $event->municipality, $event->province";
+	$address = "Brgy. $event->barangay, $event->municipality, $event->province";
+    if (!is_null($event->sitio)) $address = "Sitio $event->sitio, $address";
+    if (!is_null($event->purok)) $address = "Purok $event->purok, $address";
 
 	$status = $event->status == "on-going" || $event->status == "finished" || $event->status == "extended" || $event->status == "invalid" ? "Event-Based" : "Routine";
 	
@@ -57,7 +59,7 @@
         <div class="row">
             <div class="col-sm-12" id="header">
                 <h2 class="page-header">
-                    Monitoring Page for <?php echo $name . " (" . strtoupper($event->name) . ")"; ?>
+                    Monitoring Page for <?php echo $address . " (" . strtoupper($event->name) . ")"; ?>
                 	<br><small><?php echo date("F jS Y, g:i A", strtotime($event->event_start)); if(!is_null($event->validity)) echo " to " . date("F jS Y, g:i A", strtotime($event->validity)); ?></small>
                 </h2>
                 
