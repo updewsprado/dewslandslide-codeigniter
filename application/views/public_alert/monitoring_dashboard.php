@@ -112,8 +112,8 @@
 				                    <thead>
 				                        <tr>
 				                            <th class="col-sm-1">Site Name</th>
-				                            <th class="col-sm-2">Initial Trigger Timestamp</th>
-				                            <th class="col-sm-2">Latest Re-trigger Timestamp</th>
+				                            <th class="col-sm-2">Event Start</th>
+				                            <th class="col-sm-2">Latest Trigger Timestamp</th>
 				                            <th class="col-sm-1">Internal Alert</th>
 				                            <th class="col-sm-2">Validity</th>
 				                            <th class="col-sm-2">Last Alert Release</th>
@@ -165,8 +165,8 @@
 				                    <thead>
 				                        <tr>
 				                            <th class="col-sm-1">Site Name</th>
-				                            <th class="col-sm-2">Initial Trigger Timestamp</th>
-				                            <th class="col-sm-2">Latest Re-trigger Timestamp</th>
+				                            <th class="col-sm-2">Event Start</th>
+				                            <th class="col-sm-2">Latest Trigger Timestamp</th>
 				                            <th class="col-sm-1">Internal Alert</th>
 				                            <th class="col-sm-2">Validity</th>
 				                            <th class="col-sm-2">Last Alert Release</th>
