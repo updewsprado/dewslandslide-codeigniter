@@ -1005,7 +1005,7 @@
 </div>
 
   <!-- Chatterbox Loader Modal -->
-<div class="modal fade" id="chatterbox-loader-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="chatterbox-loader-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 1000000000;">
   <!-- <h1 class="ml2">Loading Chatterbox</h1> -->
   	<div class="loader">
 		<div class="dot"></div>

@@ -84,6 +84,39 @@
 <script id="ewi-template" type="text/x-handlebars-template">
     <!-- TODO -->
 </script>
+
+<script id="search-message-key-template" type="text/x-handlebars-template">
+    {{#each search_messages}}
+        {{#if isYou}}
+            <li class="right clearfix">
+            <span class="chat-img pull-right" id="badge-id-you">
+            <img src="/images/Chatterbox/dewsl_03.png" class="user-avatar" alt="User Avatar">
+            <input id="msg_details" type="text" value="{{sms_id}}<split>{{sms_msg}}<split>{{ts}}<split>{{table_source}}<split>{{mobile_id}}" hidden>
+        {{else}} 
+            <li class="left clearfix">
+            <span class="chat-img pull-left" id="badge-id-user">
+            <img src="/images/Chatterbox/boy_avatar.png" class="user-avatar" alt="User Avatar">
+            <input id="msg_details" type="text" value="{{sms_id}}<split>{{sms_msg}}<split>{{ts}}<split>{{table_source}}<split>{{mobile_id}}" hidden>
+        {{/if}}
+        </span>
+        <div class="chat-body clearfix tagged">
+        <div class="header">
+        {{#if isYou}}
+            <small class="pull-left text-muted"><i class="fa fa-clock-o"></i> <span id="timestamp">{{ts}}</span></small><strong class="primary-font right-content" id="chat-user" style="display: block;">{{user}}</strong>
+            {{else}}
+            <strong class="primary-font" id="chat-user" >{{user}}</strong>
+            <small class="pull-right text-muted"><i class="fa fa-clock-o"></i> <span>{{ts}}</span></small>
+        {{/if}}
+        </div>
+        <p>
+        {{sms_msg}}
+        </p>
+        </div>
+        </li>
+    {{/each}}
+</script>
+
+
 </body>
 
 </html>
