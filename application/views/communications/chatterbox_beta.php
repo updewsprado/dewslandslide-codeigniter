@@ -102,7 +102,7 @@
 			<div class="col-sm-12 division hidden" id="main-container">
 			<div id="convo-header" class="panel panel-success">
 			<input type="text" id="contact-indicator" value="" hidden>
-				<div class="panel-heading">Sitename: [SAMPLE] Office: [Sample]</div>
+				<div class="panel-heading" id="conversation-details">Sitename: [SAMPLE] Office: [Sample]</div>
 				<div class="panel-body"></div>
 			</div>
 			<hr>
