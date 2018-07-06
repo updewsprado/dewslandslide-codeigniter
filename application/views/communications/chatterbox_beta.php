@@ -100,37 +100,40 @@
 			  </div>
 			</div>
 
-			<div class="col-sm-12 division hidden" id="main-container">
-			<div id="convo-header" class="panel panel-success">
-			<input type="text" id="contact-indicator" value="" hidden>
-				<div class="panel-heading" id="conversation-details">Sitename: [SAMPLE] Office: [Sample]</div>
-				<div class="panel-body"></div>
-			</div>
-			<hr>
-			<div class="panel panel-success">
-				<div class="panel-body">
-					<div class="form-group">
-						<div class="chat-message">
-							<ul id="messages" class="chat"></ul>
-						</div>
-						<textarea id="msg" name="msg" class="form-control" rows="5"></textarea>
-					</div>
-					<div class="form-group" id="send-char-remain">
-						<div class="col-sm-6">
-							<p>Remaining characters: <b id="remaining_chars">800</b></p>
-						</div>
-						<div class="col-sm-6 right-content">
-							<button type="button" class="btn btn-primary" id="send-msg">Send</button>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-12 left-content" style="padding-left: 30px;margin-bottom: 5px;">
-							<a href="#" id="btn-ewi" data-toggle="modal" data-dismiss="modal">Load Message Templates</a>
-						</div>
-					</div>
+			<div class="division hidden" id="main-container">
+				<div class="panel panel-primary">
+					A
 				</div>
+				<!-- <div id="convo-header" class="panel panel-success">
+					<input type="text" id="contact-indicator" value="" hidden>
+					<div class="panel-heading" id="conversation-details">Sitename: [SAMPLE] Office: [Sample]</div>
+					<div class="panel-body"></div>
+				</div> -->
+				<hr>
+				<!-- <div class="panel panel-success">
+					<div class="panel-body">
+						<div class="form-group">
+							<div class="chat-message">
+								<ul id="messages" class="chat"></ul>
+							</div>
+							<textarea id="msg" name="msg" class="form-control" rows="5"></textarea>
+						</div>
+						<div class="form-group" id="send-char-remain">
+							<div class="col-sm-6">
+								<p>Remaining characters: <b id="remaining_chars">800</b></p>
+							</div>
+							<div class="col-sm-6 right-content">
+								<button type="button" class="btn btn-primary" id="send-msg">Send</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-12 left-content" style="padding-left: 30px;margin-bottom: 5px;">
+								<a href="#" id="btn-ewi" data-toggle="modal" data-dismiss="modal">Load Message Templates</a>
+							</div>
+						</div>
+					</div>
+				</div> -->
 			</div>
-		</div>
 		</div>
 		<div class="col-sm-3">
 			<div class="panel panel-primary">
