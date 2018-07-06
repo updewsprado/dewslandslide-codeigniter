@@ -101,16 +101,13 @@
 			</div>
 
 			<div class="division hidden" id="main-container">
-				<div class="panel panel-primary">
-					A
-				</div>
-				<!-- <div id="convo-header" class="panel panel-success">
+				<div id="convo-header" class="panel panel-success">
 					<input type="text" id="contact-indicator" value="" hidden>
 					<div class="panel-heading" id="conversation-details">Sitename: [SAMPLE] Office: [Sample]</div>
 					<div class="panel-body"></div>
-				</div> -->
+				</div>
 				<hr>
-				<!-- <div class="panel panel-success">
+				<div class="panel panel-success">
 					<div class="panel-body">
 						<div class="form-group">
 							<div class="chat-message">
@@ -132,7 +129,7 @@
 							</div>
 						</div>
 					</div>
-				</div> -->
+				</div>
 			</div>
 		</div>
 		<div class="col-sm-3">
