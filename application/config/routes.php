@@ -132,7 +132,7 @@ $route['analysis/surficial'] = "surficial_page";
 $route['analysis/subsurface'] = "subsurface_page";
 $route['analysis/sensor_overview'] = "sensor_overview_page";
 $route['analysis/nodereport'] = "node_report_page";
-$route['analysis/rainfall_scanner'] = "rainfall_scanner_page";
+$route['analysis/rainfall_scanner'] = "rainfall_scanner";
 $route['analysis/Eos_onModal/(:any)/(:any)/(:any)/(:any)'] = "Eos_modal";
 
 /**

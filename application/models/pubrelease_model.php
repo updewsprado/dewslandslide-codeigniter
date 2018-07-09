@@ -36,7 +36,13 @@ class Pubrelease_Model extends CI_Model
 	        $site[$i]["season"] = $row["season"];
 	        $site[$i++]["address"] = $address;
 	    }
-	    	return json_encode($site);
+	    
+	    return json_encode($site);
+	}
+
+	public function getSitesWithRegions() {
+		$query = $this->db->order_by("region")->get("site");
+		return $query->result();
 	}
 
 	/**
