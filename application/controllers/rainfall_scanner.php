@@ -17,9 +17,16 @@ class Rainfall_scanner extends CI_Controller {
 		$data['title'] = $page;
 		
 		$sites = $this->pubrelease_model->getSitesWithRegions();
-		$regions = array_map(function ($site) { return $site->region; }, $sites);
-		$regions = array_unique($regions);
-		$data["regions"] = $regions;
+
+		$regions = [];
+		$provinces = [];
+		foreach ($sites as $site) {
+			array_push($regions, $site->region);
+			array_push($provinces, $site->province);
+		}
+		$data["regions"] = array_unique($regions);
+		asort($provinces);
+		$data["provinces"] = array_unique($provinces);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/nav');
