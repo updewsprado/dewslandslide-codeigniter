@@ -13,6 +13,8 @@
 
 <script src="/js/dewslandslide/data_analysis/rainfall_scanner.js"></script>
 
+<script type="text/javascript" src="/js/dewslandslide/data_analysis/pms_rainfall_scanner_plugin.js"></script>
+
 <div id="page-wrapper">
     <div class="container">
         <!-- Page Heading -->
@@ -25,8 +27,19 @@
         </div>
         <!-- /.row -->
 
-        <div class="panel panel-primary">
-            <div class="panel-heading">Filter Options</div>
+        <div class="panel panel-primary container-fluid">
+            <div class="panel-heading row">
+                <div class="col-sm-6">
+                    <h3 class="panel-title">Filter Options</h3>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <span class="report report-tabs" id="rainfall_scanner_report">
+                        <span class="fa fa-exclamation-circle"></span>
+                        <strong>Report</strong>&emsp;
+                    </span>
+                </div>
+
+            </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-2 col-sm-offset-1 form-group">
