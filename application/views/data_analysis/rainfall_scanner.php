@@ -47,6 +47,7 @@
                         <select id="chart-view" class="form-control" name="chart-view">
                             <option value="sites" selected="selected">Sites</option>
                             <option value="regions">Regions</option>
+                            <option value="provinces">Provinces</option>
                         </select>
                     </div>
 
@@ -60,6 +61,21 @@
                                 ?>
                                 <option value="<?php echo $region; ?>" <?php echo $selected; ?>>
                                     <?php echo strtoupper($region); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 form-group" id="provinces-div" hidden="hidden">
+                        <label class="control-label" for="provinces">Provinces</label>
+                        <select id="provinces" class="form-control" name="provinces">
+                            <?php foreach($provinces as $province): ?>
+                                <?php
+                                    $selected = ""; 
+                                    if ($province === $provinces[0]) { $selected = "selected='selected'"; } 
+                                ?>
+                                <option value="<?php echo $province; ?>" <?php echo $selected; ?>>
+                                    <?php echo $province; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
