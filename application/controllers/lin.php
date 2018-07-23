@@ -5,6 +5,7 @@ class Lin extends CI_Controller {
 	public function index() {
 		//echo "testing lang";
 		$data['main_content'] = 'login_form';
+		$data['title'] = 'Login';
 		$this->load->view('includes/template', $data);
 	}
 
