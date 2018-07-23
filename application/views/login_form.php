@@ -45,7 +45,7 @@
             <div class="card card-container">
                 <img id="profile-img" class="profile-img-card" src="../../../images/dews-l-logo.png" />
                 <p id="profile-name" class="profile-name-card greeting-text">Hi! Log-in when ready.</p><br>
-                <form class="form-signin" action="http://localhost/lin/validate_credentials" method="POST" accept-charset="utf-8">
+                <form class="form-signin" action="../lin/validate_credentials" method="POST" accept-charset="utf-8">
                     <input type="username" id="username" class="form-control" name="username" placeholder="Username" required autofocus>
                     <input type="password" id="password" class="form-control" name="password" placeholder="Password" required>
                     <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" name="Login">Sign in</button>
