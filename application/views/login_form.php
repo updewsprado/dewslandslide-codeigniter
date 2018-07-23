@@ -17,7 +17,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="http://localhost/home"><span><img src="/images/DEWSL.png" /></span> <strong>DEWS-L Project</strong></a>
+            <a class="navbar-brand" href="#"><span><img src="/images/DEWSL.png" /></span> <strong>DEWS-Landslide</strong></a>
         </div>
     </div>
 </nav>
