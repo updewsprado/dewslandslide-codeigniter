@@ -847,3 +847,111 @@
     </div>
   </div>
 </div>
+
+
+<!--
+    Test Modal for Revised GroundMeas Reminder 2.0
+-->
+<div class="modal fade" id="ground-meas-reminder-modal-v2" tabindex="-1" role="dialog" aria-labelledby="groundMeasReminderModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="sms-reminder-modal-title" name="sms-reminder-modal-title">Ground Measurement/Observation Reminder</h4>
+            </div>
+            <div class="modal-body">
+                <div class="ground-meas-scrollable-div">
+                    <div class="container-fluid">
+                        <ul class="nav nav-tabs"> <!-- Tab-Nav STYLES PENDING -->
+                            <li class="active" id="measurement-tab"><a data-toggle="tab" href="#measurement-tab-div">Measurement</a></li>
+                            <li id="observation-tab"><a data-toggle="tab" href="#observation-tab-div">Observation</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="measurement-tab-div">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4>Observation Site Selection</h4>
+                                            <!-- To Backend Dev - site checkboxes here can be automatically generated using the code implemented in the EWI Release form for Mass Routine -->
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" value="">AGB
+                                            </label>
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" value="">BAR
+                                            </label>
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" value="">SUM
+                                            </label>
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" value="">AGB
+                                            </label>
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" value="">BAR
+                                            </label>
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" value="">SUM
+                                            </label>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <h4>Reminder Message</h4>
+                                            <div class="form-group">
+                                                <label for="reminder-message" id="label-reminder-message">You can edit the message to be sent to the community. Note that any changes is recorded by the system.</label>
+                                                <textarea class="form-control" rows="8" id="reminder-message" placeholder=""></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-default"><i class="fas fa-eraser"></i></button>
+                                            <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                                        </div>
+                                    </div>
+                                </div>                                                            
+                            </div>
+
+                            <div class="tab-pane fade" id="observation-tab-div">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4>Observation Site Selection</h4>
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" value="">AGB
+                                            </label>
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" value="">BAR
+                                            </label>
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" value="">SUM
+                                            </label>
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" value="">AGB
+                                            </label>
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" value="">BAR
+                                            </label>
+                                            <label class="checkbox-inline">
+                                              <input type="checkbox" value="">SUM
+                                            </label>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <h4>Reminder Message</h4>
+                                            <div class="form-group">
+                                                <label for="reminder-message" id="label-reminder-message">You can edit the message to be sent to the community. Note that any changes is recorded by the system.</label>
+                                                <textarea class="form-control" rows="8" id="reminder-message" placeholder=""></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-default"><i class="fas fa-eraser"></i></button>
+                                            <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                                        </div>                                        
+                                    </div>
+                                </div>                                                            
+                            </div>                         
+                        </div><!-- end of tab-content -->
+
+                    </div><!-- end of fluid container -->
+                </div><!-- end of ground-meas-scrollable-div -->
+            </div><!-- end of modal body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger">Return to Default Values</button>
+            </div>
+        </div>
+    </div>
+</div>
