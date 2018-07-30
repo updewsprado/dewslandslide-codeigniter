@@ -744,6 +744,8 @@
     </div>
   </div>
 
+
+<!-- SEMI-AUTO GNDMEAS MODAL -->
 <div class="modal fade" id="ground-meas-reminder-modal" tabindex="-1" role="dialog" aria-labelledby="groundMeasReminderModal">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -754,146 +756,47 @@
             <div class="modal-body">
                 <div class="ground-meas-scrollable-div">
                     <div class="container-fluid">
-                        <ul class="nav nav-tabs" style="margin-bottom: 20px;"> <!-- Tab-Nav STYLES PENDING -->
-                            <li class="active" id="event-tab"><a data-toggle="tab" href="#event-tab-div">Event</a></li>
-                            <li id="extended-tab"><a data-toggle="tab" href="#extended-tab-div">Extended</a></li>
-                            <li id="routine-tab"><a data-toggle="tab" href="#routine-tab-div">Routine</a></li>
-                        </ul>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="category">Category:</label>
+                                    <select class="form-control" id="category">
+                                        <option value="event">Event</option>
+                                        <option value="extended">Extended</option>
+                                        <option value="routine">Routine</option>
+                                    </select>
+                                </div>                                
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="reminder-type">Reminder Type:</label>
+                                    <select class="form-control" id="reminder-type">
+                                        <option value="measurement-div">Measurement Reminder</option>
+                                        <option value="observation-div">Observation Reminder</option>
+                                    </select>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Reminder Recipients</h4>
+                                <div class="gndmeas-reminder-site-container">
+                                                                                
+                                </div>
+                            </div>
 
-                        <div class="tab-content">
-
-                            <!-- START OF EVENT TAB DIV -->
-                            <div class="tab-pane fade in active" id="event-tab-div">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="reminder-type">Reminder Type:</label>
-                                                <select class="form-control" id="reminder-type">
-                                                    <option value="measurement-div">Measurement Reminder</option>
-                                                    <option value="observation-div">Observation Reminder</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="" id="reminder-div">
-                                                <div class="container-fluid">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <h4>Reminder Recipients</h4>
-                                                            <!-- To Backend Dev - site checkboxes here can be automatically generated using the code implemented in the EWI Release form for Mass Routine -->
-                                                            <div class="gndmeas-reminder-site-container">
-                                                                                                            
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <h4>Reminder Message</h4>
-                                                            <div class="form-group">
-                                                                <label for="reminder-message" id="label-reminder-message">You can edit the message to be sent to the community. Note that any changes is recorded by the system.</label>
-                                                                <textarea class="form-control" rows="8" id="event-reminder-message" placeholder=""></textarea>
-                                                            </div>
-                                                            <button type="button" id="reset-button" class="btn btn-default"><i class="fas fa-eraser"></i></button>
-                                                            <button type="button" id="save-button" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i></button>
-                                                            <button type="button" id="send-button" class="btn btn-success"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </div>                                                            
-                                            </div>
-
-                                        </div> <!-- End of single column-sm-12 -->
-                                    </div> <!-- End of row -->
-                                </div> <!-- End of container-fluid for event -->          
-                            </div> <!-- End of tab-pane for event -->
-
-                            <!-- START OF EXTENDED TAB DIV -->
-                            <div class="tab-pane fade" id="extended-tab-div">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="reminder-type">Reminder Type:</label>
-                                                <select class="form-control" id="reminder-type">
-                                                    <option value="measurement-div">Measurement Reminder</option>
-                                                    <option value="observation-div">Observation Reminder</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="" id="reminder-div">
-                                                <div class="container-fluid">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <h4>Reminder Recipients</h4>
-                                                            <!-- To Backend Dev - site checkboxes here can be automatically generated using the code implemented in the EWI Release form for Mass Routine -->
-                                                            <div class="gndmeas-reminder-site-container">
-                                                                                                            
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <h4>Reminder Message</h4>
-                                                            <div class="form-group">
-                                                                <label for="reminder-message" id="label-reminder-message">You can edit the message to be sent to the community. Note that any changes is recorded by the system.</label>
-                                                                <textarea class="form-control" rows="8" id="ext-reminder-message" placeholder=""></textarea>
-                                                            </div>
-                                                            <button type="button" id="reset-button" class="btn btn-default"><i class="fas fa-eraser"></i></button>
-                                                            <button type="button" id="save-button" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i></button>
-                                                            <button type="button" id="send-button" class="btn btn-success"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </div>                                                            
-                                            </div>
-
-                                        </div> <!-- End of single column-sm-12 -->
-                                    </div> <!-- End of row -->
-                                </div> <!-- End of container-fluid for extended -->          
-                            </div> <!-- End of tab-pane for event -->
-
-                            <!-- START OF ROUTINE TAB DIV -->
-                            <div class="tab-pane fade" id="routine-tab-div">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="reminder-type">Reminder Type:</label>
-                                                <select class="form-control" id="reminder-type">
-                                                    <option value="measurement-div">Measurement Reminder</option>
-                                                    <option value="observation-div">Observation Reminder</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="" id="reminder-div">
-                                                <div class="container-fluid">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <h4>Reminder Recipients</h4>
-                                                            <!-- To Backend Dev - site checkboxes here can be automatically generated using the code implemented in the EWI Release form for Mass Routine -->
-                                                            <div class="gndmeas-reminder-site-container">
-                                                                                                            
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <h4>Reminder Message</h4>
-                                                            <div class="form-group">
-                                                                <label for="reminder-message" id="label-reminder-message">You can edit the message to be sent to the community. Note that any changes is recorded by the system.</label>
-                                                                <textarea class="form-control" rows="8" id="rou-reminder-message" placeholder=""></textarea>
-                                                            </div>
-                                                            <button type="button" id="reset-button" class="btn btn-default"><i class="fas fa-eraser"></i></button>
-                                                            <button type="button" id="save-button" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i></button>
-                                                            <button type="button" id="send-button" class="btn btn-success"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </div>                                                            
-                                            </div>
-
-                                        </div> <!-- End of single column-sm-12 -->
-                                    </div> <!-- End of row -->
-                                </div> <!-- End of container-fluid for routine -->          
-                            </div> <!-- End of tab-pane for event -->
-
-                        </div><!-- end of tab-content -->
-
-                    </div><!-- end of fluid container -->
+                            <div class="col-md-6">
+                                <h4>Reminder Message</h4>
+                                <div class="form-group">
+                                    <label for="reminder-message" id="label-reminder-message">You can edit the message to be sent to the community. Note that any changes is recorded by the system.</label>
+                                    <textarea class="form-control" rows="8" id="reminder-message" placeholder=""></textarea>
+                                </div>
+                                <button type="button" id="reset-button" class="btn btn-default"><i class="fas fa-eraser"></i></button>
+                                <button type="button" id="save-button" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i></button>
+                            </div>
+                        </div> <!-- End of row -->
+                    </div> <!-- End of container-fluid -->          
+                            
                 </div><!-- end of ground-meas-scrollable-div -->
             </div><!-- end of modal body -->
             <div class="modal-footer">
@@ -907,20 +810,45 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-    initializeEventReminderTypeListener();
-    initializeExtendedReminderTypeListener();
-    initializeRoutineReminderTypeListener();
+    initializeTabSelectionListener();
+    initializeReminderTypeListener();
     
     initializeSaveButtonListener();
     initializeResetButtonListener();
     initializeSendButtonListener();
 });
 
+function initializeTabSelectionListener() { 
+    // Set default sites code here...
 
-function initializeEventReminderTypeListener() {    
+    //listen to dropdown for change
+    $("#category").change(() => {
+        // Get reminder-type value
+        let category = $("#category option:selected").val();
+
+        switch(category){
+            case "event":
+                console.log("Event Selected")
+                // code goes here
+                break;
+            case "extended":
+                console.log("Extended Selected")
+                // code goes here
+                break;
+            case "routine":
+                console.log("Routine Selected")
+                // code goes here
+                break;
+            default:
+                break;
+        }
+    });   
+}
+
+function initializeReminderTypeListener() {    
     // Set default message for measurement reminder
     let reminder_message = "Event Please magsukat po kayo."; // NOTE: Change this based on the template from DB
-    let reminder_div = $("#event-reminder-message");
+    let reminder_div = $("#reminder-message");
     reminder_div.text(reminder_message);
 
     //listen to dropdown for change
@@ -937,56 +865,6 @@ function initializeEventReminderTypeListener() {
         // Set Reminder message
         reminder_div.text(reminder_message);
     });   
-}
-
-function initializeExtendedReminderTypeListener() {    
-    // Set default message for measurement reminder
-    let reminder_message = "Extended Please magsukat po kayo."; // NOTE: Change this based on the template from DB
-    let reminder_div = $("#ext-reminder-message");
-    reminder_div.text(reminder_message);
-
-    //listen to dropdown for change
-    $("#reminder-type").change(() => {
-        // Get reminder-type value
-        let reminder_type = $("#reminder-type option:selected").val();
-
-        if(reminder_type === "measurement-div") {
-            reminder_message = "Extended Please magsukat po kayo."; // NOTE: Change this based on the template from DB
-        } else {
-            reminder_message = "Extended Please magobserve po kayo."; // NOTE: Change this based on the template from DB
-        }
-
-        // Set Reminder message
-        reminder_div.text(reminder_message);
-    });   
-}
-
-function initializeRoutineReminderTypeListener() {    
-    // Set default message for measurement reminder
-    let reminder_message = "Routine Please magsukat po kayo."; // NOTE: Change this based on the template from DB
-    let reminder_div = $("#rou-reminder-message");
-    reminder_div.text(reminder_message);
-
-    //listen to dropdown for change
-    $("#reminder-type").change(() => {
-        // Get reminder-type value
-        let reminder_type = $("#reminder-type option:selected").val();
-
-        if(reminder_type === "measurement-div") {
-            reminder_message = "Routine Please magsukat po kayo."; // NOTE: Change this based on the template from DB
-        } else {
-            reminder_message = "Routine Please magobserve po kayo."; // NOTE: Change this based on the template from DB
-        }
-
-        // Set Reminder message
-        reminder_div.text(reminder_message);
-    });   
-}
-
-function initializeSendButtonListener() {
-    $("#save-button").click(() => {
-        alert("Clicked send!");
-    });
 }
 
 function initializeSaveButtonListener() {
