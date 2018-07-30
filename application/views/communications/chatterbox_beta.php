@@ -778,22 +778,42 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <h4>Reminder Recipients</h4>
-                                <div class="gndmeas-reminder-site-container">
-				 	                <div id="gnd-sitenames-0" class="col-md-2 col-sm-2 col-xs-2"></div>
-					                <div id="gnd-sitenames-1" class="col-md-2 col-sm-2 col-xs-2"></div>
-					                <div id="gnd-sitenames-2" class="col-md-2 col-sm-2 col-xs-2"></div>
-					                <div id="gnd-sitenames-3" class="col-md-2 col-sm-2 col-xs-2"></div>
-					                <div id="gnd-sitenames-4" class="col-md-2 col-sm-2 col-xs-2"></div>
-					                <div id="gnd-sitenames-5" class="col-md-2 col-sm-2 col-xs-2"></div>                                          
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h4>Reminder Recipients</h4>
+                                        <form>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="">LEWC
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="">MLGU
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="">BLGU
+                                            </label>
+                                        </form>                                        
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h4>Site Selection</h4>
+                                        <div class="gndmeas-reminder-site-container">
+                                            <div id="gnd-sitenames-0" class="col-md-2 col-sm-2 col-xs-2"></div>
+                                            <div id="gnd-sitenames-1" class="col-md-2 col-sm-2 col-xs-2"></div>
+                                            <div id="gnd-sitenames-2" class="col-md-2 col-sm-2 col-xs-2"></div>
+                                            <div id="gnd-sitenames-3" class="col-md-2 col-sm-2 col-xs-2"></div>
+                                            <div id="gnd-sitenames-4" class="col-md-2 col-sm-2 col-xs-2"></div>
+                                            <div id="gnd-sitenames-5" class="col-md-2 col-sm-2 col-xs-2"></div>                                          
+                                        </div>
+                                    </div>                     
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-sm-6">
                                 <h4>Reminder Message</h4>
                                 <div class="form-group">
-                                    <label for="reminder-message" id="label-reminder-message">You can edit the message to be sent to the community. Note that any changes is recorded by the system.</label>
+                                    <label for="reminder-message" id="label-reminder-message">You can edit the message to be sent to the community.</label>
                                     <textarea class="form-control" rows="8" id="reminder-message" placeholder=""></textarea>
                                 </div>
                                 <button type="button" id="reset-button" class="btn btn-default"><i class="fas fa-eraser"></i></button>
@@ -804,7 +824,7 @@
                 </div><!-- end of ground-meas-scrollable-div -->
             </div><!-- end of modal body -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">Return to Default Values</button>
+                <button type="button" class="btn btn-danger">Report</button>
             </div>
         </div>
     </div>
