@@ -858,11 +858,11 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> 
-                    </div>        
+                            <div class="row"><hr/></div>
+                        </div>
+                    </div>         
                 </div>
             </div>
-
             <div class="modal-footer">
                 <div class="container-fluid">
                     <div class="row">
