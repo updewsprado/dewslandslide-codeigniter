@@ -156,6 +156,9 @@
 					<div class="row form-group">
 						<a href="#" id="btn-gbl-search" data-toggle="modal" title="Quick Search"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Quick Search</a>
 					</div>
+					<div class="row form-group">
+						<a href="#" id="btn-automation-settings" data-toggle="modal" title="Automation Settings"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;Semi-Automation Settings</a>
+					</div>
 				</div>
 			</div>
 			<div class="panel panel-primary">
@@ -741,118 +744,10 @@
     </div>
   </div>
 
-<!-- ground meas Modal -->
-<div class="modal fade" id="ground-meas-reminder-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Ground Measurement Reminder</h4>
-      </div>
-      <div class="modal-body">
-        <div class="ground-meas-scrollable-div">
-        	<div class="row">
-        		<div class="col-sm-6">
-        			<label>List of Sites</label>
-        			<div class="panel panel-default">
-					  <div class="panel-body has-padding">
-					    <div class="row">
-					    	<div class="col-sm-12">
-					    		<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-					    	</div>
-					    	<div class="col-sm-12">
-					    		<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-					    	</div>
-					    	<div class="col-sm-12">
-					    		<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-					    	</div>
-					    	<div class="col-sm-12">
-					    		<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-					    	</div>
-					    	<div class="col-sm-12">
-					    		<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-					    	</div>
-					    	<div class="col-sm-12">
-					    		<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-					    	</div>
-					    </div>
-					  </div>
-					</div>
-        		</div>
-        		<div class="col-sm-6">
-        			<label>Template Preview</label>
-        			<textarea id="ground_meas_template" name="ground_meas_template" class="form-control" rows="10"  disabled></textarea>
-        		</div>
-        	</div>
-        	<br>
-        	<div class="row">
-        		<div class="col-sm-6">
-        			<label>Special Cases</label>
-        			<div class="panel panel-default" style="height: 200px;">
-					  <div class="panel-body has-padding">
-					  	<div class="row">
-					    	<div class="col-sm-12">
-					    		<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-								<label class="checkbox-inline"><input type="checkbox" value="">AGB</label>
-					    	</div>
-					    </div>	
-					  </div>
-					</div>
-        		</div>
-        		<div class="col-sm-6">
-        			<label>Template Preview</label>
-        			<textarea id="ground_meas_template" name="ground_meas_template" class="form-control" rows="10"  disabled></textarea>
-        		</div>
-        	</div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger">Reset</button>
-        <button type="button" class="btn btn-primary" id="confirm-tagging">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 <!--
     Test Modal for Revised GroundMeas Reminder 2.0
 -->
-<div class="modal fade" id="ground-meas-reminder-modal-v2" tabindex="-1" role="dialog" aria-labelledby="groundMeasReminderModal">
+<div class="modal fade" id="ground-meas-reminder-modal" tabindex="-1" role="dialog" aria-labelledby="groundMeasReminderModal">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -872,26 +767,10 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4>Observation Site Selection</h4>
                                             <!-- To Backend Dev - site checkboxes here can be automatically generated using the code implemented in the EWI Release form for Mass Routine -->
-                                            <label class="checkbox-inline">
-                                              <input type="checkbox" value="">AGB
-                                            </label>
-                                            <label class="checkbox-inline">
-                                              <input type="checkbox" value="">BAR
-                                            </label>
-                                            <label class="checkbox-inline">
-                                              <input type="checkbox" value="">SUM
-                                            </label>
-                                            <label class="checkbox-inline">
-                                              <input type="checkbox" value="">AGB
-                                            </label>
-                                            <label class="checkbox-inline">
-                                              <input type="checkbox" value="">BAR
-                                            </label>
-                                            <label class="checkbox-inline">
-                                              <input type="checkbox" value="">SUM
-                                            </label>
+                                            <div class="gndmeas-reminder-site-container">
+                                            	
+                                            </div>
                                         </div>
 
                                         <div class="col-md-6">
@@ -911,25 +790,9 @@
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <h4>Observation Site Selection</h4>
-                                            <label class="checkbox-inline">
-                                              <input type="checkbox" value="">AGB
-                                            </label>
-                                            <label class="checkbox-inline">
-                                              <input type="checkbox" value="">BAR
-                                            </label>
-                                            <label class="checkbox-inline">
-                                              <input type="checkbox" value="">SUM
-                                            </label>
-                                            <label class="checkbox-inline">
-                                              <input type="checkbox" value="">AGB
-                                            </label>
-                                            <label class="checkbox-inline">
-                                              <input type="checkbox" value="">BAR
-                                            </label>
-                                            <label class="checkbox-inline">
-                                              <input type="checkbox" value="">SUM
-                                            </label>
+                                            <div class="gndmeas-reminder-site-container">
+                                            	
+                                            </div>
                                         </div>
 
                                         <div class="col-md-6">
