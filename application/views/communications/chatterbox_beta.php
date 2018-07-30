@@ -781,7 +781,7 @@
                             <div class="col-sm-6">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <h4>Reminder Recipients</h4>
+                                        <h4>Reminder Recipients: <strong>LEWC</strong></h4>
 
                                     </div>
                                 </div>
@@ -828,12 +828,11 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row gnd-settings-container">
                                 <div class="col-sm-6">
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <h4>Special Reminder Recipients</h4>
-                                           
                                         </div>
                                     </div>
                                     <div class="row">
@@ -859,18 +858,17 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- End of template row -->
-
-                    </div> <!-- End of container-fluid -->          
-                </div><!-- end of ground-meas-scrollable-div -->
-            </div><!-- end of modal body -->
+                        </div> 
+                    </div>        
+                </div>
+            </div>
 
             <div class="modal-footer">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-12 text-right">
                             <button type="button" id="reset-button" class="btn btn-default"><i class="fas fa-eraser"></i> Reset Templates</button>
-                            <button type="button" id="save-button" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i> Save Templates</button>
+                            <button type="button" id="save-gnd-meas-settings-button" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i> Save Templates</button>
                         </div>
                     </div>
                 </div>
@@ -878,39 +876,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-
-    let special_case_num = 0;
-
-    $( document ).ready(() => {
-        initializeAddSpecialCaseButtonOnClick();
-        removeInputField();
-    });
-
-    function initializeAddSpecialCaseButtonOnClick () {
-        $("#add-special-case").click(() => {
-            console.log("Clicked Add Special Case!");
-            addSpecialCase();
-        });
-    }
-
-    function addSpecialCase () {
-        const case_name = `special_case_${special_case_num}`;
-        const $clone = $("#special-case-template").clone().prop("hidden", false);
-
-        $("#special-case-container").append($clone);
-
-        special_case_num += 1;
-        console.log("addSpecialCase");
-        console.log($clone);
-        console.log(case_name);
-    }
-
-    function removeInputField () {
-        $(document).on("click", ".remove", ({ currentTarget }) => {
-            $(currentTarget).closest("div#special-case-template").remove();
-        });
-    }
-
-</script>
