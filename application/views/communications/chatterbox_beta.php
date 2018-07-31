@@ -751,16 +751,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="sms-reminder-modal-title" name="sms-reminder-modal-title">Ground Measurement/Observation Reminder</h4>
+                <h4 class="modal-title" id="sms-reminder-modal-title" name="sms-reminder-modal-title">Ground Measurement / Observation Reminder</h4>
             </div>
             <div class="modal-body">
                 <div class="ground-meas-scrollable-div">
-                    <div class="container-fluid">
+                    <div class="container-fluid"> 
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="category">Category:</label>
-                                    <select class="form-control" id="category">
+                                    <select class="form-control" id="gnd-meas-category">
                                         <option value="event">Event</option>
                                         <option value="extended">Extended</option>
                                         <option value="routine">Routine</option>
@@ -781,7 +781,12 @@
                             <div class="col-md-6">
                                 <h4>Reminder Recipients</h4>
                                 <div class="gndmeas-reminder-site-container">
-                                                                                
+				 	                <div id="gnd-sitenames-0" class="col-md-2 col-sm-2 col-xs-2"></div>
+					                <div id="gnd-sitenames-1" class="col-md-2 col-sm-2 col-xs-2"></div>
+					                <div id="gnd-sitenames-2" class="col-md-2 col-sm-2 col-xs-2"></div>
+					                <div id="gnd-sitenames-3" class="col-md-2 col-sm-2 col-xs-2"></div>
+					                <div id="gnd-sitenames-4" class="col-md-2 col-sm-2 col-xs-2"></div>
+					                <div id="gnd-sitenames-5" class="col-md-2 col-sm-2 col-xs-2"></div>                                          
                                 </div>
                             </div>
 
@@ -796,7 +801,6 @@
                             </div>
                         </div> <!-- End of row -->
                     </div> <!-- End of container-fluid -->          
-                            
                 </div><!-- end of ground-meas-scrollable-div -->
             </div><!-- end of modal body -->
             <div class="modal-footer">
@@ -805,78 +809,3 @@
         </div>
     </div>
 </div>
-
-<!-- Pending script to be separated to a different file -->
-<script type="text/javascript">
-
-$(document).ready(function(){
-    initializeTabSelectionListener();
-    initializeReminderTypeListener();
-    
-    initializeSaveButtonListener();
-    initializeResetButtonListener();
-    initializeSendButtonListener();
-});
-
-function initializeTabSelectionListener() { 
-    // Set default sites code here...
-
-    //listen to dropdown for change
-    $("#category").change(() => {
-        // Get reminder-type value
-        let category = $("#category option:selected").val();
-
-        switch(category){
-            case "event":
-                console.log("Event Selected")
-                // code goes here
-                break;
-            case "extended":
-                console.log("Extended Selected")
-                // code goes here
-                break;
-            case "routine":
-                console.log("Routine Selected")
-                // code goes here
-                break;
-            default:
-                break;
-        }
-    });   
-}
-
-function initializeReminderTypeListener() {    
-    // Set default message for measurement reminder
-    let reminder_message = "Event Please magsukat po kayo."; // NOTE: Change this based on the template from DB
-    let reminder_div = $("#reminder-message");
-    reminder_div.text(reminder_message);
-
-    //listen to dropdown for change
-    $("#reminder-type").change(() => {
-        // Get reminder-type value
-        let reminder_type = $("#reminder-type option:selected").val();
-
-        if(reminder_type === "measurement-div") {
-            reminder_message = "Event Please magsukat po kayo."; // NOTE: Change this based on the template from DB
-        } else {
-            reminder_message = "Event Please magobserve po kayo."; // NOTE: Change this based on the template from DB
-        }
-
-        // Set Reminder message
-        reminder_div.text(reminder_message);
-    });   
-}
-
-function initializeSaveButtonListener() {
-    $("#save-button").click(() => {
-        alert("Clicked save!");
-    });
-}
-
-function initializeResetButtonListener() {
-    $("#reset-button").click(() => {
-        alert("Reset clicked!");
-    });
-}
-
-</script>
