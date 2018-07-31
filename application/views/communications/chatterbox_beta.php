@@ -782,14 +782,7 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <h4>Reminder Recipients</h4>
-                                        <div class="gndmeas-reminder-office-container">
-                                        	<div id="gnd-office-0" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-office"></div>
-                                            <div id="gnd-office-1" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-office"></div>
-                                            <div id="gnd-office-2" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-office"></div>
-                                            <div id="gnd-office-3" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-office"></div>
-                                            <div id="gnd-office-4" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-office"></div>
-                                            <div id="gnd-office-5" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-office"></div>
-                                        </div>                                  
+
                                     </div>
                                 </div>
                                 <div class="row">
@@ -813,16 +806,111 @@
                                     <label for="reminder-message" id="label-reminder-message">You can edit the message to be sent to the community.</label>
                                     <textarea class="form-control" rows="8" id="reminder-message" placeholder=""></textarea>
                                 </div>
-                                <button type="button" id="reset-gnd-meas-settings-button" class="btn btn-default"><i class="fas fa-eraser"></i></button>
-                                <button type="button" id="save-gnd-meas-settings-button" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i></button>
+                            </div>
+                        </div> <!-- End of row -->
+
+                        <div class="row"><hr/></div> <!-- Just a horizontal rule -->
+                        
+                        <div id="special-case-container"></div> <!-- This will contain all additional special case divs. -->
+
+                        <div class="row"> <!-- This is the add button -->
+                            <div class="col-sm-12 text-center">
+                                <button type="button" id="add-special-case" class="btn btn-info" role="button"><i class="fas fa-plus"></i> Add Special Case</button>
                             </div>
                         </div>
-                    </div>         
-                </div>
-            </div>
+
+                        <!-- START OF HIDDEN ROW - to be used for appending special cases. -->
+                        <div id="special-case-template" hidden="hidden"> <!-- use a dynamic ID here. -->
+                            <div class="row">
+                                <div class="col-sm-12 text-right">
+                                    <span class="input-group-btn">
+                                        <button class="remove btn btn-danger" type="button">X</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h4>Special Reminder Recipients</h4>
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h4>Site Selection</h4>
+                                            <div class="gndmeas-reminder-site-container">
+                                                <div id="gnd-sitenames-0" class="col-md-2 col-sm-2 col-xs-2"></div>
+                                                <div id="gnd-sitenames-1" class="col-md-2 col-sm-2 col-xs-2"></div>
+                                                <div id="gnd-sitenames-2" class="col-md-2 col-sm-2 col-xs-2"></div>
+                                                <div id="gnd-sitenames-3" class="col-md-2 col-sm-2 col-xs-2"></div>
+                                                <div id="gnd-sitenames-4" class="col-md-2 col-sm-2 col-xs-2"></div>
+                                                <div id="gnd-sitenames-5" class="col-md-2 col-sm-2 col-xs-2"></div>                                          
+                                            </div>
+                                        </div>                     
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <h4>Special Reminder Message</h4>
+                                    <div class="form-group">
+                                        <label for="reminder-message" id="label-reminder-message">You can edit the message to be sent to the community.</label>
+                                        <textarea class="form-control" rows="8" id="reminder-message" placeholder=""></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- End of template row -->
+
+                    </div> <!-- End of container-fluid -->          
+                </div><!-- end of ground-meas-scrollable-div -->
+            </div><!-- end of modal body -->
+
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">Report</button>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12 text-right">
+                            <button type="button" id="reset-button" class="btn btn-default"><i class="fas fa-eraser"></i> Reset Templates</button>
+                            <button type="button" id="save-button" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i> Save Templates</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    let special_case_num = 0;
+
+    $( document ).ready(() => {
+        initializeAddSpecialCaseButtonOnClick();
+        removeInputField();
+    });
+
+    function initializeAddSpecialCaseButtonOnClick () {
+        $("#add-special-case").click(() => {
+            console.log("Clicked Add Special Case!");
+            addSpecialCase();
+        });
+    }
+
+    function addSpecialCase () {
+        const case_name = `special_case_${special_case_num}`;
+        const $clone = $("#special-case-template").clone().prop("hidden", false);
+
+        $("#special-case-container").append($clone);
+
+        special_case_num += 1;
+        console.log("addSpecialCase");
+        console.log($clone);
+        console.log(case_name);
+    }
+
+    function removeInputField () {
+        $(document).on("click", ".remove", ({ currentTarget }) => {
+            $(currentTarget).closest("div#special-case-template").remove();
+        });
+    }
+
+</script>
