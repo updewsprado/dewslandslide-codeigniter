@@ -54,7 +54,7 @@ class Site_analysis extends CI_Controller {
                 "max_rval" => 0,
                 "max_72h" => 0
             );
-            $lookup = array("hrs72" => "72h", "hrs24" => "24h", "rval" => "rain");
+            $lookup = array("72hr_cumulative" => "72h", "24hr_cumulative" => "24h", "rain" => "rain");
             $data = json_decode($rain["data"]);
 
             $i = 0; $start = null; $end = null;
@@ -812,59 +812,45 @@ class Site_analysis extends CI_Controller {
 
         foreach ($node_list as $node_id) {
             $index_node_id = "Node $node_id";
-            $accel_id = $this->getAccelIDsByVersion($subsurface_column);
 
             $version = 1;
-            if (count($accel_id) > 0) {
-                $version = $accel_id[0] === 32 ? 2 : 3;
+            if (strlen($subsurface_column) > 4) {
+                $version = 2;
             }
 
-            $filtered_data = $this->getFilteredAccelData($subsurface_column, $start_date, $end_date, $node_id, $version);
+            $return_data = $this->getFilteredAccelData($subsurface_column, $start_date, $end_date, $node_id, $version);
             
             foreach ($delegate_array as $key => $array) {
                 $delegate_array[$key][$index_node_id] = [];
             }
 
-            foreach ($filtered_data as $accel_id => $array) {
-                foreach ($array as $point) {
-                    $point_values = array(
-                        floatval($point->x),
-                        floatval($point->y),
-                        floatval($point->z)
-                    );
-                    $timestamp = strtotime($point->ts) * 1000;
-                    // Loop on delegate_array up to z_accel only
-                    for ($i = 0; $i < 3; $i += 1) { 
-                        $this->addKeyIfNotExist($accel_id, $delegate_array[$i][$index_node_id]);
-                        array_push($delegate_array[$i][$index_node_id][$accel_id], array(
-                            $timestamp,
-                            $point_values[$i],
-                            "filtered"
-                        ));
-                    }
-                }
+            foreach ($return_data as $accel_id => $raw_filtered_arr) {
+                foreach ($raw_filtered_arr as $raw_filtered => $data_arr) {
+                    $is_raw = $raw_filtered === "raw" ? true : false;
 
-                if ($accel_id !== "v1") {
-                    $unfiltered_data = $this->subsurface_node_model->getBatteryData($subsurface_column, $start_date, $end_date, $node_id, $accel_id);
-                    foreach ($unfiltered_data as $point) {
+                    foreach ($data_arr as $point) {
+                        $timestamp = strtotime($point->ts) * 1000;
                         $point_values = array(
-                            floatval($point->xvalue),
-                            floatval($point->yvalue),
-                            floatval($point->zvalue),
-                            floatval($point->batt)
+                            floatval($point->x),
+                            floatval($point->y),
+                            floatval($point->z)
                         );
-                        $timestamp = strtotime($point->timestamp) * 1000;
-                        for ($i = 0; $i < 4; $i += 1) { 
+                        if ($is_raw) array_push($point_values, floatval($point->batt));
+
+                        // Loop until z-accel only if filtered else include battery
+                        $limit = $is_raw ? 4 : 3;
+                        for ($i = 0; $i < $limit; $i += 1) { 
                             $this->addKeyIfNotExist($accel_id, $delegate_array[$i][$index_node_id]);
                             array_push($delegate_array[$i][$index_node_id][$accel_id], array(
                                 $timestamp,
                                 $point_values[$i],
-                                "raw"
+                                $raw_filtered
                             ));
                         }
                     }
                 }
             }
+
         }
         $temp_series = [[], [], [], []];
         foreach ($delegate_array as $key => $array) {
