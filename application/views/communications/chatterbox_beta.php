@@ -859,7 +859,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> <!-- End of template row -->
+                            <div class="row"><hr/></div> <!-- Just a horizontal rule -->
+                        </div> <!-- End of template div -->
 
                     </div> <!-- End of container-fluid -->          
                 </div><!-- end of ground-meas-scrollable-div -->
@@ -890,21 +891,23 @@
 
     function initializeAddSpecialCaseButtonOnClick () {
         $("#add-special-case").click(() => {
-            console.log("Clicked Add Special Case!");
+            // console.log("Clicked Add Special Case!");
             addSpecialCase();
         });
     }
 
     function addSpecialCase () {
-        const case_name = `special_case_${special_case_num}`;
+        const case_name = `clone-special-case-${special_case_num}`;
         const $clone = $("#special-case-template").clone().prop("hidden", false);
+
+        $clone.attr("id", case_name);
 
         $("#special-case-container").append($clone);
 
         special_case_num += 1;
-        console.log("addSpecialCase");
-        console.log($clone);
-        console.log(case_name);
+        // console.log("addSpecialCase");
+        // console.log($clone);
+        // console.log(case_name);
     }
 
     function removeInputField () {
