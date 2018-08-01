@@ -782,7 +782,6 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <h4>Reminder Recipients</h4>
-
                                     </div>
                                 </div>
                                 <div class="row">
@@ -799,7 +798,6 @@
                                     </div>                     
                                 </div>
                             </div>
-
                             <div class="col-sm-6">
                                 <h4>Reminder Message</h4>
                                 <div class="form-group">
@@ -807,20 +805,20 @@
                                     <textarea class="form-control" rows="8" id="reminder-message" placeholder=""></textarea>
                                 </div>
                             </div>
-                        </div> <!-- End of row -->
+                        </div>
 
-                        <div class="row"><hr/></div> <!-- Just a horizontal rule -->
+                        <div class="row"><hr/></div>
                         
-                        <div id="special-case-container"></div> <!-- This will contain all additional special case divs. -->
+                        <div id="special-case-container"></div>
 
-                        <div class="row"> <!-- This is the add button -->
+                        <div class="row">
                             <div class="col-sm-12 text-center">
                                 <button type="button" id="add-special-case" class="btn btn-info" role="button"><i class="fas fa-plus"></i> Add Special Case</button>
                             </div>
                         </div>
 
                         <!-- START OF HIDDEN ROW - to be used for appending special cases. -->
-                        <div id="special-case-template" hidden="hidden"> <!-- use a dynamic ID here. -->
+                        <div class="special-case-template" id="special-case-template" hidden="hidden"> 
                             <div class="row">
                                 <div class="col-sm-12 text-right">
                                     <span class="input-group-btn">
@@ -832,40 +830,36 @@
                                 <div class="col-sm-6">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <h4>Special Reminder Recipients</h4>
-                                           
+                                            <h4>Special Reminder Recipient</h4>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <h4>Site Selection</h4>
-                                            <div class="gndmeas-reminder-site-container">
+                                            <div id="special-case-sites" class="special-case-site-container">
                                                 <div id="gnd-sitenames-0" class="col-md-2 col-sm-2 col-xs-2"></div>
                                                 <div id="gnd-sitenames-1" class="col-md-2 col-sm-2 col-xs-2"></div>
                                                 <div id="gnd-sitenames-2" class="col-md-2 col-sm-2 col-xs-2"></div>
                                                 <div id="gnd-sitenames-3" class="col-md-2 col-sm-2 col-xs-2"></div>
                                                 <div id="gnd-sitenames-4" class="col-md-2 col-sm-2 col-xs-2"></div>
-                                                <div id="gnd-sitenames-5" class="col-md-2 col-sm-2 col-xs-2"></div>                                          
+                                                <div id="gnd-sitenames-5" class="col-md-2 col-sm-2 col-xs-2"></div>
                                             </div>
                                         </div>                     
                                     </div>
                                 </div>
-
                                 <div class="col-sm-6">
                                     <h4>Special Reminder Message</h4>
                                     <div class="form-group">
-                                        <label for="reminder-message" id="label-reminder-message">You can edit the message to be sent to the community.</label>
-                                        <textarea class="form-control" rows="8" id="reminder-message" placeholder=""></textarea>
+                                        <label for="special-case-message" id="label-reminder-message">You can edit the message to be sent to the community.</label>
+                                        <textarea class="form-control special-case-message-container" rows="8" id="special-case-message" placeholder=""></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row"><hr/></div> <!-- Just a horizontal rule -->
-                        </div> <!-- End of template div -->
-
-                    </div> <!-- End of container-fluid -->          
-                </div><!-- end of ground-meas-scrollable-div -->
-            </div><!-- end of modal body -->
-
+                            <div class="row"><hr/></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="modal-footer">
                 <div class="container-fluid">
                     <div class="row">
