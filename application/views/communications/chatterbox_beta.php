@@ -837,12 +837,7 @@
                                         <div class="col-sm-12">
                                             <h4>Site Selection</h4>
                                             <div id="special-case-sites" class="special-case-site-container">
-                                                <div id="gnd-sitenames-0" class="col-md-2 col-sm-2 col-xs-2"></div>
-                                                <div id="gnd-sitenames-1" class="col-md-2 col-sm-2 col-xs-2"></div>
-                                                <div id="gnd-sitenames-2" class="col-md-2 col-sm-2 col-xs-2"></div>
-                                                <div id="gnd-sitenames-3" class="col-md-2 col-sm-2 col-xs-2"></div>
-                                                <div id="gnd-sitenames-4" class="col-md-2 col-sm-2 col-xs-2"></div>
-                                                <div id="gnd-sitenames-5" class="col-md-2 col-sm-2 col-xs-2"></div>
+
                                             </div>
                                         </div>                     
                                     </div>
@@ -873,41 +868,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-
-    let special_case_num = 0;
-
-    $( document ).ready(() => {
-        initializeAddSpecialCaseButtonOnClick();
-        removeInputField();
-    });
-
-    function initializeAddSpecialCaseButtonOnClick () {
-        $("#add-special-case").click(() => {
-            // console.log("Clicked Add Special Case!");
-            addSpecialCase();
-        });
-    }
-
-    function addSpecialCase () {
-        const case_name = `clone-special-case-${special_case_num}`;
-        const $clone = $("#special-case-template").clone().prop("hidden", false);
-
-        $clone.attr("id", case_name);
-
-        $("#special-case-container").append($clone);
-
-        special_case_num += 1;
-        // console.log("addSpecialCase");
-        // console.log($clone);
-        // console.log(case_name);
-    }
-
-    function removeInputField () {
-        $(document).on("click", ".remove", ({ currentTarget }) => {
-            $(currentTarget).closest("div#special-case-template").remove();
-        });
-    }
-
-</script>
