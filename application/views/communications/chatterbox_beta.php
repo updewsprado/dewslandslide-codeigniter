@@ -782,29 +782,26 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <h4>Reminder Recipients</h4>
-                                        <form>
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox" value="">LEWC
-                                            </label>
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox" value="">MLGU
-                                            </label>
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox" value="">BLGU
-                                            </label>
-                                        </form>                                        
+                                        <div class="gndmeas-reminder-office-container">
+                                        	<div id="gnd-office-0" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-office"></div>
+                                            <div id="gnd-office-1" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-office"></div>
+                                            <div id="gnd-office-2" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-office"></div>
+                                            <div id="gnd-office-3" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-office"></div>
+                                            <div id="gnd-office-4" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-office"></div>
+                                            <div id="gnd-office-5" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-office"></div>
+                                        </div>                                  
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <h4>Site Selection</h4>
                                         <div class="gndmeas-reminder-site-container">
-                                            <div id="gnd-sitenames-0" class="col-md-2 col-sm-2 col-xs-2"></div>
-                                            <div id="gnd-sitenames-1" class="col-md-2 col-sm-2 col-xs-2"></div>
-                                            <div id="gnd-sitenames-2" class="col-md-2 col-sm-2 col-xs-2"></div>
-                                            <div id="gnd-sitenames-3" class="col-md-2 col-sm-2 col-xs-2"></div>
-                                            <div id="gnd-sitenames-4" class="col-md-2 col-sm-2 col-xs-2"></div>
-                                            <div id="gnd-sitenames-5" class="col-md-2 col-sm-2 col-xs-2"></div>                                          
+                                            <div id="gnd-sitenames-0" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-site"></div>
+                                            <div id="gnd-sitenames-1" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-site"></div>
+                                            <div id="gnd-sitenames-2" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-site"></div>
+                                            <div id="gnd-sitenames-3" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-site"></div>
+                                            <div id="gnd-sitenames-4" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-site"></div>
+                                            <div id="gnd-sitenames-5" class="col-md-2 col-sm-2 col-xs-2 gndmeas-reminder-site"></div>                                          
                                         </div>
                                     </div>                     
                                 </div>
@@ -816,13 +813,13 @@
                                     <label for="reminder-message" id="label-reminder-message">You can edit the message to be sent to the community.</label>
                                     <textarea class="form-control" rows="8" id="reminder-message" placeholder=""></textarea>
                                 </div>
-                                <button type="button" id="reset-button" class="btn btn-default"><i class="fas fa-eraser"></i></button>
-                                <button type="button" id="save-button" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i></button>
+                                <button type="button" id="reset-gnd-meas-settings-button" class="btn btn-default"><i class="fas fa-eraser"></i></button>
+                                <button type="button" id="save-gnd-meas-settings-button" class="btn btn-primary"><i class="fa fa-save" aria-hidden="true"></i></button>
                             </div>
-                        </div> <!-- End of row -->
-                    </div> <!-- End of container-fluid -->          
-                </div><!-- end of ground-meas-scrollable-div -->
-            </div><!-- end of modal body -->
+                        </div>
+                    </div>         
+                </div>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger">Report</button>
             </div>
