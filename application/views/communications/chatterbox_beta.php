@@ -757,22 +757,13 @@
                 <div class="ground-meas-scrollable-div">
                     <div class="container-fluid"> 
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="category">Category:</label>
+                                    <label for="category">Monitoring Type:</label>
                                     <select class="form-control" id="gnd-meas-category">
-                                        <option value="event">Event</option>
-                                        <option value="extended">Extended</option>
-                                        <option value="routine">Routine</option>
-                                    </select>
-                                </div>                                
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="reminder-type">Reminder Type:</label>
-                                    <select class="form-control" id="reminder-type">
-                                        <option value="measurement-div">Measurement Reminder</option>
-                                        <option value="observation-div">Observation Reminder</option>
+                                        <option value="event">Event Monitoring</option>
+                                        <option value="extended">Extended Monitoring</option>
+                                        <option value="routine">Routine Monitoring</option>
                                     </select>
                                 </div>                                
                             </div>
@@ -826,8 +817,8 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="row gnd-settings-container">
-                                <div class="col-sm-6">
+                            <div id="special-case-body" class="row gnd-settings-container">
+                                <div class="col-sm-6"> <!-- SET A CLASSNAME FOR THIS SHIT -->
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <h4>Special Reminder Recipients</h4>
@@ -842,7 +833,7 @@
                                         </div>                     
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-6"> <!-- SET A CLASSNAME FOR THIS SHIT -->
                                     <h4>Special Reminder Message</h4>
                                     <div class="form-group">
                                         <label for="special-case-message" id="label-reminder-message">You can edit the message to be sent to the community.</label>
