@@ -6,7 +6,7 @@ class Site_analysis extends CI_Controller {
 		$this->load->helper('url');
         $this->load->model('monitoring_model');
         $this->load->model('pubrelease_model');
-        $this->load->model('rainfall_model');
+        // $this->load->model('rainfall_model');
         $this->load->model('surficial_model');
         $this->load->model('subsurface_column_model');
         $this->load->model('subsurface_node_model');
@@ -16,7 +16,7 @@ class Site_analysis extends CI_Controller {
     }
 
 	public function index () {
-		$this->is_logged_in();
+		// $this->is_logged_in();
 		$page = 'Integrated Site Analysis';
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
@@ -44,7 +44,7 @@ class Site_analysis extends CI_Controller {
         $data_series_list = [];
 
         $rain_data = $this->getRainfallDataBySite($site_code, $rain_source, $start_date, $end_date);
-
+        // var_dump($rain_data);
         foreach ($rain_data as $rain) {
             $data_series = array(
                 "24h" => [],
@@ -54,24 +54,24 @@ class Site_analysis extends CI_Controller {
                 "max_rval" => 0,
                 "max_72h" => 0
             );
-            $lookup = array("72hr_cumulative" => "72h", "24hr_cumulative" => "24h", "rain" => "rain");
-            $data = json_decode($rain["data"]);
+            $lookup = array("seventytwo_hr_cumulative" => "72h", "twentyfour_hr_cumulative" => "24h", "rain" => "rain");
+            $data = $rain["data"];
 
             $i = 0; $start = null; $end = null;
             if(!is_null($data)) {
                 foreach ($data as $instance) {
-                    if($instance->rval > $data_series["max_rval"]) {
-                        $data_series["max_rval"] = $instance->rval;
+                    if($instance->rain > $data_series["max_rval"]) {
+                        $data_series["max_rval"] = $instance->rain;
                     }
-
-                    if($instance->hrs72 > $data_series["max_72h"]) {
-                        $data_series["max_72h"] = $instance->hrs72;
+                    // echo $instance->seventytwo_hr_cumulative . br();
+                    if($instance->seventytwo_hr_cumulative > $data_series["max_72h"]) {
+                        $data_series["max_72h"] = $instance->seventytwo_hr_cumulative;
                     }
                     
-                    if (is_null($instance->rval)) {
+                    if (is_null($instance->rain)) {
                         if (is_null($start)) $start = $instance->ts;
                         $end = $instance->ts;
-                    } else if (!is_null($instance->rval) && !is_null($start)) {
+                    } else if (!is_null($instance->rain) && !is_null($start)) {
                         $range = array("from" => strtotime($start) * 1000, "to" => strtotime($end) * 1000);
                         array_push($data_series["null_ranges"], $range);
                         $start = null;
@@ -79,7 +79,7 @@ class Site_analysis extends CI_Controller {
                     }
 
                     foreach ($instance as $key => $value) {
-                        if($key !== "rain" && $key !== "ts") $this->saveInstance($data_series, $lookup[$key], $instance->ts, $value);
+                        if($key !== "ts") $this->saveInstance($data_series, $lookup[$key], $instance->ts, $value);
                     }
                     $i++;
                 }
@@ -99,21 +99,24 @@ class Site_analysis extends CI_Controller {
 
     public function getRainfallDataBySite ($site_code, $rain_source = "all", $start_date, $end_date = null) {
         if ($rain_source == "all") {
-            $rain_sources = $this->rainfall_model->getRainDataSourcesPerSite($site_code);
+            $rain_sources = $this->getRainDataSourcesPerSite($site_code);
         } else {
-            $rain_sources = $this->rainfall_model->getRainDataSourcesPerSite($site_code, $rain_source);
+            $rain_sources = $this->getRainDataSourcesPerSite($site_code, $rain_source);
         }
 
         $rain_data_list = [];
-        foreach ($rain_sources as $s) {
-            $rain_data = $this->getRainfallDataBySource($s->source_type, $s->source_table, $start_date, $end_date);
+        $rain_sources_result = json_decode($rain_sources);
+        $offset = date("Y-m-d\TH:i:s", strtotime($start_date . "-3 days"));
+        foreach ($rain_sources_result as $s) {
+            $rain_data = $this->getRainfallDataBySource($s->data_source, $s->gauge_name, $start_date, $end_date, $offset);
             $arr = (array) $s;
-            $arr = array_merge($arr, $rain_data);
+            // $arr = array_merge($arr, $rain_data);
+            // var_dump($arr);
 
             // Array Index "0" contains data from getRainfallDataBySource
-            if(isset($arr[0])) {
-                $arr["data"] = $arr[0];
-                unset($arr[0]);
+            if(isset($rain_data)) {
+                $arr["data"] = $rain_data;
+                // unset($arr[0]);
             } else $arr["data"] = null;
 
             array_push($rain_data_list, $arr);
@@ -122,31 +125,56 @@ class Site_analysis extends CI_Controller {
         return $rain_data_list;
     }
 
-    public function getRainfallDataBySource ($source, $rain_gauge, $start_date, $end_date = null) {
+    public function getRainfallDataBySource ($source, $rain_gauge, $start_date, $end_date, $offset) {
         try {
             $paths = $this->getOSspecificpath();
         } catch (Exception $e) {
             echo "Caught exception: ",  $e->getMessage(), "\n";
         }
 
-        $exec_file = "rainfallNewGetData";
+        $exec_file = "getRainfallDataBySource.py";
 
-        switch (strtolower($source)) {
-            case "arq":
-                $exec_file = $exec_file . "ARQ.py";
-                break;
-            case "noah":
-                $exec_file = $exec_file . "Noah.py";
-                break;
-            default:
-                $exec_file = $exec_file . ".py";
-                break;
+        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $rain_gauge $start_date $end_date $offset";
+        //$command = !is_null($end_date) ? "$command $end_date" : $command;
+        exec($command, $output, $return);
+        $web_plots_data = null;
+        foreach ($output as $string) {
+            if(strpos($string, "web_plots") !== false){
+                $data = explode("web_plots=", $string);
+                $web_plots_data = $data[1];
+            }
         }
 
-        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $rain_gauge $start_date";
-        $command = !is_null($end_date) ? "$command $end_date" : $command;
+        return json_decode($web_plots_data);
+    }
+
+    public function getRainDataSourcesPerSiteForButton ($site_code) {
+        $rain_sources = $this->getRainDataSourcesPerSite($site_code);
+
+        return json_decode($rain_sources);
+    }
+
+    public function getRainDataSourcesPerSite ($site_code) {
+
+        try {
+            $paths = $this->getOSspecificpath();
+        } catch (Exception $e) {
+            echo "Caught exception: ",  $e->getMessage(), "\n";
+        }
+
+        $exec_file = "getRainfallDataSources.py";
+
+        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $site_code";
         exec($command, $output, $return);
-        return $output;
+        $rain_sources = null;
+        foreach ($output as $string) {
+            if(strpos($string, "web_plots") !== false){
+                $data = explode("web_plots=", $string);
+                $rain_sources = $data[1];
+            }
+        }
+
+        return $rain_sources;
     }
 
     /**
@@ -174,8 +202,8 @@ class Site_analysis extends CI_Controller {
             }
             $temp = array(
                 'x' => strtotime($data->ts) * 1000, 
-                'y' => (int) $data->meas, 
-                'id' => (int) $data->id
+                'y' => (int) $data->measurement, 
+                'id' => (int) $data->mo_id
             );
             array_push($data_per_marker[$data->crack_id], $temp);
         }
@@ -220,8 +248,14 @@ class Site_analysis extends CI_Controller {
         $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $site_code $marker_name $end_date";
 
         exec($command, $output, $return);
-        // var_dump($output);
-        return json_decode($output[0]); // Because for some reason, the data is inside an array
+        $web_plots_data = null;
+        foreach ($output as $string) {
+            if(strpos($string, "web_plots") !== false){
+                $data = explode("web_plots=", $string);
+                $web_plots_data = $data[1];
+            }
+        }
+        return $web_plots_data;
     }
 
     private function processVelocityAccelData ($data) {
@@ -302,11 +336,10 @@ class Site_analysis extends CI_Controller {
         $displacement = "";
         $velocity_alerts = "";
         $result = $this->getSubsurfaceDataByColumn($column, $end_date, $start_date);
-        // var_dump($result);
         if (empty($result)) {
             // do something 
         } else {
-            $result = json_decode($result[0])[0]; // Python behavior
+            $result = json_decode($result)[0]; // Python behavior
             $column_position = $this->processColumnPositionData($result->c);
             list($displacement, $timestamps_per_node) = $this->processDisplacementData($result->d[0]);
             $velocity_alerts = $this->processVelocityAlertsData($result->v[0], $timestamps_per_node);
@@ -338,7 +371,16 @@ class Site_analysis extends CI_Controller {
 
         $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $column $end_date $start_date";
         exec($command, $output, $return);
-        return $output;
+        // return $output;
+        $web_plots_data = null;
+        foreach ($output as $string) {
+            if(strpos($string, "web_plots") !== false){
+                $data = explode("web_plots=", $string);
+                $web_plots_data = $data[1];
+            }
+        }
+        return $web_plots_data;
+
     }
 
     private function processColumnPositionData ($column_data) {
@@ -417,7 +459,7 @@ class Site_analysis extends CI_Controller {
         foreach ($annotation as $anno) {
             $downslope_anno = $anno->downslope_annotation;
             $latslope_anno = $anno->latslope_annotation;
-            $id = (int) $anno->id;
+            $id = (int) $anno->node_id;
 
             foreach ([$downslope_anno, $latslope_anno] as $key => $value) {
                 $this->addKeyIfNotExist($id, $annotations[$key]);
@@ -428,7 +470,7 @@ class Site_analysis extends CI_Controller {
         }
 
         foreach ($disp as $index => $position) {
-            $id = (int) $position->id;
+            $id = (int) $position->node_id;
             $timestamp = strtotime($position->ts) * 1000;
             $downslope = $position->downslope;
             $latslope = $position->latslope;
@@ -726,14 +768,14 @@ class Site_analysis extends CI_Controller {
     private function delegateSubsurfaceColumnDataForComputation ($data, $subsurface_column, $node_count) {
         $array = [];
         foreach ($data as $point) {
-            $node_id = $point->id;
+            $node_id = $point->node_id;
             if ($node_count >= $node_id) {
                 $this->addKeyIfNotExist($node_id, $array);
-                $timestamp = $point->timestamp;
+                $timestamp = $point->ts;
                 $temp = array("timestamp" => $timestamp);
 
                 if (strlen($subsurface_column) > 4) {
-                    $temp["accel_id"] = $point->msgid;
+                    $temp["accel_id"] = $point->type_num;
                 }
 
                 array_push($array[$node_id], $temp);
@@ -794,8 +836,9 @@ class Site_analysis extends CI_Controller {
      */
 
     public function test () {
+        $data = $this->getSubsurfaceDataByColumn("agbta", "2017-11-11T12:00:00", "2017-11-10T12:00:00");
         // $data = $this->getPlotDataForColumnSummary("magta", "2016-10-14T12:00:00", "2016-10-16T12:00:00");
-        $data = $this->getPlotDataForNode("agbta", "2016-01-15", "2016-01-21", "1-3-5");
+        // $data = $this->getPlotDataForNode("agbta", "2016-01-15", "2016-01-21", "1");
         print "<pre>";
         var_dump($data);
         print "</pre>";
@@ -819,13 +862,17 @@ class Site_analysis extends CI_Controller {
             }
 
             $return_data = $this->getFilteredAccelData($subsurface_column, $start_date, $end_date, $node_id, $version);
+            // Python Behavior
+            $return_data = json_decode($return_data)[0];
             
             foreach ($delegate_array as $key => $array) {
                 $delegate_array[$key][$index_node_id] = [];
             }
 
             foreach ($return_data as $accel_id => $raw_filtered_arr) {
-                foreach ($raw_filtered_arr as $raw_filtered => $data_arr) {
+                foreach ($raw_filtered_arr as $rf_arr) {
+                    $raw_filtered = $rf_arr->type;
+                    $data_arr = $rf_arr->data;
                     $is_raw = $raw_filtered === "raw" ? true : false;
 
                     foreach ($data_arr as $point) {
@@ -905,7 +952,16 @@ class Site_analysis extends CI_Controller {
         $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $subsurface_column $start_date $end_date $node_id $message_id";
 
         exec($command, $output, $return);
-        return json_decode($output[0])[0]; // Because for some reason, the data is inside an array
+        $web_plots_data = null;
+        foreach ($output as $string) {
+            if(strpos($string, "web_plots") !== false){
+                $data = explode("web_plots=", $string);
+                $web_plots_data = $data[1];
+            }
+        }
+
+        // var_dump(json_decode($web_plots_data));
+        return $web_plots_data;
     }
 
     public function is_logged_in () {
@@ -939,8 +995,8 @@ class Site_analysis extends CI_Controller {
             $python_path = "C:/Users/Dynaslope/Anaconda2/python.exe";
             $file_path = "C:/xampp/updews-pycodes/Liaison/";
         } elseif (strpos($os, "UBUNTU") !== false || strpos($os, "Linux") !== false) {
-            $python_path = "/home/ubuntu/anaconda2/bin/python";
-            $file_path = "/var/www/updews-pycodes/Liaison/";
+            $python_path = "/home/jdguevarra/anaconda2/bin/python";
+            $file_path = "/var/www/updews-pycodes/web_plots/";
         } else {
             throw new Exception("Unknown OS for execution... Script discontinued...");
         }

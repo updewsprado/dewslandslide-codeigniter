@@ -28,10 +28,9 @@
 		}
 
 		public function getSiteColumnNodeCount ($site_column) {
-			$this->db->select("props.num_nodes AS node_count");
-			$this->db->from("site_column_props AS props");
-			$this->db->join("site_column AS sc", "sc.s_id = props.s_id");
-			$this->db->where("sc.name", $site_column);
+			$this->db->select("number_of_segments AS node_count");
+			$this->db->from("tsm_sensors");
+			$this->db->where("tsm_name", $site_column);
 			$data = $this->db->get();
 			return ($data->num_rows() === 0) ? 0 : $data->row()->node_count;
 		}
