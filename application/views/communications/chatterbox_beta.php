@@ -768,6 +768,10 @@
                                 </div>                                
                             </div>
                         </div>
+						<div class="panel panel-info">
+							<div class="panel-heading">PLEASE TAKE NOTE: The ground data reminder will be automatically sent to intended recipients at the prescribed time after changes (if any) have been saved.</div>
+						</div>
+
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="row">
