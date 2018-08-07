@@ -1,10 +1,18 @@
 
     <div class="panel panel-default" id="options-bar-affix">
         <div class="panel-heading text-right">
-            <span class="hideable-hide pull-left"><strong>PLOT OPTIONS: </strong></span><a id="toggle-options-bar" style="cursor: pointer"><strong><span class="fa fa-angle-double-left"></span></strong></a>
+            <span class="hideable-hide pull-left"><strong>PLOT OPTIONS: </strong></span>
+            <a id="toggle-options-bar" style="cursor: pointer">
+            <strong><span class="fa fa-angle-double-left"></span></strong></a>
         </div>
         <div class="panel-body">
             <form id="site-analysis-form">
+                <div class="row text-right">
+                    <span class="report" id="plot-options-report" style="cursor: pointer;">
+                        <span class="fa fa-exclamation-circle"></span>
+                        <strong>Report</strong>&emsp;
+                    </span>
+                </div>
                 <div class="form-group hideable">
                     <label class="control-label" for="data_timestamp">Data Timestamp</label>
                     <div class="input-group date datetime">

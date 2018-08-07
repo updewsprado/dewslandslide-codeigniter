@@ -16,6 +16,9 @@
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/subsurface_node_plotter.js"></script>
 <script type="text/javascript" src="/js/dewslandslide/data_analysis/download_site_charts.js"></script>
 
+<!-- PMS Plugin for Accuracy -->
+<script type="text/javascript" src="/js/dewslandslide/data_analysis/pms_site_analysis_plugin.js"></script>
+
 <!-- CSS Files -->
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/site_analysis.css">
 

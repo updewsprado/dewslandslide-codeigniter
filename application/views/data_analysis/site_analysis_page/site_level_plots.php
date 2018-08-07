@@ -10,6 +10,12 @@
 			</div>
 
 			<div class="col-sm-9 text-right" id="rainfall-plot-options" hidden>
+				<div class="btn-group">
+	                <span class="report" id="rainfall-plot-report">
+	                    <span class="fa fa-exclamation-circle"></span>
+	                    <strong>Report</strong>&emsp;
+	                </span>	
+				</div>
 				<div class="btn-group" id="rainfall-sources-btn-group"></div>
 				<div class="btn-group" id="rainfall-duration">
 					<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="rainfall-duration-btn">
@@ -49,6 +55,12 @@
 			</div>
 
 			<div class="col-sm-9 text-right" id="surficial-plot-options" hidden>
+                <div class="btn-group">
+                    <span class="report" id="surficial-plot-report">
+                        <span class="fa fa-exclamation-circle"></span>
+                        <strong>Report</strong>&emsp;
+                    </span> 
+                </div>                
 				<div class="btn-group" id="surficial-markers-btn-group">
 					<button type="button" class="btn btn-primary btn-sm" value="surficial" data-loaded="false">Surficial Graph</button>
 				</div>
