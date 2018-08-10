@@ -2,9 +2,9 @@
     {{#each messages}}
         {{#if isYou}}
             {{#if hasTag}}
-            <li class="right clearfix tagged" title="Tagged Messaged">
+            <li class="right clearfix tagged" title="Tagged Messaged" title="{{title}}">
             {{else}}
-            <li class="right clearfix">
+            <li class="right clearfix" title="{{title}}">
             {{/if}}
 
             <input type="text" class="msg_details" value="{{convo_id}}<split>{{mobile_id}}<split>{{user}}<split>{{timestamp}}<split>{{sms_msg}}" hidden>
@@ -12,9 +12,9 @@
             <img src="/images/Chatterbox/dewsl_03.png" class="user-avatar" alt="User Avatar">
         {{else}} 
             {{#if hasTag}}
-            <li class="left clearfix tagged" title="Tagged Messaged">
+            <li class="left clearfix tagged" title="Tagged Messaged" title="{{title}}">
             {{else}}
-            <li class="left clearfix">
+            <li class="left clearfix" title="{{title}}">
             {{/if}}
             <input type="text" class="msg_details" value="{{convo_id}}<split>{{mobile_id}}<split>{{user}}<split>{{timestamp}}<split>{{sms_msg}}" hidden>
             <span class="chat-img pull-left" id="badge-id-user">
