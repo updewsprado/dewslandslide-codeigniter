@@ -13,10 +13,12 @@ class Lin extends CI_Controller {
 		$this->load->model('membership_model');
 		$query = $this->membership_model->validate();
 		
-		if ($query) {	//if the user's credentials validated
-			$id = $this->membership_model->get_user_id();
-			$firstname = $this->membership_model->get_first_name();
-			$lastname = $this->membership_model->get_last_name();
+		if ($query['status']) {	//if the user's credentials validated
+
+			$config_app = switch_db("senslopedb");
+			$this->db = $this->load->database($config_app,TRUE);
+
+			$id = $query['id'];
 		
 			$data = array (
 				'id' => $id,
