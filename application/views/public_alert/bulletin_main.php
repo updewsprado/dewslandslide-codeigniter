@@ -16,6 +16,8 @@
 	$triggers = json_decode($triggers);
 	$responses = json_decode($responses);
 	if($public_alert_level != 'A0') $event->validity = $validity;
+	$GLOBALS['isg0'] = $isg0; $GLOBALS['iss0'] = $iss0;
+	$GLOBALS['isR0'] = $isR0; $GLOBALS['ism0'] = $ism0;
 
 	function roundTime($timestamp)
 	{
@@ -36,7 +38,7 @@
 		return $timestamp;
 	}
 
-	$release_time = isInstantaneous(strtotime($release->data_timestamp)) ? $release->data_timestamp : date("j F Y, h:i A" , strtotime($release->data_timestamp) + 1800) ;
+	$release_time = isInstantaneous(strtotime($release->data_timestamp)) ? $release->data_timestamp : date("F j, Y, h:i A" , strtotime($release->data_timestamp) + 1800) ;
 
 	function isInstantaneous($entry)
 	{
@@ -102,7 +104,11 @@
 					<div class="col-sm-4">Location:</div>
 					<div class="col-sm-8" id="location">
 						<?php 
-							if (!is_null($event->sitio)) {
+							if (!is_null($event->purok)) {
+			    				echo "Purok " . $event->purok . ", ";
+			    			}
+
+			    			if (!is_null($event->sitio)) {
 			    				echo "Sitio " . $event->sitio . ", ";
 			    			}
 			    		?>
@@ -112,18 +118,23 @@
 
 				<div class="row">
 					<div class="col-sm-4">Date/Time</div>
-					<div class="col-sm-8 edit-event-page" id='datetime'><?php echo amPmConverter(date("j F Y, h:i A" , strtotime($release_time))); ?></div>
+					<div class="col-sm-8 edit-event-page" id='datetime'><?php echo amPmConverter(date("F j, Y, h:i A" , strtotime($release_time))); ?></div>
 				</div>
 
 				<div class="row">
 					<div class="col-sm-4">Alert Level Released:</div>
-					<div class="col-sm-8 text-justify" id="alert_level_released" class="editable">
+					<div class="col-sm-8 text-justify" id="alert_level_released">
 					<?php 
-						$description = $responses->description->description;
+						$description = $alert_description;
 						if( $public_alert_level == "A0" )
 						{
 							$option = explode("***OR***", $description);
-							if( $event->status == "finished" || $event->status == "extended" ) $description = $option[1];
+							if( $event->status == "finished" || $event->status == "extended" ) 
+							{
+								$pub = substr($previous_internal_alert, 0, 2);
+								if($pub == "A1" || $pub == "ND") $description = $option[0];
+								else $description = $option[1];
+							}
 							else if ( $event->status == "routine" || $event->status == "invalid" ) $description = $option[0];
 							$description = $description;
 						} else
@@ -136,12 +147,14 @@
 								$description = str_replace("[reason]", $triggers[0]->od_info->reason, $description);
 							}
 
-							$valid_until = "<span id='validity' class='editable'>" . amPmConverter(date("j F Y, h:i A" , strtotime($event->validity))) . "</span>";
+							$valid_until = "<span id='validity' class='editable'>" . amPmConverter(date("F j, Y, h:i A" , strtotime($event->validity))) . "</span>";
 						}
 
 						$description = "<span id='alert_description' class='editable'>" . $description . "</span>";
 
-						echo $public_alert_level . " (" . $description . ")";
+						// Spell out ALERT on Ax
+						$pal = "Alert " . substr($public_alert_level, 1);
+						echo $pal . " (" . $description . ")";
 						if( $public_alert_level != "A0" ) echo ", valid until " . $valid_until;
 					?>
 					</div>
@@ -159,7 +172,7 @@
 							else if ( $event->status == "routine" || $event->status == "invalid") $recommended = $option[0];
 							//else if ( $event->status == "extended") $recommended = $option[2];
 						}
-						echo $recommended;
+						echo "<span id='recommended_response' class='editable longer_input'>" . $recommended . "</span>";
 					?></div>
 				</div>
 
@@ -192,34 +205,29 @@
 							echo $description . '</div>';
 							echo '</div>';
 						}
-						
 					}
 
 					function print_triggers($triggers, $responses, $release, $public_alert_level)
 					{
 						$internal = $release->internal_alert_level;
-						// ISSUE UPCOMING: 0 for ND'S
-						// S/G with lower-case counterparts
-						// Combining same dates with just different timestamps
 						$list = substr($internal, 3);
 						$x = [];
 						for ( $i = 0; $i < strlen($list); $i++) {
+							// Save internal alert triggers (group x0's together)
                             if (isset($list[$i + 1]) && $list[$i + 1] == "0") 
                                 { array_push($x, $list[$i] . $list[$i + 1]); $i++; }
                             else array_push($x, $list[$i]);
                         }
-                        $list = array_reverse($x);
-						$x = array_reverse($x);
+						//$x = array_reverse($x);
 
-			            $trigger_copy = [];
+			            $triggers_wOut_0 = [];
 			            foreach ($x as $y) 
 			            {
 			            	$y = str_replace('0', '', $y);
-			                if($public_alert_level == "A3") $y = strtoupper($y);
-			            	array_push($trigger_copy, $y);
+			            	array_push($triggers_wOut_0, $y);
 			            }
 
-						foreach ($trigger_copy as $a) 
+						foreach ($triggers_wOut_0 as $a) 
 						{
 							$area_printer = function ($triggers, $a) use ($responses, $release)
 							{
@@ -227,7 +235,7 @@
 								function ($trigger) use ($a, $release)
 								{ 
 									//return $trigger->trigger_type == $a;
-									return $trigger->trigger_type == $a && strtotime($trigger->timestamp) <= strtotime($release->data_timestamp);
+									return strtoupper($trigger->trigger_type) == strtoupper($a) && strtotime($trigger->timestamp) <= strtotime($release->data_timestamp) + 1800;
 								}));
 
 								// If ordered has no triggers in it (case like A3 
@@ -235,7 +243,7 @@
 								if(count($ordered) == 0) return NULL;
 
 								$desc = $responses->trigger_desc->$a;
-								$desc = str_replace("[timestamp]", "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($ordered[count($ordered) - 1]->timestamp))) . "</b>", $desc);
+								$desc = str_replace("[timestamp]", "<b>" . amPmConverter(date("F j, Y, h:i A" , strtotime($ordered[count($ordered) - 1]->timestamp))) . "</b>", $desc);
 								if($a === 'E')
 								{
 									$temp = $ordered[count($ordered)-1];
@@ -256,35 +264,52 @@
 								array_pop($ordered);
 								$additional = '';
 
-								$i = 0;
-								foreach ($ordered as $key => $trigger) 
+								for($i=0; $i < 3 && $i < count($ordered); $i++) 
 								{
-									if( $i < 3 )
-									{
-										$temp = "<b>" . amPmConverter(date("j F Y, h:i A" , strtotime($trigger->timestamp))) . "</b>";
-										$additional = $additional == '' ? $temp : $additional . ", " . $temp;
-										if($i == 0) $info = $trigger->info;
-										$i++;
+									$isComma = false;
+									if( $i == 0 ) {
+										if($i == 0) $info = $ordered[$i]->info;
+										$dt = amPmConverter(date("F j, Y, h:i A" , strtotime($ordered[$i]->timestamp)), "F j: h:i");
+									} else if( date("F j" , strtotime($ordered[$i-1]->timestamp)) == date("F j" , strtotime($ordered[$i]->timestamp)) ) {
+										$dt = amPmConverter(date("F j, Y, h:i A" , strtotime($ordered[$i]->timestamp)), "h:i");
+										$isComma = true;
+									} else {
+										$dt = amPmConverter(date("F j, Y, h:i A" , strtotime($ordered[$i]->timestamp)), "F j: h:i");
+									}
+
+									if( $additional == '' ) $additional = "<b>" . $dt . "</b>";
+									else {
+										if ($isComma)  $additional = $additional . "<b>, " . $dt . "</b>";
+										else   $additional = $additional . "<b>; " . $dt . "</b>";
 									}
 								}
 
 								if($additional != '') $desc = $desc . " Most recent re-trigger/s occurred on " . $additional . ".";
+
+								// Add no current data if [sS/gG]0
+								if( (strtoupper($a) == "G" && $GLOBALS['isg0']) || (strtoupper($a) == "S" && $GLOBALS['iss0']) || (strtoupper($a) == "R" && $GLOBALS['isR0']) || (strtoupper($a) == "M" && $GLOBALS['ism0']) )
+									$desc = $desc . " Currently, no data available.";
+
 								return [$desc, $info];
 							};
 
 							$details = $area_printer($triggers, $a);
 							$desc = $details[0]; $info = $details[1];
 
-							if( $a == "G" || $a == "S" )
+							if( $a == "G" || $a == "S" || $a == "M" )
 							{
-								$b = $a == "G" ? "g" : "s";
+								switch ($a) {
+									case 'G': $b = "g"; break;
+									case 'S': $b = "s"; break;
+									case 'M': $b = "m"; break;
+								}
 								$details_2 = $area_printer($triggers, $b);
-								$info = $info != '' && $info != NULL ? '<b>Detail:</b> ' . $info . '<br>' : "";
-								$info_2 = $details_2[1] != '' && $details_2[1] != NULL ? '<b>Detail:</b> ' . $details_2[1] : "";
-								$desc = $desc . "<br>" . $info . $details_2[0] . "<br>" . $info_2;
+								$info = $info != '' && $info != NULL ? '<b>Last trigger info:</b> ' . $info . '<br>' : "";
+								$info_2 = $details_2[1] != '' && $details_2[1] != NULL ? '<br>' . $details_2[0] . '<br><b>Last trigger info:</b> ' . $details_2[1] : "";
+								$desc = $desc . "<br>" . $info . $info_2;
 							} else 
 							{
-								$info = $info != '' && $info != NULL ? '<b>Detail:</b> ' . $info . '<br>' : "<br>";
+								$info = $info != '' && $info != NULL ? '<b>Last trigger info:</b> ' . $info . '<br>' : "<br>";
 								$desc = $desc . "<br>" . $info;
 							}
 
@@ -292,10 +317,11 @@
 								case 'R': boilerplate("RAINFALL", $desc); break;
 								case 'E': boilerplate("EARTHQUAKE", $desc); break;
 								case 'D': boilerplate("ON-DEMAND", $desc); break;
-								case 'g': case 'G': boilerplate("GROUND MOVEMENT", "", ""); boilerplate("<i class='rowIndent'><u>SURFICIAL DATA</u></i>", $desc); break;
-								case 's': case 'S': 
-									if( count(array_intersect( ['g','G'], $trigger_copy) ) <= 0 ) boilerplate("GROUND MOVEMENT", "", ""); 
+								case 's': case 'S': boilerplate("GROUND MOVEMENT", "", ""); 
 									boilerplate("<i class='rowIndent'><u>SUBSURFACE DATA</u></i>", $desc); break;
+								case 'g': case 'G': if( count(array_intersect( ['s','S'], $triggers_wOut_0) ) <= 0 ) boilerplate("GROUND MOVEMENT", "", ""); boilerplate("<i class='rowIndent'><u>SURFICIAL DATA</u></i>", $desc); break;
+								case 'm': case 'M': if( count(array_intersect( ['g','G', 's', 'S'], $triggers_wOut_0) ) <= 0 ) boilerplate("GROUND MOVEMENT", "", ""); 
+									boilerplate("<i class='rowIndent'><u>MANIFESTATION</u></i>", $desc); break;
 							}
 						}
 					}
@@ -303,12 +329,13 @@
 					switch ($public_alert_level) {
 						case 'A0':
 							if ( $event->status == 'finished' || $event->status == 'extended' )
-								boilerplate("GROUND MOVEMENT", 'No significant ground movement detected within the event-monitoring period.');
+								boilerplate("GROUND MOVEMENT", 'No significant ground movement detected in the last event monitoring period.');
 							else boilerplate("GROUND MOVEMENT", 'No significant ground movement detected.', '');
 							break;
 						case 'A1':
 							print_triggers($triggers, $responses, $release, $public_alert_level);
-							boilerplate('GROUND MOVEMENT', 'No significant ground movement detected.', '');
+							if( $isND ) boilerplate('GROUND MOVEMENT', 'No available surficial and subsurface data.', '');
+							else boilerplate('GROUND MOVEMENT', 'No significant ground movement detected.', '');
 							break;
 						case 'A2': case 'A3':
 							print_triggers($triggers, $responses, $release, $public_alert_level);
@@ -337,12 +364,12 @@
 
 					if( $public_alert_level == 'A3')
 					{
-						$temp = date("j F Y, h:i A" , strtotime($event->validity) - 1800); 
+						$temp = date("F j, Y, h:i A" , strtotime($event->validity) - 1800); 
 					}
 					else
 					{
 
-						$temp = isInstantaneous(strtotime($release->data_timestamp)) ? date("j F Y, h:i A" , roundTime(strtotime($release->data_timestamp)) - 1800) : date("j F Y, h:i A" , roundTime(strtotime($release->data_timestamp)) + (3.5 * 3600));
+						$temp = isInstantaneous(strtotime($release->data_timestamp)) ? date("F j, Y, h:i A" , roundTime(strtotime($release->data_timestamp)) - 1800) : date("F j, Y, h:i A" , roundTime(strtotime($release->data_timestamp)) + (3.5 * 3600));
 					}
 
 					$time = date("h:i A" , strtotime($temp));
@@ -352,17 +379,17 @@
 
 					if ($time > $date1 || $time < $date2) 
 					{
-						if ($time > $date1) $datetime = date("j F Y," , strtotime('+1 day', strtotime($temp))) . " 7:30 AM";
+						if ($time > $date1) $datetime = date("F j, Y," , strtotime('+1 day', strtotime($temp))) . " 7:30 AM";
 						else {
 							if( $public_alert_level == 'A3' )
 							{
-								if( strpos(date("j F Y, h:i A" , strtotime($event->validity)), "4:00 AM") == true ) $datetime = date("j F Y," , strtotime('+1 day', strtotime($temp))) . " 7:30 AM";
-								else $datetime = date("j F Y," , strtotime($temp)) . " 7:30 AM";
+								if( strpos(date("F j, Y, h:i A" , strtotime($event->validity)), "4:00 AM") == true ) $datetime = date("F j, Y," , strtotime('+1 day', strtotime($temp))) . " 7:30 AM";
+								else $datetime = date("F j, Y," , strtotime($temp)) . " 7:30 AM";
 							}
-							else $datetime = date("j F Y," , strtotime($temp)) . " 7:30 AM";
+							else $datetime = date("F j, Y," , strtotime($temp)) . " 7:30 AM";
 						}	
 					} 
-					else $datetime = $public_alert_level == 'A3' ? date("j F Y, h:i A" , strtotime($event->validity) - 1800) : $temp;
+					else $datetime = $public_alert_level == 'A3' ? date("F j, Y, h:i A" , strtotime($event->validity) - 1800) : $temp;
 					
 					$llmc_lgu = $responses->response->response_llmc_lgu;
 
@@ -387,7 +414,7 @@
 				</div>
 
 				<div class="row">
-					<div class="col-sm-12 text-justify"><b id="community">For the Community:</b> <?php echo $responses->response->response_community; ?></div>
+					<div class="col-sm-12 text-justify"><b id="community">For the Community:</b> <span id="recommended_response_2" class="editable longer_input"><?php echo $responses->response->response_community; ?></span></div>
 				</div>
 
 				<div class="row">
@@ -410,7 +437,7 @@
 		<div class="row">
     		<?php
     			$next_release = isInstantaneous(strtotime($release->data_timestamp)) ? roundTime(strtotime($release->data_timestamp)) : roundTime(strtotime($release->data_timestamp)) + 4 * 3600;
-    			if( $public_alert_level != 'A0') echo "<b>Next bulletin on: </b><span id='next_bulletin' class='editable'>" . amPmConverter(date("j F Y, h:i A" , $next_release)) . '</span>'; 
+    			if( $public_alert_level != 'A0') echo "<b>Next bulletin on: </b><span id='next_bulletin' class='editable'>" . amPmConverter(date("F j, Y, h:i A" , $next_release)) . '</span>'; 
     		?>
 		</div>    
     	<div class="row" style="margin-top: 5px; margin-bottom: 5px;"><b>Prepared by: </b>
@@ -437,13 +464,13 @@
 
 <?php  
 	
-	function amPmConverter($date)
+	function amPmConverter($date, $format = "F j, Y, h:i")
 	{
 		$temp = strtotime($date);
 		$hour = date("G", $temp);
-		if( $hour == 0 ) return date("j F Y, h:i \M\N", $temp);
-		elseif ($hour == 12) return date("j F Y, h:i \N\N", $temp);
-		else return date("j F Y, h:i A", $temp);
+		if( $hour == 0 ) return date($format . " \M\N", $temp);
+		elseif ($hour == 12) return date($format . " \N\N", $temp);
+		else return date($format . " A", $temp);
 	}
 
 ?>

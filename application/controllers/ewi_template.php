@@ -16,7 +16,7 @@ class Ewi_template extends CI_Controller {
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
 		$data['user_id'] = $this->session->userdata("id");
-		
+		$data['jquery'] = "old";
 		$data['title'] = $page;
 
 		$this->load->view('templates/header', $data);
@@ -111,11 +111,10 @@ class Ewi_template extends CI_Controller {
 	}
 
 	public function getKeyInputViaTriggerType() {
-		if (isset($_POST['trigger_type'])) {
+		if (isset($_POST['trigger_type']) == true) {
 			$data = $_POST['trigger_type'];
 			$template = "";
 			$keyinput = [];
-
 			for ($counter = 0; $counter < strlen($data); $counter++) {
 				$iterated = isset($data[$counter+(strlen($data)-(strlen($data)-1))]);
 				if (is_numeric($iterated) != null) {
@@ -126,21 +125,13 @@ class Ewi_template extends CI_Controller {
 				$result = $this->ewi_template_model->getKeyViaTriggerType($symbol);
 				array_push($keyinput,$result);
 			}
+			$template = $keyinput;
 
-			$template = $keyinput[0][0]->key_input;
-
-			for ($counter = 0; $counter < sizeof($keyinput); $counter++) {
-				for ($sec_counter =0; $sec_counter < sizeof($keyinput[$counter]);$sec_counter++) {
-					if (is_numeric($data[0]) && is_numeric($keyinput[$counter][$sec_counter]->key_input)) {
-						$template = $keyinput[$counter][$sec_counter]->key_input;
-						break;
-					} else {
-						$template = $keyinput[0][$sec_counter]->key_input; // GET ONLY THE 1st.
-					}
-				}
-			}
-			$result[0]->key_input = $template;
-			$result[0]->alert_symbol_level = $data;
+			$result = [
+				'key_input' => $template,
+				'alert_symbol_level' => $data
+			];
+			
 		} else {
 			$result = [];
 			$a0 = [
@@ -150,7 +141,10 @@ class Ewi_template extends CI_Controller {
 
 			array_push($result,$a0);
 		}
-		print json_encode($result[0]);
+
+		print json_encode($result);
+
+
 		// DO NOT DELETE. THIS CODE HAS A PURPOSE.
 		
 		// if (sizeof($keyinput) >= 2) {

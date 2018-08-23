@@ -19,8 +19,9 @@ class Membership_model extends CI_Model {
     );
 
 	public function validate() {
+
 		$this->db->where('username', $this->input->post('username'));
-		$this->db->where('password', $this->input->post('password'));
+		$this->db->where('password', hash('sha512', $this->input->post('password')));
 		
 		//More secure password accessing
 		//$this->db->where('password', md5($this->input->post('password')));

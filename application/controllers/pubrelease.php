@@ -182,108 +182,113 @@ class Pubrelease extends CI_Controller {
 		echo "$result";
 	}
 
-	public function insert()
+	public function getFeatureNames($site_id, $type)
 	{
-		$status = $_POST['status'];
+		$result = $this->pubrelease_model->getFeatureNames($site_id, $type);
+		echo "$result";
+	}
+
+	public function insert () {
+		$status = $_POST["status"];
 		$latest_trigger_id = NULL;
-		$site_id = $_POST['site'];
-		if( (int) $site_id == 0 ) $site_id = $this->pubrelease_model->getSiteID($_POST['site']);
+		$site_id = $_POST["site"];
+		if ((int) $site_id === 0 && $site_id !== "") $site_id = $this->pubrelease_model->getSiteID($site_id);
 		$event_validity = NULL;
+		$release_id = NULL;
 
-		if( $status == 'new' )
-		{
-			// Prepare and save on public_alert_event table
-			$event['site_id'] = $site_id;
-			$event['event_start'] = $_POST['timestamp_entry'];
-			$event['status'] = 'on-going';
-			$event_id = $this->pubrelease_model->insert('public_alert_event', $event);
-			
-			//Prepare and save on public_alert_release
-			$release['event_id'] = $event_id;
-			$release['data_timestamp'] = $_POST['timestamp_entry'];
-			$release['internal_alert_level'] = $_POST['internal_alert_level'];
-			$release['release_time'] = $_POST['release_time'];
-			$release['comments'] = $_POST['comments'] == "" ? NULL : $_POST['comments'];
-			$release['reporter_id_mt'] = $_POST['reporter_1'];
-			$release['reporter_id_ct'] = $_POST['reporter_2'];
-			$release['bulletin_number'] = $this->pubrelease_model->getBulletinNumber($site_id) + 1;
-			$this->pubrelease_model->update('site_id', $site_id, 'bulletin_tracker', array('bulletin_number' => $release['bulletin_number']) );
-			$release_id = $this->pubrelease_model->insert('public_alert_release', $release);
-			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', array('latest_release_id' => $release_id) );
+		$update_event_tbl = [];
+		$release_array = [];
 
-			$this->saveTriggers($_POST, $event_id, $release_id, $event_validity);
+		$release = array(
+			"data_timestamp" => $_POST["timestamp_entry"],
+			"release_time" => $_POST["release_time"],
+			"comments" => $_POST["comments"] == "" ? NULL : $_POST["comments"],
+			"reporter_id_mt" => $_POST["reporter_1"],
+			"reporter_id_ct" => $_POST["reporter_2"]
+		);
 
-			// This $event_id came from EXTENDED to NEW event
-			if( isset($_POST['previous_event_id']) && $_POST['previous_event_id'] != NULL &&  $_POST['previous_event_id'] != '' ) $this->pubrelease_model->update('event_id', $_POST['previous_event_id'], 'public_alert_event', array( 'status' => 'finished' ));
+		if ($status === "routine") {
+			foreach ($_POST["routine_list"] as $entry) {
+				$site_id = isset($entry["site_id"]) ? $entry["site_id"] : $this->pubrelease_model->getSiteID($entry["site"]);
+				$event_id = $this->createNewEvent($site_id, $_POST['timestamp_entry'], $status);
 
-			echo "$event_id";
+				$release["event_id"] = $event_id;
+				$release["internal_alert_level"] = $entry["internal_alert"];
+				$release["bulletin_number"] = $this->getAndUpdateBulletinNumber($site_id);
+				array_push($release_array, $release);
+			}
+		} else {
+			$release["internal_alert_level"] = $_POST["internal_alert_level"];
+			$release["bulletin_number"] = $this->getAndUpdateBulletinNumber($site_id);
 
+			if ($status === "new") {
+				$event_id = $this->createNewEvent($site_id, $_POST["timestamp_entry"], "on-going");
+				$release["event_id"] = $event_id;
+
+				// This $event_id came from EXTENDED to NEW event
+				$previous_event_id = isset($_POST['previous_event_id']) ? $_POST['previous_event_id'] : NULL;
+				if($previous_event_id != NULL &&  $previous_event_id != '') {
+					$this->pubrelease_model->update('event_id', $previous_event_id, 'public_alert_event', array('status' => 'finished'));
+				}
+			} else if (in_array($status, ["on-going", "extended", "invalid", "finished"])) {
+				$release["event_id"] = $event_id = $_POST["current_event_id"];
+				
+				$a = $this->pubrelease_model->getEventValidity($event_id);
+				$event_validity = $a[0]->validity;
+
+				if (in_array($status, ["extended", "invalid", "finished"])) {
+					$update_event_tbl["status"] = $status;
+				}
+			}
+			array_push($release_array, $release);
 		}
-		else if ( $status == 'on-going' || $status == 'extended' || $status == 'invalid' || $status == 'finished')
-		{
-			$release['event_id'] = $event_id = $_POST['current_event_id'];
-			$release['data_timestamp'] = $_POST['timestamp_entry'];
-			$release['internal_alert_level'] = $_POST['internal_alert_level'];
-			$release['release_time'] = $_POST['release_time'];
-			$release['comments'] = $_POST['comments'] == "" ? NULL : $_POST['comments'];
-			$release['reporter_id_mt'] = $_POST['reporter_1'];
-			$release['reporter_id_ct'] = $_POST['reporter_2'];
-			$release['bulletin_number'] = $this->pubrelease_model->getBulletinNumber($site_id) + 1;
-			$this->pubrelease_model->update('site_id', $site_id, 'bulletin_tracker', array('bulletin_number' => $release['bulletin_number']) );
-			$release_id = $this->pubrelease_model->insert('public_alert_release', $release);
-			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', array('latest_release_id' => $release_id) );
-			
-			$a = $this->pubrelease_model->getEventValidity($event_id);
-			$event_validity = $a[0]->validity;
 
-			if( isset($_POST['extend_ND']) || isset($_POST['extend_rain_x']) )
-			{
-    			$data['validity'] = date("Y-m-d H:i:s", strtotime($event_validity) + 4 * 3600);
-    			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', $data);
-			}
-			else $this->saveTriggers($_POST, $event_id, $release_id, $event_validity);
+		foreach ($release_array as $release) {
+			$release_id = $this->pubrelease_model->insert("public_alert_release", $release);
+			$update_event_tbl["latest_release_id"] = $release_id;
 
-			if($status == 'extended' || $status == 'invalid' || $status == 'finished')
-			{
-				$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', array('status' => $status));
+			if ($status === "routine") {
+				$event_id = $release["event_id"];
+			} else if ($status === "new" || $status === "on-going") {
+				if (isset($_POST['extend_ND']) || isset($_POST['extend_rain_x'])) {
+		    			$update_event_tbl["validity"] = date("Y-m-d H:i:s", strtotime($event_validity) + 4 * 3600);
+				} else {
+					$return_arr = $this->saveTriggers($_POST, $event_id, $release_id, $event_validity);
+					$update_event_tbl = array_merge($update_event_tbl, $return_arr);
+				}
 			}
 
-			echo "$event_id";
-
+			echo $event_id;
+			$this->pubrelease_model->update("event_id", $event_id, "public_alert_event", $update_event_tbl);	
 		}
-		else if ($status == 'routine')
-		{
-			foreach ($_POST['routine_list'] as $site_id) 
-			{
-				// Prepare and save on public_alert_event table
-				$event['site_id'] = $site_id;
-				$event['event_start'] = $_POST['timestamp_entry'];
-				$event['status'] = $status;
-				$event_id = $this->pubrelease_model->insert('public_alert_event', $event);
+		
 
-				//Prepare and save on public_alert_release
-				$release['event_id'] = $event_id;
-				$release['data_timestamp'] = $_POST['timestamp_entry'];
-				$release['internal_alert_level'] = $_POST['internal_alert_level'];
-				$release['release_time'] = $_POST['release_time'];
-				$release['comments'] = $_POST['comments'] == "" ? NULL : $_POST['comments'];
-				$release['reporter_id_mt'] = $_POST['reporter_1'];
-				$release['reporter_id_ct'] = $_POST['reporter_2'];
-				$release['bulletin_number'] = $this->pubrelease_model->getBulletinNumber($site_id) + 1;
-				$this->pubrelease_model->update('site_id', $site_id, 'bulletin_tracker', array('bulletin_number' => $release['bulletin_number']) );
-				$release_id = $this->pubrelease_model->insert('public_alert_release', $release);
-				$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', array('latest_release_id' => $release_id) );
-			}
-
-			echo "Routine";
+		// Enter here insert non-triggering features if any
+		if (isset($_POST['nt_feature_groups'])) {
+			$this->saveManifestation($_POST["nt_feature_groups"], "nt_feature_groups", $_POST, $release_id);
 		}
 
 		//Set the public release all cache to dirty
 		$this->setPublicReleaseAllDirty();
 	}
 
-	public function isNewYear($site_id, $timestamp)
-	{
+	public function createNewEvent ($site_id, $timestamp_entry, $status) {
+		$event = array(
+			"site_id" => $site_id, 
+			"event_start" => $timestamp_entry,
+			"status" => $status
+		);
+		$event_id = $this->pubrelease_model->insert("public_alert_event", $event);
+		return $event_id;
+	}
+
+	public function getAndUpdateBulletinNumber ($site_id) {
+		$bulletin_number = $this->pubrelease_model->getBulletinNumber($site_id) + 1;
+		$this->pubrelease_model->update("site_id", $site_id, "bulletin_tracker", array("bulletin_number" => $bulletin_number));
+		return $bulletin_number;
+	}
+
+	public function isNewYear($site_id, $timestamp) {
 		$event = json_decode($this->pubrelease_model->getLastSiteEvent($site_id));
 		$release = json_decode($this->pubrelease_model->getLastRelease($event->event_id));
 		$previous_timestamp = date_parse($release->data_timestamp);
@@ -333,15 +338,14 @@ class Pubrelease extends CI_Controller {
 		return $timestamp;
 	}
 
-	public function saveTriggers($post, $event_id, $release_id, $event_validity)
-	{
-		$lookup = array( "g" => "trigger_ground_1", "G" => "trigger_ground_2", "s" => "trigger_sensor_1", "S" => "trigger_sensor_2", "R" => "trigger_rain", "E" => "trigger_eq", "D" => "trigger_od" );
+	public function saveTriggers($post, $event_id, $release_id, $event_validity) {
+		$lookup = array( "g" => "trigger_ground_1", "G" => "trigger_ground_2", "s" => "trigger_sensor_1", "S" => "trigger_sensor_2", "m" => "trigger_manifestation", "M" => "trigger_manifestation", "R" => "trigger_rain", "E" => "trigger_eq", "D" => "trigger_od" );
 		$list = [];
-		if( $post['trigger_list'] != NULL )
-		{
+		$return_data = [];
+
+		if ($post['trigger_list'] != NULL) {
 			//Prepare and save on public_alert_trigger
-			foreach ( $post['trigger_list'] as $type ) 
-			{
+			foreach ($post['trigger_list'] as $type) {
 				$a['type'] = $type;
 				$a['timestamp'] = $post[ $lookup[$type] ];
 				$a['info'] = $post[ $lookup[$type] . "_info" ];
@@ -352,8 +356,7 @@ class Pubrelease extends CI_Controller {
 			    return strtotime($a['timestamp']) - strtotime($b['timestamp']);
 			});
 
-			foreach ( $list as $entry ) 
-			{
+			foreach ($list as $entry) {
 				$trigger['event_id'] = $event_id;
 				$trigger['release_id'] = $release_id;
 				$trigger['trigger_type'] = $entry['type'];
@@ -362,33 +365,78 @@ class Pubrelease extends CI_Controller {
 				$latest_trigger_id = $this->pubrelease_model->insert('public_alert_trigger', $trigger);
 				
 				// Save additional data for Earthquake trigger
-				if( $entry['type'] == "E" )
-				{
+				if( $entry['type'] == "E" ) {
 					$eq['trigger_id'] = $latest_trigger_id;
 					$eq['magnitude'] = $post['magnitude'];
 					$eq['latitude'] = $post['latitude'];
 					$eq['longitude'] = $post['longitude'];
 					$this->pubrelease_model->insert('public_alert_eq', $eq);
-				} else if( $entry['type'] == "D" )
-				{
+				} else if( $entry['type'] == "D" ) {
 					$od['trigger_id'] = $latest_trigger_id;
 					$od['is_llmc'] = isset($post['llmc']) ? true : false;
 					$od['is_lgu'] = isset($post['lgu']) ? true : false;
 					$od['reason'] = $post['reason'];
 					$this->pubrelease_model->insert('public_alert_on_demand', $od);
+				} else if( strtoupper($entry['type']) == "M" ) {	
+					$this->saveManifestation($post['feature_groups'], "feature_groups", $post, $release_id, $entry['type']);
 				}
 			}
 
-			// Update event entry's latest_trigger_id and validity
-			$data['latest_trigger_id'] = $latest_trigger_id;
-
 			// Check if latest trigger validity is greater than saved validity
 			// Safeguard for entering late triggers
-			$generated_validity = $this->getValidity( $last_timestamp, $post['public_alert_level'] );
-			if( !is_null($event_validity) ) $data['validity'] = strtotime($generated_validity) > strtotime($event_validity) ? $generated_validity : $event_validity;
-			else $data['validity'] = $generated_validity;
-			
-			$this->pubrelease_model->update('event_id', $event_id, 'public_alert_event', $data);
+			$validity = NULL;
+			$generated_validity = $this->getValidity($last_timestamp, $post['public_alert_level']);
+			if(!is_null($event_validity)) {
+				$validity = strtotime($generated_validity) > strtotime($event_validity) ? $generated_validity : $event_validity;
+			} else {
+				$validity = $generated_validity;
+			}
+
+			$return_data = array(
+				"latest_trigger_id" => $latest_trigger_id,
+				"validity" => $validity
+			);
+		}
+
+		return $return_data;
+	}
+
+	public function saveManifestation ($group, $group_name, $post, $release_id = null, $trigger = 1)
+	{
+		if( strpos($group_name, 'nt') !== false ) $group_base = "nt_";
+		else $group_base = "";
+
+		foreach ($group as $field) 
+		{
+			if($field == "base" || $field == "nt_base") $id = "";
+			else $id = preg_replace('/n?t?_?feature/i', "", $field);
+
+			$lookup = ["feature_name", "feature_type"];
+			$feature = array('site_id' => $post['site']);
+			foreach ($lookup as $key) 
+			{
+				$feature[$key] = is_null($post[$group_base . $key . $id]) || $post[$group_base . $key . $id] == "" ? null : $post[$group_base . $key . $id];
+			}
+			$feature_id = $this->pubrelease_model->insertIfNotExists('manifestation_features', $feature);
+
+			switch ($trigger) {
+				case 'm': $op_trigger = 2; break;
+				case 'M': $op_trigger = 3; break;
+				default: $op_trigger = 0; break;
+			}
+			$manifestation = array(
+				"release_id" => $release_id,
+				"feature_id" => $feature_id,
+				"validator" => $post['manifestation_validator'] == "" ? null : $post['manifestation_validator'],
+				"op_trigger" => $op_trigger
+			);
+			$lookup2 = array("feature_narrative" => "narrative", "feature_remarks" => "remarks", 
+				"feature_reporter" => "reporter", "observance_timestamp" => "ts_observance");
+			foreach ($lookup2 as $post_name => $db_name) {
+				$temp = isset($post[$group_base . $post_name . $id]) ? $post[$group_base . $post_name . $id] : null;
+				$manifestation[$db_name] = $temp !== "" ? $temp : null;
+			}
+			$this->pubrelease_model->insert('public_alert_manifestation', $manifestation);
 		}
 	}
 

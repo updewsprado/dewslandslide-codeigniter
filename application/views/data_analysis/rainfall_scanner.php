@@ -1,99 +1,128 @@
+
 <link rel="stylesheet" type="text/css" href="/css/dewslandslide/data_analysis/rainfall_scanner.css">
-<script src="/js/dewslandslide/data_analysis/rainfall_scanner.js"></script>
-<link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-select.min.css">
-<script src="/js/third-party/highcharts.js"></script>
+
+<!-- Highcharts Library -->
+<script src="/js/third-party/highstock.js"></script>
+<script src="/js/third-party/heatmap.js"></script>
 <script src="/js/third-party/exporting.js"></script>
-<script src="/js/third-party/bootstrap-select.min.js"></script>
+<script src="/js/third-party/no-data-to-display.js"></script>
+<script src="/js/third-party/highcharts-more.js"></script>
+
 <script src="/js/third-party/bootstrap-slider.min.js"></script>
 <link rel="stylesheet" href="/css/third-party/bootstrap-slider.min.css" />
-<style>
-  .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
-    width: 120px !important
-  }
 
-</style>
-<br>
-<div class="container">
-  <div class="page-header">
-    <h1>RAINFALL SCANNER PAGE</h1>
-  </div>
-  <div class="panel-group">
-    <div class="panel panel-primary">
-      <div class="panel-heading">Filter Option:</div>
-      <div class="panel-body" style="text-align: -webkit-center;">
-        <form class="form-inline" >
-        <div class ="inlineDiv " >
-            <label >Chart view:</label>
-            <select class="selectpicker"  id="chart_view" >
-              <option>....</option>
-              <option>All Sites</option>
-              <option>Region</option>
-            </select>
-          </div>
-          
-          <div class="region_view inlineDiv " id="region_view_div" >
-            <label class="region_view" id="region_id" >Region</label>
-            <select class="selectpicker region_view"  id="region_view" ></select>
-          </div>
-          
-          <div  class="criteria inlineDiv " >
-            <label>| &nbsp;</label>
-            <label  >Criteria:</label>
-            <select class="selectpicker"  id="criteria1" >
-              <option>....</option>
-              <option> 24 hours</option>
-              <option> 72 hours </option>
-              <option> 2 year max half</option>
-              <option> 2 year max </option>
-            </select>
-          </div>
+<script src="/js/dewslandslide/data_analysis/rainfall_scanner.js"></script>
 
-          <div class="inlineDiv ">
-           <label >Operands :</label>
-           <select class="selectpicker"  id="operands_value" >
-             <option>....</option>
-             <option value="="> <b> =  </b></option>
-             <option value="< ="> <b> < = </b> </option>
-             <option value="<"> <b> <  </b></option>
-             <option value="> ="> <b> > = </b></option>
-             <option value=">"> <b> > </b> </option>
-           </select>
-         </div>
-
-         <div  class="val_rain inlineDiv" >
-          <label class="val_rain"  >Value:</label>
-          <div class="input-group input-group2"> 
-            <input id="value_rain_num" type="number" min="0" step="1" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
-            <span class="input-group-addon"><small>mm/hr</small></span>
-          </div>
+<div id="page-wrapper">
+    <div class="container">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Rainfall Scanner Page
+                </h1>
+            </div>
         </div>
-        <div style="display:inline-block;">
+        <!-- /.row -->
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">Filter Options</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-2 col-sm-offset-1 form-group">
+                        <label class="control-label" for="chart-view">Chart View</label>
+                        <select id="chart-view" class="form-control" name="chart-view">
+                            <option value="sites" selected="selected">Sites</option>
+                            <option value="regions">Regions</option>
+                            <option value="provinces">Provinces</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 form-group" id="regions-div" hidden="hidden">
+                        <label class="control-label" for="regions">Regions</label>
+                        <select id="regions" class="form-control" name="regions">
+                            <?php foreach($regions as $region): ?>
+                                <?php
+                                    $selected = ""; 
+                                    if ($region === $regions[0]) { $selected = "selected='selected'"; } 
+                                ?>
+                                <option value="<?php echo $region; ?>" <?php echo $selected; ?>>
+                                    <?php echo strtoupper($region); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 form-group" id="provinces-div" hidden="hidden">
+                        <label class="control-label" for="provinces">Provinces</label>
+                        <select id="provinces" class="form-control" name="provinces">
+                            <?php foreach($provinces as $province): ?>
+                                <?php
+                                    $selected = ""; 
+                                    if ($province === $provinces[0]) { $selected = "selected='selected'"; } 
+                                ?>
+                                <option value="<?php echo $province; ?>" <?php echo $selected; ?>>
+                                    <?php echo $province; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-1 form-group">
+                        <label class="control-label" for="operand">Operand</label>
+                        <select id="operand" class="form-control" name="operand">
+                            <option value="equal">=</option>
+                            <option value="less-than-equal"><=</option>
+                            <option value="less-than"><</option>
+                            <option value="greater-than-equal" selected="selected">>=</option>
+                            <option value="greater-than">></option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 form-group value-input-div" id="percentage-div">
+                        <label class="control-label" for="percentage">Percentage</label>
+                        <input id="percentage" class="form-control" data-slider-id="percentage" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="75"/>
+                    </div>
+
+                    <div class="col-sm-3 form-group value-input-div" id="rainfall-value-div" hidden="hidden">
+                        <label class="control-label" for="rainfall-value">Rainfall Value</label>
+                        <div class="input-group">
+                            <input id="rainfall-value" class="form-control" type="number" placeholder="Enter rainfall value" value="50">
+                            <span class="input-group-addon">mm/hr</span>
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-sm-2 form-group">
+                        <label class="control-label" for="criteria">Criteria</label>
+                        <select id="criteria" class="form-control" name="criteria">
+                            <option value="threshold" selected="selected">Threshold</option>
+                            <option value="cumulative">Cumulative Data</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 form-group criteria-detail" id="threshold-div">
+                        <label class="control-label" for="threshold">Threshold</label>
+                        <select id="threshold" class="form-control" name="threshold">
+                            <option value="1" selected="selected">1-day Cumulative</option>
+                            <option value="3">3-day Cumulative</option>
+                        </select>
+                    </div>   
+
+                    <div class="col-sm-2 form-group criteria-detail" id="cumulative-div" hidden>
+                        <label class="control-label" for="cumulative">Cumulative Data</label>
+                        <select id="cumulative" class="form-control" name="cumulative">
+                            <option value="1" selected="selected">1-day Cumulative</option>
+                            <option value="3">3-day Cumulative</option>
+                        </select>
+                    </div>          
+                </div>
+            </div>
         </div>
-        <label class="percent_div" >Percentage : &nbsp;</label>
-        <div class="percent_div inlineDiv" >
 
-          <input id="data-resolution" type="text"
-          data-provide="slider"
-          data-slider-min="0"
-          data-slider-max="100"
-          data-slider-step="1"
-          data-slider-value="80"
-          data-slider-tooltip="show"/>
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="col-sm-12 col-md-12" id="analysis_panel_body">
-    <br>
-    <small id="small_header">&nbsp;Rainfall Scanner Page</small>
-    <hr>
-    <h2 id="rain_header">RAINFALL LEVEL PER SITE</h2>
-    <div id="container" class="container_all"></div>
-    <div id="container_region" class="container_region"></div>
-  </div>
-</div>
-</div>
+        <div id="rainfall-percentages-container" class="row">
+            <div id="rainfall-percentages-plot" class="col-sm-12"></div>
+        </div>    
 
-
-
-
+    </div><!-- /.container-fluid -->
+</div><!-- /#page-wrapper --> 

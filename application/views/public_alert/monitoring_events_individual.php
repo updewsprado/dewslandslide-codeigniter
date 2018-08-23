@@ -21,7 +21,9 @@
 	$releases = json_decode($releases);
 	$triggers = json_decode($triggers);
 	$staff = json_decode($staff);
-	$name = $event->sitio != NULL ? "$event->sitio, $event->barangay, $event->municipality, $event->province" : "$event->barangay, $event->municipality, $event->province";
+	$address = "Brgy. $event->barangay, $event->municipality, $event->province";
+    if (!is_null($event->sitio)) $address = "Sitio $event->sitio, $address";
+    if (!is_null($event->purok)) $address = "Purok $event->purok, $address";
 
 	$status = $event->status == "on-going" || $event->status == "finished" || $event->status == "extended" || $event->status == "invalid" ? "Event-Based" : "Routine";
 	
@@ -43,7 +45,7 @@
 
 	function format($type, $timestamp)
 	{
-		$lookup = array('R' => 'Rainfall (R)' , 'E' => 'Earthquake (E)', 'D' => 'On-demand (D)', 'g' => 'Ground data movement (g/L2)', 'G' => 'Ground data movement (G/L3)', 's' => 'Sensor data movement (s/L2)', 'S' => 'Sensor data movement (S/L3)');
+		$lookup = array('R' => 'Rainfall (R)' , 'E' => 'Earthquake (E)', 'D' => 'On-demand (D)', 'g' => 'Surficial data movement (g/L2)', 'G' => 'Surficial data movement (G/L3)', 's' => 'Subsurface data movement (s/L2)', 'S' => 'Subsurface data movement (S/L3)', 'm' => 'Manifestation (m)', 'M' => 'Manifestation (M)');
 		return $lookup[$type] . ' alert triggered on ' . date("F jS Y, g:i A", strtotime($timestamp));
 	}
 ?>
@@ -57,7 +59,7 @@
         <div class="row">
             <div class="col-sm-12" id="header">
                 <h2 class="page-header">
-                    Monitoring Page for <?php echo $name . " (" . strtoupper($event->name) . ")"; ?>
+                    Monitoring Page for <?php echo $address . " (" . strtoupper($event->name) . ")"; ?>
                 	<br><small><?php echo date("F jS Y, g:i A", strtotime($event->event_start)); if(!is_null($event->validity)) echo " to " . date("F jS Y, g:i A", strtotime($event->validity)); ?></small>
                 </h2>
                 
@@ -103,21 +105,45 @@
             						Released: <span class="release_time"><?php echo date("g:i A", strtotime($releases[0]->release_time)); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Internal Alert Level:&nbsp;&nbsp;<span class="internal_alert_level"><?php echo $releases[0]->internal_alert_level; ?></span></b>
             					</div>
             					<hr>
-            					<?php 
 
-            						$trigger_list = getTriggers($releases[0]->release_id, $triggers);
-            						if( count($trigger_list) > 0 ):
-            					?>
-            					<div class="triggers">
-            						<ul>
-            					<?php foreach ($trigger_list as $trigger): ?>
-		        						<li><?php echo format($trigger->trigger_type, $trigger->timestamp); ?></li>
-                                        <?php if($trigger->info != null) echo "<ul><li>" . $trigger->info . "</li></ul>"; ?>
-		        				<?php endforeach; ?>
-		        					</ul>
-		        					<hr>
-            					</div>
-            				<?php endif; ?>
+            					<?php 
+                                    $trigger_list = getTriggers($releases[0]->release_id, $triggers);
+                                    if( count($trigger_list) > 0 || count($releases[0]->extra_manifestations) > 0 ):
+                                ?>
+                                <div class="triggers">
+                                    <ul>
+                                        <?php foreach ($trigger_list as $trigger): ?>
+                                                <li><?php echo format($trigger->trigger_type, $trigger->timestamp); ?></li>
+                                                <?php if($trigger->info != null) echo "<ul><li>" . $trigger->info . "</li></ul>"; ?>
+                                                <?php if(strtoupper($trigger->trigger_type) == "M"): ?> 
+                                                    <?php foreach ($trigger->manifestation_info as $man): ?>
+                                                        <?php echo "<ul><ul><li>Feature: " . ucwords($man->feature_type) . " $man->feature_name (M$man->op_trigger)</li></ul>"; ?>
+                                                        <?php echo "<ul><ul><li>Narrative: " . $man->narrative . "</li></ul></ul>"; ?>
+                                                        <?php echo "<ul><ul><li>Reporter: " . $man->reporter . "</li></ul></ul>"; ?>
+                                                        <?php echo "<ul><ul><li>Remarks: " . $man->remarks . "</li></ul></ul>"; ?>
+                                                        <?php echo "</ul>"; ?>
+                                                    <?php endforeach; ?>
+                                                    <?php echo "<ul><ul><li>Validator: " . returnName($trigger->manifestation_info[0]->validator, $staff) . "</li></ul></ul>"; ?>
+                                                <?php endif; ?>
+                                        <?php endforeach; ?>
+
+                                        <?php if( count($trigger_list) > 0 && count($releases[0]->extra_manifestations) > 0 ) echo "<hr/>"; ?>
+
+                                        <?php foreach ($releases[0]->extra_manifestations as $nt_feature ): ?>
+                                            <li>Non-Triggering Feature: <?php echo ucwords($nt_feature->feature_type) . " $nt_feature->feature_name"; ?></li>
+                                                <?php echo "<ul><li>Narrative: " . $nt_feature->narrative . "</li></ul>"; ?>
+                                                <?php echo "<ul><li>Reporter: " . $nt_feature->reporter . "</li></ul>"; ?>
+                                                <?php echo "<ul><li>Remarks: " . $nt_feature->remarks . "</li></ul>"; ?>
+                                        <?php endforeach; ?>
+
+                                        <?php if( count($releases[0]->extra_manifestations) > 0 ):  ?>
+                                            <?php echo "<li>Validator: " . returnName($releases[0]->extra_manifestations[0]->validator, $staff) . "</li>"; ?>
+                                        <?php endif; ?>
+                                    </ul>
+                                    <hr>
+                                </div>
+                                <?php endif; ?>
+
             					<?php if( $releases[0]->comments != NULL): ?>
             					<div class="comments">
             						<b>Comments:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $releases[0]->comments; ?>
@@ -144,7 +170,6 @@
                     <?php foreach (array_reverse($releases) as $release): ?>
 			        <li class="timeline-inverted">
 			        	<?php 
-
                             $x = substr($release->internal_alert_level, 0, 2);
                             $x = $x == "ND" ? ( strlen($release->internal_alert_level) > 3 ? "A1" : "A0" ) : $x;
 
@@ -184,20 +209,43 @@
             					<hr>
 
             					<?php 
-
             						$trigger_list = getTriggers($release->release_id, $triggers);
-            						if( count($trigger_list) > 0 ):
+            						if( count($trigger_list) > 0 || count($release->extra_manifestations) > 0 ):
             					?>
             					<div class="triggers">
             						<ul>
-            					<?php foreach ($trigger_list as $trigger): ?>
-		        						<li><?php echo format($trigger->trigger_type, $trigger->timestamp); ?></li>
-                                        <?php if($trigger->info != null) echo "<ul><li>" . $trigger->info . "</li></ul>"; ?>
-		        				<?php endforeach; ?>
+                    					<?php foreach ($trigger_list as $trigger): ?>
+        		        						<li><?php echo format($trigger->trigger_type, $trigger->timestamp); ?></li>
+                                                <?php if($trigger->info != null) echo "<ul><li>" . $trigger->info . "</li></ul>"; ?>
+                                                <?php if(strtoupper($trigger->trigger_type) == "M"): ?> 
+                                                    <?php foreach ($trigger->manifestation_info as $man): ?>
+                                                        <?php echo "<ul><ul><li>Feature: " . ucwords($man->feature_type) . " $man->feature_name (M$man->op_trigger)</li></ul>"; ?>
+                                                        <?php echo "<ul><ul><li>Narrative: " . $man->narrative . "</li></ul></ul>"; ?>
+                                                        <?php echo "<ul><ul><li>Reporter: " . $man->reporter . "</li></ul></ul>"; ?>
+                                                        <?php echo "<ul><ul><li>Remarks: " . $man->remarks . "</li></ul></ul>"; ?>
+                                                        <?php echo "</ul>"; ?>
+                                                    <?php endforeach; ?>
+                                                    <?php echo "<ul><ul><li>Validator: " . returnName($trigger->manifestation_info[0]->validator, $staff) . "</li></ul></ul>"; ?>
+                                                <?php endif; ?>
+        		        				<?php endforeach; ?>
+
+                                        <?php if( count($trigger_list) > 0 && count($release->extra_manifestations) > 0 ) echo "<hr/>"; ?>
+
+                                        <?php foreach ($release->extra_manifestations as $nt_feature ): ?>
+                                            <li>Non-Triggering Feature: <?php echo ucwords($nt_feature->feature_type) . " $nt_feature->feature_name"; ?></li>
+                                                <?php echo "<ul><li>Narrative: " . $nt_feature->narrative . "</li></ul>"; ?>
+                                                <?php echo "<ul><li>Reporter: " . $nt_feature->reporter . "</li></ul>"; ?>
+                                                <?php echo "<ul><li>Remarks: " . $nt_feature->remarks . "</li></ul>"; ?>
+                                        <?php endforeach; ?>
+
+                                        <?php if( count($release->extra_manifestations) > 0 ):  ?>
+                                            <?php echo "<li>Validator: " . returnName($release->extra_manifestations[0]->validator, $staff) . "</li>"; ?>
+                                        <?php endif; ?>
 		        					</ul>
 		        					<hr>
             					</div>
-            				<?php endif; ?>
+            				    <?php endif; ?>
+
             					<?php if( $release->comments != NULL): ?>
             					<div class="comments">
             						<b>Comments:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $release->comments; ?>
@@ -481,7 +529,7 @@
                             &emsp;<span id="recipients_span"></span>
                         </div>
                         <hr>
-                        <div id="bulletin_modal"></div>
+                        <div id="bulletin_div"></div>
                     </div>
                     <div class="modal-footer">
                         <button id="edit-bulletin" class="btn btn-warning" role="button" type="submit">Edit</button>

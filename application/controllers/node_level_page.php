@@ -79,13 +79,10 @@ class Node_level_page extends CI_Controller {
 		$data['nodeStatus'] = $this->Alert_model->getSingleNodeStatus($site);	
 		print json_encode($data);
 	}
-	public function getAllgintagsNodeTagID($data,$node,$plotter){
-		$result = $this->node_level_model->gintagsNodeTagID($data,$node,$plotter);
-		print json_encode($result);
-	}
+
 	public function getAllgintagsNodeTagIDTry(){
 		$data_result = $_POST['data'];
-		$result = $this->node_level_model->gintagsNodeTagIDTry($data_result['table'],$data_result['date']);
+		$result = $this->node_level_model->gintagsNodeTagID($data_result['table'],$data_result['from_id'],$data_result['to_id'],$data_result['site']);
 		print json_encode($result);
 	}
 }

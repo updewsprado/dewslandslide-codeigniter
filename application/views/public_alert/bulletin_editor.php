@@ -29,8 +29,9 @@ $(document).ready(function() {
 	$("#bulletin_number").text(edits[0]);
 	$("#alert_description").text(edits[1]);
 	$("#validity").text(edits[2]);
-	$("#next_reporting").text(edits[3]);
-	$("#next_bulletin").text(edits[4]);
-
+	$("#recommended_response").text(edits[3]);
+	$("#next_reporting").text(edits[4]);
+	$("#recommended_response_2").text(edits[5]);
+	$("#next_bulletin").text(edits[6]);
 });
 </script>

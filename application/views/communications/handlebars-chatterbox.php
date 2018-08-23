@@ -1,6 +1,6 @@
     <script id="messages-template-both" type="text/x-handlebars-template">
         {{#each messages}}
-        {{#if isYou}}
+        {{#if isyou}}
         {{#if hasTag}}
             <li class="right clearfix tagged" title="Tagged Messaged">
         {{else}}
