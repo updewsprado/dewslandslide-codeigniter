@@ -47,23 +47,11 @@
 			return $result->first_name . " " . $result->last_name;
 		}
 
-		public function getResponses($public_alert, $internal_alert)
+		public function getResponses($public_alert)
 		{
-			$internal_alert = str_replace("0", "", substr($internal_alert, 2));
-			$internal_alert = preg_replace("/[r]?x/", "", $internal_alert, 1);
-			$internal_alert = $public_alert . $internal_alert;
-
 			$query = $this->db->get_where('lut_responses', array('public_alert_level' => $public_alert));
-			
-			$this->db->select("*")->from("lut_alert_descriptions");
-			$this->db->where("internal_alert_level LIKE '%" . $internal_alert . "%' COLLATE utf8_bin");
-			$query2 = $this->db->get();
-
 			$query3 = $this->db->get('lut_triggers');
 			$data['response'] = $query->result_array()[0];
-			$data['description'] = $query2->result_array()[0];
-			//$data['trigger_desc'] = $query3->result_array();
-
 			foreach ($query3->result_object() as $line) {
 				$data['trigger_desc'][$line->trigger_type] = $line->detailed_desc;
 			}
@@ -107,6 +95,12 @@
 					$query = $this->db->get('public_alert_on_demand');
 
 					$arr['od_info'] = array_pop($query->result_object());
+				} else if (strtoupper($arr['trigger_type']) == 'M') 
+				{
+					$this->db->where('release_id', $arr['release_id']);
+					$query = $this->db->get('public_alert_manifestation');
+
+					$arr['manifestation_info'] = array_pop($query->result_object());
 				}
 
 			}
@@ -118,6 +112,18 @@
 		{
 			$query = $this->db->get_where('public_alert_release', array('release_id' => $release_id));
 			return count($query->result_array()) > 0 ? json_encode($query->result_array()[0]) : null;
+		}
+
+		public function getPreviousNonA0Release($event_id)
+		{
+			$query = $this->db->select("internal_alert_level")
+						->from("public_alert_release")
+						->where("event_id", $event_id)
+						->where("internal_alert_level NOT IN ('A0', 'ND')")
+						->order_by("data_timestamp", 'DESC')
+						->limit(1)
+						->get();
+			return $query->result_array()[0]['internal_alert_level'];
 		}
 
 		public function getEmailCredentials($username)

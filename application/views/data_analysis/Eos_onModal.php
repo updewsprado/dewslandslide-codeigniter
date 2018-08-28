@@ -24,13 +24,15 @@
     <div class="col-sm-12 col-md-12 graphGenerator" id="graphGenerator" >
     </div>
     <div id="rainAll" class="box">
-      <svg id="rainBox" xmlns="http://www.w3.org/2000/svg" width="1200" height ="1500"></svg>
+      <svg id="rainBox" xmlns="http://www.w3.org/2000/svg" width="1400" height ="1500"></svg>
     </div>
     <div id="subAll" class="box">
-      <svg id="subBox" xmlns="http://www.w3.org/2000/svg" width="1250" height ="2800"></svg>
+      <svg id="subBox" xmlns="http://www.w3.org/2000/svg" width="1300" height ="2600"></svg>
     </div>
   </div>
 </div>
+<div id="tester_id" hidden></div>
+<div id="tester_id_time" hidden></div>
 <div class="modal fade js-loading-bar" id="loading" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">

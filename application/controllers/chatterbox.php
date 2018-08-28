@@ -17,7 +17,7 @@ class Chatterbox extends CI_Controller {
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
 		$data['user_id'] = $this->session->userdata("id");
-		
+		$data['jquery'] = "old";
 		$data['title'] = $page;
 
 		$this->load->view('templates/header', $data);
@@ -108,12 +108,12 @@ class Chatterbox extends CI_Controller {
 		if ($data->cmd == "delete"){
  			print json_encode($result);
  		} else {
- 			$sms_ids = $this->get_sms_gintag_id($result,$data->data[2]);
+ 			$sms_ids = $this->get_sms_gintag_id($result,$data->data[2],$data->data[6]);
  			print json_encode($sms_ids);	
  		}
 	}
 
-	public function get_sms_gintag_id($data,$timestamp){
+	public function get_sms_gintag_id($data,$timestamp,$dbused){
 		$contact_person = "";
 		$sms_collection = [];
 		$contact_collection = [];
@@ -141,9 +141,8 @@ class Chatterbox extends CI_Controller {
 				$contact_person = $contact->number;
 			}
 		}
-
 		foreach ($contact_collection as $contact) {
-			$result = $this->contacts_model->getGintagsSmsId($contact,$timestamp);
+			$result = $this->contacts_model->getGintagsSmsId($contact,$timestamp,$dbused);
 			array_push($sms_collection, $result);
 			$sms_collection = array_filter($sms_collection);
 		}
@@ -244,4 +243,55 @@ class Chatterbox extends CI_Controller {
 		$result = $this->contacts_model->commContactViaDashboard($data);
 		print json_encode($result);
 	}
+
+	public function getRoutine(){
+		$routine_set = [];
+		$ctr = 0;
+		$result = $this->contacts_model->onRoutine();
+		$event = $this->contacts_model->excludeRoutine();
+
+		if (sizeof($event->result()) == 0) {
+			foreach ($result->result() as $row) {
+				$routine_set[$ctr]['site'] = $row->name;
+				$routine_set[$ctr]['season'] = $row->season;
+				$ctr++;
+			}
+		} else {
+			foreach ($result->result() as $row) {
+				foreach ($event->result() as $exclude) {
+					if ($row->name == $exclude->name) {
+						$onEvent = true;
+						break;
+					} else {
+						$onEvent = false;
+					}
+				}
+
+			if ($onEvent == false) {
+				$routine_set[$ctr]['site'] = $row->name;
+				$routine_set[$ctr]['season'] = $row->season;
+				$ctr++;
+			}
+				
+			}
+		}
+		print json_encode($routine_set);
+	}
+
+		public function getRoutineSeason(){
+			$site = $_POST['site_name'];
+			$routine_set = [];
+			$ctr = 0;
+			$result = $this->contacts_model->onRoutine();
+
+			foreach ($result->result() as $row) {
+				if ($row->name == $site) {
+					$routine_set[$ctr]['site'] = $row->name;
+					$routine_set[$ctr]['season'] = $row->season;
+					$ctr++;
+				}
+			}
+			
+			print json_encode($routine_set);
+		}
 }

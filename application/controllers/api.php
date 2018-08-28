@@ -6,7 +6,31 @@ class API extends CI_Controller {
 		$this->load->model('site_level_model');
 		$this->load->model('node_level_model');
 		$this->load->model('comm_health_model');
+		$this->load->model('pubrelease_model');
 	}
+		public function latestSensorData($site){ // example http://localhost/api/latestSensorData/agbsb
+			$result = $this->node_level_model->getlatestSensorData($site);
+			print json_encode($result);
+		}
+		public function latestGroundData($site){ // example http://localhost/api/latestGroundData/agbsb
+			if($site == "mng"){
+				$site_name = "man";
+			}else if( $site == "png"){
+				$site_name = "pan";
+			}else if($site == "bto"){
+				$site_name = "bat";
+			}else if($site == "jor"){
+				$site_name = "pob";
+			}else{
+				$site_name = $site;
+			}
+			$result = $this->node_level_model->getlatestGroundData($site_name);
+			print json_encode($result);
+		}
+		public function AccelBatteryThreshold($site,$node){ // example  http://localhost/api/AccelBatteryThreshold/agbsb/2
+			$result = $this->node_level_model->getAccelBatteryThreshold($site,$node);
+			print json_encode($result);
+		}
 
 		public function PiezometerAllData($site){ // example  http://localhost/api/PiezometerAllData/ltesapzpz
 			$result = $this->site_level_model->getPiezometer($site);
@@ -50,6 +74,13 @@ class API extends CI_Controller {
 			print json_encode($result);
 
 		}
+
+		public function SpecificSiteNum($site){ // example http://localhost/api/SpecificSiteNum/mag
+			$result = $this->site_level_model->getSiteidNum($site);
+			print json_encode($result);
+
+		}
+
 		public function RainSenslope($rsite,$fdate,$tdate){ // example http://localhost/api/RainSenslope/blcw/2016-05-25/2016-06-25
 			$os = PHP_OS;
 
@@ -60,6 +91,7 @@ class API extends CI_Controller {
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
 				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
 				$fileName = '/var/www/updews-pycodes/Liaison/rainfallNewGetData.py';
+
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";
@@ -67,7 +99,7 @@ class API extends CI_Controller {
 			}
 			
 			$command = $pythonPath.' '.$fileName.' '.$rsite.' '.$fdate.' '.$tdate;
-
+			
 			exec($command, $output, $return);
 			print json_encode($output);
 
@@ -83,6 +115,7 @@ class API extends CI_Controller {
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
 				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
 				$fileName = '/var/www/updews-pycodes/Liaison/rainfallNewGetDataNoah.py';
+				
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";
@@ -90,7 +123,6 @@ class API extends CI_Controller {
 			}
 			
 			$command = $pythonPath.' '.$fileName.' '.$rsite.' '.$fdate.' '.$tdate;
-
 			exec($command, $output, $return);
 			print json_encode($output);
 
@@ -116,6 +148,7 @@ class API extends CI_Controller {
 
 			exec($command, $output, $return);
 			print json_encode($output);
+
 
 		}
 
@@ -293,7 +326,18 @@ class API extends CI_Controller {
 			
 		}
 
-		public function GroundDataFromLEWS($gsite){ // example http://localhost/api/GroundDataFromLEWS/AGB
+		public function GroundDataFromLEWS($site){ // example http://localhost/api/GroundDataFromLEWS/AGB
+			if($site == "mng"){
+				$site_name = "man";
+			}else if( $site == "png"){
+				$site_name = "pan";
+			}else if($site == "bto"){
+				$site_name = "bat";
+			}else if($site == "jor"){
+				$site_name = "pob";
+			}else{
+				$site_name = $site;
+			}
 			$os = PHP_OS;
 			if (strpos($os,'WIN') !== false) {
 				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
@@ -308,13 +352,24 @@ class API extends CI_Controller {
 				return;
 			}
 
-			$command = $pythonPath.' '.$fileName.' '.$gsite;
+			$command = $pythonPath.' '.$fileName.' '.$site_name;
 
 			exec($command, $output, $return);
 			print json_encode($output);
 		}
 
-		public function GroundDataFromLEWSInRange($gsite,$fdate,$tdate){ // example http://localhost/api/GroundDataFromLEWSInRange/AGB/2013-01-01/2017-01-01
+		public function GroundDataFromLEWSInRange($site,$fdate,$tdate){ // example http://localhost/api/GroundDataFromLEWSInRange/AGB/2013-01-01/2017-01-01
+			if($site == "mng"){
+				$site_name = "man";
+			}else if( $site == "png"){
+				$site_name = "pan";
+			}else if($site == "bto"){
+				$site_name = "bat";
+			}else if($site == "jor"){
+				$site_name = "pob";
+			}else{
+				$site_name = $site;
+			}
 			$os = PHP_OS;
 			if (strpos($os,'WIN') !== false) {
 				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
@@ -329,7 +384,7 @@ class API extends CI_Controller {
 				return;
 			}
 
-			$command = $pythonPath.' '.$fileName.' '.$gsite.' '.$fdate.' '.$tdate;
+			$command = $pythonPath.' '.$fileName.' '.$site_name.' '.$fdate.' '.$tdate;
 
 			exec($command, $output, $return);
 			print json_encode($output);
@@ -337,7 +392,17 @@ class API extends CI_Controller {
 
 
 		public function GroundVelocityDisplacementData($site,$cid){ // example http://localhost/api/GroundVelocityDisplacementData/AGB/A
-
+			if($site == "mng"){
+				$site_name = "man";
+			}else if( $site == "png"){
+				$site_name = "pan";
+			}else if($site == "bto"){
+				$site_name = "bat";
+			}else if($site == "jor"){
+				$site_name = "pob";
+			}else{
+				$site_name = $site;
+			}
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -353,7 +418,7 @@ class API extends CI_Controller {
 				return;
 			}
 
-			$command = $pythonPath.' '.$fileName.' '.$site.' '.$cid;
+			$command = $pythonPath.' '.$fileName.' '.$site_name.' '.$cid;
 
 			exec($command, $output, $return);
 			print json_encode($output[0]);
@@ -384,7 +449,6 @@ class API extends CI_Controller {
 		}
 
 		public function SensorAllAnalysisData($site,$fdate,$tdate){ // example http://localhost/api/SensorAllAnalysisData/agbsb/2016-04-25/2016-05-25
-
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -453,6 +517,17 @@ class API extends CI_Controller {
 		}
 
 		public function last10GroundData($site){ //example http://localhost/api/last10GroundData/agb
+			if($site == "mng"){
+				$site_name = "man";
+			}else if( $site == "png"){
+				$site_name = "pan";
+			}else if($site == "bto"){
+				$site_name = "bat";
+			}else if($site == "jor"){
+				$site_name = "pob";
+			}else{
+				$site_name = $site;
+			}
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -468,7 +543,7 @@ class API extends CI_Controller {
 				return;
 			}
 			
-			$command = $pythonPath.' '.$fileName.' '.$site;
+			$command = $pythonPath.' '.$fileName.' '.$site_name;
 
 			exec($command, $output, $return);
 			print json_encode($output[0]);
@@ -476,6 +551,17 @@ class API extends CI_Controller {
 		}
 
 		public function last10Computation($site){ //example http://localhost/api/last10Computation/agb
+			if($site == "mng"){
+				$site_name = "man";
+			}else if( $site == "png"){
+				$site_name = "pan";
+			}else if($site == "bto"){
+				$site_name = "bat";
+			}else if($site == "jor"){
+				$site_name = "pob";
+			}else{
+				$site_name = $site;
+			}
 			$os = PHP_OS;
 
 			if (strpos($os,'WIN') !== false) {
@@ -491,7 +577,7 @@ class API extends CI_Controller {
 				return;
 			}
 			
-			$command = $pythonPath.' '.$fileName.' '.$site;
+			$command = $pythonPath.' '.$fileName.' '.$site_name;
 
 			exec($command, $output, $return);
 			print json_encode($output[0]);
@@ -520,29 +606,118 @@ class API extends CI_Controller {
 			print json_encode($output[0]);
 
 		}
-		public function rainfallScanner(){ //example http://localhost/api/rainfallScanner
-			$os = PHP_OS;
 
+	public function rainfallScanner () {
+		try {
+            $paths = $this->getOSspecificpath();
+        } catch (Exception $e) {
+            echo "Caught exception: ",  $e->getMessage(), "\n";
+        }
+
+        $exec_file = "rainfallScanner.py";
+
+        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file";
+        exec($command, $output, $return);
+		echo json_encode($output[sizeof($output)-1]);
+
+	}
+
+		public function time_execution(){
+			$data_result = $_POST['data'];
+
+			$os = PHP_OS;
 			if (strpos($os,'WIN') !== false) {
-				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
-				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\rainfallScanner.py';
+				$file = fopen('C:\xampp\htdocs\temp\data\sub_runtime_js.csv', 'a');
 			}
 			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
-				$fileName = '/var/www/updews-pycodes/Liaison/rainfallScanner.py';
+				$file = fopen('/var/www/html/temp/data/sub_runtime_js.csv', 'a');
 			}
 			else {
 				echo "Unknown OS for execution... Script discontinued";
 				return;
 			}
-			
-			$command = $pythonPath.' '.$fileName;
-
-			exec($command, $output, $return);
-			print json_encode($output);
+			foreach ($data_result as $row){fputcsv($file, $row);}
+			fclose($file);
+			print json_encode($data_result);
 
 		}
 
+		public function time_execution_all(){
+			$data_result = $_POST['data'];
+			$os = PHP_OS;
+			if (strpos($os,'WIN') !== false) {
+				$file = fopen('C:\xampp\htdocs\temp\data\sub_runtime_all.csv', 'a');
+			}
+			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
+				$file = fopen('/var/www/html/temp/data/sub_runtime_all.csv', 'a');
+			}
+			else {
+				echo "Unknown OS for execution... Script discontinued";
+				return;
+			}
+			$data = array(
+				array($data_result[0], $data_result[1]),
+			);
+			foreach ($data as $row)
+			{
+				fputcsv($file, $row);
+			}
+			print json_encode($data_result);
 
+		}
+	
+	public function getStaff () {
+		echo $this->pubrelease_model->getStaff();
 	}
-	?>
+
+	public function getAllReleasesWithEventDetails () {
+		echo $this->pubrelease_model->getAllReleasesWithEventDetails();
+	}
+
+	public function getMOM ($site_code = "all", $start = null, $end = null) {
+		$this->load->model('manifestations_model');
+		echo $this->manifestations_model->getMOMApi($site_code, $start, $end);
+	}
+
+	private function getOSspecificpath () {
+        $os = PHP_OS;
+        $python_path = "";
+        $file_path = "";
+
+        if (strpos($os, "WIN") !== false) {
+            $python_path = "C:/Users/Dynaslope/Anaconda2/python.exe";
+            $file_path = "C:/xampp/updews-pycodes/Liaison/";
+        } elseif (strpos($os, "UBUNTU") !== false || strpos($os, "Linux") !== false) {
+            $python_path = "/home/ubuntu/anaconda2/bin/python";
+            $file_path = "/var/www/updews-pycodes/Liaison/";
+        } else {
+            throw new Exception("Unknown OS for execution... Script discontinued...");
+        }
+
+        return array(
+            "python_path" => $python_path, 
+            "file_path" => $file_path
+        );
+    }
+
+    private function convertSiteCodesFromNewToOld ($site_code) {
+        $sc = "";
+        switch ($site_code) {
+            case "mng":
+                $sc = "man"; break;
+            case "png":
+                $sc = "pan"; break;
+            case "bto":
+                $sc = "bat"; break;
+            case "jor":
+                $sc = "pob"; break;
+            case "tga":
+                $sc = "tag"; break;
+            default: 
+                $sc = $site_code; break;
+        }
+        return $sc;
+    }
+
+}
+?>
