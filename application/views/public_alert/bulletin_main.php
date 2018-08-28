@@ -235,7 +235,7 @@
 								function ($trigger) use ($a, $release)
 								{ 
 									//return $trigger->trigger_type == $a;
-									return $trigger->trigger_type == $a && strtotime($trigger->timestamp) <= strtotime($release->data_timestamp) + 1800;
+									return strtoupper($trigger->trigger_type) == strtoupper($a) && strtotime($trigger->timestamp) <= strtotime($release->data_timestamp) + 1800;
 								}));
 
 								// If ordered has no triggers in it (case like A3 
