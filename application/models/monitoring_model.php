@@ -61,9 +61,9 @@ class Monitoring_Model extends CI_Model
 
 	public function getSites()
 	{
-		$sql = "SELECT id, name, sitio, barangay, municipality, province, season 
-				FROM site 
-				ORDER BY name ASC";
+		$sql = "SELECT site_id, site_code, sitio, barangay, municipality, province 
+				FROM sites 
+				ORDER BY site_code ASC";
 
 		$query = $this->db->query($sql);
 
@@ -82,9 +82,9 @@ class Monitoring_Model extends CI_Model
 	          $address = "$sitio, $barangay, $municipality, $province";
 	        }
 
-	        $site[$i]["id"] = $row["id"];
-	        $site[$i]["name"] = $row["name"];
-	        $site[$i]["season"] = $row["season"];
+	        $site[$i]["id"] = $row["site_id"];
+	        $site[$i]["name"] = $row["site_code"];
+	        // $site[$i]["season"] = $row["season"];
 	        $site[$i++]["address"] = $address;
 	    }
 
@@ -98,9 +98,10 @@ class Monitoring_Model extends CI_Model
 	 **/
 	public function getStaff()
 	{
-		$this->db->select('id, first_name, last_name');
-		$this->db->where('is_active','1');
-		$this->db->order_by("last_name", "asc");
+		$config_app = switch_db("comms_db");
+		$db = $this->load->database($config_app,TRUE);
+		$this->db = $db;
+		$this->db->select('membership_id, username');
 		$query = $this->db->get('membership');
 		return json_encode($query->result_array());
 	}
