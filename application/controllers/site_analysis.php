@@ -63,7 +63,7 @@ class Site_analysis extends CI_Controller {
                     if($instance->rain > $data_series["max_rval"]) {
                         $data_series["max_rval"] = $instance->rain;
                     }
-                    // echo $instance->seventytwo_hr_cumulative . br();
+
                     if($instance->seventytwo_hr_cumulative > $data_series["max_72h"]) {
                         $data_series["max_72h"] = $instance->seventytwo_hr_cumulative;
                     }
@@ -137,15 +137,9 @@ class Site_analysis extends CI_Controller {
         $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $rain_gauge $start_date $end_date $offset";
         //$command = !is_null($end_date) ? "$command $end_date" : $command;
         exec($command, $output, $return);
-        $web_plots_data = null;
-        foreach ($output as $string) {
-            if(strpos($string, "web_plots") !== false){
-                $data = explode("web_plots=", $string);
-                $web_plots_data = $data[1];
-            }
-        }
-
-        return json_decode($web_plots_data);
+        $python_data = $this->extractPythonData($output);
+        
+        return json_decode($python_data);
     }
 
     public function getRainDataSourcesPerSiteForButton ($site_code) {
@@ -166,15 +160,9 @@ class Site_analysis extends CI_Controller {
 
         $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $site_code";
         exec($command, $output, $return);
-        $rain_sources = null;
-        foreach ($output as $string) {
-            if(strpos($string, "web_plots") !== false){
-                $data = explode("web_plots=", $string);
-                $rain_sources = $data[1];
-            }
-        }
+        $python_data = $this->extractPythonData($output);
 
-        return $rain_sources;
+        return $python_data;
     }
 
     /**
@@ -202,7 +190,7 @@ class Site_analysis extends CI_Controller {
             }
             $temp = array(
                 'x' => strtotime($data->ts) * 1000, 
-                'y' => (int) $data->measurement, 
+                'y' => (int) $data->measurement,
                 'id' => (int) $data->mo_id
             );
             array_push($data_per_marker[$data->crack_id], $temp);
@@ -220,8 +208,16 @@ class Site_analysis extends CI_Controller {
         echo json_encode($processed_data);
     }
 
-    public function getProcessedSurficialMarkerTrendingAnalysis ($site_code, $marker_name, $end_date) {
-        $data = $this->getSurficialMarkerTrendingAnalysis($site_code, $marker_name, $end_date);
+    public function getGroundMarkerAndMarkerId ($site_code) {
+        $surficial_markers = $this->surficial_model->getGroundMarkerName($site_code);
+
+        echo json_encode($surficial_markers);
+    }
+
+    public function getProcessedSurficialMarkerTrendingAnalysis ($site_code, $marker_name, $end_date) { // site_id and marker_id
+        $site_id = $this->getSiteId($site_code);
+        $data = $this->getSurficialMarkerTrendingAnalysis($site_id, $marker_name, $end_date);
+        $data = json_decode($data);
         $velocity_accelaration = $this->processVelocityAccelData($data);
         $displacement_interpolation = $this->processDisplacementInterpolation($data);
         $velocity_acceleration_time = $this->processVelocityAccelTimeData($data);
@@ -242,20 +238,19 @@ class Site_analysis extends CI_Controller {
             echo "Caught exception: ",  $e->getMessage(), "\n";
         }
 
-        $exec_file = "surficialTrendingAnalysis.py";
+        $json_file = file_get_contents(base_url() . "json/refdb_surficial_trending.json");
+        return $json_file;
 
-        $site_code = $this->convertSiteCodesFromNewToOld($site_code);
-        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $site_code $marker_name $end_date";
+        // $exec_file = "getSurficialMarkerTrendingAnalysis.py";
 
-        exec($command, $output, $return);
-        $web_plots_data = null;
-        foreach ($output as $string) {
-            if(strpos($string, "web_plots") !== false){
-                $data = explode("web_plots=", $string);
-                $web_plots_data = $data[1];
-            }
-        }
-        return $web_plots_data;
+        // $site_code = $this->convertSiteCodesFromNewToOld($site_code);
+        // $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $site_code $marker_name $end_date";
+
+        // exec($command, $output, $return);
+        // $python_data = $this->extractPythonData($output);
+
+        // return $python_data;
+
     }
 
     private function processVelocityAccelData ($data) {
@@ -311,17 +306,19 @@ class Site_analysis extends CI_Controller {
     private function processVelocityAccelTimeData ($data) {
         $acceleration = [];
         $velocity = [];
+        $timestamps = [];
 
         $vat = $data->vat;
         for ($i = 0; $i < count($vat->ts_n); $i++) { 
-            array_push($acceleration, array($vat->ts_n[$i], $vat->a_n[$i]));
-            array_push($velocity, array($vat->ts_n[$i], $vat->v_n[$i]));
-
+            array_push($acceleration, $vat->a_n[$i]);
+            array_push($velocity, $vat->v_n[$i]);
+            array_push($timestamps, $vat->ts_n[$i]);
         }
 
         $velocity_acceleration_time = array(
             array("name" => "Acceleration", "data" => $acceleration),
-            array("name" => "Velocity", "data" => $velocity)
+            array("name" => "Velocity", "data" => $velocity),
+            array("name" => "Timestamps", "data" => $timestamps)
         );
 
         return $velocity_acceleration_time;
@@ -836,9 +833,10 @@ class Site_analysis extends CI_Controller {
      */
 
     public function test () {
-        $data = $this->getSubsurfaceDataByColumn("agbta", "2017-11-11T12:00:00", "2017-11-10T12:00:00");
+        // $data = $this->getSubsurfaceDataByColumn("agbta", "2017-11-11T12:00:00", "2017-11-10T12:00:00");
         // $data = $this->getPlotDataForColumnSummary("magta", "2016-10-14T12:00:00", "2016-10-16T12:00:00");
         // $data = $this->getPlotDataForNode("agbta", "2016-01-15", "2016-01-21", "1");
+        $data = $this->surficial_model->getGroundMarkerName("agb");
         print "<pre>";
         var_dump($data);
         print "</pre>";
@@ -1007,6 +1005,18 @@ class Site_analysis extends CI_Controller {
         );
     }
 
+    private function extractPythonData ($output) {
+        $web_plots_data = null;
+        foreach ($output as $string) {
+            if(strpos($string, "web_plots") !== false){
+                $data = explode("web_plots=", $string);
+                $web_plots_data = $data[1];
+            }
+        }
+
+        return $web_plots_data;
+    }
+
     private function convertSiteCodesFromNewToOld ($site_code) {
         $sc = "";
         switch ($site_code) {
@@ -1024,6 +1034,11 @@ class Site_analysis extends CI_Controller {
                 $sc = $site_code; break;
         }
         return $sc;
+    }
+
+    public function getSiteId ($site_code) {
+        $site_id = $this->pubrelease_model->getSiteID($site_code);
+        return $site_id;
     }
 }
 ?>
