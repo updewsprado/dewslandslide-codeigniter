@@ -20,19 +20,22 @@ class Membership_model extends CI_Model {
 
 	public function validate() {
 		$config_app = switch_db("comms_db");
-		$db = $this->load->database($config_app,TRUE);
-
+		$db = $this->load->database($config_app, TRUE);
+		$db->select('*');
+		$db->from('membership');
+		$db->join('users', 'membership.user_fk_id = users.user_id');
 		$db->where('username', $this->input->post('username'));
 		$db->where('password', hash('sha512', $this->input->post('password')));
-
-
-		$query = $db->get('membership');
+		$query = $db->get();
 		
 		if ($query->num_rows == 1) {
-			$this->names['id'] = $query->row()->user_fk_id;
+			$this->names['user_id'] = $query->row()->user_fk_id;
+			$this->names['first_name'] = $query->row()->firstname;
+			$this->names['last_name'] = $query->row()->lastname;
+
 			$result = [
 				"status" => true,
-				"id" => $this->names['id']
+				"data" => $this->names
 			];
 
 			return $result;
@@ -41,6 +44,7 @@ class Membership_model extends CI_Model {
 			$result = [
 				"status" => false
 			];
+			
 			return $result;
 		}
 	}
