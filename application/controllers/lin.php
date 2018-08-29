@@ -16,21 +16,18 @@ class Lin extends CI_Controller {
 		if ($query['status']) {	//if the user's credentials validated
 
 			$config_app = switch_db("senslopedb");
-			$this->db = $this->load->database($config_app,TRUE);
+			$this->db = $this->load->database($config_app, TRUE);
 
-			$id = $query['id'];
-		
-			$data = array (
-				'id' => $id,
+			$data = $query['data'];
+			$dataset = array (
+				'id' => $data['id'],
 				'username' => $this->input->post('username'),
-				'first_name' => $firstname,
-				'last_name' => $lastname,
+				'first_name' => $data['first_name'],
+				'last_name' => $data['last_name'],
 				'is_logged_in' => true
 			);
 			
-			$this->session->set_userdata($data);
-			//redirect('mempage/members_area');
-
+			$this->session->set_userdata($dataset);
 			redirect('/home');
 		}
 		else {
