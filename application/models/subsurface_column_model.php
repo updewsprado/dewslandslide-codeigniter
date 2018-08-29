@@ -11,38 +11,41 @@
 
 		public function getSiteSubsurfaceColumns ($site_code) {
 			$this->db->select("*");
-			$this->db->from("site_column");
-			$this->db->like("name", $site_code);
+			$this->db->from("tsm_sensors");
+			$this->db->like("tsm_name", $site_code, "after");
+			$this->db->order_by("tsm_name", "asc");
 			$query = $this->db->get();
 			return $query->result();
 		}
 
 		public function getSubsurfaceColumnDataPresence ($site_column, $start_date, $end_date) {
-			$this->db->select("timestamp")
-				->from($site_column)
-				->where("timestamp >= '$start_date'")
-				->where("timestamp <= '$end_date'")
-				->where("xvalue IS NOT NULL")
-				->group_by("timestamp")
-				->order_by("timestamp");
+			$table_name = "tilt_" . $site_column;
+			$this->db->select("ts as timestamp")
+				->from($table_name)
+				->where("ts >= '$start_date'")
+				->where("ts <= '$end_date'")
+				->where("xval IS NOT NULL")
+				->group_by("ts")
+				->order_by("ts");
 			$result = $this->db->get();
 			return $result->result();
 		}
 
 		public function getSubsurfaceColumnData ($site_column, $start_date, $end_date) {
+			$table_name = "tilt_" . $site_column;
 			$this->db->select("*")
-				->from($site_column)
-				->where("timestamp >=", "$start_date")
-				->where("timestamp <=", "$end_date")
-				->order_by("timestamp");
+				->from($table_name)
+				->where("ts >=", "$start_date")
+				->where("ts <=", "$end_date")
+				->order_by("ts");
 			$data = $this->db->get();
 			return $data->result();
 		}
 
 		public function getSubsurfaceColumnVersion($site_column) {
 			$this->db->select("version")
-				->from("site_column")
-				->where("name", $site_column);
+				->from("tsm_sensors")
+				->where("tsm_name", $site_column);
 			$data = $this->db->get();
 			return $data->row()->version;
 		}

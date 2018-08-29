@@ -51,14 +51,14 @@
 	$temp_date = date('jMY_gA', strtotime($release_time));
 	$temp_date = str_replace("12AM", "12MN", $temp_date);
 	$temp_date = str_replace("12PM", "12NN", $temp_date);
-	$filename = strtoupper($event->name) . "_" . $temp_date;
+	$filename = strtoupper($event->site_code) . "_" . $temp_date;
 
 ?>
 
 <div class="text-area">
 <div class="row">
 	<div id="filename" hidden><?php echo $filename; ?></div>
-	<div id="subject" hidden><?php echo strtoupper($event->name) . " " . strtoupper(date("d M Y", strtotime($event->event_start))); ?></div>
+	<div id="subject" hidden><?php echo strtoupper($event->site_code) . " " . strtoupper(date("d M Y", strtotime($event->event_start))); ?></div>
 
 	<div class="col-sm-2"><img id="phivolcs" class="pull-right" src="/images/bulletin/phivolcs.png"></div>
 
@@ -83,7 +83,7 @@
 <div class="row">
 
 	<div class="col-sm-12 center-text">
-		<h2 id="title"><b>DEWS-L PROGRAM LANDSLIDE ALERT LEVEL INFORMATION: <?php echo strtoupper($event->name) . "-" . date('Y', strtotime($release_time)) . "-<span class='editable' id='bulletin_number'>" . sprintf("%03d", $release->bulletin_number) . "</span>"; ?> 
+		<h2 id="title"><b>DEWS-L PROGRAM LANDSLIDE ALERT LEVEL INFORMATION: <?php echo strtoupper($event->site_code) . "-" . date('Y', strtotime($release_time)) . "-<span class='editable' id='bulletin_number'>" . sprintf("%03d", $release->bulletin_number) . "</span>"; ?> 
 		</b></h2>
 	</div>
 

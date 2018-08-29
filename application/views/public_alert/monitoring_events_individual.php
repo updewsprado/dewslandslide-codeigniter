@@ -59,7 +59,7 @@
         <div class="row">
             <div class="col-sm-12" id="header">
                 <h2 class="page-header">
-                    Monitoring Page for <?php echo $address . " (" . strtoupper($event->name) . ")"; ?>
+                    Monitoring Page for <?php echo $address . " (" . strtoupper($event->site_code) . ")"; ?>
                 	<br><small><?php echo date("F jS Y, g:i A", strtotime($event->event_start)); if(!is_null($event->validity)) echo " to " . date("F jS Y, g:i A", strtotime($event->validity)); ?></small>
                 </h2>
                 
@@ -72,7 +72,7 @@
                 <div>
             		<div id="reveal" class="text-center"> 
             			<?php echo strtoupper($status); ?> MONITORING PAGE FOR <br>
-            			<?php $temp = $event->sitio == null ? "" : $event->sitio . ", "; echo strtoupper("$temp$event->barangay,<br>$event->municipality, $event->province") . " (" . strtoupper($event->name) . ")"; ?><br>
+            			<?php $temp = $event->sitio == null ? "" : $event->sitio . ", "; echo strtoupper("$temp$event->barangay,<br>$event->municipality, $event->province") . " (" . strtoupper($event->site_code) . ")"; ?><br>
                     	<small><?php echo date("M j, Y, g:i A", strtotime($event->event_start));
                     	if(!is_null($event->validity)) echo " to " . date("M j, Y, g:i A", strtotime($event->validity)); ?></small> 
                     </div>
@@ -515,7 +515,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Early Warning Information Bulletin for <?php echo strtoupper($event->name); ?></h4>
+                        <h4 class="modal-title">Early Warning Information Bulletin for <?php echo strtoupper($event->site_code); ?></h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">

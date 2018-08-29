@@ -5,7 +5,7 @@
      A viewing table for Manifestations of Movement Page
      located at /application/views/data_analysis/
      
-     Linked at [host]/data_analysis/manifestations
+     Linked at [host]/analysis/manifestations
      
  -->
 

@@ -10,8 +10,8 @@ class Pubrelease_Model extends CI_Model
 
 	public function getSites()
 	{
-		$sql = "SELECT id, name, sitio, barangay, municipality, province, season 
-				FROM site 
+		$sql = "SELECT site_id, site_code as name, sitio, barangay, municipality, province, season
+				FROM sites 
 				ORDER BY name ASC";
 
 		$query = $this->db->query($sql);
@@ -31,7 +31,7 @@ class Pubrelease_Model extends CI_Model
 	          $address = "$sitio, $barangay, $municipality, $province";
 	        }
 
-	        $site[$i]["id"] = $row["id"];
+	        $site[$i]["id"] = $row["site_id"];
 	        $site[$i]["name"] = $row["name"];
 	        $site[$i]["season"] = $row["season"];
 	        $site[$i++]["address"] = $address;
@@ -41,7 +41,7 @@ class Pubrelease_Model extends CI_Model
 	}
 
 	public function getSitesWithRegions() {
-		$query = $this->db->order_by("region")->get("site");
+		$query = $this->db->order_by("region")->get("sites");
 		return $query->result();
 	}
 
@@ -52,10 +52,12 @@ class Pubrelease_Model extends CI_Model
 	 **/
 	public function getStaff()
 	{
-		$this->db->select('id, first_name, last_name');
+		$this->db->select('mem.membership_id AS id, u.firstname AS first_name, u.lastname AS last_name');
 		$this->db->where('is_active','1');
-		$this->db->order_by("last_name", "asc");
-		$query = $this->db->get('membership');
+		$this->db->from('comms_db.membership AS mem');
+		$this->db->join('comms_db.users AS u', "u.user_id = mem.user_fk_id");
+		$this->db->order_by("u.lastname", "asc");
+		$query = $this->db->get();
 		return json_encode($query->result_array());
 	}
 
@@ -170,11 +172,11 @@ class Pubrelease_Model extends CI_Model
 		return $query->result_object();
 	}
 
-	public function getSiteID($code)
+	public function getSiteID($site_code)// refdb
 	{
-		$this->db->select("id");
-		$query = $this->db->get_where('site', array('name' => $code));
-		return $query->row()->id;
+		$this->db->select("site_id");
+		$query = $this->db->get_where("sites", array("site_code" => $site_code));
+		return $query->row()->site_id;
 	}
 
 	public function getBulletinNumber($site)
@@ -200,9 +202,9 @@ class Pubrelease_Model extends CI_Model
 
 	public function getEvent($event_id)
 	{
-		$this->db->select('public_alert_event.*, site.*');
+		$this->db->select('public_alert_event.*, sites.*');
 		$this->db->from('public_alert_event');
-		$this->db->join('site', 'public_alert_event.site_id = site.id');
+		$this->db->join('sites', 'public_alert_event.site_id = sites.site_id');
 		$this->db->where('public_alert_event.event_id', $event_id);
 		$query = $this->db->get();
 		return json_encode($query->result_object());
@@ -273,7 +275,7 @@ class Pubrelease_Model extends CI_Model
 	{
 		$this->db->select('COUNT(*)');
 		$this->db->from('public_alert_event');
-		$this->db->join('site', 'public_alert_event.site_id = site.id');
+		$this->db->join('sites', 'public_alert_event.site_id = sites.site_id');
 		$this->db->join('public_alert_release', 'public_alert_event.latest_release_id = public_alert_release.release_id');
 		if( !is_null($filter) ) $this->db->where($filter);
 		if( !is_null($search) ) {
@@ -291,9 +293,9 @@ class Pubrelease_Model extends CI_Model
 
 	public function getAllEvents($search = null, $filter = null, $orderBy, $orderType, $start, $length)
 	{
-        $this->db->select('public_alert_event.*, site.*, public_alert_release.*');
+        $this->db->select('public_alert_event.*, sites.*, public_alert_release.*');
 		$this->db->from('public_alert_event');
-		$this->db->join('site', 'public_alert_event.site_id = site.id');
+		$this->db->join('sites', 'public_alert_event.site_id = sites.site_id');
 		$this->db->join('public_alert_release', 'public_alert_event.latest_release_id = public_alert_release.release_id');
 		if( !is_null($filter) ) $this->db->where($filter);
 		if( !is_null($search) ) {
@@ -317,10 +319,10 @@ class Pubrelease_Model extends CI_Model
 
 	public function getAllReleasesWithSite()
 	{
-		$this->db->select('public_alert_event.site_id, site.name, site.sitio, site.barangay, site.municipality, site.province, public_alert_release.*');
+		$this->db->select('public_alert_event.site_id, sites.site_code, sites.sitio, sites.barangay, sites.municipality, sites.province, public_alert_release.*');
 		$this->db->from('public_alert_release');
 		$this->db->join('public_alert_event', 'public_alert_event.event_id = public_alert_release.event_id');
-		$this->db->join('site', 'public_alert_event.site_id = site.id');
+		$this->db->join('sites', 'public_alert_event.site_id = sites.site_id');
 		$query = $this->db->get();
 		return json_encode($query->result_object());
 	}
@@ -333,10 +335,10 @@ class Pubrelease_Model extends CI_Model
 
 	public function getAllReleasesWithEventDetails()
 	{
-		$this->db->select('public_alert_release.*, public_alert_event.*, public_alert_event.site_id, site.name, site.sitio, site.barangay, site.municipality, site.province, public_alert_release.*');
+		$this->db->select('public_alert_release.*, public_alert_event.*, public_alert_event.site_id, sites.site_code, sites.sitio, sites.barangay, sites.municipality, sites.province, public_alert_release.*');
 		$this->db->from('public_alert_release');
 		$this->db->join('public_alert_event', 'public_alert_event.event_id = public_alert_release.event_id');
-		$this->db->join('site', 'public_alert_event.site_id = site.id');
+		$this->db->join('sites', 'public_alert_event.site_id = sites.site_id');
 		$query = $this->db->get();
 		return json_encode($query->result_object());
 	}
