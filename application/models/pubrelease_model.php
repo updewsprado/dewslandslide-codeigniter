@@ -10,8 +10,9 @@ class Pubrelease_Model extends CI_Model
 
 	public function getSites()
 	{
-		$sql = "SELECT id, name, sitio, barangay, municipality, province, season 
-				FROM site 
+		//add season
+		$sql = "SELECT site_id, site_code as name, sitio, barangay, municipality, province
+				FROM sites 
 				ORDER BY name ASC";
 
 		$query = $this->db->query($sql);
@@ -31,12 +32,18 @@ class Pubrelease_Model extends CI_Model
 	          $address = "$sitio, $barangay, $municipality, $province";
 	        }
 
-	        $site[$i]["id"] = $row["id"];
+	        $site[$i]["id"] = $row["site_id"];
 	        $site[$i]["name"] = $row["name"];
-	        $site[$i]["season"] = $row["season"];
+	        // $site[$i]["season"] = $row["season"];
 	        $site[$i++]["address"] = $address;
 	    }
-	    	return json_encode($site);
+	    
+	    return json_encode($site);
+	}
+
+	public function getSitesWithRegions() {
+		$query = $this->db->order_by("region")->get("site");
+		return $query->result();
 	}
 
 	/**
@@ -164,11 +171,11 @@ class Pubrelease_Model extends CI_Model
 		return $query->result_object();
 	}
 
-	public function getSiteID($code)
+	public function getSiteID($site_code)// refdb
 	{
-		$this->db->select("id");
-		$query = $this->db->get_where('site', array('name' => $code));
-		return $query->row()->id;
+		$this->db->select("site_id");
+		$query = $this->db->get_where("sites", array("site_code" => $site_code));
+		return $query->row()->site_id;
 	}
 
 	public function getBulletinNumber($site)

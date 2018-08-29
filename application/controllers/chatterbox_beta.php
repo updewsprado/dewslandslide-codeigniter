@@ -18,7 +18,7 @@ class Chatterbox_beta extends CI_Controller {
 		$data['first_name'] = $this->session->userdata('first_name');
 		$data['last_name'] = $this->session->userdata('last_name');
 		$data['user_id'] = $this->session->userdata("id");
-		$data['jquery'] = "old";
+		$data['jquery'] = "new";
 		$data['title'] = $page;
 
 		$this->load->view('templates/header', $data);

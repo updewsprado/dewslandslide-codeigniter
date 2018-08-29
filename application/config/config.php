@@ -16,7 +16,7 @@
 */
 
 $config['base_url']	= 'http://www.dewslandslide.com/';
-// $config['base_url'] = 'http://dewslqa.com/';
+// $config['base_url'] = 'http://localhost/';
 
 
 $config['server_root'] = $_SERVER['DOCUMENT_ROOT'];

@@ -606,28 +606,21 @@ class API extends CI_Controller {
 			print json_encode($output[0]);
 
 		}
-		public function rainfallScanner(){ //example http://localhost/api/rainfallScanner
-			$os = PHP_OS;
 
-			if (strpos($os,'WIN') !== false) {
-				$pythonPath = 'c:\Users\USER\Anaconda2\python.exe';
-				$fileName = 'C:\xampp\updews-pycodes\Liaison-mysql\rainfallScanner.py';
-			}
-			elseif ((strpos($os,'Ubuntu') !== false) || (strpos($os,'Linux') !== false)) {
-				$pythonPath = '/home/ubuntu/anaconda2/bin/python';
-				$fileName = '/var/www/updews-pycodes/Liaison/rainfallScanner.py';
-			}
-			else {
-				echo "Unknown OS for execution... Script discontinued";
-				return;
-			}
-			
-			$command = $pythonPath.' '.$fileName;
+	public function rainfallScanner () {
+		try {
+            $paths = $this->getOSspecificpath();
+        } catch (Exception $e) {
+            echo "Caught exception: ",  $e->getMessage(), "\n";
+        }
 
-			exec($command, $output, $return);
-			print json_encode($output[sizeof($output)-1]);
+        $exec_file = "rainfallScanner.py";
 
-		}
+        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file";
+        exec($command, $output, $return);
+		echo json_encode($output[sizeof($output)-1]);
+
+	}
 
 		public function time_execution(){
 			$data_result = $_POST['data'];
@@ -673,21 +666,58 @@ class API extends CI_Controller {
 
 		}
 	
-	public function getStaff()
-	{
+	public function getStaff () {
 		echo $this->pubrelease_model->getStaff();
 	}
 
-	public function getAllReleasesWithEventDetails()
-	{
+	public function getAllReleasesWithEventDetails () {
 		echo $this->pubrelease_model->getAllReleasesWithEventDetails();
 	}
 
-	public function getMOM($site_code = "all", $start = null, $end = null)
-	{
+	public function getMOM ($site_code = "all", $start = null, $end = null) {
 		$this->load->model('manifestations_model');
 		echo $this->manifestations_model->getMOMApi($site_code, $start, $end);
 	}
 
-	}
-	?>
+	private function getOSspecificpath () {
+        $os = PHP_OS;
+        $python_path = "";
+        $file_path = "";
+
+        if (strpos($os, "WIN") !== false) {
+            $python_path = "C:/Users/Dynaslope/Anaconda2/python.exe";
+            $file_path = "C:/xampp/updews-pycodes/Liaison/";
+        } elseif (strpos($os, "UBUNTU") !== false || strpos($os, "Linux") !== false) {
+            $python_path = "/home/ubuntu/anaconda2/bin/python";
+            $file_path = "/var/www/updews-pycodes/Liaison/";
+        } else {
+            throw new Exception("Unknown OS for execution... Script discontinued...");
+        }
+
+        return array(
+            "python_path" => $python_path, 
+            "file_path" => $file_path
+        );
+    }
+
+    private function convertSiteCodesFromNewToOld ($site_code) {
+        $sc = "";
+        switch ($site_code) {
+            case "mng":
+                $sc = "man"; break;
+            case "png":
+                $sc = "pan"; break;
+            case "bto":
+                $sc = "bat"; break;
+            case "jor":
+                $sc = "pob"; break;
+            case "tga":
+                $sc = "tag"; break;
+            default: 
+                $sc = $site_code; break;
+        }
+        return $sc;
+    }
+
+}
+?>
