@@ -63,7 +63,7 @@ class Site_analysis extends CI_Controller {
                     if($instance->rain > $data_series["max_rval"]) {
                         $data_series["max_rval"] = $instance->rain;
                     }
-                    // echo $instance->seventytwo_hr_cumulative . br();
+
                     if($instance->seventytwo_hr_cumulative > $data_series["max_72h"]) {
                         $data_series["max_72h"] = $instance->seventytwo_hr_cumulative;
                     }
@@ -137,15 +137,9 @@ class Site_analysis extends CI_Controller {
         $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $rain_gauge $start_date $end_date $offset";
         //$command = !is_null($end_date) ? "$command $end_date" : $command;
         exec($command, $output, $return);
-        $web_plots_data = null;
-        foreach ($output as $string) {
-            if(strpos($string, "web_plots") !== false){
-                $data = explode("web_plots=", $string);
-                $web_plots_data = $data[1];
-            }
-        }
-
-        return json_decode($web_plots_data);
+        $python_data = $this->extractPythonData($output);
+        
+        return json_decode($python_data);
     }
 
     public function getRainDataSourcesPerSiteForButton ($site_code) {
@@ -166,15 +160,9 @@ class Site_analysis extends CI_Controller {
 
         $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $site_code";
         exec($command, $output, $return);
-        $rain_sources = null;
-        foreach ($output as $string) {
-            if(strpos($string, "web_plots") !== false){
-                $data = explode("web_plots=", $string);
-                $rain_sources = $data[1];
-            }
-        }
+        $python_data = $this->extractPythonData($output);
 
-        return $rain_sources;
+        return $python_data;
     }
 
     /**
@@ -202,7 +190,7 @@ class Site_analysis extends CI_Controller {
             }
             $temp = array(
                 'x' => strtotime($data->ts) * 1000, 
-                'y' => (int) $data->measurement, 
+                'y' => (int) $data->measurement,
                 'id' => (int) $data->mo_id
             );
             array_push($data_per_marker[$data->crack_id], $temp);
@@ -220,8 +208,17 @@ class Site_analysis extends CI_Controller {
         echo json_encode($processed_data);
     }
 
-    public function getProcessedSurficialMarkerTrendingAnalysis ($site_code, $marker_name, $end_date) {
-        $data = $this->getSurficialMarkerTrendingAnalysis($site_code, $marker_name, $end_date);
+    public function getGroundMarkerAndMarkerId ($site_code) {
+        $surficial_markers = $this->surficial_model->getGroundMarkerName($site_code);
+
+        echo json_encode($surficial_markers);
+    }
+
+    public function getProcessedSurficialMarkerTrendingAnalysis ($site_code, $marker_id, $end_date) {
+        $site_id = $this->getSiteId($site_code);
+        $data = $this->getSurficialMarkerTrendingAnalysis($site_id, $marker_id, $end_date);
+        $data = json_decode($data);
+        // var_dump($data);
         $velocity_accelaration = $this->processVelocityAccelData($data);
         $displacement_interpolation = $this->processDisplacementInterpolation($data);
         $velocity_acceleration_time = $this->processVelocityAccelTimeData($data);
@@ -235,27 +232,26 @@ class Site_analysis extends CI_Controller {
         echo json_encode($processed_data);
     }
 
-    public function getSurficialMarkerTrendingAnalysis ($site_code, $marker_name, $end_date) {
+    public function getSurficialMarkerTrendingAnalysis ($site_id, $marker_id, $end_date) {
         try {
             $paths = $this->getOSspecificpath();
         } catch (Exception $e) {
             echo "Caught exception: ",  $e->getMessage(), "\n";
         }
 
-        $exec_file = "surficialTrendingAnalysis.py";
+        // $json_file = file_get_contents(base_url() . "json/refdb_surficial_trending.json");
+        // return $json_file;
 
-        $site_code = $this->convertSiteCodesFromNewToOld($site_code);
-        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $site_code $marker_name $end_date";
+        $exec_file = "getSurficialMarkerTrendingAnalysis.py";
+
+        // $site_code = $this->convertSiteCodesFromNewToOld($site_code);
+        $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $site_id $marker_id $end_date";
 
         exec($command, $output, $return);
-        $web_plots_data = null;
-        foreach ($output as $string) {
-            if(strpos($string, "web_plots") !== false){
-                $data = explode("web_plots=", $string);
-                $web_plots_data = $data[1];
-            }
-        }
-        return $web_plots_data;
+        $python_data = $this->extractPythonData($output);
+
+        return $python_data;
+
     }
 
     private function processVelocityAccelData ($data) {
@@ -311,17 +307,19 @@ class Site_analysis extends CI_Controller {
     private function processVelocityAccelTimeData ($data) {
         $acceleration = [];
         $velocity = [];
+        $timestamps = [];
 
         $vat = $data->vat;
         for ($i = 0; $i < count($vat->ts_n); $i++) { 
-            array_push($acceleration, array($vat->ts_n[$i], $vat->a_n[$i]));
-            array_push($velocity, array($vat->ts_n[$i], $vat->v_n[$i]));
-
+            array_push($acceleration, $vat->a_n[$i]);
+            array_push($velocity, $vat->v_n[$i]);
+            array_push($timestamps, $vat->ts_n[$i]);
         }
 
         $velocity_acceleration_time = array(
             array("name" => "Acceleration", "data" => $acceleration),
-            array("name" => "Velocity", "data" => $velocity)
+            array("name" => "Velocity", "data" => $velocity),
+            array("name" => "Timestamps", "data" => $timestamps)
         );
 
         return $velocity_acceleration_time;
@@ -836,9 +834,10 @@ class Site_analysis extends CI_Controller {
      */
 
     public function test () {
-        $data = $this->getSubsurfaceDataByColumn("agbta", "2017-11-11T12:00:00", "2017-11-10T12:00:00");
+        // $data = $this->getSubsurfaceDataByColumn("agbta", "2017-11-11T12:00:00", "2017-11-10T12:00:00");
         // $data = $this->getPlotDataForColumnSummary("magta", "2016-10-14T12:00:00", "2016-10-16T12:00:00");
         // $data = $this->getPlotDataForNode("agbta", "2016-01-15", "2016-01-21", "1");
+        $data = $this->surficial_model->getGroundMarkerName("agb");
         print "<pre>";
         var_dump($data);
         print "</pre>";
@@ -849,65 +848,114 @@ class Site_analysis extends CI_Controller {
         echo json_encode($result);
     }
 
-    public function getPlotDataForNode ($subsurface_column, $start_date, $end_date, $node) {
-        $node_list = explode("-", $node);
-        $delegate_array = [[], [], [], []];
+    public function getAdjacentWorkingNodes ($node, $node_status) {
+        $node_list = [];
+        $start = null; $end = null;
+        $is_start_filled = false;
+        $is_end_filled = false;
+        var_dump($node_status);
+        foreach ($node_status as $key => $node_prop) {
+            $status = isset($node_prop["status"]) ? $node_prop["status"] : "OK";
+            $node_id = $node_prop["id"];
+            
+            if ((int) $node === $node_id) {
+                // Check if $node is the first in node_status
+                if (current($node_status) === $node_status[0]) {
+                    array_push($node_list, $node_prop);
+                    $is_start_filled = true;
+                } else {
+                    array_push($node_list, $start);
+                    array_push($node_list, $node_prop);
+                    $is_start_filled = true;
+                }
+            } else {
+                if ($is_start_filled && $is_end_filled) break;
+                if (!$is_start_filled) {
+                    if ($status !== "Not OK") {
+                        $start = $node_prop;
+                    }
+                } else {
+                    if ($status !== "Not OK") {
+                        $end = $node_prop;
+                        array_push($node_list, $end);
+                        $is_end_filled = true;
+                    }
+                }
+            }
+        }
+        return $node_list;
+    }
 
+    public function getPlotDataForNode ($subsurface_column, $start_date, $end_date, $node) {
+        $node_status = $this->getPlotDataForNodeHealthSummary($subsurface_column);
+        $node_list = $this->getAdjacentWorkingNodes($node, $node_status);
+
+        return $node_list;
+
+        $delegate_array = [[], [], [], []];
         foreach ($node_list as $node_id) {
             $index_node_id = "Node $node_id";
-
+            $accel_id = $this->getAccelIDsByVersion($subsurface_column);
             $version = 1;
-            if (strlen($subsurface_column) > 4) {
-                $version = 2;
+            if (count($accel_id) > 0) {
+                $version = $accel_id[0] === 32 ? 2 : 3;
             }
-
-            $return_data = $this->getFilteredAccelData($subsurface_column, $start_date, $end_date, $node_id, $version);
-            // Python Behavior
-            $return_data = json_decode($return_data)[0];
+            $filtered_data = $this->getFilteredAccelData($subsurface_column, $start_date, $end_date, $node_id, $version);
             
             foreach ($delegate_array as $key => $array) {
                 $delegate_array[$key][$index_node_id] = [];
             }
-
-            foreach ($return_data as $accel_id => $raw_filtered_arr) {
-                foreach ($raw_filtered_arr as $rf_arr) {
-                    $raw_filtered = $rf_arr->type;
-                    $data_arr = $rf_arr->data;
-                    $is_raw = $raw_filtered === "raw" ? true : false;
-
-                    foreach ($data_arr as $point) {
-                        $timestamp = strtotime($point->ts) * 1000;
-                        $point_values = array(
-                            floatval($point->x),
-                            floatval($point->y),
-                            floatval($point->z)
-                        );
-                        if ($is_raw) array_push($point_values, floatval($point->batt));
-
-                        // Loop until z-accel only if filtered else include battery
-                        $limit = $is_raw ? 4 : 3;
-                        for ($i = 0; $i < $limit; $i += 1) { 
-                            $this->addKeyIfNotExist($accel_id, $delegate_array[$i][$index_node_id]);
-                            array_push($delegate_array[$i][$index_node_id][$accel_id], array(
-                                $timestamp,
-                                $point_values[$i],
-                                $raw_filtered
-                            ));
-                        }
+            foreach ($filtered_data as $accel_id => $array) {
+                foreach ($array as $point) {
+                    $point_values = array(
+                        floatval($point->x),
+                        floatval($point->y),
+                        floatval($point->z)
+                    );
+                    $timestamp = strtotime($point->ts) * 1000;
+                    // Loop on delegate_array up to z_accel only
+                    for ($i = 0; $i < 3; $i += 1) { 
+                        $this->addKeyIfNotExist($accel_id, $delegate_array[$i][$index_node_id]);
+                        array_push($delegate_array[$i][$index_node_id][$accel_id], array(
+                            $timestamp,
+                            $point_values[$i],
+                            "filtered"
+                        ));
+                    }
+                }
+                if ($accel_id !== "v1") {
+                    $unfiltered_data = $this->subsurface_node_model->getBatteryData($subsurface_column, $start_date, $end_date, $node_id, $accel_id);
+                } else {
+                    $unfiltered_data = $this->subsurface_node_model->getUnfilteredDataV1($subsurface_column, $start_date, $end_date, $node_id);
+                }
+                foreach ($unfiltered_data as $point) {
+                    $point_values = array(
+                        floatval($point->xvalue),
+                        floatval($point->yvalue),
+                        floatval($point->zvalue)
+                    );
+                    if ($accel_id !== "v1") array_push($point_values, floatval($point->batt));
+                    $timestamp = strtotime($point->timestamp) * 1000;
+                    for ($i = 0; $i < count($point_values); $i += 1) { 
+                        $this->addKeyIfNotExist($accel_id, $delegate_array[$i][$index_node_id]);
+                        array_push($delegate_array[$i][$index_node_id][$accel_id], array(
+                            $timestamp,
+                            $point_values[$i],
+                            "raw"
+                        ));
                     }
                 }
             }
-
         }
         $temp_series = [[], [], [], []];
         foreach ($delegate_array as $key => $array) {
             foreach ($array as $node_id => $accel_array) {
+                $this->addKeyIfNotExist($node_id, $temp_series[$key]);
                 foreach ($accel_array as $accel_id => $point_array) {
                     $accel = $accel_id === "v1" ? "Data" : "Accel $accel_id";
-
                     // if delegate_array is battery
-                    if ($key === 3 || $accel_id === "v1") {
-                        array_push($temp_series[$key], array(
+                    if ($key === 3) {
+                        array_push($temp_series[$key][$node_id], array(
                             "name" => "$node_id, $accel",
                             "data" => $point_array
                         ));
@@ -916,9 +964,8 @@ class Site_analysis extends CI_Controller {
                             $grouped_array = array_filter($point_array, function ($filter_type) use ($check_filter_type) {
                                 return $filter_type[2] === $check_filter_type;
                             });
-
                             $filter_label = ucwords($check_filter_type);
-                            array_push($temp_series[$key], array(
+                            array_push($temp_series[$key][$node_id], array(
                                 "name" => "$node_id, $accel<br/>($filter_label)",
                                 "data" => array_values($grouped_array)
                             ));
@@ -927,13 +974,18 @@ class Site_analysis extends CI_Controller {
                 }
             }
         }
-
         $lookup = ["x-accelerometer", "y-accelerometer", "z-accelerometer", "battery"];
         $final_series = [];
         foreach ($temp_series as $key => $series) {
+            $node_temp = [];
+            foreach ($series as $node_id => $data) {
+                $node_name = str_replace(" ", "_", strtolower($node_id));
+                $temp = array("node_name" => $node_name, "series" => $data);
+                array_push($node_temp, $temp);
+            }
             array_push($final_series, array(
                 "series_name" => $lookup[$key],
-                "data" => $series
+                "data" => $node_temp
             ));
         }
         
@@ -1007,6 +1059,18 @@ class Site_analysis extends CI_Controller {
         );
     }
 
+    private function extractPythonData ($output) {
+        $web_plots_data = null;
+        foreach ($output as $string) {
+            if(strpos($string, "web_plots") !== false){
+                $data = explode("web_plots=", $string);
+                $web_plots_data = $data[1];
+            }
+        }
+
+        return $web_plots_data;
+    }
+
     private function convertSiteCodesFromNewToOld ($site_code) {
         $sc = "";
         switch ($site_code) {
@@ -1024,6 +1088,11 @@ class Site_analysis extends CI_Controller {
                 $sc = $site_code; break;
         }
         return $sc;
+    }
+
+    public function getSiteId ($site_code) {
+        $site_id = $this->pubrelease_model->getSiteID($site_code);
+        return $site_id;
     }
 }
 ?>

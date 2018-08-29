@@ -60,6 +60,7 @@ class surficial_model extends CI_Model {
 			marker_observations.ts, 
 			UPPER(marker_names.marker_name) as crack_id,
 			marker_data.measurement as measurement,
+			marker_data.marker_id as marker_id,
 			sites.site_code as site_id");
 		$this->db->from("marker_observations");
 		$this->db->join("marker_data", "marker_data.mo_id = marker_observations.mo_id");
@@ -70,6 +71,7 @@ class surficial_model extends CI_Model {
 		$this->db->where("sites.site_code", $sc);
 		$this->db->where("marker_data.measurement <=", "500");
 		$this->db->order_by("sites.site_code");
+		$this->db->order_by("marker_names.marker_name");
 		$query = $this->db->get();
 		return $query->result(); 
 	}
@@ -110,7 +112,7 @@ class surficial_model extends CI_Model {
 
 	public function getGroundMarkerName ($site_code) {
 		$sc = $this->convertSiteCodesFromNewToOld($site_code);
-		$this->db->select("DISTINCT(marker_names.marker_name) as crack_id");
+		$this->db->select("DISTINCT(marker_names.marker_name) as crack_id, marker_data.marker_id as marker_id");
 		$this->db->from("marker_observations");
 		$this->db->join("marker_data", "marker_data.mo_id = marker_observations.mo_id");
 		$this->db->join("marker_names", "marker_names.name_id = marker_data.marker_id");
