@@ -15,9 +15,9 @@ class Monitoring_Model extends CI_Model
 	 **/
 	public function getOnGoingAndExtended()
 	{
-		$this->db->select('ev.event_id, ev.site_id, ev.event_start, ev.validity, ev.status, site.*');
+		$this->db->select('ev.event_id, ev.site_id, ev.event_start, ev.validity, ev.status, sites.*');
 		$this->db->from('public_alert_event AS ev');
-		$this->db->join('site', 'ev.site_id = site.id');
+		$this->db->join('sites', 'ev.site_id = sites.site_id');
 		$this->db->where('ev.status', 'on-going');
  		$this->db->or_where('ev.status', 'extended');
 		$query = $this->db->get();
@@ -48,9 +48,9 @@ class Monitoring_Model extends CI_Model
 	}
 
 	public function getAllRoutineEventsGivenDate ($date) {
-		$this->db->select("ev.event_id, ev.site_id, ev.event_start, site.name AS site_code");
+		$this->db->select("ev.event_id, ev.site_id, ev.event_start, sites.name AS site_code");
 		$this->db->from('public_alert_event AS ev');
-		$this->db->join("site", "ev.site_id = site.id");
+		$this->db->join("sites", "ev.site_id = sites.site_id");
 		$this->db->where("ev.status", "routine");
  		$this->db->where("ev.event_start BETWEEN '$date 11:00:00' AND '$date 12:00:00'");
 		$query = $this->db->get();
@@ -61,8 +61,8 @@ class Monitoring_Model extends CI_Model
 
 	public function getSites()
 	{
-		$sql = "SELECT id, name, sitio, barangay, municipality, province, season 
-				FROM site 
+		$sql = "SELECT site_id AS id, site_code AS name, sitio, barangay, municipality, province, season 
+				FROM sites 
 				ORDER BY name ASC";
 
 		$query = $this->db->query($sql);
@@ -98,18 +98,20 @@ class Monitoring_Model extends CI_Model
 	 **/
 	public function getStaff()
 	{
-		$this->db->select('id, first_name, last_name');
+		$this->db->select('mem.membership_id AS id, u.firstname AS first_name, u.lastname AS last_name');
 		$this->db->where('is_active','1');
-		$this->db->order_by("last_name", "asc");
-		$query = $this->db->get('membership');
+		$this->db->from('comms_db.membership AS mem');
+		$this->db->join('comms_db.users AS u', "u.user_id = mem.user_fk_id");
+		$this->db->order_by("u.lastname", "asc");
+		$query = $this->db->get();
 		return json_encode($query->result_array());
 	}
 
 	public function getOnGoingEvents()
 	{
-		$this->db->select("site.*, public_alert_event.*");
+		$this->db->select("sites.*, public_alert_event.*");
 		$this->db->from('public_alert_event');
-		$this->db->join('site', 'site.id = public_alert_event.site_id');
+		$this->db->join('sites', 'sites.site_id = public_alert_event.site_id');
 		$this->db->where('public_alert_event.status', 'on-going');
 		$query = $this->db->get();
 		return json_encode($query->result_array());
@@ -120,7 +122,7 @@ class Monitoring_Model extends CI_Model
 		$this->db->select('public_alert_release.release_id, public_alert_release.data_timestamp, public_alert_release.release_time, public_alert_trigger.*, lut_triggers.cause');
 		$this->db->from('public_alert_release');
 		$this->db->where('public_alert_release.release_id = (SELECT MIN(r.release_id) FROM public_alert_release r WHERE r.event_id = ' . $event_id . ')', NULL, FALSE);
-		$this->db->join('public_alert_trigger', 'public_alert_release.release_id = public_alert_trigger.release_id');
+		$this->db->join('public_alert_trigger', 'public_alert_release.release_id = public_alert_trigger.release_id', 'left');
 		$this->db->join('lut_triggers', 'lut_triggers.trigger_type = public_alert_trigger.trigger_type COLLATE utf8_bin');
 		$this->db->order_by('public_alert_release.release_id', 'desc');
 		$this->db->order_by('public_alert_trigger.timestamp', 'asc');

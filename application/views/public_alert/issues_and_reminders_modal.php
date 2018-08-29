@@ -77,7 +77,7 @@
 								</div>
 								<br/>
 								<div class="row">
-									<div class="col-sm-12 text-justify"><strong>Event Monitoring for <?php echo strtoupper($post->name); ?></strong></div>
+									<div class="col-sm-12 text-justify"><strong>Event Monitoring for <?php echo strtoupper($post->site_code); ?></strong></div>
 								</div>
 								<div class="row">
 									<div class="col-sm-12 text-justify">&emsp;&emsp;&emsp;<?php echo nl2br($post->detail); ?></div>
@@ -146,7 +146,7 @@
                                     <option value="">Choose event or lock if general</option>
                                     <?php foreach( $events as $event): ?>
                                         <option value="<?php echo $event->event_id; ?>">
-                                        <?php echo strtoupper($event->name); ?>
+                                        <?php echo strtoupper($event->site_code); ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
