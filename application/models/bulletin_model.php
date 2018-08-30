@@ -20,13 +20,11 @@
 						lut_alerts.*,
 						lut_responses.*,
 						site_column.*,
-						public_alert_extra.*,
 						bulletin_tracker.bulletin_id
 					FROM public_alert
 					INNER JOIN lut_alerts ON public_alert.internal_alert_level = lut_alerts.internal_alert_level
 					INNER JOIN lut_responses ON lut_responses.public_alert_level = lut_alerts.public_alert_level
 					INNER JOIN site_column ON ( public_alert.site = LEFT(site_column.name, 3) )
-					LEFT JOIN public_alert_extra ON public_alert.public_alert_id = public_alert_extra.public_alert_id
 					LEFT JOIN bulletin_tracker ON public_alert.public_alert_id = bulletin_tracker.public_alert_id
 					WHERE public_alert.public_alert_id = $id
 					ORDER BY site_column.s_id DESC LIMIT 1";
@@ -38,17 +36,16 @@
 			return json_encode($data);
 		}
 
-		public function getName($id)
-		{
-			$this->db->select('first_name, last_name');
-			$this->db->from('membership');
-			$this->db->where('id', $id);
+		public function getName ($id) {
+			$this->db->select('u.firstname, u.lastname');
+			$this->db->from('comms_db.users AS u');
+			$this->db->join('comms_db.membership AS mem', 'mem.user_fk_id = u.user_id');
+			$this->db->where('mem.membership_id', $id);
 			$result = $this->db->get()->row();
-			return $result->first_name . " " . $result->last_name;
+			return $result->firstname . " " . $result->lastname;
 		}
 
-		public function getResponses($public_alert)
-		{
+		public function getResponses ($public_alert) {
 			$query = $this->db->get_where('lut_responses', array('public_alert_level' => $public_alert));
 			$query3 = $this->db->get('lut_triggers');
 			$data['response'] = $query->result_array()[0];
@@ -59,11 +56,10 @@
 			return json_encode($data);
 		}
 
-		public function getEvent($event_id)
-		{
-			$this->db->select('public_alert_event.*, site.*');
+		public function getEvent ($event_id) {
+			$this->db->select('public_alert_event.*, sites.*');
 			$this->db->from('public_alert_event');
-			$this->db->join('site', 'public_alert_event.site_id = site.id');
+			$this->db->join('sites', 'public_alert_event.site_id = sites.site_id');
 			$this->db->where('public_alert_event.event_id', $event_id);
 			$query = $this->db->get();
 			return json_encode($query->result_object());

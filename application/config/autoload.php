@@ -66,7 +66,7 @@ $autoload['libraries'] = array('database', 'session');
 */
 
 //$autoload['helper'] = array();
-$autoload['helper'] = array('url', 'form');
+$autoload['helper'] = array('url', 'form', 'database_switcher');
 
 
 /*

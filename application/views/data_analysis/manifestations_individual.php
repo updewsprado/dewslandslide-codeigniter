@@ -5,7 +5,7 @@
      A viewing table for Manifestations of Movement Page - Individual Site
      located at /application/views/data_analysis/
      
-     Linked at [host]/data_analysis/manifestations/[site]
+     Linked at [host]/analysis/manifestations/[site]
      
  -->
 
@@ -31,7 +31,7 @@
         </div>
 
         <ol class="breadcrumb">
-            <li><a href="<?php echo base_url(); ?>data_analysis/manifestations">Site Manifestation Table</a></li>
+            <li><a href="<?php echo base_url(); ?>analysis/manifestations">Site Manifestation Table</a></li>
             <li class="active">Records for <span class="site" data-id="<?php echo $site_id; ?>"><?php echo strtoupper($site_code); ?></span></li>
         </ol>
 

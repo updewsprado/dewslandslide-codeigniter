@@ -19,54 +19,35 @@ class Membership_model extends CI_Model {
     );
 
 	public function validate() {
-
-		$this->db->where('username', $this->input->post('username'));
-		$this->db->where('password', hash('sha512', $this->input->post('password')));
-		
-		//More secure password accessing
-		//$this->db->where('password', md5($this->input->post('password')));
-
-		$query = $this->db->get('membership');
+		$config_app = switch_db("comms_db");
+		$db = $this->load->database($config_app, TRUE);
+		$db->select('*');
+		$db->from('membership');
+		$db->join('users', 'membership.user_fk_id = users.user_id');
+		$db->where('username', $this->input->post('username'));
+		$db->where('password', hash('sha512', $this->input->post('password')));
+		$query = $db->get();
 		
 		if ($query->num_rows == 1) {
-			$this->names['id'] = $query->row()->id;
-			$this->names['first_name'] = $query->row()->first_name;
-			$this->names['last_name'] = $query->row()->last_name;
-			return true;
+			$this->names['user_id'] = $query->row()->user_fk_id;
+			$this->names['first_name'] = $query->row()->firstname;
+			$this->names['last_name'] = $query->row()->lastname;
+
+			$result = [
+				"status" => true,
+				"data" => $this->names
+			];
+
+			return $result;
 		}
 		else {
-			return false;
+			$result = [
+				"status" => false
+			];
+			
+			return $result;
 		}
 	}
-	
-	public function get_user_id() {
-		 return $this->names['id'];
-	}
-
-	public function get_first_name() {
-		 return $this->names['first_name'];
-	}
-	
-	public function get_last_name() {
-		 return $this->names['last_name'];
-	}
-	
-	public function create_member() {
-		$new_member_insert_data = array(
-			'first_name' => $this->input->post('first_name'),
-			'last_name' => $this->input->post('last_name'),
-			'email_address' => $this->input->post('email_address'),
-			'username' => $this->input->post('username'),
-			'password' => $this->input->post('password')
-			
-			//for more security
-			//'password' => md5($this->input->post('password'))
-		);
-		
-		$insert = $this->db->insert('membership', $new_member_insert_data);
-		return $insert;
-	}
-
 }
 
 

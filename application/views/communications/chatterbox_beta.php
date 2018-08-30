@@ -1,26 +1,21 @@
 <!-- Chatterbox Scripts -->
-<script type="text/javascript" src="/js/third-party/awesomplete.js"></script>
-<script type="text/javascript" src="/js/third-party/handlebars.js"></script>
-<script type="text/javascript" src="/js/third-party/moment-locales.js"></script>
-<script type="text/javascript" src="/js/third-party/typeahead.js"></script>
-<script type="text/javascript" src="/js/third-party/bootstrap-tagsinput.js"></script>
-<script type="text/javascript" src="/js/third-party/notify.min.js"></script>
-<script type="text/javascript" src="/js/third-party/jquery.twbsPagination.min.js"></script>
+<script src="/js/third-party/awesomplete.js"></script>
+<script src="/js/third-party/handlebars.js"></script>
+<script src="/js/third-party/moment-locales.js"></script>
+<script src="/js/third-party/typeahead.js"></script>
+<script src="/js/third-party/bootstrap-tagsinput.js"></script>
+<script src="/js/third-party/notify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
 <script type="text/javascript">
   first_name = "<?php echo $first_name; ?>";
   tagger_user_id = "<?php echo $user_id; ?>";
 </script>
-<script src="/js/dewslandslide/communications/cbx_version.js"></script>
-<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_variables.js"></script>
-<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_initializer.js"></script>
-<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_beta.js"></script>
-<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_helper.js"></script>
-<script type="text/javascript" src="/js/dewslandslide/communications/dewschatterbox_wss.js"></script>
-<script type="text/javascript" src="/js/dewslandslide/communications/dewsresponsive.js"></script>
-<script type="text/javascript" src="/js/dewslandslide/communications/pms_chatterbox_plugin.js"></script>
+<script src="/js/dewslandslide/communications_beta/cbx_variables.js"></script>
+<script src="/js/dewslandslide/communications_beta/websocket_server.js"></script>
+
 
 <!-- Server time-->
-<script type="text/javascript" src="/js/dewslandslide/server_time.js"></script>
+<!-- <script type="text/javascript" src="/js/dewslandslide/server_time.js"></script> -->
 
 <!-- ChatterBox CSS --> -->
 <link rel="stylesheet" type="text/css" href="/css/third-party/awesomplete.css">
@@ -30,152 +25,148 @@
 
 <img id="bg-img-chatterbox" src="../../../images/dews-l-logo.png" >
 <div class="container-fluid">
-	<div class="row nav-margin">
-		<div class="col-sm-3 division">
+	<div class="row chatterbox-panel-margin-top">
+		<div class="col-sm-4">
 			<div class="panel panel-primary">
-				<div class="panel-heading">MESSAGES</div>
-				<div class="panel-body">
-					<div class="row">
-						<div class="col-sm-12 form-group">
-							<div class="input-group">
-								<input type="text" class="awesomplete form-control dropdown-input" placeholder="Type name..." data-multiple />
-								<span class="input-group-btn">
-							    	<button class="btn btn-default" id="go-chat" type="button">Go!</button>
-						        </span>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<ul class="nav nav-tabs inbox-tab">
-						    <li class="active" id="registered_inbox"><a data-toggle="tab" href="#registered">Inbox</a></li>
-						    <li id="unregistered_inbox" ><a data-toggle="tab" href="#unknown">Unregistered</a></li>
-						    <li id="event_inbox"><a data-toggle="tab" href="#event-inbox">Event inbox</a></li>
-						    <li><div class='col-sm-12 text-right' style="margin: 11px;"><span class='report report-tabs'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
-							</div></li>
-						</ul>
-						<div class="tab-content">
-							<div id="registered" class="tab-pane fade in active">
-								<ul id="quick-inbox-display" class="friend-list"></ul>
-							</div>
-							<div id="unknown" class="tab-pane fade">
-								<ul id="quick-inbox-unknown-display" class="friend-list"></ul>
-							</div>
-							<div id="event-inbox" class="tab-pane fade">
-								<ul id="quick-event-inbox-display" class="friend-list"></ul>
-							</div>
-						</div>
+			  <div class="panel-heading">
+			    <h3 class="panel-title">MESSAGES</h3>
+			  </div>
+			  <div class="panel-body">
+			    <div class="col-sm-12 form-group">
+					<div class="input-group">
+						<input type="text" class="awesomplete form-control dropdown-input" id="contact-suggestion" placeholder="Type name..." data-multiple />
+						<!-- <input type="text" class="form-control dropdown-input" data-provide="typeahead" id="contact-suggestion" name="contact-suggestion" placeholder="Type name..." required /> -->
+						<span class="input-group-btn">
+					    	<button class="btn btn-default" id="go-chat" type="button">Go!</button>
+				        </span>
 					</div>
 				</div>
-			</div>
-		</div>
+				<div>
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs nav-justified quick-access-tab">
+					    <li role="presentation" class="active"><a href="#registered" aria-controls="registered" role="tab" data-toggle="tab">Inbox</a></li>
+					    <li role="presentation"><a href="#unknown" aria-controls="unknown" role="tab" data-toggle="tab">Unregistered</a></li>
+					    <li role="presentation"><a href="#event-inbox" aria-controls="event-inbox" role="tab" data-toggle="tab">Event inbox</a></li>
+					    <li role="presentation"><a href="#datalogger" aria-controls="datalogger" role="tab" data-toggle="tab">Datalogger</a></li>
+					 </ul>
 
-		<div class="col-sm-6 division recent_activities">
-			<div class="panel panel-primary">
-			<input type="text" id="contact-indicator" value="" hidden>
-				<div class="panel-heading">Recent Activity</div>
-			</div>
-			<hr>
-			<div class="panel panel-primary">
-				<div class="panel-body activity-body">
-					<div class="row form-group">
-						<h4>Recently Viewed Contacts</h4>
-						<div class="rv_contacts">
-						</div>
-					</div>
-					<div class="row form-group">
-						<h4>Recently Viewed Sites</h4>
-						<div class="rv_sites">
-						</div>
-					</div>
-					<div class="row form-group">
-						<h4>Routine Section</h4>
-						<div class="routine_section">
-							<br>
-							<div class='col-md-12'><label for="" id="def-recipients" hidden>Default recipients: LLMC</label>
-								<div class='col-sm-12 text-right' style="margin: 11px;"><span class='report' id="routine_report"><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
-								</div>
-							</div>
-							<div class='btn-group form-group routine-options-container' data-toggle='buttons' style='padding: 15px 15px 0px 15px; margin: 0;' hidden>
-									<input type='button' class='btn btn-primary active' checked id='routine-reminder-option' autocomplete='off' value="Reminder Message"> 
-									<input type='button' class='btn btn-primary' id='routine-actual-option' autocomplete='off' value="Routine Message">
-							</div>
-						</div>
-						<div class='col-md-12 right-content'><button type='button' class='btn btn-primary' id='send-routine-msg' hidden>Send</button></div>
+					  <!-- Tab panes -->
+					<div class="tab-content">
+					    <div role="tabpanel" class="tab-pane active" id="registered">
+					    	<ul id="quick-inbox-display" class="friend-list"></ul>
+					    </div>
+					    <div role="tabpanel" class="tab-pane" id="unknown">
+					    	<ul id="quick-inbox-unknown-display" class="friend-list"></ul>
+					    </div>
+					    <div role="tabpanel" class="tab-pane" id="event-inbox">
+					    	<ul id="quick-event-inbox-display" class="friend-list"></ul>
+					    </div>
+					    <div role="tabpanel" class="tab-pane" id="datalogger">
+					    	<ul id="datalogger-inbox-display" class="friend-list"></ul>
+					    </div>
 					</div>
 				</div>
+			  </div>
 			</div>
 		</div>
-
-		<div class="col-sm-6 division hidden" id="main-container">
-			<div id="convo-header" class="panel panel-success">
-			<input type="text" id="contact-indicator" value="" hidden>
-				<div class="panel-heading">Sitename: [SAMPLE] Office: [Sample]</div>
-				<div class="panel-body"></div>
+		<div class="col-sm-5 middle-panel-padding">
+			<div class="panel panel-primary recent_activities">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">RECENT ACTIVITY</h3>
+			  </div>
+			  <div class="panel-body activity-body">
+			    <div class="row form-group">
+					<h4>Recently Viewed Contacts</h4>
+					<div class="rv_contacts">
+					</div>
+				</div>
+				<div class="row form-group">
+					<h4>Recently Viewed Sites</h4>
+					<div class="rv_sites">
+					</div>
+				</div>
+				<div class="row form-group">
+					<h4>Routine Section</h4>
+					<div class="routine_section">
+						<br>
+						<div class='col-md-12'><label for="" id="def-recipients" hidden>Default recipients: LLMC</label></div>
+						<div class='btn-group form-group routine-options-container' data-toggle='buttons' style='padding: 15px 15px 0px 15px; margin: 0;' hidden>
+								<input type='button' class='btn btn-primary active' checked id='routine-reminder-option' autocomplete='off' value="Reminder Message">
+								<input type='button' class='btn btn-primary' id='routine-actual-option' autocomplete='off' value="Routine Message">
+						</div>
+					</div>
+					<div class='col-md-12 right-content'><button type='button' class='btn btn-primary' id='send-routine-msg' hidden>Send</button></div>
+				</div>
+			  </div>
 			</div>
-			<hr>
-			<div class="panel panel-success">
-				<div class="panel-body">
-					<div class="form-group">
-						<div class="chat-message">
-							<ul id="messages" class="chat"></ul>
+
+			<div class="division hidden" id="main-container">
+				<div id="convo-header" class="panel panel-success">
+					<input type="text" id="contact-indicator" value="" hidden>
+					<div class="panel-heading" id="conversation-details">Sitename: [SAMPLE] Office: [Sample]</div>
+					<div class="panel-body"></div>
+				</div>
+				<hr>
+				<div class="panel panel-success">
+					<div class="panel-body">
+						<div class="form-group">
+							<div class="chat-message">
+								<ul id="messages" class="chat"></ul>
+							</div>
+							<textarea id="msg" name="msg" class="form-control" rows="5"></textarea>
 						</div>
-						<textarea id="msg" name="msg" class="form-control" rows="5"></textarea>
-					</div>
-					<div class="form-group" id="send-char-remain">
-						<div class="col-sm-6">
-							<p>Remaining characters: <b id="remaining_chars">800</b></p>
-						</div>						
-						<div class="col-sm-6 right-content">
-							<button type="button" class="btn btn-primary" id="send-msg">Send</button>
+						<div class="form-group" id="send-char-remain">
+							<div class="col-sm-6">
+								<p>Remaining characters: <b id="remaining_chars">800</b></p>
+							</div>
+							<div class="col-sm-6 right-content">
+								<button type="button" class="btn btn-primary" id="send-msg">Send</button>
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-12" style="padding-bottom: 20px;"> 
-							<div class="col-sm-4">
+						<div class="form-group">
+							<div class="col-sm-12 left-content" style="padding-left: 30px;margin-bottom: 5px;">
 								<a href="#" id="btn-ewi" data-toggle="modal" data-dismiss="modal">Load Message Templates</a>
 							</div>
-							<div class="col-sm-8  right-content">
-								<span class='report' id="sms_report"><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
-							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
-		<div class="col-sm-3 division">
+		<div class="col-sm-3">
 			<div class="panel panel-primary">
-				<div class="panel-heading">OPTIONS</div>
-				<div class="panel-body align-center">
-					<div class="row form-group">
-						<a href="#" id="btn-contact-settings" data-toggle="modal" title="Contact Settings"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Contact Settings</a>
-					</div>
-					<div class="row form-group">
-						<a href="#" id="btn-advanced-search" data-toggle="modal" title="Quick Site Selection"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Quick Site Selection</a>
-					</div>
-					<div class="row form-group">
-						<a href="#" id="btn-gbl-search" data-toggle="modal" title="Quick Search"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Quick Search</a>
-					</div>
+			  <div class="panel-heading">
+			    <h3 class="panel-title">OPTIONS</h3>
+			  </div>
+			  <div class="panel-body align-center">
+			    <div class="row form-group">
+					<a href="#" id="btn-contact-settings" data-toggle="modal" title="Contact Settings"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Contact Settings</a>
 				</div>
+				<div class="row form-group">
+					<a href="#" id="btn-advanced-search" data-toggle="modal" title="Quick Site Selection"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Quick Site Selection</a>
+				</div>
+				<div class="row form-group">
+					<a href="#" id="btn-gbl-search" data-toggle="modal" title="Quick Search"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Quick Search</a>
+				</div>
+			  </div>
 			</div>
 			<div class="panel panel-primary">
-				<div class="panel-heading">QUICK ACCESS</div>
-				<div class="panel-body no-padding">
-						<ul class="nav nav-tabs quick-access-tab">
-						    <li class="active" id="qa_site_with_event_report"><a data-toggle="tab" href="#quick-release">Site w/ Event</a></li>
-						    <li id="qa_group_message_report"><a data-toggle="tab" href="#group-message">Group Message</a></li>
-						    <li><div class='col-sm-12 text-right' style="margin: 11px;"><span class='report report-tabs'><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
-							</div></li>
-						</ul>
-						<div class="tab-content">
-							<div id="quick-release" class="tab-pane fade in active">
-								<ul id="quick-release-display" class="friend-list"></ul>
-							</div>
-							<div id="group-message" class="tab-pane fade">
-								<ul id="group-message-display" class="friend-list"></ul>
-							</div>
-						</div>
+			  <div class="panel-heading">
+			    <h3 class="panel-title">QUICK ACCESS</h3>
+			  </div>
+			  <div class="panel-body">
+			    <ul class="nav nav-tabs nav-justified quick-access-tab">
+				    <li class="active"><a data-toggle="tab" href="#quick-release">Site with Event</a></li>
+				    <li><a data-toggle="tab" href="#group-message">Group Message</a></li>
+				</ul>
+				<div class="tab-content">
+					<div id="quick-release" class="tab-pane fade in active">
+						<ul id="quick-inbox-display" class="friend-list"></ul>
+					</div>
+					<div id="group-message" class="tab-pane fade">
+						<ul id="group-message-display" class="friend-list"></ul>
+					</div>
 				</div>
+			  </div>
 			</div>
 		</div>
 	</div>
@@ -188,10 +179,9 @@
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 class="modal-title text-info">Contact Settings</h4>
+	        <h4 class="modal-title text-info"><span class="glyphicon glyphicon-chevron-left" id="go_back" hidden>&nbsp;</span>Contact Settings</h4>
 	      </div>
-			<div class='col-sm-12 text-right' style="margin: 11px; z-index: 10000000;"><span class='report' id="contact_settings_report"><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
-			</div>
+
 	    <div class="modal-body row-fluid">
 	      <div class="contact-settings-container">
 
@@ -217,141 +207,286 @@
 
 	        <hr>
 
-	        <div id="update-contact-container" hidden>
-	          <div>
-	           <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
-	           <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
-	          </div>
-	        </div>
-
-	        <table id="response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
+	        <table id="emp-response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
 	          <thead>
 	            <tr>
-	              <th>Name</th>
 	            </tr>
 	          </thead>
-	          <tfoot>
+	        </table>
+
+	        <table id="comm-response-contact-container" class="display table table-striped" cellspacing="0" width="100%" hidden>
+	          <thead>
 	            <tr>
-	              <th>Name</th>
 	            </tr>
-	          </tfoot>
+	          </thead>
 	        </table>
 
 	        <div id="employee-contact-wrapper" hidden>
-	          <div class="row">
-	            <div class="col-md-6">
-	              <label for="firstname_ec">Firstname:</label>
-	              <input type="text" class="form-control" id="firstname_ec" name="firstname_ec" maxlength="16" required>
-	            </div>
+	        	<form id="employee-contact-form">
+	        	 	<input type="text" id="user_id_ec" value="0" hidden>
+		         	<div class="row">
 
-	            <div class="col-md-6">
-	              <label for="firstname_ec">Lastname:</label>
-	              <input type="text" class="form-control" id="lastname_ec" name="lastname_ec" maxlength="16" required>
-	            </div>
-	          </div>
+			            <div class="col-md-4">
+			            	<div class="form-group hideable">
+				                <label class="control-label" for="firstname_ec">Firstname</label>
+				                    <input type="text" class="form-control" id="firstname_ec" name="firstname_ec" placeholder="Enter firstname" />
+				            </div>
+			            </div>
 
-	          <div class="row">
-	            <div class="col-md-6">
-	              <label for="nickname_ec">Nickname:</label>
-	              <input type="text" class="form-control" id="nickname_ec" name="nickname_ec" maxlength="16" required>
-	            </div>
+			            <div class="col-md-4">
+			            	<div class="form-group hideable">
+				                <label class="control-label" for="lastname_ec">Lastname</label>
+				                    <input type="text" class="form-control" id="lastname_ec" name="lastname_ec" placeholder="Enter lastname" />
+				            </div>
+			            </div>
+		            	<div class="col-md-4">
+			              	<div class="form-group hideable">
+				                <label class="control-label" for="middlename_ec">Middlename</label>
+				                    <input type="text" class="form-control" id="middlename_ec" name="middlename_ec" placeholder="Enter middlename" />
+				            </div>
+			            </div>
+		        	</div>
 
-	            <div class="col-md-6">
-	              <label for="birthdate_ec">Birthdate:</label>
-	              <div class="date datetime">
-	                <input type="date" class="form-control" id="birthdate_ec" aria-required="true" aria-invalid="false">
-	              </div>
-	            </div>
-	          </div> 
+		        	<div class="row">
+			            <div class="col-md-4">
+			              	<div class="form-group hideable">
+				                <label class="control-label" for="nickname_ec">Nickname</label>
+				                	<input type="text" class="form-control" id="nickname_ec" name="nickname_ec" placeholder="Enter nickname" />
+				            </div>
+			            </div>
 
-	          <div class="row">
-	            <div class="col-md-6">
-	              <label for="email_ec">Email:</label>
-	              <input type="email" class="form-control" id="email_ec" name="email_ec" required>
-	            </div>
-	            <div class="col-md-3" title="Notes: If contact number is more than one seprate it by a comma.">
-	              <label for="numbers_ec">Contact #:</label>
-	              <input type="text"  id="numbers_ec" class="form-control" name="numbers_ec" required>
-	            </div>
-	          </div>
+			            <div class="col-md-2">
+			              	<div class="form-group hideable">
+				                <label class="control-label" for="salutation_ec">Salutation</label>
+				                	<input type="text" class="form-control" id="salutation_ec" name="salutation_ec" placeholder="Enter salutation" />
+				            </div>
+			            </div>
 
-	          <div class="row">
-	            <div class="col-md-3">
-	              <label for="grouptags_ec">Group tags:</label>
-	              <input type="text" class="form-control" id="grouptags_ec" id="grouptags_ec" required>
-	            </div>
-	          </div>
+			            <div class="col-md-2">
+			              	<div class="form-group hideable">
+				                <label class="control-label" for="gender_ec">Gender</label>
+				                	<input type="text" class="form-control" id="gender_ec" name="gender_ec" placeholder="Enter gender" />
+				            </div>
+			            </div>
 
-	          <hr>
-	          <div id="emp-settings-cmd" class="right-content">
-	            <button class="btn btn-danger" id="btn-clear-ec" >Reset</button>
-	            <button type="submit" value="submit" class="btn btn-primary">Save</button>
-	          </div>
+			            <div class="col-md-4">
+			              	<div class="form-group hideable">
+				                <label class="control-label" for="birthdate_ec">Birthdate</label>
+				                <div class="input-group date datetime">
+				                    <input type="text" class="form-control birthdate" id="birthdate_ec" name="birthdate_ec" placeholder="Enter birthdate" />
+				                    <span class="input-group-addon">
+				                        <span class="glyphicon glyphicon-calendar"></span>
+				                    </span>
+				                </div>
+							</div>
+		          		</div> 
+		          	</div>	
+
+		        <div class="row">
+		            <div class="col-md-4">
+		              	<div class="form-group hideable">
+			                <label class="control-label" for="email_ec">Email</label>
+			                	<input type="text" class="form-control" data-role="tagsinput" id="email_ec" name="email_ec" placeholder="Enter email" />
+				        </div>
+		            </div>
+
+		            <div class="col-md-4">
+						<div class="form-group hideable">
+							<label class="control-label" for="active_status_ec">Contact Active Status</label>
+							<select class="form-control" id="active_status_ec" name="active_status_ec">
+								<option value="1">Active</option>
+								<option value="0">Inactive</option>
+							</select>
+						</div>
+		            </div>
+
+		            <div class="col-md-4">
+		            	<div class="form-group hideable">
+			                <label class="control-label" for="team_ec">Team(s):</label>
+			                <input type="text" class="form-control" data-role="tagsinput" id="team_ec" name="team_ec" placeholder="Enter team" required />
+			            </div>
+		            </div>
+
+		            <div class="col-md-12">
+		            	<br>
+		            	<button type="button" class="btn btn-primary btn-xs" id="employee-add-number"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Mobile Number</button>
+		            	<button type="button" class="btn btn-primary btn-xs" id="employee-add-landline"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Landline Number</button>
+		            </div>
+		        </div>
+
+			    	<div id="mobile-div">
+			    	</div>
+
+		         	<hr>
+
+		        	<div id="landline-div">
+		        	</div>
+
+			    	<div id="emp-settings-cmd" class="right-content">
+			    		<button class="btn btn-danger" id="btn-clear-ec" >Reset</button>
+			    		<button type="submit" value="submit" class="btn btn-primary">Save</button>
+			        </div>
+		          
+
+			        <div id="update-contact-container" class="right-content" hidden>
+			           <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
+			           <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
+			        </div>
+		    	</form>
 	        </div>
 
 	        <div id="community-contact-wrapper" hidden>
-	          <div class="row">
-	            <div class="col-md-6">
-	              <label for="firstname_cc">Firstname:</label>
-	              <input type="text" class="form-control" id="firstname_cc" name="firstname_cc" maxlength="16" required>
-	            </div>
+	        	<form id="community-contact-form">
+	        		<input type="text" id="user_id_cc" hidden>
 
-	            <div class="col-md-6">
-	              <label for="lastname_cc">Lastname:</label>
-	              <input type="text" class="form-control" id="lastname_cc" name="lastname_cc" maxlength="16" required>
-	            </div>
+	        		<div class="row">
+	        			<div class="col-md-4">
+				        	<div class="form-group hideable">
+				                <label class="control-label" for="firstname_cc">Firstname</label>
+				                    <input type="text" class="form-control" id="firstname_cc" name="firstname_cc" placeholder="Enter firstname" />
+				            </div>
+				        </div>
+
+				        <div class="col-md-4">
+				        	<div class="form-group hideable">
+				                <label class="control-label" for="lastname_cc">Lastname</label>
+				                    <input type="text" class="form-control" id="lastname_cc" name="lastname_cc" placeholder="Enter lastname" />
+				            </div>
+				        </div>
+
+				        <div class="col-md-4">
+				          	<div class="form-group hideable">
+				                <label class="control-label" for="middlename_cc">Middlename</label>
+				                    <input type="text" class="form-control" id="middlename_cc" name="middlename_cc" placeholder="Enter middlename" />
+				            </div>
+				        </div>
+	        		</div>
+
+	        		<div class="row">
+	        			<div class="col-md-4">
+					      	<div class="form-group hideable">
+					            <label class="control-label" for="nickname_cc">Nickname</label>
+					            	<input type="text" class="form-control" id="nickname_cc" name="nickname_cc" placeholder="Enter nickname" />
+					        </div>
+					    </div>
+
+					    <div class="col-md-4">
+				          	<div class="form-group hideable">
+				                <label class="control-label" for="salutation_cc">Salutation</label>
+				                	<input type="text" class="form-control" id="salutation_cc" name="salutation_cc" placeholder="Enter salutation" />
+				            </div>
+				        </div>
+
+				        <div class="col-md-4">
+				          	<div class="form-group hideable">
+				                <label class="control-label" for="gender_cc">Gender</label>
+				                	<input type="text" class="form-control" id="gender_cc" name="gender_cc" placeholder="Enter gender" />
+				            </div>
+				        </div>
+	        		</div>
+
+	        		<div class="row">
+				        <div class="col-md-4">
+				          	<div class="form-group hideable">
+				                <label class="control-label" for="birthdate_cc">Birthdate</label>
+				                <div class="input-group date datetime">
+				                    <input type="text" class="form-control birthdate" id="birthdate_cc" name="birthdate_cc" placeholder="Enter birthdate" />
+				                    <span class="input-group-addon">
+				                        <span class="glyphicon glyphicon-calendar"></span>
+				                    </span>
+				                </div>
+							</div>
+				  		</div>
+
+	        			<div class="col-md-4">
+							<div class="form-group hideable">
+								<label class="control-label" for="active_status_cc">Contact Active Status</label>
+								<select class="form-control" id="active_status_cc" name="active_status_cc">
+									<option value="1">Active</option>
+									<option value="0">Inactive</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="form-group hideable">
+								<label class="control-label" for="ewirecipient_cc">Early Warning Information Recipient:</label>
+								<select class="form-control" id="ewirecipient_cc" name="ewirecipient_cc">
+									<option value="1">Yes</option>
+									<option value="0">No</option>
+								</select>
+							</div>
+						</div>
+	        		</div>
+	          <!-- <hr> -->
+	          <div class="row" id="org-and-site-alert" hidden>
+	          	<div class="col-sm-offset-3 col-sm-6">
+	          		<div class="alert alert-info" role="alert">
+	          			Please select at least one in <b id="selection-feedback"></b>
+	          		</div>
+	          	</div>
 	          </div>
-
-	          <div class="row">
-	            <div class="col-md-4">
-	              <label for="prefix_cc">Prefix:</label>
-	              <input type="text" class="form-control" id="prefix_cc" name="prefix_cc" maxlength="16" required>
+	          <div class="panel-group" id="accordion">
+				  <div class="panel panel-default">
+				    <div class="panel-heading">
+				      <h4 class="panel-title" style="text-align: center;">
+				        <a data-toggle="collapse" data-parent="#accordion" href="#site-accord">Site Selection</a>
+				      </h4>
+				    </div>
+				    <div id="site-accord" class="panel-collapse collapse">
+				      <div class="panel-body">
+				      	<div id="site-selection-div">
+		  	                <div id="sitenames-cc-0" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-1" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-2" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-3" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-4" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="sitenames-cc-5" class="col-md-2 col-sm-2 col-xs-2"></div>
+						</div>
+				      </div>
+				    </div>
+				  </div>
+  				  <div class="panel panel-default">
+				    <div class="panel-heading">
+				      <h4 class="panel-title" style="text-align: center;">
+				        <a data-toggle="collapse" data-parent="#accordion" href="#org-accord">Organization Selection</a>
+				      </h4>
+				    </div>
+				    <div id="org-accord" class="panel-collapse collapse">
+				      <div class="panel-body">
+				      	<div id="organization-selection-div">
+				      		<div id="orgs-cc-0" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-1" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-2" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-3" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-4" class="col-md-2 col-sm-2 col-xs-2"></div>
+			                <div id="orgs-cc-5" class="col-md-2 col-sm-2 col-xs-2"></div>
+				      	</div>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				
+	            <div class="col-md-12">
+	            	<button type="button" class="btn btn-primary btn-xs" id="community-add-number"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Mobile Number</button>
+	            	<button type="button" class="btn btn-primary btn-xs" id="community-add-landline"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Landline Number</button>
 	            </div>
-
-	            <div class="col-md-4">
-	              <label for="office_cc">Office:</label>
-	              <select name="office_cc" id="office_cc"></select>
-	              <input type="text" class="form-control" id="other-officename" name="other_officename" placeholder="Office" hidden>
-	            </div>
-
-	            <div class="col-md-4">
-	              <label for="sitename_cc">Sitename:</label>
-	              <select name="sitename_cc" id="sitename_cc"></select>
-	              <input type="text" class="form-control" id="other-sitename" name="other_sitename" placeholder="Sitename" hidden>
-	            </div>
-	          </div> 
-
-	          <div class="row">
-	            <div class="col-md-6">
-	              <label for="numbers_cc">Contact #:</label>
-	              <input type="text" class="form-control" id="numbers_cc" name="numbers" required>
-	            </div>
-
-	            <div class="col-md-3">
-	              <label for="rel">Reliability:</label>
-	              <select name="rel" id="rel" class="form-control">
-	                <option value="Y">Yes</option>
-	                <option value="N">No</option>
-	                <option value="Q">Q</option>
-	              </select>
-	            </div>
-
-	            <div class="col-md-3">
-	              <label for="ewirecipient">EWI Recipient:</label>
-	              <select name="ewirecipient" id="ewirecipient" class="form-control">
-	                <option value="1">Yes</option>
-	                <option value="0">No</option>
-	              </select>
-	            </div>
-
-	          </div>
+				<div id="mobile-div-cc">
+				</div>
+	          	<hr>
+				<div id="landline-div-cc">
+				</div>
 	          <hr>
 	          <div id="comm-settings-cmd" class="right-content">
 	          	<button class="btn btn-danger" id="btn-clear-cc" >Reset</button>
 	            <button type="submit" value="submit" class="btn btn-primary">Save</button>
 	          </div>
+	          <div id="update-comm-contact-container" class="right-content" hidden>
+		           <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-comm-contact-info">Save</button>
+		           <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
+		        </div>
+	    	</form>
 	        </div>
-
 	      </div>
 	    </div>
 
@@ -368,8 +503,6 @@
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	        <h4 class="modal-title text-info">Quick Group Selection of Recipients</h4>
 	      </div>
-	      <div class='col-sm-12 text-right' style="margin: 11px; z-index: 10000000;"><span class='report' id="quick_group_selection_report"><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
-			</div>
 	      <div class="modal-body row-fluid">
 
 	        <ul class="nav nav-tabs">
@@ -436,9 +569,9 @@
 	      </div>
 	      <div class="modal-footer">
 	        <span id="load-groups-wrapper" data-toggle="tooltip" title="">
-	          <button id="go-load-groups" type="button" class="btn btn-success" data-dismiss="modal" >Okay</button>
+	          <button id="go-load-groups" type="button" class="btn btn-primary" data-dismiss="modal" >Okay</button>
 	        </span>
-	        <button id="exit-load-group" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>   
+	        <button id="exit-load-group" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 	      </div>
 	    </div>
 	  </div>
@@ -446,14 +579,14 @@
 	<!-- END OF SITE SELECTION MODAL -->
 
 	<!-- GINTAGS MODAL -->
-	<div class="modal fade" id="gintag-modal" role="dialog">
+	<!-- <div class="modal fade" id="gintag-modal" role="dialog">
 	  <div class="modal-dialog" id="gintag-modal-dialog">
 	    <div class="modal-content" id="gintag-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	        <h4>General Information Tag <i class="text-warning"> *BETA*</i></h4>
 	      </div>
-	      <div class="modal-body"> 
+	      <div class="modal-body">
 	        <div class="alert alert-info" role="alert">
 	          <p style="padding: 0px;"><strong>New Feature!</strong> You can now tag messages in chatterbox! </br>.&nbsp &nbsp • <strong>Important Tags: </strong>#EwiMessage, #EwiResponse<br>&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp; &ensp;#GroundMeasReminder, #GroundMeas</p>
 	        </div>
@@ -463,11 +596,11 @@
 	        <div class="form-group right-content" id="submit-gintag">
 	          <button type="reset" class="btn btn-danger" id="reset-gintags" data-dismiss="modal">Reset</button>
 	          <button type="submit" value="submit" id="confirm-gintags" class="btn btn-primary">Confirm</button>
-	        </div>  
+	        </div>
 	      </div>
-	    </div>  
+	    </div>
 	  </div>
-	</div> 
+	</div> -->
 	<!-- END GINTAGS MODAL -->
 
 	<!-- Save Narratives MODAL -->
@@ -497,29 +630,27 @@
 			</div>
 	        <div class="right-content">
 	        	<button class="btn btn-warning" id="cancel-narrative" data-dismiss="modal">Cancel</button>
-	        	<button class="btn btn-primary" id="confirm-narrative" data-dismiss="modal">Confirm</button> 
+	        	<button class="btn btn-primary" id="confirm-narrative" data-dismiss="modal">Confirm</button>
 	        </div>
-	      </div> 
+	      </div>
 	    </div>
-	  </div>  
+	  </div>
 	</div>
 	</div>
 	<!-- Save Narratives MODAL -->
 
 	<!-- Save Narratives MODAL -->
-	<div class="modal fade" id="search-global-message-modal" role="dialog">
+<!-- 	<div class="modal fade" id="search-global-message-modal" role="dialog">
 	<div class="modal-dialog" id="save-narrative-modal-dialog">
-	  <div class="modal-content" id="save-narrative-content">
+	  <div class="modal-content" id="save-narrative-content"> -->
 <!-- 	    <div class="modal-header">
 	      <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      <h4>Quick Search</h4>
 	    </div> -->
-	    <div class="modal-body">
+	    <!-- <div class="modal-body">
 	    <div class="panel panel-default">
 			<div class="panel-heading"><button type="button" class="close" data-dismiss="modal">&times;</button>
 			Search filters</div>
-			<div class='col-sm-12 text-right' style="margin: 11px; z-index: 10000000;"><span class='report' id="quick_search_report"><span class='fa fa-exclamation-circle'></span> <strong>Report</strong>&emsp;</span>
-			</div>
 			<div class="panel-body">
 				<div class="form-group col-xs-12">
 					<label class="radio-inline col-xs-4"><input type="radio" name="opt-search" value="global-search" checked>via Message</label>
@@ -565,7 +696,7 @@
 					<div class="right-content">
 						<button class="btn btn-primary" id="btn-search-global">Search</button>
 					</div>
-				</div>
+				</div>f
 			</div>
 		</div>
         <hr>
@@ -581,9 +712,9 @@
 		<div>
 		</div>
 	    </div>
-	  </div>  
+	  </div>
 	</div>
-	</div>
+	</div> -->
 	<!-- Save Narratives MODAL -->
 
 	<!-- EWI MODAL -->
@@ -594,7 +725,7 @@
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	        <h4>EARLY WARNING INFORMATION</h4>
 	      </div>
-	      <div class="modal-body row-fluid"> 
+	      <div class="modal-body row-fluid">
 	        <div class="ewi-container">
 	          <div class="row">
   	            <div class="col-sm-3">
@@ -648,7 +779,7 @@
 				        	<option value="#" default>---</option>
 				        	<option value="SAMAR-SITES">Samar Sites</option>
 				        </select>
-				      </div> 
+				      </div>
 				  </div>
 				  <div class="col-sm-6">
 				      <div class="form-group">
@@ -677,9 +808,9 @@
 				<div class="form-group cmd-ewi-chatterbox right-content">
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
 					<button type="submit" value="submit" id="confirm-ewi" class="btn btn-primary" data-dismiss="modal">Confirm</button>
-				</div>   
+				</div>
 			</div>
-	    </div>  
+	    </div>
 	  </div>
 	</div>
 	<!-- END EWI MODAL -->
@@ -740,6 +871,139 @@
       </div>
     </div>
   </div>
+
+    <!-- Quick Search Modal -->
+<div class="modal fade" id="quick-search-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Quick Search</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+      		<div class="col-md-4">
+            	<div class="form-group hideable">
+	                <label class="control-label" for="search_via">Seach via</label>
+	                    <select class="form-control" name="search_via" id="search-via">
+	                    	<option value="0">---------------------</option>
+			        		<option value="messages">via Message</option>
+			        		<option value="gintags">via Gintags</option>
+			        		<option value="ts_sent">via Timestamp Sent</option>
+			        		<option value="ts_written">via Timestamp Written</option>
+			        		<option value="unknown">via Unknown Numbers</option>
+			        	</select>
+	            </div>
+            </div>
+            <div class="col-md-8">
+	            <div class="form-group hideable">
+	                <label class="control-label" for="search_keyword">Search Keyword</label>
+	                    <input type="text" class="form-control" id="search-keyword" name="search-keyword" placeholder="E.g Magandang Umaga" required />
+	            </div>
+            </div>
+            <div class="col-md-4">
+	            <div class="form-group hideable">
+	                <label class="control-label" for="search_limit">Search Limit</label>
+	                    <input type="number" class="form-control" id="search-limit" name="search-limit" placeholder="E.g 1" required />
+	            </div>
+            </div>
+            <div class="col-md-8">
+            	<div class="pull-right quick-search-top-margin">
+		            <button type="button" class="btn btn-default" id="clear-search">Clear</button>
+	        		<button type="button" class="btn btn-primary" id="submit-search">Search</button>
+	        	</div>
+            </div>
+      	</div>
+      	<hr>
+      	<div class="search-global-message-container">
+			<div class="result-message">
+				<ul id="search-global-result" class="chat">
+				</ul>
+				<div style="display: table;margin: 0 auto;">
+					<ul class="pagination-sm" id="searched-key-pages" style="display: table-cell;" hidden></ul>
+				</div>
+			</div>
+		</div>
+        	
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- GinTag Modal -->
+<div class="modal fade" id="gintag-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">General Information Tag</h4>
+      </div>
+      <div class="modal-body">
+        <div class="scrollable-div">
+        	
+        	<div class="alert alert-info" role="alert">
+        		<div class="row">
+        			<div class="col-sm-12">• <strong>Important Tags: </strong>
+        			<p id="important_tags"></p>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+
+    	<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group hideable">
+	                <label class="control-label" for="gintag_selected"></label>
+	                <input type="text" class="form-control" data-provide="typeahead" id="gintag_selected" name="gintag_selected" placeholder="E.g #EwiMessage" required />
+	            </div>
+			</div>
+			<div class="col-sm-offset-4 col-sm-4" id="gintag_warning_message" hidden>
+				<div class="alert alert-info" role="alert">
+	        		<b>This field is required</b>
+	        	</div>
+			</div>
+    	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="confirm-tagging">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- narrative Modal -->
+<div class="modal fade" id="narrative-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Narrative</h4>
+      </div>
+      <div class="modal-body">
+        <div class="scrollable-div">
+        	<div class="alert alert-info" role="alert">
+        		<div class="row">
+        			<div class="col-sm-12">
+        				<strong>Notice!</strong>
+        				<p> Saving a tagged message will be saved to narratives</p>
+        			</div>
+        		</div>
+        	</div>
+
+			<textarea id="narrative_message" name="narrative_message" class="form-control" rows="10"  disabled></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="save-narrative">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ground meas Modal -->
 <div class="modal fade" id="ground-meas-reminder-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -847,3 +1111,21 @@
     </div>
   </div>
 </div>
+
+  <!-- Chatterbox Loader Modal -->
+<div class="modal fade" id="chatterbox-loader-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 1000000000;">
+  <!-- <h1 class="ml2">Loading Chatterbox</h1> -->
+  	<div class="loader">
+		<div class="dot"></div>
+		<div class="dot"></div>
+		<div class="dot"></div>
+		<div class="dot"></div>
+		<div class="dot"></div>
+	</div>
+
+</div>
+
+  <script src="/js/dewslandslide/communications_beta/initializer.js"></script>
+  <script src="/js/dewslandslide/communications_beta/cbx_main.js"></script>
+  <script src="/js/dewslandslide/communications_beta/event_handler.js"></script>
+  <script src="/js/dewslandslide/communications_beta/responsive.js"></script>

@@ -14,15 +14,12 @@
 <div class="bg-cover">
 </div>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
+<div class="container">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-header">
             <a class="navbar-brand" href="#"><span><img src="/images/DEWSL.png" /></span> <strong>DEWS-Landslide</strong></a>
         </div>
-    </div>
-</nav>
-
-<div class="container-fluid">
+    </nav>    
     <div class="row main-content-div">
         <div class="col-sm-7">
             <div class="row">
@@ -35,7 +32,7 @@
                     <div class="">
                         <p>The Dynaslope Project is a research program developing an early warning system for deep-seated and catastrophic landslides, through landslide sensor technology and community participation in the Philippines.</p>
                         <br>
-                        <p>Formerly called "DEWS-L" and "DRMS" the Dynaslope Project began in the University of the Philippies Diliman and was funded by the Department of Science and Technology. Today It is implemented by the Philippine Institute of Volcanology and Seismology in 50 sites around the Philippines.</p>
+                        <p>Formerly called "DEWS-L" and "DRMS", the Dynaslope Project began in the University of the Philippines Diliman and was funded by the Department of Science and Technology. Today, it is implemented by the Philippine Institute of Volcanology and Seismology in 50 sites around the Philippines.</p>
                         <br>
                     </div>                    
                 </div>
@@ -43,7 +40,7 @@
         </div>
         <div class="col-sm-5">
             <div class="card card-container">
-                <img id="profile-img" class="profile-img-card" src="../../../images/dews-l-logo.png" />
+                <img id="profile-img" class="profile-img-card" src="../../../images/dynaslope-logo.jpg" />
                 <p id="profile-name" class="profile-name-card greeting-text">Hi! Log-in when ready.</p><br>
                 <form class="form-signin" action="../lin/validate_credentials" method="POST" accept-charset="utf-8">
                     <input type="username" id="username" class="form-control" name="username" placeholder="Username" required autofocus>
@@ -52,7 +49,7 @@
                 </form><!-- /form -->
                 <span>Don't have an account? </span><a id="no-account" href="#" class="forgot-password">No Account?</a>
                 <a id="forgot-link" href="#" class="forgot-password">Forgot the password?</a>
-            </div><!-- /card-container -->              
+            </div><!-- /card-container -->
         </div>
     </div>
 </div><!-- /container-->
