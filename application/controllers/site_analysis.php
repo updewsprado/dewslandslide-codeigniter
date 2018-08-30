@@ -851,19 +851,18 @@ class Site_analysis extends CI_Controller {
         $start = null; $end = null;
         $is_start_filled = false;
         $is_end_filled = false;
-        var_dump($node_status);
+        $i = 1;
         foreach ($node_status as $key => $node_prop) {
             $status = isset($node_prop["status"]) ? $node_prop["status"] : "OK";
             $node_id = $node_prop["id"];
-            
             if ((int) $node === $node_id) {
                 // Check if $node is the first in node_status
-                if (current($node_status) === $node_status[0]) {
-                    array_push($node_list, $node_prop);
+                if ($i === $node_status[0]["id"]) {
+                    array_push($node_list, $node_id["id"]);
                     $is_start_filled = true;
                 } else {
-                    array_push($node_list, $start);
-                    array_push($node_list, $node_prop);
+                    array_push($node_list, $start["id"]);
+                    array_push($node_list, $node_prop["id"]);
                     $is_start_filled = true;
                 }
             } else {
@@ -876,11 +875,12 @@ class Site_analysis extends CI_Controller {
                 } else {
                     if ($status !== "Not OK") {
                         $end = $node_prop;
-                        array_push($node_list, $end);
+                        array_push($node_list, $end["id"]);
                         $is_end_filled = true;
                     }
                 }
             }
+            $i += 1;
         }
         return $node_list;
     }
@@ -888,61 +888,43 @@ class Site_analysis extends CI_Controller {
     public function getPlotDataForNode ($subsurface_column, $start_date, $end_date, $node) {
         $node_status = $this->getPlotDataForNodeHealthSummary($subsurface_column);
         $node_list = $this->getAdjacentWorkingNodes($node, $node_status);
-        return $node_list;
-      
         $delegate_array = [[], [], [], []];
         foreach ($node_list as $node_id) {
             $index_node_id = "Node $node_id";
-            $accel_id = $this->getAccelIDsByVersion($subsurface_column);
             $version = 1;
-            if (count($accel_id) > 0) {
-                $version = $accel_id[0] === 32 ? 2 : 3;
+            if (strlen($subsurface_column) > 4) {
+                $version = 2;
             }
-            $filtered_data = $this->getFilteredAccelData($subsurface_column, $start_date, $end_date, $node_id, $version);
+            $return_data = $this->getFilteredAccelData($subsurface_column, $start_date, $end_date, $node_id, $version);
+            // Python Behavior
+            $return_data = json_decode($return_data)[0];
             
             foreach ($delegate_array as $key => $array) {
                 $delegate_array[$key][$index_node_id] = [];
             }
-            foreach ($filtered_data as $accel_id => $array) {
-                foreach ($array as $point) {
-                    $point_values = array(
-                        floatval($point->x),
-                        floatval($point->y),
-                        floatval($point->z)
-                    );
-                    $timestamp = strtotime($point->ts) * 1000;
-                    // Loop on delegate_array up to z_accel only
-                    for ($i = 0; $i < 3; $i += 1) { 
-                        $this->addKeyIfNotExist($accel_id, $delegate_array[$i][$index_node_id]);
-                        array_push($delegate_array[$i][$index_node_id][$accel_id], array(
-                            $timestamp,
-                            $point_values[$i],
-                            "filtered"
-                        ));
-                    }
-                }
-                if ($accel_id !== "v1") {
-                    $unfiltered_data = $this->subsurface_node_model->getBatteryData($subsurface_column, $start_date, $end_date, $node_id, $accel_id);
-                } else {
-                    $unfiltered_data = $this->subsurface_node_model->getUnfilteredDataV1($subsurface_column, $start_date, $end_date, $node_id);
-                }
-              
-                foreach ($unfiltered_data as $point) {
-                    $point_values = array(
-                        floatval($point->xvalue),
-                        floatval($point->yvalue),
-                        floatval($point->zvalue)
-                    );
-                    if ($accel_id !== "v1") array_push($point_values, floatval($point->batt));
-                  
-                    $timestamp = strtotime($point->timestamp) * 1000;
-                    for ($i = 0; $i < count($point_values); $i += 1) { 
-                        $this->addKeyIfNotExist($accel_id, $delegate_array[$i][$index_node_id]);
-                        array_push($delegate_array[$i][$index_node_id][$accel_id], array(
-                            $timestamp,
-                            $point_values[$i],
-                            "raw"
-                        ));
+            foreach ($return_data as $accel_id => $raw_filtered_arr) {
+                foreach ($raw_filtered_arr as $rf_arr) {
+                    $raw_filtered = $rf_arr->type;
+                    $data_arr = $rf_arr->data;
+                    $is_raw = $raw_filtered === "raw" ? true : false;
+                    foreach ($data_arr as $point) {
+                        $timestamp = strtotime($point->ts) * 1000;
+                        $point_values = array(
+                            floatval($point->x),
+                            floatval($point->y),
+                            floatval($point->z)
+                        );
+                        if ($is_raw) array_push($point_values, floatval($point->batt));
+                        // Loop until z-accel only if filtered else include battery
+                        $limit = $is_raw ? 4 : 3;
+                        for ($i = 0; $i < $limit; $i += 1) { 
+                            $this->addKeyIfNotExist($accel_id, $delegate_array[$i][$index_node_id]);
+                            array_push($delegate_array[$i][$index_node_id][$accel_id], array(
+                                $timestamp,
+                                $point_values[$i],
+                                $raw_filtered
+                            ));
+                        }
                     }
                 }
             }
@@ -1005,16 +987,10 @@ class Site_analysis extends CI_Controller {
         $command = "{$paths["python_path"]} {$paths["file_path"]}$exec_file $subsurface_column $start_date $end_date $node_id $message_id";
 
         exec($command, $output, $return);
-        $web_plots_data = null;
-        foreach ($output as $string) {
-            if(strpos($string, "web_plots") !== false){
-                $data = explode("web_plots=", $string);
-                $web_plots_data = $data[1];
-            }
-        }
+        $python_data = $this->extractPythonData($output);
 
         // var_dump(json_decode($web_plots_data));
-        return $web_plots_data;
+        return $python_data;
     }
 
     public function is_logged_in () {
@@ -1048,7 +1024,7 @@ class Site_analysis extends CI_Controller {
             $python_path = "C:/Users/Dynaslope/Anaconda2/python.exe";
             $file_path = "C:/xampp/updews-pycodes/Liaison/";
         } elseif (strpos($os, "UBUNTU") !== false || strpos($os, "Linux") !== false) {
-            $python_path = "/home/jdguevarra/anaconda2/bin/python";
+            $python_path = "/home/ubuntu/anaconda2/bin/python";
             $file_path = "/var/www/updews-pycodes/web_plots/";
         } else {
             throw new Exception("Unknown OS for execution... Script discontinued...");
