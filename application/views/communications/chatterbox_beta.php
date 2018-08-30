@@ -44,10 +44,10 @@
 				<div>
 					<!-- Nav tabs -->
 					<ul class="nav nav-tabs nav-justified quick-access-tab">
-					    <li role="presentation" class="active"><a href="#registered" aria-controls="registered" role="tab" data-toggle="tab">Inbox</a></li>
-					    <li role="presentation"><a href="#unknown" aria-controls="unknown" role="tab" data-toggle="tab">Unregistered</a></li>
-					    <li role="presentation"><a href="#event-inbox" aria-controls="event-inbox" role="tab" data-toggle="tab">Event inbox</a></li>
-					    <li role="presentation"><a href="#datalogger" aria-controls="datalogger" role="tab" data-toggle="tab">Datalogger</a></li>
+					    <li role="presentation" class="active"><a data-target="#registered" aria-controls="registered" role="tab" data-toggle="tab">Inbox</a></li>
+					    <li role="presentation"><a data-target="#unknown" aria-controls="unknown" role="tab" data-toggle="tab">Unregistered</a></li>
+					    <li role="presentation"><a data-target="#event-inbox" aria-controls="event-inbox" role="tab" data-toggle="tab">Event inbox</a></li>
+					    <li role="presentation"><a data-target="#datalogger" aria-controls="datalogger" role="tab" data-toggle="tab">Datalogger</a></li>
 					 </ul>
 
 					  <!-- Tab panes -->
@@ -125,7 +125,7 @@
 						</div>
 						<div class="form-group">
 							<div class="col-sm-12 left-content" style="padding-left: 30px;margin-bottom: 5px;">
-								<a href="#" id="btn-ewi" data-toggle="modal" data-dismiss="modal">Load Message Templates</a>
+								<a data-target="#" id="btn-ewi" data-toggle="modal" data-dismiss="modal">Load Message Templates</a>
 							</div>
 						</div>
 					</div>
@@ -139,13 +139,13 @@
 			  </div>
 			  <div class="panel-body align-center">
 			    <div class="row form-group">
-					<a href="#" id="btn-contact-settings" data-toggle="modal" title="Contact Settings"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Contact Settings</a>
+					<a id="btn-contact-settings" data-toggle="modal" title="Contact Settings"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Contact Settings</a>
 				</div>
 				<div class="row form-group">
-					<a href="#" id="btn-advanced-search" data-toggle="modal" title="Quick Site Selection"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Quick Site Selection</a>
+					<a id="btn-advanced-search" data-toggle="modal" title="Quick Site Selection"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Quick Site Selection</a>
 				</div>
 				<div class="row form-group">
-					<a href="#" id="btn-gbl-search" data-toggle="modal" title="Quick Search"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Quick Search</a>
+					<a id="btn-gbl-search" data-toggle="modal" title="Quick Search"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Quick Search</a>
 				</div>
 			  </div>
 			</div>
@@ -155,8 +155,8 @@
 			  </div>
 			  <div class="panel-body">
 			    <ul class="nav nav-tabs nav-justified quick-access-tab">
-				    <li class="active"><a data-toggle="tab" href="#quick-release">Site with Event</a></li>
-				    <li><a data-toggle="tab" href="#group-message">Group Message</a></li>
+				    <li class="active"><a data-toggle="tab" data-target="#quick-release">Site with Event</a></li>
+				    <li><a data-toggle="tab" data-target="#group-message">Group Message</a></li>
 				</ul>
 				<div class="tab-content">
 					<div id="quick-release" class="tab-pane fade in active">
@@ -430,7 +430,7 @@
 				  <div class="panel panel-default">
 				    <div class="panel-heading">
 				      <h4 class="panel-title" style="text-align: center;">
-				        <a data-toggle="collapse" data-parent="#accordion" href="#site-accord">Site Selection</a>
+				        <a data-toggle="collapse" data-parent="#accordion" data-target="#site-accord">Site Selection</a>
 				      </h4>
 				    </div>
 				    <div id="site-accord" class="panel-collapse collapse">
@@ -449,7 +449,7 @@
   				  <div class="panel panel-default">
 				    <div class="panel-heading">
 				      <h4 class="panel-title" style="text-align: center;">
-				        <a data-toggle="collapse" data-parent="#accordion" href="#org-accord">Organization Selection</a>
+				        <a data-toggle="collapse" data-parent="#accordion" data-target="#org-accord">Organization Selection</a>
 				      </h4>
 				    </div>
 				    <div id="org-accord" class="panel-collapse collapse">
@@ -506,8 +506,8 @@
 	      <div class="modal-body row-fluid">
 
 	        <ul class="nav nav-tabs">
-	          <li class="active"><a data-toggle="tab" href="#comm-group" id="comm-grp-flag">Community Group Selection</a></li>
-	          <li><a data-toggle="tab" href="#emp-group" id="emp-grp-flag">Employee Group Selection<i class="text-warning"> *BETA*</i></a></li>
+	          <li class="active"><a data-toggle="tab" data-target="#comm-group" id="comm-grp-flag">Community Group Selection</a></li>
+	          <li><a data-toggle="tab" data-target="#emp-group" id="emp-grp-flag">Employee Group Selection<i class="text-warning"> *BETA*</i></a></li>
 	        </ul>
 
 	        <div class="tab-content grp-selection">
