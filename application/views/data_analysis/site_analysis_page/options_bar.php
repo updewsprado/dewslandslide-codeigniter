@@ -79,18 +79,23 @@
                     <hr/>
                 </div>
 
-                <div class="form-group hideable">
+                <!-- <div class="form-group hideable">
                     <label class="control-label" for="nodes">Node(s)</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="nodes" name="nodes" readonly>
                         <div class="input-group-btn">
                             <button id="clear-nodes" type="button" class="btn btn-default"><span class="fa fa-eraser"></span></button>
-                            <!-- <span class="dropup"> -->
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="node-button" style="margin-left: 0;"><span class="caret"></span></button>
-                                <ul class="dropdown-menu dropdown-menu-right" id="node-list"></ul>
-                            <!-- </span> -->
-                        </div><!-- /btn-group -->
-                    </div><!-- /input-group -->
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="node-button" style="margin-left: 0;"><span class="caret"></span></button>
+                            <ul class="dropdown-menu dropdown-menu-right" id="node-list"></ul>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="form-group hideable">
+                    <label class="control-label" for="subsurface_node">Node Number</label>
+                    <select class="form-control" id="subsurface_node" name="subsurface_node">
+                        <option value="">---</option>
+                    </select>
                 </div>
 
                 <div class="row hideable">
