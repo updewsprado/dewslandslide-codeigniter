@@ -15,10 +15,10 @@
 
 		public function getShiftReleases($start, $end)
 		{
-			$this->db->select('public_alert_release.*, public_alert_event.*, site.name, membership.first_name AS mt_first, membership.last_name AS mt_last, m.first_name AS ct_first, m.last_name AS ct_last');
+			$this->db->select('public_alert_release.*, public_alert_event.*, sites.site_code AS name, membership.first_name AS mt_first, membership.last_name AS mt_last, m.first_name AS ct_first, m.last_name AS ct_last');
 			$this->db->from('public_alert_release');
 			$this->db->join('public_alert_event', 'public_alert_event.event_id = public_alert_release.event_id');
-			$this->db->join('site', 'public_alert_event.site_id = site.id');
+			$this->db->join('sites', 'public_alert_event.site_id = sites.id');
 			$this->db->join('membership', 'membership.id = public_alert_release.reporter_id_mt');
 			$this->db->join('membership m', 'm.id = public_alert_release.reporter_id_ct');
 			$this->db->where('public_alert_release.data_timestamp >', $start);
@@ -52,9 +52,9 @@
 
 		public function getSitesWithAlerts()
 		{
-			$this->db->select('public_alert_event.*, site.*');
+			$this->db->select('public_alert_event.*, sites.*, sites.site_code AS name');
 			$this->db->from('public_alert_event');
-			$this->db->join('site', 'public_alert_event.site_id = site.id');
+			$this->db->join('sites', 'public_alert_event.site_id = sites.site_id');
 			$this->db->where('status', 'on-going');
 			$this->db->or_where('status', 'extended');
 			$query = $this->db->get();
