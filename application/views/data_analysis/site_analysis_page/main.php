@@ -125,24 +125,7 @@
                 <div class="row">
                     <div class="col-sm-6 text-center">
                         <div class="checkbox">
-                            <label><input class="download-chart-checkbox" type="checkbox" value="x-accelerometer">X-Accelerometer</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 text-center">
-                        <div class="checkbox">
-                            <label><input class="download-chart-checkbox" type="checkbox" value="y-accelerometer">Y-Accelerometer</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 text-center">
-                        <div class="checkbox">
-                            <label><input class="download-chart-checkbox" type="checkbox" value="z-accelerometer">Z-Accelerometer</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 text-center">
-                        <div class="checkbox">
-                            <label><input class="download-chart-checkbox" type="checkbox" value="battery">Battery</label>
+                            <label><input class="download-chart-checkbox" type="checkbox" value="node">Node</label>
                         </div>
                     </div>
                 </div>
