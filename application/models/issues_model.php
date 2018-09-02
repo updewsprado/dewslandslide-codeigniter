@@ -13,8 +13,7 @@
 		{
 			$this->db->select("issues_and_reminders.*, u.lastname AS last_name, u.firstname AS first_name, sites.*");
 			$this->db->from('issues_and_reminders');
-			$this->db->join('comms_db.membership AS mem', 'mem.membership_id = issues_and_reminders.user_id');
-			$this->db->join('comms_db.users AS u', 'u.user_id = mem.user_fk_id');
+			$this->db->join('comms_db.users AS u', 'u.user_id = issues_and_reminders.user_id');
 			$this->db->join('public_alert_event', 'public_alert_event.event_id = issues_and_reminders.event_id', 'left');
 			$this->db->join('sites', 'sites.site_id = public_alert_event.site_id', 'left');
 			$this->db->where('issues_and_reminders.status', $status);
@@ -27,7 +26,7 @@
 		{
 			$this->db->select('COUNT(*)');
 			$this->db->from('issues_and_reminders');
-			$this->db->join('comms_db.membership AS mem', 'mem.membership_id = issues_and_reminders.user_id');
+			$this->db->join('comms_db.users AS u', 'u.user_id = issues_and_reminders.user_id');
 			$this->db->join('public_alert_event', 'public_alert_event.event_id = issues_and_reminders.event_id', 'left');
 			$this->db->join('sites', 'sites.site_id = public_alert_event.site_id', 'left');
 			if( $status == "archived" ) 
@@ -55,11 +54,10 @@
 	        $this->db->select($x, FALSE);
 
 			$this->db->from('issues_and_reminders');
-			$this->db->join('comms_db.membership AS mem', 'mem.membership_id = issues_and_reminders.user_id');
-			$this->db->join('comms_db.users AS u', 'u.user_id = mem.user_fk_id');
+			$this->db->join('comms_db.users AS u', 'u.user_id = issues_and_reminders.user_id');
 
 			if( $status == "archived" )
-				$this->db->join('comms_db.users AS resolved', 'resolved.user_id = mem.user_fk_id', 'left');
+				$this->db->join('comms_db.users AS resolved', 'resolved.user_id = issues_and_reminders.resolved_by', 'left');
 
 			$this->db->join('public_alert_event', 'public_alert_event.event_id = issues_and_reminders.event_id', 'left');
 			$this->db->join('sites', 'sites.site_id = public_alert_event.site_id', 'left');

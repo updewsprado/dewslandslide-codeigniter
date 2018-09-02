@@ -175,7 +175,7 @@ class Site_analysis extends CI_Controller {
 
             $latest_ts = [];
             foreach ($ts_array as $line) {
-                array_push($latest_ts, $line->timestamp);
+                array_push($latest_ts, $line->ts);
             }
 
             $surficial_data = $this->surficial_model->getSurficialDataLastTenPoints($site_code, $latest_ts);

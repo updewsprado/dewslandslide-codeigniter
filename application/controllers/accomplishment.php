@@ -5,14 +5,17 @@
 			parent::__construct();
 			$this->load->helper('url');
 			$this->load->model('accomplishment_model');
+			$this->load->model('subsurface_column_model');
+			$this->load->model("surficial_model");
 		}
 
 		public function index()
 		{
+			$this->is_logged_in();
+			
 			$data['user_id'] = $this->session->userdata("id");
 			$data['first_name'] = $this->session->userdata('first_name');
 			$data['last_name'] = $this->session->userdata('last_name');
-			$this->is_logged_in();
 			
 			$data['title'] = "DEWS-Landslide Accomplishment Report Filing Form";
 			$data['withAlerts'] = $this->accomplishment_model->getSitesWithAlerts();
@@ -69,12 +72,14 @@
 			$end = str_replace("%20", "T", $shift_end);
 			$end_ts = date("Y-m-d H:i:s", strtotime($end . "-1 hour"));
 			$start_ts = date("Y-m-d H:i:s", strtotime($end . "-12 hours -30 minutes"));
-			$columns = $this->accomplishment_model->getSubsurfaceColumns($site_code);
+			$columns = $this->subsurface_column_model->getSiteSubsurfaceColumns($site_code);
 
 			foreach ($columns as $column) {
-				if ($column->status !== "deactivated") {
-					$points = $this->accomplishment_model->getColumnDataPointCount($column->column_name, $start_ts, $end_ts);
+				if (is_null($column->date_deactivated)) {
+					$points = $this->subsurface_column_model->getSubsurfaceColumnData($column->tsm_name, $start_ts, $end_ts);
 					$column->status = $points > 0 ? "with_data" : "no_data";
+				} else {
+					$column->status = "deactivated";
 				}
 			}
 
@@ -83,8 +88,6 @@
 
 		public function getSurficialData ($site_code, $shift_end)
 		{
-			$this->load->model("surficial_model");
-
 			$end = str_replace("%20", "T", $shift_end);
 			$end_ts = date("Y-m-d H:i:s", strtotime($end . "-1 hour"));
 			$start_ts = date("Y-m-d H:i:s", strtotime($end . "-12 hours -30 minutes"));
@@ -92,7 +95,7 @@
 
 			$latest_ts = [];
 			foreach ($ts_array as $line) {
-                array_push($latest_ts, $line->timestamp);
+                array_push($latest_ts, $line->ts);
             }
 
             $end_unix = strtotime($end_ts);
@@ -111,7 +114,7 @@
             $surficial_data = null;
             if ($hasSentSurficialData) {
             	foreach ($ts_array as $line) {
-	                array_push($latest_ts, $line->timestamp);
+	                array_push($latest_ts, $line->ts);
 	            }
 
 	            $surficial_data = $this->processSurficialDataPoints($site_code, $latest_ts);
@@ -136,7 +139,7 @@
 				$collection = [];
 				foreach ($surficial_data as $line) {
 					if ($line->ts === $ts) {
-						$collection[$line->crack_id] = (int) $line->meas;
+						$collection[$line->crack_id] = (int) $line->measurement;
 					}
 				}
 				array_push($points, array(

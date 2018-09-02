@@ -90,10 +90,10 @@ class Manifestations_Model extends CI_Model
 			$site_id = $this->getSiteID($site_code);
 		}
 
-		$this->db->select("pm.*, mf.*, mem.first_name AS validator_first, mem.last_name AS validator_last, s.name AS site_code");
+		$this->db->select("pm.*, mf.*, u.first_name AS validator_first, u.last_name AS validator_last, s.name AS site_code");
 		$this->db->from("public_alert_manifestation AS pm");
 		$this->db->join("manifestation_features AS mf", "pm.feature_id = mf.feature_id");
-		$this->db->join("membership AS mem", "pm.validator = mem.id");
+		$this->db->join("comms_db.users AS u", "pm.validator = u.user_id");
 		$this->db->join("site AS s", "mf.site_id = s.id");
 		
 		if( $site_code !== "all" ) {
@@ -151,19 +151,13 @@ class Manifestations_Model extends CI_Model
 	 **/
 	public function getStaff()
 	{
-		$sql = "SELECT id, first_name, last_name FROM membership ORDER BY last_name ASC";
-		
-		$query = $this->db->query($sql);
-		$result = [];
-		$i = 0;
-		foreach ($query->result() as $row) {
-			$result[$i]["id"] = $row->id;
-			$result[$i]["first_name"] = $row->first_name;
-			$result[$i]["last_name"] = $row->last_name;
-			$i = $i + 1;
-		}
-
-		return json_encode($result);
+		$this->db->select('u.user_id AS id, u.firstname AS first_name, u.lastname AS last_name');
+		$this->db->from('comms_db.users AS u');
+		$this->db->join('comms_db.membership AS mem', 'mem.user_fk_id = u.user_id');
+		$this->db->where('is_active','1');
+		$this->db->order_by("u.lastname", "asc");
+		$query = $this->db->get();
+		return json_encode($query->result_array());
 	}
 
 	public function getCount($search = null, $filter = null)
@@ -187,11 +181,11 @@ class Manifestations_Model extends CI_Model
 
 	public function getAllMOMforASite($search = null, $filter = null, $orderBy, $orderType, $start, $length)
 	{
-        $this->db->select('public_alert_manifestation.*, manifestation_features.*, public_alert_release.event_id, membership.first_name, membership.last_name');
+        $this->db->select('public_alert_manifestation.*, manifestation_features.*, public_alert_release.event_id, u.first_name, u.last_name');
 		$this->db->from('public_alert_manifestation');
 		$this->db->join('manifestation_features', 'public_alert_manifestation.feature_id = manifestation_features.feature_id');
 		$this->db->join('public_alert_release', 'public_alert_manifestation.release_id = public_alert_release.release_id', 'left');
-		$this->db->join('membership', 'public_alert_manifestation.validator = membership.id');
+		$this->db->join('comms_db.users AS u', 'public_alert_manifestation.validator = u.user_id');
 		if( !is_null($filter) ) $this->db->where($filter);
 		if( !is_null($search) ) {
 			// $this->db->or_like($search);
