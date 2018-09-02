@@ -16,8 +16,8 @@
 */
 
 // $config['base_url']	= 'http://www.dewslandslide.com/';
-// $config['base_url'] = 'http://localhost/';
-$config['base_url'] = 'http://192.168.150.72/';
+$config['base_url'] = 'http://dewsl-beta.com/';
+// $config['base_url'] = 'http://192.168.150.72/';
 
 
 $config['server_root'] = $_SERVER['DOCUMENT_ROOT'];
