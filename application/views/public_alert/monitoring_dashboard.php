@@ -17,11 +17,11 @@
   first_name = "<?php echo $first_name; ?>";
   tagger_user_id = "<?php echo $user_id; ?>";
 </script>
-<script src="<?php echo base_url(); ?>js/dewslandslide/communications/dewschatterbox_variables.js"></script>
-<script src="<?php echo base_url(); ?>js/dewslandslide/communications/dewschatterbox_initializer.js"></script>
-<script src="<?php echo base_url(); ?>js/dewslandslide/communications/dewschatterbox_wss.js"></script>
-<script src="<?php echo base_url(); ?>js/dewslandslide/communications/dewschatterbox_dashboard.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/third-party/bootstrap-tagsinput.css">
+
+
+<script type="text/javascript" src="js/dewslandslide/communications_beta/cbx_dashboard.js"></script>
+<script type="text/javascript" src="js/dewslandslide/communications_beta/websocket_server.js"></script>
 
 <!-- Server time-->
 <script type="text/javascript" src="/js/dewslandslide/server_time.js"></script>
