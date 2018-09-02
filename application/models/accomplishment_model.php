@@ -15,12 +15,12 @@
 
 		public function getShiftReleases($start, $end)
 		{
-			$this->db->select('public_alert_release.*, public_alert_event.*, sites.site_code AS name, membership.first_name AS mt_first, membership.last_name AS mt_last, m.first_name AS ct_first, m.last_name AS ct_last');
+			$this->db->select('public_alert_release.*, public_alert_event.*, sites.site_code AS name, u1.firstname AS mt_first, u1.lastname AS mt_last, u2.firstname AS ct_first, u2.lastname AS ct_last');
 			$this->db->from('public_alert_release');
 			$this->db->join('public_alert_event', 'public_alert_event.event_id = public_alert_release.event_id');
-			$this->db->join('sites', 'public_alert_event.site_id = sites.id');
-			$this->db->join('membership', 'membership.id = public_alert_release.reporter_id_mt');
-			$this->db->join('membership m', 'm.id = public_alert_release.reporter_id_ct');
+			$this->db->join('sites', 'public_alert_event.site_id = sites.site_id');
+			$this->db->join('comms_db.users AS mem1', "mem1.user_id = public_alert_release.reporter_id_mt");
+			$this->db->join('comms_db.users AS mem2', "mem2.user_id = public_alert_release.reporter_id_ct");
 			$this->db->where('public_alert_release.data_timestamp >', $start);
 			$this->db->where('public_alert_release.data_timestamp <=', $end);
 			$this->db->where('public_alert_event.status !=', 'routine ');

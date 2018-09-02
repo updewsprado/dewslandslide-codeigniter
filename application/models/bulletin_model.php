@@ -39,8 +39,7 @@
 		public function getName ($id) {
 			$this->db->select('u.firstname, u.lastname');
 			$this->db->from('comms_db.users AS u');
-			$this->db->join('comms_db.membership AS mem', 'mem.user_fk_id = u.user_id');
-			$this->db->where('mem.membership_id', $id);
+			$this->db->where('u.user_id', $id);
 			$result = $this->db->get()->row();
 			return $result->firstname . " " . $result->lastname;
 		}

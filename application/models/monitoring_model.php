@@ -98,10 +98,10 @@ class Monitoring_Model extends CI_Model
 	 **/
 	public function getStaff()
 	{
-		$this->db->select('mem.membership_id AS id, u.firstname AS first_name, u.lastname AS last_name');
+		$this->db->select('u.user_id AS id, u.firstname AS first_name, u.lastname AS last_name');
+		$this->db->from('comms_db.users AS u');
+		$this->db->join('comms_db.membership AS mem', 'mem.user_fk_id = u.user_id');
 		$this->db->where('is_active','1');
-		$this->db->from('comms_db.membership AS mem');
-		$this->db->join('comms_db.users AS u', "u.user_id = mem.user_fk_id");
 		$this->db->order_by("u.lastname", "asc");
 		$query = $this->db->get();
 		return json_encode($query->result_array());

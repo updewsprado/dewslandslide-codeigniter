@@ -20,7 +20,7 @@ class Lin extends CI_Controller {
 
 			$data = $query['data'];
 			$dataset = array (
-				'id' => $data['id'],
+				'id' => $data['user_id'],
 				'username' => $this->input->post('username'),
 				'first_name' => $data['first_name'],
 				'last_name' => $data['last_name'],
