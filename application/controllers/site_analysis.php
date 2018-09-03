@@ -76,13 +76,13 @@ class Site_analysis extends CI_Controller {
                         if ($i === $count_instances - 1) $push_null_flag = true;
                     } else if (!is_null($instance->rval) && !is_null($start)) {
                         $push_null_flag = true;
-                        $start = null;
-                        $end = null;
                     }
 
                     if ($push_null_flag) {
                         $range = array("from" => strtotime($start) * 1000, "to" => strtotime($end) * 1000);
                         array_push($data_series["null_ranges"], $range);
+			$start = null;
+                        $end = null;
                         $push_null_flag = false;
                     }
 
