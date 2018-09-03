@@ -57,7 +57,9 @@ class Site_analysis extends CI_Controller {
             $lookup = array("seventytwo_hr_cumulative" => "72h", "twentyfour_hr_cumulative" => "24h", "rain" => "rain");
             $data = $rain["data"];
 
-            $i = 0; $start = null; $end = null;
+            $i = 0; $count_instances = count($data);
+            $push_null_flag = false;
+            $start = null; $end = null;
             if(!is_null($data)) {
                 foreach ($data as $instance) {
                     if($instance->rain > $data_series["max_rval"]) {
@@ -71,16 +73,23 @@ class Site_analysis extends CI_Controller {
                     if (is_null($instance->rain)) {
                         if (is_null($start)) $start = $instance->ts;
                         $end = $instance->ts;
+                        if ($i === $count_instances - 1) $push_null_flag = true;
                     } else if (!is_null($instance->rain) && !is_null($start)) {
-                        $range = array("from" => strtotime($start) * 1000, "to" => strtotime($end) * 1000);
-                        array_push($data_series["null_ranges"], $range);
+                        $push_null_flag = true;
                         $start = null;
                         $end = null;
                     }
 
+                    if ($push_null_flag) {
+                        $range = array("from" => strtotime($start) * 1000, "to" => strtotime($end) * 1000);
+                        array_push($data_series["null_ranges"], $range);
+                        $push_null_flag = false;
+                    }
+                    
                     foreach ($instance as $key => $value) {
                         if($key !== "ts") $this->saveInstance($data_series, $lookup[$key], $instance->ts, $value);
                     }
+                    
                     $i++;
                 }
             }
