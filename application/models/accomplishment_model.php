@@ -19,8 +19,8 @@
 			$this->db->from('public_alert_release');
 			$this->db->join('public_alert_event', 'public_alert_event.event_id = public_alert_release.event_id');
 			$this->db->join('sites', 'public_alert_event.site_id = sites.site_id');
-			$this->db->join('comms_db.users AS mem1', "mem1.user_id = public_alert_release.reporter_id_mt");
-			$this->db->join('comms_db.users AS mem2', "mem2.user_id = public_alert_release.reporter_id_ct");
+			$this->db->join('comms_db.users AS u1', "u1.user_id = public_alert_release.reporter_id_mt");
+			$this->db->join('comms_db.users AS u2', "u2.user_id = public_alert_release.reporter_id_ct");
 			$this->db->where('public_alert_release.data_timestamp >', $start);
 			$this->db->where('public_alert_release.data_timestamp <=', $end);
 			$this->db->where('public_alert_event.status !=', 'routine ');
@@ -121,7 +121,12 @@
 
 		public function getEmailCredentials($username)
 		{
-			$query = $this->db->get_where('membership', array('username' => $username));
+			$query = $this->db->select("*")
+						->from("comms_db.membership AS mem")
+						->join("comms_db.user_emails AS um", "mem.user_fk_id = um.user_id")
+						->where("mem.username", $username)
+						->get();
+
 			if( $query->num_rows() == 0 ) $result = "No '" . $username . "' username on the database.";
 			else $result = $query->result_array()[0];
 			return $result;
