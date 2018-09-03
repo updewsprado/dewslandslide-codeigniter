@@ -60,6 +60,6 @@
     <script type="text/javascript" src="/js/third-party/modal-reposition.js"></script>
 
     <!-- PMS SAMPLE -->
-    <script type="text/javascript" src="http://www.dewslandslide.com:5053/js/pms.js"></script>
+    <script type="text/javascript" src="http://dewsl-beta.com:5053/js/pms.js"></script>
 
 </head>
