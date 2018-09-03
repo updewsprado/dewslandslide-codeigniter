@@ -29,9 +29,9 @@
                     <select class="form-control" id="site_code" name="site_code">
                         <option value="">---</option>
                         <?php foreach(json_decode($sites) as $site): ?>
-                            <?php if($site->name != 'mes'): ?>
-                                <option value="<?php echo $site->name; ?>">
-                                <?php echo strtoupper($site->name) . " (" . $site->address . ")"; ?>
+                            <?php if($site->site_code != 'mes'): ?>
+                                <option value="<?php echo $site->site_code; ?>">
+                                <?php echo strtoupper($site->site_code) . " (" . $site->address . ")"; ?>
                                 </option>
                             <?php endif; ?>
                         <?php endforeach; ?>

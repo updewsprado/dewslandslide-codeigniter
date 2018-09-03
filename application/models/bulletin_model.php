@@ -123,7 +123,12 @@
 
 		public function getEmailCredentials($username)
 		{
-			$query = $this->db->get_where('membership', array('username' => $username));
+			$query = $this->db->select("*")
+						->from("comms_db.membership AS mem")
+						->join("comms_db.user_emails AS um", "mem.user_fk_id = um.user_id")
+						->where("mem.username", $username)
+						->get();
+
 			if( $query->num_rows() == 0 ) $result = "No '" . $username . "' username on the database.";
 			else $result = $query->result_array()[0];
 			return $result;
