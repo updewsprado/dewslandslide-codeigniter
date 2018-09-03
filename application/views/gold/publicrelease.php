@@ -315,9 +315,9 @@
                             <select class="form-control" id="site" name="site">
                                 <option value="">---</option>
                                 <?php foreach($sites as $site): ?>
-                                    <?php if($site->name != 'mes'): ?>
-                                        <option value="<?php echo $site->id; ?>">
-                                        <?php echo strtoupper($site->name) . " (" . $site->address . ")"; ?>
+                                    <?php if($site->site_code != 'mes'): ?>
+                                        <option value="<?php echo $site->site_id; ?>">
+                                        <?php echo strtoupper($site->site_code) . " (" . $site->address . ")"; ?>
                                         </option>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
@@ -691,13 +691,13 @@
                             <?php endif; ?>
                                 <label class="checkbox-inline col-sm-1 routine-site">
                                     <input type="checkbox" <?php 
-                                    $key = array_search($sites[$i]->id, array_column($active_sites, 'site_id'));
+                                    $key = array_search($sites[$i]->site_id, array_column($active_sites, 'site_id'));
                                     if($key > -1)
                                     {
                                         if($active_sites[$key]['status'] == 'on-going') echo "class='active' disabled='disabled'";
                                         else if($active_sites[$key]['status'] == 'extended') echo "class='extended' disabled='disabled'";
                                     }
-                                    else echo "name='routine_sites[]' " . "season='" . $sites[$i]->season . "'"; ?> value="<?php echo $sites[$i]->id; ?>"><?php echo strtoupper($sites[$i]->name); ?>
+                                    else echo "name='routine_sites[]' " . "season='" . $sites[$i]->season . "'"; ?> value="<?php echo $sites[$i]->site_id; ?>"><?php echo strtoupper($sites[$i]->site_code); ?>
                                 </label>
                             <?php if($i % 9 == 8 || $i == count($sites) - 1 ): ?>
                             </div>

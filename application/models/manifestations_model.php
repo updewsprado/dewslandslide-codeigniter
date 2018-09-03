@@ -114,9 +114,9 @@ class Manifestations_Model extends CI_Model
 
 	public function getSites()
 	{
-		$sql = "SELECT id, name, sitio, barangay, municipality, province, season 
+		$sql = "SELECT site_id, site_code, sitio, barangay, municipality, province, season 
 				FROM site 
-				ORDER BY name ASC";
+				ORDER BY site_code ASC";
 
 		$query = $this->db->query($sql);
 
@@ -135,8 +135,8 @@ class Manifestations_Model extends CI_Model
 	          $address = "$sitio, $barangay, $municipality, $province";
 	        }
 
-	        $site[$i]["id"] = $row["id"];
-	        $site[$i]["name"] = $row["name"];
+	        $site[$i]["site_id"] = $row["site_id"];
+	        $site[$i]["site_code"] = $row["site_code"];
 	        $site[$i]["season"] = $row["season"];
 	        $site[$i++]["address"] = $address;
 	    }
