@@ -59,6 +59,7 @@ class Site_analysis extends CI_Controller {
 
             $i = 0; $count_instances = count($data);
             $push_null_flag = false;
+            $start = null; $end = null;
             if(!is_null($data)) {
                 foreach ($data as $instance) {
                     if($instance->rval > $data_series["max_rval"]) {
