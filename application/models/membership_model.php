@@ -26,8 +26,6 @@ class Membership_model extends CI_Model {
 		$db->join('users', 'membership.user_fk_id = users.user_id');
 		$db->where('username', $this->input->post('username'));
 		$db->where('password', hash('sha512', $this->input->post('password')));
-		var_dump($this->input->post('username'));
-		var_dump(hash('sha512', $this->input->post('password')));
 
 		$query = $db->get();
 		var_dump($db->last_query());
