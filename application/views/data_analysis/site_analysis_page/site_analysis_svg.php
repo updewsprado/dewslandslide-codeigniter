@@ -29,3 +29,7 @@
 
 <div class="box" id="battery-chart" hidden>
 </div>
+
+<div class="box" id="node-chart" hidden>
+	<svg id="node-svg" xmlns="http://www.w3.org/2000/svg" width="600" height="1950"></svg>
+</div>

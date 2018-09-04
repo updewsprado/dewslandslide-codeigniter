@@ -222,6 +222,11 @@
 	        </table>
 
 	        <div id="employee-contact-wrapper" hidden>
+	        	<!-- <div class="row">
+	        		<div class="col-sm-12">
+	        			<button type="button" class="btn btn-primary btn-xs" id="asd"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>  Back</button>
+	        		</div>
+	        	</div> -->
 	        	<form id="employee-contact-form">
 	        	 	<input type="text" id="user_id_ec" value="0" hidden>
 		         	<div class="row">
