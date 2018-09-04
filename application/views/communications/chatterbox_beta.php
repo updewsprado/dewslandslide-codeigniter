@@ -108,7 +108,7 @@
 				</div>
 				<hr>
 				<div class="panel panel-success">
-					<div class="panel-body">
+					<div class="panel-body chatbox-padding">
 						<div class="form-group">
 							<div class="chat-message">
 								<ul id="messages" class="chat"></ul>
