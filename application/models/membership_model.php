@@ -19,22 +19,23 @@ class Membership_model extends CI_Model {
     );
 
 	public function validate() {
+		// Switch database first before executing query
 		$config_app = switch_db("comms_db");
 		$db = $this->load->database($config_app, TRUE);
-		$db->select('*');
-		$db->from('membership');
-		$db->join('users', 'membership.user_fk_id = users.user_id');
-		$db->where('username', $this->input->post('username'));
-		$db->where('password', hash('sha512', $this->input->post('password')));
-		var_dump($this->input->post('username'));
-		var_dump(hash('sha512', $this->input->post('password')));
 
-		$query = $db->get();
-		var_dump($db->last_query());
-		if ($query->num_rows == 1) {
-			$this->names['user_id'] = $query->row()->user_fk_id;
-			$this->names['first_name'] = $query->row()->firstname;
-			$this->names['last_name'] = $query->row()->lastname;
+		// Set username and password before throwing them to sql
+		$username = $this->input->post('username');
+		$password = hash('sha512', $this->input->post('password'));
+
+		$sql = "SELECT * FROM membership 
+					INNER JOIN users ON membership.user_fk_id=users.user_id 
+					WHERE username = '" . $username . "' AND password = '" . $password . "'";
+		
+		$result_set = $db->query($sql);
+		if ($result_set->num_rows == 1) {
+			$this->names['user_id'] = $result_set->row()->user_fk_id;
+			$this->names['first_name'] = $result_set->row()->firstname;
+			$this->names['last_name'] = $result_set->row()->lastname;
 
 			$result = [
 				"status" => true,
