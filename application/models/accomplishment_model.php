@@ -63,10 +63,10 @@
 
 		public function getNarratives($event_id)
 		{
-			$this->db->select("narratives.*, site.name");
+			$this->db->select("narratives.*, sites.site_code AS name");
 			$this->db->from("narratives");
 			$this->db->join("public_alert_event", "public_alert_event.event_id = narratives.event_id" );
-			$this->db->join("site", "public_alert_event.site_id = site.id");
+			$this->db->join("sites", "public_alert_event.site_id = sites.site_id");
 			$this->db->where_in('narratives.event_id', $event_id);
 			$query = $this->db->get();
 			$result = $query->result_array();
