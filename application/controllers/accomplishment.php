@@ -77,7 +77,7 @@
 			foreach ($columns as $column) {
 				if (is_null($column->date_deactivated)) {
 					$points = $this->subsurface_column_model->getSubsurfaceColumnData($column->tsm_name, $start_ts, $end_ts);
-					$column->status = $points > 0 ? "with_data" : "no_data";
+					$column->status = count($points) > 0 ? "with_data" : "no_data";
 				} else {
 					$column->status = "deactivated";
 				}
