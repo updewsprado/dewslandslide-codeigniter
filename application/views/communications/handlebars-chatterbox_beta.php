@@ -34,7 +34,7 @@
         {{/if}}
         </div>
         <p>
-        {{sms_msg}}
+        {{{sms_msg}}}
         </p>
         </div>
         </li>
@@ -111,11 +111,11 @@
         {{/if}}
         </div>
         <p>
-        {{sms_msg}}
+        {{sms_msg}}}
         </p>
         </div>
         </li>
-    {{/each}}
+    {{{/each}}
 </script>
 
 
