@@ -33,9 +33,8 @@
 			  </div>
 			  <div class="panel-body">
 			    <div class="col-sm-12 form-group">
-					<div class="input-group">
+					<div class="input-group" id="contact-suggestion-container">
 						<input type="text" class="awesomplete form-control dropdown-input" id="contact-suggestion" placeholder="Type name..." data-multiple />
-						<!-- <input type="text" class="form-control dropdown-input" data-provide="typeahead" id="contact-suggestion" name="contact-suggestion" placeholder="Type name..." required /> -->
 						<span class="input-group-btn">
 					    	<button class="btn btn-default" id="go-chat" type="button">Go!</button>
 				        </span>
