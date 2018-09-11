@@ -64,11 +64,11 @@
 <script id="quick-release-template" type="text/x-handlebars-template">
     {{#each quick_release}}
     <li>
-        <input type="text" value="{{name}}" hidden>  
+        <input type="text" value="{{site_code}}" hidden>  
         <a href="#" class="clearfix">   
             <img src="/images/Chatterbox/dewsl_03.png" alt="" class="img-circle">
             <div class="friend-name">   
-                <strong style="text-transform: uppercase;">{{name}} - Region ({{region}}) - {{internal_alert_level}}</strong>
+                <strong style="text-transform: uppercase;">{{site_code}} - Region ({{region}}) - {{internal_alert_level}}</strong>
             </div>
             <div class="last-message text-muted">{{barangay}}, {{municipality}},{{province}}</div>
         </a>

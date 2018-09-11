@@ -160,7 +160,7 @@
 				</ul>
 				<div class="tab-content">
 					<div id="quick-release" class="tab-pane fade in active">
-						<ul id="quick-inbox-display" class="friend-list"></ul>
+						<ul id="quick-release-display" class="friend-list"></ul>
 					</div>
 					<div id="group-message" class="tab-pane fade">
 						<ul id="group-message-display" class="friend-list"></ul>
