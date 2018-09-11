@@ -1026,7 +1026,6 @@
 
 </div>
 
-<!-- SEMI-AUTO GNDMEAS MODAL -->
 <div class="modal fade" id="ground-meas-reminder-modal" tabindex="-1" role="dialog" aria-labelledby="groundMeasReminderModal">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
