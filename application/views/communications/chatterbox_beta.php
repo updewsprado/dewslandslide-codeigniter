@@ -44,10 +44,10 @@
 				<div>
 					<!-- Nav tabs -->
 					<ul class="nav nav-tabs nav-justified quick-access-tab">
-					    <li role="presentation" class="active"><a data-target="#registered" aria-controls="registered" role="tab" data-toggle="tab">Inbox</a></li>
-					    <li role="presentation"><a data-target="#unknown" aria-controls="unknown" role="tab" data-toggle="tab">Unregistered</a></li>
-					    <li role="presentation"><a data-target="#event-inbox" aria-controls="event-inbox" role="tab" data-toggle="tab">Event inbox</a></li>
-					    <li role="presentation"><a data-target="#datalogger" aria-controls="datalogger" role="tab" data-toggle="tab">Datalogger</a></li>
+					    <li role="presentation" class="active pointer"><a data-target="#registered" aria-controls="registered" role="tab" data-toggle="tab">Inbox</a></li>
+					    <li role="presentation" class="pointer"><a data-target="#unknown" aria-controls="unknown" role="tab" data-toggle="tab">Unregistered</a></li>
+					    <li role="presentation" class="pointer"><a data-target="#event-inbox" aria-controls="event-inbox" role="tab" data-toggle="tab">Event inbox</a></li>
+					    <li role="presentation" class="pointer"><a data-target="#datalogger" aria-controls="datalogger" role="tab" data-toggle="tab">Datalogger</a></li>
 					 </ul>
 
 					  <!-- Tab panes -->
@@ -138,13 +138,13 @@
 			    <h3 class="panel-title">OPTIONS</h3>
 			  </div>
 			  <div class="panel-body align-center">
-			    <div class="row form-group">
+			    <div class="row form-group pointer">
 					<a id="btn-contact-settings" data-toggle="modal" title="Contact Settings"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Contact Settings</a>
 				</div>
-				<div class="row form-group">
+				<div class="row form-group pointer">
 					<a id="btn-advanced-search" data-toggle="modal" title="Quick Site Selection"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Quick Site Selection</a>
 				</div>
-				<div class="row form-group">
+				<div class="row form-group pointer">
 					<a id="btn-gbl-search" data-toggle="modal" title="Quick Search"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Quick Search</a>
 				</div>
 			  </div>
@@ -155,8 +155,8 @@
 			  </div>
 			  <div class="panel-body">
 			    <ul class="nav nav-tabs nav-justified quick-access-tab">
-				    <li class="active"><a data-toggle="tab" data-target="#quick-release">Site with Event</a></li>
-				    <li><a data-toggle="tab" data-target="#group-message">Group Message</a></li>
+				    <li class="active pointer"><a data-toggle="tab" data-target="#quick-release">Site with Event</a></li>
+				    <li class="pointer"><a data-toggle="tab" data-target="#group-message">Group Message</a></li>
 				</ul>
 				<div class="tab-content">
 					<div id="quick-release" class="tab-pane fade in active">
