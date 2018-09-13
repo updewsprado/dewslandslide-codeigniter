@@ -64,7 +64,8 @@
 <script id="quick-release-template" type="text/x-handlebars-template">
     {{#each quick_release}}
     <li>
-        <input type="text" value="{{site_code}}" hidden>  
+        <input type="text" id="site_code" value="{{site_code}}" hidden> 
+        <input type="text" id="site_id" value="{{site_id}}" hidden>
         <a href="#" class="clearfix">   
             <img src="/images/Chatterbox/dewsl_03.png" alt="" class="img-circle">
             <div class="friend-name">   
