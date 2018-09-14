@@ -23,6 +23,9 @@
     <!-- jQuery Version 3.3.1 -->
     <script type="text/javascript" src="/js/third-party/jquery-3.3.1.min.js"></script>
 
+    <!-- jQuery UI Version 1.12.1 -->
+    <script type="text/javascript" src="/js/third-party/jquery-ui-1.12.1.min.js"></script>
+
     <!-- Bootstrap JS v3.3.7 -->
     <script src="/js/third-party/bootstrap.min.js"></script>
 
