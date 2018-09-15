@@ -182,7 +182,7 @@ class Site_analysis extends CI_Controller {
             }
             $temp = array(
                 'x' => strtotime($data->ts) * 1000, 
-                'y' => (int) $data->meas, 
+                'y' => floatval($data->meas), 
                 'id' => (int) $data->id
             );
             array_push($data_per_marker[$data->crack_id], $temp);
