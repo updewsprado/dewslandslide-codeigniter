@@ -13,6 +13,7 @@
 			$this->db->select("*");
 			$this->db->from("tsm_sensors");
 			$this->db->like("tsm_name", $site_code, "after");
+			$this->db->where(array("date_deactivated" => NULL));
 			$this->db->order_by("tsm_name", "asc");
 			$query = $this->db->get();
 			return $query->result();
