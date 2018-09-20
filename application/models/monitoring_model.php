@@ -48,7 +48,7 @@ class Monitoring_Model extends CI_Model
 	}
 
 	public function getAllRoutineEventsGivenDate ($date) {
-		$this->db->select("ev.event_id, ev.site_id, ev.event_start, sites.name AS site_code");
+		$this->db->select("ev.event_id, ev.site_id, ev.event_start, sites.site_code");
 		$this->db->from('public_alert_event AS ev');
 		$this->db->join("sites", "ev.site_id = sites.site_id");
 		$this->db->where("ev.status", "routine");
