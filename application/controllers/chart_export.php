@@ -81,6 +81,10 @@ class Chart_export extends CI_Controller
 		$conn_id = $_POST['connection_id'];
 		$dir = "temp/charts_render/events/$conn_id/$site_code";
 
+		foreach (glob($dir . "/chart_?.pdf") as $file) {
+    		unlink($file);
+		}
+
 		for( $i = 0; $i < count($filenames); $i++) {
 			$pdf_filename = "chart_" . strval($i+1);
 			$dir = $dir . "/";
@@ -118,8 +122,7 @@ class Chart_export extends CI_Controller
 			$pdf = new PDFMerger;
 			$dir =  $_SERVER['DOCUMENT_ROOT'] . "temp/charts_render/";
 			$file_dir = $dir . $date;
-			foreach (glob($file_dir . "/chart_?.pdf") as $file) 
-			{
+			foreach (glob($file_dir . "/chart_?.pdf") as $file) {
 	    		$pdf->addPDF($file, 'all');
 			}
 
