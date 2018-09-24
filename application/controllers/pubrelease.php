@@ -191,7 +191,7 @@ class Pubrelease extends CI_Controller {
 	public function insert () {
 		$status = $_POST["status"];
 		$latest_trigger_id = NULL;
-		$site_id = $_POST["site"];
+		$site_id = $_POST["site_id"];
 		if ((int) $site_id === 0 && $site_id !== "") $site_id = $this->pubrelease_model->getSiteID($site_id);
 		$event_validity = NULL;
 		$release_id = NULL;
@@ -339,7 +339,7 @@ class Pubrelease extends CI_Controller {
 	}
 
 	public function saveTriggers($post, $event_id, $release_id, $event_validity) {
-		$lookup = array( "g" => "trigger_ground_1", "G" => "trigger_ground_2", "s" => "trigger_sensor_1", "S" => "trigger_sensor_2", "m" => "trigger_manifestation", "M" => "trigger_manifestation", "R" => "trigger_rain", "E" => "trigger_eq", "D" => "trigger_od" );
+		$lookup = array( "g" => "trigger_surficial_1", "G" => "trigger_surficial_2", "s" => "trigger_subsurface_1", "S" => "trigger_subsurface_2", "m" => "trigger_manifestation", "M" => "trigger_manifestation", "R" => "trigger_rainfall", "E" => "trigger_eq", "D" => "trigger_od" );
 		$list = [];
 		$return_data = [];
 

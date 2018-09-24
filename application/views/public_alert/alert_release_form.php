@@ -90,8 +90,8 @@
                         </div>
 
                         <div class="col-sm-3 form-group">
-                            <label class="control-label" for="site">Site Name</label>
-                            <select class="form-control" id="site" name="site">
+                            <label class="control-label" for="site_id">Site Name</label>
+                            <select class="form-control" id="site_id" name="site_id">
                                 <option value="">---</option>
                                 <?php foreach($sites as $site): ?>
                                     <?php if($site->site_code != 'mes'): ?>
@@ -169,7 +169,7 @@
                         </div> <!------ END OF TRIGGERS OPTION AREA ------>
 
                         <!------ RAINFALL ------>
-                        <div class="row" id="rain_area" hidden="hidden">
+                        <div class="row" id="rainfall_area" hidden="hidden">
                             <hr class="hr-divider">
                             <div class="col-sm-2 area_label">
                                 <h4>RAINFALL</h4>
@@ -200,14 +200,14 @@
                                             <label data-toggle="tooltip" data-placement="top" title="Check this if rainfall data is below threshold but within the 75% of its threshold value at END OF MONITORING"><input class="cbox_trigger_rx" name="cbox_trigger_rx" type="checkbox" value="rx" disabled="disabled"><b>Intermediate Threshold (r<sub>x</sub>)</b></label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-1 previous_info" id="rain_desc">
+                                    <div class="col-sm-1 previous_info" id="rainfall_desc">
                                        <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-10 form-group">
-                                        <label class="control-label" for="trigger_rain_info">Technical Info</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="trigger_rain_info" name="trigger_rain_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
+                                        <label class="control-label" for="trigger_rainfall_info">Technical Info</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_rainfall_info" name="trigger_rainfall_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -267,7 +267,7 @@
                         </div> <!------ END OF EARTHQUAKE ------>
 
                         <!------ GROUND DATA ------>
-                        <div class="row" id="ground_area" hidden="hidden">
+                        <div class="row" id="surficial_area" hidden="hidden">
                             <hr class="hr-divider">
                             <div class="col-sm-2 area_label">
                                 <h4>SURFICIAL</h4>
@@ -277,13 +277,13 @@
                                     <div class="col-sm-7">
                                         <div class="row">
                                             <div class="col-sm-6 form-group no-padding-right">
-                                                <label class="control-label" for="trigger_ground_1">L2 (g) Trigger Timestamp</label>
+                                                <label class="control-label" for="trigger_surficial_1">L2 (g) Trigger Timestamp</label>
                                                 <div class="input-group col-sm-12">
                                                     <span class="input-group-addon">
                                                         <input class="cbox_trigger" type="checkbox" value="g" name="g">
                                                     </span>
                                                     <div class='input-group date datetime'>
-                                                        <input type='text' class="form-control trigger_time" id="trigger_ground_1" name="trigger_ground_1" placeholder="Enter timestamp" disabled="disabled" />
+                                                        <input type='text' class="form-control trigger_time" id="trigger_surficial_1" name="trigger_surficial_1" placeholder="Enter timestamp" disabled="disabled" />
                                                         <span class="input-group-addon">
                                                             <span class="glyphicon glyphicon-calendar"></span>
                                                         </span>
@@ -291,13 +291,13 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 form-group">
-                                                <label class="control-label" for="trigger_ground_2">L3 (G) Trigger Timestamp</label>
+                                                <label class="control-label" for="trigger_surficial_2">L3 (G) Trigger Timestamp</label>
                                                 <div class="input-group col-sm-12">
                                                     <span class="input-group-addon">
                                                         <input class="cbox_trigger" type="checkbox" value="G" name="G">
                                                     </span>
                                                     <div class='input-group date datetime'>
-                                                        <input type='text' class="form-control trigger_time" id="trigger_ground_2" name="trigger_ground_2" placeholder="Enter timestamp" disabled="disabled"/>
+                                                        <input type='text' class="form-control trigger_time" id="trigger_surficial_2" name="trigger_surficial_2" placeholder="Enter timestamp" disabled="disabled"/>
                                                         <span class="input-group-addon">
                                                             <span class="glyphicon glyphicon-calendar"></span>
                                                         </span>
@@ -311,18 +311,18 @@
                                             <label><input class="cbox_trigger_nd" name="cbox_trigger_nd_g0" type="checkbox" value="g0" disabled="disabled"><b>No Data (g&#8320;/G&#8320;)</b></label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-2 previous_info" id="ground_desc">
+                                    <div class="col-sm-2 previous_info" id="surficial_desc">
                                        <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-5 form-group">
-                                        <label class="control-label" for="trigger_ground_1_info">Technical Info</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="trigger_ground_1_info" name="trigger_ground_1_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
+                                        <label class="control-label" for="trigger_surficial_1_info">Technical Info</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_surficial_1_info" name="trigger_surficial_1_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
                                     </div>
                                     <div class="col-sm-5 form-group">
-                                        <label class="control-label" for="trigger_ground_2_info">Technical Info</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="trigger_ground_2_info" name="trigger_ground_2_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
+                                        <label class="control-label" for="trigger_surficial_2_info">Technical Info</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_surficial_2_info" name="trigger_surficial_2_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -331,7 +331,7 @@
                         <!------ END OF GROUND DATA ------>
 
                         <!------ SENSOR DATA ------>
-                        <div class="row" id="sensor_area" hidden="hidden">
+                        <div class="row" id="subsurface_area" hidden="hidden">
                             <hr class="hr-divider">
                             <div class="col-sm-2 area_label">
                                 <h4>SUBSURFACE</h4>
@@ -341,13 +341,13 @@
                                     <div class="col-sm-7">
                                         <div class="row">
                                             <div class="col-sm-6 form-group no-padding-right">
-                                                <label class="control-label" for="trigger_sensor_1">L2 (s) Trigger Timestamp</label>
+                                                <label class="control-label" for="trigger_subsurface_1">L2 (s) Trigger Timestamp</label>
                                                 <div class="input-group col-sm-12">
                                                     <span class="input-group-addon">
                                                         <input class="cbox_trigger" type="checkbox" value="s" name="s">
                                                     </span>
                                                     <div class='input-group date datetime'>
-                                                        <input type='text' class="form-control trigger_time" id="trigger_sensor_1" name="trigger_sensor_1" placeholder="Enter timestamp" disabled="disabled"/>
+                                                        <input type='text' class="form-control trigger_time" id="trigger_subsurface_1" name="trigger_subsurface_1" placeholder="Enter timestamp" disabled="disabled"/>
                                                         <span class="input-group-addon">
                                                             <span class="glyphicon glyphicon-calendar"></span>
                                                         </span>
@@ -355,13 +355,13 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 form-group">
-                                                <label class="control-label" for="trigger_sensor_2">L3 (S) Trigger Timestamp</label>
+                                                <label class="control-label" for="trigger_subsurface_2">L3 (S) Trigger Timestamp</label>
                                                 <div class="input-group col-sm-12">
                                                     <span class="input-group-addon">
                                                         <input class="cbox_trigger" type="checkbox" value="S" name="S">
                                                     </span>
                                                     <div class='input-group date datetime'>
-                                                        <input type='text' class="form-control trigger_time" id="trigger_sensor_2" name="trigger_sensor_2" placeholder="Enter timestamp" disabled="disabled"/>
+                                                        <input type='text' class="form-control trigger_time" id="trigger_subsurface_2" name="trigger_subsurface_2" placeholder="Enter timestamp" disabled="disabled"/>
                                                         <span class="input-group-addon">
                                                             <span class="glyphicon glyphicon-calendar"></span>
                                                         </span>
@@ -375,18 +375,18 @@
                                             <label><input class="cbox_trigger_nd" name="cbox_trigger_nd_s0" type="checkbox" value="s0" disabled="disabled"><b>No Data (s&#8320;/S&#8320;)</b></label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-2 previous_info" id="sensor_desc">
+                                    <div class="col-sm-2 previous_info" id="subsurface_desc">
                                        <div><span class="glyphicon glyphicon-chevron-left"></span><span>No trigger yet.</span></div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-5 form-group">
-                                        <label class="control-label" for="trigger_sensor_1_info">Technical Info</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_1_info" name="trigger_sensor_1_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
+                                        <label class="control-label" for="trigger_subsurface_1_info">Technical Info</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_subsurface_1_info" name="trigger_subsurface_1_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
                                     </div>
                                     <div class="col-sm-5 form-group">
-                                        <label class="control-label" for="trigger_sensor_2_info">Technical Info</label>
-                                        <textarea class="form-control trigger_info" rows="1" id="trigger_sensor_2_info" name="trigger_sensor_2_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
+                                        <label class="control-label" for="trigger_subsurface_2_info">Technical Info</label>
+                                        <textarea class="form-control trigger_info" rows="1" id="trigger_subsurface_2_info" name="trigger_subsurface_2_info" placeholder="Enter basic technical detail" maxlength="360" disabled="disabled"></textarea>
                                     </div>
                                 </div>
                             </div>
