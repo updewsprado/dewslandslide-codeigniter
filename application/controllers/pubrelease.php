@@ -93,9 +93,9 @@ class Pubrelease extends CI_Controller {
 				case 'validity':
 					$x = "public_alert_event." . $x;
 					break;
-				case 'name':
-				case 'id':
-					$x = "site." . $x;
+				case 'site_code':
+				case 'site_id':
+					$x = "sites." . $x;
 					break;
 				case 'internal_alert_level': 
 					$x = "public_alert_release." . $x;
@@ -122,7 +122,7 @@ class Pubrelease extends CI_Controller {
 
 	        $filter = [];
 	        if( $extraFilter['status'] != null ) $filter[ addTableName('status') ] = $extraFilter['status'];
-	        if( $extraFilter['site'] != null ) $filter[ addTableName('id') ] = $extraFilter['site'];
+	        if( $extraFilter['site'] != null ) $filter[ addTableName('site_id') ] = $extraFilter['site'];
 	        $filter = count($filter) == 0 ? null : $filter;
 
 	        $recordsFiltered = $this->pubrelease_model->getEventCount($search, $filter);
