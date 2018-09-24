@@ -209,7 +209,7 @@ class Pubrelease extends CI_Controller {
 
 		if ($status === "routine") {
 			foreach ($_POST["routine_list"] as $entry) {
-				$site_id = isset($entry["site_id"]) ? $entry["site_id"] : $this->pubrelease_model->getSiteID($entry["site"]);
+				$site_id = isset($entry["site_id"]) ? $entry["site_id"] : $this->pubrelease_model->getSiteID($entry["site_code"]);
 				$event_id = $this->createNewEvent($site_id, $_POST['timestamp_entry'], $status);
 
 				$release["event_id"] = $event_id;
