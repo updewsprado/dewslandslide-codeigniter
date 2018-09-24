@@ -337,7 +337,7 @@
 
 			        <div id="update-contact-container" class="right-content" hidden>
 			           <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-contact-info">Save</button>
-			           <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
+			           <button type="button" class="btn btn-danger" id="btn-cancel-update" data-dismiss="modal">Cancel</button>
 			        </div>
 		    	</form>
 	        </div>
@@ -490,7 +490,7 @@
 	          </div>
 	          <div id="update-comm-contact-container" class="right-content" hidden>
 		           <button type="submit" value="submit" class="btn btn-primary" id="sbt-update-comm-contact-info">Save</button>
-		           <button type="button" class="btn btn-danger" id="btn-cancel-update">Cancel</button>
+		           <button type="button" class="btn btn-danger" id="btn-cancel-update" data-dismiss="modal">Cancel</button>
 		        </div>
 	    	</form>
 	        </div>
