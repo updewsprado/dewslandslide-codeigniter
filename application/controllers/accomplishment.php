@@ -75,13 +75,16 @@
 			$columns = $this->subsurface_column_model->getSiteSubsurfaceColumns($site_code);
 
 			foreach ($columns as $column) {
-				if (is_null($column->date_deactivated)) {
-					$points = $this->subsurface_column_model->getSubsurfaceColumnData($column->tsm_name, $start_ts, $end_ts);
-					$column->status = count($points) > 0 ? "with_data" : "no_data";
+				if (is_null($column["date_deactivated"])) {
+					$points = $this->subsurface_column_model->getSubsurfaceColumnData($column["tsm_name"], $start_ts, $end_ts);
+					$column["status"] = count($points) > 0 ? "with_data" : "no_data";
 				} else {
-					$column->status = "deactivated";
+					$column["status"] = "deactivated";
 				}
 			}
+
+			$temp_arr = array_unique(array_column($columns, "tsm_name"));
+			$columns = array_values(array_intersect_key($columns, $temp_arr));
 
 			echo json_encode($columns);
 		}

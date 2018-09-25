@@ -70,8 +70,8 @@
 			else $array = array('event_id' => $event_id, 'release_id' => $release_id);
 			$this->db->where($array);
 			$this->db->from('public_alert_trigger');
-			$this->db->order_by("release_id", "desc");
 			$this->db->order_by("timestamp", "desc");
+			$this->db->order_by("release_id", "desc");
 			$result = $this->db->get();
 
 			$data = $result->result_array();

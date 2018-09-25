@@ -14,8 +14,9 @@
 			$this->db->from("tsm_sensors");
 			$this->db->like("tsm_name", $site_code, "after");
 			$this->db->order_by("tsm_name", "asc");
+			$this->db->order_by("date_activated", "desc");
 			$query = $this->db->get();
-			return $query->result();
+			return $query->result_array();
 		}
 
 		public function getSubsurfaceColumnDataPresence ($site_column, $start_date, $end_date) {

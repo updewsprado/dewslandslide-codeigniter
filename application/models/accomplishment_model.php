@@ -15,7 +15,7 @@
 
 		public function getShiftReleases($start, $end)
 		{
-			$this->db->select('public_alert_release.*, public_alert_event.*, sites.site_code AS name, u1.firstname AS mt_first, u1.lastname AS mt_last, u2.firstname AS ct_first, u2.lastname AS ct_last');
+			$this->db->select('public_alert_release.*, public_alert_event.*, sites.site_code, u1.firstname AS mt_first, u1.lastname AS mt_last, u2.firstname AS ct_first, u2.lastname AS ct_last');
 			$this->db->from('public_alert_release');
 			$this->db->join('public_alert_event', 'public_alert_event.event_id = public_alert_release.event_id');
 			$this->db->join('sites', 'public_alert_event.site_id = sites.site_id');
